@@ -212,7 +212,7 @@ def constHtpy {p q : ℤ} (hqp : q + 1 = p) :
 theorem constHtpy_comp_pi_of_mem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA : j ∈ A.1) :
     constHtpy σ hσ0 hσadd j n hqp ≫
         Pi.π (fun S : Idx r q => (constSystem σ hσ0 hσadd n).obj S.1) A = 0 := by
-  rw [constHtpy, Pi.lift_π, dite_eq_left hA]
+  rw [constHtpy, Pi.lift_comp_π, dite_eq_left hA]
 
 /-- The component of the homotopy at a subset not containing `j`. -/
 theorem constHtpy_comp_pi_of_notMem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA : j ∉ A.1) :
@@ -221,7 +221,7 @@ theorem constHtpy_comp_pi_of_notMem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) 
       Cech.cechSign A.1 j •
         Pi.π (fun S : Idx r p => (constSystem σ hσ0 hσadd n).obj S.1)
           (idxInsert j A hA hqp) := by
-  rw [constHtpy, Pi.lift_π, dite_eq_right hA]
+  rw [constHtpy, Pi.lift_comp_π, dite_eq_right hA]
 
 /-- The component of the homotopy at a subset not containing `j`, read on a factor whose index
 is only propositionally `A ∪ {j}`. -/
@@ -506,7 +506,7 @@ def biproductIota (i : ι) : f i ⟶ ∏ᶜ f :=
 is `CategoryTheory.Limits.biproduct.total`, transported to the product. -/
 theorem total_biproductIota : ∑ i, Pi.π f i ≫ biproductIota f i = 𝟙 (∏ᶜ f) := by
   have h : ∀ i, Pi.π f i = (biproduct.isoProduct f).inv ≫ biproduct.π f i := fun i => by
-    rw [Iso.eq_inv_comp, biproduct.isoProduct_hom, Pi.lift_π]
+    rw [Iso.eq_inv_comp, biproduct.isoProduct_hom, Pi.lift_comp_π]
   calc ∑ i, Pi.π f i ≫ biproductIota f i
       = ∑ i, ((biproduct.isoProduct f).inv ≫ (biproduct.π f i ≫ biproduct.ι f i)) ≫
           (biproduct.isoProduct f).hom := by

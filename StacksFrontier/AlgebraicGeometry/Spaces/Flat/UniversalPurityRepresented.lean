@@ -62,6 +62,18 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_UniversalPurityRepresented :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Fibre products of presheaves on the big fppf site over `S`, found directly. -/
+local instance (priority := high) hasPullback_presheaf_UniversalPurityRepresented
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The relative assassin condition transported to schemes: if `χ : h_{T ×_V W} ≅ T ×_Y X`
 identifies the site fibre product with the total space of an impurity diagram `D` compatibly
 with the projections, and `ξ` is carried by `χ` to a relative weak assassin point of `D`, then `ξ`
@@ -162,6 +174,7 @@ private theorem closure_inter_range_fiberι_eq_empty_of_represented
     refine injective_pointsToScheme B S hS D.T ?_
     rwa [pointsToScheme_pointsMap_yoneda, hsz]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Universal purity over a represented base is universal purity of the underlying schemes.**
 Let `P` be a situation of Stacks 0CV6 together with identifications `φ : h_W ≅ X` and
 `ψ : h_V ≅ Y` of its source and base with the algebraic spaces of schemes `W`, `V` of the site,

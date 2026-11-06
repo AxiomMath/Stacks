@@ -185,7 +185,7 @@ theorem rootsOfUnityRestriction_apply (n q : ℕ) (x : Sheaf.H.{w} (rootsOfUnity
         (etaleCohomologyRestrictionMap.{u, v, w} π (rootsOfUnitySheaf.{u, v} X n) q x) :=
   rfl
 
-
+set_option maxHeartbeats 1000000 in
 /-- **Restriction commutes with `μ_n ⟶ 𝐆_m`**, read in the cohomology of `μ_{n,Y}` and
 `𝐆_{m,Y}`. -/
 theorem multiplicativeRestriction_rootsOfUnityInclusion (q : ℕ)

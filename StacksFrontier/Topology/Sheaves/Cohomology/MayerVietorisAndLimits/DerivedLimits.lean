@@ -113,10 +113,10 @@ private theorem map_pi_lift_sub_comp_piComparison
       piComparison H X = Pi.lift fun n =>
         H.map (Pi.π X n - Pi.π X (n + 1) ≫ τ n) := by
     refine Pi.hom_ext _ _ fun n => ?_
-    rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+    rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
   rw [hLift]
   refine Pi.hom_ext _ _ fun n => ?_
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, H.map_sub, H.map_comp, ← Category.assoc,
     piComparison_comp_π]
 

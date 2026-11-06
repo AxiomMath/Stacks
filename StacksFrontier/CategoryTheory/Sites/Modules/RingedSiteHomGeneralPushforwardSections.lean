@@ -71,9 +71,9 @@ theorem HomGeneral.sectionsFunctor_map_preservesLimitPair_inv_prodObjMk
         _) =
       ((Sheaf.sectionsFunctor Y.J V).map (PreservesLimitPair.iso f.toposHom.pushforward A B).hom)
       (Functor.prodObjMk (P := Sheaf.sectionsFunctor X.J (f.u.op.obj V)) (A := A) (B := B) a b)
-  rw [← FunctorToTypes.map_comp_apply, Iso.inv_hom_id, FunctorToTypes.map_id_apply]
+  rw [← Functor.map_comp_apply, Iso.inv_hom_id, Functor.map_id_apply]
   refine (Functor.prodObjMk_ext ?_ ?_).symm <;>
-    erw [← FunctorToTypes.map_comp_apply, PreservesLimitPair.iso_hom]
+    erw [← Functor.map_comp_apply, PreservesLimitPair.iso_hom]
   · erw [prodComparison_fst]
     exact (Functor.map_fst_prodObjMk (P := Sheaf.sectionsFunctor X.J (f.u.op.obj V)) a b).trans
       (Functor.map_fst_prodObjMk (P := Sheaf.sectionsFunctor Y.J V)
@@ -114,7 +114,7 @@ theorem HomGeneral.pairingApp_prodMap_comp_pushforward_map
         ((Sheaf.sectionsFunctor Y.J V).map a x) ((Sheaf.sectionsFunctor Y.J V).map b y) := by
   refine (pairingApp_eq_map_prodObjMk_of_eq_prodMap_comp (Tensor.ringSheaf (toRingedTopos Y).O)
     a b _ rfl V x y).trans ?_
-  refine (FunctorToTypes.map_comp_apply (Sheaf.sectionsFunctor Y.J V) _ _ _).trans ?_
+  refine (Functor.map_comp_apply (Sheaf.sectionsFunctor Y.J V) _ _ _).trans ?_
   refine (congrArg ((Sheaf.sectionsFunctor Y.J V).map (f.toposHom.pushforward.map q))
     (f.sectionsFunctor_map_preservesLimitPair_inv_prodObjMk _ _ V _ _)).trans ?_
   rfl

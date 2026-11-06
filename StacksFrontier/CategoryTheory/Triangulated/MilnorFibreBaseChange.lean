@@ -252,9 +252,9 @@ public theorem mapHomologicalComplex_piLift :
         towerProductComparison G F =
       Limits.Pi.lift (a.map G).app :=
   Limits.Pi.hom_ext _ _ fun n ↦ by
-    refine Eq.trans ?_ (Limits.Pi.lift_π (a.map G).app n).symm
+    refine Eq.trans ?_ (Limits.Pi.lift_comp_π (a.map G).app n).symm
     rw [Category.assoc, towerProductComparison_π,
-      ← (G.mapHomologicalComplex (ComplexShape.up ℤ)).map_comp, Limits.Pi.lift_π, map_app]
+      ← (G.mapHomologicalComplex (ComplexShape.up ℤ)).map_comp, Limits.Pi.lift_comp_π, map_app]
 
 end TowerAugmentation
 

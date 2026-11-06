@@ -64,10 +64,10 @@ public theorem natTransCommShift_rightDerivedFunctorPlusNatIso {F G : A ⥤ B} [
       (isoWhiskerRight (mapHomotopyCategoryPlusNatIso e) DerivedCategory.Plus.Qh).hom ℤ :=
     inferInstanceAs (NatTrans.CommShift
       (Functor.whiskerRight (mapHomotopyCategoryPlusNatIso e).hom DerivedCategory.Plus.Qh) ℤ)
-  have h₂ : NatTrans.CommShift G.rightDerivedFunctorPlusUnit ℤ := inferInstance
+  have h₂ : NatTrans.CommShift G.rightDerivedFunctorPlusUnith ℤ := inferInstance
   have h₃ : NatTrans.CommShift
       ((isoWhiskerRight (mapHomotopyCategoryPlusNatIso e) DerivedCategory.Plus.Qh).hom ≫
-        G.rightDerivedFunctorPlusUnit) ℤ := NatTrans.CommShift.comp _ _ ℤ
+        G.rightDerivedFunctorPlusUnith) ℤ := NatTrans.CommShift.comp _ _ ℤ
   exact Stacks.Triangulated.natTransCommShift_rightDerivedDesc _ _
     (HomotopyCategory.Plus.quasiIso A) ℤ _ _
 

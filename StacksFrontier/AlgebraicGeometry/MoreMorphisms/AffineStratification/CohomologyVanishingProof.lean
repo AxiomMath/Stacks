@@ -102,6 +102,8 @@ theorem isZero_hgroup_pushforward_isAffineOpen {X : Scheme.{u}} (U : X.Opens)
     (isAffineOpen_top U.toScheme) p hp).of_iso
       (Stacks.AffineCohomologyPushforward.cohomologyPushforwardIsoApp U.ι p G).symm
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The kernel and the cokernel of the unit `F ⟶ j_*(F|_U)` are supported in the complement of
 `U`.** The unit restricts to an isomorphism over `U`, by the triangle identity and the
 invertibility of the counit of the restriction-pushforward adjunction, so both its kernel and its
@@ -116,6 +118,9 @@ theorem supp_kernel_cokernel_restrictAdjunction_unit {X : Scheme.{u}} (F : X.Mod
     AlgebraicGeometry.Modules.preservesFiniteLimits_restrictFunctor U.ι
   set φ := (Scheme.Modules.restrictFunctor U.ι).map
     ((Scheme.Modules.restrictAdjunction U.ι).unit.app F) with hφ
+  have _ : IsIso ((Scheme.Modules.restrictAdjunction U.ι).counit.app
+      ((Scheme.Modules.restrictFunctor U.ι).obj F)) :=
+    NatIso.isIso_app_of_isIso _ _
   have he : φ = inv ((Scheme.Modules.restrictAdjunction U.ι).counit.app
         ((Scheme.Modules.restrictFunctor U.ι).obj F)) :=
     (cancel_mono ((Scheme.Modules.restrictAdjunction U.ι).counit.app

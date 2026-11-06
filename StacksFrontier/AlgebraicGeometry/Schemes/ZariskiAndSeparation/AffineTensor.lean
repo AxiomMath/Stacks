@@ -128,7 +128,7 @@ private lemma tensorHom_tmul (X : RingedSpace.{u, u})
     {F F' G G' : PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.presheaf)}
     (f : F ⟶ F') (g : G ⟶ G') (U : (Opens X)ᵒᵖ) (x : F.obj U) (y : G.obj U) :
-    ((PresheafOfModules.Monoidal.tensorHom (R := X.presheaf) f g).app U)
+    ((PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := X.presheaf) f g).app U)
       (TensorProduct.tmul (X.presheaf.obj U) x y) =
     TensorProduct.tmul (X.presheaf.obj U) (f.app U x) (g.app U y) := rfl
 
@@ -227,7 +227,7 @@ private lemma associatedSheafTensorIso_tmul_tensorUnitSection
           (TensorProduct.tmul R m n)) =
       ((Stacks.SheafOfModules.TensorSheafification.toSheafify (Spec R).toRingedSpace.presheaf
           (structureSheafRing (Spec R).toRingedSpace).property
-          (PresheafOfModules.Monoidal.tensorObj
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj
             (associatedSheaf (Spec R).toRingedSpace (Scheme.ΓSpecIso R).inv.hom M).val
             (associatedSheaf (Spec R).toRingedSpace (Scheme.ΓSpecIso R).inv.hom N).val)).app
         (op ⊤))
@@ -356,7 +356,7 @@ private lemma tildeTensorComparison_hom_tmul (R : CommRingCat.{u})
   rw [homEquiv_apply]
   show (((Stacks.SheafOfModules.TensorSheafification.sheafify (Spec R).toRingedSpace.presheaf
       (structureSheafRing (Spec R).toRingedSpace).property).map
-      (PresheafOfModules.Monoidal.tensorHom
+      (PresheafOfModulesOfCommRing.Monoidal.tensorHom
         ((tildeAssociatedSheafNatIso R).val.inv.app M).val
         ((tildeAssociatedSheafNatIso R).val.inv.app N).val)).val.app (op ⊤))
       (((associatedSheafTensorIso R M N).hom.val.app (op ⊤))
@@ -365,11 +365,11 @@ private lemma tildeTensorComparison_hom_tmul (R : CommRingCat.{u})
   rw [(tildeAssociatedSheafNatIso R).property,
     associatedSheafTensorIso_tmul_tensorUnitSection]
   refine (sheafify_map_apply (Spec R).toRingedSpace
-    (PresheafOfModules.Monoidal.tensorObj
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (associatedSheaf (Spec R).toRingedSpace (Scheme.ΓSpecIso R).inv.hom M).val
       (associatedSheaf (Spec R).toRingedSpace (Scheme.ΓSpecIso R).inv.hom N).val)
-    (PresheafOfModules.Monoidal.tensorObj (tilde M).val (tilde N).val)
-    (PresheafOfModules.Monoidal.tensorHom
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj (tilde M).val (tilde N).val)
+    (PresheafOfModulesOfCommRing.Monoidal.tensorHom
       ((tildeAssociatedSheafNatIso R).val.inv.app M).val
       ((tildeAssociatedSheafNatIso R).val.inv.app N).val)
     (op ⊤)
@@ -468,7 +468,7 @@ theorem tildeTensorIso_natural (R : CommRingCat.{u})
   rw [show (f ⊗ₘ g).hom (m ⊗ₜ[R] n) = f.hom m ⊗ₜ g.hom n from rfl, tildeTensorIso_hom_tmul,
     tildeTensorIso_hom_tmul]
   have h := sheafify_map_apply (Spec R).toRingedSpace _ _
-    (PresheafOfModules.Monoidal.tensorHom (tilde.map f).val (tilde.map g).val)
+    (PresheafOfModulesOfCommRing.Monoidal.tensorHom (tilde.map f).val (tilde.map g).val)
     (op ⊤) (TensorProduct.tmul ((Spec R).toRingedSpace.presheaf.obj (op ⊤))
       ((tilde.toOpen M ⊤).hom m) ((tilde.toOpen N ⊤).hom n))
   change _ = (Stacks.SheafOfModules.TensorSheafification.toSheafify (Spec R).presheaf

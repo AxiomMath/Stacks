@@ -59,6 +59,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Effective descent along a represented morphism of schemes -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Effective descent along the morphism of algebraic spaces represented by a morphism of
 schemes.** For a morphism `m : W ⟶ V` of the big fppf site of `S`, if small étale sheaves descend
 effectively along the underlying morphism of schemes, then spaces-étale sheaves descend

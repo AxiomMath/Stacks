@@ -666,7 +666,7 @@ public theorem isZero_cohomologyOverField_one_of_two_mul_genus_sub_one_le_invert
   have hsec : 0 < Module.finrank k
       (cohomologyOverField k f (L ⊗ tensorPowerModule N (-1) : X.Modules) 0) := by
     rw [hdegM, hdegN] at hrr
-    lia
+    omega
   exact @isZero_cohomologyOverField_one_of_tensorInverse_section k _ X f _ _ hdim N L hNs hN hMa
     hN₁ hsec
 

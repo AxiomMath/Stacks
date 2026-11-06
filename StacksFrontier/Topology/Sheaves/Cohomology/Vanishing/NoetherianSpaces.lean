@@ -369,6 +369,10 @@ theorem subsingleton_sheafCohomology_of_soberification
   let E : Sheaf (Opens.grothendieckTopology (Soberification X)) AddCommGrpCat.{w} ≌
       Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{w} :=
     sheafEquivOfOpensOrderIso e (isDenseSubsite_of_opensOrderIso e)
+  have : HasBinaryProducts
+      (Sheaf (Opens.grothendieckTopology (Soberification X)) AddCommGrpCat.{w}) := inferInstance
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.functor := inferInstance
+  have : E.functor.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have : E.functor.Additive := E.functor.additive_of_preserves_binary_products
   exact subsingleton_ext_of_iso_source
     (constantSheafIsoOfOpensOrderIso e (isDenseSubsite_of_opensOrderIso e)

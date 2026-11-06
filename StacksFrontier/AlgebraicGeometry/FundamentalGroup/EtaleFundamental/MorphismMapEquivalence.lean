@@ -118,8 +118,8 @@ theorem exists_finiteEtaleEquivalenceOfIsGaloisCategory_mapIso :
       intro a
       apply (equivEquivIso.symm (aY.app V)).injective
       show aY.hom.app V ((equivEquivIso.symm (g.app V))
-          (ConcreteCategory.hom ((EX.functor.obj (H.obj V)).obj.ρ s) a)) =
-        aY.hom.app V (ConcreteCategory.hom ((EY.functor.obj V).obj.ρ (r s))
+          (ConcreteCategory.hom ((EX.functor.obj (H.obj V)).obj.ρ s).asHom a)) =
+        aY.hom.app V (ConcreteCategory.hom ((EY.functor.obj V).obj.ρ (r s)).asHom
           ((equivEquivIso.symm (g.app V)) a))
       have hX := finiteEtaleEquivalenceOfIsGaloisCategory_action X x (H.obj V) s a
       have hP := etaleFundamentalGroupMap_finiteEtaleFiberProjection f x V s
@@ -127,7 +127,7 @@ theorem exists_finiteEtaleEquivalenceOfIsGaloisCategory_mapIso :
       have hY := finiteEtaleEquivalenceOfIsGaloisCategory_action Y (x.map f) V (r s)
         ((equivEquivIso.symm (g.app V)) a)
       rw [hq V a] at hY
-      rw [hq V (ConcreteCategory.hom ((EX.functor.obj (H.obj V)).obj.ρ s) a)]
+      rw [hq V (ConcreteCategory.hom ((EX.functor.obj (H.obj V)).obj.ρ s).asHom a)]
       exact ((congrArg (finiteEtaleFiberProjection f x V) hX).trans hP).trans hY.symm) (by
       intro V W k
       ext a

@@ -46,6 +46,14 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget RingCat.{w})] (R : Sheaf J RingCat.{w})
   (P : Sheaf J (Type w) ⥤ Type t) [PreservesFiniteProducts P]
 
+set_option synthInstance.maxHeartbeats 400000 in
+/- Instance search for this binary product otherwise times out exploring limits in
+`Cᵒᵖ ⥤ RingCat`. -/
+local instance : HasBinaryProducts (Sheaf J (Type w)) := inferInstance
+
+noncomputable local instance : HasBinaryProduct (ringSheaf R) (ringSheaf R) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism to the ring sheaf which factors through the terminal object by the zero map is
 sent to the transported zero. -/
 private theorem map_eq_ringZeroObj_of_eq {X : Sheaf J (Type w)} {g : X ⟶ ringSheaf R}

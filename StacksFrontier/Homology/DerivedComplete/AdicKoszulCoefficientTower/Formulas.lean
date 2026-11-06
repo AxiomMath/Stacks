@@ -277,11 +277,18 @@ public def comparisonTerm {r : ℕ} (f : Fin r → A) (p : Option ℤ) (n : ℕ)
       (standardKoszulStage (fun i ↦ (ULift.up (f i) : ULift.{v} A)) p n)
       (t + S.card) (-(S.card : ℤ)) t (by omega)
 
+/-- Products indexed by `Type 0` in coefficient complexes; stated directly because instance
+search over `HomologicalComplex` and `ModuleCat` times out finding it. -/
+public instance cochainComplexModuleCatHasProducts₀ :
+    HasProducts.{0} (CochainComplex (ModuleCat.{v} A) ℤ) := fun J ↦
+  haveI : HasLimitsOfShape (Discrete J) (ModuleCat.{v} A) := ModuleCat.hasLimitsOfShape
+  ⟨fun F ↦ ⟨⟨⟨_, HomologicalComplex.isLimitConeOfHasLimitEval F⟩⟩⟩⟩
+
 /-- The graded term in Koszul degree `p ≤ 0`, as a finite product of coefficient shifts. -/
 public def coefficientKoszulGradedPiece (r : ℕ) (p : ℤ) :
     CochainComplex (ModuleCat.{v} A) ℤ ⥤ CochainComplex (ModuleCat.{v} A) ℤ :=
   shiftFunctor (CochainComplex (ModuleCat.{v} A) ℤ) (-p) ⋙
-    piFunctor.{0} ⋙
+    piConst.{0} ⋙
       (evaluation (Type 0)ᵒᵖ (CochainComplex (ModuleCat.{v} A) ℤ)).obj
         (Opposite.op (KoszulBasis r p.natAbs))
 
@@ -499,7 +506,7 @@ public def gradedMap (p : ℤ) (hp : p ≤ 0) (n : ℕ)
     dsimp only [inclusion, tower]
     apply Limits.Pi.hom_ext
     intro S
-    rw [Category.assoc, gradedProjection, Limits.Pi.lift_π, Limits.zero_comp]
+    rw [Category.assoc, gradedProjection, Limits.Pi.lift_comp_π, Limits.zero_comp]
     exact HomologicalComplex.hom_ext _ _ (h.graded_vanish p hp K S))
 
 end FormulaLaws

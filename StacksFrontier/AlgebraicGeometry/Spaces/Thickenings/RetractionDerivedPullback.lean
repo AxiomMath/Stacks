@@ -158,8 +158,12 @@ def squareZeroComplexPullbackIso :
           DerivedCategory.Q) :=
   Functor.isoWhiskerRight (@Functor.mapHomologicalComplexCompIso ℤ _ _ _ _ _ _ _ _ _ _ _ _
     (squareZeroPullbackIso (hq := hq) hi h hip hpb hβτ)
-    (squareZeroModuleEquivalence_functor_additive (hq := hq) hi h hip hpb hβτ)
-    (modulePullbackDataTopos_additive B S hS i) (additive_extensionOfScalars _)
+    (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+      (squareZeroModuleEquivalence_functor_additive (hq := hq) hi h hip hpb hβτ))
+    (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+      (modulePullbackDataTopos_additive B S hS i))
+    (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+      (additive_extensionOfScalars _))
     (ComplexShape.up ℤ)).symm
     DerivedCategory.Q ≪≫
     Functor.associator _ _ _

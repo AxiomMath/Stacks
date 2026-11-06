@@ -60,7 +60,7 @@ variable {T : DerivedExtensionOfScalars f}
 `α ≫ t ≫ α⁻¹` followed by the inclusion of the ideal part. -/
 theorem comparisonHom_hom_eq (L : DerivedLift T K₀)
     (t : Multiplicative (K₀.obj ⟶ idealTensor.obj K₀.obj)) :
-    (comparisonHom R L t).hom = 𝟙 L.K.obj +
+    (comparisonHom R L t).asIso.hom = 𝟙 L.K.obj +
       R.adjunction.homEquiv L.K.obj _ (L.identification.hom ≫ Multiplicative.toAdd t ≫
         idealTensor.map L.identification.inv) ≫ R.idealInclusion L.K.obj := rfl
 
@@ -73,7 +73,7 @@ theorem comparisonHom_hom_conj_of_isomorphic (L₁ L₂ : DerivedLift T K₀)
     (hnat : R.idealInclusion L₁.K.obj ≫ e.hom =
       R.restriction.map (idealTensor.map (T.baseChange.map e.hom)) ≫ R.idealInclusion L₂.K.obj)
     (t : Multiplicative (K₀.obj ⟶ idealTensor.obj K₀.obj)) :
-    e.inv ≫ (comparisonHom R L₁ t).hom ≫ e.hom = (comparisonHom R L₂ t).hom := by
+    e.inv ≫ (comparisonHom R L₁ t).asIso.hom ≫ e.hom = (comparisonHom R L₂ t).asIso.hom := by
   have hid₁ : L₁.identification.hom = T.baseChange.map e.hom ≫ L₂.identification.hom := he.symm
   have hid₁' : L₁.identification.inv ≫ T.baseChange.map e.hom = L₂.identification.inv := by
     rw [← cancel_epi L₁.identification.hom, Iso.hom_inv_id_assoc, hid₁, Category.assoc,
@@ -140,9 +140,9 @@ theorem comparisonHom_baseChange_of_idealInclusion
           idealTensor'.map (B.baseChangeIso.inv.app L.K.obj)) ≫
         ρ.inv.app _ ≫ G.map (R'.idealInclusion (B.functor.obj L.K.obj)))
     (t : Multiplicative (K₀.obj ⟶ idealTensor.obj K₀.obj)) :
-    B.functor.map (comparisonHom R L t).hom =
+    B.functor.map (comparisonHom R L t).asIso.hom =
       (comparisonHom R' (L.baseChange B)
-        (Multiplicative.ofAdd (Multiplicative.toAdd t ≫ B.idealMap.app K₀.obj))).hom := by
+        (Multiplicative.ofAdd (Multiplicative.toAdd t ≫ B.idealMap.app K₀.obj))).asIso.hom := by
   -- the two automorphisms, written out on `L.K` and `β L.K`
   let y : T.baseChange.obj L.K.obj ⟶ idealTensor.obj (T.baseChange.obj L.K.obj) :=
     L.identification.hom ≫ Multiplicative.toAdd t ≫ idealTensor.map L.identification.inv
@@ -154,10 +154,10 @@ theorem comparisonHom_baseChange_of_idealInclusion
     (B.baseChangeIso.hom.app L.K.obj ≫ L.identification.hom) ≫
       (Multiplicative.toAdd t ≫ B.idealMap.app K₀.obj) ≫
       idealTensor'.map (L.identification.inv ≫ B.baseChangeIso.inv.app L.K.obj)
-  have hL : (comparisonHom R L t).hom = 𝟙 L.K.obj +
+  have hL : (comparisonHom R L t).asIso.hom = 𝟙 L.K.obj +
       R.adjunction.homEquiv L.K.obj _ y ≫ R.idealInclusion L.K.obj := rfl
   have hL' : (comparisonHom R' (L.baseChange B)
-        (Multiplicative.ofAdd (Multiplicative.toAdd t ≫ B.idealMap.app K₀.obj))).hom =
+        (Multiplicative.ofAdd (Multiplicative.toAdd t ≫ B.idealMap.app K₀.obj))).asIso.hom =
       𝟙 (B.functor.obj L.K.obj) + R'.adjunction.homEquiv (B.functor.obj L.K.obj) _ y' ≫
         R'.idealInclusion (B.functor.obj L.K.obj) := rfl
   have hy : B.baseChangeIso.inv.app L.K.obj ≫ y' = y ≫ m := by
@@ -391,11 +391,11 @@ theorem sqZeroExtReductionBaseChange_comparisonHom
     (L : DerivedLift (derivedExtensionOfScalarsData.{d, d₀} (sqZeroExtSheafAnySiteProj M)) K₀)
     (t : Multiplicative (K₀.obj ⟶ (derivedTensorRight.{d₀} M).obj K₀.obj)) :
     (sqZeroExtReductionBaseChange.{d, d', d₀} φ).functor.map
-        (comparisonHom (sqZeroExtReduction.{d, d₀} M) L t).hom =
+        (comparisonHom (sqZeroExtReduction.{d, d₀} M) L t).asIso.hom =
       (comparisonHom (sqZeroExtReduction.{d', d₀} N)
         (L.baseChange (sqZeroExtReductionBaseChange.{d, d', d₀} φ))
         (Multiplicative.ofAdd (Multiplicative.toAdd t ≫
-          (sqZeroExtReductionBaseChange.{d, d', d₀} φ).idealMap.app K₀.obj))).hom := by
+          (sqZeroExtReductionBaseChange.{d, d', d₀} φ).idealMap.app K₀.obj))).asIso.hom := by
   obtain ⟨n, hn⟩ := L.K.property
   have : L.K.obj.IsLE n := hn
   exact comparisonHom_baseChange_of_idealInclusion (sqZeroExtReductionBaseChange.{d, d', d₀} φ)
@@ -424,10 +424,10 @@ theorem sqZeroExtReductionBaseChange_comparisonHom_conj
       (L.baseChange (sqZeroExtReductionBaseChange.{d, d', d₀} φ)).identification.hom)
     (t : Multiplicative (K₀.obj ⟶ (derivedTensorRight.{d₀} M).obj K₀.obj)) :
     e.symm ≪≫ (sqZeroExtReductionBaseChange.{d, d', d₀} φ).functor.mapIso
-        (comparisonHom (sqZeroExtReduction.{d, d₀} M) L t) ≪≫ e =
-      comparisonHom (sqZeroExtReduction.{d', d₀} N) L'
+        (comparisonHom (sqZeroExtReduction.{d, d₀} M) L t).asIso ≪≫ e =
+      (comparisonHom (sqZeroExtReduction.{d', d₀} N) L'
         (Multiplicative.ofAdd (Multiplicative.toAdd t ≫
-          (sqZeroExtReductionBaseChange.{d, d', d₀} φ).idealMap.app K₀.obj)) := by
+          (sqZeroExtReductionBaseChange.{d, d', d₀} φ).idealMap.app K₀.obj))).asIso := by
   refine Iso.ext ?_
   refine (congrArg (e.inv ≫ · ≫ e.hom)
     (sqZeroExtReductionBaseChange_comparisonHom.{d, d', d₀} φ L t)).trans ?_

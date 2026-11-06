@@ -151,7 +151,7 @@ public theorem ker_transportAutHom_eq_top_of_isThin (hp : IsCofiberedInGroupoids
     (P.obj (specialFibreUnder.{u, v, w, u₁, v₁} (p := p) (x := x)))
     (P.obj (specialFibreUnder.{u, v, w, u₁, v₁} (p := p) (x := x)))
   exact (Subgroup.eq_top_iff' _).2 fun _ =>
-    MonoidHom.mem_ker.2 (Aut.ext (Subsingleton.elim _ _))
+    MonoidHom.mem_ker.2 (Aut.ext (Iso.ext (Subsingleton.elim _ _)))
 
 /-- **Every automorphism of `x[M]` is infinitesimal over a thin special fibre.** The
 infinitesimal automorphisms of the chosen pushforward of `x` to the square-zero extension by

@@ -33,7 +33,7 @@ Lemma 01V0 in derivation form — and whose comparison `Φ` is
 
 ## How it is proved
 
-By `PresheafOfModules.Derivation.ext` the identity is one of values over the Zariski opens `W` of
+By `PresheafOfModulesOfCommRing.Derivation.ext` the identity is one of values over the Zariski opens `W` of
 the scheme `U`, and both sides are then read by existing lemmas:
 
 * the left-hand side is `Φ` on sections over `W`,
@@ -103,7 +103,7 @@ site of `yoneda.obj U'` against the structure sheaf of the small étale site of 
 across `AlgebraicGeometry.Space.representedSmallEtaleEquivalence` — is the expensive type check
 here, and it has to happen once rather than once per factor.  Composing
 `AlgebraicGeometry.Space.schemeZariskiDerivationEquiv_d` with
-`PresheafOfModules.Derivation.postcomp_d_apply` *at the concrete open and section of the square*
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` *at the concrete open and section of the square*
 exhausts the 200000-heartbeat budget at `whnf`; the same composition at a variable open and a
 variable section (`AlgebraicGeometry.Space.schemeZariskiDerivationEquiv_postcomp_d`) costs a
 fraction of it, and the concrete instance is then an instantiation rather than a unification.
@@ -287,7 +287,8 @@ This is `Equiv.apply_symm_apply` for the `Equiv.ofBijective` built from the univ
 `Equiv.ofBijective`, so its value is a `Function.surjInv` and nothing reduces through it. -/
 theorem postcomp_schemeZariskiHomEquiv {T T' : BigFppfOver B S hS} (α : T ⟶ T')
     (G : Modules.{u, u} B S hS (schemeSpace T).1 (schemeSpace T).2)
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
     (Scheme.Hom.universalRelativeDerivation
           (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B)
             α.left)).postcomp (schemeZariskiHomEquiv B S hS α G D).val =
@@ -304,7 +305,7 @@ variable {V V' : BigFppfOver B S hS} (r : U ⟶ V) (r' : U' ⟶ V') (l : V' ⟶ 
 functions of the open subscheme `W`.
 
 This is `AlgebraicGeometry.Space.schemeZariskiDerivationEquiv_d` and
-`PresheafOfModules.Derivation.postcomp_d_apply` composed, and it is kept in a declaration of its
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` composed, and it is kept in a declaration of its
 own **at a variable open and a variable section**: that is where the sections of the structure
 sheaf of the small étale site of `yoneda.obj U'` over `inverse_{U'}(W)` are reconciled with the
 sections of the structure sheaf of the small étale site of the scheme `U'` over `W`, and the same
@@ -325,7 +326,7 @@ theorem schemeZariskiDerivationEquiv_postcomp_d
             ((BigFppfOver.toScheme B S hS).obj U') U'.left.property).hom.app (op W)).hom b)) := by
   refine Eq.trans (schemeZariskiDerivationEquiv_d B S hS r' C
     ((universalDerivation B S hS (schemeSpaceMap r')).postcomp g.val) b) ?_
-  exact PresheafOfModules.Derivation.postcomp_d_apply
+  exact PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (universalDerivation B S hS (schemeSpaceMap r')) g.val _
 
 /-- **The right-hand vertical and the top horizontal of the square, on sections over an open `W`
@@ -369,12 +370,12 @@ theorem restrictRelativeDerivation_schemeZariskiHomEquiv_d
   refine Eq.trans (Scheme.Hom.restrictRelativeDerivation_d
     (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B) k.left) _ _ _ hs
     _ _ W a) ?_
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (Scheme.Hom.universalRelativeDerivation
       (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B) r'.left))
     (schemeZariskiHomEquiv B S hS r' C
       ((universalDerivation B S hS (schemeSpaceMap r')).postcomp g.val)).val _).symm ?_
-  refine Eq.trans (PresheafOfModules.Derivation.congr_d
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.congr_d
     (postcomp_schemeZariskiHomEquiv B S hS r' C
       ((universalDerivation B S hS (schemeSpaceMap r')).postcomp g.val)) _) ?_
   exact schemeZariskiDerivationEquiv_postcomp_d B S hS r' C g
@@ -387,7 +388,8 @@ Stated with the morphism, the module and the derivation all variables, which is 
 affordable where the morphism is `Φ`. -/
 theorem schemeZariskiDerivationEquiv_postcomp_val_d {T T' : BigFppfOver B S hS} (α : T ⟶ T')
     (G : Modules.{u, u} B S hS (schemeSpace T).1 (schemeSpace T).2)
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
     {N : ((BigFppfOver.toScheme B S hS).obj T).Modules}
     (ψ : (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
           ((BigFppfOver.toScheme B S hS).obj T) T.left.property).obj
@@ -401,13 +403,13 @@ theorem schemeZariskiDerivationEquiv_postcomp_val_d {T T' : BigFppfOver B S hS} 
               ((BigFppfOver.toScheme B S hS).obj T) T.left.property).obj W)))
           (((_root_.AlgebraicGeometry.SmallEtale.commRingStructureMap (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj T) T.left.property).hom.app (op W)).hom a)) := by
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (schemeZariskiDerivationEquiv B S hS α G D) ψ.val a) ?_
   exact congrArg _ (schemeZariskiDerivationEquiv_d B S hS α G D a)
 
 /-- **Restriction past a morphism out of the sheaf of differentials and past the universal
 derivation.**  Naturality of the morphism moves the restriction inside, and a derivation commutes
-with restriction (`PresheafOfModules.Derivation.d_map`), so the restriction lands on the regular
+with restriction (`PresheafOfModulesOfCommRing.Derivation.d_map`), so the restriction lands on the regular
 function.  Stated with the morphism of the small étale site and the section variables. -/
 theorem map_hom_app_universalDerivation_d {X Y : AlgebraicSpaces B S hS} (p' : X ⟶ Y)
     (C : Modules.{u, u} B S hS X.1 X.2) (g : sheafOfDifferentials B S hS p' ⟶ C)
@@ -706,7 +708,7 @@ derivations along the morphism of schemes underlying `k` — Morphisms, Lemma 01
 form — applied to the morphism out of `Ω_{U'/V'}` attached to `g` by
 `AlgebraicGeometry.Space.schemeZariskiHomEquiv`.
 
-By `PresheafOfModules.Derivation.ext` this is the identity of values
+By `PresheafOfModulesOfCommRing.Derivation.ext` this is the identity of values
 `AlgebraicGeometry.Space.representedSquareDerivation_restrictRelativeDerivation_d` over the
 Zariski opens of `U`.
 
@@ -739,7 +741,7 @@ theorem representedSquareDerivation_restrictRelativeDerivation
           ((representedModuleRestriction B S hS U').obj C))
         (schemeZariskiHomEquiv B S hS r' C
           ((universalDerivation B S hS (schemeSpaceMap r')).postcomp g.val)) :=
-  PresheafOfModules.Derivation.ext (funext fun W ↦ AddMonoidHom.ext fun a ↦
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun W ↦ AddMonoidHom.ext fun a ↦
     representedSquareDerivation_restrictRelativeDerivation_d B S hS k r r' l hkr hs C g W.unop a)
 
 

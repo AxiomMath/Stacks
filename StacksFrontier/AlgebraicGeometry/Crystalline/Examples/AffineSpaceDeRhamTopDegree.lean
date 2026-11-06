@@ -133,7 +133,7 @@ public theorem topFunctional_smul_topWedge (g : T.D) :
 /-- The top coefficients of `f dx_1 ∧ ⋯ ∧ dx_r`, for a polynomial `f`, are the coefficients
 of `f`. -/
 public theorem topCoeffForms_smul_topWedge (m : Fin T.r →₀ ℕ) (f : T.P) :
-    T.topCoeffForms hs m (algebraMap T.P T.D f • T.topWedge hs) = MvPolynomial.coeff m f := by
+    T.topCoeffForms hs m (algebraMap T.P T.D f • T.topWedge hs) = f.coeff m := by
   rw [topCoeffForms_apply, topFunctional_smul_topWedge, monomialCoeff_algebraMap]
 
 /-- The image in `D` of the monomial `x^m`. -/

@@ -214,8 +214,21 @@ structure sheaves identifies the summands. -/
 def inverseFreeIso (e : SheafOfModules.{w} R₁ ≌ SheafOfModules.{w} R₂)
     (η : e.inverse.obj (SheafOfModules.unit R₂) ≅ SheafOfModules.unit R₁) (I : Type w) :
     e.inverse.obj (SheafOfModules.free (R := R₂) I) ≅ SheafOfModules.free (R := R₁) I :=
-  preservesColimitIso e.inverse (Discrete.functor fun _ : I => SheafOfModules.unit R₂) ≪≫
-    HasColimit.isoOfNatIso (Discrete.natIso fun _ => η)
+  haveI : HasCoproducts.{w} (SheafOfModules.{w} R₁) := fun K =>
+    @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      _ _ _ R₁ _ _ (Discrete K) _
+      (@PresheafOfModules.hasColimitsOfShape _ _ R₁.obj (Discrete K) _
+        AddCommGrpCat.hasColimitsOfShape)
+  haveI : HasCoproducts.{w} (SheafOfModules.{w} R₂) := fun K =>
+    @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      _ _ _ R₂ _ _ (Discrete K) _
+      (@PresheafOfModules.hasColimitsOfShape _ _ R₂.obj (Discrete K) _
+        AddCommGrpCat.hasColimitsOfShape)
+  haveI : PreservesColimitsOfShape (Discrete I) e.inverse :=
+    (e.symm.toAdjunction.leftAdjoint_preservesColimits.{w, w}).preservesColimitsOfShape
+  (isColimitOfPreserves e.inverse
+    (SheafOfModules.isColimitFreeCofan (R := R₂) I)).coconePointsIsoOfNatIso
+    (SheafOfModules.isColimitFreeCofan (R := R₁) I) (Discrete.natIso fun _ => η)
 
 /-- **Being a direct summand of a finite free module transports along an equivalence.** Let `e`
 identify the two categories of sheaves of modules and match up the two structure sheaves. If

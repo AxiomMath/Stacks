@@ -181,10 +181,13 @@ private theorem exists_mono_isFinitePresentation_fac_of_relocalize
     exact isFinitePresentation_of_arrowIso B (⊤_ Scheme.{u}) hZ _ _ e.hom.left e.hom.right
       (Arrow.w e.hom) (isFinitePresentation_of_arrowIso B (⊤_ Scheme.{u}) hZ p pov.left (𝟙 _)
         (ι.inv.app Y) (Category.id_comp _) hp)
-  have : Mono qov.left := inferInstanceAs (Mono (ι.hom.app X ≫ q))
+  have : Mono qov.left := show Mono (ι.hom.app X ≫ q) from
+    mono_comp' (@IsIso.mono_of_iso _ _ _ _ (ι.app X).hom (Iso.isIso_hom _)) ‹Mono q›
   have : Mono qov := (Over.forget _).mono_of_mono_map ‹_›
-  have : Mono qS := inferInstanceAs (Mono (E'.unitIso.hom.app X ≫ E'.inverse.map qov))
-  exact ⟨_, qS, pS, inferInstance,
+  have : Mono qS := show Mono (E'.unitIso.hom.app X ≫ E'.inverse.map qov) from
+    mono_comp' (@IsIso.mono_of_iso _ _ _ _ (E'.unitIso.app X).hom (Iso.isIso_hom _))
+      ((Functor.preservesMonomorphisms_of_adjunction E'.toAdjunction).preserves qov)
+  exact ⟨_, qS, pS, ‹Mono qS›,
     isAlgebraicSpace_smallerBasePresheafEquivalence_inverse B S (⊤_ Scheme.{u}) hS hZ g Wov hW,
     hpSfp, hqpS⟩
 

@@ -62,7 +62,7 @@ sheafification of `U ↦ M ⊗_Λ S(U)`. -/
 @[simps]
 def sheafTensor :
     Sheaf J (ModuleCat.{w} Λ) ⥤ ModuleCat.{w} Λ ⥤ Sheaf J (ModuleCat.{w} Λ) where
-  obj S := (presheafTensor Λ).obj S.val ⋙ presheafToSheaf J _
+  obj S := (presheafTensor Λ).obj S.obj ⋙ presheafToSheaf J _
   map s := Functor.whiskerRight ((presheafTensor Λ).map s.hom) (presheafToSheaf J _)
   map_id S := by ext M : 2; simp
   map_comp a b := by ext M : 2; simp
@@ -99,12 +99,12 @@ theorem presheafTensor_map_smul {P P' : Cᵒᵖ ⥤ ModuleCat.{w} Λ} (r : Λ) (
 /-- For a fixed sheaf `S`, the functor `M ↦ S ⊗_Λ M` is additive. -/
 instance additive_obj_sheafTensor (S : Sheaf J (ModuleCat.{w} Λ)) :
     ((sheafTensor J Λ).obj S).Additive :=
-  inferInstanceAs (((presheafTensor Λ).obj S.val ⋙ presheafToSheaf J _).Additive)
+  inferInstanceAs (((presheafTensor Λ).obj S.obj ⋙ presheafToSheaf J _).Additive)
 
 /-- For a fixed sheaf `S`, the functor `M ↦ S ⊗_Λ M` is `Λ`-linear. -/
 instance linear_obj_sheafTensor (S : Sheaf J (ModuleCat.{w} Λ)) :
     ((sheafTensor J Λ).obj S).Linear Λ :=
-  inferInstanceAs (((presheafTensor Λ).obj S.val ⋙ presheafToSheaf J _).Linear Λ)
+  inferInstanceAs (((presheafTensor Λ).obj S.obj ⋙ presheafToSheaf J _).Linear Λ)
 
 /-- The bifunctor `sheafTensor` is additive in the sheaf variable. -/
 instance additive_sheafTensor : (sheafTensor J Λ).Additive where
@@ -173,14 +173,14 @@ theorem acyclic_mapHomologicalComplex_flipObj (M : ModuleCat.{w} Λ) [Module.Fla
 `- ⊗_Λ S(U)`, which are left adjoints. -/
 instance preservesColimitsOfSize_obj (S : Sheaf J (ModuleCat.{w} Λ)) :
     PreservesColimitsOfSize.{0, 0} ((sheafTensor J Λ).obj S) := by
-  have : PreservesColimitsOfSize.{0, 0} ((presheafTensor Λ).obj S.val) := by
+  have : PreservesColimitsOfSize.{0, 0} ((presheafTensor Λ).obj S.obj) := by
     apply preservesColimits_of_evaluation
     intro U
     exact preservesColimits_of_natIso
-      (NatIso.ofComponents (fun M => (β_ (S.val.obj U) M))
+      (NatIso.ofComponents (fun M => (β_ (S.obj.obj U) M))
         (fun g => BraidedCategory.braiding_naturality_right _ _) :
-        tensorLeft (S.val.obj U) ≅ (presheafTensor Λ).obj S.val ⋙ (evaluation _ _).obj U)
-  exact inferInstanceAs (PreservesColimitsOfSize.{0, 0} ((presheafTensor Λ).obj S.val ⋙
+        tensorLeft (S.obj.obj U) ≅ (presheafTensor Λ).obj S.obj ⋙ (evaluation _ _).obj U)
+  exact inferInstanceAs (PreservesColimitsOfSize.{0, 0} ((presheafTensor Λ).obj S.obj ⋙
     presheafToSheaf J _))
 
 /-- A `ℤ`-indexed cochain complex of sheaves of `Λ`-modules and one of `Λ`-modules have a tensor

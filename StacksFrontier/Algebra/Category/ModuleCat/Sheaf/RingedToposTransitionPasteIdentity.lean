@@ -86,7 +86,7 @@ theorem TwoIso.conjugateEquiv_pullbackModulesIso_inv {f g : RingedToposHom En Cn
   have h := conjugateEquiv_comm (adj₁ := pullbackAdjPushforwardModules g)
     (adj₂ := pullbackAdjPushforwardModules f) s.pullbackModulesIso.inv_hom_id
   rw [TwoIso.conjugateEquiv_pullbackModulesIso_hom] at h
-  exact (cancel_epi s.pushforwardModulesIso.inv).1
+  exact (Iso.cancel_iso_inv_left s.pushforwardModulesIso _ _).1
     (h.trans s.pushforwardModulesIso.inv_hom_id.symm)
 
 

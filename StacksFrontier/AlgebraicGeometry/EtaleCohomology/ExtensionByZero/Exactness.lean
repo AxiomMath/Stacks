@@ -165,8 +165,8 @@ theorem extensionByZeroPresheafSectionIso_naturality
     (extensionByZeroPresheafSectionIso j F V).hom ≫
         ((smallEtaleCompose j).op.lan.map α).app (Opposite.op V) =
       Limits.Sigma.map
-          (f := fun φ : V ⟶ smallEtaleSource j => F.obj (Opposite.op (sourceDescend j φ)))
-          (g := fun φ : V ⟶ smallEtaleSource j => F'.obj (Opposite.op (sourceDescend j φ)))
+          (g := fun φ : V ⟶ smallEtaleSource j => F.obj (Opposite.op (sourceDescend j φ)))
+          (f := fun φ : V ⟶ smallEtaleSource j => F'.obj (Opposite.op (sourceDescend j φ)))
           (fun φ => α.app (Opposite.op (sourceDescend j φ))) ≫
         (extensionByZeroPresheafSectionIso j F' V).hom := by
   refine Limits.Sigma.hom_ext _ _ fun φ => ?_

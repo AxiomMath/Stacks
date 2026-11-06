@@ -141,8 +141,8 @@ theorem component_induction {d : ℕ} {P : Cone k → Prop} (zero : P 0)
     have : (Finsupp.weight 1) s = d := hp (mem_support_iff.1 hs)
     rw [Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp), Fin.sum_univ_three] at this
     simpa using this
-  have hmon : Ideal.Quotient.mk (Ideal.span {equation k}) (MvPolynomial.monomial s (coeff s p)) =
-      coeff s p • (x k ^ s 0 * y k ^ s 1 * z k ^ s 2) := by
+  have hmon : Ideal.Quotient.mk (Ideal.span {equation k}) (MvPolynomial.monomial s (p.coeff s)) =
+      p.coeff s • (x k ^ s 0 * y k ^ s 1 * z k ^ s 2) := by
     rw [monomial_eq, Finsupp.prod_fintype _ _ (fun _ => pow_zero _), Fin.prod_univ_three,
       Algebra.smul_def]
     simp only [map_mul, map_pow, x, y, z, mul_assoc]
@@ -428,20 +428,22 @@ theorem e_ne_add {a b : Ω} (ha : a ∈ awayX k) (hb : b ∈ awayY k) : e k ≠ 
   have hmon : ∀ a b : ℕ, (X 0 ^ a * X 1 ^ b : MvPolynomial (Fin 2) k) =
       monomial (Finsupp.single 0 a + Finsupp.single 1 b) 1 := fun a b => by
     rw [X_pow_eq_monomial, X_pow_eq_monomial, monomial_mul, one_mul]
-  have h1 : coeff s (X 0 ^ i * X 1 ^ j : MvPolynomial (Fin 2) k) = 1 := by
+  have h1 : (X 0 ^ i * X 1 ^ j : MvPolynomial (Fin 2) k).coeff s = 1 := by
     rw [hmon, coeff_monomial, if_pos rfl]
-  have h2 : ∀ P : MvPolynomial (Fin 2) k, coeff s (X 0 * X 1 ^ (j + 1) * P) = 0 := fun P => by
+  have h2 : ∀ P : MvPolynomial (Fin 2) k, (X 0 * X 1 ^ (j + 1) * P).coeff s = 0 := fun P => by
     rw [← pow_one (X 0 : MvPolynomial (Fin 2) k), hmon, coeff_monomial_mul', if_neg]
     intro hle
     have := hle 1
     simp [s] at this
-  have h3 : ∀ P : MvPolynomial (Fin 2) k, coeff s (X 0 ^ (i + 1) * X 1 * P) = 0 := fun P => by
+  have h3 : ∀ P : MvPolynomial (Fin 2) k, (X 0 ^ (i + 1) * X 1 * P).coeff s = 0 := fun P => by
     rw [← pow_one (X 1 : MvPolynomial (Fin 2) k), hmon, coeff_monomial_mul', if_neg]
     intro hle
     have := hle 0
     simp [s] at this
-  have := congrArg (coeff s) this
-  rw [h1, coeff_add, h2, h3, add_zero] at this
+  have := congrArg (fun q : MvPolynomial (Fin 2) k => q.coeff s) this
+  rw [h1, AddMonoidAlgebra.coeff_add] at this
+  simp only [Finsupp.add_apply, Pi.add_apply] at this
+  rw [h2, h3, add_zero] at this
   exact one_ne_zero this
 
 end Decomposition

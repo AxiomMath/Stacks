@@ -130,7 +130,7 @@ def piConstι (j : J) : A ⟶ ∏ᶜ fun _ : J => A :=
 @[reassoc]
 lemma piConstι_comp_π (j j' : J) :
     piConstι A j ≫ Pi.π (fun _ : J => A) j' = if j = j' then 𝟙 A else 0 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The `j`-th component of `piConstι A j` is the identity. -/
 @[simp]
@@ -167,14 +167,14 @@ the inclusions `CategoryTheory.Limits.piConstι`, is a biproduct. -/
 def isBilimitBiconeConst [Fintype J] : (biconeConst (J := J) A).IsBilimit :=
   isBilimitOfIsLimit (biconeConst (J := J) A)
     (IsLimit.ofIsoLimit (productIsProduct fun _ : J => A)
-      (Cones.ext (Iso.refl _) (fun j => by cases j; simp)))
+      (Cone.ext (Iso.refl _) (fun j => by cases j; simp)))
 
 /-- **A finite product of copies of one object of a preadditive category is their coproduct**,
 along the inclusions `CategoryTheory.Limits.piConstι`. -/
 def isColimitCofanPiConst [Fintype J] :
     IsColimit (Cofan.mk (∏ᶜ fun _ : J => A) (piConstι (J := J) A)) :=
   IsColimit.ofIsoColimit (isBilimitBiconeConst A).isColimit
-    (Cocones.ext (Iso.refl _) (fun j => by cases j; simp))
+    (Cocone.ext (Iso.refl _) (fun j => by cases j; simp))
 
 /-- **The total relation of a finite product of copies of one object**: the projections followed
 by the inclusions `CategoryTheory.Limits.piConstι` sum to the identity. -/
@@ -205,7 +205,7 @@ lemma piConstTranspose_comp_π (g : (∏ᶜ fun _ : J => A) ⟶ ∏ᶜ fun _ : K
     piConstTranspose A g ≫ Pi.π (fun _ : J => A) j =
       ∑ k : K, Pi.π (fun _ : K => A) k ≫
         (piConstι A j ≫ g ≫ Pi.π (fun _ : K => A) k) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- **A diagonal morphism is its own transpose.** The `(k, j)` entry of
 `CategoryTheory.Limits.Pi.map e` is `e j` for `k = j` and zero otherwise, a matrix symmetric in

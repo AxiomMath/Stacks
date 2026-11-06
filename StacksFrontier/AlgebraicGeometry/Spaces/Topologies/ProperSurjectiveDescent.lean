@@ -73,7 +73,7 @@ theorem Presieve.isSeparatedFor_of_cover {C : Type u} [Category.{v} C] (P : Cᵒ
   rintro _ _ ⟨i⟩
   apply (hloc i).ext
   intro W b hb
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, h₁ _ hb,
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, h₁ _ hb,
     h₂ _ hb]
 
 namespace Pseudofunctor

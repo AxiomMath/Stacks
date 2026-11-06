@@ -145,12 +145,16 @@ attribute [local instance] SmallEtale.isGrothendieckAbelian_sheaf_succ
 
 variable (B : BigEtaleSite.{u}) (X : Scheme.{u}) (hX : B.Contains X)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- Global sections of abelian sheaves on the small étale site form an additive functor: it is a
 right adjoint, so it preserves binary products. -/
 local instance additive_Γ_smallEtaleSite
     [HasSheafify (SmallEtale.topology B X hX) AddCommGrpCat.{w}]
     [HasGlobalSectionsFunctor (SmallEtale.topology B X hX) AddCommGrpCat.{w}] :
     (Sheaf.Γ (SmallEtale.topology B X hX) AddCommGrpCat.{w}).Additive :=
+  have : HasBinaryProducts (Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{w}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+      (sheafToPresheaf (SmallEtale.topology B X hX) AddCommGrpCat.{w})
   Functor.additive_of_preserves_binary_products _
 
 /-- Global sections of complexes of abelian sheaves on the small étale site, regarded in the

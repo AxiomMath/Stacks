@@ -100,7 +100,7 @@ theorem isSplitEpi_milnorDifference (N : ℕ) (hf : ∀ n, N ≤ n → IsIso (f 
   refine IsSplitEpi.mk ⟨Pi.lift g, ?_⟩
   refine Pi.hom_ext _ _ fun n => ?_
   rw [Category.assoc, milnorDifference_π, Category.id_comp, Preadditive.comp_sub,
-    ← Category.assoc, Pi.lift_π, Pi.lift_π]
+    ← Category.assoc, Pi.lift_comp_π, Pi.lift_comp_π]
   exact hg n
 
 /-- **The first derived inverse limit of an eventually constant tower vanishes.** -/

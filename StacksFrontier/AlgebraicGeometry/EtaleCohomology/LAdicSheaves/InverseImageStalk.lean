@@ -84,13 +84,14 @@ public theorem germ_inverseImageFiniteLevelStalkIso_inv (F : LAdicSheaf B Y ℓ)
       ((LAdicSheaf.levelAdjunction f n).unit.app (F.level n)).hom.app (op V.1) ≫
         colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.obj X.property x)).op ⋙
           ((LAdicSheaf.levelPullback f n).obj (F.level n)).obj)
-          (op ⟨(smallEtaleBaseChange B f).obj V.1,
-            geometricPointFiberBaseChangeEquiv B f x V.1 V.2⟩) := by
+          (op (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V.1)
+            (geometricPointFiberBaseChangeEquiv B f x V.1 V.2))) := by
   let : HasProducts.{u} (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) :=
     fun _ => ModuleCat.hasLimitsOfShape
   refine (Iso.comp_inv_eq _).2 ?_
   have h := etaleStalkSmallEtalePullObjIso_germ B f x _ (F.level n)
-    ⟨(smallEtaleBaseChange B f).obj V.1, geometricPointFiberBaseChangeEquiv B f x V.1 V.2⟩ V
+    (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V.1)
+      (geometricPointFiberBaseChangeEquiv B f x V.1 V.2)) V
     (𝟙 _) (geometricPointFiberBaseChangeEquiv_ha B f x V.1 V.2)
   rw [AlgebraicGeometry.pullbackSectionAlongHom_id] at h
   exact h.symm.trans (Category.assoc _ _ _).symm
@@ -118,8 +119,8 @@ public theorem inverseImageFiniteLevelStalkIso_inv_transition (F : LAdicSheaf B 
           (inverseImageFiniteLevelStalkIso B f F x n).inv := by
   refine colimit.hom_ext fun V => ?_
   set U : (geometricPointFiber B X.obj X.property x).Elements :=
-    ⟨(smallEtaleBaseChange B f).obj V.unop.1,
-      geometricPointFiberBaseChangeEquiv B f x V.unop.1 V.unop.2⟩
+    Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V.unop.1)
+      (geometricPointFiberBaseChangeEquiv B f x V.unop.1 V.unop.2)
   have e1 := germ_inverseImageFiniteLevelStalkIso_inv B f F x (n + 1) V.unop
   have e2 := germ_finiteLevelStalkTransition B (LAdicSheaf.inverseImage f F) x n U
   have e3 := germ_finiteLevelStalkTransition B F (x.map (B.inclusion.map f)) n V.unop

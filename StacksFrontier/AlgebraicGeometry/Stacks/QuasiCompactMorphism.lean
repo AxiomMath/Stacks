@@ -851,6 +851,7 @@ public theorem isQuasiCompact_iff_baseChange_quasiCompact
       (isQuasiCompactStack_fibredCategory B S hS F' hF' hF'qc _)
       (representedFibreToGlobal_surjective B S hS U a g f F e haSurj)
   · intro h U y hy F hF he
+    have : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
     obtain ⟨e⟩ := he
     let Fy := (spacesOverSmallerBaseFunctor
       B U.left.1 S U.left.2 hS U.hom).obj ⟨F, hF⟩
@@ -866,6 +867,7 @@ public theorem isQuasiCompact_iff_baseChange_quasiCompact
       isAlgebraicSpace_viewOver B U.left.1 S U.left.2 hS U.hom F hF
     have hqc : Space.IsQuasiCompact B S hS q := by
       intro H hH hHqc k
+      have : HasPullback k q := HasLimitsOfShape.has_limit _
       let A : AlgebraicStacks.{u, w} B S hS :=
         ⟨fibredCategory B S hS H,
           (isDeligneMumfordStack_fibredCategory B S hS H hH).1⟩
@@ -911,6 +913,8 @@ public theorem isQuasiCompact_iff_baseChange_quasiCompact
       exact isQuasiCompact_of_compact_fibredCategory.{u, w} B S hS (pullback k q) hG
         (isQuasiCompactStack_of_isSurjective B S hS t hP ht)
     intro H hH hHqc k
+    have : HasPullback k q := HasLimitsOfShape.has_limit _
+    have : HasPullback k Fy.1.hom := HasLimitsOfShape.has_limit _
     have h₁ := IsPullback.of_hasPullback k q
     have h₂ := IsPullback.of_hasPullback k Fy.1.hom
     have hp : IsPullback (pullback.fst k q) (pullback.snd k q ≫ i.inv) k Fy.1.hom := by

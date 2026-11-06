@@ -63,6 +63,7 @@ theorem degreeOver_pos_of_isCurve {X Y : Scheme.{u}} (pX : X ⟶ Spec (.of k))
   rw [functionFieldMap_eq_dominantFunctionFieldMap f] at hfin
   exact degreeOver_pos f hfin
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **A morphism of degree one between normal proper curves over a field is an isomorphism.**
 Degree one makes the extension of function fields an isomorphism, and a morphism of normal
 proper curves is determined by, and exists for, every map of function fields ([Stacks, Tag
@@ -83,14 +84,15 @@ theorem isIso_of_degreeOver_eq_one {X Y : Scheme.{u}} (pX : X ⟶ Spec (.of k))
   have : IsDominant g.left := ‹IsDominant f›
   have hbij : Function.Bijective (functionFieldMap g.left) := by
     change Function.Bijective (functionFieldMap f)
+    have key : ∀ {A B : Type u} [Field A] [Field B] (φ : A →+* B),
+        (letI := φ.toAlgebra; Module.finrank A B = 1) → Function.Bijective φ := by
+      intro A B _ _ φ h
+      letI := φ.toAlgebra
+      exact Algebra.finrank_eq_one_iff_bijective_algebraMap.mp h
     let := (functionFieldMap f).toAlgebra
     have hfr : Module.finrank Y.functionField X.functionField = 1 := by
       rwa [← degreeOver_eq_finrank f (functionFieldMap_eq_dominantFunctionFieldMap f)]
-    refine ⟨(functionFieldMap f).injective, fun x => ?_⟩
-    obtain ⟨c, hc⟩ := (finrank_eq_one_iff_of_nonzero' (1 : X.functionField) one_ne_zero).mp hfr x
-    refine ⟨c, ?_⟩
-    rw [← hc, Algebra.smul_def, mul_one]
-    rfl
+    exact key (functionFieldMap f) hfr
   have := isIso_of_bijective_functionFieldMap V W g hbij
   exact inferInstanceAs (IsIso ((Over.forget _).map g))
 

@@ -375,6 +375,7 @@ theorem pullMapOf_stageMap {T₀ T₁ T : SchemesOver D.Y} (e : T₁ ⟶ T₀)
         (baseChangeMap_comp_projection D.f πⱼ) D.F).hom ≫ χ :=
   (D.pullMapOf_eq _ _ _).trans (D.comp_map_stageMap e ψ πₗ πⱼ hh χ hψ)
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The pullback of a map along a morphism of test schemes, through an isomorphism, is surjective
 exactly when the inverse image of the map is. -/
 theorem epi_pullMapOf_iff {T' T : SchemesOver D.Y} (h : T' ⟶ T)
@@ -384,14 +385,17 @@ theorem epi_pullMapOf_iff {T' T : SchemesOver D.Y} (h : T' ⟶ T)
     (v : D.baseChangeModule T ⟶ M) :
     Epi (D.pullMapOf h α v) ↔ Epi ((modulePullback B S hS (D.relativeMap h)).map v) := by
   rw [pullMapOf_def]
-  refine ⟨fun hv => ?_, fun hv => epi_comp' inferInstance (epi_comp' hv inferInstance)⟩
+  refine ⟨fun hv => ?_, fun hv => epi_comp'
+    (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((D.baseChangeComparison h).app D.F)))
+    (epi_comp' hv inferInstance)⟩
   have he : (modulePullback B S hS (D.relativeMap h)).map v =
       (D.baseChangeComparison h).inv.app D.F ≫
         ((D.baseChangeComparison h).hom.app D.F ≫
           (modulePullback B S hS (D.relativeMap h)).map v ≫ α) ≫ inv α := by
     simp only [Category.assoc, IsIso.hom_inv_id, Category.comp_id, Iso.inv_hom_id_app_assoc]
   rw [he]
-  exact epi_comp' inferInstance (epi_comp' hv inferInstance)
+  exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv ((D.baseChangeComparison h).app D.F)))
+    (epi_comp' hv inferInstance)
 
 /-- The kernel of the projection `F_T ⟶ F_T / K` is `K`
 (`AlgebraicGeometry.Space.QuotientSituation.mk_kernel_quotientProjection`, read with the
@@ -417,6 +421,7 @@ theorem kernelSubobject_pullMapOf_eq_quotientPullback {T' T : SchemesOver D.Y} (
     kernelSubobject (D.pullMapOf h α v) = D.quotientPullback h (kernelSubobject v) :=
   D.kernelSubobject_pullMapOf_of_epi h α inferInstance v inferInstance
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- `AlgebraicGeometry.Space.QuotSituation.kernelSubobject_pullMapOf_eq_quotientPullback`, with
 the pullback of the map written out as a composite. -/
 theorem kernelSubobject_comp_map_of_epi {T' T : SchemesOver D.Y} (h : T' ⟶ T)
@@ -520,6 +525,7 @@ theorem exists_stage_epi_of_epi_limit {i : I}
   exact ⟨m, e, (hiff ((D.toCoherentSituation.stageTestSystem E g).map e)).2 hm⟩
 
 include hc in
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **A quotient over a limit of affine schemes, lying over a stage, comes from a later stage.**
 Let `F` be of finite presentation, let `T = lim T_k` be a cofiltered limit of affine schemes of the
 site, taken in schemes, `g : T_i ⟶ B` a morphism from a stage, and `K` a member of
@@ -599,7 +605,9 @@ theorem exists_stage_quotientPullback_eq (hF : D.F.IsFinitePresentationOnSite) {
       D.quotientProjection (D.toCoherentSituation.stageTestCone E c g).pt K ≫ α'.inv :=
     Iso.hom_inv_id_assoc _ _
   have hTpull := (congrArg Epi hT₀).mpr
-    (epi_comp' inferInstance (epi_comp' inferInstance (epi_comp' inferInstance inferInstance)))
+    (epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom _))
+      (epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _))
+        (epi_comp' inferInstance (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv α')))))
   have hT := (D.epi_pullMapOf_iff _ _ _).1 hTpull
   -- surjectivity descends to a stage `T_m` (Stacks 09TP)
   have hGfps : ∀ {n : Over i} (e : n ⟶ j), D.toCoherentSituation.IsFlatWithProperSupport

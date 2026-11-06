@@ -69,6 +69,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_StrictHenselizationConditions
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The strict henselization as a test scheme -/
 
 /-- The étale chart of `Y` through which `Y^{sh}` is computed, with its lift of `ȳ`. -/

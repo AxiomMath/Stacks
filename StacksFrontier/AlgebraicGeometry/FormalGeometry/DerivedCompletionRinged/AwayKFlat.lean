@@ -57,6 +57,16 @@ universe u
 
 namespace AlgebraicGeometry.RingedSite
 
+/-- Weak sheafification of abelian presheaves on a small site, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the declarations below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+abbrev hasWeakSheafifyAddCommGrpCat {C : Type u} [SmallCategory C] (J : GrothendieckTopology C) :
+    HasWeakSheafify J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat
+
 section AwayComplex
 
 variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]

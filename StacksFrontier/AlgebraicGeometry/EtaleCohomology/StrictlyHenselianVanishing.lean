@@ -89,7 +89,7 @@ private theorem projective_ulift_int :
   ext z
   show e.hom ((uliftZMultiplesHom E y) z) = f.hom z
   rw [uliftZMultiplesHom_apply_apply]
-  have hz : z = z.down • (ULift.up (1 : ℤ)) := ULift.ext _ _ (by simp)
+  have hz : z = z.down • (ULift.up (1 : ℤ)) := ULift.ext (by simp)
   calc
     e.hom (z.down • y) = z.down • e.hom y := map_zsmul _ _ _
     _ = z.down • f.hom (ULift.up 1) := by rw [hy]
@@ -272,8 +272,8 @@ variable (B : BigEtaleSite.{u}) (R : Type u) [CommRing R]
 the geometric point, is an étale neighborhood. -/
 public def finalNeighborhood :
     (geometricPointFiber B (Spec (.of R)) hS s).Elements :=
-  ⟨SmallEtale.final B (Spec (.of R)) hS,
-    ⟨s.hom, by simp [SmallEtale.final]⟩⟩
+  Functor.elementsMk _ (SmallEtale.final B (Spec (.of R)) hS)
+    ⟨s.hom, by simp [SmallEtale.final]⟩
 
 /-- The canonical map from global sections to the stalk at a geometric point. -/
 public def globalSectionsToEtaleStalk
@@ -289,7 +289,7 @@ public def globalSectionsToEtaleStalk
       (Type (u + 1))
       (SmallEtale.finalIsTerminal B (Spec (.of R)) hS)).hom.app F ≫
     colimit.ι
-      ((CategoryOfElements.π
+      ((Functor.Elements.π
         (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)
       (op (finalNeighborhood B R hS s))
 
@@ -329,7 +329,7 @@ private noncomputable def finalToNeighborhood
         ((SmallEtale.inclusion B (Spec (.of R)) hS).map f)) = t
     rw [hmap]
     exact hfB
-  refine CategoryOfElements.homMk (finalNeighborhood B R hS s) U f ?_
+  refine Functor.Elements.homMk (x := finalNeighborhood B R hS s) (y := U) f ?_
   apply Subtype.ext
   change s.hom ≫ (SmallEtale.toScheme B (Spec (.of R)) hS).map f = U.2.1
   rw [hf]
@@ -357,20 +357,20 @@ private noncomputable def finalNeighborhood_initial
   let : Etale g := U.1.property
   let f := finalToNeighborhood B R hS s hs U
   have hbase (k : finalNeighborhood B R hS s ⟶ U) :
-      (SmallEtale.toScheme B (Spec (.of R)) hS).map k.val ≫ g = 𝟙 (Spec (.of R)) := by
+      (SmallEtale.toScheme B (Spec (.of R)) hS).map k.hom ≫ g = 𝟙 (Spec (.of R)) := by
     rw [toScheme_map_comp_structure]
     simp [finalNeighborhood, SmallEtale.final]
   have hmPoint : s.hom ≫
-      (SmallEtale.toScheme B (Spec (.of R)) hS).map m.val = U.2.1 :=
-    congrArg Subtype.val m.property
+      (SmallEtale.toScheme B (Spec (.of R)) hS).map m.hom = U.2.1 :=
+    congrArg Subtype.val m.map_val
   have hfPoint : s.hom ≫
-      (SmallEtale.toScheme B (Spec (.of R)) hS).map f.val = U.2.1 :=
-    congrArg Subtype.val f.property
+      (SmallEtale.toScheme B (Spec (.of R)) hS).map f.hom = U.2.1 :=
+    congrArg Subtype.val f.map_val
   have heq := etale_section_unique s hs T g
-    ((SmallEtale.toScheme B (Spec (.of R)) hS).map m.val)
-    ((SmallEtale.toScheme B (Spec (.of R)) hS).map f.val)
+    ((SmallEtale.toScheme B (Spec (.of R)) hS).map m.hom)
+    ((SmallEtale.toScheme B (Spec (.of R)) hS).map f.hom)
     (hbase m) (hbase f) (by rw [hmPoint, hfPoint])
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   exact (SmallEtale.toScheme B (Spec (.of R)) hS).map_injective heq
 
 /-- The final object of the small étale site, with its canonical lift of the geometric point,
@@ -540,14 +540,14 @@ private theorem isIso_sections_final_comp_colimit_ι
     [StrictlyHenselianLocalRing R] (hs : s.LiesOver (IsLocalRing.closedPoint R))
     {C : Type*} [Category C] [HasWeakSheafify (SmallEtale.topology B (Spec (.of R)) hS) C]
     (F : Sheaf (SmallEtale.topology B (Spec (.of R)) hS) C)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)] :
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)] :
     IsIso ((Sheaf.ΓNatIsoSheafSections (SmallEtale.topology B (Spec (.of R)) hS) C
         (SmallEtale.finalIsTerminal B (Spec (.of R)) hS)).hom.app F ≫
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)
         (op (finalNeighborhood B R hS s))) := by
   have hΓ : IsIso ((Sheaf.ΓNatIsoSheafSections (SmallEtale.topology B (Spec (.of R)) hS) C
       (SmallEtale.finalIsTerminal B (Spec (.of R)) hS)).hom.app F) := inferInstance
-  have hι : IsIso (colimit.ι ((CategoryOfElements.π
+  have hι : IsIso (colimit.ι ((Functor.Elements.π
       (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj) (op (finalNeighborhood B R hS s))) :=
     (colimit.isColimit _).isIso_ι_app_of_isTerminal _
       (IsInitial.op _ (finalNeighborhood_initial B R hS s hs))
@@ -585,7 +585,7 @@ private noncomputable def globalSectionsToPointFiber
   refine {
     app F := (Sheaf.ΓNatIsoSheafSections J AddCommGrpCat.{u + 1}
       (SmallEtale.finalIsTerminal B (Spec (.of R)) hS)).hom.app F ≫
-      colimit.ι ((CategoryOfElements.π
+      colimit.ι ((Functor.Elements.π
         (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F.obj)
         (op I)
     naturality := ?_ }

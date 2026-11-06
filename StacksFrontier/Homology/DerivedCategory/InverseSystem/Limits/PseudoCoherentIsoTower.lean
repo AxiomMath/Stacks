@@ -102,7 +102,7 @@ theorem derivedLimit_isPseudoCoherent_and_baseChange_iso_of_iso
   have hd : (Pi.lift fun n : ℕ ↦ Pi.π Y n - Pi.π Y (n + 1) ≫ s n) ≫ E.hom =
       E.hom ≫ Pi.lift fun n : ℕ ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [Category.assoc, hEπ, Pi.lift_π_assoc, Pi.lift_π, Preadditive.sub_comp,
+    simp only [Category.assoc, hEπ, Pi.lift_comp_π_assoc, Pi.lift_comp_π, Preadditive.sub_comp,
       Preadditive.comp_sub, reassoc_of% hEπ]
     rw [he n]
   have hT' : Triangle.mk (p ≫ E.hom)

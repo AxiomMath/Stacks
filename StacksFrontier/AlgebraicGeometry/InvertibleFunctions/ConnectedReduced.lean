@@ -137,7 +137,7 @@ theorem fg_units_quotient_of_closed_cover {k : Type u} [Field k] {X : Scheme.{u}
     rfl
   have : Group.FG (∀ i, Γ(Y i, ⊤)ˣ ⧸ (Units.map (ψ i).toMonoidHom).range) := by
     rw [Group.fg_def, ← Subgroup.pi_top Set.univ]
-    exact Subgroup.FG.pi fun i => (hfg i).out
+    exact Subgroup.FG.pi fun i => Group.fg_def.mp (hfg i)
   refine Group.fg_quotient_of_ker_eq
     (A := ∀ i, Γ(Y i, ⊤)ˣ ⧸ (Units.map (ψ i).toMonoidHom).range)
     (MonoidHom.pi fun i => (QuotientGroup.mk' (Units.map (ψ i).toMonoidHom).range).comp

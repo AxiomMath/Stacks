@@ -94,10 +94,9 @@ def relocalizeRan_isPointwiseRightKanExtension :
     ((ranChartIsLimit B S hS (relocalizeSpace B hT hS g X) G
       ((relocalizeSpacesEtale B hT hS g X).obj W.unop)).whiskerEquivalence
         (relocalizeRanIndex B hT hS g X W.unop).asEquivalence)
-    (Cones.ext (Iso.refl _) (fun j => by
+    (Cone.ext (Iso.refl _) (fun j => by
       dsimp [relocalizeRanCounit]
-      rw [Category.id_comp, ← Functor.map_comp_assoc]
-      rfl))
+      simp only [Category.id_comp, Functor.map_comp, Category.assoc]))
 
 /-- **Extension to the spaces-étale site commutes with relocalization**:
 `Λ ⋙ Ran_{cmp_{Λ X}} G ≅ Ran_{cmp_X} (e_X^* G)`. -/

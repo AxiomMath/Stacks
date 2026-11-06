@@ -86,6 +86,24 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] affinePullbackTail_nonempty affinePullbackTail_isDirected
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_eventualImmersion
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_eventualImmersion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+private instance hasFiniteProducts_presheaf_eventualImmersion
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasFiniteProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- An immersion of algebraic spaces is recognised on one surjective étale chart of its target:
 if the base change of `g` along a surjective étale chart `p` is the morphism of the site `k`, and
 the underlying morphism of schemes of `k` is an immersion, then `g` is an immersion. This is the
@@ -213,7 +231,12 @@ private lemma exists_chart_representation_of_isImmersion
   let shA : Jᵒᵖ ⥤ Sheaf (BigFppfOver.topology B S hS) (Type u) := {
     obj j := ⟨yoneda.obj (A.obj j),
       (isAlgebraicSpace_yoneda B S hS (A.obj j)).isSheaf⟩
-    map g := ⟨yoneda.map (A.map g)⟩ }
+    map g := ⟨yoneda.map (A.map g)⟩
+    map_id j := Sheaf.hom_ext
+      (show yoneda.map (A.map (𝟙 j)) = 𝟙 _ by rw [A.map_id, yoneda.map_id])
+    map_comp f g := Sheaf.hom_ext
+      (show yoneda.map (A.map (f ≫ g)) = yoneda.map (A.map f) ≫ yoneda.map (A.map g) by
+        rw [A.map_comp, yoneda.map_comp]) }
   have hps : Presheaf.IsSheaf _ pc.pt := Sheaf.isSheaf_of_isLimit shA pc hpc
   have hls : Presheaf.IsSheaf _ (R.obj lc.pt) :=
     (Presheaf.isSheaf_of_iso_iff e).mpr hps

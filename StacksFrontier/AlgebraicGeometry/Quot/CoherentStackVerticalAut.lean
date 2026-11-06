@@ -149,7 +149,7 @@ private theorem modulePullbackTriangle_comp_map_idApp_self {T₀ T : SchemesOver
     (F : Modules.{u, u} B S hS (D.space T).1 (D.space T).2) :
     (modulePullbackTriangle B S hS hih).hom.app F ≫
         (modulePullback B S hS (D.relativeMap σ)).map (D.idApp T F) = 𝟙 _ := by
-  simpa using modulePullbackTriangle_comp_map_idApp D σ σ hih rfl F
+  exact (modulePullbackTriangle_comp_map_idApp D σ σ hih rfl F).trans (eqToHom_refl _ _)
 
 /-- `AlgebraicGeometry.Space.CoherentSituation.autOf_comp` for module comparisons written
 through the identity law. -/

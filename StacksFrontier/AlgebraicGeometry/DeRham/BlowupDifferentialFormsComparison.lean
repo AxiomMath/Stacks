@@ -184,9 +184,10 @@ theorem coordinateSection_mem_nonZeroDivisors (i : Fin n) :
     simpa using congrArg (gammaEquiv R m n).symm hz
   have h1 : (gammaEquiv R m n).symm z = 0 := by
     refine MvPolynomial.ext _ _ fun d => ?_
-    have h := congrArg (MvPolynomial.coeff (Finsupp.single (Sum.inr i) 1 + d)) h0
-    rw [MvPolynomial.coeff_X_mul, MvPolynomial.coeff_zero] at h
-    rw [h, MvPolynomial.coeff_zero]
+    have h := congrArg (fun p : MvPolynomial (Fin m ⊕ Fin n) R =>
+      p.coeff (Finsupp.single (Sum.inr i) 1 + d)) h0
+    simp only [MvPolynomial.coeff_X_mul, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h
+    rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   simpa using congrArg (gammaEquiv R m n) h1
 
 /-- **For `n = 1` the centre of the blowup is an effective Cartier divisor.** The coordinate

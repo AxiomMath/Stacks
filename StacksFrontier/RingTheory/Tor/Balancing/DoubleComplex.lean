@@ -322,6 +322,7 @@ def cmpRChainHom (A : DoubleCx R) :
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact LinearMap.mem_range_self _ _
     simp only [hd0, zero_add]
+    simp only [LinearMap.smul_apply, one_smul, LinearMap.comp_apply, LinearMap.proj_apply]
     rfl
 
 /-- The forward edge comparison `cmpRfwd : H_i(Tot A) →ₗ[R] H_i(R(A)_•)`, sending the class of

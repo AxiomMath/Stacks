@@ -112,6 +112,13 @@ theorem hasLocallyFiniteIrreducibleComponents_of_isEtale (B : BigFppfSite.{u}) (
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_normalizationEtaleBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace NormalizationData
 
 /-- **The normalization morphism of a normal algebraic space is an isomorphism.**

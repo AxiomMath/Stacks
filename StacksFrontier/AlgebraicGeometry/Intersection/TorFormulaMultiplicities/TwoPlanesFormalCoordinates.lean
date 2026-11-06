@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 public import
   StacksFrontier.AlgebraicGeometry.Intersection.TorFormulaMultiplicities.HigherTorsMultiplicity
 public import StacksFrontier.RingTheory.CompleteLocalRing.PowerSeriesMaps

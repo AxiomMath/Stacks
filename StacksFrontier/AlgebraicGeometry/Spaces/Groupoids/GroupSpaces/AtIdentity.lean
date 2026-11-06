@@ -64,6 +64,10 @@ and part (2) of Stacks 05W1 concludes.
 
 @[expose] public section
 
+-- Instance search for pullbacks of presheaves on the big fppf site exceeds the default
+-- budget under Lean v4.35.0.
+set_option synthInstance.maxHeartbeats 400000
+
 open CategoryTheory CategoryTheory.Limits
 open MonObj MonoidalCategory CartesianMonoidalCategory
 open scoped CategoryTheory.MonObj CategoryTheory.MonoidalCategory
@@ -75,6 +79,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {Bs : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {hBs : IsAlgebraicSpace B S hS Bs}
 
+set_option maxHeartbeats 1000000 in
 /-- The unit of a base-changed group algebraic space projects to the unit of the original
 one. -/
 theorem one_baseChange_left_comp_fst (G : GroupAlgebraicSpace B S hS Bs hBs)

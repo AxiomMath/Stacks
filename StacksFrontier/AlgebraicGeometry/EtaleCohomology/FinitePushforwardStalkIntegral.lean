@@ -155,10 +155,10 @@ private theorem exists_baseChange_refinement_range_subset_of_isIntegralHom
   let v' := IsOpenImmersion.lift O'.ι V.2.1 hrange
   have hv' : v' ≫ O'.ι = V.2.1 := IsOpenImmersion.lift_fac _ _ _
   let N : (geometricPointFiber B Y.1 Y.property y).Elements :=
-    ⟨V', ⟨v', by
+    Functor.elementsMk _ V' ⟨v', by
       show v' ≫ (O'.ι ≫ B.inclusion.map V.1.obj.hom) = y.hom
       rw [← Category.assoc, hv']
-      exact V.2.2⟩⟩
+      exact V.2.2⟩
   let a : N ⟶ V := ⟨ObjectProperty.homMk (Over.homMk j rfl), Subtype.ext hv'⟩
   refine ⟨N, a, ?_⟩
   rintro _ ⟨z, rfl⟩

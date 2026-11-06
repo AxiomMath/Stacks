@@ -70,6 +70,7 @@ local instance spacesBaseChangeRightAdjoint {X Y : E.Spaces} (f : X ⟶ Y) :
       (Space.SpacesEtale.topology E.fppfSite S E.fppf_mem X)).IsRightAdjoint :=
   (Space.spacesEtaleAdjunction E.fppfSite S E.fppf_mem f).isRightAdjoint
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Right Kan extensions along the inclusion `i_f` of Stacks 0DF2 exist pointwise: the
 relevant limits are indexed by categories of the size of the site. -/
 local instance inclusionFunctorPointwiseRan {Y : E.Spaces} (f : Y ⟶ X)
@@ -120,6 +121,7 @@ def smallPullbackIso {Y : E.Spaces} (f : Y ⟶ X) :
     (inclusionTransition E f) (E.bigToSmallEtaleMorphism X).inverseImage
     (E.bigToSmallEtaleMorphism X).adj (inclusionTransitionInitial E f)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The section rule of Stacks 0DG7**: the sections of `π_X⁻¹F` over `f : Y ⟶ X` are the
 global sections of `f⁻¹F`, naturally in `F`. -/
 def sectionsIso {Y : E.Spaces} (f : Y ⟶ X) :
@@ -273,6 +275,7 @@ def sectionsIsoApp {Y : E.Spaces} (f : Y ⟶ X)
           (Space.SpacesEtale.topology E.fppfSite S E.fppf_mem Y)).obj F) :=
   (sectionsIso E f).app F
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Pointwise form of `AlgebraicGeometry.BigEtaleSpaceSite.sectionsIso_restriction`. -/
 theorem map_sectionsIsoApp_inv {Y Z : E.Spaces} (h : Z ⟶ Y) (f : Y ⟶ X)
     (F : Sheaf (Space.SpacesEtale.topology E.fppfSite S E.fppf_mem X) (Type (u + 1)))

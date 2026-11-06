@@ -247,7 +247,7 @@ variable {R : Type t} [Ring R] {G : Type u} [Group G] [TopologicalSpace G]
 `1`-cocycle `β`: the module `N ⊕ R` with `g • (n, c) = (g • n + c β g, c)`. -/
 private def twistModule (N : Stacks.Injectives.ContinuousModule.{t, u, max w t} R G)
     (β : G → N.obj.obj.V) (hloc : IsLocallyConstant β)
-    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).hom (β h) + β g) :
+    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).asHom.hom (β h) + β g) :
     Stacks.Injectives.ContinuousModule.{t, u, max w t} R G :=
   ofRepresentation (twistRepresentation (representationOfModule N) β hβ)
     (by
@@ -258,7 +258,7 @@ private def twistModule (N : Stacks.Injectives.ContinuousModule.{t, u, max w t} 
 /-- The inclusion of `N` into the extension defined by `β`. -/
 private def twistIncl (N : Stacks.Injectives.ContinuousModule.{t, u, max w t} R G)
     (β : G → N.obj.obj.V) (hloc : IsLocallyConstant β)
-    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).hom (β h) + β g) :
+    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).asHom.hom (β h) + β g) :
     N ⟶ twistModule N β hloc hβ :=
   (homEquiv R G N (twistModule N β hloc hβ)).symm
     ⟨LinearMap.inl R N.obj.obj.V R,
@@ -272,8 +272,8 @@ injectivity of `N` splits that inclusion by a `G`-equivariant retraction `r`, an
 theorem exists_sub_eq_of_isCocycle_of_injective
     (N : Stacks.Injectives.ContinuousModule.{t, u, max w t} R G) [Injective N]
     {β : G → N.obj.obj.V} (hloc : IsLocallyConstant β)
-    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).hom (β h) + β g) :
-    ∃ z : N.obj.obj.V, ∀ g : G, (N.obj.obj.ρ g).hom z - z = β g := by
+    (hβ : ∀ g h : G, β (g * h) = (N.obj.obj.ρ g).asHom.hom (β h) + β g) :
+    ∃ z : N.obj.obj.V, ∀ g : G, (N.obj.obj.ρ g).asHom.hom z - z = β g := by
   have hmono : Mono (twistIncl N β hloc hβ) := by
     refine (continuousModuleToAction.{t, u, max w t} R G ⋙
       Action.forget (ModuleCat.{max w t} R) G).mono_of_mono_map ?_
@@ -287,11 +287,11 @@ theorem exists_sub_eq_of_isCocycle_of_injective
   have hsection : ∀ x : N.obj.obj.V, r.hom.hom.hom.hom ((x, 0) : N.obj.obj.V × R) = x :=
     fun x ↦ congrArg (fun φ : N ⟶ N ↦ φ.hom.hom.hom.hom x) hr
   refine ⟨r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R), fun g ↦ ?_⟩
-  have hequiv : r.hom.hom.hom.hom (((twistModule N β hloc hβ).obj.obj.ρ g).hom
+  have hequiv : r.hom.hom.hom.hom (((twistModule N β hloc hβ).obj.obj.ρ g).asHom.hom
         ((0, 1) : N.obj.obj.V × R)) =
-      (N.obj.obj.ρ g).hom (r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R)) :=
+      (N.obj.obj.ρ g).asHom.hom (r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R)) :=
     ConcreteCategory.congr_hom (r.hom.hom.comm g) _
-  have hmove : ((twistModule N β hloc hβ).obj.obj.ρ g).hom ((0, 1) : N.obj.obj.V × R) =
+  have hmove : ((twistModule N β hloc hβ).obj.obj.ρ g).asHom.hom ((0, 1) : N.obj.obj.V × R) =
       ((β g, 1) : N.obj.obj.V × R) :=
     twistRepresentation_apply_inr (representationOfModule N) β hβ g
   have hsplit : r.hom.hom.hom.hom ((β g, 1) : N.obj.obj.V × R) =
@@ -300,7 +300,7 @@ theorem exists_sub_eq_of_isCocycle_of_injective
       ((map_add r.hom.hom.hom.hom ((β g, 0) : N.obj.obj.V × R)
           ((0, 1) : N.obj.obj.V × R)).trans
         (congrArg (· + r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R)) (hsection (β g))))
-  have key : (N.obj.obj.ρ g).hom (r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R)) =
+  have key : (N.obj.obj.ρ g).asHom.hom (r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R)) =
       β g + r.hom.hom.hom.hom ((0, 1) : N.obj.obj.V × R) :=
     hequiv.symm.trans ((congrArg r.hom.hom.hom.hom hmove).trans hsplit)
   rw [key]
@@ -320,11 +320,11 @@ intersection of the fibre of the family at `z` with the preimage of the orbit ma
 theorem isLocallyConstant_ρ_apply₂ {X : Type*} [TopologicalSpace X]
     (N : ContinuousGModule.{u, w} G) {γ : X → G} (hγ : Continuous γ)
     {ζ : X → N.obj.obj.V} (hζ : IsLocallyConstant ζ) :
-    IsLocallyConstant fun x ↦ (N.obj.obj.ρ (γ x)).hom (ζ x) := by
+    IsLocallyConstant fun x ↦ (N.obj.obj.ρ (γ x)).asHom.hom (ζ x) := by
   intro s
-  have hset : (fun x ↦ (N.obj.obj.ρ (γ x)).hom (ζ x)) ⁻¹' s =
+  have hset : (fun x ↦ (N.obj.obj.ρ (γ x)).asHom.hom (ζ x)) ⁻¹' s =
       ⋃ z : N.obj.obj.V,
-        γ ⁻¹' ((fun g : G ↦ (N.obj.obj.ρ g).hom z) ⁻¹' s) ∩ ζ ⁻¹' {z} := by
+        γ ⁻¹' ((fun g : G ↦ (N.obj.obj.ρ g).asHom.hom z) ⁻¹' s) ∩ ζ ⁻¹' {z} := by
     ext x
     simp only [Set.mem_preimage, Set.mem_iUnion, Set.mem_inter_iff, Set.mem_singleton_iff]
     exact ⟨fun hx ↦ ⟨ζ x, hx, rfl⟩, fun ⟨_, hz, hzx⟩ ↦ hzx ▸ hz⟩
@@ -345,9 +345,9 @@ theorem isZero_continuousGroupCohomology_two_of_forall_isCoboundary
     (M : ContinuousGModule.{u, max u v} G)
     (hM : ∀ d : G × G → M.obj.obj.V, IsLocallyConstant d →
         (∀ g₁ g₂ g₃ : G, d (g₁ * g₂, g₃) + d (g₁, g₂) =
-          (M.obj.obj.ρ g₁).hom (d (g₂, g₃)) + d (g₁, g₂ * g₃)) →
+          (M.obj.obj.ρ g₁).asHom.hom (d (g₂, g₃)) + d (g₁, g₂ * g₃)) →
         ∃ x : G → M.obj.obj.V, IsLocallyConstant x ∧
-          ∀ g₁ g₂ : G, (M.obj.obj.ρ g₁).hom (x g₂) - x (g₁ * g₂) + x g₁ = d (g₁, g₂)) :
+          ∀ g₁ g₂ : G, (M.obj.obj.ρ g₁).asHom.hom (x g₂) - x (g₁ * g₂) + x g₁ = d (g₁, g₂)) :
     IsZero (continuousGroupCohomology.{u, v} G 2 M) := by
   let U := continuousGModuleUnderlying.{u, max u v} G
   let P : InjectivePresentation M := Classical.choice (EnoughInjectives.presentation M)
@@ -368,13 +368,13 @@ theorem isZero_continuousGroupCohomology_two_of_forall_isCoboundary
   have hgfl : ∀ m : M.obj.obj.V, gl (fl m) = 0 :=
     fun m ↦ ShortComplex.moduleCat_zero_apply (S.map U) m
   have hfeq : ∀ (g : G) (m : M.obj.obj.V),
-      fl ((M.obj.obj.ρ g).hom m) = (P.J.obj.obj.ρ g).hom (fl m) :=
+      fl ((M.obj.obj.ρ g).asHom.hom m) = (P.J.obj.obj.ρ g).asHom.hom (fl m) :=
     fun g m ↦ ConcreteCategory.congr_hom (P.f.hom.hom.comm g) m
   have hgeq : ∀ (g : G) (z : P.J.obj.obj.V),
-      gl ((P.J.obj.obj.ρ g).hom z) = ((cokernel P.f).obj.obj.ρ g).hom (gl z) :=
+      gl ((P.J.obj.obj.ρ g).asHom.hom z) = ((cokernel P.f).obj.obj.ρ g).asHom.hom (gl z) :=
     fun g z ↦ ConcreteCategory.congr_hom ((cokernel.π P.f).hom.hom.comm g) z
-  have hmulJ : ∀ (g₁ g₂ : G) (z : P.J.obj.obj.V), (P.J.obj.obj.ρ (g₁ * g₂)).hom z =
-      (P.J.obj.obj.ρ g₁).hom ((P.J.obj.obj.ρ g₂).hom z) := by
+  have hmulJ : ∀ (g₁ g₂ : G) (z : P.J.obj.obj.V), (P.J.obj.obj.ρ (g₁ * g₂)).asHom.hom z =
+      (P.J.obj.obj.ρ g₁).asHom.hom ((P.J.obj.obj.ρ g₂).asHom.hom z) := by
     intro g₁ g₂ z
     rw [map_mul]; rfl
   refine isZero_rightDerivedPlus_succ_of_injective
@@ -385,14 +385,14 @@ theorem isZero_continuousGroupCohomology_two_of_forall_isCoboundary
   have hbloc : IsLocallyConstant fun g : G ↦ sec (c g) := hcloc.comp sec
   have hb : ∀ g : G, gl (sec (c g)) = c g := fun g ↦ hsec (c g)
   have hker : ∀ p : G × G, ∃ m : M.obj.obj.V, fl m =
-      (P.J.obj.obj.ρ p.1).hom (sec (c p.2)) - sec (c (p.1 * p.2)) + sec (c p.1) := by
+      (P.J.obj.obj.ρ p.1).asHom.hom (sec (c p.2)) - sec (c (p.1 * p.2)) + sec (c p.1) := by
     intro p
     refine hexact _ ?_
     rw [map_add, map_sub, hgeq, hb, hb, hb, hccoc p.1 p.2]
     abel
   choose d hd using hker
   have hDloc : IsLocallyConstant fun p : G × G ↦
-      (P.J.obj.obj.ρ p.1).hom (sec (c p.2)) - sec (c (p.1 * p.2)) + sec (c p.1) :=
+      (P.J.obj.obj.ρ p.1).asHom.hom (sec (c p.2)) - sec (c (p.1 * p.2)) + sec (c p.1) :=
     ((isLocallyConstant_ρ_apply₂ P.J continuous_fst
           (hbloc.comp_continuous continuous_snd)).comp₂
         (hbloc.comp_continuous (continuous_fst.mul continuous_snd)) (· - ·)).comp₂
@@ -400,7 +400,7 @@ theorem isZero_continuousGroupCohomology_two_of_forall_isCoboundary
   have hdloc : IsLocallyConstant d :=
     isLocallyConstant_of_comp_injective hfinj (by simp only [hd]; exact hDloc)
   have hdcoc : ∀ g₁ g₂ g₃ : G, d (g₁ * g₂, g₃) + d (g₁, g₂) =
-      (M.obj.obj.ρ g₁).hom (d (g₂, g₃)) + d (g₁, g₂ * g₃) := by
+      (M.obj.obj.ρ g₁).asHom.hom (d (g₂, g₃)) + d (g₁, g₂ * g₃) := by
     intro g₁ g₂ g₃
     refine hfinj ?_
     simp only [map_add, hfeq, hd, map_sub, mul_assoc, hmulJ]
@@ -409,13 +409,13 @@ theorem isZero_continuousGroupCohomology_two_of_forall_isCoboundary
   have hβloc : IsLocallyConstant fun g : G ↦ sec (c g) - fl (x g) :=
     hbloc.comp₂ (hxloc.comp fun m ↦ fl m) (· - ·)
   have hβcoc : ∀ g₁ g₂ : G, sec (c (g₁ * g₂)) - fl (x (g₁ * g₂)) =
-      (P.J.obj.obj.ρ g₁).hom (sec (c g₂) - fl (x g₂)) + (sec (c g₁) - fl (x g₁)) := by
+      (P.J.obj.obj.ρ g₁).asHom.hom (sec (c g₂) - fl (x g₂)) + (sec (c g₁) - fl (x g₁)) := by
     intro g₁ g₂
     have hbfac : sec (c (g₁ * g₂)) =
-        (P.J.obj.obj.ρ g₁).hom (sec (c g₂)) + sec (c g₁) - fl (d (g₁, g₂)) := by
+        (P.J.obj.obj.ρ g₁).asHom.hom (sec (c g₂)) + sec (c g₁) - fl (d (g₁, g₂)) := by
       rw [hd (g₁, g₂)]; abel
     have hxfac : fl (x (g₁ * g₂)) =
-        (P.J.obj.obj.ρ g₁).hom (fl (x g₂)) + fl (x g₁) - fl (d (g₁, g₂)) := by
+        (P.J.obj.obj.ρ g₁).asHom.hom (fl (x g₂)) + fl (x g₁) - fl (d (g₁, g₂)) := by
       rw [← hx g₁ g₂, map_add, map_sub, hfeq]; abel
     rw [map_sub, hbfac, hxfac]
     abel

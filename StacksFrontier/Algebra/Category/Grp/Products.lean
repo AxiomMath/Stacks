@@ -54,7 +54,7 @@ def ofPi : AddCommGrpCat.of (∀ b, (G b : Type (max v w))) ⟶ ∏ᶜ G :=
 @[reassoc]
 theorem ofPi_comp_π (b : β) :
     ofPi G ≫ Pi.π G b = AddCommGrpCat.ofHom (Pi.evalAddMonoidHom _ b) :=
-  Pi.lift_π _ b
+  Pi.lift_comp_π _ b
 
 /-- Reading an element of the product off as a function and back into the product is the
 identity. -/

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.HomotopyCategory.ShortExact
 public import StacksFrontier.Algebra.Homology.MappingConeDegreewiseIso
 

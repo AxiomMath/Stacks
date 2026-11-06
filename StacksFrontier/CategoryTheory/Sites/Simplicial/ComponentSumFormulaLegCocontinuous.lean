@@ -270,6 +270,7 @@ theorem restrictTransitionAb_inr_hom' (C : CocontinuousSimplicialSite.{u})
         (Functor.whiskerRight
           (NatTrans.op (Grothendieck.ιNatTrans (F := C.underlying) φ.op)) A.obj) := rfl
 
+set_option backward.isDefEq.respectTransparency false in
 open CategoryTheory.SimplicialSiteSituation in
 /-- In case (B), the sheafification unit followed by the inverse-image transition of Stacks 09WF
 is restriction of the total-site sheaf along the cross-fibre arrows. -/

@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import Mathlib.AlgebraicGeometry.Pullbacks
 public import StacksCore.Tactic.StacksAttribute
 
@@ -113,7 +114,7 @@ theorem StandardPHCovering.pullback {ι : Type v} {T T' : Scheme.{u}}
     have : IsAffine (X i) := hf.isAffine i
     infer_instance) (pullback.snd h g) k
     (IsProper.isStableUnderBaseChange.of_isPullback (IsPullback.of_hasPullback h g) hh)
-    (Surjective.instIsStableUnderBaseChangeScheme.of_isPullback
+    (MorphismProperty.IsStableUnderBaseChange.of_isPullback (P := @Surjective)
       (IsPullback.of_hasPullback h g) hsurj)
     (fun i ↦ by dsimp [k]; infer_instance) ?_ ?_
   · refine Set.eq_univ_iff_forall.mpr fun x ↦ ?_

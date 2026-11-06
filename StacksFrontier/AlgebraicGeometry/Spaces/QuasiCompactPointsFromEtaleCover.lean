@@ -71,6 +71,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_QuasiCompactPointsFromEtaleCover :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, at high priority. -/
+local instance (priority := high) hasPullback_presheaf_QuasiCompactPointsFromEtaleCover
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 03JV, condition (2) implies condition (1).** If some family of étale charts of an
 algebraic space `F` over `S` with surjective coproduct has finite chart and relation fibres above
 a point `x` of `|F|`, then every étale chart of `F` with affine source has finite chart and

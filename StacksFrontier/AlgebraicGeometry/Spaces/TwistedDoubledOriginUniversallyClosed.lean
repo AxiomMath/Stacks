@@ -135,6 +135,17 @@ theorem universallyClosed_surjective_specMap_algebraMap [FiniteDimensional k K] 
 
 variable (B : BigFppfSite.{u}) (hS : B.Contains (base k))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over the base (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_TwistedDoubledOriginUniversallyClosed :
+    HasPullbacks ((BigFppfOver B (base k) hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_TwistedDoubledOriginUniversallyClosed
+    {X Y Z : (BigFppfOver B (base k) hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 include hS in
 /-- The formal disc over `k` belongs to every big fppf site containing the affine line: the ring
 `k⟦x⟧` has cardinality `#k ^ ℵ₀`, which is at most `size(𝔸¹_k) ^ ℵ₀`, so Stacks 000R (9)

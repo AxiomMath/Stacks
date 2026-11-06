@@ -301,7 +301,7 @@ private noncomputable def derivedHomologyUnit (q : ℤ) :
       (Functor.whiskerRight (quotientCompQhIso B).inv
         (DerivedCategory.Plus.homologyFunctor B q)) ≫
     Functor.whiskerRight (Functor.whiskerLeft (HomotopyCategory.Plus.quotient A)
-      F.rightDerivedFunctorPlusUnit) (DerivedCategory.Plus.homologyFunctor B q) ≫
+      F.rightDerivedFunctorPlusUnith) (DerivedCategory.Plus.homologyFunctor B q) ≫
     Functor.whiskerRight (quotientCompQhIso A).hom
       (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.homologyFunctor B q)
 
@@ -309,14 +309,14 @@ private noncomputable def derivedHomologyUnit (q : ℤ) :
 injective objects. -/
 private lemma isIso_rightDerivedFunctorPlusUnit_app (J : CochainComplex.Plus A)
     (hJ : ∀ n, Injective (J.obj.X n)) :
-    IsIso (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj J)) := by
+    IsIso (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj J)) := by
   obtain ⟨J, n, hn⟩ := J
   have : ∀ n, Injective (J.X n) := hJ
   let L : CochainComplex (InjectiveObject A) ℤ :=
     HomologicalComplex.liftObjectProperty _ J inferInstance
   have hL : L.IsStrictlyGE n := by
     rwa [← CochainComplex.isStrictlyGE_mapHomologicalComplex_obj_iff _ (InjectiveObject.ι A)]
-  exact inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnit.app
+  exact inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient A).obj
       ((InjectiveObject.ι A).mapCochainComplexPlus.obj ⟨L, n, hL⟩))))
 
@@ -327,7 +327,7 @@ private lemma derivedHomologyUnit_app (q : ℤ) (J : CochainComplex.Plus A) :
       (DerivedCategory.Plus.homologyFunctor B q).map
         ((quotientCompQhIso B).inv.app (F.mapCochainComplexPlus.obj J)) ≫
       (DerivedCategory.Plus.homologyFunctor B q).map
-        (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj J)) ≫
+        (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj J)) ≫
       (DerivedCategory.Plus.homologyFunctor B q).map
         (F.rightDerivedFunctorPlus.map ((quotientCompQhIso A).hom.app J)) := rfl
 
@@ -337,7 +337,7 @@ private lemma isIso_derivedHomologyUnit_app (q : ℤ) (J : CochainComplex.Plus A
   have := isIso_rightDerivedFunctorPlusUnit_app F J hJ
   rw [derivedHomologyUnit_app]
   have h : IsIso ((DerivedCategory.Plus.homologyFunctor B q).map
-      (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj J))) := by
+      (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj J))) := by
     infer_instance
   exact IsIso.comp_isIso' inferInstance (IsIso.comp_isIso' inferInstance
     (IsIso.comp_isIso' h inferInstance))

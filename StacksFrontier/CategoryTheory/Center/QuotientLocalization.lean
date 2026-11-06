@@ -41,13 +41,14 @@ variable {C : Type u₁} [Category.{v₁} C] (r : HomRel C) [Congruence r]
 
 /-- An element of the center of `C` induces an element of the center of the quotient category
 `C/r`: its component at the class of `X` is the class of its component at `X`. -/
-def quotient (z : CatCenter C) : CatCenter (CategoryTheory.Quotient r) where
-  app X := (Quotient.functor r).map (z.app X.as)
-  naturality := by
-    rintro ⟨X⟩ ⟨Y⟩ f
-    obtain ⟨f, rfl⟩ := (Quotient.functor r).map_surjective f
-    simpa only [Functor.id_obj, Functor.id_map, Functor.map_comp] using
-      congrArg (Quotient.functor r).map (z.naturality f)
+def quotient (z : CatCenter C) : CatCenter (CategoryTheory.Quotient r) :=
+  .of
+    { app X := (Quotient.functor r).map (z.app X.as)
+      naturality := by
+        rintro ⟨X⟩ ⟨Y⟩ f
+        obtain ⟨f, rfl⟩ := (Quotient.functor r).map_surjective f
+        simpa only [Functor.id_obj, Functor.id_map, Functor.map_comp] using
+          congrArg (Quotient.functor r).map (z.naturality f) }
 
 omit [Congruence r] in
 /-- The component of `CategoryTheory.CatCenter.quotient r z` at the class of `X` is the class of

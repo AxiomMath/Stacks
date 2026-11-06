@@ -573,7 +573,7 @@ def fullyFaithfulDerivedIncl (i : I) [HasDerivedCategory.{w'} (d.piece i).FullSu
 def derivedProjNat (i : I) [HasDerivedCategory.{w'} (d.piece i).FullSubcategory] :
     𝟭 (DerivedCategory A) ⟶ (d.projFunctor i).mapDerivedCategory ⋙
       (d.piece i).ι.mapDerivedCategory :=
-  Functor.mapDerivedCategoryIdIso.inv ≫ NatTrans.mapDerivedCategory (d.projNat i) ≫
+  (Functor.mapDerivedCategoryIdIso A).inv ≫ NatTrans.mapDerivedCategory (d.projNat i) ≫
     (Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso _ _).hom
 
 /-- The derived inclusion of the `i`-th summands. -/
@@ -581,7 +581,7 @@ def derivedInclNat (i : I) [HasDerivedCategory.{w'} (d.piece i).FullSubcategory]
     (d.projFunctor i).mapDerivedCategory ⋙ (d.piece i).ι.mapDerivedCategory ⟶
       𝟭 (DerivedCategory A) :=
   (Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso _ _).inv ≫
-    NatTrans.mapDerivedCategory (d.inclNat i) ≫ Functor.mapDerivedCategoryIdIso.hom
+    NatTrans.mapDerivedCategory (d.inclNat i) ≫ (Functor.mapDerivedCategoryIdIso A).hom
 
 omit [DecidableEq I] in
 /-- `derivedProjNat i ≫ derivedInclNat i` is the derived form of `projNat i ≫ inclNat i`,
@@ -589,9 +589,9 @@ conjugated by `Functor.mapDerivedCategoryIdIso`. -/
 lemma derivedProjNat_derivedInclNat (i : I)
     [HasDerivedCategory.{w'} (d.piece i).FullSubcategory] :
     d.derivedProjNat i ≫ d.derivedInclNat i =
-      Functor.mapDerivedCategoryIdIso.inv ≫
+      (Functor.mapDerivedCategoryIdIso A).inv ≫
         NatTrans.mapDerivedCategory (d.projNat i ≫ d.inclNat i) ≫
-          Functor.mapDerivedCategoryIdIso.hom := by
+          (Functor.mapDerivedCategoryIdIso A).hom := by
   simp only [derivedProjNat, derivedInclNat, Category.assoc, Iso.hom_inv_id_assoc,
     NatTrans.mapDerivedCategory_comp]
 

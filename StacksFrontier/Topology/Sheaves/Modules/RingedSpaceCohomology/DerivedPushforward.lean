@@ -31,7 +31,7 @@ bounded below derived categories, the *derived pushforward*
 The category of `𝒪_X`-modules is `SheafOfModules (structureSheafRing X)`, and `f_*` is
 `RingedSpaceModuleAdjunction.modulePushforward f`. The derived pushforward is Mathlib's
 `CategoryTheory.Functor.rightDerivedFunctorPlus` of `f_*`, so the whole of the API of that
-construction (its comparison map `Functor.rightDerivedFunctorPlusUnit` and the fact that it is a
+construction (its comparison map `Functor.rightDerivedFunctorPlusUnith` and the fact that it is a
 right derived functor) applies to it. The universes of the two derived categories are instance
 arguments rather than fixed to the standard choice.
 
@@ -71,7 +71,7 @@ def derivedPushforwardPlusObjIsoOfInjective
       DerivedCategory.Plus.Qh.obj ((modulePushforward f).mapHomotopyCategoryPlus.obj
         ((HomotopyCategory.Plus.quotient _).obj
           ((InjectiveObject.ι _).mapCochainComplexPlus.obj I))) :=
-  (asIso ((modulePushforward f).rightDerivedFunctorPlusUnit.app _)).symm
+  (asIso ((modulePushforward f).rightDerivedFunctorPlusUnith.app _)).symm
 
 /-- The inverse of `derivedPushforwardPlusObjIsoOfInjective` is the canonical comparison map
 `f_* I ⟶ Rf_* I` from the termwise pushforward to the derived pushforward. -/
@@ -79,7 +79,7 @@ def derivedPushforwardPlusObjIsoOfInjective
 theorem derivedPushforwardPlusObjIsoOfInjective_inv
     (I : CochainComplex.Plus (InjectiveObject (SheafOfModules.{u} (structureSheafRing X)))) :
     (derivedPushforwardPlusObjIsoOfInjective f I).inv =
-      (modulePushforward f).rightDerivedFunctorPlusUnit.app
+      (modulePushforward f).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient _).obj
           ((InjectiveObject.ι _).mapCochainComplexPlus.obj I)) :=
   rfl

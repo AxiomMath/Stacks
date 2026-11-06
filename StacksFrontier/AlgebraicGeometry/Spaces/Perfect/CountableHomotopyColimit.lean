@@ -218,7 +218,7 @@ theorem countable_hom_shift_of_countable_sections
   have hid : IsEtale B S hS (𝟙 X : X ⟶ X).hom := isEtale_of_isIso B S hS (𝟙 X.1)
   let e : (etaleModulePullback.{u, u} B S hS (𝟙 X) hid).mapDerivedCategory ≅ 𝟭 _ :=
     Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso _ _
-      (etaleModulePullbackIdIso B S hS hid) ≪≫ Functor.mapDerivedCategoryIdIso
+      (etaleModulePullbackIdIso B S hS hid) ≪≫ Functor.mapDerivedCategoryIdIso _
   exact countable_hom_shift_left _ _ m
     (countable_hom_shift_of_iso (e.app E) (e.app K.obj) (-m) hc)
 

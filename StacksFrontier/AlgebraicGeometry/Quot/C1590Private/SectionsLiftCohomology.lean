@@ -74,7 +74,7 @@ theorem IsFiniteQuotient.sigma {F G : Space.Modules.{u, u} B S hS X.1 X.2}
   obtain ⟨ι, hι, p, hp⟩ := h
   exact ⟨Σ _ : κ, ι, inferInstance,
     (sigmaSigmaIso (fun _ : κ => ι) (fun _ _ => F)).inv ≫ Limits.Sigma.map fun _ => p,
-    epi_comp _ _⟩
+    @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso _) _ inferInstance⟩
 
 /-- A module killed by the unit ideal is zero. -/
 theorem IsKilledBy.isZero_of_top {G : Space.Modules.{u, u} B S hS X.1 X.2}

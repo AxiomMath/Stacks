@@ -800,11 +800,13 @@ private noncomputable def relativeApproximationOfStageSystems (f : X ⟶ Y)
             · change SX.π.app ((compatibleSourceProjection f SX SY).obj j) =
                 SX.π.app ((compatibleSourceProjection f SX SY).obj i) ≫
                   SX.diagram.map ((compatibleSourceProjection f SX SY).map g)
-              simpa using SX.π.naturality ((compatibleSourceProjection f SX SY).map g)
+              exact (Category.id_comp _).symm.trans
+                (SX.π.naturality ((compatibleSourceProjection f SX SY).map g))
             · change SY.π.app ((compatibleTargetProjection f SX SY).obj j) =
                 SY.π.app ((compatibleTargetProjection f SX SY).obj i) ≫
                   SY.diagram.map ((compatibleTargetProjection f SX SY).map g)
-              simpa using SY.π.naturality ((compatibleTargetProjection f SX SY).map g) }
+              exact (Category.id_comp _).symm.trans
+                (SY.π.naturality ((compatibleTargetProjection f SX SY).map g)) }
       isLimit := ?_ }
   exact Comma.fstSndJointlyReflectLimit
     ((Functor.Initial.isLimitWhiskerEquiv (compatibleSourceProjection f SX SY)

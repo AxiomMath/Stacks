@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LAdicExcisionWeights
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.FrobeniusPoincarePairing
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.CompactSupportDimensionZeroHomology
+public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 
 /-!
 # Excision for the Frobenius characteristic roots of `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`
@@ -43,6 +44,15 @@ universe u v
 namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
+
+/-- A closed immersion followed by a morphism locally of finite type is locally of finite type
+(stated for instance search, which times out finding it on the composites below). -/
+local instance (priority := high) locallyOfFiniteType_comp_LAdicExcisionCharpolyRoots
+    {X Y S : Scheme} (i : X ⟶ Y) (g : Y ⟶ S) [IsClosedImmersion i] [LocallyOfFiniteType g] :
+    LocallyOfFiniteType (i ≫ g) :=
+  MorphismProperty.comp_mem @LocallyOfFiniteType i g
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType i).mp
+      ((IsClosedImmersion.iff_isFinite_and_mono i).mp ‹_›).1).2 ‹_›
 
 /-! ### Characteristic roots on rational limits of towers -/
 

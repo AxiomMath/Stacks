@@ -3,6 +3,7 @@ module
 public import StacksFrontier.Algebra.Homology.DerivedCategory.ResolutionFunctor
 public import StacksFrontier.Algebra.Homology.TotalComplexQuasiIso
 public import StacksFrontier.Algebra.Homology.Embedding.UpNatZero
+public import Mathlib.Algebra.Homology.SingleHomology
 
 /-!
 # Functorial injective embeddings give a resolution functor

@@ -412,8 +412,8 @@ theorem toCatCenter_app_mapHomologicalComplex {A : Type u} [CommRing A] {D : Typ
 /-- Multiplication by a unit, as a central automorphism of `D(A)`. -/
 def unitCentralIso {A : Type u} [CommRing A] (c : A) (hc : IsUnit c) :
     𝟭 (DerivedCategory (ModuleCat.{u} A)) ≅ 𝟭 _ where
-  hom := Linear.toCatCenter A _ c
-  inv := Linear.toCatCenter A _ (hc.unit⁻¹ : Aˣ)
+  hom := (Linear.toCatCenter A _ c).asHom
+  inv := (Linear.toCatCenter A _ (hc.unit⁻¹ : Aˣ)).asHom
   hom_inv_id := by
     ext X
     simp [Linear.smul_comp, smul_smul]
@@ -529,7 +529,7 @@ theorem representedAffineToposDerivedBaseChange_compat_of_path
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀)).hom)
     (t := (unitCentralIso c hc).hom)
-    (τ := Linear.toCatCenter Γ((BigFppfOver.toScheme B S hS).obj U', ⊤) _ c)
+    (τ := (Linear.toCatCenter Γ((BigFppfOver.toScheme B S hS).obj U', ⊤) _ c).asHom)
     (HomologicalComplex.quasiIso _ (ComplexShape.up ℤ))
     (isLeftDerivedFunctor_representedAffineToposDerivedExtension_comp B S hS (f₀' ≫ g₀))
     ?ht ?hg ?h₁ (toCatCenter_app_mapHomologicalComplex _ c)

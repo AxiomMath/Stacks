@@ -80,7 +80,7 @@ universe u v w u₁ u₂ v₁
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
-  CategoryTheory.Under.post CategoryTheory.BasedCategory.ofFunctor
+  CategoryTheory.BasedCategory.ofFunctor
   Deformation.Artin.predeformationCategory
 
 namespace Deformation
@@ -188,7 +188,7 @@ theorem bijective_squareZeroUnder_zero_hom (A : ArtinianLocalAlgCat.{u, u, u} Λ
     change (residueFieldObject.{u, u, u} Λ k).residueEquiv (IsLocalRing.residue _ a) =
       (residueFieldObject.{u, u, u} Λ k).residueEquiv (IsLocalRing.residue _ b) at h
     rw [residueFieldObject_residue, residueFieldObject_residue] at h
-    exact ULift.ext _ _ h
+    exact ULift.ext h
   · refine TrivSqZeroExt.ext ?_ (Subsingleton.elim (α := PUnit.{u + 1}) _ _)
     exact residueFieldObject_residue.{u, u, u} Λ k (ULift.up.{u} z.fst)
 
@@ -312,7 +312,7 @@ theorem squareZeroPushforwardComparison_naturality {V W : FGModuleCat.{u} k} (f 
 def squareZeroPushforwardConj (V : FGModuleCat.{u} k)
     (a : Aut (P.obj ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).obj V))) : Z V ⟶ Z V :=
   haveI := isIso_squareZeroPushforwardComparison hcof P Z ι hι V
-  ⟨inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.hom.1 ≫
+  ⟨inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.asIso.hom.1 ≫
     squareZeroPushforwardComparison P Z ι hι V, by
     have := squareZeroPushforwardComparison_isHomLift P Z ι hι V
     have := isIso_squareZeroUnderRightHom (q.obj y) V
@@ -323,10 +323,10 @@ def squareZeroPushforwardConj (V : FGModuleCat.{u} k)
         (inv (squareZeroPushforwardComparison P Z ι hι V)) :=
       IsHomLift.inv_lift_inv q (asIso (squareZeroUnderRightHom (q.obj y) V))
         (asIso (squareZeroPushforwardComparison P Z ι hι V))
-    have : q.IsHomLift (𝟙 _) a.hom.1 := a.hom.2
+    have : q.IsHomLift (𝟙 _) a.asIso.hom.1 := a.asIso.hom.2
     have h : q.IsHomLift (inv (squareZeroUnderRightHom (q.obj y) V) ≫ 𝟙 _ ≫
         squareZeroUnderRightHom (q.obj y) V)
-        (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.hom.1 ≫
+        (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.asIso.hom.1 ≫
           squareZeroPushforwardComparison P Z ι hι V) := inferInstance
     simpa using h⟩
 
@@ -353,7 +353,7 @@ theorem exists_infinitesimalAutomorphismModuleFunctor_equiv
     have := isIso_squareZeroPushforwardComparison hcof P Z ι hι V
     have h := congrArg (fun t : Z V ⟶ Z V => t.1) hab
     simp only [squareZeroPushforwardConj, cancel_epi, cancel_mono] at h
-    exact Subtype.ext (Aut.ext (Functor.Fiber.hom_ext h))
+    exact Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext h)))
   · intro θ
     have := isIso_squareZeroPushforwardComparison hcof P Z ι hι V
     have := isIso_squareZeroUnderRightHom (q.obj y) V
@@ -371,10 +371,10 @@ theorem exists_infinitesimalAutomorphismModuleFunctor_equiv
         (inv t) := by
       infer_instance
     let a : Aut (P.obj ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).obj V)) :=
-      { hom := ⟨t, ht⟩
-        inv := ⟨inv t, ht'⟩
-        hom_inv_id := Functor.Fiber.hom_ext (IsIso.hom_inv_id t)
-        inv_hom_id := Functor.Fiber.hom_ext (IsIso.inv_hom_id t) }
+      .of { hom := ⟨t, ht⟩
+            inv := ⟨inv t, ht'⟩
+            hom_inv_id := Functor.Fiber.hom_ext (IsIso.hom_inv_id t)
+            inv_hom_id := Functor.Fiber.hom_ext (IsIso.inv_hom_id t) }
     have hmem : a ∈ MonoidHom.ker (P.transportAutHom
         (squareZeroUnderRed.{u, u, u} q y V)) := by
       rw [ker_transportAutHom_squareZeroUnderRed_eq_top hcof P hthin V]
@@ -391,36 +391,36 @@ theorem exists_infinitesimalAutomorphismModuleFunctor_equiv
           squareZeroPushforwardComparison P Z ι hι W := by
       rw [← hn, IsIso.inv_hom_id_assoc]
     have ht : P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
-        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).hom.1 =
-          a.1.hom.1 ≫ P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) :=
+        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 =
+          a.1.asIso.hom.1 ≫ P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) :=
       P.map_transportHom _ _
     show τ f ≫ inv (squareZeroPushforwardComparison P Z ι hι W) ≫
-        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).hom.1 ≫
+        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 ≫
           squareZeroPushforwardComparison P Z ι hι W =
-      (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.hom.1 ≫
+      (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.asIso.hom.1 ≫
         squareZeroPushforwardComparison P Z ι hι V) ≫ τ f
-    have h₃ : (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.hom.1 ≫
+    have h₃ : (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.asIso.hom.1 ≫
         squareZeroPushforwardComparison P Z ι hι V) ≫ τ f =
-          inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.hom.1 ≫
+          inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.asIso.hom.1 ≫
             P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
               squareZeroPushforwardComparison P Z ι hι W :=
       (Category.assoc _ _ _).trans (congrArg
         (fun m => inv (squareZeroPushforwardComparison P Z ι hι V) ≫ m)
-        ((Category.assoc _ _ _).trans (congrArg (fun m => a.1.hom.1 ≫ m) hn)))
+        ((Category.assoc _ _ _).trans (congrArg (fun m => a.1.asIso.hom.1 ≫ m) hn)))
     have h₂ : P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
-        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).hom.1 ≫
+        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 ≫
           squareZeroPushforwardComparison P Z ι hι W =
-        a.1.hom.1 ≫ P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
+        a.1.asIso.hom.1 ≫ P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
           squareZeroPushforwardComparison P Z ι hι W :=
       ((Category.assoc _ _ _).symm.trans (congrArg
         (fun m => m ≫ squareZeroPushforwardComparison P Z ι hι W) ht)).trans
           (Category.assoc _ _ _)
     have h₁ : τ f ≫ inv (squareZeroPushforwardComparison P Z ι hι W) ≫
-        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).hom.1 ≫
+        (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 ≫
           squareZeroPushforwardComparison P Z ι hι W =
         inv (squareZeroPushforwardComparison P Z ι hι V) ≫
           P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) ≫
-            (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).hom.1 ≫
+            (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 ≫
               squareZeroPushforwardComparison P Z ι hι W := by
       rw [hτ']
       simp only [Category.assoc, IsIso.hom_inv_id_assoc]

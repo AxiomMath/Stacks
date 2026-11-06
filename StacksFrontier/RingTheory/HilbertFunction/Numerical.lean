@@ -485,7 +485,7 @@ graded quotient of a polynomial ring generated in degree zero. -/
 /-- A homogeneous polynomial of degree `d` all of whose coefficients lie in an ideal `A`, evaluated
 at a generating family of `I`, lands in `A * I ^ d`. -/
 private lemma aeval_mem_mul_pow {s : ℕ} (x : Fin s → R) (A : Ideal R) {d : ℕ}
-    {f : MvPolynomial (Fin s) R} (hf : f.IsHomogeneous d) (hco : ∀ α, MvPolynomial.coeff α f ∈ A) :
+    {f : MvPolynomial (Fin s) R} (hf : f.IsHomogeneous d) (hco : ∀ α, f.coeff α ∈ A) :
     MvPolynomial.aeval x f ∈ A * (Ideal.span (Set.range x)) ^ d := by
   classical
   rw [f.as_sum, map_sum]
@@ -764,16 +764,16 @@ private lemma mem_relIdeal_of_map_eq_zero
     {f : MvPolynomial (Fin s) R}
     (hf : MvPolynomial.map (algebraMap R (IsLocalRing.ResidueField R)) f = 0) :
     f ∈ relIdeal x ν N' := by
-  have hco : ∀ α, MvPolynomial.coeff α f ∈ IsLocalRing.maximalIdeal R := by
+  have hco : ∀ α, f.coeff α ∈ IsLocalRing.maximalIdeal R := by
     intro α
-    have h0 : (algebraMap R (IsLocalRing.ResidueField R)) (MvPolynomial.coeff α f) = 0 := by
-      rw [← MvPolynomial.coeff_map, hf, MvPolynomial.coeff_zero]
+    have h0 : (algebraMap R (IsLocalRing.ResidueField R)) (f.coeff α) = 0 := by
+      rw [← MvPolynomial.coeff_map, hf, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     exact (IsLocalRing.residue_eq_zero_iff _).mp h0
   rw [mem_relIdeal, ← MvPolynomial.sum_homogeneousComponent f]
   refine Submodule.sum_mem _ fun d _ => Submodule.mem_iSup_of_mem d ?_
   rw [mem_relCyc]
   refine ⟨?_, MvPolynomial.homogeneousComponent_isHomogeneous d f⟩
-  have hcod : ∀ α, MvPolynomial.coeff α (MvPolynomial.homogeneousComponent d f)
+  have hcod : ∀ α, (MvPolynomial.homogeneousComponent d f).coeff α
       ∈ IsLocalRing.maximalIdeal R := by
     intro α
     rw [MvPolynomial.coeff_homogeneousComponent]

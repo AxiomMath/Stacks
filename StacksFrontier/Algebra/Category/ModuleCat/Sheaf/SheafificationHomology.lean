@@ -55,7 +55,7 @@ public def sheafificationHomologyIso {C : Type u} [SmallCategory C]
   let hA := HomotopyCategory.homologyFunctor A c q
   let adj := PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)
   haveI : PreservesFiniteColimits a := by
-    have := adj.leftAdjoint_preservesColimits
+    have := adj.leftAdjoint_preservesColimits.{0, 0}
     exact ⟨fun _ _ _ => inferInstance⟩
   haveI : a.Additive := by
     let : a.PreservesZeroMorphisms :=

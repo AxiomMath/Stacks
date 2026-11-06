@@ -65,8 +65,8 @@ equivariant. -/
 theorem finiteTypeContinuousModuleAddEquiv_ρ {G : Type (u + 1)} [Group G] [TopologicalSpace G]
     {P P' : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G} (e : P ≅ P') (g : G)
     (v : P.obj.obj.obj.V) :
-    finiteTypeContinuousModuleAddEquiv Λ e ((P.obj.obj.obj.ρ g).hom v) =
-      (P'.obj.obj.obj.ρ g).hom (finiteTypeContinuousModuleAddEquiv Λ e v) :=
+    finiteTypeContinuousModuleAddEquiv Λ e ((P.obj.obj.obj.ρ g).asHom.hom v) =
+      (P'.obj.obj.obj.ρ g).asHom.hom (finiteTypeContinuousModuleAddEquiv Λ e v) :=
   ConcreteCategory.congr_hom (e.hom.hom.hom.hom.comm g) v
 
 /-- The finite locally constant abelian sheaf underlying `ℱ_P`, as an object of the source of the
@@ -97,7 +97,7 @@ def lisseSheafAbelianStalkAddEquiv {s : GeometricPoint X.1}
 action of the element of `π₁(X, x̄)` that `t` transports "precompose with `a`" to. -/
 theorem lisseSheafAbelianStalkAddEquiv_geometricPointStalkMap {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x))
     (z : (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).obj (lisseSheafAbelian B X x Λ P).obj) :
     lisseSheafAbelianStalkAddEquiv B X x Λ t P
@@ -105,7 +105,7 @@ theorem lisseSheafAbelianStalkAddEquiv_geometricPointStalkMap {s : GeometricPoin
           (lisseSheafAbelian B X x Λ P).obj.obj).hom z) =
       ((((finiteTypeLocallyConstantModuleSheafEquivalence B X x Λ).inverse ⋙
         (finiteTypeLocallyConstantModuleSheafEquivalence B X x Λ).functor).obj
-          P).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).hom
+          P).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom.hom
         (lisseSheafAbelianStalkAddEquiv B X x Λ t P z) :=
   ConcreteCategory.congr_hom
     (geometricPointStalkMap_finiteLocallyConstantAbelianStalkIso B X t a σ hσ
@@ -178,14 +178,14 @@ of an element of `π₁`**: if the automorphism `σ` of the fibre functor at `s�
 with `a`, it is the action on `P` of the element that the path `t` transports `σ` to. -/
 theorem lisseSheafStalkAddEquiv_geometricPointStalkMap {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x))
     (y : (etaleStalkPresheafFunctor B X.1 X.2 s (ModuleCat.{u + 1} Λ)).obj
       ((lisseSheaf B X x Λ).obj P).obj) :
     lisseSheafStalkAddEquiv B X x Λ t P
         (((geometricPointStalkMap B X.1 X.2 a (ModuleCat.{u + 1} Λ)).app
             ((lisseSheaf B X x Λ).obj P).obj).hom y) =
-      (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).hom
+      (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom.hom
         (lisseSheafStalkAddEquiv B X x Λ t P y) := by
   have s1 := lisseSheafForget₂StalkAddEquiv_geometricPointStalkMap B X x Λ a P y
   have s2 := lisseSheafAbelianStalkAddEquiv_geometricPointStalkMap B X x Λ t a σ hσ P
@@ -199,7 +199,7 @@ theorem lisseSheafStalkAddEquiv_geometricPointStalkMap {s : GeometricPoint X.1}
     (lisseSheafAbelianStalkAddEquiv B X x Λ t P)
     (finiteTypeContinuousModuleAddEquiv Λ
       ((finiteTypeLocallyConstantModuleSheafEquivalence B X x Λ).counitIso.app P)) rfl _ _ _
-      (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).hom y s1 s2 s3
+      (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom.hom y s1 s2 s3
 
 /-! ### Over `ℤ/m`: isomorphisms of modules -/
 
@@ -238,12 +238,12 @@ functor at `s̄` is precomposition with `a`, it is the action on `P` of the elem
 `t` transports `σ` to. -/
 theorem sheafFiber_comp_lisseEtaleSheafFiberIso_hom {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) (EtaleFundamentalGroup X.1 x)) :
     (GrothendieckTopology.Point.Hom.sheafFiber (smallEtalePointHom X.1 a)).app
         ((lisseEtaleSheaf B X x (ZMod m)).obj P) ≫ (lisseEtaleSheafFiberIso B X x m t P).hom =
       (lisseEtaleSheafFiberIso B X x m t P).hom ≫
-        P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ) := by
+        (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom := by
   have hnat := congrArg (fun α => α.app ((lisseSheaf B X x (ZMod m)).obj P))
     (sheafEquivCompSheafFiberIso_inv_naturality.{u, u + 1, 0} B X (ZMod m) a)
   have hsq := moduleCat_iso_hom_comm_of_inv_comm
@@ -256,7 +256,7 @@ theorem sheafFiber_comp_lisseEtaleSheafFiberIso_hom {s : GeometricPoint X.1}
   have h3 := zmodModuleCatIsoOfAddEquiv_comm m (lisseSheafStalkAddEquiv B X x (ZMod m) t P)
     ((geometricPointStalkMap B X.1 X.2 a (ModuleCat.{u + 1} (ZMod m))).app
       ((lisseSheaf B X x (ZMod m)).obj P).obj)
-    (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ))
+    (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom
     (lisseSheafStalkAddEquiv_geometricPointStalkMap B X x (ZMod m) t a σ hσ P)
   exact iso_trans_hom_comm _ _ _ _ _ hsq h3
 

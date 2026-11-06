@@ -100,7 +100,7 @@ def solutionOfAlgebraExtension (E : AlgebraExtension S Z.O base M.val.presheaf)
     (he : e.hom ≫ base = h.fSharpInverseImage)
     (hsmul : ∀ (U : Z.Cᵒᵖ) (a : E.O.obj.obj U) (n : M.val.obj U),
       a * E.inr U n = E.inr U ((show ((sheafCompose Z.J (forget₂ CommRingCat.{u}
-        RingCat.{u})).obj Z.O).val.obj U from E.proj.hom.app U a) • n)) :
+        RingCat.{u})).obj Z.O).obj.obj U from E.proj.hom.app U a) • n)) :
     (ofTrivialBase h M).CompatibleFirstOrderThickening where
   extension := E.O
   reduction := E.proj
@@ -146,10 +146,10 @@ theorem isomorphic_solutionOfAlgebraExtension_iff
     (he : e.hom ≫ base = h.fSharpInverseImage)
     (hsmul₁ : ∀ (U : Z.Cᵒᵖ) (a : E₁.O.obj.obj U) (n : M.val.obj U),
       a * E₁.inr U n = E₁.inr U ((show ((sheafCompose Z.J (forget₂ CommRingCat.{u}
-        RingCat.{u})).obj Z.O).val.obj U from E₁.proj.hom.app U a) • n))
+        RingCat.{u})).obj Z.O).obj.obj U from E₁.proj.hom.app U a) • n))
     (hsmul₂ : ∀ (U : Z.Cᵒᵖ) (a : E₂.O.obj.obj U) (n : M.val.obj U),
       a * E₂.inr U n = E₂.inr U ((show ((sheafCompose Z.J (forget₂ CommRingCat.{u}
-        RingCat.{u})).obj Z.O).val.obj U from E₂.proj.hom.app U a) • n)) :
+        RingCat.{u})).obj Z.O).obj.obj U from E₂.proj.hom.app U a) • n)) :
     CompatibleFirstOrderThickening.Isomorphic (solutionOfAlgebraExtension E₁ e he hsmul₁)
         (solutionOfAlgebraExtension E₂ e he hsmul₂) ↔
       AlgebraExtension.Isomorphic E₁ E₂ := by
@@ -534,7 +534,7 @@ noncomputable def Data.ofSolutions (QC : (ofTrivialBase f F).CompatibleFirstOrde
   smul_inr U b a n hb := by
     have h1 := (QD.kernelInclusion.val.app U).hom.map_smul b (show G.val.obj U from n)
     exact h1.symm.trans (congrArg (fun r => (QD.kernelInclusion.val.app U).hom
-      ((show ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).obj Y.O).val.obj U
+      ((show ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).obj Y.O).obj.obj U
         from r) • (show G.val.obj U from n))) hb)
   fromBaseBack := (baseIso f g).hom ≫ QD.baseMap
   base_comm := by
@@ -613,7 +613,7 @@ noncomputable def pullbackSolution : (inverseImageProblem f g G).CompatibleFirst
         (Stacks.Sites.SqZeroPullback.fibreVal QD.reduction g.fSharpInverseImage U z).1
           (show G.val.obj U from n)).symm.trans
         (congrArg (fun r => (QD.kernelInclusion.val.app U).hom
-          ((show ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).obj Y.O).val.obj U
+          ((show ((sheafCompose Y.J (forget₂ CommRingCat.{u} RingCat.{u})).obj Y.O).obj.obj U
             from r) • (show G.val.obj U from n)))
           (Stacks.Sites.SqZeroPullback.fibreVal_mem QD.reduction g.fSharpInverseImage U z)))
 

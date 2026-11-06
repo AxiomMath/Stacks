@@ -50,7 +50,6 @@ directions.
 
 @[expose] public section
 
-attribute [local implicit_reducible] CategoryTheory.asIso
 
 open AlgebraicGeometry CategoryTheory
 

@@ -176,7 +176,6 @@ theorem range_tensorSMulHom :
   · intro y hy
     obtain ⟨x, rfl⟩ := hy
     induction x with
-    | zero => simp
     | tmul a b => exact Submodule.smul_mem_smul a.2 Submodule.mem_top
     | add x y hx hy => rw [map_add]; exact Submodule.add_mem _ hx hy
   · rw [Submodule.smul_le]

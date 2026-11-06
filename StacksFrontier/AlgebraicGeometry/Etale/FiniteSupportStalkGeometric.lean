@@ -443,7 +443,8 @@ public theorem exists_finite_open_neighborhood
   obtain ⟨gb, rfl⟩ : ∃ gb : Vb ⟶ Y, B.inclusion.map gb = g :=
     ⟨B.inclusion.preimage g, B.inclusion.map_preimage (X := Vb) (Y := Y) g⟩
   let U₀ : SmallEtale B Y.obj Y.property := ⟨Over.mk gb, hg⟩
-  let U : (geometricPointFiber B Y.obj Y.property s).Elements := ⟨U₀, ⟨q, hq⟩⟩
+  let U : (geometricPointFiber B Y.obj Y.property s).Elements :=
+    Functor.elementsMk _ U₀ ⟨q, hq⟩
   let pb := (IsPullback.of_hasPullback gb f).map B.inclusion
   let e : pullback (B.inclusion.map f) (B.inclusion.map gb) ≅
       (SmallEtale.toScheme B X.obj X.property).obj (baseChange B f U.1) :=
@@ -600,7 +601,7 @@ public theorem surjective_finiteSupportStalkToFiberStalks
   refine surjective_finiteSupportStalkToFiberStalks_of_exists_preimage B f s F hsmall ?_
   intro x W q a₀
   obtain ⟨U, O, r, t, hfin, hrU, hrN, huniq⟩ :=
-    exists_finite_open_neighborhood B f s x ⟨W, q⟩
+    exists_finite_open_neighborhood B f s x (Functor.elementsMk _ W q)
   have hι : O.ι ≫ B.inclusion.map (pullback.snd U.1.obj.hom f) =
       B.inclusion.map (openObject B X.obj X.property (baseChange B f U.1) O).obj.hom := by
     have h := SmallEtale.toScheme_map_comp B X.obj X.property

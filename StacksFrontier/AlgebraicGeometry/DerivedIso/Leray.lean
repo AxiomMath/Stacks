@@ -118,18 +118,30 @@ theorem rightAcyclic_absoluteCechComplexPlus_X (f : X ⟶ S) (T : X.AffineOpenCo
 
 /-- **Leray's acyclicity lemma at the absolute Čech resolution** ([Stacks, Tag 015E]): the
 canonical map `f_* 𝔠 ⁼(𝒰, ℱ) ⟶ Rf_*(𝔠 ⁼(𝒰, ℱ))` is an isomorphism in `D⁺(S)`.  The map is the
-component of `CategoryTheory.Functor.rightDerivedFunctorPlusUnit`, which is *by definition* the
+component of `CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, which is *by definition* the
 unit [Stacks, Tag 015E] concludes the invertibility of. -/
 theorem isIso_rightDerivedFunctorPlusUnit_absoluteCechComplexPlus (f : X ⟶ S)
     (T : X.AffineOpenCover) [Fintype T.I₀]
     [IsAffineHom (pullback.diagonal (terminal.from X))]
     [IsAffineHom (pullback.diagonal (terminal.from S))]
     (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory) :
-    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus T).obj F))) :=
-  CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic
+    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus T).obj F))) := by
+  have h := CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic
     (Scheme.Modules.pushforward f) _ ((absoluteCechComplexPlus T).obj F).property
     (rightAcyclic_absoluteCechComplexPlus_X f T F)
+  have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlus
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso X.Modules) _
+    (((Scheme.Modules.pushforward f).mapHomotopyCategoryPlus ⋙
+      DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh
+        (HomotopyCategory.Plus.quasiIso X.Modules))).1 inferInstance
+  rw [← Functor.rightDerived_fac_app (Scheme.Modules.pushforward f).rightDerivedFunctorPlus
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso X.Modules)] at h
+  haveI := hd
+  rwa [isIso_comp_right_iff] at h
 
 /-- The isomorphism of [Stacks, Tag 015E] at the absolute Čech resolution, as an isomorphism of
 functors of the quasi-coherent module. -/
@@ -143,9 +155,9 @@ noncomputable def absoluteCechUnitIso (f : X ⟶ S) (T : X.AffineOpenCover) [Fin
   NatIso.ofComponents
     (fun F ↦
       haveI := isIso_rightDerivedFunctorPlusUnit_absoluteCechComplexPlus f T F
-      asIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
+      asIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus T).obj F))))
-    (fun {_ _} φ ↦ (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.naturality
+    (fun {_ _} φ ↦ (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.naturality
       ((HomotopyCategory.Plus.quotient X.Modules).map ((absoluteCechComplexPlus T).map φ)))
 
 /-- **The relative Čech complex of [Stacks, Tag 01XL] computes `Rf_*` of the absolute Čech

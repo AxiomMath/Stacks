@@ -50,7 +50,7 @@ public noncomputable def tildeTensorSheafMap (R : CommRingCat.{u})
           (Spec R).ringCatSheaf.2⟩).obj (tilde M')).obj (tilde N') :=
   (Stacks.SheafOfModules.TensorSheafification.sheafify (Spec R).presheaf (Spec
     R).ringCatSheaf.2).map
-    (PresheafOfModules.Monoidal.tensorHom (R := (Spec R).presheaf)
+    (PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := (Spec R).presheaf)
       (tilde.map f).val (tilde.map g).val)
 
 end AlgebraicGeometry

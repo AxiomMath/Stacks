@@ -526,7 +526,7 @@ theorem modulesSectionsFunctor_map_genericPointComparisonPi_comp_π
       (modulesSectionsFunctor X U).map (genericPointComparison F η) := by
   rw [← Functor.map_comp]
   exact congrArg (modulesSectionsFunctor X U).map
-    (Pi.lift_π (fun η ↦ genericPointComparison F η) η)
+    (Pi.lift_comp_π (fun η ↦ genericPointComparison F η) η)
 
 /-- On sections over `U`, the comparison at `η` applied to the image of `t` in the
 sheafification is the presheaf-level comparison at `η` applied to `t`. -/

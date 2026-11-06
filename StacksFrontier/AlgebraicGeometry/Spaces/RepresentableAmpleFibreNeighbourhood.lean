@@ -47,6 +47,18 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 local notation "𝒯" => BigFppfOver.toScheme B S hS
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_RepresentableAmpleFibreNeighbourhood :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RepresentableAmpleFibreNeighbourhood
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A cartesian square over `yoneda.map κ` with source `h_U` descends along `e : h_Z ≅ X` and
 `f₀ : Z ⟶ T` to a cartesian square of the underlying site objects. -/
 private theorem exists_isPullback_of_isPullback_yoneda {Z T K U : BigFppfOver B S hS}
@@ -65,6 +77,7 @@ private theorem exists_isPullback_of_isPullback_yoneda {Z T K U : BigFppfOver B 
   exact ⟨u, by rw [hu]; simp,
     IsPullback.of_map yoneda (yoneda.map_injective (by simpa using hsite.w)) hsite⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Relative ampleness over an open of the base, from relative ampleness of the restriction of a
 scheme model.**  Let `f' : X' ⟶ h_T` be presented on a scheme `Z` by `e : h_Z ≅ X'` and
 `f₀ : Z ⟶ T`.  If the reading `L₀` of `L'` on `Z` is ample relative to `f₀ ∣_ V`, then the

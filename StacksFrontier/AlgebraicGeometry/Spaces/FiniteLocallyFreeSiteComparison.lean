@@ -368,6 +368,9 @@ theorem isFiniteLocallyFreeOfRank_sheafOfModules
     (h : IsFiniteLocallyFreeOfRank X F r) :
     AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank F r := by
   obtain ⟨I, U, hU, hfree⟩ := (isFiniteLocallyFreeOfRank_iff_exists_cover_isColimit X F r).1 h
+  have _ : ∀ (W : X.C) (J : Type w), HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W).obj) :=
+    fun _ _ => PresheafOfModules.hasColimitsOfShape _ _
   have hsub : X.J.CoversTop (fun i : {W : X.C //
       ∃ ι : ∀ _ : Fin r,
           SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W) ⟶ F.over W,
@@ -390,6 +393,9 @@ theorem isFiniteLocallyFreeOfRank_of_sheafOfModules
     (h : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank F r) :
     IsFiniteLocallyFreeOfRank X F r := by
   obtain ⟨q, hfree, hrank⟩ := h.exists_isFiniteLocallyFreeOfRankData
+  have _ : ∀ (W : X.C) (J : Type w), HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W).obj) :=
+    fun _ _ => PresheafOfModules.hasColimitsOfShape _ _
   refine (isFiniteLocallyFreeOfRank_iff_exists_cover_isColimit X F r).2
     ⟨ULift.{max u v} q.I, fun j => q.X j.down, ?_, fun j => ?_⟩
   · intro Z

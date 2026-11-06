@@ -162,7 +162,7 @@ maximal ideal along an integral extension, and `A` is local. -/
 theorem liesOver_maximalIdeal (m : Ideal ↥(integralClosure A F)) [m.IsMaximal] :
     m.LiesOver (maximalIdeal A) :=
   let : Algebra.IsIntegral A ↥(integralClosure A F) := IsIntegralClosure.isIntegral_algebra A F
-  ⟨(eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
+  ⟨(eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
 
 omit [IsDomain A] [IsNoetherianRing A] [Ring.DimensionLEOne A] in
 /-- A maximal ideal of the normalization of a one-dimensional local domain is nonzero: it

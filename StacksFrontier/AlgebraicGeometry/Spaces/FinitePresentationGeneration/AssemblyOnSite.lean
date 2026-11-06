@@ -36,6 +36,20 @@ variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {R : S
 
 attribute [local instance] AlgebraicGeometry.SheafOfModules.hasSheafify_of_locallyBijective
 
+/-- Supplied explicitly: instance search for colimits of presheaves of modules times out under
+Lean v4.35.0. -/
+local instance : HasColimitsOfSize.{u, u} (PresheafOfModules.{u} R.obj) :=
+  @PresheafOfModules.hasColimitsOfSize _ _ R.obj
+    (inferInstance : HasColimitsOfSize.{u, u} AddCommGrpCat.{u})
+
+local instance : HasColimitsOfSize.{u, u} (SheafOfModules.{u} R) := inferInstance
+
+local instance : HasFiniteCoproducts (SheafOfModules.{u} R) :=
+  @hasFiniteCoproducts_of_hasCoproducts.{u} _ _ fun _ => HasColimitsOfSize.has_colimits_of_shape _
+
+local instance : HasBinaryCoproducts (SheafOfModules.{u} R) :=
+  HasColimitsOfSize.has_colimits_of_shape (self := hasColimitsOfSizeShrink.{0, 0} _) _
+
 /-- A zero sheaf of modules has a finite presentation: it is the cokernel of the identity of the
 free module on the empty type. -/
 def presentationOfIsZero {M : SheafOfModules.{u} R} (hM : IsZero M) : M.Presentation :=

@@ -204,7 +204,7 @@ the content of the `map_id` field, by
 `Stacks.WeakSites.ColimitSiteCohomology.transition_id_eqToHom`. For cocycle data it is only
 idempotent, `AbelianCocycleSystem.idem_idem`. -/
 def idem (i : D.I) : M.obj i ⟶ M.obj i :=
-  Sheaf.Hom.mk (M.map (𝟙 i) ≫
+  ObjectProperty.homMk (M.map (𝟙 i) ≫
     eqToHom (congrArg (fun H : D.C i ⥤ D.C i => H.op ⋙ (M.obj i).obj) (D.id_map i)))
 
 /-- The underlying morphism of `AbelianCocycleSystem.idem`. -/
@@ -360,7 +360,7 @@ def toAbelianSheafSystem
   obj := M.obj
   map {i j} a :=
     ((abelianSheafAdjunction.{v, u, w, t} D a).homEquiv (M.obj j) (M.obj i)).symm
-      (Sheaf.Hom.mk (M.map a))
+      (ObjectProperty.homMk (M.map a))
   map_id i := by
     have hunit := Adjunction.homEquiv_leftAdjointUniq_hom_app
       (abelianSheafAdjunction.{v, u, w, t} D (𝟙 i))
@@ -370,7 +370,7 @@ def toAbelianSheafSystem
         (abelianSheafPushforwardIdIso.{v, u, w, t} D i).hom.app (M.obj i) := by
       simp [Adjunction.ofNatIsoRight]
     have h1 : ((abelianSheafAdjunction.{v, u, w, t} D (𝟙 i)).homEquiv
-          (M.obj i) (M.obj i)).symm (Sheaf.Hom.mk (M.map (𝟙 i))) =
+          (M.obj i) (M.obj i)).symm (ObjectProperty.homMk (M.map (𝟙 i))) =
         (abelianSheafPullbackIdIso.{v, u, w, t} D i).hom.app (M.obj i) := by
       refine ((abelianSheafAdjunction.{v, u, w, t} D (𝟙 i)).homEquiv _ _).injective ?_
       rw [Equiv.apply_symm_apply]
@@ -387,9 +387,9 @@ def toAbelianSheafSystem
       (abelianSheafPushforwardCompIso.{v, u, w, t} D a b)
       ((abelianSheafPullback.{v, u, w, t} D a).map
           (((abelianSheafAdjunction.{v, u, w, t} D b).homEquiv (M.obj k) (M.obj j)).symm
-            (Sheaf.Hom.mk (M.map b))) ≫
+            (ObjectProperty.homMk (M.map b))) ≫
         ((abelianSheafAdjunction.{v, u, w, t} D a).homEquiv (M.obj j) (M.obj i)).symm
-          (Sheaf.Hom.mk (M.map a)))
+          (ObjectProperty.homMk (M.map a)))
     have hpc : (((abelianSheafAdjunction.{v, u, w, t} D b).comp
           (abelianSheafAdjunction.{v, u, w, t} D a)).ofNatIsoRight
             (abelianSheafPushforwardCompIso.{v, u, w, t} D a b)).leftAdjointUniq

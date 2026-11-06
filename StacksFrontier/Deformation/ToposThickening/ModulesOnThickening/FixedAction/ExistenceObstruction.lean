@@ -54,9 +54,9 @@ private lemma idealTensorHom_id (hi : FirstOrderThickening i)
     i.toToposHom).obj X.O)
   have hval : (SheafOfModules.forget R).map (𝟙 F) = 𝟙 F.val :=
     CategoryTheory.Functor.map_id (SheafOfModules.forget R) F
-  have h : PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val)
+  have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
         ((SheafOfModules.forget R).map (𝟙 F)) =
-      𝟙 (PresheafOfModules.Monoidal.tensorObj hi.I.val F.val) := by
+      𝟙 (PresheafOfModulesOfCommRing.Monoidal.tensorObj hi.I.val F.val) := by
     rw [hval]
     apply PresheafOfModules.hom_ext
     intro U
@@ -64,7 +64,7 @@ private lemma idealTensorHom_id (hi : FirstOrderThickening i)
     intro a x
     rfl
   show (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
-    (PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val)
+    (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
       ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
   rw [h]
   exact CategoryTheory.Functor.map_id _ _
@@ -178,8 +178,10 @@ private noncomputable def idealMultiplication (hi : FirstOrderThickening i)
           (H.val.obj U)).comp (hi.incl.val.app U).hom
       multiplyBySection)
   intro U V f a x
-  change (hi.incl.val.app V (hi.I.val.map f a)) • H.val.map f x =
-    H.val.map f ((hi.incl.val.app U a) • x)
+  change (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj V
+      from hi.incl.val.app V (hi.I.val.map f a)) • H.val.map f x =
+    H.val.map f ((show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U
+      from hi.incl.val.app U a) • x)
   have he := PresheafOfModules.naturality_apply hi.incl.val f a
   change hi.incl.val.app V (hi.I.val.map f a) = Y.O.obj.map f (hi.incl.val.app U a) at he
   rw [H.val.map_smul, he]

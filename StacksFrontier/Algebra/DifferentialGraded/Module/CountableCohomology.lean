@@ -279,7 +279,7 @@ theorem HasCountableCohomology.of_coproduct {J : Type u} [Finite J]
         Limits.Pi.π (fun j => F.obj (X j)) j ≫ F.map (Limits.biproduct.ι X j) =
         F.map (Limits.biproduct.π X j ≫ Limits.biproduct.ι X j) := by
       intro j
-      rw [F.map_comp, ← Category.assoc, Limits.Pi.lift_π]
+      rw [F.map_comp, ← Category.assoc, Limits.Pi.lift_comp_π]
     rw [Finset.sum_congr rfl fun j _ => hterm j, ← F.map_sum,
       Limits.IsBilimit.total (Limits.biproduct.isBilimit X), F.map_id]
   exact ((ModuleCat.mono_iff_injective _).1 (mono_of_mono_fac hsplit)).countable

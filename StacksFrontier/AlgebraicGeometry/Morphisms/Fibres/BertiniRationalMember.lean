@@ -63,9 +63,10 @@ theorem linearFormPolynomial_ne_zero {ℓ : D.V →ₗ[D.k] D.k} (hℓ : ℓ ≠
     simp only [not_exists, not_not] at h
     exact hℓ (D.basis.ext fun i => by simpa using h i)
   intro h0
-  have hc := congrArg (MvPolynomial.coeff (Finsupp.single (ULift.up i) 1)) h0
+  have hc := congrArg (fun p : MvPolynomial D.basisIndex D.k => p.coeff (Finsupp.single (ULift.up i) 1)) h0
   rw [linearFormPolynomial, MvPolynomial.coeff_sum] at hc
-  simp only [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X, coeff_zero] at hc
+  simp only [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X, AddMonoidAlgebra.coeff_zero,
+    Finsupp.zero_apply] at hc
   rw [Finset.sum_eq_single i] at hc
   · exact hi (by simpa using hc)
   · intro j _ hj

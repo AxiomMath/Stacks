@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Homology.CommSq
 public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import Mathlib.AlgebraicGeometry.Restrict
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Square

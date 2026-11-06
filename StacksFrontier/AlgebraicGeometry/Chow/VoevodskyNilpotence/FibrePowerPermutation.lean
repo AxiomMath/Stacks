@@ -120,7 +120,7 @@ the `σ(i)`-th one. Every statement below about the action is a consequence of t
 theorem fibrePowerPerm_comp_π (σ : Equiv.Perm (Fin n)) (i : Fin n) :
     fibrePowerPerm Y n σ ≫ Pi.π (fun _ : Fin n => Y) i =
       Pi.π (fun _ : Fin n => Y) (σ i) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The identity permutation acts as the identity. -/
 @[simp]
@@ -150,9 +150,9 @@ homomorphism into the automorphisms of an object of `Over S`; it is stated at th
 for the reason recorded in the module documentation. -/
 @[sga "3 VIIA 6.3" "partial"]
 def fibrePowerPermAut : (Equiv.Perm (Fin n))ᵐᵒᵖ →* Aut (∏ᶜ fun _ : Fin n => Y) where
-  toFun σ := fibrePowerPermIso Y n σ.unop
-  map_one' := Aut.ext (fibrePowerPerm_one Y n)
-  map_mul' σ τ := Aut.ext (fibrePowerPerm_comp Y n τ.unop σ.unop).symm
+  toFun σ := .of (fibrePowerPermIso Y n σ.unop)
+  map_one' := Aut.ext (Iso.ext (fibrePowerPerm_one Y n))
+  map_mul' σ τ := Aut.ext (Iso.ext (fibrePowerPerm_comp Y n τ.unop σ.unop).symm)
 
 /-- **The permutation action on the fibre power is faithful** as soon as `Y` has two distinct
 sections over `S`: if `σ i ≠ τ i`, the point whose `σ(i)`-th coordinate is `s` and whose other
@@ -165,9 +165,9 @@ theorem fibrePowerPerm_left_injective {s t : Over.mk (𝟙 S) ⟶ Y} (hst : s �
   let p : Over.mk (𝟙 S) ⟶ (∏ᶜ fun _ : Fin n => Y) :=
     Pi.lift fun j ↦ if j = σ i then s else t
   have hs : p ≫ fibrePowerPerm Y n σ ≫ Pi.π (fun _ : Fin n => Y) i = s := by
-    rw [fibrePowerPerm_comp_π, Pi.lift_π, ite_eq_left rfl]
+    rw [fibrePowerPerm_comp_π, Pi.lift_comp_π, ite_eq_left rfl]
   have ht : p ≫ fibrePowerPerm Y n τ ≫ Pi.π (fun _ : Fin n => Y) i = t := by
-    rw [fibrePowerPerm_comp_π, Pi.lift_π, ite_eq_right (Ne.symm hi)]
+    rw [fibrePowerPerm_comp_π, Pi.lift_comp_π, ite_eq_right (Ne.symm hi)]
   exact hst (hs.symm.trans (h' ▸ ht))
 
 end Stacks.Scheme

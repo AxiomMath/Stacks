@@ -39,7 +39,8 @@ variable {ℓ : ℕ} {X : Scheme.{u}}
 /-- The action of `ZMod ℓ` on an abelian sheaf killed by `ℓ`. -/
 def zmodEndRingHom {C : Type*} [Category C] [Preadditive C] {A : C} (h : ℓ • 𝟙 A = 0) :
     ZMod ℓ →+* End A :=
-  ZMod.castHom (ringChar.dvd (by rwa [← nsmul_one])) (End A)
+  haveI : CharP (End A) (ringChar (End A)) := ringChar.charP _
+  ZMod.castHom (ringChar.dvd (by rw [← nsmul_one]; exact End.ext h)) (End A)
 
 /-- **The sheaf of `F_ℓ`-vector spaces on an abelian sheaf killed by `ℓ`.** -/
 def zmodLift (G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (h : ℓ • 𝟙 G = 0) :
@@ -55,7 +56,7 @@ def forgetZModZmodLiftIso (G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
 endomorphism rings, the action being by natural numbers. -/
 theorem zmod_ringHom_comp_comm [NeZero ℓ] {C : Type*} [Category C] [Preadditive C] {A B : C}
     (φ : ZMod ℓ →+* End A) (ψ : ZMod ℓ →+* End B) (e : A ⟶ B) (a : ZMod ℓ) :
-    φ a ≫ e = e ≫ ψ a := by
+    (φ a).asHom ≫ e = e ≫ (ψ a).asHom := by
   rw [← ZMod.natCast_zmod_val a, map_natCast, map_natCast, ← nsmul_one, ← nsmul_one]
   show (a.val • 𝟙 A) ≫ e = e ≫ (a.val • 𝟙 B)
   rw [Preadditive.nsmul_comp, Preadditive.comp_nsmul, Category.id_comp, Category.comp_id]
@@ -90,8 +91,9 @@ theorem isFiniteTypeLocallyConstant_zmodLift [NeZero ℓ]
   let : Module (ZMod ℓ) Q := QuotientAddGroup.zmodModule (fun x ↦ ⟨x, by simp⟩)
   have : Finite Q := Finite.of_surjective _ (QuotientAddGroup.mk'_surjective _)
   refine ⟨ModuleCat.of.{u + 1} (ZMod ℓ) Q, Module.Finite.of_finite, ⟨?_⟩⟩
-  have := (constantSheafAdj J' AddCommGrpCat.{u + 1}
-    (Over.mkIdTerminal (X := V i))).leftAdjoint_preservesColimits
+  have : PreservesColimitsOfSize.{0, 0} (constantSheaf J' AddCommGrpCat.{u + 1}) :=
+    (constantSheafAdj J' AddCommGrpCat.{u + 1}
+      (Over.mkIdTerminal (X := V i))).leftAdjoint_preservesColimits
   have hzero : (constantSheaf J' AddCommGrpCat.{u + 1}).map (ℓ • 𝟙 E) = 0 := by
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     exact nsmul_id_eq_zero_of_iso e.symm

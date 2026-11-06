@@ -60,7 +60,6 @@ private theorem flat_tensorProduct_of_algEquiv
   refine Module.Flat.of_linearEquiv (e0.toAddEquiv.toLinearEquiv (fun c x => ?_) :
     B ⊗[S] M ≃ₗ[A] B' ⊗[S] M)
   induction x with
-  | zero => simp
   | tmul t m =>
     rw [TensorProduct.smul_tmul' c t m]
     change e0 ((c • t) ⊗ₜ[S] m) = c • e0 (t ⊗ₜ[S] m)
@@ -186,7 +185,6 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
         (σ' i).rTensorSemilinear M x := by
     intro i j h x
     induction x with
-    | zero => simp
     | tmul t m =>
       simp only [AlgHom.rTensorSemilinear_tmul]
       rw [hcB'.comp]
@@ -270,14 +268,12 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
     refine ⟨?_, ?_⟩
     · intro i x
       induction x with
-      | zero => simp
       | tmul t m =>
         simp only [AlgHom.rTensorSemilinear_tmul]
         rw [hcB'.map_id]
       | add x y hx hy => simp only [map_add, hx, hy]
     · intro i j k hij hjk x
       induction x with
-      | zero => simp
       | tmul t m =>
         simp only [AlgHom.rTensorSemilinear_tmul]
         rw [hcB'.map_comp]
@@ -580,10 +576,7 @@ private theorem tensorProduct_commAlgCat_colimit_exists_rep
     (A : Λ ⥤ CommAlgCat.{u} R) (z : S ⊗[R] (colimit A : CommAlgCat.{u} R)) :
     ∃ i : Λ, ∃ y : S ⊗[R] A.obj i,
       (Algebra.TensorProduct.map (AlgHom.id R S) (colimit.ι A i).hom) y = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    obtain ⟨i⟩ := ‹Nonempty Λ›
-    exact ⟨i, 0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s c =>
     obtain ⟨i, t, ht⟩ := commAlgCat_colimit_exists_rep R Λ A c
     exact ⟨i, s ⊗ₜ[R] t, by simp [ht]⟩

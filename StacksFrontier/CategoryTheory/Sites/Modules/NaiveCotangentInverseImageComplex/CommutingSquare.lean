@@ -74,9 +74,9 @@ lemma inverseImageIdealChain_hypothesis
     (p : idealSheaf.{max u' v' w', v', u'} K (presentationRingHom.{max u' v' w', v', u'} K φ) ⟶
       (SheafOfModules.restrictScalars (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
         ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M))
-    (DD : (((SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' (((SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
-        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val).Derivation' b.hom)
+        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val) b.hom)
     (hp0 : (Sheaf.moduleSheafFunctor
             (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map p =
       (Sheaf.moduleSheafFunctor (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map
@@ -114,9 +114,9 @@ lemma inverseImageIdealChain_app
     (p : idealSheaf.{max u' v' w', v', u'} K (presentationRingHom.{max u' v' w', v', u'} K φ) ⟶
       (SheafOfModules.restrictScalars (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
         ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M))
-    (DD : (((SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' (((SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
-        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val).Derivation' b.hom)
+        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val) b.hom)
     (hp : (Sheaf.moduleSheafFunctor
             (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map p ≫
           (Sheaf.moduleSheafFunctor (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map
@@ -148,9 +148,9 @@ lemma inverseImageIdealChain_app_of_sections
     (p : idealSheaf.{max u' v' w', v', u'} K (presentationRingHom.{max u' v' w', v', u'} K φ) ⟶
       (SheafOfModules.restrictScalars (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
         ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M))
-    (DD : (((SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' (((SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
-        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val).Derivation' b.hom)
+        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val) b.hom)
     (hps : ∀ (V : Dᵒᵖ) (t : ((idealSheaf.{max u' v' w', v', u'} K
         (presentationRingHom.{max u' v' w', v', u'} K φ)).val.obj V)),
       p.val.app V t =
@@ -192,9 +192,9 @@ transposed derivation. -/
 lemma conormalInverseImageIdealSheafEquiv_app_of_sections
     (x : (inverseImageCommModules.{w, w', v, u, v', u'} f B).obj
       (conormalModule.{max u' v' w', v', u'} K φ) ⟶ M)
-    (DD : (((SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' (((SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
-        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val).Derivation' b.hom)
+        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val) b.hom)
     (hps : ∀ (V : Dᵒᵖ) (t : ((idealSheaf.{max u' v' w', v', u'} K
         (presentationRingHom.{max u' v' w', v', u'} K φ)).val.obj V)),
       (conormalDirectImageIdealEquiv f φ M
@@ -490,10 +490,10 @@ This is the spelling in which the value produced by
 lemma inverseImageDerivationEquiv_symm_postcomp_d
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B)))
-    (DD : (((_root_.SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K (canonicalPresentation K A B a))).obj
         ((directImageCommModules.{max u v w, max u' v' w', v, u, v', u'} f B).obj
-          M)).val).Derivation'
+          M)).val)
         (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom)
     {U : Cᵒᵖ}
     (z : (f.inverseImageRing.obj

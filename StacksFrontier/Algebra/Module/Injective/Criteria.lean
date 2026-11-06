@@ -8,6 +8,7 @@ public import Mathlib.CategoryTheory.Abelian.Injective.Basic
 public import Mathlib.CategoryTheory.Abelian.Injective.Dimension
 public import Mathlib.CategoryTheory.Limits.ExactFunctor
 public import Mathlib.CategoryTheory.Linear.Yoneda
+public import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 public import StacksCore.Tactic.StacksAttribute
 
 /-!

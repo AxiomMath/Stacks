@@ -293,7 +293,7 @@ theorem sum_eulerCharacteristic_eq_zero_of_dimension_lt (D : AlgebraicSpaces B (
     exact h
   have hcoeff : P.coeff (Finsupp.equivFunOnFinite.symm fun _ => 1) = 0 := by
     rcases hPdeg with rfl | hPdeg
-    · exact MvPolynomial.coeff_zero _
+    · rfl
     refine MvPolynomial.coeff_eq_zero_of_totalDegree_lt ?_
     have hsupp : (Finsupp.equivFunOnFinite.symm fun _ : Fin d => (1 : ℕ)).support =
         Finset.univ := by

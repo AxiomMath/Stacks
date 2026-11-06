@@ -127,6 +127,18 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Q Q' : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FormalGlueingSpacesAffineCaseGeometry :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for limits of cospans of presheaves on the big fppf site. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesAffineCaseGeometry
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Over an affine étale chart `W` of `Q`, the base-changed chart `E = W ×_Q Q'` is the fibre
 product `T ×_X W`.**  The four schemes are affine and the square of their rings of global
 functions is a pushout, the tensor map being bijective by hypothesis; so the square of schemes
@@ -179,6 +191,7 @@ theorem isPullback_baseChangeChart_of_bijective_tensor (q : Q ⟶ X) (g : Q' ⟶
   have hwE : E.1.hom ≫ g.hom = yoneda.map sE ≫ W.1.hom := hrep.w W.1.hom
   have hw : sE ≫ gW = aE ≫ τ := by
     apply yoneda.map_injective
+    have : Mono Z₀.1.hom := IsIso.mono_of_iso _
     rw [← cancel_mono Z₀.1.hom]
     have h1 : yoneda.map (sE ≫ gW) ≫ Z₀.1.hom = E.1.hom ≫ g.hom ≫ q.hom := by
       rw [Functor.map_comp, Category.assoc, hgW, ← Category.assoc, ← hwE]

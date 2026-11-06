@@ -184,19 +184,20 @@ private def constantSheafFiberIso (p : J.Point.{z})
 an object of the category of elements of `F` equipped with a morphism to `x`. -/
 private def overFunctorElementsEquivalence (F : C ⥤ Type z) {Y : C} (x : F.obj Y) :
     (FunctorToTypes.fromOverFunctor F x).Elements ≌ Over (F.elementsMk Y x) where
-  functor.obj u := Over.mk (CategoryOfElements.homMk (F.elementsMk u.fst.left u.snd.1)
-    _ u.fst.hom ((FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).mp u.snd.2))
+  functor.obj u := Over.mk (Functor.Elements.homMk (x := F.elementsMk u.obj.left u.val.1)
+    (y := F.elementsMk Y x) u.obj.hom
+    ((FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).mp u.val.2))
   functor.map f := Over.homMk
-    (CategoryOfElements.homMk _ _ f.val.left (Subtype.ext_iff.1 f.prop))
-    (Subtype.ext (Over.w f.val))
-  inverse.obj u := Functor.elementsMk _ (Over.mk u.hom.1)
-    ⟨u.left.snd, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).mpr u.hom.2⟩
-  inverse.map f := CategoryOfElements.homMk _ _
-    (Over.homMk f.left.val (Subtype.ext_iff.1 (Over.w f)))
-    (Subtype.ext f.left.prop)
+    (Functor.Elements.homMk f.hom.left (Subtype.ext_iff.1 f.map_val))
+    (Functor.Elements.hom_ext (Over.w f.hom))
+  inverse.obj u := Functor.elementsMk _ (Over.mk u.hom.hom)
+    ⟨u.left.val, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).mpr u.hom.map_val⟩
+  inverse.map f := Functor.Elements.homMk
+    (Over.homMk f.left.hom (congrArg Functor.Elements.Hom.hom (Over.w f)))
+    (Subtype.ext f.left.map_val)
   unitIso := Iso.refl _
   counitIso := Iso.refl _
-  functor_unitIso_comp u := Over.OverMorphism.ext (Subtype.ext (Category.comp_id _))
+  functor_unitIso_comp u := Over.OverMorphism.ext (Functor.Elements.hom_ext (Category.comp_id _))
 
 /-- The fibre, at the point of a slice site induced by a lift `x` of a point `p` to `U`, of the
 inverse image of a sheaf to that slice site is the fibre of the sheaf at `p`. The pointed
@@ -242,7 +243,7 @@ public lemma exists_constantValue_iso_sheafFiber [LocallySmall.{z} C]
     (hF : Stacks.ConstantSheaf.IsLocallyConstantWith R J Q F) :
     ∃ E : ModuleCat.{w} R, Q E ∧
       Nonempty (E ≅ (p.sheafFiber (A := ModuleCat.{w} R)).obj F) := by
-  obtain ⟨U, x⟩ := Classical.choice (IsCofiltered.nonempty (C := p.fiber.Elements))
+  obtain @⟨U, x⟩ := Classical.choice (IsCofiltered.nonempty (C := p.fiber.Elements))
   obtain ⟨I, V, f, hf, hV⟩ := hF U
   obtain ⟨W, g, hg, y, hy⟩ := p.jointly_surjective _ hf x
   obtain ⟨_, k, _, ⟨i⟩, rfl⟩ := hg
@@ -413,7 +414,7 @@ instance etaleModuleStalkFunctor_preservesZeroMorphisms (s : GeometricPoint X.ob
     intro j
     rw [ι_colimMap]
     simp only [ObjectProperty.ι_obj, Functor.comp_obj, Functor.op_obj,
-      CategoryOfElements.π_obj, ObjectProperty.ι_map, ObjectProperty.zero_hom,
+      Functor.Elements.π_obj, ObjectProperty.ι_map, ObjectProperty.zero_hom,
       Functor.whiskerLeft_app, zero_app, zero_comp]
     exact comp_zero.symm
 
@@ -455,10 +456,10 @@ private def geometricFiberTopology.{uF, vF, zF} {C : Type uF} [Category.{vF} C]
     let a : F.elementsMk V x ⟶ F.elementsMk U (F.map f x) := ⟨f, rfl⟩
     let b : F.elementsMk W y ⟶ F.elementsMk U (F.map f x) := ⟨g, hy⟩
     obtain ⟨Q, p, q, hpq⟩ := IsCofiltered.cospan a b
-    refine ⟨Q.1, p.1, ?_, Q.2, p.2⟩
-    change R (p.1 ≫ f)
-    rw [show p.1 ≫ f = q.1 ≫ g from congrArg Subtype.val hpq]
-    exact R.downward_closed hg q.1
+    refine ⟨Q.obj, p.hom, ?_, Q.val, p.map_val⟩
+    change R (p.hom ≫ f)
+    rw [show p.hom ≫ f = q.hom ≫ g from congrArg Functor.Elements.Hom.hom hpq]
+    exact R.downward_closed hg q.hom
   transitive' {U} {R} hR T h x := by
     obtain ⟨V, f, hf, y, hy⟩ := hR x
     obtain ⟨W, g, hg, z, hz⟩ := h hf y
@@ -793,7 +794,7 @@ private lemma toSheafify_comp_toPresheafFiber (p : J.Point.{z})
   dsimp only [constantSheafFiberIso, Iso.trans_inv, Iso.symm_inv]
   congr 1
   exact ((isColimitConstCocone p.fiber.Elementsᵒᵖ T).comp_coconePointUniqueUpToIso_hom
-    (p.isColimitPresheafFiberCocone ((Functor.const _).obj T)) (op ⟨U, x⟩)).symm.trans
+    (p.isColimitPresheafFiberCocone ((Functor.const _).obj T)) (op (p.fiber.elementsMk U x))).symm.trans
     (Category.id_comp _)
 
 /-- The projection from the category of elements of the fibre functor of a point satisfies the
@@ -803,10 +804,9 @@ private lemma exists_comp_eq_of_mem_point_elements (p : J.Point.{z}) ⦃U : C⦄
     ∃ (Y : C) (g : Y ⟶ U) (_ : R g) (W : p.fiber.Elements) (q : W ⟶ V)
       (b : (CategoryOfElements.π p.fiber).obj W ⟶ Y),
       b ≫ g = (CategoryOfElements.π p.fiber).map q ≫ f := by
-  obtain ⟨Y, g, hg, y, hy⟩ := p.jointly_surjective _ (J.pullback_stable f hR) V.2
-  refine ⟨Y, g ≫ f, hg, ⟨Y, y⟩, ⟨g, hy⟩, 𝟙 _, ?_⟩
-  simp only [Category.id_comp]
-  rfl
+  obtain ⟨Y, g, hg, y, hy⟩ := p.jointly_surjective _ (J.pullback_stable f hR) V.val
+  refine ⟨Y, g ≫ f, hg, p.fiber.elementsMk Y y, ⟨g, hy⟩, 𝟙 _, ?_⟩
+  exact Category.id_comp _
 
 /-- Flatness of the stalk of a sheaf of modules at a point of the site transfers to the fibre of
 a presheaf of `R`-modules mapping to it, provided the map is inverted by the fibre functor and
@@ -843,7 +843,7 @@ private lemma flat_presheafFiber_of_isFlatModuleStalk [LocallySmall.{z} C]
     have h₀ : φ₀.hom (A.map (Φ.toPresheafFiber U x P) m) =
         Φ.toPresheafFiber U x (P ⋙ A) m :=
       ConcreteCategory.congr_hom
-        (ι_preservesColimitIso_hom A ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨U, x⟩)) m
+        (ι_preservesColimitIso_hom A ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Φ.fiber.elementsMk U x))) m
     have h₁ := Φ.toPresheafFiber_naturality_apply τ U x m
     show (Φ.presheafFiber.map τ) (φ₀.hom (A.map (Φ.toPresheafFiber U x P) m)) = _
     rw [h₀, h₁]
@@ -864,9 +864,10 @@ private lemma flat_presheafFiber_of_isFlatModuleStalk [LocallySmall.{z} C]
     infer_instance
   obtain ⟨j, m, rfl⟩ :=
     Concrete.colimit_exists_rep ((CategoryOfElements.π Φ.fiber).op ⋙ P) n
-  obtain ⟨⟨U, x⟩⟩ := j
+  obtain ⟨@⟨U, x⟩⟩ := j
+  change ↑(P.obj (op U)) at m
   show φ.hom (r • Φ.toPresheafFiber U x P m) = e r • φ.hom (Φ.toPresheafFiber U x P m)
-  rw [← (Φ.toPresheafFiber U x P).hom.map_smul, key, key, hτ, ← ha U x r]
+  rw [← map_smul (ConcreteCategory.hom (Φ.toPresheafFiber U x P)) r m, key, key, hτ, ← ha U x r]
   exact Stacks.moduleStalkGerm_smul Φ O M U x (a (op U) r) (τ.app (op U) m)
 
 end

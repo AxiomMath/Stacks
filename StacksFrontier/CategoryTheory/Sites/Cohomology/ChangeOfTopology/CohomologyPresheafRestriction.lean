@@ -136,6 +136,8 @@ precomposes with `freeYonedaSheafUnit`. -/
 def cohomologyPresheafRestrictionIso (M : Sheaf K Ab.{v}) (n : ℕ) :
     G.op ⋙ M.cohomologyPresheaf.{w} n ≅
       ((G.sheafPushforwardContinuous Ab.{v} J K).obj M).cohomologyPresheaf.{w} n :=
+  have : HasLimitsOfShape (Discrete WalkingPair) (Dᵒᵖ ⥤ Ab.{v}) := inferInstance
+  have : HasBinaryProducts (Sheaf K Ab.{v}) := inferInstance
   have : (G.sheafPushforwardContinuous Ab.{v} J K).Additive :=
     Functor.additive_of_preserves_binary_products _
   NatIso.ofComponents

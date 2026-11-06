@@ -119,16 +119,16 @@ theorem nonempty_bottomModel_of_homotopyEquiv_homModule
       (DerivedCategory.Q).obj A) (a b : ℤ) (d : ℤ → ℕ)
     (P : CochainComplex (ModuleCat.{u + 1} ((structureSheaf B S hS
       (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-        (isAlgebraicSpace_yoneda B S hS _)).val.obj
+        (isAlgebraicSpace_yoneda B S hS _)).obj.obj
           (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V'))))) ℤ)
     [P.IsStrictlyGE a] [P.IsStrictlyLE b]
     (hPX : ∀ i, Nonempty (P.X i ≅ ModuleCat.of ((structureSheaf B S hS
       (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-        (isAlgebraicSpace_yoneda B S hS _)).val.obj
+        (isAlgebraicSpace_yoneda B S hS _)).obj.obj
           (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V'))))
       (ULift.{u + 1} (Fin (d i) → (structureSheaf B S hS
         (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-          (isAlgebraicSpace_yoneda B S hS _)).val.obj
+          (isAlgebraicSpace_yoneda B S hS _)).obj.obj
             (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V')))))))
     (e : HomotopyEquiv
       (((ModuleCat.extendScalars.{u, u, u + 1} (baseChangeRingHom.{u}
@@ -160,7 +160,7 @@ theorem nonempty_bottomModel_of_homotopyEquiv_homModule
             (ComplexShape.up ℤ)).obj A)) P) :
     ∃ (m n : ℕ) (M : Matrix (Fin m) (Fin n) ((structureSheaf B S hS
         (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-          (isAlgebraicSpace_yoneda B S hS _)).val.obj
+          (isAlgebraicSpace_yoneda B S hS _)).obj.obj
             (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V'))))),
       Nonempty (BottomModel
         (Y := ⟨yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'),
@@ -220,6 +220,7 @@ theorem nonempty_bottomModel_of_homotopyEquiv_homModule
     (fun i => Iso.refl _) hFrGE hFrLE eK
   exact ⟨_, _, M, by convert hM using 3⟩
 
+set_option maxHeartbeats 800000 in
 /-- **No fibre cohomology below `a` at a geometric point.** Let `A` be a strictly perfect model of
 `E` on the chart of a small étale neighbourhood `N` of a geometric point. If `H^j(Lf^*E) = 0` for
 all `f` and all `j < a`, then the complex of global sections of `A`, base changed to the field of
@@ -317,7 +318,7 @@ theorem exists_bottomModel_of_isUnit
     (hg : IsUnit (((BigFppfOver.toScheme B S hS).map N.point).appTop g)) (d : ℤ → ℕ) (b : ℤ)
     (hcont : ∀ {R'' : Type u} [CommRing R'']
       (θ : (structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj N.chart))
-        (isAlgebraicSpace_yoneda B S hS _)).val.obj
+        (isAlgebraicSpace_yoneda B S hS _)).obj.obj
           (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj N.chart))) →+* R''),
       IsUnit (θ g) → ∃ P'' : CochainComplex (ModuleCat.{u + 1} R'') ℤ,
         P''.IsStrictlyGE a ∧ P''.IsStrictlyLE b ∧
@@ -402,7 +403,7 @@ theorem exists_bottomModel_of_smallEtaleNeighborhood
     (fun _ => (homModule _ ρV).map_isZero) hAa hAb
   let ψ := repTheta (T := K) (U := TV) N.point
   have hz := isZero_homology_baseChange_homModule B S hS E a hvan x N A hAret b₀ hAb eA
-  let : Field (OK.val.obj (op (idChart B S hS K))) :=
+  let : Field (OK.obj.obj (op (idChart B S hS K))) :=
     (isField_structureSheaf_idChart B S hS x.val).toField
   obtain ⟨g, hg, d, b, hcont⟩ :=
     StacksDraft.Perfect.exists_homotopyEquiv_free_of_isZero_homology_lt.{u, u + 1} ψ L a₀ b₀

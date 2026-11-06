@@ -86,6 +86,23 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w})
   (h𝒪 : Presheaf.IsSheaf J (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪))
 
+set_option backward.isDefEq.respectTransparency false in
+/-- Coproducts of presheaves of modules over the underlying ring sheaf, named directly so that
+instance search does not have to find them through the sheaf-of-rings coercion. -/
+instance (R : Sheaf J CommRingCat.{w}) :
+    HasColimitsOfSize.{w, w} (PresheafOfModules.{w} (Tensor.ringSheaf R).obj) :=
+  ⟨fun K _ => PresheafOfModules.hasColimitsOfShape _ K⟩
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Coproducts of sheaves of modules over the underlying ring sheaf, named directly for the same
+reason. -/
+instance (R : Sheaf J CommRingCat.{w}) (K : Type w) :
+    HasColimitsOfShape (Discrete K) (SheafOfModules.{w} (Tensor.ringSheaf R)) := by
+  have : HasColimitsOfShape (Discrete K) (PresheafOfModules.{w} (Tensor.ringSheaf R).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  exact SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    _ _
+
 noncomputable def freeTensorIso (R : Sheaf J CommRingCat.{w}) (I K : Type w) :
     ((Tensor.sheafTensor.{u, v, w, w, w} R).obj
       (SheafOfModules.free (R := Tensor.ringSheaf R) I)).obj

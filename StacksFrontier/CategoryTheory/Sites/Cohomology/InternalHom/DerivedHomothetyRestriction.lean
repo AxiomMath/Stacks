@@ -40,7 +40,6 @@ attribute [local implicit_reducible]
   Stacks.SheafOfModules.Tensor.ringSheaf
   CategoryTheory.sheafCompose
   CategoryTheory.Functor.sheafPushforwardContinuous
-  CochainComplex.HomComplex
   ModuleCat.restrictScalars
   ModuleCat.RestrictScalars.obj'
   PresheafOfModules.pushforward

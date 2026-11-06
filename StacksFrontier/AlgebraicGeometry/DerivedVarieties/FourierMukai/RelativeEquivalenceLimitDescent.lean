@@ -630,9 +630,9 @@ def towerDiagramIso :
 
 /-- The cone of the tower, transported along `AlgebraicGeometry.towerDiagramIso`, is the cone of
 the base-changed system with apex `S ×_{S₀} (X₀ ×_{S₀} Y₀)`. -/
-def towerConeIso : (Cones.postcompose (towerDiagramIso D x y).hom).obj (towerCone D x y) ≅
+def towerConeIso : (Cone.postcompose (towerDiagramIso D x y).hom).obj (towerCone D x y) ≅
     directedBaseChangeCone D.system D.base (productToBase x y) D.limitCone :=
-  Cones.ext (towerProductIso x y (D.projection D.base)) (by
+  Cone.ext (towerProductIso x y (D.projection D.base)) (by
     intro k
     rw [directedBaseChangeCone_π_eq]
     exact baseChangeProduct_towerProductHom x y _)

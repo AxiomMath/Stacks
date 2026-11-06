@@ -555,7 +555,7 @@ def cechPullbackNat (ρ : L ⟶ K) :
 components are restriction along the structure morphisms of `ρ`, in the vocabulary of
 `SectionsOver.evalOpProductIso` and `Pi.π` that the hypothesis of that lemma is stated in.
 
-The morphism-level identity is `Limits.Pi.lift_π`; it has to be used at the level of morphisms
+The morphism-level identity is `Limits.Pi.lift_comp_π`; it has to be used at the level of morphisms
 and transported by `ConcreteCategory.congr_hom`, because the two spellings of the index family
 give two `Limits.HasProduct` instance terms that an element-level `exact` will not identify. -/
 theorem cechPullbackNat_pi (ρ : L ⟶ K)
@@ -583,7 +583,7 @@ theorem cechPullbackNat_pi (ρ : L ⟶ K)
       (Pi.π (fun m ↦ F.obj.obj (op ((K.obj (op ⦋n⦌)).obj m).left))
           ((ρ.app (op ⦋n⦌)).f i) ≫
         F.obj.map ((Over.forget X).map ((ρ.app (op ⦋n⦌)).φ i)).op) z
-  exact ConcreteCategory.congr_hom (Pi.lift_π _ i) z
+  exact ConcreteCategory.congr_hom (Pi.lift_comp_π _ i) z
 
 /-- The Čech pullback on the `ℤ`-indexed complexes of sections. -/
 def cechPullbackInt (ρ : L ⟶ K) :

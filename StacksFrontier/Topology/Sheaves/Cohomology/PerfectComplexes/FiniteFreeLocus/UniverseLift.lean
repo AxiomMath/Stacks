@@ -325,11 +325,11 @@ Grothendieck topology at that point. -/
 private def openNhdsEquivPointElements {X : TopCat.{v}} (x : X) :
     OpenNhds x ≌ (Opens.pointGrothendieckTopology x).fiber.Elements where
   functor := {
-    obj := fun U => ⟨U.1, ⟨⟨U.2⟩⟩⟩
-    map := fun f => ⟨homOfLE (leOfHom f), rfl⟩ }
+    obj := fun U => .mk (obj := U.1) ⟨⟨U.2⟩⟩
+    map := fun f => Functor.Elements.homMk (homOfLE (leOfHom f)) rfl }
   inverse := {
-    obj := fun U => ⟨U.1, U.2.down.down⟩
-    map := fun f => homOfLE (leOfHom f.1) }
+    obj := fun U => ⟨U.obj, U.val.down.down⟩
+    map := fun f => homOfLE (leOfHom f.hom) }
   unitIso := NatIso.ofComponents (fun _ => Iso.refl _) (by intros; rfl)
   counitIso := NatIso.ofComponents (fun _ => Iso.refl _) (by intros; rfl)
 

@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.Opposite
 public import Mathlib.AlgebraicTopology.DoldKan.Equivalence
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import StacksFrontier.AlgebraicTopology.MooreComplex
 import StacksCore.Tactic.EgaSgaAttribute
 

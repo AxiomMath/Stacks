@@ -288,7 +288,7 @@ def SquareZeroExtension.pushforward (g : Z ⟶ V) (k : V ⟶ S) (E : SquareZeroE
       congrArg _ (c_app_structureComparisonInv_app_apply g U _)
     refine Eq.trans ?_ (E.smul_lift (op ((Opens.map g.base).obj U.unop)) a x)
     exact congrArg (fun m => E.ι (op ((Opens.map g.base).obj U.unop)) m)
-      (congrArg (fun φ => (AddCommGrpCat.Hom.hom φ) x) hr)
+      (congrArg (fun φ => (AddCommGrpCat.Hom.hom φ.asHom) x) hr)
   square_zero U x y := E.square_zero (op ((Opens.map g.base).obj U.unop)) x y
 
 /-! ### Reading the pushforward off its construction -/

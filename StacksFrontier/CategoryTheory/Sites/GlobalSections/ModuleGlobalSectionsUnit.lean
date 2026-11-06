@@ -58,7 +58,7 @@ def moduleULiftHomAddEquiv (N : ModuleCat.{max u w} R) :
     change x • f.hom (ULift.up 1) = f.hom (ULift.up x)
     rw [← map_smul]
     congr 1
-    exact ULift.ext _ _ (mul_one x)
+    exact ULift.ext (mul_one x)
   right_inv n := by
     change (1 : R) • n = n
     exact one_smul R n

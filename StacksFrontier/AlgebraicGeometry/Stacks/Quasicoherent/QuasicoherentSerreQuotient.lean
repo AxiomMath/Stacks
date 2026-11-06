@@ -88,6 +88,7 @@ abbrev parasiticLqcohFbc :
     ObjectProperty (lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳).FullSubcategory :=
   fun F => IsParasitic B S hS 𝒳 .fppf F.obj.val
 
+set_option synthInstance.maxHeartbeats 80000 in
 /-- `LQCoh^fbc(𝒪_𝒳)` is closed under finite products in `Mod(𝒪_𝒳)`: a binary product is a
 biproduct, hence a binary coproduct, and `LQCoh^fbc(𝒪_𝒳)` is closed under colimits
 (**Stacks 0771** part (5),

@@ -261,7 +261,7 @@ theorem integerSkyscraperDivisorOfPoint_eq_of_forall {X : Scheme.{u}}
     integerSkyscraperDivisorOfPoint.{u, v} U x a = t := by
   have key : residueFibreOrdOfPoint.{u, v} U x a =
       (integerSkyscraperSectionsIsoLocallyConstantMaps.{u, v} X x U).hom.hom t :=
-    LocallyConstant.ext fun p => ULift.ext _ _ (h p)
+    LocallyConstant.ext fun p => ULift.ext (h p)
   rw [integerSkyscraperDivisorOfPoint, AddMonoidHom.comp_apply, key]
   simp
 
@@ -278,7 +278,7 @@ theorem integerSkyscraperDivisorOfPoint_eq_zero_of_forall {X : Scheme.{u}}
     integerSkyscraperDivisorOfPoint.{u, v} U x a = 0 := by
   rw [integerSkyscraperDivisorOfPoint, AddMonoidHom.comp_apply,
     show residueFibreOrdOfPoint.{u, v} U x a = 0 from
-      LocallyConstant.ext fun p => ULift.ext _ _ (h p), map_zero]
+      LocallyConstant.ext fun p => ULift.ext (h p), map_zero]
 
 /-! ### One member of the covering family -/
 

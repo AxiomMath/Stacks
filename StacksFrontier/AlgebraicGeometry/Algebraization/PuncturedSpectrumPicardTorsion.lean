@@ -408,7 +408,7 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder (A : Ty
     have hq := hP ((1 : ℕ) : ℤ)
     rw [hP0, Polynomial.eval_zero] at hq
     exact_mod_cast hq
-  simpa using hone
+  rwa [Nat.cast_one, one_zsmul] at hone
 
 /-! ### Tag 0F2A -/
 

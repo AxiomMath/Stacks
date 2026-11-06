@@ -37,6 +37,19 @@ namespace AlgebraicGeometry.Space
 variable (B B' : BigFppfSite.{u}) (h : IsContained (τ := .fppf) B B') (S : Scheme.{u})
   (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on a big fppf site, given directly: instance search for them times
+out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ChangeOfBigSiteFiniteType
+    (C : BigFppfSite.{u}) (T : Scheme.{u}) (hT : C.Contains T) :
+    HasPullbacks ((BigFppfOver C T hT)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ChangeOfBigSiteFiniteType
+    {C : BigFppfSite.{u}} {T : Scheme.{u}} {hT : C.Contains T}
+    {X Y Z : (BigFppfOver C T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ChangeOfBigSiteFiniteType C T hT).has_limit _
+
 /-- **An algebraic space of finite type over the transport of a quasi-compact algebraic space
 descends to the smaller site.** -/
 theorem mem_essentialImage_changeBigSite_of_isFiniteType {X : AlgebraicSpaces B S hS}
@@ -54,6 +67,7 @@ theorem mem_essentialImage_changeBigSite_of_isFiniteType {X : AlgebraicSpaces B 
   have hqE' : IsEtaleChart B S hS X.obj (CostructuredArrow.mk q) :=
     (isEtale_iff_presheaf_of_yoneda B S hS q).mp hqE
   let q' := (changeBigSiteChart B B' h S hS X (CostructuredArrow.mk q)).hom
+  letI : HasLimit (cospan q' p) := hasPullback_presheaf_ChangeOfBigSiteFiniteType q' p
   have hq'S := presheaf_surjective_changeBigSiteChart B B' h S hS X hqS hqE'
   have hq'E : MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) T') q' :=

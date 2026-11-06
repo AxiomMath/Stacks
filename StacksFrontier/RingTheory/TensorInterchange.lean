@@ -139,7 +139,7 @@ def tensorRightAssoc : tensorRightTensorRight R S P T ≅ tensorRightTensorProdu
             ((AlgebraTensorModule.assoc R S S (N : Type u) P (T : Type u)).restrictScalars
               R).toLinearMap := by
       refine TensorProduct.ext' fun y t => ?_
-      refine TensorProduct.induction_on y (by simp) (fun n p => rfl) fun a b ha hb => ?_
+      refine TensorProduct.inductionOn y (fun n p => rfl) fun a b ha hb => ?_
       simp only [TensorProduct.add_tmul, map_add, ha, hb]
     exact ModuleCat.hom_ext key
 
@@ -214,7 +214,7 @@ theorem tensorRightTensorRightMap_comp_tensorRightAssoc (u : P' →ₗ[S] P) :
           ((AlgebraTensorModule.assoc R S S (N : Type u) P' (T : Type u)).restrictScalars
             R).toLinearMap := by
     refine TensorProduct.ext' fun y t => ?_
-    refine TensorProduct.induction_on y (by simp) (fun n p => rfl) fun a b ha hb => ?_
+    refine TensorProduct.inductionOn y (fun n p => rfl) fun a b ha hb => ?_
     simp only [TensorProduct.add_tmul, map_add, ha, hb]
   exact key
 

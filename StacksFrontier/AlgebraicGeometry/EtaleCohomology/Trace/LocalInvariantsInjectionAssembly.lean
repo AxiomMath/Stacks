@@ -109,6 +109,7 @@ private theorem square_paste {C : Type*} [Category* C] {a b c a' b' c' : C} (x :
 
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
+set_option maxHeartbeats 800000 in
 /-- **The local invariants inject into `H¹_c`** (Weil II 1.8, `H⁰_loc ⊆ H¹_c`), from
 `H⁰_c(W_k̄, j_* G) = 0` on an affine curve, the embedding of the stalk at a closed point of the
 complement into `H⁰_c(W_k̄, i_* i⁻¹ -)`, and the identification of the stalks of `j_*` of the
@@ -280,19 +281,23 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
         (restrictScalarsScalarAlgHom b m) (restrictScalarsScalarAlgHom_commute b τ) o g
     show Jrat (Φ (algebraMap O E o • z)) = _
     rw [show Φ (algebraMap O E o • z) = ⟨_, hz⟩ from Subtype.ext hΦo]
-    refine rationalLift_mulVec H Jint Mo
-      (LAdicSheaf.geometricCompactlySupportedCohomologyMap (jW ≫ fW) j kbar (F.act o) 1)
-      (fun v hv => ?_) (Φ z) hz
+    refine (rationalLift_mulVec H Jint Mo
+      (LAdicSheaf.geometricCompactlySupportedCohomologyMap (jW ≫ fW) j kbar (F.act o).asHom 1)
+      (fun v hv => ?_) (Φ z) hz).trans ?_
+    swap
+    · rfl
     exact towerLimitLift_mulVec ε hεi hεs _ hI t hεt C Ψ hΨ Mo
-      (fun N => fib.map (DW.map (Seq.map (LAdicSheaf.padicLevelMap (F.act o) N))))
+      (fun N => fib.map (DW.map (Seq.map (LAdicSheaf.padicLevelMap (F.act o).asHom N))))
       (fun N w => hεM Mo hM N w)
-      (LAdicSheaf.geometricCompactlySupportedCohomologyMap (jW ≫ fW) j kbar (F.act o) 1).hom
+      (LAdicSheaf.geometricCompactlySupportedCohomologyMap (jW ≫ fW) j kbar
+        (F.act o).asHom 1).hom
       (fun N => ((geometricCompactSupportPadicCohomology B V ℓ (jW ≫ fW) j kbar 1).map
-        (LAdicSheaf.padicLevelMap (F.act o) N)).hom)
+        (LAdicSheaf.padicLevelMap (F.act o).asHom N)).hom)
       (fun N y' => congrArg (fun φ => φ.hom y')
-        (LAdicSheaf.geometricCompactlySupportedCohomologyMap_π (jW ≫ fW) j kbar (F.act o) 1 N))
+        (LAdicSheaf.geometricCompactlySupportedCohomologyMap_π (jW ≫ fW) j kbar
+          (F.act o).asHom 1 N))
       (fun N w => congrArg (fun φ => φ.hom w)
-        (hnat (Seq.map (LAdicSheaf.padicLevelMap (F.act o) N)))) v hv
+        (hnat (Seq.map (LAdicSheaf.padicLevelMap (F.act o).asHom N)))) v hv
   have hℓ0 : ℓ ≠ 0 := (Fact.out : ℓ.Prime).ne_zero
   have hE : ∀ (e : E) (z : inv), Jl (e • z) = F.rationalRingHom (jW ≫ fW) j kbar 1 E e (Jl z) := by
     intro e z

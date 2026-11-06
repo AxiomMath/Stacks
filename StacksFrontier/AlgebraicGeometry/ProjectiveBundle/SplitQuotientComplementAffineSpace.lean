@@ -365,9 +365,10 @@ theorem overQuotientMap_comp (k : T' ⟶ T) (f : T ⟶ projectiveBundle X F)
           ((Scheme.Modules.pullbackComp f (projectiveBundleToBase X F)).inv.app F) ≫
         (Scheme.Modules.pullbackComp k f).hom.app
           ((Scheme.Modules.pullback (projectiveBundleToBase X F)).obj F) := by
-    rw [← cancel_epi ((Scheme.Modules.pullback k).map
-      ((Scheme.Modules.pullbackComp f (projectiveBundleToBase X F)).hom.app F) ≫
-        (Scheme.Modules.pullbackComp k (f ≫ projectiveBundleToBase X F)).hom.app F),
+    rw [← cancel_epi ((Scheme.Modules.pullback k).mapIso
+      ((Scheme.Modules.pullbackComp f (projectiveBundleToBase X F)).app F) ≪≫
+        (Scheme.Modules.pullbackComp k (f ≫ projectiveBundleToBase X F)).app F).hom,
+      Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom, Iso.app_hom,
       Category.assoc, reassoc_of% hA]
     simp [Scheme.Modules.pullbackCongr, ← Functor.map_comp_assoc]
   have n := (Scheme.Modules.pullbackComp k f).hom.naturality (tautologicalDatum F).univ

@@ -295,10 +295,12 @@ variable [Flat (projectiveSpaceOverMap n g)] [Mono (projectiveSpaceOverMap n g)]
 /-- Along a flat affine monomorphism `j`, the map `closureComparison g K` is a monomorphism. -/
 instance : Mono (closureComparison g K) := by
   have := preservesFiniteLimits_modulesPullback_of_flat (projectiveSpaceOverMap n g)
-  have := isIso_pullbackPushforwardAdjunction_counit_app_of_mono (projectiveSpaceOverMap n g)
+  have hc := isIso_pullbackPushforwardAdjunction_counit_app_of_mono (projectiveSpaceOverMap n g)
     (quotient K)
+  have hm : Mono ((Scheme.Modules.pullback (projectiveSpaceOverMap n g)).map
+      (closureQuotientι g K)) := preserves_mono_of_preservesLimit _ _
   unfold closureComparison
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _ hm _ (@IsIso.mono_of_iso _ _ _ _ _ hc)
 
 /-- The map `closureComparison g K` is an epimorphism. -/
 instance : Epi (closureComparison g K) :=

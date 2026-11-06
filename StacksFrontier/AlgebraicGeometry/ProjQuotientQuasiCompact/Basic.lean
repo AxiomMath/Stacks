@@ -114,7 +114,7 @@ theorem exists_finite_degreeOne_cover [CompactSpace (AlgebraicGeometry.Proj 𝒮
     (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤) :
     ∃ t : Finset (𝒮 1),
       ⨆ j : {x : 𝒮 1 // x ∈ t}, Proj.basicOpen 𝒮 ((j : 𝒮 1) : S) = ⊤ := by
-  obtain ⟨t, ht⟩ := CompleteLattice.IsCompactElement.exists_finset_of_le_iSup _
+  obtain ⟨t, ht⟩ := IsCompactElement.exists_finset_of_le_iSup
     ((TopologicalSpace.Opens.isCompactElement_iff (⊤ : (AlgebraicGeometry.Proj 𝒮).Opens)).2
       isCompact_univ) _
     (Stacks.AlgebraicGeometry.ProjDegreeOne.iSup_basicOpen_degreeOne_eq_top 𝒮 hgen).ge

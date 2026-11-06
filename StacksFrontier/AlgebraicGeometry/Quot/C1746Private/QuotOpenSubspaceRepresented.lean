@@ -138,7 +138,7 @@ theorem exists_isOpenImmersion_represented_hilbertPolynomialQuot
     intro T
     refine ⟨fun x x' hxx' => ?_, fun g => ?_⟩
     · exact Subtype.ext (D.quotFamilyOverExtend_injective T.unop (congrArg Subtype.val
-        ((e.app T).toEquiv.symm.injective (ULift.ext _ _ (congrArg Subtype.val hxx')))))
+        ((e.app T).toEquiv.symm.injective (ULift.ext (congrArg Subtype.val hxx')))))
     · obtain ⟨g, hg⟩ := g
       have hsupp : D.SupportedInOpen (e.hom.app T ⟨g⟩).1 := by
         rw [he_app]

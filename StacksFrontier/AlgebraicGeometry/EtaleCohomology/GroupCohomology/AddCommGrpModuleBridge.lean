@@ -51,7 +51,7 @@ back along `E.functor` is isomorphic to `X`, by the counit of `E`. -/
 def Equivalence.mapActionCounitIso {V W : Type*} [Category* V] [Category* W]
     (G : Type*) [Monoid G] (E : V ≌ W) (X : Action W G) :
     (E.functor.mapAction G).obj ((E.inverse.mapAction G).obj X) ≅ X :=
-  Action.mkIso (E.counitIso.app X.V) (fun g ↦ E.counitIso.hom.naturality (X.ρ g))
+  Action.mkIso (E.counitIso.app X.V) (fun g ↦ E.counitIso.hom.naturality (X.ρ g).asHom)
 
 end CategoryTheory
 
@@ -69,8 +69,8 @@ lemma Action.isContinuous_of_iso {A B : Action V G} (e : A ≅ B) (h : B.IsConti
   refine (TopCat.homeoOfIso ((forget₂ (Action V G) TopCat).mapIso e)).isInducing.continuousSMul
     (f := id) continuous_id ?_
   intro c x
-  show ((forget₂ V TopCat).map (A.ρ c) ≫ (forget₂ V TopCat).map e.hom.hom) x =
-    ((forget₂ V TopCat).map e.hom.hom ≫ (forget₂ V TopCat).map (B.ρ c)) x
+  show ((forget₂ V TopCat).map (A.ρ c).asHom ≫ (forget₂ V TopCat).map e.hom.hom) x =
+    ((forget₂ V TopCat).map e.hom.hom ≫ (forget₂ V TopCat).map (B.ρ c).asHom) x
   rw [← Functor.map_comp, ← Functor.map_comp, e.hom.comm c]
 
 /-- Of two isomorphic continuous actions, one has a discrete underlying space exactly when the

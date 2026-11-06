@@ -101,7 +101,7 @@ theorem nonempty_restrictedFibre_iso_of_eq (f : X ⟶ Y) {T : Scheme.{u}} (hT : 
     Nonempty (restrictedFibre B S hS f hT g v ≅
       restrictedFibre B S hS f hT g' (Y.map (eqToHom (congrArg Over.mk hg.symm)).op v)) := by
   subst hg
-  simp only [eqToHom_refl, op_id, FunctorToTypes.map_id_apply]
+  simp only [eqToHom_refl, op_id, Functor.map_id_apply]
   exact ⟨Iso.refl _⟩
 
 end Space

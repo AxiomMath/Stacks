@@ -75,6 +75,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_OffDiagonalClosure
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The graph of a proper morphism is proper.** Let `π : X ⟶ Y` be separated and let
 `ψ : V ⟶ U` be proper, with `q : U ⟶ Y` and `ι : V ⟶ X` such that `ψ ≫ q = ι ≫ π`. Then the
 graph `(ψ, ι) : V ⟶ U ×_Y X` is proper: its composite with the first projection is `ψ`, and the

@@ -193,7 +193,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
       exact IsLocalRing.maximalIdeal.isMaximal A
     have _ : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
     show Q'.IsMaximal
-    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) Q' hJmax
+    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) Q' hJmax
   let _ : Ring.KrullDimLE 1 A := AlgebraicGeometry.krullDimLE_of_coheight_le hy.le
   have hpreimageW : Nonempty (g ⁻¹ᵁ W) := by
     obtain ⟨z, hzW, hzRange⟩ :=
@@ -220,7 +220,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
   have hcomap (v : MaximalSpectrum B) :
       v.asIdeal.comap (algebraMap A B) = IsLocalRing.maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) v.asIdeal)
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) v.asIdeal)
   have hQcontract (v : MaximalSpectrum B) :
       (eLoc v.toPrimeSpectrum).1.comap φ = P := by
     let Q := (eLoc v.toPrimeSpectrum).1
@@ -563,7 +563,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     let eK : A ⧸ IsLocalRing.maximalIdeal A ≃+* Y.residueField (g.base xW.1) :=
       (eqToIso (congrArg Y.residueField hgy.symm)).commRingCatIsoToRingEquiv
     let eL : B ⧸ v.asIdeal ≃+* X.residueField xW.1 :=
-      (IsLocalization.AtPrime.equivQuotMaximalIdeal v.asIdeal Rv).trans
+      (IsLocalization.AtPrime.equivQuotMaximalIdeal v.asIdeal Rv).toRingEquiv.trans
         (IsLocalRing.ResidueField.mapEquiv eB.toRingEquiv)
     let _ : Algebra (Y.residueField (g.base xW.1)) (X.residueField xW.1) :=
       (g.residueFieldMap xW.1).hom.toAlgebra

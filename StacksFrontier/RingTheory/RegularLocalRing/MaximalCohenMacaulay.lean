@@ -11,6 +11,7 @@ public import StacksFrontier.RingTheory.CohenMacaulay.Defs
 public import StacksFrontier.RingTheory.Depth.Criteria
 public import StacksFrontier.RingTheory.Depth.Dimension
 public import Mathlib.RingTheory.KrullDimension.Module
+public import Mathlib.RingTheory.KrullDimension.Field
 
 /-!
 # Maximal Cohen–Macaulay modules over a regular local ring

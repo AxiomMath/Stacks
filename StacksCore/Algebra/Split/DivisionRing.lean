@@ -83,7 +83,7 @@ theorem Algebra.IsCentralSimple.exists_finite_sep_split :
   have hL3 : IsSplit k A L := by
     rw [isSplit_congr k A D L (by
       rw [BrauerGroup.mk_congr e, BrauerGroup.mk_eq_mk]
-      exact ⟨1, n, one_ne_zero, hn.out, ⟨by convert Matrix.uniqueAlgEquiv (m := Fin 1); rfl⟩⟩)]
+      exact ⟨1, n, one_ne_zero, hn.out, ⟨by convert Matrix.uniqueAlgEquiv (m := Fin 1)⟩⟩)]
     exact DivisionRing.isSplit_of_centralizer_eq L hL1
   let e : L ≃ₐ[k] (IsAlgClosed.lift (M := k_bar) (R := k) (S := L)).fieldRange :=
     AlgEquiv.ofInjectiveField _

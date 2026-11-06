@@ -408,6 +408,7 @@ theorem constDegreePushforwardIso_hom_app (k : SimplexCategory)
     NatTrans.id_app, Functor.id_map, Category.id_comp]
   exact Category.id_comp _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The comparison `a ∘ d_k ≅ a_k` on sections over `V/Z`**: projection to the degree-`k` object
 `V`, base change of right Kan extensions along the degree square, projection to `V` again, and the
 identification of the base changes along `a_k`. -/
@@ -587,6 +588,7 @@ theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶
           ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ X.map φ.op) hw)))
       exact ((Category.id_comp _).trans (Category.id_comp _) =≫ _).trans (hA.trans hR.symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The augmentation through the degree transition**, in the direction of the direct images:
 `a ∘ d_n ≅ a_n` is `a_*τ_φ` followed by `a ∘ d_m ≅ a_m` and `a_m ∘ X(φ) ≅ a_n`. -/
 theorem augmentation_map_degreeTransition_comp {m n : SimplexCategory} (φ : m ⟶ n)

@@ -385,7 +385,7 @@ private lemma quotient_universal_of_kernelPair {S : Scheme.{u}}
     calc
       F.obj.map p₁.op x = F.obj.map (l ≫ r₁).op x := by rw [hl₁]
       _ = F.obj.map l.op (F.obj.map r₁.op x) := by
-        rw [op_comp, FunctorToTypes.map_comp_apply]
+        rw [op_comp, Functor.map_comp_apply]
       _ = F.obj.map l.op (F.obj.map r₂.op x) := by rw [hrel]
       _ = F.obj.map (l ≫ r₂).op x := by
         have hcomp : F.obj.map (l ≫ r₂).op = F.obj.map r₂.op ≫ F.obj.map l.op := by

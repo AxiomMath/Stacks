@@ -321,17 +321,17 @@ public theorem shortExact_padicLevelMap_representationLAdicSheafMap {r₁ r₂ r
   rw [Functor.map_comp, Functor.map_zero] at hw'
   exact shortExact_canonicalFiniteLocallyConstantAbelianSheafEquivalence_inverse_map B X x
     (levelAbelianMap hρ₁ hρ₂ A hA (n + 1)) (levelAbelianMap hρ₂ hρ₃ C hC (n + 1)) hw'
-    (fun a b h => ULift.ext _ _ (hinj (n + 1) (congrArg ULift.down h)))
+    (fun a b h => ULift.ext (hinj (n + 1) (congrArg ULift.down h)))
     (fun c => by
       obtain ⟨b, hb⟩ := hsurj (n + 1) c.down
-      exact ⟨ULift.up b, ULift.ext _ _ hb⟩)
+      exact ⟨ULift.up b, ULift.ext hb⟩)
     (fun b => by
       show ULift.up _ = (0 : ULift _) ↔ _
       refine ⟨fun h => ?_, ?_⟩
       · obtain ⟨a, ha⟩ := (hex (n + 1) b.down).1 (congrArg ULift.down h)
-        exact ⟨ULift.up a, ULift.ext _ _ ha⟩
+        exact ⟨ULift.up a, ULift.ext ha⟩
       · rintro ⟨a, rfl⟩
-        exact ULift.ext _ _ ((hex (n + 1) _).2 ⟨a.down, rfl⟩))
+        exact ULift.ext ((hex (n + 1) _).2 ⟨a.down, rfl⟩))
 
 end LAdic
 

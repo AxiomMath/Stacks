@@ -70,6 +70,12 @@ variable (α : ι' → ι) (g : T' ⟶ T) (gᵢ : ∀ i, X' i ⟶ X (α i))
 variable (comm : ∀ i, gᵢ i ≫ f (α i) = f' i ≫ g)
 variable (Ycop : AlgebraicSheafCoproduct X hX) (Y'cop : AlgebraicSheafCoproduct X' hX')
 
+/-- Binary products in slices of presheaves, supplied directly: instance search for them times
+out since Lean v4.35.0. -/
+private local instance overPresheafHasBinaryProducts (T' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasBinaryProducts (Over T') :=
+  Over.ConstructProducts.over_binaryProduct_of_pullback
+
 /-- The morphism of sheaf coproducts of the sources induced by a morphism of families of
 algebraic spaces with fixed target. -/
 public def coproductMap : Y'cop.sheaf.obj ⟶ Ycop.sheaf.obj :=

@@ -274,8 +274,8 @@ standard smooth of relative dimension one.** Here `R[x, y] ⧸ (f)` is presented
 `y = x₁` and `f = y² + a₁xy + a₃y - (x³ + a₂x² + a₄x + a₆)`. -/
 theorem locally_isStandardSmoothOfRelativeDimension_zChart (hΔ : IsUnit W.Δ) :
     RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1)
-      (algebraMap R (MvPolynomial (Fin 2) R ⧸ Ideal.span {X 1 ^ 2 + C W.a₁ * X 0 * X 1 +
-        C W.a₃ * X 1 - (X 0 ^ 3 + C W.a₂ * X 0 ^ 2 + C W.a₄ * X 0 + C W.a₆)})) := by
+      (algebraMap R (MvPolynomial (Fin 2) R ⧸ Ideal.span {(X 1 ^ 2 + C W.a₁ * X 0 * X 1 +
+        C W.a₃ * X 1 - (X 0 ^ 3 + C W.a₂ * X 0 ^ 2 + C W.a₄ * X 0 + C W.a₆))})) := by
   set f : MvPolynomial (Fin 2) R := X 1 ^ 2 + C W.a₁ * X 0 * X 1 + C W.a₃ * X 1 -
     (X 0 ^ 3 + C W.a₂ * X 0 ^ 2 + C W.a₄ * X 0 + C W.a₆)
   refine locally_isStandardSmoothOfRelativeDimension_plane f ?_
@@ -317,9 +317,9 @@ smooth of relative dimension one.** Here `R[z, x] ⧸ (g)` is presented with `z 
 Weierstrass cubic at `y = 1`. -/
 theorem locally_isStandardSmoothOfRelativeDimension_yChart (hΔ : IsUnit W.Δ) :
     RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension 1)
-      (algebraMap R (MvPolynomial (Fin 2) R ⧸ Ideal.span {X 1 ^ 3 + C W.a₂ * X 0 * X 1 ^ 2 +
+      (algebraMap R (MvPolynomial (Fin 2) R ⧸ Ideal.span {(X 1 ^ 3 + C W.a₂ * X 0 * X 1 ^ 2 +
         (C W.a₄ * X 0 ^ 2 - C W.a₁ * X 0) * X 1 -
-          (X 0 + C W.a₃ * X 0 ^ 2 - C W.a₆ * X 0 ^ 3)})) := by
+          (X 0 + C W.a₃ * X 0 ^ 2 - C W.a₆ * X 0 ^ 3))})) := by
   set g : MvPolynomial (Fin 2) R := X 1 ^ 3 + C W.a₂ * X 0 * X 1 ^ 2 +
     (C W.a₄ * X 0 ^ 2 - C W.a₁ * X 0) * X 1 - (X 0 + C W.a₃ * X 0 ^ 2 - C W.a₆ * X 0 ^ 3)
   refine locally_isStandardSmoothOfRelativeDimension_plane g ?_

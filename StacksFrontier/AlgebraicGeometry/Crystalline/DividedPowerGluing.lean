@@ -89,7 +89,6 @@ attribute [local implicit_reducible] specDividedPowerScheme toSpecDividedPowerSc
 attribute [local implicit_reducible] dividedPowersOfSeparatingFamily
 attribute [local implicit_reducible] idealTypeSheaf
 attribute [local implicit_reducible] globalSectionsDPMorphism
-attribute [local implicit_reducible] PullbackCone.mk
 
 open Opposite TopologicalSpace in
 /-- The kernel of a morphism of sheaves of modules as a subsheaf of its source. -/

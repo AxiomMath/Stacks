@@ -182,7 +182,6 @@ theorem coe_reesBaseChange_eq (x : B ⊗[A] reesAlgebra J) :
     ((reesBaseChange J K hK x : reesAlgebra K) : B[X]) =
       (polyEquivTensor A B).symm (LinearMap.lTensor B (reesAlgebra J).val.toLinearMap x) := by
   induction x with
-  | zero => simp
   | tmul b f =>
       rw [coe_reesBaseChange_tmul]
       change _ = (polyEquivTensor A B).symm (b ⊗ₜ[A] (f : A[X]))

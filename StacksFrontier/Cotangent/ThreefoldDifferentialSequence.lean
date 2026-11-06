@@ -136,10 +136,10 @@ rings with no transport, and it is also why the two identifications
 with the constant presheaf agree at the objects in question.
 
 **The shape of the two maps.** All three terms are of the form `changeOfRings aug (gᵢ⁻¹Ω)` with
-`gᵢ⁻¹Ω` again a presheaf of relative differentials (`towerSecondTerm_eq` and its siblings), so
-by the change-of-rings adjunction of Tag 03CU and the universal property of
-`PresheafOfModules.DifferentialsConstruction.relativeDifferentials'` a map out of a term is the
-same datum as a *derivation*. The derivation that gives the second map sends a section `q` of
+`gᵢ⁻¹Ω` again a presheaf of relative differentials (`towerSecondTerm_eq` and its siblings), so by
+the change-of-rings adjunction of Tag 03CU and the universal property of
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'` a map out of a term
+is the same datum as a *derivation*. The derivation that gives the second map sends a section `q` of
 `𝒪₂` to `1 ⊗ d(1 ⊗ q)`, and the one that gives the first map sends a section `p` of `𝒪₁` to
 `1 ⊗ d(p)`; `CommAlgCat.derivationComp` is the general construction producing them from the
 universal derivations of `Ω_{𝒪/B}` and `Ω_{𝒪/A}` together with `CommAlgCat.changeOfRingsUnit`,
@@ -148,8 +148,8 @@ hypotheses. This reduces the construction of the two maps to element-level compu
 avoids any naturality square. The same unit makes the vanishing of the composite an identity
 between derivations: `CommAlgCat.changeOfRingsHom_eq_zero` says that a map out of a change of
 rings vanishes as soon as it kills the sections `1 ⊗ z`, which the adjunction of Tag 03CU gives
-with no induction on tensors, and the derivation one is left with kills `d` of a section of
-`𝒪₁` because that section's image in `𝒪₃` comes from `B̲`.
+with no induction on tensors, and the derivation one is left with kills `d` of a section of `𝒪₁`
+because that section's image in `𝒪₃` comes from `B̲`.
 
 **Universes in the change of rings.** The module universe of
 `Stacks.PresheafOfModules.ChangeOfRings.restrictScalars` and of `changeOfRings` is not
@@ -411,7 +411,7 @@ def towerLeftToRight : towerLeftRingPresheaf A B C ⟶ towerRightRingPresheaf A 
   app W := CommRingCat.ofHom
     (uliftRingHom (CommAlgCat.Hom.hom W.unop.unop.obj.hom).toRingHom)
   naturality W X f := by
-    refine CommRingCat.hom_ext (RingHom.ext fun p => ULift.ext _ _ ?_)
+    refine CommRingCat.hom_ext (RingHom.ext fun p => ULift.ext ?_)
     exact (towerRight_hom_apply f.unop.unop.hom p.down).symm
 
 /-- The map of sheaves of rings `𝒪₂ ⟶ 𝒪₃` on `C_{C/B/A}` given by `q ↦ 1 ⊗ q`, the second leg
@@ -421,7 +421,7 @@ def towerRightToPushout : towerRightRingPresheaf A B C ⟶ towerPushoutRingPresh
     (Algebra.TensorProduct.includeRight (R := ↑(towerLeftAlgebra W.unop.unop.obj))
       (A := B) (B := ↑(towerRightAlgebra W.unop.unop.obj))).toRingHom)
   naturality W X f := by
-    refine CommRingCat.hom_ext (RingHom.ext fun q => ULift.ext _ _ ?_)
+    refine CommRingCat.hom_ext (RingHom.ext fun q => ULift.ext ?_)
     exact (towerBaseChangeMap_tmul f.unop.unop.hom 1 q.down).symm
 
 /-! ### The two universe-lifted ring-theoretic inputs over a polynomial tower -/
@@ -474,7 +474,7 @@ theorem towerSections_isPushout (W : (polynomialTowerSite A B C)ᵒᵖ) :
 
 section
 
-open PresheafOfModules.DifferentialsConstruction
+open PresheafOfModulesOfCommRing.DifferentialsConstruction
 
 /-- `g₁⁻¹(A̲ ⟶ 𝒪)`, the base map of `C_{B/A}` pulled back to `C_{C/B/A}`. -/
 abbrev towerFirstBaseHom :=
@@ -521,7 +521,7 @@ end
 
 section
 
-open PresheafOfModules.DifferentialsConstruction
+open PresheafOfModulesOfCommRing.DifferentialsConstruction
 
 /-- `g₁⁻¹Ω₁` is the base change of `g₁⁻¹Ω_{𝒪/A}` along `g₁⁻¹(𝒪 ⟶ B̲)`: the inverse image is
 restriction along `u₁`, and both base change and differentials are formed objectwise. -/
@@ -585,7 +585,7 @@ theorem towerScalarHom_app_towerFirstAug (W : (polynomialTowerSite A B C)ᵒᵖ)
       (towerSecondAug A B C).app W ((towerLeftToRight A B C).app W p) := by
   simp only [towerFirstAug, towerSecondAug, Functor.whiskerLeft_app]
   rw [towerScalarHom_app, polynomialAugmentation_app_apply', polynomialAugmentation_app_apply]
-  refine congrArg _ (ULift.ext _ _ ?_)
+  refine congrArg _ (ULift.ext ?_)
   exact (towerRight_hom_towerMap_apply W.unop.unop p.down).symm
 
 /-- The augmentation `𝒪₃ ⟶ C̲` restricted along `𝒪₂ ⟶ 𝒪₃` is the augmentation `𝒪₂ ⟶ C̲`:
@@ -596,7 +596,7 @@ theorem towerThirdAug_app_towerRightToPushout (W : (polynomialTowerSite A B C)�
       (towerSecondAug A B C).app W q := by
   simp only [towerThirdAug, towerSecondAug, Functor.whiskerLeft_app]
   rw [polynomialAugmentation_app_apply, polynomialAugmentation_app_apply]
-  refine congrArg _ (ULift.ext _ _ ?_)
+  refine congrArg _ (ULift.ext ?_)
   change towerBaseChangeAugmentation W.unop.unop
       ((1 : B) ⊗ₜ[↑(towerLeftAlgebra W.unop.unop.obj)] q.down) = _
   refine (towerBaseChangeAugmentation_tmul W.unop.unop 1 q.down).trans ?_
@@ -608,7 +608,7 @@ theorem towerLeftToRight_app_towerFirstBaseHom (W : (polynomialTowerSite A B C)�
     (a : ULift.{u + 1} A) :
     (towerLeftToRight A B C).app W ((towerFirstBaseHom A B C).app W a) =
       (towerSecondBaseHom A B C).app W a := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   change (algebraMap ↑(towerLeftAlgebra W.unop.unop.obj)
         ↑(towerRightAlgebra W.unop.unop.obj))
       (algebraMap A ↑(towerLeftAlgebra W.unop.unop.obj) a.down) =
@@ -624,7 +624,7 @@ theorem towerRightToPushout_app_towerLeftToRight (W : (polynomialTowerSite A B C
     (towerRightToPushout A B C).app W ((towerLeftToRight A B C).app W p) =
       (towerThirdBaseHom A B C).app W
         (ULift.up (algebraMap ↑(towerLeftAlgebra W.unop.unop.obj) B p.down)) := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   change (1 : B) ⊗ₜ[↑(towerLeftAlgebra W.unop.unop.obj)]
       (algebraMap ↑(towerLeftAlgebra W.unop.unop.obj)
         ↑(towerRightAlgebra W.unop.unop.obj) p.down) = _
@@ -638,7 +638,7 @@ theorem towerRightToPushout_app_towerLeftToRight (W : (polynomialTowerSite A B C
 
 section DerivationComp
 
-open PresheafOfModules
+open PresheafOfModules PresheafOfModulesOfCommRing
 
 variable {E : Type u₁} [Category.{v₁} E] {S₂ S₃ R₂ R₃ : Eᵒᵖ ⥤ CommRingCat.{w}}
 
@@ -652,12 +652,12 @@ def derivationComp (φ₂ : S₂ ⟶ R₂) {φ₃ : S₃ ⟶ R₃} (σ : S₂ �
     (hσ : σ ≫ φ₃ = φ₂ ≫ κ)
     {M₃ : PresheafOfModules.{w} (R₃ ⋙ forget₂ CommRingCat.{w} RingCat.{w})}
     {M₂ : PresheafOfModules.{w} (R₂ ⋙ forget₂ CommRingCat.{w} RingCat.{w})}
-    (D : M₃.Derivation' φ₃) (t : ∀ X, M₃.obj X →+ M₂.obj X)
+    (D : PresheafOfModulesOfCommRing.Derivation' M₃ φ₃) (t : ∀ X, M₃.obj X →+ M₂.obj X)
     (ht_smul : ∀ (X : Eᵒᵖ) (r : R₂.obj X) (z : M₃.obj X),
       t X (κ.app X r • z) = r • t X z)
     (ht_nat : ∀ {X Y : Eᵒᵖ} (f : X ⟶ Y) (z : M₃.obj X),
       t Y (M₃.map f z) = M₂.map f (t X z)) :
-    M₂.Derivation' φ₂ := by
+    PresheafOfModulesOfCommRing.Derivation' M₂ φ₂ := by
   refine Derivation'.mk (fun X => ModuleCat.Derivation.mk
     (fun q => t X (D.d (κ.app X q))) (fun q q' => ?_) (fun q q' => ?_) (fun a => ?_))
     (fun {X Y} f x => ?_)
@@ -755,7 +755,7 @@ end ChangeOfRingsUnit
 
 section SequenceMaps
 
-open PresheafOfModules PresheafOfModules.DifferentialsConstruction
+open PresheafOfModules PresheafOfModulesOfCommRing.DifferentialsConstruction
 open Stacks.PresheafOfModules.ChangeOfRings
 
 /-- The map of constant sheaves of rings `g₁⁻¹A̲ ⟶ g₂⁻¹A̲` on `C_{C/B/A}`: both are the constant
@@ -796,7 +796,7 @@ theorem towerSecondBase_sq :
     (towerRightToPushout A B C).app W ((towerSecondBaseHom A B C).app W a)
   rw [← towerLeftToRight_app_towerFirstBaseHom A B C W a,
     towerRightToPushout_app_towerLeftToRight]
-  refine congrArg _ (ULift.ext _ _ ?_)
+  refine congrArg _ (ULift.ext ?_)
   change algebraMap A B a.down =
     algebraMap ↑(towerLeftAlgebra W.unop.unop.obj) B
       (algebraMap A ↑(towerLeftAlgebra W.unop.unop.obj) a.down)
@@ -807,9 +807,10 @@ theorem towerSecondBase_sq :
 read in `𝒪₂` along `𝒪₁ ⟶ 𝒪₂`. Its target is `g₂⁻¹Ω₂` with its `𝒪₁`-module structure, obtained
 by restricting scalars along `𝒪₁ ⟶ B̲ ⟶ C̲`. -/
 def towerFirstDerivation :
-    ((restrictScalars.{u + 1, u, u + 1, u + 1} (towerFirstAug A B C)).obj
+    PresheafOfModulesOfCommRing.Derivation'
+      ((restrictScalars.{u + 1, u, u + 1, u + 1} (towerFirstAug A B C)).obj
         ((restrictScalars.{u + 1, u, u + 1, u + 1} (towerScalarHom A B C)).obj
-          (towerSecondTerm A B C))).Derivation' (towerFirstBaseHom A B C) :=
+          (towerSecondTerm A B C))) (towerFirstBaseHom A B C) :=
   derivationComp (towerFirstBaseHom A B C) (towerFirstToSecondBase A B C)
     (towerLeftToRight A B C) (towerFirstBase_sq A B C)
     (φ₃ := towerSecondBaseHom A B C) (derivation' (towerSecondBaseHom A B C))
@@ -827,8 +828,9 @@ def towerFirstDerivation :
 `q` of `𝒪₂` to `1 ⊗ d(1 ⊗ q)`, where `d` is the universal derivation of `g₃⁻¹Ω_{𝒪/B}` and
 `1 ⊗ q` is the image of `q` in `𝒪₃ = Q ⊗_P B`. -/
 def towerSecondDerivation :
-    ((restrictScalars.{u + 1, u, u + 1, u + 1} (towerSecondAug A B C)).obj
-        (towerThirdTerm A B C)).Derivation' (towerSecondBaseHom A B C) :=
+    PresheafOfModulesOfCommRing.Derivation'
+      ((restrictScalars.{u + 1, u, u + 1, u + 1} (towerSecondAug A B C)).obj
+        (towerThirdTerm A B C)) (towerSecondBaseHom A B C) :=
   derivationComp (towerSecondBaseHom A B C) (towerSecondToThirdBase A B C)
     (towerRightToPushout A B C) (towerSecondBase_sq A B C)
     (φ₃ := towerThirdBaseHom A B C) (derivation' (towerThirdBaseHom A B C))
@@ -877,7 +879,7 @@ theorem towerSequenceMap_comp :
     have h1 : (((isUniversal' (towerFirstBaseHom A B C)).desc
           (towerFirstDerivation A B C)).app W) ((derivation' (towerFirstBaseHom A B C)).d b)
         = (towerFirstDerivation A B C).d b :=
-      Derivation.congr_d ((isUniversal' (towerFirstBaseHom A B C)).fac
+      PresheafOfModulesOfCommRing.Derivation.congr_d ((isUniversal' (towerFirstBaseHom A B C)).fac
         (towerFirstDerivation A B C)) b
     have h2 : (towerFirstDerivation A B C).d b =
         changeOfRingsUnit (towerSecondAug A B C) (towerSecondOmegaPullback A B C) W
@@ -895,7 +897,7 @@ theorem towerSequenceMap_comp :
           (towerSecondDerivation A B C)).app W)
             ((derivation' (towerSecondBaseHom A B C)).d ((towerLeftToRight A B C).app W b))
         = (towerSecondDerivation A B C).d ((towerLeftToRight A B C).app W b) :=
-      Derivation.congr_d ((isUniversal' (towerSecondBaseHom A B C)).fac
+      PresheafOfModulesOfCommRing.Derivation.congr_d ((isUniversal' (towerSecondBaseHom A B C)).fac
         (towerSecondDerivation A B C)) _
     have h5 : (towerSecondDerivation A B C).d ((towerLeftToRight A B C).app W b) =
         changeOfRingsUnit (towerThirdAug A B C) (towerThirdOmegaPullback A B C) W
@@ -904,7 +906,7 @@ theorem towerSequenceMap_comp :
     have h6 : (derivation' (towerThirdBaseHom A B C)).d
           ((towerRightToPushout A B C).app W ((towerLeftToRight A B C).app W b)) = 0 := by
       rw [towerRightToPushout_app_towerLeftToRight]
-      exact Derivation'.d_app _ _
+      exact PresheafOfModulesOfCommRing.Derivation'.d_app _ _
     change (towerSecondSequenceMap A B C).app W
         ((((isUniversal' (towerFirstBaseHom A B C)).desc (towerFirstDerivation A B C)).app W)
           ((derivation' (towerFirstBaseHom A B C)).d b)) = 0
@@ -1003,7 +1005,7 @@ theorem towerShortComplex_shortExact_of_objectwise
 
 section Exactness
 
-open PresheafOfModules PresheafOfModules.DifferentialsConstruction
+open PresheafOfModules PresheafOfModulesOfCommRing.DifferentialsConstruction
 open Stacks.PresheafOfModules.ChangeOfRings
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra in
@@ -1135,7 +1137,7 @@ theorem towerShortComplexPresheaf_shortExact_obj (W : (polynomialTowerSite A B C
         (towerFirstPullback A B C) _ W _) ?_
       refine Eq.trans (counitHom_app_changeOfRingsUnit (towerFirstAug A B C)
         (towerFirstOmegaPullback A B C) _ W _) ?_
-      refine Eq.trans (Derivation.congr_d
+      refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.congr_d
         ((isUniversal' (towerFirstBaseHom A B C)).fac (towerFirstDerivation A B C)) p) ?_
       exact changeOfRingsUnit_apply (towerSecondAug A B C) (towerSecondOmegaPullback A B C) W _
   -- the second map of the sequence on the generators `1 ⊗ d q`
@@ -1163,7 +1165,7 @@ theorem towerShortComplexPresheaf_shortExact_obj (W : (polynomialTowerSite A B C
         (towerSecondOmegaPullback A B C) W _).symm
     · refine Eq.trans (counitHom_app_changeOfRingsUnit (towerSecondAug A B C)
         (towerSecondOmegaPullback A B C) _ W _) ?_
-      refine Eq.trans (Derivation.congr_d
+      refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.congr_d
         ((isUniversal' (towerSecondBaseHom A B C)).fac (towerSecondDerivation A B C)) q) ?_
       exact changeOfRingsUnit_apply (towerThirdAug A B C) (towerThirdOmegaPullback A B C) W _
   refine ShortComplex.shortExact_of_iso (Iso.symm ?_) htarget

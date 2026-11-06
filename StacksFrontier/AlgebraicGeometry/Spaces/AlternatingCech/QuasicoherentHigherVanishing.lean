@@ -135,7 +135,7 @@ def globalSectionsHomAddEquiv (M : SheafOfModules.{u} R) :
     ext X k
     change k.down • α.app X (ULift.up 1) = α.app X k
     refine (map_zsmul (α.app X).hom k.down (ULift.up 1)).symm.trans (congrArg (α.app X).hom ?_)
-    exact ULift.ext _ _ (by simp)
+    exact ULift.ext (by simp)
   right_inv s := Subtype.ext (funext fun X => one_smul ℤ (s.1 X))
   map_add' _ _ := rfl
 
@@ -281,7 +281,7 @@ def antiInvariantProjection (M : Modules.{u, u} B S hS X.1 X.2) :
     M.val.obj (op (diagonalComplementChart B S hS X W c hc hsep n)) →+
       M.val.obj (op (diagonalComplementChart B S hS X W c hc hsep n)) :=
   ∑ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) •
-    (restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom).comp
+    (restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom).comp
       (AddMonoidHom.mk' (fun s => chartFunction B S hS X W c hc hsep n t • s)
         fun a b => smul_add _ a b)
 
@@ -290,17 +290,17 @@ theorem antiInvariantProjection_apply (M : Modules.{u, u} B S hS X.1 X.2)
     (s : M.val.obj (op (diagonalComplementChart B S hS X W c hc hsep n))) :
     antiInvariantProjection B S hS X W c hc hsep n t M s =
       ∑ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) •
-        restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom
+        restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
           (chartFunction B S hS X W c hc hsep n t • s) := by
   simp [antiInvariantProjection]
 
 /-- The automorphism of the complement of the diagonals attached to a product `σ * τ` of
 permutations is the composite of the automorphism of `τ` followed by that of `σ`. -/
 theorem diagonalComplementChartAut_mul_hom (σ τ : Equiv.Perm (Fin (n + 1))) :
-    (diagonalComplementChartAut B S hS X W c hc hsep n (σ * τ)).hom =
-      (diagonalComplementChartAut B S hS X W c hc hsep n τ).hom ≫
-        (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom := by
-  rw [map_mul, Aut.Aut_mul_def]
+    (diagonalComplementChartAut B S hS X W c hc hsep n (σ * τ)).asIso.hom =
+      (diagonalComplementChartAut B S hS X W c hc hsep n τ).asIso.hom ≫
+        (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom := by
+  rw [map_mul, Aut.mul_asIso]
   rfl
 
 /-- The projection lands in the anti-invariant sections. -/
@@ -315,18 +315,18 @@ theorem antiInvariantProjection_mem (M : Modules.{u, u} B S hS X.1 X.2)
   let V := diagonalComplementChart B S hS X W c hc hsep n
   let a := diagonalComplementChartAut B S hS X W c hc hsep n
   let f : Equiv.Perm (Fin (n + 1)) → M.val.obj (op V) := fun σ =>
-    restrictSections B S hS X M (a σ).hom (chartFunction B S hS X W c hc hsep n t • s)
-  have key : restrictSections B S hS X M (a τ).hom
+    restrictSections B S hS X M (a σ).asIso.hom (chartFunction B S hS X W c hc hsep n t • s)
+  have key : restrictSections B S hS X M (a τ).asIso.hom
       (antiInvariantProjection B S hS X W c hc hsep n t M s) =
       ((Equiv.Perm.sign τ : ℤˣ) : ℤ) • antiInvariantProjection B S hS X W c hc hsep n t M s := by
     rw [antiInvariantProjection_apply, map_sum]
     have h1 : ∀ σ : Equiv.Perm (Fin (n + 1)),
-        restrictSections B S hS X M (a τ).hom (((Equiv.Perm.sign σ : ℤˣ) : ℤ) • f σ) =
+        restrictSections B S hS X M (a τ).asIso.hom (((Equiv.Perm.sign σ : ℤˣ) : ℤ) • f σ) =
           ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • f (σ * τ) := by
       intro σ
       rw [map_zsmul]
       congr 1
-      show restrictSections B S hS X M (a τ).hom (restrictSections B S hS X M (a σ).hom _) = _
+      show restrictSections B S hS X M (a τ).asIso.hom (restrictSections B S hS X M (a σ).asIso.hom _) = _
       rw [restrictSections_comp, ← diagonalComplementChartAut_mul_hom]
     rw [Finset.sum_congr rfl fun σ _ => h1 σ]
     have h2 : (∑ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • f (σ * τ)) =
@@ -351,18 +351,18 @@ theorem antiInvariantProjection_eq_self
     antiInvariantProjection B S hS X W c hc hsep n t M s = s := by
   rw [antiInvariantProjection_apply]
   have hterm : ∀ σ : Equiv.Perm (Fin (n + 1)), ((Equiv.Perm.sign σ : ℤˣ) : ℤ) •
-      restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom
+      restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
         (chartFunction B S hS X W c hc hsep n t • s) =
       chartFunction B S hS X W c hc hsep n (autPullback B S hS X W c hc hsep n σ t) • s := by
     intro σ
-    have h1 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom
+    have h1 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
         (chartFunction B S hS X W c hc hsep n t • s) =
         chartFunction B S hS X W c hc hsep n (autPullback B S hS X W c hc hsep n σ t) •
-          restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom s :=
-      M.val.map_smul (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom.op
+          restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom s :=
+      M.val.map_smul (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom.op
         (chartFunction B S hS X W c hc hsep n t) s
     rw [h1]
-    have h2 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom
+    have h2 : restrictSections B S hS X M (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom
         s = ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • s := hs σ
     rw [h2, smul_comm, smul_smul, ← Units.val_mul, Int.units_mul_self, Units.val_one, one_smul]
   simp_rw [hterm]
@@ -384,7 +384,7 @@ theorem antiInvariantProjection_naturality {M N : Modules.{u, u} B S hS X.1 X.2}
   have hnat := NatTrans.naturality_apply
     ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B S hS X.1 X.2).O)).map φ).hom
-    (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom.op
+    (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom.op
     (chartFunction B S hS X W c hc hsep n t • s)
   refine hnat.trans ?_
   congr 1

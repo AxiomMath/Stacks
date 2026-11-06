@@ -276,7 +276,7 @@ public theorem map_maximalIdeal_eq_span_germ_blowupChartι {p : X}
     Ideal.map ((blowUpToBase I).stalkMap (blowupChartι I U a z)).hom
         (hq.symm ▸ maximalIdeal (X.presheaf.stalk p)) =
       Ideal.span {((blowUpToBase I).stalkMap (blowupChartι I U a z)).hom
-        (hq.symm ▸ X.presheaf.germ U.1 p hpU (a : Γ(X, U.1)))} :=
+                    (hq.symm ▸ X.presheaf.germ U.1 p hpU (a : Γ(X, U.1)))} :=
   map_maximalIdeal_eq_span_germ_of_mem_blowupChart I hI U hpU a hq
     (blowupChartι_mem_range_relativeProjChart z)
 

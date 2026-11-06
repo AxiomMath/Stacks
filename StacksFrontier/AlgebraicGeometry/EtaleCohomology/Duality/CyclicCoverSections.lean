@@ -124,9 +124,9 @@ variable {X : Scheme.{u}} {ℓ : ℕ} [Fact ℓ.Prime] {E : EtaleModules.{u, 0} 
 /-- **`s^{ℓ-j}` identifies `coker s^j` with the kernel of `s^j` on `Λ[P]`**, for `j ≤ ℓ`. -/
 theorem exists_comp_cokernelPowLift_shift_and_cancel {j : ℕ} (hj : j ≤ ℓ) :
     (∀ {A : EtaleModules.{u, 0} (ZMod ℓ) X} (k : A ⟶ freeTorsor (i := i) (ε := ε) (w := w)),
-      k ≫ shift hS ^ j = 0 →
+      k ≫ (shift hS ^ j).asHom = 0 →
         ∃ k', k' ≫ Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) hj = k) ∧
-      ∀ {A : EtaleModules.{u, 0} (ZMod ℓ) X} (a b : A ⟶ cokernel (shift hS ^ j)),
+      ∀ {A : EtaleModules.{u, 0} (ZMod ℓ) X} (a b : A ⟶ cokernel (shift hS ^ j).asHom),
         a ≫ Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) hj =
           b ≫ Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) hj → a = b := by
   have := etaleModules_AB5OfSize.{u} (ZMod ℓ)
@@ -177,8 +177,8 @@ include hS in
 /-- **A section killed by `s²` is killed by `s`**, for a nonsplit extension on a connected
 `X`. -/
 theorem comp_shift_eq_zero_of_comp_shift_sq_eq_zero [ConnectedSpace X] (hne : hS.extClass ≠ 0)
-    (h : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w)) (hh : h ≫ shift hS ^ 2 = 0) :
-    h ≫ shift hS = 0 := by
+    (h : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w)) (hh : h ≫ (shift hS ^ 2).asHom = 0) :
+    h ≫ (shift hS).asHom = 0 := by
   have hp : ℓ.Prime := Fact.out
   have h2 : 2 ≤ ℓ := hp.two_le
   obtain ⟨h', hh'⟩ := (exists_comp_cokernelPowLift_shift_and_cancel hS h2).1 h hh
@@ -196,12 +196,12 @@ theorem comp_shift_eq_zero_of_comp_shift_sq_eq_zero [ConnectedSpace X] (hne : hS
       rw [← cancel_mono (cokernelShiftSqDesc hS), Category.assoc, Category.assoc, ← hιτ,
         IsIso.inv_hom_id_assoc, he₁]
     have hzero : Stacks.Abelian.cokernelPowι (shift hS) 1 ≫
-        Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) h2 ≫ shift hS = 0 := by
-      rw [← cancel_epi (cokernel.π (shift hS)), Stacks.Abelian.π_cokernelPowι_assoc, comp_zero]
-      show (shift hS ^ 1 : End _) ≫ (cokernel.π (shift hS ^ 2) ≫
-        Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) h2) ≫ shift hS = 0
-      rw [Stacks.Abelian.π_cokernelPowLift, ← End.mul_def, ← End.mul_def, pow_one, ← pow_succ',
-        ← pow_succ, show ℓ - 2 + 1 + 1 = ℓ by omega, shift_pow_self]
+        Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) h2 ≫ (shift hS).asHom = 0 := by
+      rw [← cancel_epi (cokernel.π (shift hS).asHom), Stacks.Abelian.π_cokernelPowι_assoc, comp_zero]
+      show (shift hS ^ 1).asHom ≫ cokernel.π (shift hS ^ 2).asHom ≫ _ = 0
+      rw [Stacks.Abelian.π_cokernelPowLift_assoc, ← End.mul_asHom,
+        ← End.mul_asHom, pow_one, ← pow_succ', ← pow_succ, show ℓ - 2 + 1 + 1 = ℓ by omega,
+        shift_pow_self, End.zero_asHom]
     rw [← hh', hh'']
     simp only [Category.assoc, hzero, comp_zero]
   · exact absurd (extClass_eq_zero_of_comp_ne_zero hS _ hc) hne
@@ -210,17 +210,17 @@ include hS in
 /-- **Every global section of `Λ[P]` is killed by `s`**, for a nonsplit extension on a connected
 `X`. -/
 theorem comp_shift_eq_zero [ConnectedSpace X] (hne : hS.extClass ≠ 0)
-    (g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w)) : g ≫ shift hS = 0 := by
+    (g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w)) : g ≫ (shift hS).asHom = 0 := by
   have hp : ℓ.Prime := Fact.out
-  have hstep : ∀ k, 1 ≤ k → g ≫ shift hS ^ (k + 1) = 0 → g ≫ shift hS ^ k = 0 := by
+  have hstep : ∀ k, 1 ≤ k → g ≫ (shift hS ^ (k + 1)).asHom = 0 → g ≫ (shift hS ^ k).asHom = 0 := by
     intro k hk hg
-    have := comp_shift_eq_zero_of_comp_shift_sq_eq_zero hS hne (g ≫ shift hS ^ (k - 1)) (by
-      rw [Category.assoc, ← End.mul_def, ← pow_add, show 2 + (k - 1) = k + 1 by omega, hg])
-    rwa [Category.assoc, ← End.mul_def, ← pow_succ', Nat.sub_add_cancel hk] at this
-  have hdown : ∀ d, d + 1 ≤ ℓ → g ≫ shift hS ^ (ℓ - d) = 0 := by
+    have := comp_shift_eq_zero_of_comp_shift_sq_eq_zero hS hne (g ≫ (shift hS ^ (k - 1)).asHom) (by
+      rw [Category.assoc, ← End.mul_asHom, ← pow_add, show 2 + (k - 1) = k + 1 by omega, hg])
+    rwa [Category.assoc, ← End.mul_asHom, ← pow_succ', Nat.sub_add_cancel hk] at this
+  have hdown : ∀ d, d + 1 ≤ ℓ → g ≫ (shift hS ^ (ℓ - d)).asHom = 0 := by
     intro d
     induction d with
-    | zero => exact fun _ => by rw [Nat.sub_zero, shift_pow_self, comp_zero]
+    | zero => exact fun _ => by rw [Nat.sub_zero, shift_pow_self, End.zero_asHom, comp_zero]
     | succ d ih =>
       intro hd
       refine hstep _ (by omega) ?_
@@ -237,13 +237,13 @@ theorem finite_and_natCard_hom_unitSheaf_freeTorsor_le [ConnectedSpace X] (hne :
   have hp : ℓ.Prime := Fact.out
   obtain ⟨hlift, hcancel⟩ := exists_comp_cokernelPowLift_shift_and_cancel hS hp.one_le
   have := isIso_cokernelShiftDesc hS
-  have hg : ∀ g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w), g ≫ shift hS ^ 1 = 0 :=
+  have hg : ∀ g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w), g ≫ (shift hS ^ 1).asHom = 0 :=
     fun g => by rw [pow_one]; exact comp_shift_eq_zero hS hne g
   choose ψ hψ using fun g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w) =>
     hlift g (hg g)
   let φ : (unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w)) →
       (unitSheaf (X := X) ℓ ⟶ unitSheaf ℓ) := fun g =>
-    ψ g ≫ (cokernelIsoOfEq (pow_one (shift hS))).hom ≫ cokernelShiftDesc hS
+    ψ g ≫ (cokernelIsoOfEq (congrArg End.asHom (pow_one (shift hS)))).hom ≫ cokernelShiftDesc hS
   have hφ : Function.Injective φ := by
     intro g g' hgg
     have hl : ψ g = ψ g' := by

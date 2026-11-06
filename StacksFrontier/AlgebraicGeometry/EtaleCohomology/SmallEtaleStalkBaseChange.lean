@@ -161,24 +161,24 @@ public lemma isIso_of_sheafFiber_map
     obtain ⟨a, ha⟩ := ((isIso_iff_bijective _).1 (hf Φ)).2
       (Φ.obj.toPresheafFiber X t G.obj y)
     obtain ⟨Y, z, x, rfl⟩ := Φ.obj.toPresheafFiber_jointly_surjective (P := F.obj) a
-    let T : Φ.obj.fiber.Elements := ⟨X, t⟩
-    let V : Φ.obj.fiber.Elements := ⟨Y, z⟩
+    let T : Φ.obj.fiber.Elements := Φ.obj.fiber.elementsMk X t
+    let V : Φ.obj.fiber.Elements := Φ.obj.fiber.elementsMk Y z
     let W := IsCofiltered.min T V
     let l := IsCofiltered.minToLeft T V
     let r := IsCofiltered.minToRight T V
-    have hw : Φ.obj.toPresheafFiber W.1 W.2 G.obj (f.hom.app _ (F.obj.map r.1.op x)) =
-        Φ.obj.toPresheafFiber W.1 W.2 G.obj (G.obj.map l.1.op y) := by
+    have hw : Φ.obj.toPresheafFiber W.obj W.val G.obj (f.hom.app _ (F.obj.map r.hom.op x)) =
+        Φ.obj.toPresheafFiber W.obj W.val G.obj (G.obj.map l.hom.op y) := by
       rw [f.hom.naturality_apply, GrothendieckTopology.Point.toPresheafFiber_w_apply,
-        GrothendieckTopology.Point.toPresheafFiber_w_apply, l.2, r.2]
+        GrothendieckTopology.Point.toPresheafFiber_w_apply, l.map_val, r.map_val]
       change Φ.obj.presheafFiber.map f.hom _ = _ at ha
       simpa using ha
     obtain ⟨V', g, z', hz', heq⟩ := (Φ.obj.toPresheafFiber_eq_iff' _ _ _ _).1 hw
-    refine ⟨V', g ≫ l.1, ⟨F.obj.map g.op (F.obj.map r.1.op x), ?_⟩, z', ?_⟩
+    refine ⟨V', g ≫ l.hom, ⟨F.obj.map g.op (F.obj.map r.hom.op x), ?_⟩, z', ?_⟩
     · rw [f.hom.naturality_apply, heq]
       simp only [op_comp, Functor.map_comp]
       rfl
     · simp only [Functor.map_comp, types_comp_apply, hz']
-      exact l.2⟩
+      exact l.map_val⟩
   exact (Sheaf.isLocallyBijective_iff_isIso f).1 ⟨hinj, hsurj⟩
 
 end CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints

@@ -68,7 +68,7 @@ functorial action of the geometric fibre functor; the `FintypeCat`-valued and `T
 functors agree on the nose. -/
 theorem autMulFiber_smul_eq (Y : FiniteEtaleOver X) (φ : Aut Y)
     (y : ((finiteEtaleFiberFintypeFunctor X x).obj Y).obj) :
-    φ • y = (finiteEtaleFiberFunctor x).map φ.hom y :=
+    φ • y = (finiteEtaleFiberFunctor x).map φ.asIso.hom y :=
   rfl
 
 /-- Transitivity of the automorphism group of a finite étale cover on its geometric fibre,
@@ -76,7 +76,7 @@ transported from the `Type`-valued geometric fibre functor to the `FintypeCat`-v
 `CategoryTheory.PreGaloisCategory.isGalois_iff_pretransitive` states it. -/
 theorem isPretransitive_aut_of_forall_exists_map_eq (Y : FiniteEtaleOver X)
     (h : ∀ a b : (finiteEtaleFiberFunctor x).obj Y,
-      ∃ φ : Aut Y, (finiteEtaleFiberFunctor x).map φ.hom a = b) :
+      ∃ φ : Aut Y, (finiteEtaleFiberFunctor x).map φ.asIso.hom a = b) :
     MulAction.IsPretransitive (Aut Y) ((finiteEtaleFiberFintypeFunctor X x).obj Y) :=
   ⟨fun a b ↦ (h a b).imp fun φ hφ ↦ (autMulFiber_smul_eq x Y φ a).trans hφ⟩
 
@@ -97,7 +97,7 @@ theorem exists_aut_map_eq_mul_of_fiberEquiv (V : Subgroup (EtaleFundamentalGroup
     (e : (finiteEtaleFiberFunctor x).obj Y ≃ EtaleFundamentalGroup X x ⧸ V)
     (he : ∀ (σ : EtaleFundamentalGroup X x) y, e (σ • y) = σ • e y)
     (q : EtaleFundamentalGroup X x ⧸ V) :
-    ∃ φ : Aut Y, ∀ y, (finiteEtaleFiberFunctor x).map φ.hom y = e.symm (e y * q) := by
+    ∃ φ : Aut Y, ∀ y, (finiteEtaleFiberFunctor x).map φ.asIso.hom y = e.symm (e y * q) := by
   have key : ∀ r : EtaleFundamentalGroup X x ⧸ V, ∃ g : Y ⟶ Y,
       ∀ y, (finiteEtaleFiberFunctor x).map g y = e.symm (e y * r) := by
     intro r
@@ -131,7 +131,7 @@ Galois group in question is the group of
 theorem card_aut_eq_card_fiber_of_isGalois (A : FiniteEtaleOver X) [IsGalois A] :
     Nat.card (Aut A) = Nat.card ((finiteEtaleFiberFunctor x).obj A) := by
   obtain ⟨a⟩ := nonempty_fiber_of_isConnected (finiteEtaleFiberFintypeFunctor X x) A
-  exact Nat.card_eq_of_bijective (fun φ : Aut A ↦ (finiteEtaleFiberFunctor x).map φ.hom a)
+  exact Nat.card_eq_of_bijective (fun φ : Aut A ↦ (finiteEtaleFiberFunctor x).map φ.asIso.hom a)
     (evaluation_aut_bijective_of_isGalois (finiteEtaleFiberFintypeFunctor X x) A a)
 
 /-! ### An open normal subgroup is the stabilizer on a Galois cover of the expected degree -/

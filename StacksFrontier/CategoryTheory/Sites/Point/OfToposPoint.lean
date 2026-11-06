@@ -85,13 +85,15 @@ stated for `uliftYoneda` and therefore only for presheaves whose values are at l
 as the hom-sets of `C`. -/
 @[simps, sga "3 I 1.7.0", sga "3 I 1.7.1", sga "4 I 8.3.2"]
 noncomputable def shrinkCoconeOfRepresentable (P : Cᵒᵖ ⥤ Type w) :
-    Cocone ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w}) where
+    Cocone ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w}) where
   pt := P
   ι :=
-    { app x := shrinkYonedaEquiv.symm x.unop.2
+    { app x := shrinkYonedaEquiv.symm x.unop.val
       naturality {x₁ x₂} f := by
         dsimp
-        rw [Category.comp_id, ← shrinkYonedaEquiv_symm_map, f.unop.2] }
+        rw [Category.comp_id]
+        exact (shrinkYonedaEquiv_symm_map f.unop.hom (unop x₂).val).symm.trans
+          (congrArg _ f.unop.map_val) }
 
 /-- The morphism out of a presheaf `P` induced by a cocone on the diagram of representables
 indexed by the category of elements of `P`: its value at an element `x` of `P(X)` is the
@@ -99,12 +101,12 @@ section of the cocone point over `X` which Yoneda's lemma attaches to the leg of
 `x`. It is the descent morphism of the density theorem
 `CategoryTheory.Presheaf.shrinkColimitOfRepresentable`. -/
 noncomputable def shrinkDescOfRepresentable {P : Cᵒᵖ ⥤ Type w}
-    (s : Cocone ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w})) : P ⟶ s.pt where
+    (s : Cocone ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w})) : P ⟶ s.pt where
   app X := ↾fun x ↦ shrinkYonedaEquiv (s.ι.app (op (Functor.elementsMk P X x)))
   naturality X Y f := by
     ext x
-    have h := s.w (CategoryOfElements.homMk (P.elementsMk X x)
-      (P.elementsMk Y (P.map f x)) f rfl).op
+    have h := s.w (Functor.Elements.homMk (x := P.elementsMk X x)
+      (y := P.elementsMk Y (P.map f x)) f rfl).op
     dsimp at h ⊢
     rw [← h, ← shrinkYonedaEquiv_naturality]
     rfl
@@ -112,7 +114,7 @@ noncomputable def shrinkDescOfRepresentable {P : Cᵒᵖ ⥤ Type w}
 /-- The value of `CategoryTheory.Presheaf.shrinkDescOfRepresentable` at an element. -/
 @[simp]
 theorem shrinkDescOfRepresentable_app_apply {P : Cᵒᵖ ⥤ Type w}
-    (s : Cocone ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w})) (X : Cᵒᵖ)
+    (s : Cocone ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w})) (X : Cᵒᵖ)
     (x : P.obj X) :
     (shrinkDescOfRepresentable s).app X x =
       shrinkYonedaEquiv (s.ι.app (op (Functor.elementsMk P X x))) :=
@@ -128,7 +130,7 @@ private theorem shrinkYonedaEquiv_symm_comp_eq {X : C} {P Q : Cᵒᵖ ⥤ Type w
 /-- The descent morphism of a cocone on the diagram of representables is compatible with the
 legs of the tautological cocone. -/
 theorem shrinkYonedaEquiv_symm_comp_shrinkDescOfRepresentable {P : Cᵒᵖ ⥤ Type w}
-    (s : Cocone ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w})) (X : Cᵒᵖ)
+    (s : Cocone ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w})) (X : Cᵒᵖ)
     (x : P.obj X) :
     shrinkYonedaEquiv.symm x ≫ shrinkDescOfRepresentable s =
       s.ι.app (op (Functor.elementsMk P X x)) := by
@@ -138,7 +140,7 @@ theorem shrinkYonedaEquiv_symm_comp_shrinkDescOfRepresentable {P : Cᵒᵖ ⥤ T
 /-- The descent morphism of a cocone on the diagram of representables is the unique morphism
 compatible with the legs of the tautological cocone. -/
 theorem eq_shrinkDescOfRepresentable {P : Cᵒᵖ ⥤ Type w}
-    {s : Cocone ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w})} (m : P ⟶ s.pt)
+    {s : Cocone ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w})} (m : P ⟶ s.pt)
     (hm : ∀ (X : Cᵒᵖ) (x : P.obj X), shrinkYonedaEquiv.symm x ≫ m =
       s.ι.app (op (Functor.elementsMk P X x))) :
     m = shrinkDescOfRepresentable s := by
@@ -162,7 +164,7 @@ noncomputable def shrinkColimitOfRepresentable (P : Cᵒᵖ ⥤ Type w) :
     IsColimit (shrinkCoconeOfRepresentable P) where
   desc s := shrinkDescOfRepresentable s
   fac s j :=
-    shrinkYonedaEquiv_symm_comp_shrinkDescOfRepresentable s (unop j).fst (unop j).snd
+    shrinkYonedaEquiv_symm_comp_shrinkDescOfRepresentable s (unop j).obj (unop j).val
   uniq _ m hm :=
     eq_shrinkDescOfRepresentable m fun X x ↦ hm (op (Functor.elementsMk P X x))
 
@@ -229,7 +231,7 @@ theorem exists_sitePointFiber_presheafStalk (P : Cᵒᵖ ⥤ Type w)
   obtain ⟨j, x, hx⟩ := Limits.Types.jointly_surjective_of_isColimit
     (isColimitOfPreserves p.presheafStalkFunctor
       (Presheaf.shrinkColimitOfRepresentable P)) t
-  exact ⟨(unop j).fst.unop, (Presheaf.shrinkCoconeOfRepresentable P).ι.app j, x, hx⟩
+  exact ⟨(unop j).obj.unop, (Presheaf.shrinkCoconeOfRepresentable P).ι.app j, x, hx⟩
 
 /-- **The key covering lemma.** Every element of the stalk `p⁻¹F` of a sheaf at a point `p` of
 the topos comes from a sheafified representable: there are an object `X`, an element `x` of
@@ -330,11 +332,11 @@ theorem isCofiltered_sitePointFiber_elements : IsCofiltered p.sitePointFiber.Ele
   have key : ∀ (W : p.presheafStalkFunctor.Elements),
       ∃ (Z : C) (z : p.sitePointFiber.obj Z) (η : shrinkYoneda.{w}.obj Z ⟶ W.1),
         p.presheafStalkFunctor.map η z = W.2 := by
-    rintro ⟨P, t⟩
+    rintro @⟨P, t⟩
     obtain ⟨Z, η, z, hz⟩ := p.exists_sitePointFiber_presheafStalk P t
     exact ⟨Z, z, η, hz⟩
   refine { cone_objs := ?_, cone_maps := ?_, nonempty := ?_ }
-  · rintro ⟨Xa, xa⟩ ⟨Xb, xb⟩
+  · rintro @⟨Xa, xa⟩ @⟨Xb, xb⟩
     obtain ⟨W, φ, ψ, -⟩ := IsCofilteredOrEmpty.cone_objs
       (Functor.elementsMk p.presheafStalkFunctor (shrinkYoneda.{w}.obj Xa) xa)
       (Functor.elementsMk p.presheafStalkFunctor (shrinkYoneda.{w}.obj Xb) xb)
@@ -344,18 +346,19 @@ theorem isCofiltered_sitePointFiber_elements : IsCofiltered p.sitePointFiber.Ele
         by rw [p.sitePointFiber_map_preimage, hη]; exact φ.2⟩,
       ⟨(fullyFaithfulShrinkYoneda C).preimage (η ≫ ψ.1),
         by rw [p.sitePointFiber_map_preimage, hη]; exact ψ.2⟩, trivial⟩
-  · rintro ⟨Xa, xa⟩ ⟨Xb, xb⟩ φ ψ
+  · rintro @⟨Xa, xa⟩ @⟨Xb, xb⟩ φ ψ
     obtain ⟨W, h, hh⟩ := IsCofilteredOrEmpty.cone_maps
       (show Functor.elementsMk p.presheafStalkFunctor (shrinkYoneda.{w}.obj Xa) xa ⟶
           Functor.elementsMk p.presheafStalkFunctor (shrinkYoneda.{w}.obj Xb) xb from
         ⟨shrinkYoneda.{w}.map φ.1, φ.2⟩)
       ⟨shrinkYoneda.{w}.map ψ.1, ψ.2⟩
-    rw [Subtype.ext_iff] at hh
+    replace hh : h.hom ≫ shrinkYoneda.{w}.map φ.hom = h.hom ≫ shrinkYoneda.{w}.map ψ.hom :=
+      congrArg Functor.Elements.Hom.hom hh
     obtain ⟨Z, z, η, hη⟩ := key W
     refine ⟨Functor.elementsMk _ Z z,
       ⟨(fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1),
         by rw [p.sitePointFiber_map_preimage, hη]; exact h.2⟩, ?_⟩
-    refine CategoryOfElements.ext _ _ _ (shrinkYoneda.{w}.map_injective ?_)
+    refine Functor.Elements.hom_ext (shrinkYoneda.{w}.map_injective ?_)
     show shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1) ≫ φ.1) =
       shrinkYoneda.{w}.map ((fullyFaithfulShrinkYoneda C).preimage (η ≫ h.1) ≫ ψ.1)
     rw [Functor.map_comp, Functor.map_comp, (fullyFaithfulShrinkYoneda C).map_preimage,
@@ -528,12 +531,12 @@ instance isIso_presheafFiberComparisonAppOfEssentiallySmall_shrinkYoneda_obj (Y 
 /-- The comparison transformation on the diagram of representables indexed by the category of
 elements of a presheaf, as an isomorphism of diagrams. -/
 noncomputable def presheafFiberComparisonDiagramIsoOfEssentiallySmall (P : Cᵒᵖ ⥤ Type w) :
-    ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙
+    ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙
         p.sitePointOfEssentiallySmall.presheafFiber (A := Type w) ≅
-      ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙ p.presheafStalkFunctor :=
+      ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙ p.presheafStalkFunctor :=
   NatIso.ofComponents
     (fun j ↦ @asIso _ _ _ _ _ (p.isIso_presheafFiberComparisonAppOfEssentiallySmall_shrinkYoneda_obj
-      ((CategoryOfElements.π P).leftOp.obj j)))
+      ((Functor.Elements.π P).leftOp.obj j)))
     fun _ ↦ p.presheafFiberComparisonOfEssentiallySmall.naturality _
 
 /-- **The comparison transformation is an isomorphism at every presheaf.** Both functors
@@ -561,7 +564,7 @@ instance isIso_presheafFiberComparisonAppOfEssentiallySmall (P : Cᵒᵖ ⥤ Typ
     { hom := p.presheafFiberComparisonAppOfEssentiallySmall P
       w := fun _ ↦ p.presheafFiberComparisonOfEssentiallySmall.naturality _ }
   have : IsIso hcm := IsColimit.hom_isIso hA hB' hcm
-  exact (Cocones.forget _).map_isIso hcm
+  exact (Cocone.forget _).map_isIso hcm
 
 /-- The fibre functor on presheaves of the point `PointOfTopos.sitePointOfEssentiallySmall` of
 the site is the stalk-of-the-sheafification functor of the point `p` of the topos. -/
@@ -686,9 +689,9 @@ instance isIso_presheafFiberComparisonApp_shrinkYoneda_obj (Y : C) :
 /-- The comparison transformation on the diagram of representables indexed by the category of
 elements of a presheaf, as an isomorphism of diagrams. -/
 noncomputable def presheafFiberComparisonDiagramIso (P : Cᵒᵖ ⥤ Type w) :
-    ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙
+    ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙
         p.sitePoint.presheafFiber (A := Type w) ≅
-      ((CategoryOfElements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙ p.presheafStalkFunctor :=
+      ((Functor.Elements.π P).leftOp ⋙ shrinkYoneda.{w}) ⋙ p.presheafStalkFunctor :=
   p.presheafFiberComparisonDiagramIsoOfEssentiallySmall P
 
 /-- **The comparison transformation is an isomorphism at every presheaf.** Both functors

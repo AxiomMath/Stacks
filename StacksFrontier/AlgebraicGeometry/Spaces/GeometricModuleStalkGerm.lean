@@ -193,6 +193,7 @@ theorem moduleStalkLargeGerm_smul (U : C) (x : p.fiber.obj U)
     exact (Functor.Final.ι_colimitIso_hom_assoc K R₀ j _).trans
       (ι_preservesColimitIso_inv (forget₂ CommRingCat RingCat)
         ((CategoryOfElements.π p.fiber).op ⋙ O.obj) (K.obj j))
+  let (j : _) : Module (R.obj j) (F.val.obj (op (K.obj j).unop.1)) := (F.val.obj _).isModule
   have hfinal : ∀ (j : _) (a : R.obj j) (b : F.val.obj (op (K.obj j).unop.1)),
       moduleStalkLargeGerm p O F (K.obj j).unop.1 (K.obj j).unop.2 (a • b) =
         p.toPresheafFiber (K.obj j).unop.1 (K.obj j).unop.2 O.obj a •

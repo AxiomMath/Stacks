@@ -207,8 +207,9 @@ theorem sheafEquivFunctorSheafFiberIso_inv_naturality {x y : GeometricPoint X}
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) h2)))
   have hr := (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ (sheafEquivFunctorSheafFiberIso B X hX x).inv.app F)
-      (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X hX x)).op ⋙
-        F.obj) (neighborhoodFunctor B X hX a).op (op ⟨U, z⟩))).trans
+      (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X hX x)).op ⋙
+        F.obj) (neighborhoodFunctor B X hX a).op
+        (op ((geometricPointFiber B X hX y).elementsMk U z)))).trans
     (toPresheafFiber_sheafEquivFunctorSheafFiberIso_inv B X hX x F U _))
   refine hl.trans (Eq.trans ?_ hr.symm)
   congr 2
@@ -500,7 +501,8 @@ theorem mem_range_smallEtaleGlobalGerm_app_iff (ht : t.IsAlgebraic)
         (pointSmallEtaleSheafFiberIso_hom_naturality B (Spec (.of K)) hK ⟨α.hom, hαt⟩ G) y
       exact h2.trans (congrArg (ConcreteCategory.hom P) (hy σ τ hτ α hα hαt))
     let c := (sheafΓEquivGaloisFixedPoints B K hK t G).symm ⟨_, hfix⟩
-    refine ⟨c, (mono_iff_injective _).1 (inferInstance : Mono P) ?_⟩
+    refine ⟨c, (mono_iff_injective _).1 (@IsIso.mono_of_iso _ _ _ _ P
+      (Iso.isIso_hom ((pointSmallEtaleSheafFiberIso B (Spec (.of K)) hK t).app G))) ?_⟩
     have hc := ConcreteCategory.congr_hom
       (smallEtaleGlobalGerm_app_comp_pointSmallEtaleSheafFiberIso_hom_app B K hK t G) c
     exact (hc.trans (sheafΓGerm_app_apply B K hK t G c)).trans
@@ -902,11 +904,13 @@ theorem directImageStalkToStalkHom_injective
     Function.Injective
       (ConcreteCategory.hom (directImageStalkToStalkHom B S hS s B' U j K e hK g hg t R M)) := by
   intro x x' h
-  have h1 := (mono_iff_injective _).1 (inferInstance : Mono
-    ((pointStalkAbForgetIso B' U K hK g t R).inv.app M)) h
+  have h1 := (mono_iff_injective _).1 (@IsIso.mono_of_iso _ _ _ _
+    ((pointStalkAbForgetIso B' U K hK g t R).inv.app M)
+    (Iso.isIso_hom ((pointStalkAbForgetIso B' U K hK g t R).app M).symm)) h
   have h2 := directImageStalkToStalk_injective B S hS s B' U j K e hK g hg t _ h1
-  exact (mono_iff_injective _).1 (inferInstance : Mono
-    ((directImageStalkAbForgetIso S s B' U j R).hom.app M)) h2
+  exact (mono_iff_injective _).1 (@IsIso.mono_of_iso _ _ _ _
+    ((directImageStalkAbForgetIso S s B' U j R).hom.app M)
+    (Iso.isIso_hom ((directImageStalkAbForgetIso S s B' U j R).app M))) h2
 
 omit [QuasiCompact j] [QuasiSeparated j] in
 /-- The identification of the underlying set of the stalk of `M` with the stalk of its
@@ -924,7 +928,7 @@ theorem pointStalkAbForgetIso_hom_app_geometricPointStalkMap
         (ConcreteCategory.hom ((pointStalkAbForgetIso B' U K hK g t R).hom.app M) z) := by
   have hb : (pointStalkAbForgetIso B' U K hK g t R).hom.app M =
       (preservesColimitIso (forget (ModuleCat.{u + 1} R))
-        ((CategoryOfElements.π (geometricPointFiber B' U.1 U.2
+        ((Functor.Elements.π (geometricPointFiber B' U.1 U.2
           (t.map (B'.inclusion.map g)))).op ⋙
           ((SmallEtale.sheafEquiv B' U.1 U.2 (ModuleCat.{u + 1} R)).inverse.obj M).obj)).hom := by
     simp [pointStalkAbForgetIso, GrothendieckTopology.Point.sheafFiberCompIso,

@@ -56,7 +56,6 @@ theorem mem_grothendieckTopology_of_opensMap {U : Opens X} (S : Sieve U)
       show y ∈ (W : Set Z); rw [← hW]; exact hy.1
     refine ⟨⟨V', hV'⟩ ⊓ U, homOfLE inf_le_right, h₂ _ _ ?_, ?_, hx⟩
     · convert T.downward_closed hg (homOfLE hle) using 1
-      exact Subsingleton.elim _ _
     · show z ∈ f ⁻¹' V'
       rwa [hW]
   · refine ⟨complRange f hf ⊓ U, homOfLE inf_le_right, h₁ _ _ ?_, hxr, hx⟩

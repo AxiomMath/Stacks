@@ -85,6 +85,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {V W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : V ⟶ W)
   (hV : IsAlgebraicSpace B S hS V) (hW : IsAlgebraicSpace B S hS W)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ExcisionDiagonalCovering :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ExcisionDiagonalCovering
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g₁ : X ⟶ Z) (g₂ : Y ⟶ Z) :
+    HasLimit (cospan g₁ g₂) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The two pieces of the fibre square -/
 
 /-- The point set of the relative diagonal of `f` inside the point space of its fibre
@@ -150,7 +161,7 @@ include hV hW hf hsep in
 open subspaces with the same point set. -/
 theorem diagOpen_eq_range :
     diagOpen B S hS f = Subfunctor.range (pullback.diagonal f) := by
-  have _ : Mono (pullback.diagonal f) := inferInstance
+  have _ : Mono (pullback.diagonal f) := IsSplitMono.mono _
   have hopen : IsOpenSubspace B S hS (Subfunctor.range (pullback.diagonal f)) :=
     isOpenSubspace_subfunctorRange B S hS hV
       (isOpenImmersion_diagonal_of_isUnramified B S hS hV hW f
@@ -164,7 +175,7 @@ include hV hW hf hsep in
 relative diagonal.** -/
 theorem offDiagOpen_eq_openComplement :
     offDiagOpen B S hS f = openComplement B S hS (Subfunctor.range (pullback.diagonal f)) := by
-  have _ : Mono (pullback.diagonal f) := inferInstance
+  have _ : Mono (pullback.diagonal f) := IsSplitMono.mono _
   rw [openComplement_eq_openSubspaceOfPoints_compl, offDiagOpen, diagPoints,
     range_pointsMap_ι_range B S hS (pullback.diagonal f)]
 
@@ -219,7 +230,7 @@ include hV hW hf hsep in
 theorem diagPreimage_comp_fst_eq_snd :
     ((diagOpen B S hS f).preimage κ).ι ≫ κ ≫ pullback.fst f f =
       ((diagOpen B S hS f).preimage κ).ι ≫ κ ≫ pullback.snd f f := by
-  have _ : Mono (pullback.diagonal f) := inferInstance
+  have _ : Mono (pullback.diagonal f) := IsSplitMono.mono _
   have hfac : ((diagOpen B S hS f).preimage κ).ι ≫ κ =
       (diagOpen B S hS f).fromPreimage κ ≫ (diagOpen B S hS f).ι :=
     ((diagOpen B S hS f).fromPreimage_ι κ).symm

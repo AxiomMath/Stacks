@@ -51,8 +51,9 @@ isomorphisms of Stacks 0F6N and 0F51 between the models of the functors) and
 structure); the passage to homotopy categories is
 `Stacks.DerivedBaseChange.homotopySquareIso_horizontal_paste`, and the derived statement is
 `Stacks.DerivedBaseChange.squareMap_horizontal_paste`, with the derived identification
-`(h' ≫ h)_! = h'_! ⋙ h_!` taken to be `CategoryTheory.Functor.mapDerivedCategoryCompIso`, whose
-value on the image of the homotopy category is
+`(h' ≫ h)_! = h'_! ⋙ h_!` taken to be
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, whose value on the image of the
+homotopy category is
 `CategoryTheory.Functor.mapDerivedCategoryCompIso_hom_app_Qh`. Stating the transport lemmas over
 functor variables, and instantiating them at the concrete functors in term mode, keeps the
 identifications of the different spellings of the same functors out of the elaborator and the
@@ -299,7 +300,8 @@ and let `Λ` be a ring. Then the maps of [Stacks, Tag 0F7B] for the two squares 
 for the outer rectangle. Precisely, as the source states it in its proof: write
 `(h' ≫ h)_! = h'_! ⋙ h_!` and `(g' ≫ g)_! = g'_! ⋙ g_!` on derived categories, through the
 identifications of Stacks 0F50 (`AlgebraicGeometry.SmallEtale.etaleModuleLiftFShriekCompIso`)
-induced on unbounded derived categories by `CategoryTheory.Functor.mapDerivedCategoryCompIso`;
+induced on unbounded derived categories by
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`;
 then the map `(h' ≫ h)_! ∘ Rf''_* ⟶ Rf_* ∘ (g' ≫ g)_!` of the outer rectangle is the composite
 ```
 h_! ∘ h'_! ∘ Rf''_* ⟶ h_! ∘ Rf'_* ∘ g'_! ⟶ Rf_* ∘ g_! ∘ g'_!
@@ -350,7 +352,7 @@ theorem properBaseChangeMap_horizontal_paste (g' : X'' ⟶ X') (g : X' ⟶ X)
     properBaseChangeMap B Λ (g' ≫ g) f'' f (h' ≫ h) (rectangle_comm_horizontal B w₁ w₂)
         RF'' αF'' RF αF =
       Functor.whiskerLeft RF''
-          (Functor.mapDerivedCategoryCompIso
+          (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ h' h (h' ≫ h) rfl)).inv ≫
         (Functor.associator RF''
           (etaleModuleLift B Λ (fShriekFunctor.{u, u} B h')).mapDerivedCategory
@@ -367,7 +369,7 @@ theorem properBaseChangeMap_horizontal_paste (g' : X'' ⟶ X') (g : X' ⟶ X)
           (etaleModuleLift B Λ (fShriekFunctor.{u, u} B g')).mapDerivedCategory
           (etaleModuleLift B Λ (fShriekFunctor.{u, u} B g)).mapDerivedCategory RF).inv ≫
         Functor.whiskerRight
-          (Functor.mapDerivedCategoryCompIso
+          (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ g' g (g' ≫ g) rfl)).hom RF := by
   have := isRightDerivedFunctor_comp_right _ RF'' αF''
     (etaleModuleLift B Λ (fShriekFunctor.{u, u} B h')).mapDerivedCategory
@@ -389,8 +391,10 @@ theorem properBaseChangeMap_horizontal_paste (g' : X'' ⟶ X') (g : X' ⟶ X)
       (ComplexShape.up ℤ))
     (Functor.mapHomotopyCategoryCompIso (etaleModuleLiftFShriekCompIso B Λ h' h (h' ≫ h) rfl)
       (ComplexShape.up ℤ))
-    (Functor.mapDerivedCategoryCompIso (etaleModuleLiftFShriekCompIso B Λ g' g (g' ≫ g) rfl))
-    (Functor.mapDerivedCategoryCompIso (etaleModuleLiftFShriekCompIso B Λ h' h (h' ≫ h) rfl))
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
+      (etaleModuleLiftFShriekCompIso B Λ g' g (g' ≫ g) rfl))
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
+      (etaleModuleLiftFShriekCompIso B Λ h' h (h' ≫ h) rfl))
     (Functor.mapDerivedCategoryCompIso_hom_app_Qh
       (etaleModuleLiftFShriekCompIso B Λ g' g (g' ≫ g) rfl))
     (Functor.mapDerivedCategoryCompIso_hom_app_Qh

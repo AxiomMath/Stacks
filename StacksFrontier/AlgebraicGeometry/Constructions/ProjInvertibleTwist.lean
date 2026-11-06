@@ -848,8 +848,7 @@ theorem smul_pow_eq_dualPow_smul (μ : (𝓛 1) →ₗ[R] R) (hℓ : ℓ ∈ �
       intro m
       obtain ⟨x, hx⟩ := (h𝓛.mulEquiv d 1).surjective m
       subst hx
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul u v =>
           have hv : (μ ⟨ℓ, hℓ⟩) • (v : T) = (μ v) • ℓ :=
             congrArg Subtype.val (h𝓛.smul_comm_of_dual μ ⟨ℓ, hℓ⟩ v)
@@ -898,7 +897,6 @@ theorem exists_pieceMap_eq_smul (μ : (𝓛 1) →ₗ[R] R) (hℓ : ℓ ∈ 𝓛
     ∃ x : 𝒜 d, (μ ⟨ℓ, hℓ⟩) ^ d • y = tw.pieceMap h𝓛 hℓ d x := by
   obtain ⟨z, rfl⟩ := (tw.piece d).surjective y
   induction z with
-  | zero => exact ⟨0, by simp⟩
   | tmul a m =>
       obtain ⟨c, hc⟩ := h𝓛.exists_smul_pow_eq μ hℓ d (m : T) m.2
       refine ⟨c • a, ?_⟩

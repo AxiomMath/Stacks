@@ -141,18 +141,18 @@ derived-functor unit of `RH` at a bounded below complex `K`, it is the degreewis
 private lemma unit_comp_comparison_hom (F : X ⥤ Y) (G : Y ⥤ Z) (H : X ⥤ Z)
     [F.Additive] [G.Additive] [H.Additive] [F.PreservesInjectiveObjects]
     (e : F ⋙ G ≅ H) (K : HomotopyCategory.Plus X) :
-    H.rightDerivedFunctorPlusUnit.app K ≫
+    H.rightDerivedFunctorPlusUnith.app K ≫
         ((rightDerivedFunctorPlusNatIso e).symm ≪≫
           rightDerivedFunctorPlusCompIso F G).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso e).inv.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-          G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
-  have h1 : H.rightDerivedFunctorPlusUnit.app K ≫
+        G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+          G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
+  have h1 : H.rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusNatIso e).inv.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso e).inv.app K) ≫
-        (F ⋙ G).rightDerivedFunctorPlusUnit.app K := by
+        (F ⋙ G).rightDerivedFunctorPlusUnith.app K := by
     rw [rightDerivedFunctorPlusNatIso, rightDerivedNatIso_inv]
     exact rightDerivedNatTrans_app _ _ _ _ _ _ K
   dsimp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app]
@@ -167,8 +167,8 @@ private lemma unit_comp_square_hom (F : X ⥤ Y) (G : Y ⥤ Z) (F' : X ⥤ Y') (
     [F.Additive] [G.Additive] [F'.Additive] [G'.Additive]
     [F.PreservesInjectiveObjects] [F'.PreservesInjectiveObjects]
     (s : F ⋙ G ≅ F' ⋙ G') (K : HomotopyCategory.Plus X) :
-    G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
           ((rightDerivedFunctorPlusCompIso F G).symm ≪≫ rightDerivedFunctorPlusNatIso s ≪≫
             rightDerivedFunctorPlusCompIso F' G').hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
@@ -176,32 +176,32 @@ private lemma unit_comp_square_hom (F : X ⥤ Y) (G : Y ⥤ Z) (F' : X ⥤ Y') (
         DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso s).hom.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F' ⋙ G'))).inv.app K) ≫
-        G'.rightDerivedFunctorPlusUnit.app (F'.mapHomotopyCategoryPlus.obj K) ≫
-          G'.rightDerivedFunctorPlus.map (F'.rightDerivedFunctorPlusUnit.app K) := by
-  have h0 : G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) =
+        G'.rightDerivedFunctorPlusUnith.app (F'.mapHomotopyCategoryPlus.obj K) ≫
+          G'.rightDerivedFunctorPlus.map (F'.rightDerivedFunctorPlusUnith.app K) := by
+  have h0 : G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) =
       DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).hom.app K) ≫
-        (F ⋙ G).rightDerivedFunctorPlusUnit.app K ≫
+        (F ⋙ G).rightDerivedFunctorPlusUnith.app K ≫
           (rightDerivedFunctorPlusCompIso F G).hom.app (DerivedCategory.Plus.Qh.obj K) := by
     rw [rightDerivedFunctorPlusCompIso_hom, rightDerivedFunctorPlusComp_fac_app,
       ← Category.assoc, ← DerivedCategory.Plus.Qh.map_comp, Iso.hom_inv_id_app,
       CategoryTheory.Functor.map_id, Category.id_comp]
-  have h1 : (F ⋙ G).rightDerivedFunctorPlusUnit.app K ≫
+  have h1 : (F ⋙ G).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusNatIso s).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso s).hom.app K) ≫
-        (F' ⋙ G').rightDerivedFunctorPlusUnit.app K := by
+        (F' ⋙ G').rightDerivedFunctorPlusUnith.app K := by
     rw [rightDerivedFunctorPlusNatIso, rightDerivedNatIso_hom]
     exact rightDerivedNatTrans_app _ _ _ _ _ _ K
-  have h2 : (F' ⋙ G').rightDerivedFunctorPlusUnit.app K ≫
+  have h2 : (F' ⋙ G').rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusCompIso F' G').hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F' ⋙ G'))).inv.app K) ≫
-        G'.rightDerivedFunctorPlusUnit.app (F'.mapHomotopyCategoryPlus.obj K) ≫
-          G'.rightDerivedFunctorPlus.map (F'.rightDerivedFunctorPlusUnit.app K) := by
+        G'.rightDerivedFunctorPlusUnith.app (F'.mapHomotopyCategoryPlus.obj K) ≫
+          G'.rightDerivedFunctorPlus.map (F'.rightDerivedFunctorPlusUnith.app K) := by
     rw [rightDerivedFunctorPlusCompIso_hom, rightDerivedFunctorPlusComp_fac_app]
   dsimp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app]
-  rw [← Category.assoc (G.rightDerivedFunctorPlusUnit.app _), h0]
+  rw [← Category.assoc (G.rightDerivedFunctorPlusUnith.app _), h0]
   simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
   rw [reassoc_of% h1, h2]
 
@@ -209,11 +209,11 @@ private lemma unit_comp_square_hom (F : X ⥤ Y) (G : Y ⥤ Z) (F' : X ⥤ Y') (
 is the image of the morphism followed by the unit. -/
 private lemma unit_naturality (G : Y ⥤ Z) [G.Additive]
     {M N : HomotopyCategory.Plus Y} (ψ : M ⟶ N) :
-    G.rightDerivedFunctorPlusUnit.app M ≫
+    G.rightDerivedFunctorPlusUnith.app M ≫
         G.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map ψ) =
       DerivedCategory.Plus.Qh.map (G.mapHomotopyCategoryPlus.map ψ) ≫
-        G.rightDerivedFunctorPlusUnit.app N :=
-  (G.rightDerivedFunctorPlusUnit.naturality ψ).symm
+        G.rightDerivedFunctorPlusUnith.app N :=
+  (G.rightDerivedFunctorPlusUnith.naturality ψ).symm
 
 end Generic
 
@@ -267,61 +267,61 @@ def derivedSquare (sq : a ⋙ b ≅ c ⋙ d) :
 
 /-- The characterising factorization of `Stacks.DerivedFunctor.LeraySquare.derivedLeft`. -/
 private lemma unit_comp_derivedLeft (ea : a ⋙ q ≅ p) (K : HomotopyCategory.Plus A) :
-    p.rightDerivedFunctorPlusUnit.app K ≫
+    p.rightDerivedFunctorPlusUnith.app K ≫
         (derivedLeft ea).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso ea).inv.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (a ⋙ q))).inv.app K) ≫
-        q.rightDerivedFunctorPlusUnit.app (a.mapHomotopyCategoryPlus.obj K) ≫
-          q.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnit.app K) :=
+        q.rightDerivedFunctorPlusUnith.app (a.mapHomotopyCategoryPlus.obj K) ≫
+          q.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnith.app K) :=
   unit_comp_comparison_hom a q p ea K
 
 /-- The characterising factorization of `Stacks.DerivedFunctor.LeraySquare.derivedLeftTail`. -/
 private lemma unit_comp_derivedLeftTail (eb : b ⋙ g ≅ q) (K : HomotopyCategory.Plus B) :
-    q.rightDerivedFunctorPlusUnit.app K ≫
+    q.rightDerivedFunctorPlusUnith.app K ≫
         (derivedLeftTail eb).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso eb).inv.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (b ⋙ g))).inv.app K) ≫
-        g.rightDerivedFunctorPlusUnit.app (b.mapHomotopyCategoryPlus.obj K) ≫
-          g.rightDerivedFunctorPlus.map (b.rightDerivedFunctorPlusUnit.app K) :=
+        g.rightDerivedFunctorPlusUnith.app (b.mapHomotopyCategoryPlus.obj K) ≫
+          g.rightDerivedFunctorPlus.map (b.rightDerivedFunctorPlusUnith.app K) :=
   unit_comp_comparison_hom b g q eb K
 
 /-- The characterising factorization of `Stacks.DerivedFunctor.LeraySquare.derivedRight`. -/
 private lemma unit_comp_derivedRight (ec : c ⋙ r ≅ p) (K : HomotopyCategory.Plus A) :
-    p.rightDerivedFunctorPlusUnit.app K ≫
+    p.rightDerivedFunctorPlusUnith.app K ≫
         (derivedRight ec).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso ec).inv.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (c ⋙ r))).inv.app K) ≫
-        r.rightDerivedFunctorPlusUnit.app (c.mapHomotopyCategoryPlus.obj K) ≫
-          r.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K) :=
+        r.rightDerivedFunctorPlusUnith.app (c.mapHomotopyCategoryPlus.obj K) ≫
+          r.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K) :=
   unit_comp_comparison_hom c r p ec K
 
 /-- The characterising factorization of `Stacks.DerivedFunctor.LeraySquare.derivedRightTail`. -/
 private lemma unit_comp_derivedRightTail (ed : d ⋙ g ≅ r) (K : HomotopyCategory.Plus C) :
-    r.rightDerivedFunctorPlusUnit.app K ≫
+    r.rightDerivedFunctorPlusUnith.app K ≫
         (derivedRightTail ed).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso ed).inv.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (d ⋙ g))).inv.app K) ≫
-        g.rightDerivedFunctorPlusUnit.app (d.mapHomotopyCategoryPlus.obj K) ≫
-          g.rightDerivedFunctorPlus.map (d.rightDerivedFunctorPlusUnit.app K) :=
+        g.rightDerivedFunctorPlusUnith.app (d.mapHomotopyCategoryPlus.obj K) ≫
+          g.rightDerivedFunctorPlus.map (d.rightDerivedFunctorPlusUnith.app K) :=
   unit_comp_comparison_hom d g r ed K
 
 omit [EnoughInjectives D] [b.PreservesInjectiveObjects] [d.PreservesInjectiveObjects] in
 /-- The characterising factorization of `Stacks.DerivedFunctor.LeraySquare.derivedSquare`. -/
 private lemma unit_comp_derivedSquare (sq : a ⋙ b ≅ c ⋙ d) (K : HomotopyCategory.Plus A) :
-    b.rightDerivedFunctorPlusUnit.app (a.mapHomotopyCategoryPlus.obj K) ≫
-        b.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnit.app K) ≫
+    b.rightDerivedFunctorPlusUnith.app (a.mapHomotopyCategoryPlus.obj K) ≫
+        b.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnith.app K) ≫
           (derivedSquare sq).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (a ⋙ b))).hom.app K) ≫
         DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso sq).hom.app K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (c ⋙ d))).inv.app K) ≫
-        d.rightDerivedFunctorPlusUnit.app (c.mapHomotopyCategoryPlus.obj K) ≫
-          d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K) :=
+        d.rightDerivedFunctorPlusUnith.app (c.mapHomotopyCategoryPlus.obj K) ≫
+          d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K) :=
   unit_comp_square_hom a b c d sq K
 
 omit [Abelian A] [Abelian B] [Abelian C] [Abelian D] [Abelian E]
@@ -436,24 +436,24 @@ omit [b.PreservesInjectiveObjects] [d.PreservesInjectiveObjects] in
 `Rb` and of `Ra` and then the derived comparison of the square make up the degreewise comparison
 of the square followed by the units of `Rg`, of `Rd` and of `Rc`. -/
 private lemma derivedSquare_leg (sq : a ⋙ b ≅ c ⋙ d) (K : HomotopyCategory.Plus A) :
-    g.rightDerivedFunctorPlusUnit.app
+    g.rightDerivedFunctorPlusUnith.app
           (b.mapHomotopyCategoryPlus.obj (a.mapHomotopyCategoryPlus.obj K)) ≫
         g.rightDerivedFunctorPlus.map
-          (b.rightDerivedFunctorPlusUnit.app (a.mapHomotopyCategoryPlus.obj K)) ≫
+          (b.rightDerivedFunctorPlusUnith.app (a.mapHomotopyCategoryPlus.obj K)) ≫
         g.rightDerivedFunctorPlus.map
-          (b.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnit.app K)) ≫
+          (b.rightDerivedFunctorPlus.map (a.rightDerivedFunctorPlusUnith.app K)) ≫
         g.rightDerivedFunctorPlus.map
           ((derivedSquare sq).hom.app (DerivedCategory.Plus.Qh.obj K)) =
       DerivedCategory.Plus.Qh.map (g.mapHomotopyCategoryPlus.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (a ⋙ b))).hom.app K ≫
             (mapHomotopyCategoryPlusNatIso sq).hom.app K ≫
             (mapHomotopyCategoryPlusCompIso (Iso.refl (c ⋙ d))).inv.app K)) ≫
-        g.rightDerivedFunctorPlusUnit.app
+        g.rightDerivedFunctorPlusUnith.app
             (d.mapHomotopyCategoryPlus.obj (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlusUnit.app (c.mapHomotopyCategoryPlus.obj K)) ≫
+            (d.rightDerivedFunctorPlusUnith.app (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K)) := by
+            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K)) := by
   rw [← Functor.map_comp, ← Functor.map_comp, unit_comp_derivedSquare sq K]
   simp only [Functor.map_comp, DerivedCategory.Plus.Qh.map_comp, Category.assoc]
   rw [reassoc_of% unit_naturality, reassoc_of% unit_naturality, reassoc_of% unit_naturality]
@@ -463,7 +463,7 @@ omit [d.PreservesInjectiveObjects] in
 /-- The left hand route of the square, computed after the derived-functor unit of `Rp`. -/
 private lemma unit_comp_leftRoute (sq : a ⋙ b ≅ c ⋙ d) (ea : a ⋙ q ≅ p) (eb : b ⋙ g ≅ q)
     (K : HomotopyCategory.Plus A) :
-    p.rightDerivedFunctorPlusUnit.app K ≫
+    p.rightDerivedFunctorPlusUnith.app K ≫
         (derivedLeft ea).hom.app (DerivedCategory.Plus.Qh.obj K) ≫
         (derivedLeftTail eb).hom.app
           (a.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
@@ -479,15 +479,15 @@ private lemma unit_comp_leftRoute (sq : a ⋙ b ≅ c ⋙ d) (ea : a ⋙ q ≅ p
               ((mapHomotopyCategoryPlusCompIso (Iso.refl (a ⋙ b))).hom.app K ≫
                 (mapHomotopyCategoryPlusNatIso sq).hom.app K ≫
                 (mapHomotopyCategoryPlusCompIso (Iso.refl (c ⋙ d))).inv.app K)) ≫
-        g.rightDerivedFunctorPlusUnit.app
+        g.rightDerivedFunctorPlusUnith.app
             (d.mapHomotopyCategoryPlus.obj (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlusUnit.app (c.mapHomotopyCategoryPlus.obj K)) ≫
+            (d.rightDerivedFunctorPlusUnith.app (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K)) := by
+            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K)) := by
   rw [← Category.assoc, unit_comp_derivedLeft ea K]
   simp only [Category.assoc]
-  rw [reassoc_of% ((derivedLeftTail eb).hom.naturality (a.rightDerivedFunctorPlusUnit.app K)),
+  rw [reassoc_of% ((derivedLeftTail eb).hom.naturality (a.rightDerivedFunctorPlusUnith.app K)),
     reassoc_of% (unit_comp_derivedLeftTail eb (a.mapHomotopyCategoryPlus.obj K)),
     derivedSquare_leg sq K]
   simp only [Functor.map_comp, DerivedCategory.Plus.Qh.map_comp, Category.assoc]
@@ -495,7 +495,7 @@ private lemma unit_comp_leftRoute (sq : a ⋙ b ≅ c ⋙ d) (ea : a ⋙ q ≅ p
 /-- The right hand route of the square, computed after the derived-functor unit of `Rp`. -/
 private lemma unit_comp_rightRoute (ec : c ⋙ r ≅ p) (ed : d ⋙ g ≅ r)
     (K : HomotopyCategory.Plus A) :
-    p.rightDerivedFunctorPlusUnit.app K ≫
+    p.rightDerivedFunctorPlusUnith.app K ≫
         (derivedRight ec).hom.app (DerivedCategory.Plus.Qh.obj K) ≫
         (derivedRightTail ed).hom.app
           (c.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
@@ -505,22 +505,22 @@ private lemma unit_comp_rightRoute (ec : c ⋙ r ≅ p) (ed : d ⋙ g ≅ r)
             (mapHomotopyCategoryPlusNatIso ed).inv.app (c.mapHomotopyCategoryPlus.obj K) ≫
             (mapHomotopyCategoryPlusCompIso (Iso.refl (d ⋙ g))).inv.app
               (c.mapHomotopyCategoryPlus.obj K)) ≫
-        g.rightDerivedFunctorPlusUnit.app
+        g.rightDerivedFunctorPlusUnith.app
             (d.mapHomotopyCategoryPlus.obj (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlusUnit.app (c.mapHomotopyCategoryPlus.obj K)) ≫
+            (d.rightDerivedFunctorPlusUnith.app (c.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map
-            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K)) := by
+            (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K)) := by
   rw [← Category.assoc, unit_comp_derivedRight ec K]
   simp only [Category.assoc]
-  have hnat : r.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K) ≫
+  have hnat : r.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K) ≫
       (derivedRightTail ed).hom.app
         (c.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
       (derivedRightTail ed).hom.app
           (DerivedCategory.Plus.Qh.obj (c.mapHomotopyCategoryPlus.obj K)) ≫
         g.rightDerivedFunctorPlus.map
-          (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnit.app K)) :=
-    (derivedRightTail ed).hom.naturality (c.rightDerivedFunctorPlusUnit.app K)
+          (d.rightDerivedFunctorPlus.map (c.rightDerivedFunctorPlusUnith.app K)) :=
+    (derivedRightTail ed).hom.naturality (c.rightDerivedFunctorPlusUnith.app K)
   rw [hnat, reassoc_of% (unit_comp_derivedRightTail ed (c.mapHomotopyCategoryPlus.obj K))]
   simp only [DerivedCategory.Plus.Qh.map_comp, Category.assoc]
 
@@ -536,7 +536,7 @@ theorem derived_coherence (sq : a ⋙ b ≅ c ⋙ d) (ea : a ⋙ q ≅ p) (eb : 
         Functor.whiskerRight (derivedSquare sq).hom g.rightDerivedFunctorPlus =
       (derivedRight ec).hom ≫
         Functor.whiskerLeft c.rightDerivedFunctorPlus (derivedRightTail ed).hom := by
-  refine Functor.rightDerived_ext p.rightDerivedFunctorPlus p.rightDerivedFunctorPlusUnit
+  refine Functor.rightDerived_ext p.rightDerivedFunctorPlus p.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) _ _ _ (NatTrans.ext (funext fun K ↦ ?_))
   dsimp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
   rw [unit_comp_leftRoute sq ea eb K, unit_comp_rightRoute ec ed K,

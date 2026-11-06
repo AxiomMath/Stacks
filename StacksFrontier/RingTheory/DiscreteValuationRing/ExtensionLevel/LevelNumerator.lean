@@ -649,7 +649,7 @@ theorem isTotallyRamified_of_dvd_ramificationIdx
   obtain ⟨m, hm⟩ := Ideal.exists_maximal B
   let : m.IsMaximal := hm
   have hOver : m.LiesOver mA := ⟨((IsLocalRing.isMaximal_iff A).mp
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)).symm⟩
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
   let : m.LiesOver mA := hOver
   obtain ⟨-, -, -, -, N, ms, hmsmax, hmsiff, -, -, hsum, -, -⟩ :=
     IsDiscreteValuationRing.integralClosure_finite_dedekind_and_degree_eq_sum_ramification_inertia

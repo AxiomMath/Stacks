@@ -54,6 +54,18 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {P V : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SectionOpenImmersion :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_SectionOpenImmersion
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A section of an unramified morphism of algebraic spaces over `S` is an open immersion: it is
 the comparison of two fibre products, hence a base change of the relative diagonal of the
 morphism, which is an open immersion. -/

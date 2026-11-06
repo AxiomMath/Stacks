@@ -250,6 +250,7 @@ variable (f : X ⟶ Y) (g : Y ⟶ W)
   (hX : IsInCharacteristic X p) (hY : IsInCharacteristic Y p) (hW : IsInCharacteristic W p)
   (n : ℕ) (N : _root_.SheafOfModules.{u} W.ringSheafOnOpens)
 
+set_option maxHeartbeats 1600000 in
 /-- The pentagon of the chain `(ι_W, c_g, c_f)`. -/
 lemma frobeniusStageExtendScalarsPullbackIso_comp_pentagon₁ :
     (pullbackCompOfEq.{u} (Fc := Opens.map (f ≫ g).base)

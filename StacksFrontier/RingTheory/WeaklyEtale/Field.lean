@@ -7,6 +7,7 @@ public import Mathlib.RingTheory.Etale.Field
 public import Mathlib.RingTheory.Etale.Finite
 public import Mathlib.RingTheory.FiniteType
 public import Mathlib.RingTheory.Ideal.Maps
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.RingTheory.Ideal.MinimalPrime.Localization
 public import Mathlib.RingTheory.Jacobson.Artinian
 public import Mathlib.RingTheory.Unramified.Field

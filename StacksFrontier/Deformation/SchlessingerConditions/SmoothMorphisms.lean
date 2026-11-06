@@ -246,73 +246,73 @@ theorem isSmooth_elementsBasedFunctor_iff
             ∃ xB : F.obj B, F.map f xB = xA ∧ α.app B xB = yB := by
   constructor
   · intro h B A f hf xA yB hxy
-    let _ : Category F.Elements := (BasedCategory.ofFunctor (CategoryOfElements.π F)).category
-    let _ : Category G.Elements := (BasedCategory.ofFunctor (CategoryOfElements.π G)).category
-    let x : F.Elements := ⟨A, xA⟩
-    let y : G.Elements := ⟨B, yB⟩
-    let g : y ⟶ (CategoryOfElements.map α).obj x := ⟨f, hxy.symm⟩
-    have hg : ((BasedCategory.ofFunctor (CategoryOfElements.π G)).p).IsHomLift f g := by
+    let _ : Category F.Elements := (BasedCategory.ofFunctor (Functor.Elements.π F)).category
+    let _ : Category G.Elements := (BasedCategory.ofFunctor (Functor.Elements.π G)).category
+    let x : F.Elements := F.elementsMk A xA
+    let y : G.Elements := G.elementsMk B yB
+    let g : y ⟶ (NatTrans.mapElements α).obj x := Functor.Elements.homMk f hxy.symm
+    have hg : ((BasedCategory.ofFunctor (Functor.Elements.π G)).p).IsHomLift f g := by
       simpa [g, BasedCategory.ofFunctor] using
-        IsHomLift.map (BasedCategory.ofFunctor (CategoryOfElements.π G)).p g
+        IsHomLift.map (BasedCategory.ofFunctor (Functor.Elements.π G)).p g
     obtain ⟨x', h', a, hh, ha, -⟩ := h f hf y x g hg
-    rcases x' with ⟨B', xB⟩
+    obtain @⟨B', xB⟩ := x'
     have hxbase : B' = B := by
       let _ := hh
-      simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+      simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
         IsHomLift.domain_eq
-          (p := (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) f h'
+          (p := (BasedCategory.ofFunctor (Functor.Elements.π F)).p) f h'
     cases hxbase.symm
-    have hbase : 𝟙 B = (CategoryOfElements.π G).map a := by
-      simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+    have hbase : 𝟙 B = (Functor.Elements.π G).map a := by
+      simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
         (@IsHomLift.eq_of_isHomLift _ _
-          (BasedCategory.ofFunctor (CategoryOfElements.π G)).category inferInstance
-          (BasedCategory.ofFunctor (CategoryOfElements.π G)).p
-          ((CategoryOfElements.map α).obj ⟨B, xB⟩) y (𝟙 B) a ha)
+          (BasedCategory.ofFunctor (Functor.Elements.π G)).category inferInstance
+          (BasedCategory.ofFunctor (Functor.Elements.π G)).p
+          ((NatTrans.mapElements α).obj (F.elementsMk B xB)) y (𝟙 B) a ha)
     refine ⟨xB, ?_, ?_⟩
-    · have hmap : f = (CategoryOfElements.π F).map h' := by
-        simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+    · have hmap : f = (Functor.Elements.π F).map h' := by
+        simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
           (@IsHomLift.eq_of_isHomLift _ _
-            (BasedCategory.ofFunctor (CategoryOfElements.π F)).category inferInstance
-            (BasedCategory.ofFunctor (CategoryOfElements.π F)).p
-            (⟨B, xB⟩ : F.Elements) x f h' hh)
-      simpa [CategoryOfElements.π, hmap] using h'.property
-    · have haVal : a.1 = 𝟙 B := by simpa [CategoryOfElements.π] using hbase.symm
-      simpa [y, haVal, CategoryOfElements.map, Functor.map_id_apply] using a.property
+            (BasedCategory.ofFunctor (Functor.Elements.π F)).category inferInstance
+            (BasedCategory.ofFunctor (Functor.Elements.π F)).p
+            (F.elementsMk B xB) x f h' hh)
+      simpa [Functor.Elements.π, hmap] using h'.map_val
+    · have haVal : a.hom = 𝟙 B := by simpa [Functor.Elements.π] using hbase.symm
+      simpa [y, haVal, NatTrans.mapElements, Functor.map_id_apply] using a.map_val
   · intro h
     dsimp [IsSmooth, elementsBasedFunctor]
     intro B A f hf
-    let _ : Category F.Elements := categoryOfElements F
-    let _ : Category G.Elements := categoryOfElements G
+    let _ : Category F.Elements := inferInstance
+    let _ : Category G.Elements := inferInstance
     intro y x g hg
-    rcases y with ⟨B', yB⟩; rcases x with ⟨A', xA⟩
+    obtain @⟨B', yB⟩ := y; obtain @⟨A', xA⟩ := x
     let _ := hg
     have hdom : B' = B := by
-      simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+      simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
         IsHomLift.domain_eq
-          (p := (BasedCategory.ofFunctor (CategoryOfElements.π G)).p) f g
+          (p := (BasedCategory.ofFunctor (Functor.Elements.π G)).p) f g
     have hcod : A' = A := by
-      simpa [BasedCategory.ofFunctor, CategoryOfElements.π, CategoryOfElements.map] using
+      simpa [BasedCategory.ofFunctor, Functor.Elements.π, NatTrans.mapElements] using
         IsHomLift.codomain_eq
-          (p := (BasedCategory.ofFunctor (CategoryOfElements.π G)).p) f g
+          (p := (BasedCategory.ofFunctor (Functor.Elements.π G)).p) f g
     cases hdom.symm; cases hcod.symm
-    have hval : g.1 = f := by
-      simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+    have hval : g.hom = f := by
+      simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
         (@IsHomLift.eq_of_isHomLift _ _
-          (BasedCategory.ofFunctor (CategoryOfElements.π G)).category inferInstance
-          (BasedCategory.ofFunctor (CategoryOfElements.π G)).p
-          (⟨B, yB⟩ : G.Elements) ((CategoryOfElements.map α).obj ⟨A, xA⟩) f g hg).symm
+          (BasedCategory.ofFunctor (Functor.Elements.π G)).category inferInstance
+          (BasedCategory.ofFunctor (Functor.Elements.π G)).p
+          (G.elementsMk B yB) ((NatTrans.mapElements α).obj (F.elementsMk A xA)) f g hg).symm
     obtain ⟨xB, hxB, hyB⟩ := h f hf xA yB (by
-      simpa [hval, CategoryOfElements.map] using g.2.symm)
-    refine ⟨⟨B, xB⟩, ⟨f, hxB⟩, ⟨𝟙 B, ?_⟩, ?_, ?_, ?_⟩
-    · simpa [CategoryOfElements.map, Functor.map_id_apply] using hyB
-    · exact IsHomLift.of_fac (BasedCategory.ofFunctor (CategoryOfElements.π F)).p f
-        (CategoryOfElements.homMk (⟨B, xB⟩ : F.Elements) ⟨A, xA⟩ f hxB) rfl rfl rfl
-    · exact IsHomLift.of_fac (BasedCategory.ofFunctor (CategoryOfElements.π G)).p (𝟙 B)
-        (CategoryOfElements.homMk (⟨B, α.app B xB⟩ : G.Elements) ⟨B, yB⟩
-          (𝟙 B) (by simpa [CategoryOfElements.map, Functor.map_id_apply] using hyB))
+      simpa [hval, NatTrans.mapElements] using g.map_val.symm)
+    refine ⟨F.elementsMk B xB, Functor.Elements.homMk f hxB, Functor.Elements.homMk (𝟙 B) ?_, ?_, ?_, ?_⟩
+    · simpa [NatTrans.mapElements, Functor.map_id_apply] using hyB
+    · exact IsHomLift.of_fac (BasedCategory.ofFunctor (Functor.Elements.π F)).p f
+        (Functor.Elements.homMk (x := F.elementsMk B xB) (y := F.elementsMk A xA) f hxB) rfl rfl rfl
+    · exact IsHomLift.of_fac (BasedCategory.ofFunctor (Functor.Elements.π G)).p (𝟙 B)
+        (Functor.Elements.homMk (x := G.elementsMk B (α.app B xB)) (y := G.elementsMk B yB)
+          (𝟙 B) (by simpa [NatTrans.mapElements, Functor.map_id_apply] using hyB))
         rfl rfl rfl
-    · apply CategoryOfElements.ext
-      change f = (𝟙 B) ≫ g.1
+    · apply Functor.Elements.hom_ext
+      change f = (𝟙 B) ≫ g.hom
       simp [hval]
 
 end

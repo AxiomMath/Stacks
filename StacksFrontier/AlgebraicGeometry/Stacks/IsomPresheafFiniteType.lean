@@ -116,7 +116,7 @@ theorem isIso_liftedMorPresheafMap (hF : p.IsFibredOneMorphism r F)
       Functor.Fiber.faithful_mapOfComp hF.comp_eq g.unop.left
     constructor
     · intro m m' hmm
-      exact ULift.ext _ _ (hfaith.map_injective ((cancel_mono _).1 ((cancel_epi _).1 hmm)))
+      exact ULift.ext (hfaith.map_injective ((cancel_mono _).1 ((cancel_epi _).1 hmm)))
     · intro n
       obtain ⟨m, hm⟩ := hfull.map_surjective
         ((hF.mapPullbackFiberIso a g.unop.hom).inv ≫ n ≫

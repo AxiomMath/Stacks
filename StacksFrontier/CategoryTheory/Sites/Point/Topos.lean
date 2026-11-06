@@ -390,19 +390,19 @@ private theorem precomp_elements_full {C : Type u} [Category.{v} C]
     [F.Full] : (Functor.Elements.precomp F G).Full := by
   constructor
   intro x y f
-  obtain ⟨g, hg⟩ := F.map_surjective f.val
-  refine ⟨⟨g, ?_⟩, ?_⟩
-  · show G.map (F.map g) x.snd = y.snd
+  obtain ⟨g, hg⟩ := F.map_surjective f.hom
+  refine ⟨Functor.Elements.homMk g ?_, ?_⟩
+  · show G.map (F.map g) x.val = y.val
     rw [hg]
-    exact f.property
-  · exact CategoryOfElements.ext _ _ _ hg
+    exact f.map_val
+  · exact Functor.Elements.hom_ext hg
 
 private theorem precomp_elements_faithful {C : Type u} [Category.{v} C]
     {D : Type w₁} [Category.{w₂} D] (F : C ⥤ D) (G : D ⥤ Type w)
     [F.Faithful] : (Functor.Elements.precomp F G).Faithful := by
   constructor
   intro x y f g h
-  exact CategoryOfElements.ext _ _ _ (F.map_injective (congrArg Subtype.val h))
+  exact Functor.Elements.hom_ext (F.map_injective (congrArg Functor.Elements.Hom.hom h))
 
 private theorem cofiltered_elements_comp_of_full_faithful
     {C : Type u} [Category.{v} C] {D : Type w₁} [Category.{w₂} D]
@@ -460,9 +460,10 @@ private theorem isCofiltered_sheafifiedYoneda_fiber
   have : F.Faithful := inferInstance
   show IsCofiltered (F ⋙ G).Elements
   apply cofiltered_elements_comp_of_full_faithful F G
-  rintro ⟨P, x⟩
+  rintro @⟨P, x⟩
   obtain ⟨j, y, hy⟩ := p.exists_map_coconeOfRepresentable_eq P x
-  exact ⟨⟨j.unop.fst.unop, y⟩, ⟨⟨(Presheaf.coconeOfRepresentable P).ι.app j, hy⟩⟩⟩
+  exact ⟨.mk (obj := j.unop.obj.unop) y,
+    ⟨Functor.Elements.homMk ((Presheaf.coconeOfRepresentable P).ι.app j) hy⟩⟩
 
 private theorem initiallySmall_sheafifiedYoneda_fiber
     {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
@@ -508,7 +509,7 @@ private theorem sieve_coconeOfRepresentable_comp
     (j : (S.uliftFunctor.{u}).Elementsᵒᵖ) :
     (Presheaf.coconeOfRepresentable (S.uliftFunctor.{u})).ι.app j ≫
       S.uliftFunctorInclusion =
-        uliftYoneda.map j.unop.snd.down.1 := by
+        uliftYoneda.map j.unop.val.down.1 := by
   ext Y t
   rfl
 
@@ -539,14 +540,14 @@ theorem exists_sitePoint_fiber_eq {C : Type u} [Category.{v} C] {J : Grothendiec
     infer_instance
   let y : G.obj P := inv (G.map f) x
   obtain ⟨j, z, hz⟩ := p.exists_map_coconeOfRepresentable_eq P y
-  refine ⟨j.unop.fst.unop, j.unop.snd.down.1, j.unop.snd.down.2, z, ?_⟩
-  show G.map (uliftYoneda.map j.unop.snd.down.1) z = x
+  refine ⟨j.unop.obj.unop, j.unop.val.down.1, j.unop.val.down.2, z, ?_⟩
+  show G.map (uliftYoneda.map j.unop.val.down.1) z = x
   let l := (Presheaf.coconeOfRepresentable P).ι.app j
   have hz' : G.map l z = y := hz
-  have hmaps : G.map (uliftYoneda.map j.unop.snd.down.1) =
+  have hmaps : G.map (uliftYoneda.map j.unop.val.down.1) =
       G.map l ≫ G.map f :=
     (congrArg G.map (sieve_coconeOfRepresentable_comp S j)).symm.trans (G.map_comp l f)
-  have hcalc : G.map (uliftYoneda.map j.unop.snd.down.1) z =
+  have hcalc : G.map (uliftYoneda.map j.unop.val.down.1) z =
       G.map f (G.map l z) :=
     (ConcreteCategory.congr_hom hmaps z).trans
       (CategoryTheory.comp_apply (G.map l) (G.map f) z)
@@ -584,7 +585,7 @@ private theorem fiberToSheafYoneda_hom_apply
     simp only [Iso.app_inv, uliftYonedaIsoShrinkYoneda, NatIso.ofComponents_inv_app,
       Equiv.toIso_inv_hom_apply, Equiv.symm_trans, Equiv.symm_symm, Equiv.trans_apply,
       Equiv.apply_symm_apply, ψ]
-    exact ULift.ext _ _ (Equiv.ulift_symm_down.{u, v} (𝟙 X))
+    exact ULift.ext (Equiv.ulift_symm_down.{u, v} (𝟙 X))
   rw [hψ]
   have harg : (toSheafify J P).app (Opposite.op X) (Equiv.ulift.symm (𝟙 X)) =
       Sheaf.sectionEquiv J (𝟙 ((Sheaf.sheafifiedYoneda J).obj X)) := by

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Homology.HomologicalComplexLimits
 public import StacksFrontier.Algebra.Homology.DerivedCategory.CochainComplexPlusDerivedUnit
 public import StacksFrontier.Algebra.Homology.DerivedCategory.PlusCoproducts
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmallEtaleModuleDerivedFunctors
@@ -148,9 +149,17 @@ derived-functor unit of bounded below cochain complexes. -/
 lemma isIso_mapCochainComplexPlusDerivedUnit_app (K : CochainComplex.Plus A)
     (hK : ∀ n, F.rightAcyclic (K.obj.X n)) :
     IsIso ((Functor.mapCochainComplexPlusDerivedUnit F).app K) := by
-  have hu : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.quotient A).obj K)) :=
-    F.isIso_totalRightDerivedUnit_app_of_rightAcyclic K.obj K.property hK
+  have hu : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.quotient A).obj K)) := by
+    have hβ := F.isIso_totalRightDerivedUnit_app_of_rightAcyclic K.obj K.property hK
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso A) _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).1 inferInstance
+    rw [← Functor.rightDerived_fac_app F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)] at hβ
+    rwa [isIso_comp_right_iff] at hβ
   have h1 : IsIso ((DerivedCategory.Plus.quotientCompQhIso B).inv.app
       (F.mapCochainComplexPlus.obj K)) := inferInstance
   have h3 : IsIso (F.rightDerivedFunctorPlus.map
@@ -183,6 +192,8 @@ lemma preservesColimit_ofIsGE_of_injective
     constructor
     intro s hs
     refine ⟨HomologicalComplex.isColimitOfEval _ _ (fun i ↦ ?_)⟩
+    have : PreservesColimit E (HomologicalComplex.eval A (ComplexShape.up ℤ) i) :=
+      HomologicalComplex.instPreservesColimitEval E i
     have : PreservesColimit E (HomologicalComplex.eval A (ComplexShape.up ℤ) i ⋙ F) :=
       comp_preservesColimit _ _
     exact isColimitOfPreserves (HomologicalComplex.eval A (ComplexShape.up ℤ) i ⋙ F) hs

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Abelian.CommSq
+public import Mathlib.CategoryTheory.Abelian.Exact
 public import StacksFrontier.Homology.DerivedIndexing.Basic
 
 /-!

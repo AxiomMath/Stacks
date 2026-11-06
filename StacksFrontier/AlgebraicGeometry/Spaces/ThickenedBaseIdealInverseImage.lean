@@ -43,6 +43,13 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.DerivedTensor.ResolutionByExtensionsByZero.instAbelian
 attribute [local instance] HasDerivedCategory.standard
 
+/-- The inverse image of a morphism of topoi preserves finite products, read off directly from
+its left exactness (instance search through the presheaf limits times out). -/
+local instance (priority := high) preservesFiniteProducts_inverseImage_thickenedBaseIdeal
+    {E : Type*} [Category E] {F : Type*} [Category F] (g : MorphismOfTopoi E F) :
+    PreservesFiniteProducts g.inverseImage :=
+  ⟨fun n ↦ g.preservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X D D' : AlgebraicSpaces B S hS} (f : X ⟶ D) (i : D ⟶ D')
 

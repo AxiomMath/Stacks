@@ -65,13 +65,13 @@ lemma isSMulRegular_limit (S : PrincipalAdicInverseSystem.{u, w}) :
       have heval := congrArg (fun g ↦ (E.map g).hom y) hfactor
       change (E.map ι).hom ((E.map (S.map n)).hom y) =
         ((Stacks.SheafOfModules.terminalSectionToEnd S.R (⊤ : Opens S.X)
-          isTerminalTop (S.scalarMap S.f)).app (S.F (n + 1))).val.app
+          isTerminalTop (S.scalarMap S.f)).asHom.app (S.F (n + 1))).val.app
             (op (⊤ : Opens S.X)) y at heval
       have hfrom : isTerminalTop.from (⊤ : Opens S.X) = 𝟙 _ :=
         isTerminalTop.hom_ext _ _
       have hterm :
           ((Stacks.SheafOfModules.terminalSectionToEnd S.R (⊤ : Opens S.X)
-            isTerminalTop (S.scalarMap S.f)).app (S.F (n + 1))).val.app
+            isTerminalTop (S.scalarMap S.f)).asHom.app (S.F (n + 1))).val.app
               (op (⊤ : Opens S.X)) y = S.scalarMap S.f • y := by
         rw [Stacks.SheafOfModules.terminalSectionToEnd_apply, hfrom]
         simp

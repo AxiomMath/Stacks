@@ -132,6 +132,17 @@ section SituationChartData
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_descendingMorphismPropertiesSiteConvention :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_descendingMorphismPropertiesSiteConvention
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A square of affine étale charts for a morphism descent system: an affine étale surjective
 chart `V₀ ⟶ Y₀` of the target at the distinguished stage, an affine étale surjective chart
 `U₀ ⟶ X₀ ×_{Y₀} V₀` of the fibre product, and the morphism `U₀ ⟶ V₀` of affine objects of the
@@ -634,6 +645,7 @@ private theorem exists_isSurjective_mapAt_of_limitBridges
     exact exists_surjective_baseChange_of_surjective_limitBaseChange C.diagram C.cone
       C.isLimit_cone j₀ X₀ Y₀ f₀
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 08K0**, flatness of a module. In the situation of Stacks 084W, let `F₀` be a
 quasi-coherent `𝒪_{X₀}`-module, with pullbacks `F_i` to `X_i` and `F` to `X`. If `F` is flat over
 `Y`, `F₀` is of finite presentation and `f₀` is locally of finite presentation, then `F_i` is

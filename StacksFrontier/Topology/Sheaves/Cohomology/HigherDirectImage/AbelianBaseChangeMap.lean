@@ -195,9 +195,9 @@ noncomputable def onHomotopy (τ : F ⋙ G ⟶ G' ⋙ F')
         mapPlus τ ≫ (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv)
       DerivedCategory.Plus.Qh ≫
     (Functor.associator _ _ _).hom ≫
-    Functor.whiskerLeft G'.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnit ≫
+    Functor.whiskerLeft G'.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnith ≫
     (Functor.associator _ _ _).inv ≫
-    Functor.whiskerRight G'.rightDerivedFunctorPlusUnit F'.rightDerivedFunctorPlus ≫
+    Functor.whiskerRight G'.rightDerivedFunctorPlusUnith F'.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
 
 /-- The descent of a comparison `τ : F ⋙ G ⟶ G' ⋙ F'` to bounded below derived categories.
@@ -208,7 +208,7 @@ noncomputable def derived (τ : F ⋙ G ⟶ G' ⋙ F')
       DerivedCategory.Plus.Qh ⋙ G.rightDerivedFunctorPlus) :
     F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus ⟶
       G'.rightDerivedFunctorPlus ⋙ F'.rightDerivedFunctorPlus := by
-  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
   letI : (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor α
       (HomotopyCategory.Plus.quasiIso A) :=
@@ -224,11 +224,11 @@ noncomputable def derived (τ : F ⋙ G ⟶ G' ⋙ F')
 theorem derived_fac (τ : F ⋙ G ⟶ G' ⋙ F')
     (e : G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ G.rightDerivedFunctorPlus) :
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (derived F F' G G' τ e) =
         onHomotopy F F' G G' τ e := by
-  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
   let _ : (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor α
       (HomotopyCategory.Plus.quasiIso A) :=
@@ -246,10 +246,10 @@ computed degreewise. -/
 theorem exactUnit_isIso {A B : Type*} [Category* A] [Category* B]
     [Abelian A] [Abelian B] [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
     [PreservesFiniteLimits F] [PreservesFiniteColimits F] :
-    IsIso F.rightDerivedFunctorPlusUnit := by
+    IsIso F.rightDerivedFunctorPlusUnith := by
   apply Functor.isIso_of_isRightDerivedFunctor_of_inverts
     (W := HomotopyCategory.Plus.quasiIso A)
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
   intro K L φ hφ
   have : IsIso (DerivedCategory.Qh.map φ.hom) :=
     Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso A (.up ℤ)) _ hφ
@@ -298,7 +298,7 @@ noncomputable def abelianPullbackComparison {X Y : TopCat.{u}} (f : X ⟶ Y) :
       DerivedCategory.Plus.Qh ≅ DerivedCategory.Plus.Qh ⋙ abelianPullback f := by
   let η : (TopCat.Sheaf.pullback AddCommGrpCat.{u} f).mapHomotopyCategoryPlus ⋙
       DerivedCategory.Plus.Qh ⟶ DerivedCategory.Plus.Qh ⋙ abelianPullback f :=
-    (TopCat.Sheaf.pullback AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnit
+    (TopCat.Sheaf.pullback AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnith
   letI : IsIso η := exactUnit_isIso (TopCat.Sheaf.pullback AddCommGrpCat.{u} f)
   exact asIso η
 
@@ -307,7 +307,7 @@ right-derived-functor unit. -/
 theorem abelianPullbackComparison_hom_app {X Y : TopCat.{u}} (f : X ⟶ Y)
     (K : HomotopyCategory.Plus (TopCat.Sheaf AddCommGrpCat.{u} Y)) :
     (abelianPullbackComparison f).hom.app K =
-      (TopCat.Sheaf.pullback AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnit.app K := rfl
+      (TopCat.Sheaf.pullback AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnith.app K := rfl
 
 /-- The underived base change map `g^{-1} f_* ⟶ f'_* (g')^{-1}` of abelian sheaves,
 obtained by adjunction from the commuting square of direct images. -/
@@ -452,7 +452,7 @@ complexes, which characterizes `abelianBaseChange`. -/
 theorem abelianBaseChange_fac {X X' S S' : TopCat.{u}}
     (f : X ⟶ S) (f' : X' ⟶ S') (g : S' ⟶ S) (g' : X' ⟶ X) (comm : g' ≫ f = f' ≫ g) :
     Functor.whiskerRight
-        (TopCat.Sheaf.pushforward AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnit
+        (TopCat.Sheaf.pushforward AddCommGrpCat.{u} f).rightDerivedFunctorPlusUnith
         (abelianPullback g) ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (abelianBaseChange f f' g g' comm) =

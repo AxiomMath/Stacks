@@ -124,7 +124,7 @@ private theorem rightDerivedFunctorPlus_linear_of_linear
   let : Functor.Linear R F := hF
   let W : MorphismProperty (HomotopyCategory.Plus C) := HomotopyCategory.Plus.quasiIso C
   let α : F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
-      DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus := F.rightDerivedFunctorPlusUnit
+      DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus := F.rightDerivedFunctorPlusUnith
   let F₀ := F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh
   have hFm : Functor.Linear R F.mapHomotopyCategoryPlus := by
     apply (Functor.linear_iff (R := R) F.mapHomotopyCategoryPlus).2
@@ -197,14 +197,14 @@ private theorem rightDerivedPlus_additive
     [HasDerivedCategory C] [HasDerivedCategory D] [EnoughInjectives C]
     (F : C ⥤ D) [F.Additive] (p : ℤ) : (F.rightDerivedPlus p).Additive := by
   let : F.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
+    Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
+  let : NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ :=
     Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-      F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
+      F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) ℤ
   let : F.rightDerivedFunctorPlus.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F _
-      F.rightDerivedFunctorPlusUnit
+      F.rightDerivedFunctorPlusUnith
   show (DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus ⋙
     DerivedCategory.Plus.homologyFunctor D p).Additive
   infer_instance
@@ -340,7 +340,7 @@ private theorem isZero_rightDerivedPlus_obj_of_neg
     (F : C ⥤ D) [F.Additive] {p : ℤ} (hp : p < 0) (Y : C) :
     IsZero ((F.rightDerivedPlus p).obj Y) :=
   ((Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).1 p hp).obj Y
+    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).1 p hp).obj Y
 
 /-- **The higher right derived functors are exact in the middle.** For a short exact sequence
 `0 ⟶ X₁ ⟶ X₂ ⟶ X₃ ⟶ 0` the sequence `R ᵖ F(X₁) ⟶ R ᵖ F(X₂) ⟶ R ᵖ F(X₃)` is exact, for every

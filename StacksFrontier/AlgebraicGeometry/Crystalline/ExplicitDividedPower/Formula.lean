@@ -532,7 +532,7 @@ public lemma secondOrderExtensionDpow_mul
     run_tac do
       let goals ← Mathlib.Tactic.Module.matchScalars (← Lean.Elab.Tactic.getMainGoal)
       Lean.Elab.Tactic.setGoals goals
-    all_goals simp only [mul_one]
+    all_goals try simp only [mul_one]
     all_goals try ring_nf
     all_goals first
     | exact secondOrderScalarCross γ ((hJ b).1 hb) (e a).1 hn

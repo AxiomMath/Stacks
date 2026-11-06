@@ -207,7 +207,7 @@ theorem hasRightDerivedFunctor_and_computed_by_rightAcyclic [PreservesFiniteLimi
     fun A ↦ (hn A).of_iso
       ((Stacks.Cohomology.HigherDirectImagePresheaf.derivedPlusToStandard F n).app A)
   obtain ⟨h1, -, h3⟩ := Functor.hasRightDerivedFunctor_of_isZero_rightDerived F
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit F.rightAcyclic
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith F.rightAcyclic
     (rightAcyclic_iff_computesRightDerived F) (exists_mono_rightAcyclic F) n hn'
   exact ⟨h1, fun RF α _ ↦ (h3 RF α).1⟩
 

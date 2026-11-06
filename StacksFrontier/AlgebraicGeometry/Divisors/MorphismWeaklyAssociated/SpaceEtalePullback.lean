@@ -221,13 +221,14 @@ of the image of `x̄` into the composite chart of `Y`. -/
 noncomputable def geometricFiberPostcomp :
     (etaleSitePoint B S hS X.1 xbar X.2).fiber.Elements ⥤
       (etaleSitePoint B S hS Y.1 (geometricPointMap f.hom xbar) Y.2).fiber.Elements where
-  obj e := ⟨(smallEtalePostcomp B S hS f hf).obj e.1, ⟨e.2.1, congrArg _ e.2.2⟩⟩
-  map {e e'} g := ⟨(smallEtalePostcomp B S hS f hf).map g.1,
-    Subtype.ext (congrArg Subtype.val g.property :
-      (((geometricFiber B S hS X.1 xbar).map g.1) e.2).1 = (e'.2).1)⟩
-  map_id e := CategoryOfElements.ext _ _ _ ((smallEtalePostcomp B S hS f hf).map_id e.1)
+  obj e := Functor.elementsMk _ ((smallEtalePostcomp B S hS f hf).obj e.obj)
+    ⟨e.val.1, congrArg _ e.val.2⟩
+  map {e e'} g := Functor.Elements.homMk ((smallEtalePostcomp B S hS f hf).map g.hom)
+    (Subtype.ext (congrArg Subtype.val g.map_val :
+      (((geometricFiber B S hS X.1 xbar).map g.hom) e.val).1 = (e'.val).1))
+  map_id e := Functor.Elements.hom_ext ((smallEtalePostcomp B S hS f hf).map_id e.obj)
   map_comp g h :=
-    CategoryOfElements.ext _ _ _ ((smallEtalePostcomp B S hS f hf).map_comp g.1 h.1)
+    Functor.Elements.hom_ext ((smallEtalePostcomp B S hS f hf).map_comp g.hom h.hom)
 
 /-- Reading a small étale neighbourhood of a geometric point as a lift of that point into a
 chart commutes with postcomposition along an étale morphism, on the nose. -/
@@ -484,7 +485,8 @@ theorem etaleModuleStalkLargeAddEquiv_smul
     (smallEtaleRingedTopos B S hS X).O ((etaleModulePullback B S hS f hf).obj G)
     (etaleStalkRingIso B S hS f hf xbar).commRingCatIsoToRingEquiv.toRingHom
     (etaleModuleStalkLargeAddEquiv B S hS f hf xbar G).toAddMonoidHom
-    (fun U x a s => etaleModuleStalkLargeAddEquiv_smul_germ B S hS f hf xbar G ⟨U, x⟩ a s) r z
+    (fun U x a s => etaleModuleStalkLargeAddEquiv_smul_germ B S hS f hf xbar G
+      (Functor.elementsMk _ U x) a s) r z
 
 end Etale
 

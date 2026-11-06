@@ -182,7 +182,7 @@ theorem terminalSectionToEnd_app_overFunctor_eq_zero {U : X.C}
     (h : SectionKills X a S) :
     (Stacks.SheafOfModules.terminalSectionToEnd
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) (Over.mk (𝟙 U))
-        Over.mkIdTerminal a).app
+        Over.mkIdTerminal a).asHom.app
       ((SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).obj S) =
       0 := by
   refine SheafOfModules.Hom.ext (PresheafOfModules.hom_ext fun V => ?_)
@@ -362,6 +362,7 @@ private theorem isDerivedComplete_of_smul_id_pow_eq_zero
   refine ⟨inferInstance, hLim, hColim, hProd, ?_⟩
   obtain ⟨n, hn⟩ := h V f hf
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
+  ext1
   rw [smul_id_pow, ← Stacks.SheafOfModules.terminalSectionToEnd_pow RV (Over.mk (𝟙 V))
     Over.mkIdTerminal f n]
   exact hn

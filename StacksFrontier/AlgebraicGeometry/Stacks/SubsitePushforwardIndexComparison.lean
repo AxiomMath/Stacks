@@ -174,8 +174,8 @@ theorem bijective_sectionsPrecomp_structuredArrowDownwards
           Quiver.Hom.unop_op, costructuredArrowPost, CostructuredArrow.post,
           CostructuredArrow.mk_left, CostructuredArrow.mk_hom_eq_self, unop_id, Functor.map_id,
           op_id, Category.comp_id, eqToHom_app, Functor.comp_obj, eqToHom_op]
-        exact (Category.comp_id _).symm)
-    exact ((FunctorToTypes.map_id_apply ℱ _).symm.trans (s.property φ)).symm
+        erw [f.map_id, op_id, Category.comp_id])
+    exact ((ℱ.map_id_apply _ _).symm.trans (s.property φ)).symm
   have hsq : Functor.sectionsPrecomp Ku ∘ Functor.sectionsPrecomp
       ((Stacks.Sites.CocontinuousExchange.twoSquare
         (subsiteFunctor_comp_ι f P hPQ)).op.structuredArrowDownwards (op y))

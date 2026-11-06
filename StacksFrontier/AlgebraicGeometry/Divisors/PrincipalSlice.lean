@@ -160,8 +160,8 @@ theorem exists_isAffineOpen_principal_slice {X : Scheme.{u}} (x : X) (h : X.pres
       (X.presheaf.germ U x hxU).hom a = h ∧
       (∀ V : U.toScheme.affineOpens,
         (Scheme.IdealSheafData.ofIdealTop (Ideal.span {U.topIso.inv.hom a})).ideal V =
-          Ideal.span {(U.toScheme.presheaf.map (homOfLE le_top).op).hom
-            (U.topIso.inv.hom a)}) ∧
+          Ideal.span {((U.toScheme.presheaf.map (homOfLE le_top).op).hom
+            (U.topIso.inv.hom a))}) ∧
       (⟨x, hxU⟩ : U.toScheme) ∈
         (Scheme.IdealSheafData.ofIdealTop (Ideal.span {U.topIso.inv.hom a})).support := by
   obtain ⟨U, hU, hxU, a, ha⟩ := exists_isAffineOpen_germ_eq x h
@@ -186,8 +186,8 @@ theorem exists_principal_slice_iff {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
         (I : U.toScheme.IdealSheafData),
         (X.presheaf.germ U x hxU).hom a = h ∧
         (∀ V : U.toScheme.affineOpens,
-          I.ideal V = Ideal.span {(U.toScheme.presheaf.map (homOfLE le_top).op).hom
-            (U.topIso.inv.hom a)}) ∧
+          I.ideal V = Ideal.span {((U.toScheme.presheaf.map (homOfLE le_top).op).hom
+            (U.topIso.inv.hom a))}) ∧
         IsEffectiveCartierDivisor I ∧
         (⟨x, hxU⟩ : U.toScheme) ∈ I.support ∧
         Smooth (I.subschemeι ≫ U.ι ≫ f)) ↔

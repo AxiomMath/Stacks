@@ -140,6 +140,9 @@ theorem isIso_directImageAlgebraPullbackAdjunction_unit_app_free (V : BigFppfOve
     (f : Y ⟶ schemeSpace V) (hf : IsAffineHom B S hS f.hom) (I : Type u) :
     IsIso ((directImageAlgebraPullbackAdjunction B S hS f).unit.app
       (SheafOfModules.free.{u} (R := structureRingSheafDirectImage B S hS f) I)) := by
+  have _inst : ∀ J : Type u, HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{u} (structureRingSheafDirectImage B S hS f).obj) :=
+    fun J ↦ PresheafOfModules.hasColimitsOfShape _ _
   have hE : ∀ k : Discrete I,
       (((Discrete.functor fun _ : I ↦
             SheafOfModules.unit (structureRingSheafDirectImage B S hS f)) ⋙

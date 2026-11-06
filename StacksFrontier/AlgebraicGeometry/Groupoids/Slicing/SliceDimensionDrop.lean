@@ -719,7 +719,8 @@ public theorem exists_affine_slice_dim_sub_one {S : Scheme.{u}}
   have hkerp : RingHom.ker
       ((pullback.snd E.g E.groupoid.target).left.stalkMapAt x (G.identity.left u) hx2) =
       Ideal.span {G.target.left.stalkMapAt (G.identity.left u)
-        ((targetOnSourceFiber G u) (sourceFiberIdentity G u)) (htid.trans hz.symm) a} := by
+                    ((targetOnSourceFiber G u) (sourceFiberIdentity G u)) (htid.trans hz.symm)
+                    a} := by
     have hk := @ker_stalkMapAt_of_isPullback _ _ _ _ _ _ _ _ H hsurjg x (G.identity.left u) u0
       ((targetOnSourceFiber G u) (sourceFiberIdentity G u)) hx2 hx1
       (htid.trans hz.symm) hu0

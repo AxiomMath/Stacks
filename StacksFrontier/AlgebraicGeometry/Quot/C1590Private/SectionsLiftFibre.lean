@@ -168,6 +168,7 @@ theorem isIso_unit_of_isKilledBy
         (annihilatedByKerIdeal_of_isKilledBy Vb f p v q hpb hp G hG))
 
 include hpb in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **`H¹` of a module killed by the ideal of the point.**  Let `F` be quasi-coherent with
 `H¹(W, q^* F) = 0`, the fibre `W` having Noetherian underlying space of dimension at most one.
 Then `H¹(X, G) = 0` for every quasi-coherent quotient `G` of a finite sum of copies of `F` killed
@@ -206,6 +207,7 @@ theorem isZero_cohomology_one_of_isKilledBy_fibreIdeal
   exact IsZero.of_iso (isZero_of_isZero_forget₂ _ h1) (Functor.mapIso _ (asIso (adj.unit.app G)))
 
 include hpb in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Sections over the fibre are sections of `F / 𝔪 F`.**  If `H⁰(X, F) ⟶ H⁰(X, F / 𝔪 F)` is
 onto, so is restriction of global sections `Γ(X, F) ⟶ Γ(W, q^* F)`. -/
 theorem surjective_globalSectionsPullbackMap_of_epi

@@ -246,7 +246,7 @@ theorem isIdempotentElem_eq_zero_or_one_of_finrank_le_one
       (representedAffineSections B S hS T).map ((modulePushforward B S hS q).map c) →
         globalFunctionsSmul B S hS e (structureModule Q) = c := fun c h => by
     have h' := hfaith _ _ h
-    refine (cancel_epi (modulePullbackUnitIso B S hS q).hom).1
+    refine (Iso.cancel_iso_hom_left (modulePullbackUnitIso B S hS q) _ _).1
       (((modulePullbackAdjunction B S hS q).homEquiv _ _).injective ?_)
     rw [Adjunction.homEquiv_naturality_right, Adjunction.homEquiv_naturality_right, h']
   rcases hL with h0 | h1

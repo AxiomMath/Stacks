@@ -206,10 +206,10 @@ public def levelULiftRepresentation (k : ℕ) :
       levelRepresentation ρ k g ∘ₗ (levelULiftEquiv.{w} k).toLinearMap
     map_one' := by
       ext x : 1
-      exact ULift.ext _ _ (by simp)
+      exact ULift.ext (by simp)
     map_mul' := fun g h => by
       ext x : 1
-      exact ULift.ext _ _ (by simp [Module.End.mul_apply]) }
+      exact ULift.ext (by simp [Module.End.mul_apply]) }
 
 /-- On underlying vectors, the lifted level representation acts as the level representation. -/
 @[simp]
@@ -226,7 +226,7 @@ public theorem isContinuous_levelULiftRepresentation (hρ : Continuous ρ) (k : 
     have : {g : G | levelULiftRepresentation.{v, w} ρ k g x = x} =
         {g : G | levelRepresentation ρ k g x.down = x.down} := by
       ext g
-      exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+      exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
     rw [this]
     exact isOpen_setOf_levelRepresentation_apply_eq ρ hρ k x.down
 

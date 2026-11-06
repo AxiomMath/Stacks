@@ -59,6 +59,19 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of inverse systems of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_system_RelativeAmpleOpenLocusOfCutoffBoundedApproximation
+    {I : Type u} [Preorder I] :
+    HasPullbacks (Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) := inferInstance
+
+local instance (priority := high)
+    hasPullback_system_RelativeAmpleOpenLocusOfCutoffBoundedApproximation
+    {I : Type u} [Preorder I] {X Y Z : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The convention passes to the system of fibres.** Let `φ : X ⟶ Y` be a morphism of inverse
 systems of algebraic spaces with affine transition morphisms, `cY` a cone over `Y` and
 `k : K ⟶ cY.pt`. If `X` is bounded by the cutoff then so is the system `Xᵢ ×_{Yᵢ} K`: it has the
@@ -96,7 +109,7 @@ private theorem exists_size_toScheme_obj_le_of_overLift {J : Type u} [Category.{
   refine ⟨μ, hμ, fun k => ?_⟩
   let m : k ⟶ j₀ := Over.homMk k.hom
   have hsq : CommSq (e.hom.app k) (yoneda.map (W.map m)) (D.map k.hom) (e.hom.app j₀) :=
-    ⟨by simpa [m] using (e.hom.naturality m).symm⟩
+    ⟨(e.hom.naturality m).symm⟩
   exact hbound k (W.obj k) (e.hom.app k) (yoneda.map (W.map m))
     (IsPullback.of_horiz_isIso hsq)
 

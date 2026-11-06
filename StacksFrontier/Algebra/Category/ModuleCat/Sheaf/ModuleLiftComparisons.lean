@@ -66,7 +66,7 @@ multiplication by every scalar, read as a morphism of sheaves of `Λ`-modules. O
 public def sheafHomOfForget
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₁ ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₂)
-    (h : ∀ a : Λ, sheafScalarEnd Λ J F₁ a ≫ e = e ≫ sheafScalarEnd Λ J F₂ a) :
+    (h : ∀ a : Λ, (sheafScalarEnd Λ J F₁ a).asHom ≫ e = e ≫ (sheafScalarEnd Λ J F₂ a).asHom) :
     F₁ ⟶ F₂ :=
   ObjectProperty.homMk
     { app := fun U => ModuleCat.homMk (e.hom.app U) fun a =>
@@ -79,7 +79,7 @@ public def sheafHomOfForget
 public lemma sheafCompose_map_sheafHomOfForget
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₁ ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₂)
-    (h : ∀ a : Λ, sheafScalarEnd Λ J F₁ a ≫ e = e ≫ sheafScalarEnd Λ J F₂ a) :
+    (h : ∀ a : Λ, (sheafScalarEnd Λ J F₁ a).asHom ≫ e = e ≫ (sheafScalarEnd Λ J F₂ a).asHom) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
         (sheafHomOfForget Λ J e h) = e :=
   rfl
@@ -89,7 +89,8 @@ with multiplication by every scalar, read as an isomorphism of sheaves of `Λ`-m
 public def sheafIsoOfForget
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₁ ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₂)
-    (h : ∀ a : Λ, sheafScalarEnd Λ J F₁ a ≫ e.hom = e.hom ≫ sheafScalarEnd Λ J F₂ a) :
+    (h : ∀ a : Λ,
+      (sheafScalarEnd Λ J F₁ a).asHom ≫ e.hom = e.hom ≫ (sheafScalarEnd Λ J F₂ a).asHom) :
     F₁ ≅ F₂ :=
   haveI : IsIso ((sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (sheafHomOfForget Λ J e.hom h)) := by
@@ -104,7 +105,8 @@ public def sheafIsoOfForget
 public lemma sheafIsoOfForget_hom
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₁ ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₂)
-    (h : ∀ a : Λ, sheafScalarEnd Λ J F₁ a ≫ e.hom = e.hom ≫ sheafScalarEnd Λ J F₂ a) :
+    (h : ∀ a : Λ,
+      (sheafScalarEnd Λ J F₁ a).asHom ≫ e.hom = e.hom ≫ (sheafScalarEnd Λ J F₂ a).asHom) :
     (sheafIsoOfForget Λ J e h).hom = sheafHomOfForget Λ J e.hom h :=
   rfl
 
@@ -114,7 +116,8 @@ recovers `e.hom`. -/
 public lemma sheafCompose_map_sheafIsoOfForget_hom
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₁ ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F₂)
-    (h : ∀ a : Λ, sheafScalarEnd Λ J F₁ a ≫ e.hom = e.hom ≫ sheafScalarEnd Λ J F₂ a) :
+    (h : ∀ a : Λ,
+      (sheafScalarEnd Λ J F₁ a).asHom ≫ e.hom = e.hom ≫ (sheafScalarEnd Λ J F₂ a).asHom) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
         (sheafIsoOfForget Λ J e h).hom = e.hom :=
   rfl

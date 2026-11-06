@@ -123,7 +123,7 @@ from its coefficients. -/
 private theorem isHomogeneous_eq_sum {F : MvPolynomial (Fin 2) A} {n : ℕ}
     (hF : F.IsHomogeneous n) :
     F = ∑ i ∈ Finset.range (n + 1),
-      C (coeff (Finsupp.single 0 i + Finsupp.single 1 (n - i)) F) * X 0 ^ i * X 1 ^ (n - i) := by
+      C (F.coeff (Finsupp.single 0 i + Finsupp.single 1 (n - i))) * X 0 ^ i * X 1 ^ (n - i) := by
   classical
   have hmon : ∀ (i j : ℕ) (c : A), (C c * X 0 ^ i * X 1 ^ j : MvPolynomial (Fin 2) A) =
       monomial (Finsupp.single 0 i + Finsupp.single 1 j) c := fun i j c => by

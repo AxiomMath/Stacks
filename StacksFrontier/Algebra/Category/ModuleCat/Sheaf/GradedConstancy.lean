@@ -106,9 +106,11 @@ abbrev shiftAlgebra : Subalgebra Λ (Module.End Λ ((n : ℕ) → V n)) :=
   Algebra.adjoin Λ (Set.range (gradedShift ψ))
 
 /-- The commutative ring structure of `shiftAlgebra`. -/
-abbrev shiftAlgebraCommRing : CommRing (shiftAlgebra ψ) := Algebra.adjoinCommRingOfComm Λ (by
-  rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩
-  exact gradedShift_commute hψ i j)
+abbrev shiftAlgebraCommRing : CommRing (shiftAlgebra ψ) :=
+  haveI : IsMulCommutative (shiftAlgebra ψ) := Algebra.isMulCommutative_adjoin Λ (by
+    rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ -
+    exact gradedShift_commute hψ i j)
+  open scoped IsMulCommutative in inferInstance
 
 /-- A polynomial in `r` variables acting on `∏ₙ Vₙ`, the `j`-th variable by `gradedShift ψ j`. -/
 def gradedPolyAct (p : MvPolynomial (Fin r) Λ) : Module.End Λ ((n : ℕ) → V n) :=

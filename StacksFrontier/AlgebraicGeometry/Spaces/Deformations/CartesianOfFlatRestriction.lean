@@ -44,6 +44,11 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+local instance (priority := high) hasLimit_cospan_presheaf_CartesianOfFlatRestriction
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- **A flat deformation mapping to a base change is a base change.**  Let `W ⊂ B'` be a finite
 order thickening, `q : Xₙ ⟶ B'` flat, `β : B' ⟶ Z`, `π : X' ⟶ Z` and `g : Xₙ ⟶ X'` with
 `g ≫ π = q ≫ β`. Suppose `X₀` with `a : X₀ ⟶ Xₙ`, `i = a ≫ g` and `r : X₀ ⟶ W` is both

@@ -38,11 +38,11 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (Φ : Point.
 theorem exists_le_le {X₁ X₂ : C} (x₁ : Φ.fiber.obj X₁) (x₂ : Φ.fiber.obj X₂) :
     ∃ (Y : C) (y : Φ.fiber.obj Y) (f₁ : Y ⟶ X₁) (f₂ : Y ⟶ X₂),
       Φ.fiber.map f₁ y = x₁ ∧ Φ.fiber.map f₂ y = x₂ := by
-  let e₁ : Φ.fiber.Elements := ⟨X₁, x₁⟩
-  let e₂ : Φ.fiber.Elements := ⟨X₂, x₂⟩
-  exact ⟨(IsCofiltered.min e₁ e₂).1, (IsCofiltered.min e₁ e₂).2,
-    (IsCofiltered.minToLeft e₁ e₂).1, (IsCofiltered.minToRight e₁ e₂).1,
-    (IsCofiltered.minToLeft e₁ e₂).2, (IsCofiltered.minToRight e₁ e₂).2⟩
+  let e₁ : Φ.fiber.Elements := Φ.fiber.elementsMk X₁ x₁
+  let e₂ : Φ.fiber.Elements := Φ.fiber.elementsMk X₂ x₂
+  exact ⟨(IsCofiltered.min e₁ e₂).obj, (IsCofiltered.min e₁ e₂).val,
+    (IsCofiltered.minToLeft e₁ e₂).hom, (IsCofiltered.minToRight e₁ e₂).hom,
+    (IsCofiltered.minToLeft e₁ e₂).map_val, (IsCofiltered.minToRight e₁ e₂).map_val⟩
 
 variable [LocallySmall.{w} C] {P : Cᵒᵖ ⥤ CommRingCat.{w}}
 

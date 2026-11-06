@@ -189,7 +189,7 @@ def monoidalCategory :
     MonoidalCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.monoidalCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
   Localization.monoidalCategory
     (monoidalLocalIsomorphisms :=
       Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj))
@@ -208,11 +208,11 @@ def braidedCategory :
     BraidedCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.monoidalCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
   Localization.braidedCategory
     (monoidalLocalIsomorphisms :=
       Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj))
-    (sourceBraided := (PresheafOfModules.symmetricCategory (R := R.obj)).toBraidedCategory)
+    (sourceBraided := (PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)).toBraidedCategory)
     (PresheafOfModules.sheafification
       (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
       (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
@@ -226,11 +226,11 @@ def symmetricCategory :
     SymmetricCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.monoidalCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
   Localization.symmetricCategory
     (monoidalLocalIsomorphisms :=
       Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj))
-    (sourceSymmetric := PresheafOfModules.symmetricCategory (R := R.obj))
+    (sourceSymmetric := PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj))
     (PresheafOfModules.sheafification
       (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
       (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
@@ -242,14 +242,14 @@ def symmetricCategory :
 instance sheafification_monoidal :
     letI : MonoidalCategory
         (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-      PresheafOfModules.monoidalCategory (R := R.obj)
+      PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
     (PresheafOfModules.sheafification
       (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
       (R := Stacks.SheafOfModules.Tensor.ringSheaf R)
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).Monoidal :=
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.monoidalCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
   (Localization.coreMonoidal
     (monoidalLocalIsomorphisms :=
       Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj))

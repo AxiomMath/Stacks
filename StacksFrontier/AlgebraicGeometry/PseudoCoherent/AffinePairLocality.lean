@@ -157,7 +157,7 @@ public def derivedRestrictIsoOpensRangeIso {X X' : Scheme.{u}} (a : X' ⟶ X) [I
       (restrictFunctor a.opensRange.ι).mapDerivedCategory.obj E :=
   (Functor.mapDerivedCategoryCongr (pushforwardIsoRestrictInv a.isoOpensRange.hom)).app
       ((restrictFunctor a).mapDerivedCategory.obj E) ≪≫
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIso _ _ ≪≫ Functor.mapDerivedCategoryCongr
       ((restrictFunctorComp (inv a.isoOpensRange.hom) a).symm ≪≫
         restrictFunctorCongr ((IsIso.inv_comp_eq _).2 (a.isoOpensRange_hom_ι).symm))).app E
 
@@ -402,9 +402,11 @@ private theorem isPseudoCoherentFromAfterPushforward_restrict_restrict_of_comm
       ((Scheme.Modules.restrictFunctor b).mapDerivedCategory.obj
         ((Scheme.Modules.restrictFunctor u).mapDerivedCategory.obj E)) m := by
   refine Scheme.Modules.IsPseudoCoherentFromAfterPushforward.of_iso j hj ?_
-  exact (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorComp a p).symm).app E ≪≫
+  exact (Functor.mapDerivedCategoryCompIso _ _ ≪≫
+      Functor.mapDerivedCategoryCongr (Scheme.Modules.restrictFunctorComp a p).symm).app E ≪≫
     (Functor.mapDerivedCategoryCongr (Scheme.Modules.restrictFunctorCongr h)).app E ≪≫
-    (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorComp b u).symm).symm.app E
+    (Functor.mapDerivedCategoryCompIso _ _ ≪≫
+      Functor.mapDerivedCategoryCongr (Scheme.Modules.restrictFunctorComp b u).symm).symm.app E
 
 /-! ### Stacks 09UJ -/
 

@@ -82,6 +82,14 @@ def freeIsoOfUnitIso {C₁ : Type*} [Category* C₁] {J₁ : GrothendieckTopolog
     (hG : PreservesColimitsOfShape (Discrete I) G) :
     G.obj (free I) ≅ free (R := R₂) I :=
   letI := hG
+  letI : HasCoproducts.{u} (PresheafOfModules.{u} R₁.obj) := fun _ =>
+    PresheafOfModules.hasColimitsOfShape _ _
+  letI : HasCoproducts.{u} (PresheafOfModules.{u} R₂.obj) := fun _ =>
+    PresheafOfModules.hasColimitsOfShape _ _
+  letI : HasCoproducts.{u} (SheafOfModules.{u} R₁) := fun _ =>
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
+  letI : HasCoproducts.{u} (SheafOfModules.{u} R₂) := fun _ =>
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   letI : PreservesColimit (Discrete.functor (fun _ : I => unit R₁)) G :=
     PreservesColimitsOfShape.preservesColimit
   (PreservesCoproduct.iso G (fun _ : I => unit R₁)).trans (Sigma.mapIso (fun _ => e))

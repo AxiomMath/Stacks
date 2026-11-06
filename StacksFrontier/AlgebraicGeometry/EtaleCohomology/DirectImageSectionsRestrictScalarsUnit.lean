@@ -78,7 +78,7 @@ theorem isIso_mapCochainComplexPlusDerivedUnit_app_of_rightAcyclic {A B : Type*}
     [EnoughInjectives A] (T : A ⥤ B) [T.Additive] (K : CochainComplex.Plus A)
     (hK : ∀ n, T.rightAcyclic (K.obj.X n)) :
     IsIso (T.mapCochainComplexPlusDerivedUnit.app K) := by
-  have hu : IsIso (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj K)) :=
+  have hu : IsIso (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj K)) :=
     T.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ hK
   rw [Functor.mapCochainComplexPlusDerivedUnit_app]
   have h₃ : IsIso (T.rightDerivedFunctorPlus.map

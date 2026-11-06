@@ -590,13 +590,13 @@ theorem isZeroAt_adjointSituation_iff (T : (A.sourceSituation hqcH).SchemesOver)
     have haw : a.hom ≫ w = 0 :=
       (congrArg (fun t => a.hom ≫ t) hwz).trans comp_zero
     have hzb : z ≫ b.hom = 0 := hadj.trans (hequiv.2 haw)
-    exact (cancel_mono b.hom).1 (hzb.trans zero_comp.symm)
+    exact (Iso.cancel_iso_hom_right _ _ b).1 (hzb.trans zero_comp.symm)
   · intro h
     have hz0 : z = 0 := h
     have hzb : z ≫ b.hom = 0 :=
       (congrArg (fun t => t ≫ b.hom) hz0).trans zero_comp
     have haw : a.hom ≫ w = 0 := hequiv.1 (hadj.symm.trans hzb)
-    exact (cancel_epi a.hom).1 (haw.trans comp_zero.symm)
+    exact (Iso.cancel_iso_hom_left a _ _).1 (haw.trans comp_zero.symm)
 
 /-- **Stacks 0CW7, part (1)**: `F_{v,zero} = F_{u,zero}`. -/
 @[stacks 0CW7 "part (1)"]
@@ -657,6 +657,7 @@ theorem isSurjectiveAt_adjointSituation_iff (T : (A.sourceSituation hqcH).Scheme
     exact (@epi_comp_iff_of_epi _ _ _ _ _ _ hunit _).symm
   have h2 : Epi (a.hom ≫ w) ↔ Epi ((modulePushforward B S hS iT).map (a.hom ≫ w)) :=
     (Functor.epi_map_iff_epi (modulePushforward B S hS iT) (a.hom ≫ w)).symm
+  have : Epi a.hom := @IsIso.epi_of_iso _ _ _ _ a.hom (Iso.isIso_hom a)
   have h1 : Epi w ↔ Epi (a.hom ≫ w) := (epi_comp_iff_of_epi a.hom w).symm
   exact h1.trans (h2.trans (h3.trans h4))
 

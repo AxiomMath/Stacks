@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Functor.Flat
+public import Mathlib.CategoryTheory.Limits.FilteredColimitCommutesFiniteLimit
 public import Mathlib.CategoryTheory.Functor.KanExtension.Adjunction
 
 /-!

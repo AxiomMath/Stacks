@@ -374,7 +374,8 @@ theorem isZero_sheafH'_of_isZero_cechCohomology
             ((comparisonFunctor B S hS Y).op ⋙ F.obj) p))
     (U : SpacesEtale B S hS Y) (hU : U ∈ affineChartImages B S hS Y) (p : ℕ) (hp : 0 < p) :
     IsZero (Sheaf.H'.{u + 1} F p U) :=
-  Stacks.CechSite.sheafCohomology_isZero_of_cechCohomology_isZero.{u + 1, u + 1, u + 1}
+  letI : Small.{u + 1} (SpacesEtale B S hS Y) := small_self _
+  Stacks.CechSite.sheafCohomology_isZero_of_cechCohomology_isZero.{u + 1, u + 1, u + 1, u + 1}
     (SpacesEtale.topology B S hS Y) (affineChartImages B S hS Y)
     (imageAffineCov B S hS Y F)
     (fun _ _ _ _ ↦ inferInstance)

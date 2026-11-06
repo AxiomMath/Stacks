@@ -254,6 +254,7 @@ end MayerVietoris
 
 section Affine
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A perfect morphism precomposed with an étale morphism is perfect: an étale chart of the source
 followed by the étale morphism is an étale chart of the target of the étale morphism. -/
 theorem isPerfect_comp_of_isEtale {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {j : F ⟶ G}

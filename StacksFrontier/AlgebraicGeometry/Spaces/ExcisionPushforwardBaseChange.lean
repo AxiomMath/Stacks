@@ -68,6 +68,8 @@ universe u
 namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
+attribute [local instance high] hasPullbacks_presheaf_ExcisionPushforwardGluing
+  hasPullback_presheaf_ExcisionPushforwardGluing
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {V W Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : V ⟶ W) (h : Y ⟶ V)
@@ -175,6 +177,7 @@ theorem restrict_excisionUnitPair_base {A : (BigFppfOver B S hS)ᵒᵖ}
       (φ ≫ h) ≫ f := by
   simp only [RelativeMorphism.restrict_base, excisionPairOf_base, Category.assoc]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The evaluation of the restriction of the canonical pair at `φ` is `φ`.** -/
 theorem pairEval_restrict_excisionUnitPair {A : (BigFppfOver B S hS)ᵒᵖ}
     (φ : yoneda.obj A.unop ⟶ Y)

@@ -276,7 +276,7 @@ theorem exists_cartesian_surjectiveEtaleCharts
     rw [← small_compat, hambientComm]
     exact IsPullback.paste_horiz source_pullback M.cartesian
   have hFinalSite : IsPullback g iU iV g' :=
-    IsPullback.of_map yoneda (yoneda.map_injective (by simpa using hg_snd))
+    IsPullback.of_map yoneda (yoneda.map_injective (by simp only [Functor.map_comp]; exact hg_snd))
       (IsPullback.of_right hUtoY hg_snd target_pullback)
   exact ⟨U, V, U', V', u, v, uambient, v', g, g', iU, iV, hu_etale, hv_etale, hu_surjective,
     hv_surjective, small_compat.symm, huambient_etale, hv'_etale, huambient_surjective,

@@ -89,6 +89,18 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Sheaves of sets -/
 
+/-- The small étale direct image of sheaves of sets along a representable morphism is a right
+adjoint, as an instance. This is Mathlib's `Functor.sheafPullbackConstruction` instance
+specialised to the small étale base change; instance search no longer finds Mathlib's own
+instance while elaborating the public statements below. -/
+instance smallBaseChange_sheafPushforwardContinuous_isRightAdjoint
+    [(smallBaseChange B S hS f hr).IsContinuous (SmallEtale.topology B S hS X.1)
+      (SmallEtale.topology B S hS Y.1)] :
+    ((smallBaseChange B S hS f hr).sheafPushforwardContinuous
+      (Type (max (u + 1) v)) (SmallEtale.topology B S hS X.1)
+      (SmallEtale.topology B S hS Y.1)).IsRightAdjoint :=
+  (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
+
 /-- The counit of an adjunction is objectwise an isomorphism iff the right adjoint is full and
 faithful. -/
 private theorem counit_app_isIso_iff_full_and_faithful {C D : Type*} [Category C] [Category D]

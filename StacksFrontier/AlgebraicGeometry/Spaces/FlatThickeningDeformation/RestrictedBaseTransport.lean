@@ -258,6 +258,14 @@ theorem restrictedPostcomp_isContinuous :
 
 attribute [local instance] restrictedPostcomp_isContinuous
 
+-- instance search for this times out at the uses below; it is the instance from finite limits
+local instance restrictedPostcomp_preservesFiniteProducts_RestrictedBaseTransport :
+    PreservesFiniteProducts
+      ((smallEtalePostcomp B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ)).sheafPushforwardContinuous
+        (Type u) (SmallEtale.topology B S hS Y₀.1)
+        (SmallEtale.topology B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS).1)) :=
+  instPreservesFiniteProductsOfPreservesFiniteLimits _
+
 /-- Restriction along `ρ` of sheaves of commutative rings on the small étale site of `Z`. -/
 abbrev restrictedRingRes :=
   Deformation.AlgebraExtension.ringRes

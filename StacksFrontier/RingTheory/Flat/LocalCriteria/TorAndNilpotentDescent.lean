@@ -19,6 +19,7 @@ import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.CategoryTheory.Monoidal.Closed.Braided
 import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.CategoryTheory.Monoidal.Tor
+public import Mathlib.CategoryTheory.Abelian.Refinements
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.Quiver.ReflQuiver
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
@@ -435,7 +436,6 @@ private lemma injective_lift_lsmul_span_singleton (hM : IsSMulRegular M f) :
       k (LinearMap.rTensor M (toSpan f) x) = f • (TensorProduct.lid A M x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul a m =>
         change TensorProduct.lift ((LinearMap.lsmul A M).comp
           (Ideal.span {f} : Ideal A).subtype) ((toSpan f a) ⊗ₜ[A] m) = _
@@ -490,7 +490,6 @@ private lemma isSMulRegular_tensorProduct
         (LinearMap.lTensor M (toSMulTop f P) x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul m p => simp [toSMulTop_apply, TensorProduct.tmul_smul]
     | add a b ha hb => simp [ha, hb, smul_add]
   intro x y hxy
@@ -543,7 +542,6 @@ private theorem flat_of_flat_away_of_flat_quotSMulTop
         = (AlgebraTensorModule.rTensor A A g) (LinearMap.lTensor M J.subtype x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul m a => simp
     | add a b ha hb => simp only [map_add, ha, hb]
   rw [injective_iff_map_eq_zero]

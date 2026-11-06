@@ -54,6 +54,18 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_NormalizedBlowupEtaleBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_NormalizedBlowupEtaleBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The blowing up at a closed point is the blowing up in the reduced closed subspace on the
 point: being the blowing up is invariant under isomorphism over the base. -/
 theorem IsBlowupAtClosedPoint.isBlowupAlong {X Y : AlgebraicSpaces B S hS}

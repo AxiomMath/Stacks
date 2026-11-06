@@ -561,7 +561,7 @@ theorem chowClassCanonical_firstChernCapCycleMap_closedSubspaceCycle_eq_vanishin
   let I := ULift.{v} I₀
   let Zf : I → IntegralClosedSubspace D.site D.base D.base_mem X := fun i =>
     closedSubspaceComponentImage D sX hX Y.1 Y.2 i.down.1
-  have hZinj : Function.Injective Zf := fun i j h => ULift.ext _ _ (Subtype.ext
+  have hZinj : Function.Injective Zf := fun i j h => ULift.down_injective (Subtype.ext
     (IntegralClosedSubspace.injective_pushforward D.site D.base D.base_mem hX.1 Y.2.1 hXdec
       Y.2.2 h))
   have hZfin : LocallyFinite fun i : I =>

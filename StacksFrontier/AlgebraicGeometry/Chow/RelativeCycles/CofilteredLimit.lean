@@ -53,7 +53,7 @@ theorem baseChangeFamily_eq_iff {X S S' : Scheme.{u}} (f : X ⟶ S) [LocallyOfFi
     baseChangeFamily f g r α = baseChangeFamily f g r β ↔ ∀ t : S', α (g t) = β (g t) := by
   have hsub : baseChangeFamily f g r (α - β) =
       baseChangeFamily f g r α - baseChangeFamily f g r β := by
-    simpa using map_sub (baseChangeFamilyHom f g r) α β
+    simpa only [baseChangeFamilyHom_apply] using map_sub (baseChangeFamilyHom f g r) α β
   rw [← sub_eq_zero, ← hsub, funext_iff]
   refine forall_congr' fun t => ?_
   rw [Pi.zero_apply, baseChangeFamily_apply_eq_zero_iff, Pi.sub_apply, sub_eq_zero]

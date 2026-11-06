@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Abelian
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackContinuous
 public import Mathlib.Algebra.Category.Ring.Limits
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 public import Mathlib.CategoryTheory.Functor.ReflectsIso.Jointly
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.Combinatorics.Quiver.ReflQuiver

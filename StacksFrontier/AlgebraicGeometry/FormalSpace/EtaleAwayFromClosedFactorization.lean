@@ -55,6 +55,33 @@ private theorem isIso_homMk_of_isIso {C : Type*} [Category* C] {J : Grothendieck
 
 /-! ### Lifting sections with image in the closed set -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of fppf sheaves of sets, supplied directly (instance search times out). -/
+local instance hasPullbacks_sheaf_etaleAwayFromClosedFactorization :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
+  inferInstance
+
+local instance (priority := high) hasPullback_sheaf_etaleAwayFromClosedFactorization
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Strict initial objects of fppf sheaves of sets (instance search times out). -/
+local instance (priority := high)
+    hasStrictInitialObjects_sheaf_etaleAwayFromClosedFactorization :
+    HasStrictInitialObjects (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out). -/
+local instance hasPullbacks_presheaf_etaleAwayFromClosedFactorization :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_etaleAwayFromClosedFactorization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Let `Q` be the pushout of a monomorphism `a : A ⟶ F` and a morphism `b : A ⟶ V` of fppf
 sheaves of sets, with legs `g` and `i`, where `V` and `Q` are algebraic spaces, and let `T` be
 a set of points of `Q` which meets no point coming from `V`. Then a section of `Q` with
@@ -68,11 +95,11 @@ private theorem existsUnique_app_eq_of_hasImageIn
     (W : BigFppfOver B S hS) (y : Q.obj.obj (op W))
     (hy : Space.HasImageIn B S hS Q.obj T W y) :
     ∃! x : F.obj.obj (op W), g.hom.app (op W) x = y := by
-  let J := BigFppfOver.topology B S hS
-  let Wsh : Sheaf J (Type u) := ⟨yoneda.obj W, BigFppfOver.isSheaf_yoneda_obj B S hS W⟩
+  let Wsh : Sheaf (BigFppfOver.topology B S hS) (Type u) :=
+    ⟨yoneda.obj W, BigFppfOver.isSheaf_yoneda_obj B S hS W⟩
   let ys : Wsh ⟶ Q := ObjectProperty.homMk (yonedaEquiv.symm y)
   have hPi : IsPullback (pullback.fst ys i).hom (pullback.snd ys i).hom ys.hom i.hom :=
-    (IsPullback.of_hasPullback ys i).map (sheafToPresheaf J (Type u))
+    (IsPullback.of_hasPullback ys i).map (sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
   have hPialg : IsAlgebraicSpace B S hS (pullback ys i).obj :=
     isAlgebraicSpace_of_iso B S hS hPi.isoPullback
       (isAlgebraicSpace_pullback B S hS ys.hom i.hom (isAlgebraicSpace_yoneda B S hS W) hV hQ)
@@ -97,9 +124,8 @@ private theorem existsUnique_app_eq_of_hasImageIn
       show yonedaEquiv.symm x ≫ g.hom = yonedaEquiv.symm y
       rw [yonedaEquiv_symm_naturality_right, hx])
     let l : Wsh ⟶ pullback ys g := pullback.lift (𝟙 Wsh) xh (by rw [Category.id_comp, hxh])
-    have hl : l = inv (pullback.fst ys g) := by
-      rw [← cancel_mono (pullback.fst ys g), IsIso.inv_hom_id]
-      exact pullback.lift_fst _ _ _
+    have hl : l = inv (pullback.fst ys g) :=
+      IsIso.eq_inv_of_inv_hom_id (pullback.lift_fst _ _ _)
     have hxl : xh = xs := by
       rw [← pullback.lift_snd (𝟙 Wsh) xh (by rw [Category.id_comp, hxh])]
       show l ≫ _ = _
@@ -125,7 +151,7 @@ private theorem isIso_completionMap_of_isPushout
         congrArg (fun z ↦ z.1.down) hx
       obtain ⟨x, -, huniq⟩ := hlift W.unop (g.hom.app W x₁.1.down)
         ((Space.completionMap B S hS g.hom T).app W x₁).2
-      exact Subtype.ext (ULift.ext _ _ ((huniq _ rfl).trans (huniq _ hx'.symm).symm))
+      exact Subtype.ext (ULift.ext ((huniq _ rfl).trans (huniq _ hx'.symm).symm))
     · obtain ⟨x, hx, -⟩ := hlift W.unop y.1.down y.2
       have hxg : yonedaEquiv.symm x ≫ g.hom = yonedaEquiv.symm y.1.down :=
         by rw [yonedaEquiv_symm_naturality_right, hx]
@@ -137,7 +163,7 @@ private theorem isIso_completionMap_of_isPushout
           (Space.pointsMap B S hS _ (yonedaEquiv.symm x) w) ∈ T
         rw [← Space.pointsMap_comp_apply, hxg]
         exact (Space.hasImageIn_iff_range_subset B S hS T W.unop y.1.down).mp y.2 ⟨w, rfl⟩
-      exact ⟨⟨⟨x⟩, hmem⟩, Subtype.ext (ULift.ext _ _ hx)⟩
+      exact ⟨⟨⟨x⟩, hmem⟩, Subtype.ext (ULift.ext hx)⟩
   exact NatIso.isIso_of_isIso_app _
 
 /-! ### The factorization -/
@@ -173,16 +199,16 @@ theorem exists_factorization_isIso_completionSheafMap
   have hUalg : IsAlgebraicSpace B S hS Uo.1.toFunctor := Uo.2.1
   have hAalg : IsAlgebraicSpace B S hS (pullback f Uo.1.ι) :=
     isAlgebraicSpace_pullback B S hS f Uo.1.ι hX' hUalg hX
-  let F : Sheaf J (Type u) := ⟨X', hX'.isSheaf⟩
-  let H : Sheaf J (Type u) := ⟨X, hX.isSheaf⟩
-  let V : Sheaf J (Type u) := ⟨Uo.1.toFunctor, hUalg.isSheaf⟩
-  let A : Sheaf J (Type u) := ⟨pullback f Uo.1.ι, hAalg.isSheaf⟩
+  let F : Sheaf (BigFppfOver.topology B S hS) (Type u) := ⟨X', hX'.isSheaf⟩
+  let H : Sheaf (BigFppfOver.topology B S hS) (Type u) := ⟨X, hX.isSheaf⟩
+  let V : Sheaf (BigFppfOver.topology B S hS) (Type u) := ⟨Uo.1.toFunctor, hUalg.isSheaf⟩
+  let A : Sheaf (BigFppfOver.topology B S hS) (Type u) := ⟨pullback f Uo.1.ι, hAalg.isSheaf⟩
   let fs : F ⟶ H := ObjectProperty.homMk f
   let iH : V ⟶ H := ObjectProperty.homMk Uo.1.ι
   let a : A ⟶ F := ObjectProperty.homMk (pullback.fst f Uo.1.ι)
   let b : A ⟶ V := ObjectProperty.homMk (pullback.snd f Uo.1.ι)
   have hAP : IsPullback a b fs iH :=
-    IsPullback.of_map_of_faithful (sheafToPresheaf J (Type u))
+    IsPullback.of_map_of_faithful (sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
       (IsPullback.of_hasPullback f Uo.1.ι)
   have ha : Space.IsOpenImmersion B S hS a.hom :=
     Space.isOpenImmersion_of_isPullback B S hS
@@ -192,9 +218,10 @@ theorem exists_factorization_isIso_completionSheafMap
       (snd := ObjectProperty.homMk (pullback.fst f Uo.1.ι))
       (IsPullback.of_map_of_faithful (ObjectProperty.ι _)
         (IsPullback.of_hasPullback f Uo.1.ι).flip) Uo.2.2
-  have hiHmono : Mono iH := Functor.mono_of_mono_map (sheafToPresheaf J (Type u))
-    (show Mono Uo.1.ι from inferInstance)
-  have : Mono a := Functor.mono_of_mono_map (sheafToPresheaf J (Type u))
+  have hiHmono : Mono iH :=
+    Functor.mono_of_mono_map (sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
+      (show Mono Uo.1.ι from inferInstance)
+  have : Mono a := Functor.mono_of_mono_map (sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
     (Space.mono_of_isOpenImmersion B S hS _ ha)
   have hpo := IsPushout.of_hasPushout a b
   let g : F ⟶ pushout a b := pushout.inl a b
@@ -221,7 +248,7 @@ theorem exists_factorization_isIso_completionSheafMap
       exact Space.isLocallyOfFiniteType_of_isEtale' B S hS _
         (Space.isEtale_of_isOpenImmersion B S hS Uo.2.2)
   · have hsq := (Adhesive.isPullback_inr_of_isPushout hpo hAP p hgp hip).map
-      (sheafToPresheaf J (Type u))
+      (sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
     have he : (pullback.snd p.hom Uo.1.ι) = hsq.isoPullback.inv ≫ 𝟙 _ :=
       (Iso.eq_inv_comp _).mpr hsq.isoPullback_hom_snd
     rw [he]

@@ -606,18 +606,18 @@ theorem LAdicSheaf.CoefficientSheaf.exists_higherDirectImageShriek_levelIsogeny 
       ∀ o : O,
         LAdicSheaf.padicTowerMap
           (((LAdicSheaf.CoefficientSheaf.inverseImage jU F).higherDirectImageShriek
-            B ℓ g' jg' r).act o) ≫ Φ =
-          Φ ≫ Functor.whiskerRight (Functor.whiskerRight (LAdicSheaf.padicTowerMap (F.act o))
+            B ℓ g' jg' r).act o).asHom ≫ Φ =
+          Φ ≫ Functor.whiskerRight (Functor.whiskerRight (LAdicSheaf.padicTowerMap (F.act o).asHom)
             (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map g) jg r))
             (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV)) ∧
-        Functor.whiskerRight (Functor.whiskerRight (LAdicSheaf.padicTowerMap (F.act o))
+        Functor.whiskerRight (Functor.whiskerRight (LAdicSheaf.padicTowerMap (F.act o).asHom)
             (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map g) jg r))
             (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV)) ≫ Ψ =
           Ψ ≫ LAdicSheaf.padicTowerMap
             (((LAdicSheaf.CoefficientSheaf.inverseImage jU F).higherDirectImageShriek
-              B ℓ g' jg' r).act o) :=
+              B ℓ g' jg' r).act o).asHom :=
   LAdicSheaf.exists_higherDirectImageShriek_levelIsogeny B ℓ g jg g' jg' jU jV hpb F.toLAdicSheaf r
-    |>.imp fun _ ⟨Φ, Ψ, h₁, h₂, h₃⟩ => ⟨Φ, Ψ, h₁, h₂, fun o => h₃ (F.act o)⟩
+    |>.imp fun _ ⟨Φ, Ψ, h₁, h₂, h₃⟩ => ⟨Φ, Ψ, h₁, h₂, fun o => h₃ (F.act o).asHom⟩
 
 end BaseChange
 

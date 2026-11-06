@@ -154,14 +154,14 @@ theorem isFullyFaithfulOnAffineLimits_of_full_of_faithful
     obtain ⟨hfull, hfaith⟩ := fullyFaithful_splitFiberMap B S hS g (E.obj j.unop)
     exact ⟨⟨fun {a b} β => ⟨⟨(hfull.map_surjective β.down).choose⟩,
         congrArg ULift.up (hfull.map_surjective β.down).choose_spec⟩⟩,
-      ⟨fun {a b} α α' h => ULift.ext _ _ (hfaith.map_injective (congrArg ULift.down h))⟩⟩
+      ⟨fun {a b} α α' h => ULift.ext (hfaith.map_injective (congrArg ULift.down h))⟩⟩
   obtain ⟨e⟩ := Functor.fullyFaithful_fiberFunctorOfCompEq
     (isFibredOneMorphism B S hS g).comp_eq inferInstance
     inferInstance d.pt
   have : (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} ⋙
       Functor.fiberFunctorOfCompEq (CatFiberedInGroupoids.homFunctor_comp_p g) d.pt ⋙
       AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}).toCatHom.toFunctor.Faithful :=
-    ⟨fun {a b} α α' h => ULift.ext _ _ (e.map_injective (congrArg ULift.down h))⟩
+    ⟨fun {a b} α α' h => ULift.ext (e.map_injective (congrArg ULift.down h))⟩
   have : (canonicalSquare.{u, v, w, uX, vX} B S hS g E d).snd.toFunctor.Full :=
     Cat.full_colimMap.{max v w vX (u + 1) uX u, v, w} T fun j => (hstage j).1
   have : (canonicalSquare.{u, v, w, uX, vX} B S hS g E d).snd.toFunctor.Faithful :=

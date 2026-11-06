@@ -613,8 +613,8 @@ theorem ker_φ :
 /-- The isomorphism `ℚ[A, B] / (A³ - B² + A·B) ≃ₐ[ℚ] R` induced by `φ`. -/
 @[stacks 00F1 "`R ≅ ℚ[A, B]/(A³ - B² + AB)`"]
 def quotientSpanAlgEquiv :
-    (MvPolynomial (Fin 2) ℚ ⧸ Ideal.span {(MvPolynomial.X 0 : MvPolynomial (Fin 2) ℚ) ^ 3 -
-      MvPolynomial.X 1 ^ 2 + MvPolynomial.X 0 * MvPolynomial.X 1}) ≃ₐ[ℚ] R :=
+    (MvPolynomial (Fin 2) ℚ ⧸ Ideal.span {((MvPolynomial.X 0 : MvPolynomial (Fin 2) ℚ) ^ 3 -
+      MvPolynomial.X 1 ^ 2 + MvPolynomial.X 0 * MvPolynomial.X 1)}) ≃ₐ[ℚ] R :=
   (Ideal.quotientEquivAlgOfEq ℚ ker_φ.symm).trans
     (Ideal.quotientKerAlgEquivOfSurjective φ_surjective)
 

@@ -549,9 +549,9 @@ theorem exists_openSubspace_isEtale_of_mono_of_dimensionAtPoint_le (U₀ : BigFp
   -- `j` is a monomorphism of schemes, locally of finite type, with reduced locally Noetherian
   -- target.
   have hjmono : Mono (yoneda.map j) := by
-    have := hgmono
     rw [hj]
-    infer_instance
+    have : Mono U''.reprW.hom := IsIso.mono_of_iso _
+    exact mono_comp _ _
   have _ : Mono j := Functor.mono_of_mono_map yoneda hjmono
   have _ : Mono ((BigFppfOver.toScheme B S hS).map j) := Space.mono_toScheme_map B S hS j
   have _ : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map j) :=

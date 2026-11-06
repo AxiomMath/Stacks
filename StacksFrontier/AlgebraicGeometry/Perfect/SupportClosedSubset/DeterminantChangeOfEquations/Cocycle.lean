@@ -126,7 +126,7 @@ public theorem secIso_minorSmul (V : X.Opens) (x : Γ(prodTerm e F d, V))
           restrictedModule e F d t) q =
       Pi.π (fun t : CechCochains.OrdIndex (I := Fin ((d + 1) + (d + 1))) d =>
           restrictedModule e F d t) q ≫
-        globalSmul (mixedMinor a q).det (restrictedModule e F d q) := Pi.lift_π _ q
+        globalSmul (mixedMinor a q).det (restrictedModule e F d q) := Pi.lift_comp_π _ q
   have hπ : (Pi.π (fun t : CechCochains.OrdIndex (I := Fin ((d + 1) + (d + 1))) d =>
         restrictedModule e F d t) q).app V ((minorSmul e a F).app V x) =
       appApplyHom V x (minorSmul e a F ≫

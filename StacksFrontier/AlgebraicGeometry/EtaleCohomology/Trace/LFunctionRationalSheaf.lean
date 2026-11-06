@@ -117,7 +117,8 @@ public theorem LAdicSheaf.localCharSeries_frobeniusMatrices (F : LAdicSheaf B X 
     localCharSeries ((LAdicSheaf.frobeniusMatrices B X ℓ F f).matrix x) d =
       charPowerSeries
         (LAdicSheaf.rationalStalkFrobenius B X ℓ F x.1 (finite_residueField f x.1 x.2)) d :=
-  (charPowerSeries_eq_localCharSeries_matrixOf (Padic ℓ) _ _ d).symm
+  (charPowerSeries_eq_localCharSeries_matrixOf (Padic ℓ)
+    (LAdicSheaf.rationalStalkLeft B X ℓ F (geometricPointAt X.1 x.1)) _ d).symm
 
 /-- The factor of the Euler product at a closed point `x` is
 `det(1 - π_x^* T ^ (deg x) | F_x̄) ⁻¹`. -/

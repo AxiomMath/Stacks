@@ -734,7 +734,6 @@ theorem surjectionEta_comp_ev :
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
   rw [← Category.assoc (surjectionConstants J A B a), surjectionConstants_comp_evaluation,
     Category.id_comp, Iso.hom_inv_id]
-  rfl
 
 /-- **The two maps of presentations `𝟙` and `A[A] ⟶ A ⟶ A[A]` are homotopic**, which makes
 `surjectionEv ≫ surjectionEta` homotopic to the identity of `NL(α)`. -/

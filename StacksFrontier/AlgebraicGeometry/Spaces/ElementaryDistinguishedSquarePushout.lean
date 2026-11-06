@@ -46,6 +46,20 @@ universe u v
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Presheaves of types on the big fppf site have pullbacks (supplied once, since instance search
+for them through the functor category times out). -/
+local instance (priority := high) hasPullbacks_presheaf_elementaryDistinguishedSquarePushout
+    (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasPullback_presheaf_elementaryDistinguishedSquarePushout
+    (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Two morphisms out of a fibre product which agree after composing with the two projections
 agree on every pair of morphisms with equal composites into the base of that fibre product. -/
 private theorem comp_eq_of_pullback_comp_eq {C : Type*} [Category C] {T X Y Z P : C}
@@ -185,7 +199,9 @@ private theorem overlap_points_covered_by_diagonal_or_open
     have hl : hE.lift sD a₁ h₁ = hE.lift sD a₂ h₂ := by
       refine (cancel_mono (D.fromPreimage f)).1 ?_
       rw [hE.lift_fst, hE.lift_fst]
-    have ha : a₁ = a₂ := by simpa using hl =≫ (D.preimage f).ι
+    have ha : a₁ = a₂ := by
+      have h' := hl =≫ (D.preimage f).ι
+      rwa [hE.lift_snd, hE.lift_snd] at h'
     have hdiag : sR = a₁ ≫ pullback.diagonal f := by
       refine pullback.hom_ext ?_ ?_
       · rw [Category.assoc, pullback.diagonal_fst, Category.comp_id, ha₁]

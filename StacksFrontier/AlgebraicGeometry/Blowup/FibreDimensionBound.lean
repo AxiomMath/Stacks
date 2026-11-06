@@ -100,7 +100,8 @@ theorem ringKrullDim_fiber_le {R B : Type u} [CommRing R] [CommRing B] [Algebra 
         ringKrullDim_le_of_surjective φ.toRingHom hφ
     _ = t := by
         rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
-          Nat.card_eq_fintype_card, Fintype.card_fin, zero_add]
+          ENat.card_eq_coe_fintype_card, Fintype.card_fin, zero_add]
+        rfl
 
 end Stacks.FibreDimensionBound
 

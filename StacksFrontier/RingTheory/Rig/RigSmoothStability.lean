@@ -451,6 +451,7 @@ private theorem continuous_tensorProduct_congr_left
       (R := B) (M := M) (N := C)).mem_of_mem (i := i₀) trivial] with x hx
   exact hsub x hx
 
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The common core of the completed base change statements: the completed tensor product
 `A ⊗̂_B C` is adic Noetherian, and `C → A ⊗̂_B C` is a finite type adic algebra, whose rig
 property `P` is transported from the base change of `adicFiniteTypeAlgebra` along any

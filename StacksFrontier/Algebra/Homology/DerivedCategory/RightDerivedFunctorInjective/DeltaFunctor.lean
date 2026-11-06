@@ -6,13 +6,14 @@ import Mathlib.Algebra.Homology.DerivedCategory.SingleTriangle
 import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
 import Mathlib.Algebra.Order.Ring.Star
 import Mathlib.CategoryTheory.Abelian.Injective.Resolution
+import Mathlib.CategoryTheory.Abelian.Refinements
 public import Mathlib.CategoryTheory.Functor.Derived.PointwiseRightDerived
 public import Mathlib.CategoryTheory.Functor.Derived.RightDerivedCommShift
 import Mathlib.CategoryTheory.Functor.Derived.RightDerivedTriangulated
 import Mathlib.CategoryTheory.Limits.Types.Filtered
 import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.ENatToNat
 public import StacksFrontier.Algebra.Homology.DerivedCategory.AcyclicObjects
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic
@@ -501,7 +502,7 @@ public theorem rightDerivedPlus_isDeltaFunctor_and_isUniversal
   have hH : ∀ A : C, IsZero (((DerivedCategory.Plus.homologyFunctor D 0).shift (-1 : ℤ)).obj
       ((DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus).obj A)) := fun A ↦
     ((isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits F
-      F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).1 (-1) (by norm_num)).obj A
+      F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).1 (-1) (by norm_num)).obj A
   have part1 := DeltaFunctorStructure.isCohomologicalDeltaFunctor_comp_shift h
     (DerivedCategory.Plus.homologyFunctor D 0) hH δ hδ
   obtain ⟨hadd, hmono0, hex₂, hexl, hexr, hnat⟩ := part1

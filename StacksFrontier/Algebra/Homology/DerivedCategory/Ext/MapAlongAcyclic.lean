@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.MapAlongCorepresentation
+public import Mathlib.CategoryTheory.Abelian.Exact
 
 /-!
 # `Ext` along an exact functor and a corepresenting morphism, with acyclic images of injectives

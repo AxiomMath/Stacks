@@ -184,8 +184,8 @@ theorem span_eq_nodalPlaneOriginIdeal :
   have hmap : Ideal.span {Ideal.Quotient.mk _ (MvPolynomial.X 0 : MvPolynomial (Fin 2) k),
       Ideal.Quotient.mk _ (MvPolynomial.X 1)} =
       (MvPolynomial.idealOfVars (Fin 2) k).map
-        (Ideal.Quotient.mk (Ideal.span {(MvPolynomial.X 0 : MvPolynomial (Fin 2) k) *
-          MvPolynomial.X 1})) := by
+        (Ideal.Quotient.mk (Ideal.span
+          {(MvPolynomial.X 0 : MvPolynomial (Fin 2) k) * MvPolynomial.X 1})) := by
     rw [← span_X_eq_idealOfVars, Ideal.map_span]
     congr 1
     simp
@@ -279,10 +279,11 @@ theorem isLocalization_quotient_nodalPlaneLocalIdeal :
 
 /-- The two coordinate functions generate the maximal ideal of the local ring at the origin. -/
 theorem span_eq_maximalIdeal_nodalPlaneLocalRing :
-    Ideal.span {algebraMap (nodalPlaneAlgebra k) (nodalPlaneLocalRing k)
-          (Ideal.Quotient.mk _ (MvPolynomial.X 0)),
-        algebraMap (nodalPlaneAlgebra k) (nodalPlaneLocalRing k)
-          (Ideal.Quotient.mk _ (MvPolynomial.X 1))} =
+    Ideal.span
+        {algebraMap (nodalPlaneAlgebra k) (nodalPlaneLocalRing k)
+            (Ideal.Quotient.mk _ (MvPolynomial.X 0)),
+          algebraMap (nodalPlaneAlgebra k) (nodalPlaneLocalRing k)
+            (Ideal.Quotient.mk _ (MvPolynomial.X 1))} =
       maximalIdeal (nodalPlaneLocalRing k) := by
   have h : (Ideal.span {Ideal.Quotient.mk _ (MvPolynomial.X 0 : MvPolynomial (Fin 2) k),
         Ideal.Quotient.mk _ (MvPolynomial.X 1)}).map
@@ -350,7 +351,8 @@ theorem hasNodalQuadraticRelation_nodalPlaneLocalRing :
   rw [hasNodalQuadraticRelation_iff_exists_generating_pair]
   refine ⟨nodalPlaneCoord k 0, nodalPlaneCoord k 1, 0, 1, 0,
     nodalPlaneCoord_mem_maximalIdeal k 0, nodalPlaneCoord_mem_maximalIdeal k 1,
-    span_eq_maximalIdeal_nodalPlaneLocalRing k, ?_, by simp, ?_⟩
+    span_eq_maximalIdeal_nodalPlaneLocalRing k, ?_,
+    (IsLocalRing.residue_ne_zero_iff_isUnit _).mpr (by simp), ?_⟩
   · rw [← IsLocalRing.spanFinrank_maximalIdeal_eq_finrank_cotangentSpace]
     exact spanFinrank_maximalIdeal_nodalPlaneLocalRing k
   · simp [nodalPlaneCoord_mul_eq_zero k]

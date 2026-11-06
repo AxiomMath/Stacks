@@ -178,7 +178,7 @@ noncomputable local instance commShiftRightDerivedFunctorPlus {A : Type u} {D : 
     [Category.{v} A] [Category.{v'} D] [Abelian A] [Abelian D]
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} D] (F : A ⥤ D) [F.Additive]
     [EnoughInjectives A] : F.rightDerivedFunctorPlus.CommShift ℤ :=
-  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
+  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) ℤ
 
 /-- **`RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is an exact functor of triangulated categories**, which is
@@ -188,7 +188,7 @@ local instance isTriangulatedRightDerivedFunctorPlus {A : Type u} {D : Type u'}
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} D] (F : A ⥤ D) [F.Additive]
     [EnoughInjectives A] : F.rightDerivedFunctorPlus.IsTriangulated :=
   Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F _
-    F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith
 
 variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 

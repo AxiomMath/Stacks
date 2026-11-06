@@ -528,6 +528,7 @@ lemma hypercoverPresheafAbutmentIso_hom_app
         (presheafSectionsRightDerivedNatIso J G K n).hom.app F :=
   rfl
 
+set_option maxHeartbeats 1600000 in
 /-- **The comparison of [Stacks, Tag 0133] forms a cocone on the hypercoverings of `G`**: the
 comparison isomorphism of `L` followed by the Čech pullback along `ψ : K ⟶ L` is the comparison
 isomorphism of `K`.
@@ -567,6 +568,7 @@ theorem HypercoveringOf.Hom.totalComparison_comp_homologyMap_filteredMap
     HypercoveringOf.Hom.filteredMap_hom]
   exact h
 
+set_option maxHeartbeats 1600000 in
 /-- **The abutment identification of [Stacks, Tag 09VX] forms a cocone on the hypercoverings of
 `G`**: the Čech pullback along `ψ : K ⟶ L` followed by the identification of `K` is the
 identification of `L`.

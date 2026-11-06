@@ -146,7 +146,7 @@ private lemma isEssentiallyConstantPro_shortComplexHomology_of_derived_cone
             have hnat := β.hom.naturality (D.map g)
             simp only [Functor.comp_map] at hnat
             rw [← hnat, ← Category.assoc, ← Category.assoc]
-            apply (cancel_mono (β.hom.app (D.obj j))).mpr
+            refine congrArg (· ≫ β.hom.app (D.obj j)) ?_
             calc
               𝟙 (H.obj Y) ≫ H.map (f ≫ DerivedCategory.Q.map (limit.π D j)) =
                   H.map (f ≫ DerivedCategory.Q.map (limit.π D j)) := Category.id_comp _

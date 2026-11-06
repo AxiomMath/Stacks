@@ -157,7 +157,7 @@ variable (hπ : Irreducible π) {n : ℕ} (hn : 2 ≤ n)
 /-- The origin of the local model is not its generic point. -/
 theorem vanishingIdeal_nodalModelOriginPoint_ne_bot :
     vanishingIdeal (⟨{nodalModelOriginPoint (isMaximal_span_singleton_of_irreducible hπ)
-        (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
+                        (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
           (isMaximal_span_singleton_of_irreducible hπ) (by omega : 1 ≤ n)⟩ :
         Closeds (nodalModel R' π n)) ≠ ⊥ := by
   have := isDomain_nodalChartRing (R := R') (pow_ne_zero n hπ.ne_zero)
@@ -176,7 +176,7 @@ modification of the spectrum of a normal domain. -/
 theorem isIso_unitToPushforwardUnit_blowUp_nodalModelOriginPoint :
     IsIso (Scheme.Modules.unitToPushforwardUnit (blowUpToBase (vanishingIdeal
       (⟨{nodalModelOriginPoint (isMaximal_span_singleton_of_irreducible hπ)
-        (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
+          (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
           (isMaximal_span_singleton_of_irreducible hπ) (by omega : 1 ≤ n)⟩ :
         Closeds (nodalModel R' π n))))) := by
   have := isNormalDomain_nodalChartRing (R' := R') hπ.ne_zero n
@@ -185,7 +185,7 @@ theorem isIso_unitToPushforwardUnit_blowUp_nodalModelOriginPoint :
   have h0 := vanishingIdeal_nodalModelOriginPoint_ne_bot hπ hn
   have hmod : IsModification (blowUpToBase (vanishingIdeal
       (⟨{nodalModelOriginPoint (isMaximal_span_singleton_of_irreducible hπ)
-        (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
+          (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
           (isMaximal_span_singleton_of_irreducible hπ) (by omega : 1 ≤ n)⟩ :
         Closeds (nodalModel R' π n)))) :=
     ⟨isBirational_blowUpToBase _ h0, inferInstance, isIntegral_blowUp _ h0⟩
@@ -198,7 +198,7 @@ and `H¹(X'₀, 𝒪) = 0`. -/
 theorem isZero_firstDirectImage_blowUp_nodalModelOriginPoint :
     IsZero (firstDirectImageStructureSheaf (blowUpToBase (vanishingIdeal
       (⟨{nodalModelOriginPoint (isMaximal_span_singleton_of_irreducible hπ)
-        (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
+          (by omega : 1 ≤ n)}, isClosed_singleton_nodalModelOriginPoint
           (isMaximal_span_singleton_of_irreducible hπ) (by omega : 1 ≤ n)⟩ :
         Closeds (nodalModel R' π n))))) := by
   exact isZero_rightDerivedPlus_pushforward_of_isZero_cohomology _ 1 _

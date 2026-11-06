@@ -111,7 +111,7 @@ algebra structure on the diagram over `f`, and restrict to the preimage of `O` (
 iterated preimage). -/
 theorem chartBaseRingHom_compToBase (O : (chartScheme e.V).Opens) (x : Γ(chartScheme e.V, O)) :
     E.chartBaseRingHom (E.compToBase g) (ChartDiagram.comp B S hS f g a e.g ha e.comm) O x =
-      E.A.val.map ((chartOpens B S hS U).map
+      E.A.obj.map ((chartOpens B S hS U).map
           (homOfLE (preimage_chartDiagram_comp_le g e a ha O))).op
         (E.chartBaseRingHom E.toBase ⟨U, e.U, a, ha⟩ (e.schemeMap ⁻¹ᵁ O)
           (e.schemeMap.app O x)) := by
@@ -134,7 +134,7 @@ theorem chartBaseRingHom_compToBase (O : (chartScheme e.V).Opens) (x : Γ(chartS
         ((Category.comp_id _).symm.trans
           (congrArg _ ((SmallEtale.toOver B S hS Z.1).map_id _).symm))))
     (O.topIso.inv x)
-  refine Eq.trans ?_ (hn.trans (congrArg (E.A.val.map _) ?_))
+  refine Eq.trans ?_ (hn.trans (congrArg (E.A.obj.map _) ?_))
   · exact congrArg (inverseImageHomChartRingHom B S hS (f ≫ g) E.A (E.compToBase g) _ _)
       (ConcreteCategory.congr_hom ((smallEtaleRingedTopos B S hS Z).O.obj.map_id _) _).symm
   refine (inverseImageHomChartRingHom_congr_hom E.A (E.compToBase g) _ _ _

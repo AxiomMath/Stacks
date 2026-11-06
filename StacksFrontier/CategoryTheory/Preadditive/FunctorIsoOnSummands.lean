@@ -151,7 +151,7 @@ theorem sum_comp_summandsOfIsIsoPiLift {ι : Type*} [Fintype ι] [DecidableEq ι
   rw [← cancel_mono (Pi.lift π), Category.id_comp, Preadditive.sum_comp]
   refine Pi.hom_ext _ _ fun k => ?_
   simp only [summandsOfIsIsoPiLift, Category.assoc, IsIso.inv_hom_id, Category.comp_id,
-    Preadditive.sum_comp, Pi.lift_π]
+    Preadditive.sum_comp, Pi.lift_comp_π]
   rw [Finset.sum_eq_single k (fun i _ hik => by rw [if_neg (Ne.symm hik), Limits.comp_zero])
     (fun h => absurd (Finset.mem_univ k) h), if_pos rfl, Category.comp_id]
 

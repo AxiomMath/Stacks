@@ -92,7 +92,7 @@ noncomputable def conormalSequenceMiddleDerivation (Z : ClosedSubspaces B S hS X
     (hclosed : IsClosedImmersion B S hS i.hom) (W : Modules.{u, u} B S hS Zs.1 Zs.2)
     (θ : (modulePullback B S hS i).obj (sheafOfDifferentials B S hS b) ⟶ W)
     (hθ : conormalSequenceFirstMapAt B S hS Z b i hi ≫ θ = 0) :
-    W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom :=
+    PresheafOfModulesOfCommRing.Derivation' W.val (structureSharpInverseImage B S hS (i ≫ b)).hom :=
   (directImageDerivationKernelEquiv B S hS i hclosed b W).symm
     ⟨derivationDirectImageEquiv B S hS i b W θ,
       fun U x hx ↦ derivationDirectImageEquiv_d_eq_zero_of_mem B S hS Z b i hi W θ hθ U x

@@ -150,7 +150,7 @@ theorem fittingIdeal_kaehlerDifferential_localization_adjoinRoot
     (A : Type u) [CommRing A] (f h : Polynomial A) :
     fittingIdeal (M := KaehlerDifferential A (Localization.Away (AdjoinRoot.mk f h))) 0 =
       Ideal.span {algebraMap (AdjoinRoot f) (Localization.Away (AdjoinRoot.mk f h))
-        (AdjoinRoot.mk f f.derivative)} := by
+                    (AdjoinRoot.mk f f.derivative)} := by
   classical
   let B := AdjoinRoot f
   let x : B := AdjoinRoot.mk f h

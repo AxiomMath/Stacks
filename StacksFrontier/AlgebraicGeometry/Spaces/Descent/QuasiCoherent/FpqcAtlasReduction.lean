@@ -175,6 +175,13 @@ theorem isEffective_of_isFpqcCovering_representedBase
 
 end RepresentedBase
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FpqcAtlasReduction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Atlas
 
 variable {I : Type v} {X : AlgebraicSpaces B S hS} {Xi : I → AlgebraicSpaces B S hS}

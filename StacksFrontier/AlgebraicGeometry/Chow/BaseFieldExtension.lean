@@ -91,9 +91,11 @@ private lemma isLocalRing_tensorProduct_of_isPurelyInseparable
   apply IsLocalRing.of_unique_max_ideal
   refine ⟨m, hm, fun n hn => ?_⟩
   have hmc : Ideal.comap (algebraMap A (A ⊗[k] K)) m = IsLocalRing.maximalIdeal A :=
-    IsLocalRing.eq_maximalIdeal <| Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m
+    IsLocalRing.eq_maximalIdeal <|
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (hI := hm) m
   have hnc : Ideal.comap (algebraMap A (A ⊗[k] K)) n = IsLocalRing.maximalIdeal A :=
-    IsLocalRing.eq_maximalIdeal <| Ideal.isMaximal_comap_of_isIntegral_of_isMaximal n
+    IsLocalRing.eq_maximalIdeal <|
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (hI := hn) n
   have hspec : PrimeSpectrum.comap (algebraMap A (A ⊗[k] K)) ⟨m, hm.isPrime⟩ =
       PrimeSpectrum.comap (algebraMap A (A ⊗[k] K)) ⟨n, hn.isPrime⟩ :=
     PrimeSpectrum.ext (hmc.trans hnc.symm)

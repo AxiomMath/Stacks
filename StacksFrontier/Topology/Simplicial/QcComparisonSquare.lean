@@ -392,12 +392,12 @@ def qcSmallFamilyEquiv (F : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u) (W : Opens 
           ((Category.comp_id _).trans (Category.id_comp _).symm)
       calc F.map g.op (F.map (qcSmallLiesOverHom S X U a t ht).op (y.1 _ le_rfl))
           = F.map ((g ≫ qcSmallLiesOverHom S X U a t ht).op) (y.1 _ le_rfl) :=
-            (FunctorToTypes.map_comp_apply F (qcSmallLiesOverHom S X U a t ht).op g.op _).symm
+            (Functor.map_comp_apply F (qcSmallLiesOverHom S X U a t ht).op g.op _).symm
         _ = F.map ((qcSmallLiesOverHom S X U a t' ht' ≫ (qcSmallComparisonFunctor S X U a).map k :
               t' ⟶ qcSmallComparisonObj S X U a _).op) (y.1 _ le_rfl) := by rw [he]
         _ = F.map (qcSmallLiesOverHom S X U a t' ht').op
               (F.map ((qcSmallComparisonFunctor S X U a).map k).op (y.1 _ le_rfl)) :=
-            FunctorToTypes.map_comp_apply F ((qcSmallComparisonFunctor S X U a).map k).op
+            Functor.map_comp_apply F ((qcSmallComparisonFunctor S X U a).map k).op
               (qcSmallLiesOverHom S X U a t' ht').op _
         _ = _ := by rw [y.2 k]⟩
   left_inv x := Subtype.ext <| funext fun _ => funext fun _ => x.2 _ _ _
@@ -482,7 +482,7 @@ def qcSmallRanEquiv (F : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u) (W : Opens X.o
         exact (s.2 (StructuredArrow.homMk (f := j)
           (f' := qcSmallLiesOverArrow S X U a j.right.unop ⟨j.hom.unop⟩) (𝟙 _)
           (Quiver.Hom.unop_inj (qcSmallOpens_hom_ext S X _ _)))).symm.trans
-          (FunctorToTypes.map_id_apply F _)
+          (Functor.map_id_apply F _ _)
       right_inv := fun x => rfl }
 
 /-- The component of `qcSmallRanEquiv` at an object `t` lying over `W` is the counit of the right
@@ -511,7 +511,7 @@ theorem qcSmallRanEquiv_restrict (F : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u) {
   apply Subtype.ext
   funext t ht
   show _ = (qcSmallRanEquiv S X U a F W z).1 t _
-  rw [qcSmallRanEquiv_apply, qcSmallRanEquiv_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+  rw [qcSmallRanEquiv_apply, qcSmallRanEquiv_apply, ← Functor.map_comp_apply, ← op_comp,
     qcSmallOpens_hom_ext S X (ht.some ≫ (qcSmallOpensFunctor S X).map r)
       (Nonempty.some ⟨ht.some ≫ (qcSmallOpensFunctor S X).map (homOfLE (leOfHom r))⟩)]
 
@@ -545,7 +545,7 @@ of `a⁻¹(h_W)`. -/
 def qcZariskiSectionsHomEquiv
     (G : Sheaf (SimplicialOpen.grothendieckTopology (qcSimplicialSpace S U)) (Type u))
     (W : Opens X.obj) :
-    ((qcZariskiAugmentation S X U a).pushforward.obj G).val.obj (op W) ≃
+    ((qcZariskiAugmentation S X U a).pushforward.obj G).obj.obj (op W) ≃
       (qcFibreSupport S X U a W ⟶ G) :=
   (Opens.grothendieckTopology _).yonedaEquiv.symm.trans
     ((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
@@ -556,7 +556,7 @@ inside `a⁻¹(W)`. -/
 def qcFibreSupportHomEquiv (F : Sheaf (qcSmallTotalTopology S X U a) (Type u))
     (W : Opens X.obj) :
     (qcFibreSupport S X U a W ⟶ (qcSmallComparisonMorphism S X U a).pushforward.obj F) ≃
-      qcSmallZariskiFamily S X U a F.val W where
+      qcSmallZariskiFamily S X U a F.obj W where
   toFun φ := ⟨fun A h => φ.hom.app (op A)
       ((augmentationOpenEquiv (qcSimplicialSpace S U) _ (qcTopologicalAugmentation S X U a) W
         A).symm (homOfLE h)),
@@ -579,25 +579,25 @@ def qcFibreSupportHomEquiv (F : Sheaf (qcSmallTotalTopology S X U a) (Type u))
 the comparison objects of the simplicial opens inside `a⁻¹(W)`. -/
 def qcZariskiSectionsEquiv (F : Sheaf (qcSmallTotalTopology S X U a) (Type u)) (W : Opens X.obj) :
     ((qcZariskiAugmentation S X U a).pushforward.obj
-        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.obj (op W) ≃
-      qcSmallZariskiFamily S X U a F.val W :=
+        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.obj (op W) ≃
+      qcSmallZariskiFamily S X U a F.obj W :=
   (qcZariskiSectionsHomEquiv S X U a _ W).trans (qcFibreSupportHomEquiv S X U a F W)
 
 /-- `qcZariskiSectionsEquiv` commutes with restriction along an inclusion `W' ⊆ W`. -/
 theorem qcZariskiSectionsEquiv_restrict (F : Sheaf (qcSmallTotalTopology S X U a) (Type u))
     {W W' : Opens X.obj} (r : W' ⟶ W)
     (z : ((qcZariskiAugmentation S X U a).pushforward.obj
-        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.obj (op W)) :
+        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.obj (op W)) :
     qcZariskiSectionsEquiv S X U a F W'
         (((qcZariskiAugmentation S X U a).pushforward.obj
-          ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.map r.op z) =
+          ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.map r.op z) =
       (qcZariskiSectionsEquiv S X U a F W z).restrict S X U a (leOfHom r) := by
   apply Subtype.ext
   funext A h
   show (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
       ((Opens.grothendieckTopology _).yonedaEquiv.symm
         (((qcZariskiAugmentation S X U a).pushforward.obj
-          ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.map r.op z))).hom.app
+          ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.map r.op z))).hom.app
         (op A) _ = (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
       ((Opens.grothendieckTopology _).yonedaEquiv.symm z)).hom.app (op A) _
   rw [GrothendieckTopology.yonedaEquiv_symm_map, Adjunction.homEquiv_naturality_left_symm]
@@ -609,7 +609,7 @@ theorem qcZariskiSectionsEquiv_restrict (F : Sheaf (qcSmallTotalTopology S X U a
 theorem qcZariskiSectionsEquiv_map {F F' : Sheaf (qcSmallTotalTopology S X U a) (Type u)}
     (k : F ⟶ F') (W : Opens X.obj)
     (z : ((qcZariskiAugmentation S X U a).pushforward.obj
-        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.obj (op W)) :
+        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.obj (op W)) :
     qcZariskiSectionsEquiv S X U a F' W
         (((qcZariskiAugmentation S X U a).pushforward.map
           ((qcSmallComparisonMorphism S X U a).pushforward.map k)).hom.app (op W) z) =
@@ -633,31 +633,31 @@ def qcComparisonSquareSectionsEquiv (F : Sheaf (qcSmallTotalTopology S X U a) (T
     (W : Opens X.obj) :
     (((qcSmallOpensFunctor S X).sheafPushforwardContinuous (Type u)
         (Opens.grothendieckTopology X.obj.obj) (S.qcSite.smallOverTopology X)).obj
-          ((qcAugmentationMorphism S X U a).pushforward.obj F)).val.obj (op W) ≃
+          ((qcAugmentationMorphism S X U a).pushforward.obj F)).obj.obj (op W) ≃
       ((qcZariskiAugmentation S X U a).pushforward.obj
-        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.obj (op W) :=
-  (qcSmallRanEquiv S X U a F.val W).trans
-    ((qcSmallFamilyEquiv S X U a F.val W).trans (qcZariskiSectionsEquiv S X U a F W).symm)
+        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.obj (op W) :=
+  (qcSmallRanEquiv S X U a F.obj W).trans
+    ((qcSmallFamilyEquiv S X U a F.obj W).trans (qcZariskiSectionsEquiv S X U a F W).symm)
 
 /-- `qcComparisonSquareSectionsEquiv` commutes with restriction along an inclusion `W' ⊆ W`. -/
 theorem qcComparisonSquareSectionsEquiv_restrict
     (F : Sheaf (qcSmallTotalTopology S X U a) (Type u)) {W W' : Opens X.obj} (r : W' ⟶ W)
     (z : (((qcSmallOpensFunctor S X).sheafPushforwardContinuous (Type u)
         (Opens.grothendieckTopology X.obj.obj) (S.qcSite.smallOverTopology X)).obj
-          ((qcAugmentationMorphism S X U a).pushforward.obj F)).val.obj (op W)) :
+          ((qcAugmentationMorphism S X U a).pushforward.obj F)).obj.obj (op W)) :
     qcComparisonSquareSectionsEquiv S X U a F W'
         ((((qcSmallOpensFunctor S X).sheafPushforwardContinuous (Type u)
           (Opens.grothendieckTopology X.obj.obj) (S.qcSite.smallOverTopology X)).obj
-            ((qcAugmentationMorphism S X U a).pushforward.obj F)).val.map r.op z) =
+            ((qcAugmentationMorphism S X U a).pushforward.obj F)).obj.map r.op z) =
       ((qcZariskiAugmentation S X U a).pushforward.obj
-        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).val.map r.op
+        ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.map r.op
           (qcComparisonSquareSectionsEquiv S X U a F W z) := by
   apply (qcZariskiSectionsEquiv S X U a F W').injective
   rw [qcZariskiSectionsEquiv_restrict]
   refine (Equiv.apply_symm_apply _ _).trans ?_
-  refine (congrArg (qcSmallFamilyEquiv S X U a F.val W')
-    (qcSmallRanEquiv_restrict S X U a F.val r z)).trans ?_
-  exact (qcSmallFamilyEquiv_restrict S X U a F.val (leOfHom r) _).trans
+  refine (congrArg (qcSmallFamilyEquiv S X U a F.obj W')
+    (qcSmallRanEquiv_restrict S X U a F.obj r z)).trans ?_
+  exact (qcSmallFamilyEquiv_restrict S X U a F.obj (leOfHom r) _).trans
     (congrArg _ (Equiv.apply_symm_apply (qcZariskiSectionsEquiv S X U a F W) _).symm)
 
 /-- `qcComparisonSquareSectionsEquiv` is natural in the sheaf. -/
@@ -665,7 +665,7 @@ theorem qcComparisonSquareSectionsEquiv_map
     {F F' : Sheaf (qcSmallTotalTopology S X U a) (Type u)} (k : F ⟶ F') (W : Opens X.obj)
     (z : (((qcSmallOpensFunctor S X).sheafPushforwardContinuous (Type u)
         (Opens.grothendieckTopology X.obj.obj) (S.qcSite.smallOverTopology X)).obj
-          ((qcAugmentationMorphism S X U a).pushforward.obj F)).val.obj (op W)) :
+          ((qcAugmentationMorphism S X U a).pushforward.obj F)).obj.obj (op W)) :
     qcComparisonSquareSectionsEquiv S X U a F' W
         ((((qcSmallOpensFunctor S X).sheafPushforwardContinuous (Type u)
           (Opens.grothendieckTopology X.obj.obj) (S.qcSite.smallOverTopology X)).map
@@ -676,7 +676,7 @@ theorem qcComparisonSquareSectionsEquiv_map
   apply (qcZariskiSectionsEquiv S X U a F' W).injective
   rw [qcZariskiSectionsEquiv_map]
   refine (Equiv.apply_symm_apply _ _).trans ?_
-  refine (congrArg (qcSmallFamilyEquiv S X U a F'.val W)
+  refine (congrArg (qcSmallFamilyEquiv S X U a F'.obj W)
     (qcSmallRanEquiv_map S X U a k.hom W z)).trans ?_
   exact (qcSmallFamilyEquiv_map S X U a k.hom W _).trans
     (congrArg _ (Equiv.apply_symm_apply (qcZariskiSectionsEquiv S X U a F W) _).symm)

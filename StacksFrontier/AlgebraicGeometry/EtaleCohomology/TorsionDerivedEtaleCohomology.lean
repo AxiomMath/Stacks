@@ -135,7 +135,7 @@ theorem prop_homology_rightDerivedFunctorPlus
     by_cases hneg : p < 0
     · refine P.prop_of_isZero ((Functor.isZero_iff _).1 ?_ (M.obj.homology q))
       exact (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-        G G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnit).1 p hneg
+        G G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith).1 p hneg
     · have hcast : ((p.toNat : ℕ) : ℤ) = p := Int.toNat_of_nonneg (le_of_not_gt hneg)
       have := P.prop_of_iso
         ((Stacks.DerivedIndexing.rightDerivedIso G p.toNat).app (M.obj.homology q))

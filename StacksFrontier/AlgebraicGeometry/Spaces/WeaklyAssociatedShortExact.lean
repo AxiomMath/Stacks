@@ -202,7 +202,7 @@ private theorem injective_moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J Com
   have happ' : ∀ i, Mono (τ.app i) := fun i => ConcreteCategory.mono_of_injective _ (happ i)
   have hmono : Mono τ := NatTrans.mono_of_mono_app τ
   let : AB5OfSize.{w, w} AddCommGrpCat.{max w m} :=
-    AB5OfSize_of_univLE AddCommGrpCat.{max w m}
+    AB5OfSize_of_univLE.{w, w} AddCommGrpCat.{max w m}
   let : PreservesFiniteLimits (colim (J := D) (C := AddCommGrpCat.{max w m})) :=
     HasExactColimitsOfShape.preservesFiniteLimits
   have : Mono ((colim (J := D) (C := AddCommGrpCat.{max w m})).map τ) :=

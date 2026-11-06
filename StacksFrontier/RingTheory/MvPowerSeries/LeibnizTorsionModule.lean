@@ -105,7 +105,7 @@ private theorem exists_smul_X_eq_of_pow_smul_eq_zero
     (M : Type v) [AddCommGroup M] [Module (MvPowerSeries (Fin d) k) M]
     (D : Fin d → M →+ M)
     (hD : ∀ (j : Fin d) (f : MvPowerSeries (Fin d) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z)
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z)
     (j : Fin d) (z : M) (n : ℕ)
     (hn : (MvPowerSeries.X j : MvPowerSeries (Fin d) k) ^ n • z = 0) :
     ∃ y : M, (MvPowerSeries.X j : MvPowerSeries (Fin d) k) • y = z := by
@@ -115,7 +115,7 @@ private theorem exists_smul_X_eq_of_pow_smul_eq_zero
       exact ⟨0, by simp [hn]⟩
   | succ n ih =>
       let x : MvPowerSeries (Fin d) k := MvPowerSeries.X j
-      have hderiv : MvPowerSeries.pderiv k j (x ^ (n + 1)) =
+      have hderiv : MvPowerSeries.pderiv (R := k) j (x ^ (n + 1)) =
           ((n + 1 : ℕ) : MvPowerSeries (Fin d) k) * x ^ n := by
         rw [MvPowerSeries.pderiv_pow, MvPowerSeries.pderiv_X_self]
         simp [Nat.cast_succ, mul_comm, mul_left_comm]
@@ -140,7 +140,7 @@ private theorem smul_X_zero_D_of_ne_zero
     (M : Type v) [AddCommGroup M] [Module (MvPowerSeries (Fin (d + 1)) k) M]
     (D : Fin (d + 1) → M →+ M)
     (hD : ∀ (j : Fin (d + 1)) (f : MvPowerSeries (Fin (d + 1)) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z)
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z)
     (j : Fin (d + 1)) (hj : j ≠ 0) (z : M)
     (hz : (MvPowerSeries.X (0 : Fin (d + 1)) : MvPowerSeries (Fin (d + 1)) k) • z = 0) :
     (MvPowerSeries.X (0 : Fin (d + 1)) : MvPowerSeries (Fin (d + 1)) k) • D j z = 0 := by
@@ -164,7 +164,7 @@ private theorem deriv_preserves_torsionBy_firstVariable
     (M : Type v) [AddCommGroup M] [Module (MvPowerSeries (Fin (d + 1)) k) M]
     (D : Fin (d + 1) → M →+ M)
     (hD : ∀ (j : Fin (d + 1)) (f : MvPowerSeries (Fin (d + 1)) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z)
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z)
     (j : Fin (d + 1)) (hj : j ≠ 0)
     (z : Submodule.torsionBySet (MvPowerSeries (Fin (d + 1)) k) M
       (Ideal.span ({MvPowerSeries.X (0 : Fin (d + 1))} : Set (MvPowerSeries (Fin (d + 1)) k)))) :
@@ -237,7 +237,7 @@ private theorem isIPowerTorsion_ulift {R : Type*} [CommRing R] {E : Type u} [Add
     IsIPowerTorsion R (ULift.{v} E) I := by
   intro z
   obtain ⟨n, hnpos, hn⟩ := hE z.down
-  exact ⟨n, hnpos, fun a ha => ULift.ext _ _ (hn a ha)⟩
+  exact ⟨n, hnpos, fun a ha => ULift.ext (hn a ha)⟩
 
 /-- In a maximal-ideal-power torsion module every element is killed by a power of each
 variable. -/
@@ -363,8 +363,8 @@ derivative in the variable `e i` of a renamed series is the renaming of the deri
 theorem pderiv_rename
     {σ τ k : Type*} [CommRing k] (e : σ ↪ τ) [Filter.TendstoCofinite e]
     (i : σ) (g : MvPowerSeries σ k) :
-    MvPowerSeries.pderiv k (e i) (MvPowerSeries.rename e g) =
-      MvPowerSeries.rename e (MvPowerSeries.pderiv k i g) := by
+    MvPowerSeries.pderiv (R := k) (e i) (MvPowerSeries.rename e g) =
+      MvPowerSeries.rename e (MvPowerSeries.pderiv (R := k) i g) := by
   classical
   ext β
   rw [MvPowerSeries.coeff_pderiv]
@@ -376,14 +376,14 @@ theorem pderiv_rename
       (MvPowerSeries.rename e g) *
       ((Finsupp.mapDomain e α) (e i) + 1) =
       MvPowerSeries.coeff (Finsupp.mapDomain e α)
-        (MvPowerSeries.rename e (MvPowerSeries.pderiv k i g))
+        (MvPowerSeries.rename e (MvPowerSeries.pderiv (R := k) i g))
     rw [← Finsupp.embDomain_eq_mapDomain e (α + Finsupp.single i 1),
       ← Finsupp.embDomain_eq_mapDomain e α]
     simp only [MvPowerSeries.coeff_embDomain_rename, MvPowerSeries.coeff_pderiv]
     rw [Finsupp.embDomain_eq_mapDomain]
     show MvPowerSeries.coeff (α + Finsupp.single i 1) g *
       ((Finsupp.mapDomain e α) (e i) + 1) = _
-    rw [Finsupp.mapDomain_apply e.injective]
+    rw [Finsupp.mapDomain_apply_of_injective e.injective]
   · have hβ' : β + Finsupp.single (e i) 1 ∉
         Set.range (Finsupp.mapDomain e) := by
       intro h
@@ -463,7 +463,7 @@ private theorem linearMap_surjective_of_coordinateTorsion
     (hTN : ∀ j : Fin d, ∀ z : N,
       ∃ n : ℕ, (MvPowerSeries.X j : MvPowerSeries (Fin d) k) ^ n • z = 0)
     (hD : ∀ (j : Fin d) (f : MvPowerSeries (Fin d) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z)
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z)
     (f : M →ₗ[MvPowerSeries (Fin d) k] N)
     (hSoc : ∀ z : N,
       (∀ j : Fin d, (MvPowerSeries.X j : MvPowerSeries (Fin d) k) • z = 0) →
@@ -489,12 +489,12 @@ private theorem linearMap_surjective_of_coordinateTorsion
               map_zero' := Subtype.ext (D (Fin.succ j)).map_zero
               map_add' := fun x y => Subtype.ext ((D (Fin.succ j)).map_add x y) }
           have hD0 : ∀ (j : Fin d) (g : B) (z : M0),
-              D0 j (g • z) = MvPowerSeries.pderiv k j g • z + g • D0 j z := by
+              D0 j (g • z) = MvPowerSeries.pderiv (R := k) j g • z + g • D0 j z := by
             intro j g z
             apply Subtype.ext
             show D (Fin.succ j) ((MvPowerSeries.rename Fin.succ g) • z.1) = _
-            have hren : MvPowerSeries.pderiv k (Fin.succ j) (MvPowerSeries.rename Fin.succ g) =
-                MvPowerSeries.rename Fin.succ (MvPowerSeries.pderiv k j g) :=
+            have hren : MvPowerSeries.pderiv (R := k) (Fin.succ j) (MvPowerSeries.rename Fin.succ g) =
+                MvPowerSeries.rename Fin.succ (MvPowerSeries.pderiv (R := k) j g) :=
               pderiv_rename ⟨Fin.succ, Fin.succ_injective _⟩ j g
             rw [hD, hren]
             rfl
@@ -662,7 +662,7 @@ private theorem nonempty_linearEquiv_of_socle
       (IsLocalRing.maximalIdeal (MvPowerSeries (Fin d) k)))
     (D : Fin d → M →+ M)
     (hD : ∀ (j : Fin d) (f : MvPowerSeries (Fin d) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z)
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z)
     (g : Submodule.torsionBySet (MvPowerSeries (Fin d) k) M
       (IsLocalRing.maximalIdeal (MvPowerSeries (Fin d) k)) →ₗ[MvPowerSeries (Fin d) k] N)
     (hg : Function.Injective g)
@@ -714,7 +714,7 @@ theorem exists_linearEquiv_directSum_injectiveHull_of_leibniz
       (IsLocalRing.maximalIdeal (MvPowerSeries (Fin d) k)))
     (D : Fin d → M →+ M)
     (_hD : ∀ (j : Fin d) (f : MvPowerSeries (Fin d) k) (z : M),
-      D j (f • z) = MvPowerSeries.pderiv k j f • z + f • D j z) :
+      D j (f • z) = MvPowerSeries.pderiv (R := k) j f • z + f • D j z) :
     ∃ J : Type v, Nonempty (M ≃ₗ[MvPowerSeries (Fin d) k] ⨁ _ : J, E) := by
   classical
   let A := MvPowerSeries (Fin d) k
@@ -746,7 +746,7 @@ theorem exists_linearEquiv_directSum_injectiveHull_of_leibniz
         have h' := congrArg ULift.down h
         rw [DirectSum.smul_apply] at h'
         simpa using h'
-      refine ⟨eE.symm ⟨(z j).down, hc⟩, ULift.ext _ _ ?_⟩
+      refine ⟨eE.symm ⟨(z j).down, hc⟩, ULift.ext ?_⟩
       show i.hom (eE.symm _) = _
       rw [← heE, eE.apply_symm_apply]
     obtain ⟨p, hp⟩ := exists_lmap_eq_of_forall_exists_eq jE z hrange

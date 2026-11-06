@@ -112,7 +112,7 @@ theorem isLocallyInjective_constantToCharacterTwistOver (h : IsTorsorObject act 
     have hmem := J.overEquiv_symm_mem_over X.unop ⊥ hbot
     rwa [show (Sieve.overEquiv X.unop).symm ⊥ = ⊥ by ext V' f; simp] at hmem
   · have heq : n = m :=
-      ULift.ext _ _ (h.zsmul_twistedGenerator_injective χ X.unop.hom hbot hnm)
+      ULift.ext (h.zsmul_twistedGenerator_injective χ X.unop.hom hbot hnm)
     subst heq
     simp
 

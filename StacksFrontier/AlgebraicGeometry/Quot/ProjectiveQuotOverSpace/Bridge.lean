@@ -148,12 +148,14 @@ def qcohQuotientEquiv :
   (quotientCorrespondence_isoReadingAdjunction (spaceIso E T)).subobjectEquiv
     (isQuasicoherentOnSite_baseChangeModule T) (Iso.refl _)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The correspondence `qcohQuotientEquiv` sends a submodule `K` of `F_T` to
 `readingSubobject E T K`. -/
 theorem qcohQuotientEquiv_apply_coe
     (K : {K : Subobject (D.baseChangeModule T) // (cokernel K.arrow).IsQuasicoherentOnSite}) :
-    (qcohQuotientEquiv E T K).1 = readingSubobject E T K.1 :=
-  Adjunction.QuotientCorrespondence.kernelSubobject_congr (Category.id_comp _)
+    (qcohQuotientEquiv E T K).1 = readingSubobject E T K.1 := by
+  change kernelSubobject _ = kernelSubobject _
+  congr 1 <;> exact Category.id_comp _
 
 /-- **The conditions of Stacks 09TR are read on `ℙⁿ_T`.**  For a submodule `K` of `F_T` with
 quasi-coherent quotient, the quotient is of finite presentation, flat over `T` and with support

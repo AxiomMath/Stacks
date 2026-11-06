@@ -115,6 +115,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_schematicLocusCodimensionOne
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The dimension step of [Stacks, Tag 0ADD]. Let `g` be a finite morphism from the functor of
 points of a scheme `U` to an algebraic space `X`, and let `x` be a point of `X` whose local
 ring has dimension at most one. Then the stalk of `U` at any point lying over `x` has Krull
@@ -218,7 +225,8 @@ theorem isPullback_of_isOpenImmersion_of_preimage_range
   have hlk : (l₀ ≫ inv (Subfunctor.toRange j)) ≫ pullback.lift j t ht =
       𝟙 (pullback g H.ι) := by
     apply (cancel_mono (pullback.fst g H.ι)).1
-    simpa [Category.assoc, hk] using hl
+    rw [Category.assoc, hk, Category.id_comp]
+    exact hl
   exact IsPullback.of_iso_pullback ⟨ht⟩ ⟨pullback.lift j t ht,
     l₀ ≫ inv (Subfunctor.toRange j), hkl, hlk⟩ hk (pullback.lift_snd _ _ _)
 

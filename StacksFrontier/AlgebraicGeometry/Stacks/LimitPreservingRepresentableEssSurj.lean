@@ -402,7 +402,7 @@ noncomputable def descentSndIso (i i' : I) (j : i' ⟶ i)
       (AsSmall.up.{vX, max (u + 1) uX, max v w}.obj ys))
 
 attribute [local implicit_reducible] Deformation.Artin.fiberDiagram Deformation.Artin.fiberCocone
-  Functor.splitPresheaf Cat.asSmallFunctor canonicalSquare asIso splitPresheafMap fiberDiagramMap
+  Functor.splitPresheaf Cat.asSmallFunctor canonicalSquare splitPresheafMap fiberDiagramMap
 
 /-- The universe lift and its inverse are strictly mutually inverse on morphisms. Stated so that
 it can be rewritten with at `implicit` transparency, where `CategoryTheory.Functor.comp_map`
@@ -421,6 +421,7 @@ private lemma down_comp_up_map {C : Type uC} [Category.{vC} C] {D : Type uD} [Ca
     (F : D ⥤ C) {a b : D} (g : a ⟶ b) :
     AsSmall.down.map ((F ⋙ AsSmall.up.{vC, uC, wC}).map g) = F.map g := rfl
 
+set_option maxHeartbeats 1600000 in
 /-- **The two components of the isomorphism witnessing essential surjectivity are compatible with
 the 2-cell of the canonical square.** This is the coherence condition that makes
 `AlgebraicGeometry.Stack.descentFstIso` and `AlgebraicGeometry.Stack.descentSndIso` the two
@@ -530,8 +531,9 @@ private theorem descentIso_w (i : I)
       simp
     rwa [Functor.toPullbackFiber_fac] at h0
   let := hγ'.toIsHomLift
-  rw [← hsq3, ← Functor.map_comp_assoc (CatFiberedInGroupoids.homFunctor f) _ δ, hinv,
-    colimitComparison_map_ι_up B S hS 𝒴 E d i']
+  have hinvF := congrArg (CatFiberedInGroupoids.homFunctor f).map hinv
+  rw [Functor.map_comp] at hinvF
+  rw [← hsq3, reassoc_of% hinvF, colimitComparison_map_ι_up B S hS 𝒴 E d i']
   simp only [Functor.map_comp, Category.assoc, eqToHom_map, eqToHom_trans_assoc,
     eqToHom_refl, Category.id_comp, Functor.SplitFiber.toFiberHom_ofFiberHom]
   have hfac := Functor.SplitFiber.restrictHom_fac (p := 𝒴.val.p) (d.π.app i')

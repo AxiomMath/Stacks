@@ -47,6 +47,13 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_closedImmersionBaseChangeIdentification
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A morphism factors through a closed immersion as soon as it kills the kernel ideal sheaf of
 the immersion.** -/
 theorem exists_comp_eq_of_kernelIdealSheaf_le {T Z X : AlgebraicSpaces B S hS} (i : Z ⟶ X)

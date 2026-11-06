@@ -1,7 +1,9 @@
 module
 
 public import Mathlib.Algebra.Lie.OfAssociative
+public import Mathlib.RingTheory.Artinian.Ring
 public import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.HopkinsLevitzki
 public import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.RingHom.EssFiniteType

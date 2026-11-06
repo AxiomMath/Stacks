@@ -180,7 +180,7 @@ algebra structures `AlgebraicGeometry.Space.baseChartAlgebra` over which the rin
 at a base-changed chart is stated, which the other spelling is not. -/
 def geometricCoefficientMap (f : X ⟶ Y) (V₀ : SmallEtale B S hS Y.1) [IsIso V₀.obj.hom] :
     Stacks.TensorByBaseModule.constantRingPresheaf (C := SmallEtale B S hS X.1)
-        (baseChartRing B S hS Y V₀) ⟶ (structureSheaf B S hS X.1 X.2).val where
+        (baseChartRing B S hS Y V₀) ⟶ (structureSheaf B S hS X.1 X.2).obj where
   app U := CommRingCat.ofHom
     (((BigFppfOver.toScheme B S hS).map (baseChartHom B S hS f V₀ U.unop)).appTop.hom)
   naturality {U W} g := by
@@ -586,7 +586,7 @@ abbrev pushforwardPulledBack : Modules.{u, u} B S hS D.X.1 D.X.2 :=
 `𝓕 ⊗_{\underline{A}} \underline{B}`. -/
 abbrev tensorPresheaf : PresheafOfModules
     (Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf
-      (structureSheaf B S hS D.X.1 D.X.2).val) :=
+      (structureSheaf B S hS D.X.1 D.X.2).obj) :=
   (Stacks.TensorByBaseModule.tensorByBaseModulePresheafOfHom
     (baseChartRing B S hS D.Y V₀) (SmallEtale.topology B S hS D.X.1)
     (structureSheaf B S hS D.X.1 D.X.2) D.F
@@ -596,7 +596,7 @@ abbrev tensorPresheaf : PresheafOfModules
 consumes. -/
 abbrev pushforwardPresheaf : PresheafOfModules
     (Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf
-      (structureSheaf B S hS D.X.1 D.X.2).val) :=
+      (structureSheaf B S hS D.X.1 D.X.2).obj) :=
   (PresheafOfModules.restrictScalars
       (𝟙 (Stacks.TensorByBaseModule.ringSheaf (SmallEtale.topology B S hS D.X.1)
         (structureSheaf B S hS D.X.1 D.X.2)).obj)).obj
@@ -610,12 +610,12 @@ def pushforwardTensorApp (W : (SmallEtale B S hS D.X.1)ᵒᵖ) :
 /-- The naturality square of the comparison, on a pure tensor `s ⊗ (c ⊗ b)`. -/
 theorem pushforwardTensorApp_naturality_tmul_tmul {W W' : (SmallEtale B S hS D.X.1)ᵒᵖ}
     (h : W ⟶ W') (s : D.F.val.obj W)
-    (c : (structureSheaf B S hS D.X.1 D.X.2).val.obj W) (b : D.baseModule V₀ V₀') :
+    (c : (structureSheaf B S hS D.X.1 D.X.2).obj.obj W) (b : D.baseModule V₀ V₀') :
     letI := ((geometricCoefficientMap B S hS D.f V₀).app W).hom.toAlgebra
     ((D.tensorPresheaf V₀ V₀').map h ≫
           (ModuleCat.restrictScalars
               ((Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf
-                (structureSheaf B S hS D.X.1 D.X.2).val).map h).hom).map
+                (structureSheaf B S hS D.X.1 D.X.2).obj).map h).hom).map
             (D.pushforwardTensorApp hg' V₀ V₀' W')).hom (s ⊗ₜ (c ⊗ₜ b)) =
       (D.pushforwardTensorApp hg' V₀ V₀' W ≫ (D.pushforwardPresheaf hg').map h).hom
         (s ⊗ₜ (c ⊗ₜ b)) :=
@@ -631,12 +631,12 @@ theorem pushforwardTensorApp_naturality_tmul {W W' : (SmallEtale B S hS D.X.1)�
     ((D.tensorPresheaf V₀ V₀').map h ≫
           (ModuleCat.restrictScalars
               ((Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf
-                (structureSheaf B S hS D.X.1 D.X.2).val).map h).hom).map
+                (structureSheaf B S hS D.X.1 D.X.2).obj).map h).hom).map
             (D.pushforwardTensorApp hg' V₀ V₀' W')).hom (s ⊗ₜ n) =
       (D.pushforwardTensorApp hg' V₀ V₀' W ≫ (D.pushforwardPresheaf hg').map h).hom
         (s ⊗ₜ n) := by
   let := ((geometricCoefficientMap B S hS D.f V₀).app W).hom.toAlgebra
-  let : Module (((structureSheaf B S hS D.X.1 D.X.2).val ⋙
+  let : Module (((structureSheaf B S hS D.X.1 D.X.2).obj ⋙
         forget₂ CommRingCat.{u} RingCat.{u}).obj W) (D.F.val.obj W) :=
     (D.F.val.obj W).isModule
   let : Module ((Stacks.TensorByBaseModule.constantRingPresheaf
@@ -645,9 +645,9 @@ theorem pushforwardTensorApp_naturality_tmul {W W' : (SmallEtale B S hS D.X.1)�
         (baseChartRing B S hS D.Y V₀)).obj (D.baseModule V₀ V₀')).obj W) :=
     (((Stacks.TensorByBaseModule.constantModulePresheaf
       (baseChartRing B S hS D.Y V₀)).obj (D.baseModule V₀ V₀')).obj W).isModule
-  let : Module (((structureSheaf B S hS D.X.1 D.X.2).val ⋙
+  let : Module (((structureSheaf B S hS D.X.1 D.X.2).obj ⋙
         forget₂ CommRingCat.{u} RingCat.{u}).obj W)
-      ((structureSheaf B S hS D.X.1 D.X.2).val.obj W ⊗[
+      ((structureSheaf B S hS D.X.1 D.X.2).obj.obj W ⊗[
           (Stacks.TensorByBaseModule.constantRingPresheaf
             (C := SmallEtale B S hS D.X.1) (baseChartRing B S hS D.Y V₀)).obj W]
         (((Stacks.TensorByBaseModule.constantModulePresheaf
@@ -658,12 +658,12 @@ theorem pushforwardTensorApp_naturality_tmul {W W' : (SmallEtale B S hS D.X.1)�
         (baseChartRing B S hS D.Y V₀)).obj (D.baseModule V₀ V₀'))).obj W).isModule
   induction n using TensorProduct.induction_on with
   | zero =>
-    exact ((congrArg _ (TensorProduct.tmul_zero _ s)).trans (map_zero _)).trans
-      (((congrArg _ (TensorProduct.tmul_zero _ s)).trans (map_zero _)).symm)
+    exact ((congrArg _ (TensorProduct.tmul_zero (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) _ s)).trans (map_zero _)).trans
+      (((congrArg _ (TensorProduct.tmul_zero (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) _ s)).trans (map_zero _)).symm)
   | add x y hx hy =>
-    exact ((congrArg _ (TensorProduct.tmul_add s x y)).trans (map_add _ _ _)).trans
+    exact ((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).trans
       ((congrArg₂ (· + ·) hx hy).trans
-        (((congrArg _ (TensorProduct.tmul_add s x y)).trans (map_add _ _ _)).symm))
+        (((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).symm))
   | tmul c b => exact D.pushforwardTensorApp_naturality_tmul_tmul hg' V₀ V₀' h s c b
 
 /-- **The naturality square of the comparison.** -/
@@ -671,7 +671,7 @@ theorem pushforwardTensorApp_naturality {W W' : (SmallEtale B S hS D.X.1)ᵒᵖ}
     (D.tensorPresheaf V₀ V₀').map h ≫
         (ModuleCat.restrictScalars
             ((Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf
-              (structureSheaf B S hS D.X.1 D.X.2).val).map h).hom).map
+              (structureSheaf B S hS D.X.1 D.X.2).obj).map h).hom).map
           (D.pushforwardTensorApp hg' V₀ V₀' W') =
       D.pushforwardTensorApp hg' V₀ V₀' W ≫ (D.pushforwardPresheaf hg').map h := by
   exact ModuleCat.hom_ext (TensorProduct.ext' fun s n =>

@@ -231,17 +231,17 @@ private lemma range_pow_eq_ker_of_deltaFunctor {R : Sheaf J RingCat.{w}} {A : Ty
     (h : Condition1 α obj map)
     (D : DeltaFunctor (SheafOfModules.{max u v} R) (ModuleCat.{m} A)) (p n : ℕ)
     (hscalar : ∀ (N : SheafOfModules.{max u v} R) (y : (D.functor p).obj N),
-      ((D.functor p).map (α.app N)).hom y = f • y) :
+      ((D.functor p).map (α.asHom.app N)).hom y = f • y) :
     LinearMap.range (LinearMap.lsmul A
         (limit (Functor.ofOpSequence map ⋙ D.functor p) : ModuleCat.{m} A) (f ^ (n + 1))) =
       LinearMap.ker (limit.π (Functor.ofOpSequence map ⋙ D.functor p) (op n)).hom := by
   classical
   choose ι wι hfac hshort using h
-  have hback (k : ℕ) : ι k ≫ map k = α.app (obj k) := by
+  have hback (k : ℕ) : ι k ≫ map k = α.asHom.app (obj k) := by
     have := (hshort k).mono_f
     rw [← cancel_mono (ι k), Category.assoc, hfac]
     exact (mulF_naturality α (ι k)).symm
-  have hkill : α.app (obj 0) = 0 := by
+  have hkill : α.asHom.app (obj 0) = 0 := by
     rw [← hback 0]
     simpa [proj] using wι 0
   have hs (k : ℕ) :
@@ -283,10 +283,10 @@ private lemma range_pow_eq_ker_of_deltaFunctor {R : Sheaf J RingCat.{w}} {A : Ty
   have hιnat (k : ℕ) : (D.functor p).map (ι (k + 1)) ≫ (D.functor p).map (map (k + 1)) =
       (D.functor p).map (map k) ≫ (D.functor p).map (ι k) := by
     rw [← Functor.map_comp, ← Functor.map_comp, hback (k + 1), hfac k]
-  have hmul {X Y : SheafOfModules.{max u v} R} (a : X ⟶ Y) (b : Y ⟶ X) (hab : a ≫ b = α.app X)
+  have hmul {X Y : SheafOfModules.{max u v} R} (a : X ⟶ Y) (b : Y ⟶ X) (hab : a ≫ b = α.asHom.app X)
       (z : (D.functor p).obj X) :
       ((D.functor p).map b).hom (((D.functor p).map a).hom z) = f • z :=
-    (hom_comp_apply_eq (c := (D.functor p).map (α.app X))
+    (hom_comp_apply_eq (c := (D.functor p).map (α.asHom.app X))
       (by rw [← Functor.map_comp, hab]) z).trans (hscalar X z)
   have hdι (k : ℕ) (z : (D.functor p).obj (obj (k + 1))) :
       ((D.functor p).map (ι k)).hom (((D.functor p).map (map k)).hom z) = f • z :=

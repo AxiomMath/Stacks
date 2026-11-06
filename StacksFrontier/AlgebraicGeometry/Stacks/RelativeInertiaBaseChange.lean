@@ -128,7 +128,7 @@ structure CartesianRelativeInertiaSquare
   of `x'` -/
   canonical_obj : ∀ A, ((toInertia.hom.hom.toFunctor).obj A).obj = A.obj.x
   /-- the automorphism of that pair is the `𝒳`-component of `α'` -/
-  canonical_auto : ∀ A, HEq ((toInertia.hom.hom.toFunctor).obj A).auto.hom A.auto.hom.a
+  canonical_auto : ∀ A, HEq ((toInertia.hom.hom.toFunctor).obj A).auto.asIso.hom A.auto.asIso.hom.a
   /-- the comparison sends a morphism to its `𝒳`-component -/
   canonical_map : ∀ {A D} (φ : A ⟶ D), HEq ((toInertia.hom.hom.toFunctor).map φ).hom φ.hom.a
   /-- the left square is a 2-fibre product of algebraic stacks -/

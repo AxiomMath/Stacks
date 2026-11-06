@@ -1200,13 +1200,13 @@ open MonoidalCategory
 the pointwise tensor product. -/
 local instance (X : Scheme.{u}) :
     MonoidalCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 /-- The symmetric monoidal structure on presheaves of modules over the structure sheaf of `X`,
 given by the pointwise tensor product. -/
 local instance (X : Scheme.{u}) :
     SymmetricCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-  PresheafOfModules.symmetricCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
 
 private lemma presheafHom_ext_of_completion
     (X : Scheme.{u}) [IsLocallyNoetherian X] (I : X.IdealSheafData)

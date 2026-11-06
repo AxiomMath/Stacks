@@ -106,7 +106,7 @@ private theorem mem_range_pointsMap_of_section {Y : (BigFppfOver B S hS)ᵒᵖ �
   have h1 := PresheafOfCategories.sectionOfBasedFunctor_map f.hom.hom.toFunctor f.hom.hom.w φ
   have hfac := IsHomLift.fac' 𝒳.val.val.p p.value φ
   show _ = Y.map (eqToHom hdom).op (Y.map p.value.op (algebraicSpaceStackSection f ξ))
-  rw [← h1, hfac, ← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [← h1, hfac, ← Functor.map_comp_apply, ← op_comp]
   simp
 
 /-- **The first family of local sections in the proof of Stacks 0CQ7.** Let `f : 𝒳 ⟶ Y` be a flat

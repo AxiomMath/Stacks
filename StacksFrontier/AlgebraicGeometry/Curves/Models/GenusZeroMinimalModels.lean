@@ -292,7 +292,7 @@ It is the linear action of the inverse of `diag(a, 1)`, which `Proj` turns into 
 `T₀ ↦ a T₀`, `T₁ ↦ T₁`. -/
 def scaling (a : K) (ha : a ≠ 0) :
     projectiveSpaceOverRing 1 (.of K) ≅ projectiveSpaceOverRing 1 (.of K) :=
-  projectiveSpaceMatrixToAut K 1 (scalingMatrix a ha)⁻¹
+  (projectiveSpaceMatrixToAut K 1 (scalingMatrix a ha)⁻¹).asIso
 
 /-- The scaling lies over `K`. -/
 @[simp] theorem scaling_hom_comp_structure (a : K) (ha : a ≠ 0) :

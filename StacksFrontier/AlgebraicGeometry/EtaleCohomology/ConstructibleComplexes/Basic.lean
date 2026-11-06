@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Homology.DerivedCategory.HomologySequence
+public import Mathlib.Algebra.Category.ModuleCat.Abelian
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible

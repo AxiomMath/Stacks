@@ -127,8 +127,7 @@ private theorem Resolution.tensorQuotEquiv_rTensor_differentialAt
         (T.tensorQuotEquiv I (i + 1) w) := by
   let : Ring T.A := T.ring
   let : Algebra R T.A := T.algebra
-  refine TensorProduct.induction_on w ?_ ?_ ?_
-  · simp
+  refine TensorProduct.inductionOn w ?_ ?_
   · intro a b
     obtain ⟨r₀, rfl⟩ := Ideal.Quotient.mk_surjective b
     simp [Resolution.tensorQuotEquiv, TensorProduct.tensorQuotEquivQuotSMul_tmul_mk,

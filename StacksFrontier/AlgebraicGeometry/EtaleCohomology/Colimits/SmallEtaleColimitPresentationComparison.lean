@@ -142,7 +142,10 @@ def inverseImageIsoPullbackAb {X Y : Scheme.{u}} (f : Y ⟶ X)
     (etaleAbelianInverseImageDirectImageAdj.{u, u + 1} f)
 
 variable {I : Type v} [Preorder I] {D : Iᵒᵖ ⥤ Scheme.{u}}
-  [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
+
+section TransitionFamily
+
+variable [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
 
 /-- The comparison named in
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleCohomologyColimit.lean` is this
@@ -257,10 +260,12 @@ theorem conePullbackCompPi_inv_app_comp (c : Cone D)
         (coneInverseImageComp a).hom.app G :=
   conePullbackComp_inv_app_comp c a G
 
+end TransitionFamily
+
 /-! ### Reading the legs of a presentation in either vocabulary -/
 
-variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}]
-
+variable [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
+    {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- `Stacks.EtaleCohomology.systemTransitionMap` written through
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.inverseImageIsoPullbackAb`: it is the
 transition map of the system itself, read through the comparison of the two inverse images. -/
@@ -270,6 +275,7 @@ theorem systemTransitionMap_eq (F : EtaleSheafSystem D AddCommGrpCat.{u + 1}) {i
       (inverseImageIsoPullbackAb (D.map a)).inv.app (F.obj j) ≫ F.map a :=
   rfl
 
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- A family of maps out of the constructed inverse images, read as a family of maps out of the
 abstract ones. -/
 def transportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
@@ -278,6 +284,7 @@ def transportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
     (i : Iᵒᵖ) : (smallEtalePullbackAb (conePi c i)).obj (F.obj i) ⟶ H :=
   (inverseImageIsoPullbackAb (conePi c i)).hom.app (F.obj i) ≫ τ i
 
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- A family of maps out of the abstract inverse images, read as a family of maps out of the
 constructed ones — the direction `PresentedSystem` needs. -/
 def untransportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
@@ -286,7 +293,7 @@ def untransportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
     (etaleAbelianInverseImage.{u, u + 1} (conePi c i)).obj (F.obj i) ⟶ H :=
   (inverseImageIsoPullbackAb (conePi c i)).inv.app (F.obj i) ≫ τ i
 
-omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- The two readings are inverse to one another. -/
 @[simp]
 theorem transportLeg_untransportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
@@ -295,7 +302,7 @@ theorem transportLeg_untransportLeg (F : EtaleSheafSystem D AddCommGrpCat.{u + 1
     transportLeg F H (untransportLeg F H τ) i = τ i := by
   rw [transportLeg, untransportLeg, ← Category.assoc, Iso.hom_inv_id_app, Category.id_comp]
 
-omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- **Factoring through the legs is the same condition in the two vocabularies.** -/
 theorem transportLeg_comp_iff (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
     {𝒢 H : Sheaf (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}}
@@ -306,6 +313,8 @@ theorem transportLeg_comp_iff (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
   rw [transportLeg, transportLeg, Category.assoc]
   exact (cancel_epi ((inverseImageIsoPullbackAb (conePi c i)).hom.app (F.obj i))).symm
 
+variable [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
+    {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- **The diagram map `f_j^{-1}F_j ⟶ f_i^{-1}F_i` of a system in the two vocabularies**, with a
 further map appended. On the left the diagram map is
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.coneInverseImageComp` followed by the inverse
@@ -339,6 +348,8 @@ theorem diagramMap_crossing_comp (F : EtaleSheafSystem D AddCommGrpCat.{u + 1}) 
     reassoc_of% ((inverseImageIsoPullbackAb (conePi c i)).hom.naturality (F.map a)).symm,
     reassoc_of% hid]
 
+variable [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
+    {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- **The two compatibility conditions on a family of legs agree.** A family `τ` is compatible
 with the transitions of the system in the vocabulary of
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.IsCompatibleFamily` exactly when its transport
@@ -368,6 +379,7 @@ theorem isCompatibleFamily_iff (F : EtaleSheafSystem D AddCommGrpCat.{u + 1})
 
 /-! ### The system of direct images of [Stacks, Tag 0EYN] -/
 
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- The counit `ι_i : f_i^{-1}f_{i, *}𝓕 ⟶ 𝓕` of [Stacks, Tag 0EYN], as a leg out of the
 constructed inverse image — the vocabulary
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.IsColimitPresentation` and
@@ -378,7 +390,7 @@ def coneDirectImageLeg (𝓕 : Sheaf (smallEtaleTopology c.pt) AddCommGrpCat.{u 
   untransportLeg (directImageSystem D AddCommGrpCat.{u + 1} c 𝓕) 𝓕
     (coneDirectImageCounit c 𝓕) i
 
-omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
+variable {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- Read back in the abstract vocabulary, `coneDirectImageLeg` is the counit it was built from. -/
 @[simp]
 theorem transportLeg_coneDirectImageLeg
@@ -387,6 +399,8 @@ theorem transportLeg_coneDirectImageLeg
       coneDirectImageCounit c 𝓕 i :=
   transportLeg_untransportLeg _ _ _ i
 
+variable [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}]
+    {c : Cone D} [HasSheafify (smallEtaleTopology c.pt) AddCommGrpCat.{u + 1}] in
 /-- **The counits of the projections form a family compatible with the transitions of the system
 of direct images**, in the vocabulary of
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.IsColimitPresentation`. This is the cocone half

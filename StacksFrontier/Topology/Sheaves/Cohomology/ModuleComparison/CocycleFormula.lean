@@ -1230,7 +1230,7 @@ sheaves is invertible, because that functor is exact.  Recorded as a lemma so th
 made a local instance: the statements below mention `singleFunctorPlusRightDerivedIso`, whose
 elaboration needs it. -/
 theorem isIso_toSheaf_rightDerivedFunctorPlusUnit' :
-    IsIso (SheafOfModules.toSheaf R).rightDerivedFunctorPlusUnit :=
+    IsIso (SheafOfModules.toSheaf R).rightDerivedFunctorPlusUnith :=
   Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit _
 
 attribute [local instance] isIso_toSheaf_rightDerivedFunctorPlusUnit'
@@ -1244,14 +1244,14 @@ def sectionsDerivedComparison :
       (SheafOfModules.toSheaf R).rightDerivedFunctorPlus ⋙
         (sectionsOver U).rightDerivedFunctorPlus :=
   Functor.rightDerivedDesc _
-    (SheafOfModules.toSheaf R ⋙ sectionsOver U).rightDerivedFunctorPlusUnit
+    (SheafOfModules.toSheaf R ⋙ sectionsOver U).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} R)) _
     (derivedCompositionUnitOf (SheafOfModules.toSheaf R) (sectionsOver U))
 
 /-- The equation characterizing `sectionsDerivedComparison`: it intertwines the unit of the
 right derived functor of the composite with the composite unit of Stacks 05T2. -/
 theorem sectionsDerivedComparison_fac :
-    (SheafOfModules.toSheaf R ⋙ sectionsOver U).rightDerivedFunctorPlusUnit ≫
+    (SheafOfModules.toSheaf R ⋙ sectionsOver U).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh (sectionsDerivedComparison R U) =
       derivedCompositionUnitOf (SheafOfModules.toSheaf R) (sectionsOver U) :=
   Functor.rightDerived_fac _ _ _ _ _

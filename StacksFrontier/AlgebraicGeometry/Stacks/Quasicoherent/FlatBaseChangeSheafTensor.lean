@@ -496,7 +496,7 @@ noncomputable def restrictSheafTensorIso (z : 𝒳)
       (ringStructureSheafCore B S hS p hp (etaleTopology B) (etaleTopology_le_topology B))
       (localStructurePresheafIso B E h S hS p hp z (etaleTopology B)
         (etaleTopology_le_topology B)).hom
-      (PresheafOfModules.Monoidal.tensorObj
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj
         (R := (structureSheaf B S hS p hp (etaleTopology B)
           (etaleTopology_le_topology B)).obj) F.val G.val)
 
@@ -519,7 +519,7 @@ theorem restrictSheafTensorIso_hom_eq (z : 𝒳)
             ((PresheafOfModules.sheafificationAdjunction
               (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
                 (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-              (PresheafOfModules.Monoidal.tensorObj
+              (PresheafOfModulesOfCommRing.Monoidal.tensorObj
                 (R := (structureSheaf B S hS p hp (etaleTopology B)
                   (etaleTopology_le_topology B)).obj) F.val G.val))) ≫
         (PresheafOfModules.sheafificationAdjunction
@@ -669,14 +669,14 @@ theorem restrictionPushforwardComparison_etaleTensorSheaf_unit_tmul
       (((PresheafOfModules.sheafificationAdjunction
           (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-          (PresheafOfModules.Monoidal.tensorObj
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj
             (R := (structureSheaf B S hS p hp (etaleTopology B)
               (etaleTopology_le_topology B)).obj) F.val G.val)).app
         (smallEtaleCartesianLift B E h S hS p hp y U) (a ⊗ₜ b)) =
       ((PresheafOfModules.sheafificationAdjunction
           (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-          (PresheafOfModules.Monoidal.tensorObj
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj
             (R := (structureSheaf B S hS p hp (etaleTopology B)
               (etaleTopology_le_topology B)).obj) F.val G.val)).app
         (smallEtaleCartesianLift B E h S hS p hp x
@@ -691,7 +691,7 @@ theorem restrictionPushforwardComparison_etaleTensorSheaf_unit_tmul
     ((PresheafOfModules.sheafificationAdjunction
           (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-          (PresheafOfModules.Monoidal.tensorObj
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj
             (R := (structureSheaf B S hS p hp (etaleTopology B)
               (etaleTopology_le_topology B)).obj) F.val G.val)) φ'.op (a ⊗ₜ b)).symm
 
@@ -728,7 +728,7 @@ theorem restrictSheafTensorIso_hom_val_app_unit_tmul
       ((PresheafOfModules.sheafificationAdjunction
           (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-          (PresheafOfModules.Monoidal.tensorObj
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj
             (R := (structureSheaf B S hS p hp (etaleTopology B)
               (etaleTopology_le_topology B)).obj) F.val G.val)).app
         (smallEtaleCartesianLift B E h S hS p hp z V) (a ⊗ₜ b) := by
@@ -743,7 +743,7 @@ theorem restrictSheafTensorIso_hom_val_app_unit_tmul
             ((PresheafOfModules.sheafificationAdjunction
               (R := ringStructureSheafCore B S hS p hp (etaleTopology B)
                 (etaleTopology_le_topology B)) (𝟙 _)).unit.app
-              (PresheafOfModules.Monoidal.tensorObj
+              (PresheafOfModulesOfCommRing.Monoidal.tensorObj
                 (R := (structureSheaf B S hS p hp (etaleTopology B)
                   (etaleTopology_le_topology B)).obj) F.val G.val)))
   rw [restrictSheafTensorIso_hom_eq]

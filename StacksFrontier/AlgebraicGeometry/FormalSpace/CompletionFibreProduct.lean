@@ -61,6 +61,20 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on the big fppf site times out under
+Lean v4.35.0, so use the shortcut instances declared in `Spaces.Morphisms.Unramified`. -/
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CompletionFibreProduct :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_CompletionFibreProduct
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The two descriptions of the points of a fibre product lying over `T` -/
 
 /-- For a commutative square the two inverse images of a set of points of the corner along the

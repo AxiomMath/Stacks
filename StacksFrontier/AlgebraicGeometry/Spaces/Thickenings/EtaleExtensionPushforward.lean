@@ -286,7 +286,7 @@ theorem isPullback_extensionHom (hi : uliftYoneda.{u + 1}.relativelyRepresentabl
       (a ≫ v₁) (by rw [Category.assoc])
     have e₁ := hwu v₁ ⟨rfl, rfl⟩
     have e₂ := hwu v₂ ⟨hq₁₂.symm, hav.symm⟩
-    exact ULift.ext _ _ (e₁.trans e₂.symm)
+    exact ULift.ext (e₁.trans e₂.symm)
   · intro s y hsk
     set k := y.down
     change s.base = ξ.app T' (ULift.up k : (uliftYoneda.{u + 1}.obj T).obj T') at hsk
@@ -309,7 +309,7 @@ theorem isPullback_extensionHom (hi : uliftYoneda.{u + 1}.relativelyRepresentabl
       rw [Category.assoc, hC.w, ← Category.assoc, hLp, hT'.w]
     obtain ⟨v, ⟨hvq, hav⟩, -⟩ :=
       existsUnique_extend_of_isPullback_of_isThickening B S hS ht hq hT' (L ≫ ψ) hn
-    refine ⟨(ULift.up v : (uliftYoneda.{u + 1}.obj V).obj T'), ?_, ULift.ext _ _ hvq⟩
+    refine ⟨(ULift.up v : (uliftYoneda.{u + 1}.obj V).obj T'), ?_, ULift.ext hvq⟩
     show extensionSection sq₀ hC sq₁ v = s
     refine MonoPushforwardSection.ext ?_ ?_
     · show ξ.app _ (ULift.up (v ≫ q) : (uliftYoneda.{u + 1}.obj T).obj _) = s.base

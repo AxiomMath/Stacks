@@ -576,7 +576,7 @@ theorem Abhyankar.exists_finiteEtaleGaloisCover_extending_puncturedSpectrum
     ∃ (Y' : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f ⁻¹ᵁ Stacks.puncturedSpectrum A).ι).obj Y'.obj ≅ Y.obj),
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f ⁻¹ᵁ Stacks.puncturedSpectrum A).ι).map
-        (Y'.action g).hom ≫ e.hom = e.hom ≫ (Y.action g).hom := by
+        (Y'.action g).asIso.hom ≫ e.hom = e.hom ≫ (Y.action g).asIso.hom := by
   classical
   let U := Stacks.puncturedSpectrum A
   let XU := f ⁻¹ᵁ U

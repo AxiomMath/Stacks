@@ -506,6 +506,7 @@ theorem isCoherent_approxModule [IsNoetherian G.objects.left] [IsNoetherian G.ar
       ((Scheme.Modules.pullback G.target.left).obj N)).out 2 1).mp ?_
     exact ⟨hTqc, hTft⟩
   have hmonoj := mono_modulesPullback_map_of_flat G.target.left j
+  have : Mono M.alpha := @IsIso.mono_of_iso _ _ _ _ _ (QuasicoherentModule.alpha_isIso M)
   have hmono : Mono ((Scheme.Modules.pullback G.target.left).map j ≫ M.alpha) :=
     mono_comp _ _
   have : Surjective G.source.left := surjective_source_left

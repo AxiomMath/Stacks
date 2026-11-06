@@ -168,7 +168,7 @@ theorem isFormalAlgebraicSpace_completionSheafULift {X : FppfSheaf B S hS}
     let _ : Epi t := hts.epi
     let _ : Epi (Sigma.desc fun k ↦ pullback.snd (g k) φ) :=
       (Sheaf.isLocallySurjective_iff_epi _).mp hbase
-    infer_instance
+    exact epi_comp _ _
 
 /-- The completion of a formal algebraic space `X` over `S` along a closed set `T` of points of
 `X` is a formal algebraic space: the completions of the charts of `X` along the inverse images

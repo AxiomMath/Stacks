@@ -72,24 +72,26 @@ variable {D : Type u₂} [Category.{v₂} D] {S R : Dᵒᵖ ⥤ CommRingCat.{u}}
   {M N P : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat.{u} RingCat.{u})} {φ : S ⟶ R}
 
 /-- Postcomposing a derivation twice is postcomposing by the composition. -/
-lemma postcomp_postcomp (DD : M.Derivation' φ) (α : M ⟶ N) (β : N ⟶ P) :
+lemma postcomp_postcomp (DD : PresheafOfModulesOfCommRing.Derivation' M φ) (α : M ⟶ N)
+    (β : N ⟶ P) :
     (DD.postcomp α).postcomp β = DD.postcomp (α ≫ β) := rfl
 
 /-- Derivations transport along an isomorphism of the coefficient presheaf of modules: an
 isomorphism and its inverse postcompose to mutually inverse maps on derivations. -/
-noncomputable def postcompEquiv (e : M ≅ N) : M.Derivation' φ ≃ N.Derivation' φ where
+noncomputable def postcompEquiv (e : M ≅ N) :
+    PresheafOfModulesOfCommRing.Derivation' M φ ≃ PresheafOfModulesOfCommRing.Derivation' N φ where
   toFun DD := DD.postcomp e.hom
   invFun DD := DD.postcomp e.inv
-  left_inv DD := Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
+  left_inv DD := PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
     have h : (e.hom ≫ e.inv).app X = 𝟙 (M.obj X) := by rw [e.hom_inv_id]; rfl
     exact ConcreteCategory.congr_hom h (DD.d x))
-  right_inv DD := Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
+  right_inv DD := PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
     have h : (e.inv ≫ e.hom).app X = 𝟙 (N.obj X) := by rw [e.inv_hom_id]; rfl
     exact ConcreteCategory.congr_hom h (DD.d x))
 
 /-- The equivalence `postcompEquiv e` sends a derivation to its postcomposition with `e.hom`. -/
 @[simp]
-lemma postcompEquiv_apply (e : M ≅ N) (DD : M.Derivation' φ) :
+lemma postcompEquiv_apply (e : M ≅ N) (DD : PresheafOfModulesOfCommRing.Derivation' M φ) :
     postcompEquiv e DD = DD.postcomp e.hom := rfl
 
 end PresheafOfModules.Derivation
@@ -123,8 +125,8 @@ scalars. -/
 noncomputable def restrictScalarsDerivationCongr
     (M : SheafOfModules.{w} R) {u u' : (Stacks.forgetCommRingSheaf.{v, u, w} J).obj P ⟶ R}
     (h : u = u') {S : Sheaf J CommRingCat.{w}} (b : S ⟶ P) :
-    ((SheafOfModules.restrictScalars u).obj M).val.Derivation' b.hom ≃
-      ((SheafOfModules.restrictScalars u').obj M).val.Derivation' b.hom := by
+    PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u).obj M).val b.hom ≃
+      PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u').obj M).val b.hom := by
   subst h
   exact Equiv.refl _
 
@@ -135,7 +137,8 @@ derivation on sections. -/
 lemma restrictScalarsDerivationCongr_d
     (M : SheafOfModules.{w} R) {u u' : (Stacks.forgetCommRingSheaf.{v, u, w} J).obj P ⟶ R}
     (h : u = u') {S : Sheaf J CommRingCat.{w}} (b : S ⟶ P)
-    (DD : ((SheafOfModules.restrictScalars u).obj M).val.Derivation' b.hom) {X : Cᵒᵖ}
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u).obj M).val
+      b.hom) {X : Cᵒᵖ}
     (z : P.obj.obj X) :
     (restrictScalarsDerivationCongr M h b DD).d z = DD.d z := by
   subst h
@@ -148,7 +151,8 @@ lemma restrictScalarsDerivationCongr_postcomp
     {M N : SheafOfModules.{w} R} (k : M ⟶ N)
     {u u' : (Stacks.forgetCommRingSheaf.{v, u, w} J).obj P ⟶ R}
     (h : u = u') {S : Sheaf J CommRingCat.{w}} (b : S ⟶ P)
-    (DD : ((SheafOfModules.restrictScalars u).obj M).val.Derivation' b.hom) :
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u).obj M).val
+      b.hom) :
     restrictScalarsDerivationCongr N h b
         (DD.postcomp ((SheafOfModules.restrictScalars u).map k).val) =
       (restrictScalarsDerivationCongr M h b DD).postcomp
@@ -161,7 +165,8 @@ restriction morphisms. -/
 lemma derivationSheafHom_restrictScalarsDerivationCongr
     (M : SheafOfModules.{w} R) {u u' : (Stacks.forgetCommRingSheaf.{v, u, w} J).obj P ⟶ R}
     (h : u = u') {S : Sheaf J CommRingCat.{w}} (b : S ⟶ P)
-    (DD : ((SheafOfModules.restrictScalars u).obj M).val.Derivation' b.hom) :
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u).obj M).val
+      b.hom) :
     derivationSheafHom b ((SheafOfModules.restrictScalars u').obj M)
         (restrictScalarsDerivationCongr M h b DD) =
       derivationSheafHom b ((SheafOfModules.restrictScalars u).obj M) DD := by
@@ -177,8 +182,8 @@ lemma derivationRingEquiv_postcomp
     {M N : SheafOfModules.{w} (SheafOfModules.Tensor.ringSheaf.{u, v, w} B')} (k : M ⟶ N)
     (rho : P ≅ P') {baseP : A' ⟶ P} {baseP' : A' ⟶ P'} {augP : P ⟶ B'} {augP' : P' ⟶ B'}
     (hbase : baseP ≫ rho.hom = baseP') (haug : rho.hom ≫ augP' = augP)
-    (DD : ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val.Derivation' baseP.hom) :
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val baseP.hom) :
     derivationRingEquiv N rho hbase haug (DD.postcomp
         ((SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).map k).val) =
@@ -442,11 +447,11 @@ lemma inverseImageCotangentDerivationEquiv_naturality (n : SimplexCategoryᵒᵖ
             (resolutionTerm.{u', v', w'} K a n))).map
           ((SheafOfModules.restrictScalars
             (inverseImageRingMap f (resolutionAugmentationRing.{u', v', w'} K a n))).map h)).val :=
-    (congrArg (fun DD ↦ PresheafOfModules.Derivation.postcomp DD
+    (congrArg (fun DD ↦ PresheafOfModulesOfCommRing.Derivation.postcomp DD
           (directImageRestrictedIso.{u, v, w, u', v', w'} J K f a n N).hom.val)
         (pushforwardCotangentDerivation_naturality.{u, v, w, u', v', w'} J K f a n g h)).trans
       ((PresheafOfModules.Derivation.postcomp_postcomp _ _ _).trans
-        ((congrArg (fun m ↦ PresheafOfModules.Derivation.postcomp
+        ((congrArg (fun m ↦ PresheafOfModulesOfCommRing.Derivation.postcomp
               (pushforwardCotangentDerivation.{u, v, w, u', v', w'} J K f a n M g)
               (SheafOfModules.Hom.val m))
             ((directImageModulesCompRestrictScalarsIso f
@@ -536,7 +541,7 @@ lemma pushforwardCotangentDerivation_simplex {i j : SimplexCategoryᵒᵖ} (g : 
         ((inverseImageCotangentObject.{u, v, w, u', v', w'} J K f a).map g ≫ h)).d y =
       (pushforwardCotangentDerivation.{u, v, w, u', v', w'} J K f a j M h).d
         ((((standardResolution.{v', u', w'} K a).left.map g).right.hom.app Y) y) :=
-  (PresheafOfModules.Derivation.congr_d (X := Y)
+  (PresheafOfModulesOfCommRing.Derivation.congr_d (X := Y)
       (congrArg ((cotangentSimplicialModule.{u', v', w'} K a).derivationEquiv i
           ((directImageModules f
             ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} (J := K)) B)).obj M))

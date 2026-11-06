@@ -577,6 +577,12 @@ theorem exists_isFiniteOrderThickening_isAffineSpace_pullback
       (yoneda.map (levelKernelMap π w t hR.w.symm k)) (yoneda.map c₀) (yoneda.map c₀) := by
     refine (isPullback_levelKernel π w hR k).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e₀
       (by simp) (by simp) (by simp [hc₀y]) (by simp [hc₀y])
+  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
+  letI : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
+  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
+    comp_preservesLimitsOfShape _ _
+  haveI : PreservesLimit (cospan c₀ c₀) (BigFppfOver.toScheme B S hS) :=
+    PreservesLimitsOfShape.preservesLimit
   have hR₀sch := (IsPullback.of_map_of_faithful yoneda hR₀y).map (BigFppfOver.toScheme B S hS)
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj R₀) := .of_isPullback hR₀sch
   have hR₀T := (IsPullback.of_hasPullback (levelChartBase π (yoneda.map s ≫ w)) k).map

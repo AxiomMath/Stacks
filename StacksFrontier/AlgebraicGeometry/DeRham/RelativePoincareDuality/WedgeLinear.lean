@@ -108,6 +108,7 @@ abbrev formsInDegreeZeroSMul (g : Γ(X, ⊤)) (a : ℤ) :
     (Stacks.Cohomology.InvertibleDerived.smulHom (X := X.toRingedSpace) g
       (relativeDifferentialForms f a)))
 
+set_option maxHeartbeats 800000 in
 /-- **The wedge product in `D(𝒪_X)` is linear over `Γ(X, 𝒪_X)` in its first factor.** -/
 theorem formsDerivedWedge_smul_left (g : Γ(X, ⊤)) (a b : ℤ) :
     ((derivedTensorProductFunctor X.sheaf).map (f.formsInDegreeZeroSMul g a)).app

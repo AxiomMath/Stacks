@@ -9,7 +9,7 @@ public import StacksFrontier.CategoryTheory.Sites.Modules.RingedSite
 
 Sheaves of modules on a ringed site `(C, O)` are indexed by the sheaf of (not necessarily
 commutative) rings `AlgebraicGeometry.RingedSite.ringSheaf`, while the monoidal structure
-`PresheafOfModules.monoidalCategory` on presheaves of modules is only available over a
+`PresheafOfModulesOfCommRing.monoidalCategory` on presheaves of modules is only available over a
 presheaf of *commutative* rings. This file records, once, the instances that bridge the two
 and that every construction of a tensor product of complexes of modules on a ringed site
 needs: the `CommRing` structure on the sections of `ringSheaf`, the monoidal structure on
@@ -80,7 +80,7 @@ noncomputable local instance ringSheafSectionsCommRing (U : X.Cᵒᵖ) :
 product being the pointwise one. -/
 noncomputable local instance presheafOfModulesMonoidalCategory :
     MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :=
-  PresheafOfModules.monoidalCategory (R := X.O.obj)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.O.obj)
 
 /-- The tensor bifunctor of presheaves of modules on a ringed site preserves zero morphisms. -/
 local instance curriedTensorPreservesZeroMorphisms :

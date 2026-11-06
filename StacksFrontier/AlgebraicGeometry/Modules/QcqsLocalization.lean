@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiSeparated
+public import Mathlib.Data.Fintype.Order
 public import StacksFrontier.AlgebraicGeometry.Modules.QuasicoherentBaseChange
 
 /-!

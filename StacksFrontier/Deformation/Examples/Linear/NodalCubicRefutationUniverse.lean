@@ -164,7 +164,7 @@ theorem exists_local_lift_ulift (g : ULift.{u} PBase)
       rw [IsScalarTower.algebraMap_apply (ULift.{u} ABase) (ULift.{u} PBase) R₁ a,
         γ₁.symm.commutes, ← IsScalarTower.algebraMap_apply (ULift.{u} ABase)
           (ULift.{u} PBase) (PAwayU g), algebraMap_ulift_apply]
-      exact ULift.ext _ _ (IsScalarTower.algebraMap_smul (PAway g.down) a.down x.down)
+      exact ULift.ext (IsScalarTower.algebraMap_smul (PAway g.down) a.down x.down)
   exact ⟨ULift.{u} L₀, inferInstance, inferInstance, inferInstance, inferInstance,
     flat_ulift.{u} hflat₀,
     ⟨tensorUliftCongrOfRingEquiv γ₁.toRingEquiv (fun _ => rfl) (fun t x => by
@@ -229,8 +229,7 @@ theorem not_lift_of_tensorEquiv_ulift {P : Type u} [CommRing P]
     (e : (P ⊗[ULift.{u} PBase] M') ≃ₗ[P] (ULift.{u} NC)) :
     False := by
   have htmul : ∀ w : P ⊗[ULift.{u} PBase] M', ∃ y : M', w = 1 ⊗ₜ[ULift.{u} PBase] y := by
-    refine fun w => TensorProduct.induction_on w ?_ ?_ ?_
-    · exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+    refine fun w => TensorProduct.inductionOn w ?_ ?_
     · intro r y
       obtain ⟨p, rfl⟩ := hsurj r
       refine ⟨p • y, ?_⟩
@@ -263,7 +262,7 @@ theorem not_lift_of_tensorEquiv_ulift {P : Type u} [CommRing P]
   · intro y hy
     have hy' : (e ((1 : P) ⊗ₜ[ULift.{u} PBase] y)).down = 0 := hy
     have h0 : (1 : P) ⊗ₜ[ULift.{u} PBase] y = 0 :=
-      e.injective ((ULift.ext _ _ hy').trans (map_zero e).symm)
+      e.injective ((ULift.ext hy').trans (map_zero e).symm)
     exact eq_smul_of_tmul_eq_zero hsurj hker h0
 
 /-! ### The lift on the `Q'` side -/
@@ -343,7 +342,7 @@ theorem not_flatModuleLiftBaseChangeStatement_ulift :
   let : Module (ULift.{u} PRed) (ULift.{u} NC) := Algebra.toModule
   let : Module (ULift.{u} NC) (ULift.{u} NC) := Semiring.toModule
   have : IsScalarTower (ULift.{u} NC) (ULift.{u} PRed) (ULift.{u} NC) :=
-    ⟨fun a p x => ULift.ext _ _ (smul_assoc a.down p.down x.down)⟩
+    ⟨fun a p x => ULift.ext (smul_assoc a.down p.down x.down)⟩
   have : Module.Finite (ULift.{u} PRed) (ULift.{u} NC) := finite_ulift.{u} finite_NC
   have : Module.Flat (ULift.{u} NC) (ULift.{u} NC) := Module.Flat.self
   have := IsScalarTower.of_algebraMap_eq (R := ABase) (S := NC) (A := PRed)

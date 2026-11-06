@@ -60,8 +60,21 @@ local instance smallEtaleWEqualsLocallyBijectiveAddCommGrpCat (B : BigFppfSite.{
     (SmallEtale.topology B S hS F).WEqualsLocallyBijective AddCommGrpCat.{u} :=
   GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{_, _, _, _, u} _
 
+/-- Products of presheaves of sets, stated directly: instance search for them times out on the
+small étale site. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_ThickenedBasePushoutQcqs
+    {C : Type*} [Category C] (J : Type u) : HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Products of sheaves of sets, stated directly: instance search for them times out on the
+small étale site. -/
+local instance (priority := high) hasLimitsOfShape_discrete_sheaf_ThickenedBasePushoutQcqs
+    {C : Type*} [Category C] (T : GrothendieckTopology C) (J : Type u) :
+    HasLimitsOfShape (Discrete J) (Sheaf T (Type u)) :=
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf T (Type u))
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
-  {X D D' : AlgebraicSpaces B S hS} (f : X ⟶ D) (i : D ⟶ D')
+  {X D D': AlgebraicSpaces B S hS} (f : X ⟶ D) (i : D ⟶ D')
 
 /-- **The base ring of the composite**: `(f ≫ i)⁻¹𝒪_{D'} ≅ f⁻¹𝒜` for a sheaf of rings `𝒜` on `D`
 identified with `i⁻¹𝒪_{D'}`. -/

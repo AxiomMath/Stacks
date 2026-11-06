@@ -183,6 +183,8 @@ attribute [local instance high] hasSheafify_smallEtaleRingedToposULift
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra
 
+attribute [local instance high] hasPullback_presheaf_fibreProductCornerCohomology
+
 /-- **Stacks 09DL at a geometric point.** For a cartesian square of algebraic spaces with `X` and
 `Y` Tor independent over `Z`, the derived stalk at every geometric point of `W` of an object `E`
 fitting into the upper right corner of the diagram of Stacks 09DK is zero. -/

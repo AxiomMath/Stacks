@@ -165,17 +165,17 @@ def uliftSections (F : PseudoTorsor.{t₁} 𝒢) : PseudoTorsor.{max t₁ t₂} 
     (Presieve.isSheaf_comp_uliftFunctor J ((isSheaf_iff_isSheaf_of_type J _).1 F.isSheaf))
   act V g s := ULift.up (F.act V g s.down)
   one_act V s := by
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     exact F.one_act V s.down
   mul_act V g h s := by
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     exact F.mul_act V g h s.down
   naturality {V W} f g s := by
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     exact F.naturality f g s.down
   simplyTransitive V hne s t := by
     obtain ⟨g, hg, hu⟩ := F.simplyTransitive V ⟨s.down⟩ s.down t.down
-    refine ⟨g, ULift.ext _ _ hg, ?_⟩
+    refine ⟨g, ULift.ext hg, ?_⟩
     intro y hy
     exact hu y (congrArg ULift.down hy)
 

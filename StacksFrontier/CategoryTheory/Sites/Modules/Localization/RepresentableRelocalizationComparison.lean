@@ -220,6 +220,7 @@ theorem representableRelocalizationSheafMapCompInverseImageIso_hom_app_split
                   ((X.representableLocalizationEquivalence U).inverse.obj C)) :=
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- `representableRelocalizationSheafMapCompInverseImageIso_hom_app_split` with every factor
 written through `CategoryTheory.OverShriek.sheafEquivalence`, and in the spelling of
 `AlgebraicGeometry.RingedTopos.localizationAtRelocalizationObjectInverseImageIso`. -/

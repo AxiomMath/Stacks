@@ -276,7 +276,7 @@ private noncomputable def overEvaluationMapDerivedCategoryIsoOfSliceSheafify
   letI : (F ⋙ G).Additive := inferInstance
   let e : F ⋙ G ≅ SheafOfModules.evaluation.{max u v} R (op V.left) :=
     overEvaluationIso R U V
-  exact CategoryTheory.Functor.mapDerivedCategoryCompIso (Iso.refl (F ⋙ G)) ≪≫
+  exact CategoryTheory.Functor.mapDerivedCategoryCompIso F G ≪≫
     @CategoryTheory.Functor.mapDerivedCategoryCongr
       (SheafOfModules.{max u v} R) _ _ _
       (ModuleCat.{max u v} ((R.over U).obj.obj (op V))) _ _ _
@@ -360,7 +360,7 @@ private theorem terminalScalarHom_evaluation
       ((R.over U).obj.map (Over.mkIdTerminal.from V).op f) • x := by
   show ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((Stacks.SheafOfModules.terminalSectionToEnd (R.over U) (Over.mk (𝟙 U))
-        Over.mkIdTerminal f).app M)).hom) x) = _
+        Over.mkIdTerminal f).asHom.app M)).hom) x) = _
   exact Stacks.SheafOfModules.terminalSectionToEnd_apply (R.over U) (Over.mk (𝟙 U))
     Over.mkIdTerminal f M (op V) x
 
@@ -639,8 +639,9 @@ private theorem derivedCategory_smul_eq
         exact hsmul _
       _ = b • 𝟙 (DerivedCategory.Q.obj complex) := by
         rw [Functor.Linear.map_smul, CategoryTheory.Functor.map_id]
-  simpa only [Linear.toCatCenter_apply_app, Linear.smul_comp, Category.id_comp] using
-    congrArg (fun s : CatCenter (DerivedCategory C) => s.app Y ≫ g) hcenter
+  have h := congrArg (fun s : CatCenter (DerivedCategory C) => s.app Y ≫ g) hcenter
+  change (a • 𝟙 Y) ≫ g = (b • 𝟙 Y) ≫ g at h
+  simpa only [Linear.smul_comp, Category.id_comp] using h
 
 /-- Derived completeness of an object of the derived category at two scalars acting by the same
 endomorphisms of the abelian category is equivalent. -/

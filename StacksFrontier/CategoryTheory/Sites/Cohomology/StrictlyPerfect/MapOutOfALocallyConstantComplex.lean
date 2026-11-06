@@ -70,6 +70,12 @@ variable {Λ : Type w} [Ring Λ] {C : Type u} [Category.{v} C] {J : Grothendieck
   {R : Sheaf J RingCat.{w}} [HasWeakSheafify J AddCommGrpCat.{w}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+/-- Discrete colimits of presheaves of modules, supplied directly: instance search for them
+times out. -/
+local instance (priority := high) (K : Type w) :
+    HasColimitsOfShape (Discrete K) (PresheafOfModules.{w} R.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
 /-- An additive right exact functor from `Λ`-modules to sheaves of `R`-modules carrying `Λ` to
 the unit object carries the finite free module on an index type `I` to the free sheaf of modules
 on `I`. -/

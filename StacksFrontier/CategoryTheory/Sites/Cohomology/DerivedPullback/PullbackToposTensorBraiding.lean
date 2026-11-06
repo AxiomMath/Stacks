@@ -65,6 +65,16 @@ section SiteMorphism
 
 universe u
 
+/-- Weak sheafification of abelian presheaves, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the declarations below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+private abbrev hasWeakSheafifyAddCommGrpCatTensorBraiding (X : RingedTopos.{u, u, u}) :
+    HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatTensorBraiding
+
 variable {X Y : RingedTopos.{u, u, u}}
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
@@ -140,22 +150,24 @@ private lemma braidingX_naturality_pair
     ← BraidedCategory.braiding_naturality a b,
     ← Category.assoc, Stacks.SheafOfModules.Strict.tensorHom_eq_tensorSheafBifunctor_map X.O a b]
 
+end SiteMorphism
+
+/- The two declarations of this section take no `HasSheafify` instance: the sheafification of
+abelian presheaves they use is the global `Stacks.SheafOfModules.coefficientSheafification`. They
+are stated outside `SiteMorphism` so that instance search cannot find that section's
+`[HasSheafify _ AddCommGrpCat]` variables instead. -/
+section SiteMorphismCoherence
+
+universe u
+
+variable {X Y : RingedTopos.{u, u, u}}
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  (f : RingedToposSiteHom X Y)
+
 /-! ## The coherence -/
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
-/-- **The braided coherence of Stacks 03EL for the site-presented pullback**: the module-level
-comparison `pullbackToposTensorMap` is compatible with the symmetry
-`Stacks.SheafOfModules.Tensor.sheafTensorBraiding` of the tensor product of sheaves of modules. -/
 theorem pullbackToposTensorMap_braiding (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) :
     f.pullbackTopos.map (((sheafTensorBraiding Y.O).hom.app A).app B) ≫
@@ -177,6 +189,43 @@ theorem pullbackToposTensorMap_braiding (hmos : f.u.IsMorphismOfSites Y.J X.J)
     ((pullbackModulesSiteIso f hmos).hom.app B)
   simp only [pullbackToposTensorMap, Category.assoc]
   rw [reassoc_of% hinv, reassoc_of% h2, h3]
+
+/-! ## The comparison is an isomorphism -/
+
+theorem isIso_pullbackToposTensorMap (hmos : f.u.IsMorphismOfSites Y.J X.J)
+    (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) :
+    IsIso (pullbackToposTensorMap f hmos A B) :=
+  (inferInstance : IsIso ((pullbackModulesSiteIso f hmos).inv.app
+        (((sheafTensor.{u, u, u, u, u} Y.O).obj A).obj B) ≫
+      (Stacks.SheafOfModules.pullbackTensorIso (modulesHomOfSiteHom f hmos)).hom.app (A, B) ≫
+      ((sheafTensor.{u, u, u, u, u} X.O).map
+          ((pullbackModulesSiteIso f hmos).hom.app A)).app
+        ((modulesHomOfSiteHom f hmos).pullbackModules.obj B) ≫
+      ((sheafTensor.{u, u, u, u, u} X.O).obj
+          (f.pullbackTopos.obj A)).map ((pullbackModulesSiteIso f hmos).hom.app B)))
+
+end SiteMorphismCoherence
+
+section SiteMorphismDegreewise
+
+universe u
+
+variable {X Y : RingedTopos.{u, u, u}}
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  (f : RingedToposSiteHom X Y)
 
 omit
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
@@ -201,35 +250,9 @@ theorem pullbackToposTensorMapDeg_braiding (hmos : f.u.IsMorphismOfSites Y.J X.J
       pullbackToposTensorMapDeg f hmos K L p q ≫
         ((sheafTensorBraiding X.O).hom.app (((pullbackComplex f).obj K).X p)).app
           (((pullbackComplex f).obj L).X q) := by
-  rw [pullbackToposTensorMapDeg_eq, pullbackToposTensorMapDeg_eq]
-  exact pullbackToposTensorMap_braiding f hmos (K.X p) (L.X q)
-
-/-! ## The comparison is an isomorphism -/
-
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
-/-- The module-level comparison `pullbackToposTensorMap` for the site-presented pullback is an
-isomorphism. -/
-theorem isIso_pullbackToposTensorMap (hmos : f.u.IsMorphismOfSites Y.J X.J)
-    (A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) :
-    IsIso (pullbackToposTensorMap f hmos A B) :=
-  (inferInstance : IsIso ((pullbackModulesSiteIso f hmos).inv.app
-        (((sheafTensor.{u, u, u, u, u} Y.O).obj A).obj B) ≫
-      (Stacks.SheafOfModules.pullbackTensorIso (modulesHomOfSiteHom f hmos)).hom.app (A, B) ≫
-      ((sheafTensor.{u, u, u, u, u} X.O).map
-          ((pullbackModulesSiteIso f hmos).hom.app A)).app
-        ((modulesHomOfSiteHom f hmos).pullbackModules.obj B) ≫
-      ((sheafTensor.{u, u, u, u, u} X.O).obj
-          (f.pullbackTopos.obj A)).map ((pullbackModulesSiteIso f hmos).hom.app B)))
+  rw [pullbackToposTensorMapDeg_eq, pullbackToposTensorMapDeg_eq,
+    pullbackToposTensorMap_braiding]
+  rfl
 
 omit
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
@@ -280,7 +303,7 @@ lemma pullbackToposTensorMapDegIso_hom (hmos : f.u.IsMorphismOfSites Y.J X.J)
       pullbackToposTensorMapDeg f hmos K L p q :=
   rfl
 
-end SiteMorphism
+end SiteMorphismDegreewise
 
 end Stacks.Sheaves.DerivedPullback
 

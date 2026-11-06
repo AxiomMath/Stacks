@@ -248,7 +248,9 @@ theorem stableKernelImageLimit_isCoherentAdicSystem (α : E ⟶ E') :
       (stableKernelImageLimitSystem B S hS F hF 𝓘 hZ hN hIcart α) := by
   refine ⟨stableKernelImageLimit_isCoherent B S hS F hF 𝓘 hZ hN hIcart α, fun n => ?_,
     fun n => ?_⟩
-  · obtain ⟨m, _, -⟩ := exists_isIso_limitπ_succ B S hS F hF 𝓘 hZ hN hIcart α n
+  · obtain ⟨m, hiso, -⟩ := exists_isIso_limitπ_succ B S hS F hF 𝓘 hZ hN hIcart α n
+    have : Mono (stableKernelImageLimitπ B S hS F hF 𝓘 hZ hN hIcart α n m) :=
+      @IsIso.mono_of_iso _ _ _ _ _ hiso
     exact idealPowerMultiple_eq_bot_of_mono B S hS F hF 𝓘
       (stableKernelImageLimitπ B S hS F hF 𝓘 hZ hN hIcart α n m) (n + 1)
       (idealPowerMultiple_idealPowerQuotient_eq_bot B S hS F hF 𝓘 (n + 1) _)

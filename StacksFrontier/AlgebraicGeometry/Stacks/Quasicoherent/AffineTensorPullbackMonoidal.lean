@@ -311,7 +311,7 @@ def globalSectionsTensor (P Q : quasicoherentModules B S hS (schemeStack.{u, w} 
   (Stacks.SheafOfModules.TensorSheafification.toSheafify
     (fppfStructurePresheaf B S hS (schemeStack.{u, w} B S hS U))
     (fppfStructurePresheaf_isSheaf B S hS (schemeStack.{u, w} B S hS U))
-    (PresheafOfModules.Monoidal.tensorObj P.obj.val Q.obj.val)).app (op (siteTop.{u, w} U))
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj P.obj.val Q.obj.val)).app (op (siteTop.{u, w} U))
 
 /-- The tensor comparison of global sections is natural in the right factor. -/
 theorem globalSectionsTensor_naturality_right
@@ -714,7 +714,6 @@ theorem isMonoidal_localizedPullbackTensorComparison_comp :
     simp only [Category.assoc]
     exact (congrArg (fun k => _ ≫ _ ≫ _ ≫ k) (ext.map_comp μΓ iXY)).symm
   rw [Functor.LaxMonoidal.comp_μ, Category.assoc, key, Functor.Monoidal.μ_δ_assoc]
-  rfl
 
 section Point
 

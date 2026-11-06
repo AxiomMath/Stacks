@@ -99,6 +99,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_torIndep :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_torIndep
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_torIndep B S hS).has_limit _
+
 /-- The geometric evaluation of the étale local ring of a representable space is compatible with
 the map on étale local rings induced by a morphism of the site. -/
 private theorem geometricEval_etaleLocalRingMap_yoneda {U₀ W₀ : BigFppfOver B S hS}

@@ -398,7 +398,6 @@ theorem mapSquarePlus_paste_app
   refine (mapSquarePlus_app P₀ P₂ U V τ K).trans
     ((mapPlus_paste_app P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV τ τ₁ τ₂ hτ K).trans ?_)
   simp only [mapSquarePlus_app]
-  rfl
 
 end PastePlus
 

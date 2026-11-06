@@ -98,16 +98,17 @@ theorem elementsPrecomp_isEquivalence {C : Type u} [Category.{v} C] {D : Type u'
     [Category.{v'} D] (e : C ≌ D) (H : D ⥤ Type w) :
     (Functor.Elements.precomp e.functor H).IsEquivalence := by
   let T := Functor.Elements.precomp e.functor H
-  let : T.Faithful := ⟨fun h => Subtype.ext (e.functor.map_injective
-    (congrArg (fun f => f.val) h))⟩
-  let : T.Full := ⟨fun {X Y} f => ⟨⟨e.functor.preimage f.val, by
-    show H.map (e.functor.map (e.functor.preimage f.val)) X.2 = Y.2
-    exact (congrArg (fun g => H.map g X.2) (e.functor.map_preimage f.val)).trans
-      (show H.map f.val X.2 = Y.2 from f.property)⟩,
-      by apply Subtype.ext; exact e.functor.map_preimage _⟩⟩
-  let : T.EssSurj := ⟨fun Y => ⟨⟨e.inverse.obj Y.1, H.map (e.counitInv.app Y.1) Y.2⟩,
-    ⟨CategoryOfElements.isoMk _ _ (e.counitIso.app Y.1) (by
-      show H.map (e.counit.app Y.1) (H.map (e.counitInv.app Y.1) Y.2) = Y.2
+  let : T.Faithful := ⟨fun h => Functor.Elements.hom_ext (e.functor.map_injective
+    (congrArg (fun f => f.hom) h))⟩
+  let : T.Full := ⟨fun {X Y} f => ⟨Functor.Elements.homMk (e.functor.preimage f.hom) (by
+    show H.map (e.functor.map (e.functor.preimage f.hom)) X.val = Y.val
+    exact (congrArg (fun g => H.map g X.val) (e.functor.map_preimage f.hom)).trans
+      (show H.map f.hom X.val = Y.val from f.map_val)),
+      by apply Functor.Elements.hom_ext; exact e.functor.map_preimage _⟩⟩
+  let : T.EssSurj := ⟨fun Y => ⟨(e.functor ⋙ H).elementsMk (e.inverse.obj Y.obj)
+      (H.map (e.counitInv.app Y.obj) Y.val),
+    ⟨Functor.Elements.isoMk (e.counitIso.app Y.obj) (by
+      show H.map (e.counit.app Y.obj) (H.map (e.counitInv.app Y.obj) Y.val) = Y.val
       simp [← Functor.map_comp_apply])⟩⟩⟩
   exact ⟨inferInstance, inferInstance, inferInstance⟩
 
@@ -121,31 +122,31 @@ noncomputable def elementColimitEquivalence {C : Type u} [Category.{v} C] {D : T
       elementColimit H A :=
   letI : (Functor.Elements.precomp e.functor H).IsEquivalence :=
     elementsPrecomp_isEquivalence e H
-  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (CategoryOfElements.π H).op)
+  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (Functor.Elements.π H).op)
     (Functor.Final.colimIso (Functor.Elements.precomp e.functor H).op)
 
 /-- An isomorphism of functors to sets induces an equivalence of their categories of
 elements. -/
 noncomputable def elementsEquivalenceOfIso {C : Type u} [Category.{v} C] {H G : C ⥤ Type w}
     (α : H ≅ G) : H.Elements ≌ G.Elements where
-  functor := CategoryOfElements.map α.hom
-  inverse := CategoryOfElements.map α.inv
+  functor := NatTrans.mapElements α.hom
+  inverse := NatTrans.mapElements α.inv
   unitIso := NatIso.ofComponents (fun X =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by
-      change H.map (𝟙 X.1) X.2 = α.inv.app X.1 (α.hom.app X.1 X.2)
-      simp)) (by intro X Y f; apply Subtype.ext; simp)
+    Functor.Elements.isoMk (Iso.refl _) (by
+      change H.map (𝟙 X.obj) X.val = α.inv.app X.obj (α.hom.app X.obj X.val)
+      simp)) (by intro X Y f; apply Functor.Elements.hom_ext; simp)
   counitIso := NatIso.ofComponents (fun X =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by
-      change G.map (𝟙 X.1) (α.hom.app X.1 (α.inv.app X.1 X.2)) = X.2
-      simp)) (by intro X Y f; apply Subtype.ext; simp)
-  functor_unitIso_comp X := by apply Subtype.ext; simp
+    Functor.Elements.isoMk (Iso.refl _) (by
+      change G.map (𝟙 X.obj) (α.hom.app X.obj (α.inv.app X.obj X.val)) = X.val
+      simp)) (by intro X Y f; apply Functor.Elements.hom_ext; simp)
+  functor_unitIso_comp X := by apply Functor.Elements.hom_ext; simp
 
 /-- An isomorphism of functors to sets identifies the colimits over their categories of
 elements. -/
 noncomputable def elementColimitIso {C : Type u} [Category.{v} C] {H G : C ⥤ Type w}
     (α : H ≅ G) (A : Type a) [Category.{b} A] [HasColimitsOfShape H.Elementsᵒᵖ A]
     [HasColimitsOfShape G.Elementsᵒᵖ A] : elementColimit H A ≅ elementColimit G A :=
-  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (CategoryOfElements.π G).op)
+  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (Functor.Elements.π G).op)
     (Functor.Final.colimIso (elementsEquivalenceOfIso α).functor.op)
 
 /-! ### Transporting points and sheaves along an equivalence of sites -/

@@ -221,7 +221,7 @@ private theorem completionSubfunctor_square_isPullback
   refine ⟨⟨x, ?_⟩, ?_, ?_⟩
   · exact (hasImageIn_preimage_iff B S hS f T U.unop x.down).2 (hval ▸ y.2)
   · rfl
-  · exact Subtype.ext (ULift.ext _ _ hval)
+  · exact Subtype.ext (ULift.ext hval)
 
 /-- **Stacks 0APV.** Completion is compatible with base change: for a morphism `f : X' ⟶ X`
 of presheaves on the big fppf site of `S` and a set `T` of points of `X`, the square formed

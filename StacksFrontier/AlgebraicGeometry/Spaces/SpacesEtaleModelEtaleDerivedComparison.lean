@@ -133,7 +133,7 @@ theorem spacesEtaleModelDerivedPullbackCompIso_hom_app_comp_isoOfEtale
           ((spacesEtaleModelDerivedPullbackIsoOfEtale B S hS g hg).hom.app K) ≫
         (spacesEtaleModelDerivedPullbackIsoOfEtale B S hS f hf).hom.app
           ((spacesEtaleModelHom B S hS g).pullbackTopos.mapDerivedCategory.obj K) ≫
-        (Functor.mapDerivedCategoryCompIso
+        (Functor.mapDerivedCategoryCompIsoOfCompIso
           (spacesEtaleModelPullbackComp B S hS f g)).hom.app K := by
   have := preservesFiniteLimits_spacesEtaleModelHom_pullbackTopos B S hS f hf
   have := preservesFiniteLimits_spacesEtaleModelHom_pullbackTopos B S hS g hg
@@ -144,7 +144,7 @@ theorem spacesEtaleModelDerivedPullbackCompIso_hom_app_comp_isoOfEtale
           (derivedPullback (spacesEtaleModelHom B S hS f)) ≫
         Functor.whiskerLeft (spacesEtaleModelHom B S hS g).pullbackTopos.mapDerivedCategory
           (spacesEtaleModelDerivedPullbackIsoOfEtale B S hS f hf).hom ≫
-        (Functor.mapDerivedCategoryCompIso (spacesEtaleModelPullbackComp B S hS f g)).hom := by
+        (Functor.mapDerivedCategoryCompIsoOfCompIso (spacesEtaleModelPullbackComp B S hS f g)).hom := by
     refine Localization.natTrans_ext DerivedCategory.Qh
       (HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)) fun J => ?_
     have n := (spacesEtaleModelDerivedPullbackIsoOfEtale B S hS f hf).hom.naturality

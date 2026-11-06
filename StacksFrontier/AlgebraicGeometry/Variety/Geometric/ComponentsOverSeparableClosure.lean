@@ -90,7 +90,7 @@ public theorem galoisActionOnGeometricIrreducibleComponents_coe
     (σ : MulOpposite (K ≃ₐ[k] K))
     (Z : (galoisActionOnGeometricIrreducibleComponents k K X).V) :
     (ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z).1 =
+        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z).1 =
       (galoisBaseChangeMap k K X.left X.hom σ.unop).base '' Z.1 := rfl
 
 end AlgebraicGeometry

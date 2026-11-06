@@ -238,16 +238,16 @@ private def fiberAutOfAlgEquiv {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
 /-- An automorphism of a point in its fibre is the identity on the Artinian base. -/
 private theorem fiberAut_base_eq_id {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     (x : (ringDeformationProjection Λ k P).Fiber A) (a : Aut x) :
-    a.hom.val.left.base = 𝟙 x.1.left.base := by
-  have := a.hom.property
+    a.asIso.hom.val.left.base = 𝟙 x.1.left.base := by
+  have := a.asIso.hom.property
   simpa [FlatAlgebraCategory.projection] using
-    IsHomLift.fac' (ringDeformationProjection Λ k P) (𝟙 A) a.hom.val
+    IsHomLift.fac' (ringDeformationProjection Λ k P) (𝟙 A) a.asIso.hom.val
 
 /-- Two automorphisms of a point in its fibre agreeing on the flat algebra are equal. -/
 private theorem fiberAut_ext {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     {x : (ringDeformationProjection Λ k P).Fiber A} {a b : Aut x}
-    (h : ∀ y, a.hom.val.left.map.hom y = b.hom.val.left.map.hom y) : a = b :=
-  Iso.ext <| Subtype.ext <| Over.OverMorphism.ext <| FlatAlgebraCategory.Hom.ext
+    (h : ∀ y, a.asIso.hom.val.left.map.hom y = b.asIso.hom.val.left.map.hom y) : a = b :=
+  Aut.ext <| Iso.ext <| Subtype.ext <| Over.OverMorphism.ext <| FlatAlgebraCategory.Hom.ext
     (by rw [fiberAut_base_eq_id x a, fiberAut_base_eq_id x b]) (by ext y; exact h y)
 
 /-- In coordinates presenting the flat algebra of a point as `P[ε]` over `k[ε]`, a
@@ -279,7 +279,7 @@ private theorem derivationFiberAut_apply {A : ArtinianLocalAlgCat.{u, w, w} Λ k
     (hs : ∀ s y, E (s • y) = dualNumberRingHom (algebraMap k P) (c s) * E y)
     (hr : ∀ y, (E y).fst = x.1.hom.map.hom y) (D : Derivation k P P)
     (y : x.1.left.fiber) :
-    E ((derivationFiberAut x E c hs hr D).hom.val.left.map.hom y) =
+    E ((derivationFiberAut x E c hs hr D).asIso.hom.val.left.map.hom y) =
       derivationDualNumberAlgHom D (E y) := by
   unfold derivationFiberAut fiberAutOfAlgEquiv
   dsimp
@@ -292,7 +292,7 @@ private theorem derivationFiberAut_apply_snd {A : ArtinianLocalAlgCat.{u, w, w} 
     (E : x.1.left.fiber ≃+* DualNumber P) (c : x.1.left.base ≃+* DualNumber k)
     (hs : ∀ s y, E (s • y) = dualNumberRingHom (algebraMap k P) (c s) * E y)
     (hr : ∀ y, (E y).fst = x.1.hom.map.hom y) (D : Derivation k P P) (z : P) :
-    (E ((derivationFiberAut x E c hs hr D).hom.val.left.map.hom
+    (E ((derivationFiberAut x E c hs hr D).asIso.hom.val.left.map.hom
       (E.symm (TrivSqZeroExt.inl z)))).snd = D z := by
   rw [derivationFiberAut_apply, E.apply_symm_apply, derivationDualNumberAlgHom_inl]
   simp
@@ -315,10 +315,10 @@ private def derivationMulEquivFiberAut {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
         rfl
       map_mul' := fun D D' => by
         refine fiberAut_ext fun y => E.injective ?_
-        change E ((derivationFiberAut x E c hs hr (D.toAdd + D'.toAdd)).hom.val.left.map.hom
+        change E ((derivationFiberAut x E c hs hr (D.toAdd + D'.toAdd)).asIso.hom.val.left.map.hom
             y) =
-          E ((derivationFiberAut x E c hs hr D.toAdd).hom.val.left.map.hom
-            ((derivationFiberAut x E c hs hr D'.toAdd).hom.val.left.map.hom y))
+          E ((derivationFiberAut x E c hs hr D.toAdd).asIso.hom.val.left.map.hom
+            ((derivationFiberAut x E c hs hr D'.toAdd).asIso.hom.val.left.map.hom y))
         rw [derivationFiberAut_apply, derivationFiberAut_apply, derivationFiberAut_apply]
         exact AlgHom.congr_fun
           (derivationDualNumberAlgHom_add D.toAdd D'.toAdd) (E y) }
@@ -328,24 +328,24 @@ private def derivationMulEquivFiberAut {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     rw [← derivationFiberAut_apply_snd x E c hs hr D.toAdd,
       ← derivationFiberAut_apply_snd x E c hs hr D'.toAdd]
     exact congrArg
-      (fun a : Aut x => (E (a.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd) h
+      (fun a : Aut x => (E (a.asIso.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd) h
   · intro a
     let fr : DualNumber P →+* DualNumber P :=
-      E.toRingHom.comp (a.hom.val.left.map.hom.comp E.symm.toRingHom)
+      E.toRingHom.comp (a.asIso.hom.val.left.map.hom.comp E.symm.toRingHom)
     have hes (s : x.1.left.base) :
         E (algebraMap x.1.left.base x.1.left.fiber s) =
           dualNumberRingHom (algebraMap k P) (c s) := by
       simpa [Algebra.smul_def] using hs s 1
     have hfix (s : x.1.left.base) :
-        a.hom.val.left.map.hom (algebraMap x.1.left.base x.1.left.fiber s) =
+        a.asIso.hom.val.left.map.hom (algebraMap x.1.left.base x.1.left.fiber s) =
           algebraMap x.1.left.base x.1.left.fiber s := by
       simpa [FlatAlgebraCategory.baseMap, fiberAut_base_eq_id x a] using
-        congrArg (fun f => f.hom s) a.hom.val.left.cartesian.w
+        congrArg (fun f => f.hom s) a.asIso.hom.val.left.cartesian.w
     have hbase (s : x.1.left.base) :
         fr (dualNumberRingHom (algebraMap k P) (c s)) =
           dualNumberRingHom (algebraMap k P) (c s) := by
       rw [← hes s]
-      change E (a.hom.val.left.map.hom
+      change E (a.asIso.hom.val.left.map.hom
         (E.symm (E (algebraMap x.1.left.base x.1.left.fiber s)))) = _
       rw [E.symm_apply_apply, hfix, hes]
     let f : DualNumber P →ₐ[k] DualNumber P :=
@@ -361,10 +361,10 @@ private def derivationMulEquivFiberAut {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
       change fr DualNumber.eps = DualNumber.eps
       simpa only [hc] using hbase (c.symm DualNumber.eps)
     have hared (y : x.1.left.fiber) :
-        x.1.hom.map.hom (a.hom.val.left.map.hom y) = x.1.hom.map.hom y :=
-      congrArg (fun q => q.map.hom y) (Over.w a.hom.val)
+        x.1.hom.map.hom (a.asIso.hom.val.left.map.hom y) = x.1.hom.map.hom y :=
+      congrArg (fun q => q.map.hom y) (Over.w a.asIso.hom.val)
     have hred (z : P) : (f (TrivSqZeroExt.inl z)).fst = z := by
-      change (E (a.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).fst = z
+      change (E (a.asIso.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).fst = z
       rw [hr, hared, ← hr (E.symm (TrivSqZeroExt.inl z))]
       simp
     let D := derivationOfDualNumberAlgHom f hred
@@ -374,11 +374,11 @@ private def derivationMulEquivFiberAut {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     apply fiberAut_ext
     intro y
     apply E.injective
-    change E ((derivationFiberAut x E c hs hr D).hom.val.left.map.hom y) =
-      E (a.hom.val.left.map.hom y)
+    change E ((derivationFiberAut x E c hs hr D).asIso.hom.val.left.map.hom y) =
+      E (a.asIso.hom.val.left.map.hom y)
     rw [derivationFiberAut_apply x E c hs hr D y,
       derivationDualNumberAlgHom_derivationOfDualNumberAlgHom f hred heps]
-    change E (a.hom.val.left.map.hom (E.symm (E y))) = _
+    change E (a.asIso.hom.val.left.map.hom (E.symm (E y))) = _
     rw [E.symm_apply_apply]
 
 /-! ### The identification of Stacks 0DY3 -/
@@ -414,13 +414,13 @@ public theorem exists_infinitesimalAutomorphismGroupMulEquivDerivation
           ∃ E : infinitesimalAutomorphismGroup hp g e hpair i hi ≃*
             Multiplicative (Derivation k P P),
             (∀ (a : infinitesimalAutomorphismGroup hp g e hpair i hi) (y : P),
-              (c (a.val.hom.val.left.map (c.symm (TrivSqZeroExt.inl y)))).snd =
+              (c (a.val.asIso.hom.val.left.map (c.symm (TrivSqZeroExt.inl y)))).snd =
                 (Multiplicative.toAdd (E a)) y) ∧
             (∀ (s : k) (a : infinitesimalAutomorphismGroup hp g e hpair i hi),
               ∃! b : infinitesimalAutomorphismGroup hp g e hpair i hi,
                 ∀ y : P,
-                  (c (b.val.hom.val.left.map (c.symm (TrivSqZeroExt.inl y)))).snd =
-                    s • (c (a.val.hom.val.left.map
+                  (c (b.val.asIso.hom.val.left.map (c.symm (TrivSqZeroExt.inl y)))).snd =
+                    s • (c (a.val.asIso.hom.val.left.map
                       (c.symm (TrivSqZeroExt.inl y)))).snd) := by
   classical
   have hp : IsPredeformationCategory (ringDeformationProjection Λ k P) :=
@@ -558,20 +558,20 @@ public theorem exists_infinitesimalAutomorphismGroupMulEquivDerivation
     intro γ _
     rw [mem_infinitesimalAutomorphisms_iff]
     let r := (canonicalRetraction hp.cofibered g e hpair.split i hi).val
-    change γ.hom.val ≫ r = r
+    change γ.asIso.hom.val ≫ r = r
     apply Over.OverMorphism.ext
     apply FlatAlgebraCategory.Hom.ext
-    · change γ.hom.val.left.base ≫ r.left.base = r.left.base
+    · change γ.asIso.hom.val.left.base ≫ r.left.base = r.left.base
       rw [fiberAut_base_eq_id xε γ, Category.id_comp]
     · ext y
       apply a.injective
       have hR (z : xε.1.left.fiber) :
           x₀.1.hom.map.hom (r.left.map.hom z) = xε.1.hom.map.hom z :=
         congrArg (fun f => f.map.hom z) (Over.w r)
-      change x₀.1.hom.map.hom (r.left.map.hom (γ.hom.val.left.map.hom y)) =
+      change x₀.1.hom.map.hom (r.left.map.hom (γ.asIso.hom.val.left.map.hom y)) =
         x₀.1.hom.map.hom (r.left.map.hom y)
       rw [hR, hR]
-      exact congrArg (fun f => f.map.hom y) (Over.w γ.hom.val)
+      exact congrArg (fun f => f.map.hom y) (Over.w γ.asIso.hom.val)
   let H : infinitesimalAutomorphismGroup hp g e hpair i hi ≃* Aut xε :=
     (MulEquiv.subgroupCongr htop).trans (Subgroup.topEquiv (G := Aut xε))
   let F := derivationMulEquivFiberAut xε E cBase hs hEfst
@@ -581,11 +581,11 @@ public theorem exists_infinitesimalAutomorphismGroupMulEquivDerivation
       F (Egrp γ) = γ.val :=
     F.apply_symm_apply (H γ)
   have hEgrp (γ : infinitesimalAutomorphismGroup hp g e hpair i hi) (z : P) :
-      (E (γ.val.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd =
+      (E (γ.val.asIso.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd =
         (Multiplicative.toAdd (Egrp γ)) z := by
     rw [← derivationFiberAut_apply_snd xε E cBase hs hEfst (Multiplicative.toAdd (Egrp γ)) z]
     exact congrArg
-      (fun α : Aut xε => (E (α.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd)
+      (fun α : Aut xε => (E (α.asIso.hom.val.left.map.hom (E.symm (TrivSqZeroExt.inl z)))).snd)
       (hcoords γ).symm
   refine ⟨Egrp, hEgrp, fun s γ => ⟨Egrp.symm (Multiplicative.ofAdd
     (s • Multiplicative.toAdd (Egrp γ))), fun z => ?_, fun γ' hγ' => ?_⟩⟩

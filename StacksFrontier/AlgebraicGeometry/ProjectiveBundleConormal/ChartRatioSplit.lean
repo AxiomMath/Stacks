@@ -248,7 +248,7 @@ theorem exists_tautologicalSectionOver_res_eq_smul_appLE_eq (s m : Γ(E, W)) :
     ∃ g : Γ((bundle E).scheme, tautologicalChart E W s),
       (tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W s)).op (tautologicalSectionOver E W m) =
-          ((tautologicalTwist E (symPieces E)).smul g).hom
+          ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
             ((tautologicalTwist E (symPieces E)).presheaf.map
               (homOfLE (tautologicalChart_le E W s)).op (tautologicalSectionOver E W s)) ∧
         ((chartMap E (symPieces E) hW).appLE (tautologicalChart E W s)
@@ -303,7 +303,7 @@ theorem exists_appLE_splitChartMap_comp_chartMap_eq_ι
       (tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W s)).op
             (tautologicalSectionOver E W ((kernel.ι Q.q).app W k)) =
-          ((tautologicalTwist E (symPieces E)).smul g).hom
+          ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
             ((tautologicalTwist E (symPieces E)).presheaf.map
               (homOfLE (tautologicalChart_le E W s)).op (tautologicalSectionOver E W s)) ∧
         ((splitChartMap (chartLinearForm Q W eL) s hs ≫

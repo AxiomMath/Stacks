@@ -387,7 +387,7 @@ def koszulTopTermInj : M ⟶ (koszulPowerComplexOn X f M n).X (koszulTopDeg r) :
 @[reassoc (attr := simp)]
 theorem koszulTopTermInj_comp_koszulTopTermProj :
     koszulTopTermInj X f M n ≫ koszulTopTermProj X f M n = 𝟙 M :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- `koszulTopTermProj` at level `n` followed by `koszulTopTermInj` at any level `k` is the
 identity of the top-degree term of the Koszul complex at level `n`. -/

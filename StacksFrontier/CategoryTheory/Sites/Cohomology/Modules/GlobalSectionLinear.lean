@@ -99,7 +99,7 @@ example : Linear ↥(GlobalSectionRing O) (ModuleCat.{w} ↥(GlobalSectionRing O
 
 /-- Multiplication by a global section of the structure sheaf. -/
 def globalSmul (a : GlobalSectionRing O) (M : SheafOfModules.{w} O) : M ⟶ M :=
-  (Stacks.SheafOfModules.globalSectionToEnd O ⟨a.1, a.2⟩).app M
+  (Stacks.SheafOfModules.globalSectionToEnd O ⟨a.1, a.2⟩).asHom.app M
 
 /-- On sections over `X`, `globalSmul O a M` is multiplication by the section `a` over `X`. -/
 theorem globalSmul_app (a : GlobalSectionRing O) (M : SheafOfModules.{w} O) (X : Cᵒᵖ)
@@ -108,7 +108,7 @@ theorem globalSmul_app (a : GlobalSectionRing O) (M : SheafOfModules.{w} O) (X :
 /-- Multiplication by a global section commutes with every morphism of sheaves of modules. -/
 theorem comp_globalSmul (a : GlobalSectionRing O) {M N : SheafOfModules.{w} O} (f : M ⟶ N) :
     f ≫ globalSmul O a N = globalSmul O a M ≫ f :=
-  (Stacks.SheafOfModules.globalSectionToEnd O ⟨a.1, a.2⟩).naturality f
+  (Stacks.SheafOfModules.globalSectionToEnd O ⟨a.1, a.2⟩).asHom.naturality f
 
 /-- Multiplication by `1` is the identity. -/
 theorem globalSmul_one (M : SheafOfModules.{w} O) : globalSmul O 1 M = 𝟙 M := by

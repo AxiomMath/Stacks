@@ -123,7 +123,7 @@ theorem isTotallyRamified_of_ramificationIdx_eq_finrank_tower
     ⟨by simpa [hm'def, Ideal.under, Ideal.comap_comap,
       ← IsScalarTower.algebraMap_eq A A' (integralClosure A K'')] using hlies.over⟩
   have hm'max : m'.IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A') (hI := hm) m
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A') (hI := hm) m
   rw [Ideal.ramificationIdx'_algebra_tower'
       (R := A) (S := A') (T := integralClosure A K'')
       (IsLocalRing.maximalIdeal A) m' m,
@@ -161,14 +161,14 @@ theorem ramificationIdx'_eq_finrank_of_totallyRamified_transport
   have hintB : Algebra.IsIntegral A' B := IsIntegralClosure.isIntegral_algebra A' K''
   have hm'eq : m' = IsLocalRing.maximalIdeal A' :=
     hlo.over.trans (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A') (hI := hm) m))
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A') (hI := hm) m))
   have htr := Stacks.DiscreteValuationRing.EppLevelInduction.ramificationIdx'_eq_of_ringEquiv_square
     (RingEquiv.refl A') e.toRingEquiv hsq (IsLocalRing.maximalIdeal A') m₀
   simp only [Ideal.map_id, RingEquiv.coe_ringHom_refl, hmap] at htr
   have hm₀max : m₀.IsMaximal := Ideal.comap_isMaximal_of_surjective _ hsurj
   have hm₀lo : m₀.LiesOver (IsLocalRing.maximalIdeal A') :=
     ⟨(IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A') (hI := hm₀max) m₀)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A') (hI := hm₀max) m₀)).symm⟩
   rw [hm'eq, ← htr]
   exact IsDiscreteValuationRing.ramificationIdx_eq_finrank_of_totallyRamified
     A' K' K'' htot m₀ hm₀max hm₀lo

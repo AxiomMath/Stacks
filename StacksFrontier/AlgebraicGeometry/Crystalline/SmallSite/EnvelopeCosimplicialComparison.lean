@@ -327,7 +327,7 @@ level `N + e` of the degree `n` of the cosimplicial ring `...SmallSite.wholeSpac
 object `D(n)` the system is built from, and `...SmallSite.wholeSpaceSystemEnvelopeRingEquiv`
 identifies that ring with the degree `n` of `D(*)`; this is their composite. -/
 def wholeSpaceEnvelopeRingLevelEquiv (n e : ℕ) :
-    ((structureSheaf S).val.obj
+    ((structureSheaf S).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e)) : Type u) ≃+*
       (((wholeSpaceEnvelopeRing hp).obj (SimplexCategory.mk n) : Type u) ⧸
         DividedPowers.pAdicIdeal
@@ -342,7 +342,7 @@ def wholeSpaceEnvelopeRingLevelEquiv (n e : ℕ) :
 `wholeSpaceSystemLevelRingEquiv` followed by the map of quotients induced by
 `wholeSpaceSystemEnvelopeRingEquiv`. -/
 theorem wholeSpaceEnvelopeRingLevelEquiv_apply (n e : ℕ)
-    (x : (structureSheaf S).val.obj
+    (x : (structureSheaf S).obj.obj
       (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e))) :
     wholeSpaceEnvelopeRingLevelEquiv hp n e x =
       Ideal.quotientEquiv _ _ (wholeSpaceSystemEnvelopeRingEquiv hp n)
@@ -370,10 +370,10 @@ reduction to the level `N + e` of the structure map `D(n) ⟶ D(m)` of
 `...SmallSite.wholeSpaceEnvelopeRing`. -/
 theorem wholeSpaceEnvelopeRingLevelEquiv_map {n m : ℕ}
     (φ : SimplexCategory.mk n ⟶ SimplexCategory.mk m) (e : ℕ)
-    (x : (structureSheaf S).val.obj
+    (x : (structureSheaf S).obj.obj
       (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e))) :
     wholeSpaceEnvelopeRingLevelEquiv hp m e
-        (((structureSheaf S).val.map
+        (((structureSheaf S).obj.map
           (((wholeSpaceSystem S hp).map φ.op).app e).op).hom x) =
       Ideal.quotientMap _ ((wholeSpaceEnvelopeRing hp).map φ).hom
           (wholeSpaceEnvelopeRing_map_pAdicIdeal_pow_le hp φ _)

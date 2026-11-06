@@ -262,7 +262,6 @@ theorem toBaseChange_lTensor_mulPow (ha : a ∈ 𝒜 d) (k i : ℕ) (u : S ⊗[R
         S ⊗[R] A)) =
       ((1 : S) ⊗ₜ[R] a) ^ k * ((𝒜 i).toBaseChange S u : S ⊗[R] A) := by
   induction u with
-  | zero => simp
   | tmul s y => simp [Algebra.TensorProduct.tmul_pow, Algebra.TensorProduct.tmul_mul_tmul]
   | add u v hu hv => simp only [map_add, Submodule.coe_add, hu, hv, mul_add]
 

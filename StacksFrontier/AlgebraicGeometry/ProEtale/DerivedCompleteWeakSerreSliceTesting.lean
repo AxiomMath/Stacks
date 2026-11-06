@@ -111,10 +111,12 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_sliceTestingFamily
       Functor.PreservesHomology.preservesCokernel G f
     let : PreservesFiniteColimits G := Functor.preservesFiniteColimits_of_preservesCokernels G
     exact ⟨inferInstance, inferInstance, inferInstance, inferInstance, fun f _ =>
-      isDerivedCompleteAt_of_isNilpotent ⟨1, IsZero.eq_of_src (G.mapDerivedCategory.map_isZero
-        ((DerivedCategory.singleFunctor
-          (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map_isZero
-            (isZero_zero _))) _ _⟩⟩
+      isDerivedCompleteAt_of_isNilpotent ⟨1, by
+        ext
+        exact IsZero.eq_of_src (G.mapDerivedCategory.map_isZero
+          ((DerivedCategory.singleFunctor
+            (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map_isZero
+              (isZero_zero _))) _ _⟩⟩
   · refine (isDerivedComplete_iff_derivedSections_of_sliceTestingFamily X B I
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj

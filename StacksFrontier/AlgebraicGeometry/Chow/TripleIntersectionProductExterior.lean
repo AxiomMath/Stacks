@@ -647,6 +647,7 @@ variable (C : ChowSituation.{u}) (hpp : ProperPushforwardDescends C)
     (diagonal_comp_selfProductStructure C sX) d)
   (n m l : ℤ)
 
+set_option maxHeartbeats 1000000 in
 /-- **Stacks 0FBP on the triple product, from Stacks 0FBP for the restricted class.** Let `Δ^!` be
 a bivariant class of the diagonal of `X ⟶ S`, over any base `S`. If its restriction `Δ₁₂^!`
 (Stacks 0F9Z) along the test morphism `Δ₁₂` of the triple product `(Y ×_S Z) ×_S W` commutes

@@ -101,6 +101,14 @@ noncomputable abbrev subspaceToposHom :
       (Sheaf (SmallEtale.topology B S hS X.1) (Type u)) :=
   (smallEtaleRingedToposHom B S hS (subspaceInclusion B S hS X Z)).toToposHom
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The inverse image of `subspaceToposHom` preserves finite products (a local copy: instance
+search for it times out at the default budget). -/
+noncomputable local instance (priority := high)
+    preservesFiniteProducts_subspaceToposHom_directImageIdealKernelBridge :
+    PreservesFiniteProducts (subspaceToposHom B S hS X Z).inverseImage :=
+  inferInstance
+
 /-- The sections over `U` of the direct image along `i` of the inverse image along `i`. -/
 noncomputable abbrev directInverseSections (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (G : Sheaf (SmallEtale.topology B S hS X.1) (Type u)) : Type u :=

@@ -371,7 +371,7 @@ theorem C1573.isPullback_relocalize_projectiveSpacePresheaf (Y : (BigFppfOver B 
       (relocalizeYonedaIso g).hom.app _) (by simp)
     (f' := (relocalizePresheafFunctor g).map (tS.from Y) ≫
       (relocalizeYonedaIso g).hom.app (Over.mk (𝟙 (B.obj hS)))) (by simp)
-    (by simpa using e3)
+    (by rw [Iso.refl_hom, Category.comp_id, Iso.app_hom]; exact e3)
   have h2 := (isPullback_projectiveSpaceSiteObjectToIntegers hZ k (S := S) (hS := hS)).map yoneda
   have h3 := (h1'.flip.paste_horiz h2.flip).flip
   convert h3 using 1

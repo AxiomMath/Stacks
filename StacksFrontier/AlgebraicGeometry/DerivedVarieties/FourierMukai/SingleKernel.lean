@@ -194,7 +194,7 @@ theorem isIso_derivedPushforwardSingleUnit_app
     (hM : ∀ n : ℕ, 0 < n → IsZero (((modulePushforward p).rightDerived n).obj M)) :
     IsIso ((derivedPushforwardSingleUnit p).app M) := by
   have := modulePushforward_isRightAdjoint p
-  have := SheafOfModules.isGrothendieckAbelianU (structureSheafRing Z)
+  have := SheafOfModules.isGrothendieckAbelianU.{u} (structureSheafRing Z)
   exact Stacks.DerivedFunctor.isIso_singleUnit_app _ _ _
     (fun M => Stacks.SmallDerivedCategory.isGE_obj_of_isGE _ _ (derivedPushforwardUnit p)
       (isIso_derivedPushforwardUnit_app_of_isKInjective p) _ 0 inferInstance)

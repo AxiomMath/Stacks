@@ -91,6 +91,7 @@ theorem isIso_fppfToBigEtale_unit_app_of_isQuasicoherentOnSite
     (fun U ↦ isIso_fppfToBigEtale_unit_val_app_of_hasGlobalPresentation T E h X _ U.property.1
       U.property.2)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The pullback along `ε_X` of a quasi-coherent module is quasi-coherent (Stacks 03DO). -/
 theorem isQuasicoherentOnSite_fppfToBigEtale_pullbackTopos
     (G : SheafOfModules.{u + 1}
@@ -156,6 +157,7 @@ theorem exists_isQuasicoherentOnSite_iso_pullback
     exact @BigFppfSpaceSite.exists_isQuasicoherentOnSite_iso_pullback _ E'.bigFppfSpaceSite E' rfl X
       G hG
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The pullback along `π_X` of a quasi-coherent module is quasi-coherent (Stacks 03DO). -/
 theorem isQuasicoherentOnSite_spacesEtaleRestriction_pullbackTopos
     (F : SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf

@@ -428,7 +428,7 @@ theorem baseChangeFamily_apply (f : X ⟶ S) [LocallyOfFiniteType f] (g : S' ⟶
           ((pullback.snd f g).fiberToSpecResidueField t)
           (((Scheme.IdealSheafData.vanishingIdeal (Closeds.closure
             ({restrictedFiberMap f (pullback.snd f g) (pullback.fst f g) g
-              pullback.condition t x} : Set (f.fiber (g t))))).comap
+                pullback.condition t x} : Set (f.fiber (g t))))).comap
             (restrictedFiberMap f (pullback.snd f g) (pullback.fst f g) g
               pullback.condition t)).subschemeι) (r : ℤ) x :=
   rfl

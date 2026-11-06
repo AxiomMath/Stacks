@@ -280,8 +280,8 @@ def localModuleAlgEquivAYAway {g : PBase} (hg : g ∈ Ideal.span {omegaP}) :
             invFun := ayAwayToLocalModule hg
             left_inv := ayAwayToLocalModule_localModuleToAYAway hg
             right_inv := localModuleToAYAway_ayAwayToLocalModule hg
-            map_mul' := map_mul _
-            map_add' := map_add _ })
+            map_mul' := (localModuleToAYAway g).map_mul
+            map_add' := (localModuleToAYAway g).map_add })
     (fun a => by
       change localModuleToAYAway g (algebraMap ABase (LocalModule g) a) = _
       rw [show algebraMap ABase (LocalModule g) a =

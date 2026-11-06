@@ -422,7 +422,7 @@ theorem sum_traceHom_comp_mulHom {n : ℕ} (b e : Fin n → Γ(Y, ⊤)) (d : Γ(
             (Y.presheaf.germ ⊤ (genericPoint Y) trivial (b i) * σ)) *
               Y.presheaf.germ ⊤ (genericPoint Y) trivial (e i)) :
     ∑ i, pushMulHom π (b i) ≫ traceHom π ≫ mulHom π (e i) =
-      (Scheme.smulEnd X d).app ((Scheme.Modules.pushforward π).obj
+      (Scheme.smulEnd X d).asHom.app ((Scheme.Modules.pushforward π).obj
         (SheafOfModules.unit Y.ringCatSheaf)) := by
   let := functionFieldAlgebra π
   refine Scheme.Modules.hom_ext _ _ fun U => ?_

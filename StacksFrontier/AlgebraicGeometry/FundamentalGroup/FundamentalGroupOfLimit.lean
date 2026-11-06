@@ -207,8 +207,8 @@ theorem connectedSpace_of_isLimit_of_connected_tail {I : Type u} [Category.{u} I
 /-- Naturality of a natural automorphism of a set-valued functor, applied to an element. -/
 private theorem aut_naturality_apply {C : Type*} [Category* C]
     (F : C ⥤ Type u) (σ : Aut F) {A B : C} (f : A ⟶ B) (p : F.obj A) :
-    (σ.app B).hom (F.map f p) = F.map f ((σ.app A).hom p) :=
-  congrFun (congrArg (fun k ↦ k.hom) (σ.hom.naturality f)) p
+    (σ.asIso.app B).hom (F.map f p) = F.map f ((σ.asIso.app A).hom p) :=
+  congrFun (congrArg (fun k ↦ k.hom) (σ.asIso.hom.naturality f)) p
 
 /-- A natural automorphism of a set-valued functor can be prescribed on a family of objects
 meeting every isomorphism class: a family of automorphisms of the values, commuting with every
@@ -217,7 +217,7 @@ private theorem exists_aut_of_essSurj_family {C : Type*} [Category* C] (F : C �
     {J : Type*} (A : J → C) (hA : ∀ X, ∃ j, Nonempty (X ≅ A j))
     (s : ∀ j, F.obj (A j) ≅ F.obj (A j))
     (hs : ∀ i j (f : A i ⟶ A j), F.map f ≫ (s j).hom = (s i).hom ≫ F.map f) :
-    ∃ σ : Aut F, ∀ j, σ.app (A j) = s j := by
+    ∃ σ : Aut F, ∀ j, σ.asIso.app (A j) = s j := by
   classical
   choose j e using hA
   let E (X : C) : X ≅ A (j X) := Classical.choice (e X)
@@ -230,7 +230,7 @@ private theorem exists_aut_of_essSurj_family {C : Type*} [Category* C] (F : C �
       _ = F.map (E X).hom ≫ (F.map (E X).inv ≫ F.map f ≫ F.map (E Y).hom ≫
           (s (j Y)).hom) ≫ F.map (E Y).inv := by simp
       _ = _ := by rw [h]; simp
-  let σ : Aut F := NatIso.ofComponents t (fun f ↦ ht _ _ f)
+  let σ : Aut F := .of (NatIso.ofComponents t (fun f ↦ ht _ _ f))
   refine ⟨σ, fun k ↦ ?_⟩
   apply Iso.ext
   have h := hs (j (A k)) k (E (A k)).inv
@@ -242,13 +242,14 @@ private theorem exists_aut_of_essSurj_family {C : Type*} [Category* C] (F : C �
 every isomorphism class are equal. -/
 private theorem aut_ext_of_essSurj_family {C : Type*} [Category* C] (F : C ⥤ Type u)
     {J : Type*} (A : J → C) (hA : ∀ X, ∃ j, Nonempty (X ≅ A j))
-    {σ τ : Aut F} (h : ∀ j, σ.app (A j) = τ.app (A j)) : σ = τ := by
+    {σ τ : Aut F} (h : ∀ j, σ.asIso.app (A j) = τ.asIso.app (A j)) : σ = τ := by
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext X
   obtain ⟨j, ⟨e⟩⟩ := hA X
   apply (cancel_mono (F.map e.hom)).mp
-  rw [← σ.hom.naturality, ← τ.hom.naturality]
+  rw [← σ.asIso.hom.naturality, ← τ.asIso.hom.naturality]
   exact congrArg (fun t : F.obj (A j) ≅ F.obj (A j) ↦ F.map e.hom ≫ t.hom) (h j)
 
 /-! ### The action of an induced homomorphism on geometric fibres -/
@@ -288,8 +289,8 @@ private theorem etaleFundamentalGroupMap_action {X Y : Scheme.{u}} [ConnectedSpa
     [ConnectedSpace Y] (f : X ⟶ Y) (x : GeometricPoint X) (σ : EtaleFundamentalGroup X x)
     (V : FiniteEtaleOver X) (W : FiniteEtaleOver Y) (g : V.left ⟶ W.left)
     (hg : g ≫ W.hom = V.hom ≫ f) (p : finiteEtaleFiber x V) :
-    ((σ.app V).hom p).1 ≫ g =
-      (((etaleFundamentalGroupMap f x σ).app W).hom
+    ((σ.asIso.app V).hom p).1 ≫ g =
+      (((etaleFundamentalGroupMap f x σ).asIso.app W).hom
         ⟨p.1 ≫ g, by rw [Category.assoc, hg, ← Category.assoc, p.2]; rfl⟩).1 := by
   let k : V ⟶ (finiteEtaleBaseChange f).obj W :=
     MorphismProperty.Over.homMk (pullback.lift g V.hom hg) (pullback.lift_snd _ _ _) (by trivial)
@@ -306,7 +307,7 @@ private theorem etaleFundamentalGroupMap_action {X Y : Scheme.{u}} [ConnectedSpa
       = (⟨p.1 ≫ g, by rw [Category.assoc, hg, ← Category.assoc, p.2]; rfl⟩ :
         finiteEtaleFiber (x.map f) W) := Subtype.ext (key p)
   rw [hq] at h
-  exact (key ((σ.app V).hom p)).symm.trans (congrArg Subtype.val h)
+  exact (key ((σ.asIso.app V).hom p)).symm.trans (congrArg Subtype.val h)
 
 /-- `AlgebraicGeometry.etaleFundamentalGroupMap_action`, with the induced automorphism given only
 up to the heterogeneous equality through which compatible families are stated. -/
@@ -317,7 +318,7 @@ private theorem etaleFundamentalGroupMap_action_of_heq {X Y : Scheme.{u}} [Conne
     (V : FiniteEtaleOver X) (W : FiniteEtaleOver Y) (g : V.left ⟶ W.left)
     (hg : g ≫ W.hom = V.hom ≫ f)
     (p : finiteEtaleFiber x V) (q : finiteEtaleFiber y W) (hpq : HEq (p.1 ≫ g) q.1) :
-    HEq (((σ.app V).hom p).1 ≫ g) (((τ.app W).hom q).1) := by
+    HEq (((σ.asIso.app V).hom p).1 ≫ g) (((τ.asIso.app W).hom q).1) := by
   subst y
   obtain rfl := eq_of_heq hτ
   obtain rfl : q = ⟨p.1 ≫ g, by rw [Category.assoc, hg, ← Category.assoc, p.2]; rfl⟩ :=
@@ -343,7 +344,7 @@ theorem etaleFundamentalGroupMap_triangle {X Y Z : Scheme.{u}} [ConnectedSpace X
   generalize hb : etaleFundamentalGroupMap (f ≫ g) x σ = b
   have he : ∀ (V : FiniteEtaleOver Z) (p : finiteEtaleFiber ((x.map f).map g) V)
       (q : finiteEtaleFiber (x.map (f ≫ g)) V),
-      HEq p.1 q.1 → HEq (((a.app V).hom p).1) (((b.app V).hom q).1) := by
+      HEq p.1 q.1 → HEq (((a.asIso.app V).hom p).1) (((b.asIso.app V).hom q).1) := by
     intro V p q hpq
     obtain ⟨r, hr⟩ := (finiteEtaleFiberProjection_bijective g (x.map f) V).2 p
     obtain ⟨s, hs⟩ := (finiteEtaleFiberProjection_bijective f x
@@ -358,9 +359,9 @@ theorem etaleFundamentalGroupMap_triangle {X Y Z : Scheme.{u}} [ConnectedSpace X
           pullback.snd (pullback.snd V.hom g) f ≫ (f ≫ g)
         rw [Category.assoc, pullback.condition, ← Category.assoc, pullback.condition,
           Category.assoc]) s
-    change _ = (((etaleFundamentalGroupMap f x σ).app _).hom
+    change _ = (((etaleFundamentalGroupMap f x σ).asIso.app _).hom
       (finiteEtaleFiberProjection f x _ s)).1 at h₁
-    change _ = (((etaleFundamentalGroupMap g (x.map f) (etaleFundamentalGroupMap f x σ)).app _).hom
+    change _ = (((etaleFundamentalGroupMap g (x.map f) (etaleFundamentalGroupMap f x σ)).asIso.app _).hom
       (finiteEtaleFiberProjection g (x.map f) V r)).1 at h₂
     rw [hs] at h₁
     rw [hr, ha] at h₂
@@ -374,22 +375,23 @@ theorem etaleFundamentalGroupMap_triangle {X Y Z : Scheme.{u}} [ConnectedSpace X
           ≫ pullback.fst V.hom g), by rw [eqs]; exact q.2⟩ :
         finiteEtaleFiber (x.map (f ≫ g)) V) = q := Subtype.ext eqs
     apply heq_of_eq
-    calc ((a.app V).hom p).1
-        = (((etaleFundamentalGroupMap f x σ).app ((finiteEtaleBaseChange g).obj V)).hom r).1
+    calc ((a.asIso.app V).hom p).1
+        = (((etaleFundamentalGroupMap f x σ).asIso.app ((finiteEtaleBaseChange g).obj V)).hom r).1
             ≫ pullback.fst V.hom g := h₂.symm
-      _ = (((σ.app ((finiteEtaleBaseChange f).obj ((finiteEtaleBaseChange g).obj V))).hom s).1
+      _ = (((σ.asIso.app ((finiteEtaleBaseChange f).obj ((finiteEtaleBaseChange g).obj V))).hom s).1
             ≫ pullback.fst ((finiteEtaleBaseChange g).obj V).hom f) ≫ pullback.fst V.hom g :=
           congrArg (· ≫ pullback.fst V.hom g) h₁.symm
-      _ = ((σ.app ((finiteEtaleBaseChange f).obj ((finiteEtaleBaseChange g).obj V))).hom s).1
+      _ = ((σ.asIso.app ((finiteEtaleBaseChange f).obj ((finiteEtaleBaseChange g).obj V))).hom s).1
             ≫ (pullback.fst ((finiteEtaleBaseChange g).obj V).hom f
               ≫ pullback.fst V.hom g) := Category.assoc _ _ _
       _ = _ := h₃
-      _ = (((etaleFundamentalGroupMap (f ≫ g) x σ).app V).hom q).1 :=
-          congrArg (fun t ↦ (((etaleFundamentalGroupMap (f ≫ g) x σ).app V).hom t).1) eqsq
-      _ = ((b.app V).hom q).1 := by rw [hb]
+      _ = (((etaleFundamentalGroupMap (f ≫ g) x σ).asIso.app V).hom q).1 :=
+          congrArg (fun t ↦ (((etaleFundamentalGroupMap (f ≫ g) x σ).asIso.app V).hom t).1) eqsq
+      _ = ((b.asIso.app V).hom q).1 := by rw [hb]
   clear ha hb
   cases hx
   apply heq_of_eq
+  apply Aut.ext
   apply Iso.ext
   ext V p
   apply Subtype.ext
@@ -579,7 +581,7 @@ private theorem etaleFundamentalGroupToCompatibleFamily_injective_of_models {I :
     change etaleFundamentalGroupMap (c.π.app i.left) x σ =
       etaleFundamentalGroupMap (c.π.app i.left) x τ at hi
     exact (etaleFundamentalGroupMap_finiteEtaleFiberProjection (c.π.app i.left) x W σ p).trans
-      ((congrArg (fun a ↦ (a.app W).hom
+      ((congrArg (fun a ↦ (a.asIso.app W).hom
         (finiteEtaleFiberProjection (c.π.app i.left) x W p)) hi).trans
         (etaleFundamentalGroupMap_finiteEtaleFiberProjection (c.π.app i.left) x W τ p).symm)
 
@@ -601,35 +603,35 @@ fundamental group of the stage, through the fibre projections. -/
 private def pullbackFiberAut {X Y : Scheme.{u}} (f : X ⟶ Y) (x : GeometricPoint X)
     (σ : Aut (finiteEtaleFiberFunctor (x.map f))) (V : FiniteEtaleOver Y) :
     Aut ((finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj V)) :=
-  (finiteEtaleFiberProjectionEquiv f x V).toIso ≪≫ σ.app V ≪≫
-    (finiteEtaleFiberProjectionEquiv f x V).toIso.symm
+  .of ((finiteEtaleFiberProjectionEquiv f x V).toIso ≪≫ σ.asIso.app V ≪≫
+    (finiteEtaleFiberProjectionEquiv f x V).toIso.symm)
 
 private theorem pullbackFiberAut_projection {X Y : Scheme.{u}} (f : X ⟶ Y)
     (x : GeometricPoint X) (σ : Aut (finiteEtaleFiberFunctor (x.map f)))
     (V : FiniteEtaleOver Y) (p : finiteEtaleFiber x ((finiteEtaleBaseChange f).obj V)) :
-    finiteEtaleFiberProjection f x V ((pullbackFiberAut f x σ V).hom p) =
-      (σ.app V).hom (finiteEtaleFiberProjection f x V p) :=
+    finiteEtaleFiberProjection f x V ((pullbackFiberAut f x σ V).asIso.hom p) =
+      (σ.asIso.app V).hom (finiteEtaleFiberProjection f x V p) :=
   (finiteEtaleFiberProjectionEquiv f x V).apply_symm_apply _
 
 private theorem pullbackFiberAut_naturality {X Y : Scheme.{u}} (f : X ⟶ Y)
     (x : GeometricPoint X) (σ : Aut (finiteEtaleFiberFunctor (x.map f)))
     {V W : FiniteEtaleOver Y} (g : V ⟶ W) :
     (finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) ≫
-        (pullbackFiberAut f x σ W).hom =
-      (pullbackFiberAut f x σ V).hom ≫
+        (pullbackFiberAut f x σ W).asIso.hom =
+      (pullbackFiberAut f x σ V).asIso.hom ≫
         (finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) := by
   ext p
   apply (finiteEtaleFiberProjection_bijective f x W).1
   show finiteEtaleFiberProjection f x W
-      ((pullbackFiberAut f x σ W).hom
+      ((pullbackFiberAut f x σ W).asIso.hom
         ((finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) p)) =
     finiteEtaleFiberProjection f x W
       ((finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g)
-        ((pullbackFiberAut f x σ V).hom p))
+        ((pullbackFiberAut f x σ V).asIso.hom p))
   rw [pullbackFiberAut_projection f x σ W
       ((finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) p),
     finiteEtaleFiberProjection_naturality f x g p,
-    finiteEtaleFiberProjection_naturality f x g ((pullbackFiberAut f x σ V).hom p),
+    finiteEtaleFiberProjection_naturality f x g ((pullbackFiberAut f x σ V).asIso.hom p),
     pullbackFiberAut_projection f x σ V p,
     aut_naturality_apply (finiteEtaleFiberFunctor (x.map f)) σ g
       (finiteEtaleFiberProjection f x V p)]
@@ -643,17 +645,17 @@ private theorem pullbackFiberAut_naturality_of_square {X A B : Scheme.{u}} [Conn
     (hg : g ≫ W.hom = V.hom ≫ f)
     (h : (finiteEtaleBaseChange a).obj V ⟶ (finiteEtaleBaseChange b).obj W)
     (hh : h.left ≫ pullback.fst W.hom b = pullback.fst V.hom a ≫ g) :
-    (finiteEtaleFiberFunctor x).map h ≫ (pullbackFiberAut b x τ W).hom =
-      (pullbackFiberAut a x σ V).hom ≫ (finiteEtaleFiberFunctor x).map h := by
+    (finiteEtaleFiberFunctor x).map h ≫ (pullbackFiberAut b x τ W).asIso.hom =
+      (pullbackFiberAut a x σ V).asIso.hom ≫ (finiteEtaleFiberFunctor x).map h := by
   have hx : (x.map a).map f = x.map b := by
     cases x
     simp [GeometricPoint.map, Category.assoc, hf]
   ext p
   apply (finiteEtaleFiberProjection_bijective b x W).1
   show finiteEtaleFiberProjection b x W
-      ((pullbackFiberAut b x τ W).hom ((finiteEtaleFiberFunctor x).map h p)) =
+      ((pullbackFiberAut b x τ W).asIso.hom ((finiteEtaleFiberFunctor x).map h p)) =
     finiteEtaleFiberProjection b x W
-      ((finiteEtaleFiberFunctor x).map h ((pullbackFiberAut a x σ V).hom p))
+      ((finiteEtaleFiberFunctor x).map h ((pullbackFiberAut a x σ V).asIso.hom p))
   rw [pullbackFiberAut_projection b x τ W ((finiteEtaleFiberFunctor x).map h p)]
   apply Subtype.ext
   have H := etaleFundamentalGroupMap_action_of_heq f (x.map a) (x.map b) hx σ τ hστ V W g hg
@@ -665,11 +667,11 @@ private theorem pullbackFiberAut_naturality_of_square {X A B : Scheme.{u}} [Conn
         ((congrArg (p.1 ≫ ·) hh.symm).trans (Category.assoc _ _ _).symm)))
   rw [← eq_of_heq H]
   have hp := congrArg Subtype.val (pullbackFiberAut_projection a x σ V p)
-  change (((pullbackFiberAut a x σ V).hom p).1 ≫ pullback.fst V.hom a) = _ at hp
-  show _ = (((pullbackFiberAut a x σ V).hom p).1 ≫ h.left) ≫ pullback.fst W.hom b
+  change (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ pullback.fst V.hom a) = _ at hp
+  show _ = (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ h.left) ≫ pullback.fst W.hom b
   rw [← hp]
   exact (Category.assoc _ _ _).trans
-    ((congrArg (((pullbackFiberAut a x σ V).hom p).1 ≫ ·) hh.symm).trans
+    ((congrArg (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ ·) hh.symm).trans
       (Category.assoc _ _ _).symm)
 
 /-- A commuting square of automorphisms can be transported across an isomorphism on one side and
@@ -697,8 +699,8 @@ private theorem pullbackFiberAut_naturality_of_descent {I : Type u} [Category.{u
       HEq (etaleFundamentalGroupMap (D.map e) (x.map (c.π.app i)) (σ i)) (σ j))
     (i : I) (V W : FiniteEtaleOver (D.obj i))
     (f : (finiteEtaleBaseChange (c.π.app i)).obj V ⟶ (finiteEtaleBaseChange (c.π.app i)).obj W) :
-    (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app i) x (σ i) W).hom =
-      (pullbackFiberAut (c.π.app i) x (σ i) V).hom ≫ (finiteEtaleFiberFunctor x).map f := by
+    (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app i) x (σ i) W).asIso.hom =
+      (pullbackFiberAut (c.π.app i) x (σ i) V).asIso.hom ≫ (finiteEtaleFiberFunctor x).map f := by
   obtain ⟨j, e, g, h⟩ := exists_finiteEtale_hom_model_iso D c hc i V W f
   let F := finiteEtaleFiberFunctor x
   have hα := pullbackFiberAut_naturality_of_square (c.π.app j) (c.π.app i) (D.map e)
@@ -723,8 +725,8 @@ private theorem pullbackFiberAut_naturality_between_stages {I : Type u} [Categor
       HEq (etaleFundamentalGroupMap (D.map e) (x.map (c.π.app i)) (σ i)) (σ j))
     (i j : I) (V : FiniteEtaleOver (D.obj i)) (W : FiniteEtaleOver (D.obj j))
     (f : (finiteEtaleBaseChange (c.π.app i)).obj V ⟶ (finiteEtaleBaseChange (c.π.app j)).obj W) :
-    (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app j) x (σ j) W).hom =
-      (pullbackFiberAut (c.π.app i) x (σ i) V).hom ≫ (finiteEtaleFiberFunctor x).map f := by
+    (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app j) x (σ j) W).asIso.hom =
+      (pullbackFiberAut (c.π.app i) x (σ i) V).asIso.hom ≫ (finiteEtaleFiberFunctor x).map f := by
   obtain ⟨k, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs i j
   let α := limitCompIsoApp D c a V
   let β := limitCompIsoApp D c b W
@@ -751,8 +753,8 @@ private theorem exists_etaleFundamentalGroup_of_compatible_stages_of_models {I :
     (hnat : ∀ (i j : I) (V : FiniteEtaleOver (D.obj i)) (W : FiniteEtaleOver (D.obj j))
       (f : (finiteEtaleBaseChange (c.π.app i)).obj V ⟶
         (finiteEtaleBaseChange (c.π.app j)).obj W),
-      (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app j) x (σ j) W).hom =
-        (pullbackFiberAut (c.π.app i) x (σ i) V).hom ≫ (finiteEtaleFiberFunctor x).map f) :
+      (finiteEtaleFiberFunctor x).map f ≫ (pullbackFiberAut (c.π.app j) x (σ j) W).asIso.hom =
+        (pullbackFiberAut (c.π.app i) x (σ i) V).asIso.hom ≫ (finiteEtaleFiberFunctor x).map f) :
     ∃ τ : EtaleFundamentalGroup c.pt x,
       ∀ i, @etaleFundamentalGroupMap c.pt (D.obj i) inferInstance inferInstance
         (c.π.app i) x τ = σ i := by
@@ -763,16 +765,17 @@ private theorem exists_etaleFundamentalGroup_of_compatible_stages_of_models {I :
     (fun V ↦ by
       obtain ⟨i, W, hW⟩ := hmodel V
       exact ⟨⟨i, W⟩, hW⟩)
-    (fun p ↦ pullbackFiberAut (c.π.app p.1) x (σ p.1) p.2)
+    (fun p ↦ (pullbackFiberAut (c.π.app p.1) x (σ p.1) p.2).asIso)
     (fun p q f ↦ hnat p.1 q.1 p.2 q.2 f)
   refine ⟨τ, fun i ↦ ?_⟩
+  apply Aut.ext
   apply Iso.ext
   ext V p
   obtain ⟨q, rfl⟩ := (finiteEtaleFiberProjection_bijective (c.π.app i) x V).2 p
   have H := etaleFundamentalGroupMap_finiteEtaleFiberProjection (c.π.app i) x V τ q
   have hτV := hτ ⟨i, V⟩
-  change τ.app ((finiteEtaleBaseChange (c.π.app i)).obj V) =
-    pullbackFiberAut (c.π.app i) x (σ i) V at hτV
+  change τ.asIso.app ((finiteEtaleBaseChange (c.π.app i)).obj V) =
+    (pullbackFiberAut (c.π.app i) x (σ i) V).asIso at hτV
   rw [hτV] at H
   exact H.symm.trans (pullbackFiberAut_projection (c.π.app i) x (σ i) V q)
 
@@ -789,8 +792,8 @@ private theorem etaleFundamentalGroupToCompatibleFamily_surjective_of_models {I 
         (f : (finiteEtaleBaseChange (c.π.app i.left)).obj V ⟶
           (finiteEtaleBaseChange (c.π.app j.left)).obj W),
         (finiteEtaleFiberFunctor x).map f ≫
-            (pullbackFiberAut (c.π.app j.left) x (σ.1 j) W).hom =
-          (pullbackFiberAut (c.π.app i.left) x (σ.1 i) V).hom ≫
+            (pullbackFiberAut (c.π.app j.left) x (σ.1 j) W).asIso.hom =
+          (pullbackFiberAut (c.π.app i.left) x (σ.1 i) V).asIso.hom ≫
             (finiteEtaleFiberFunctor x).map f) :
     Function.Surjective (etaleFundamentalGroupToCompatibleFamily D c i₀ x) := by
   intro σ

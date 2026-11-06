@@ -411,6 +411,13 @@ namespace Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_unramifiedLocusBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Unramifiedness of a morphism of algebraic spaces over `S` at a point of its source is the
 pointed-chart condition of Stacks 04NC for the germ property induced by unramifiedness of
 morphisms of schemes.

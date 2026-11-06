@@ -291,7 +291,7 @@ instance isQuasicoherent_quotPiece (n : ℤ) : (quotPiece 𝒜 ℐ n).IsQuasicoh
 /-! ### The sectionwise quotient presheaf, and its comparison with the quotient sheaf -/
 
 /-- The sectionwise quotient of `𝒜_n` by `ℐ_n`, as a presheaf of modules. -/
-def prePiece (n : ℤ) : PresheafOfModules.{u} S.ringCatSheaf.val :=
+def prePiece (n : ℤ) : PresheafOfModules.{u} S.ringCatSheaf.obj :=
   Stacks.quotPresheaf (pieceι 𝒜 ℐ n).val
 
 /-- The inclusion of `ℐ_n` followed by the projection onto `𝒜_n/ℐ_n` is zero, on the underlying
@@ -463,7 +463,7 @@ along the local lifts of three given sections, each along its own locally surjec
 This is `Stacks.eq_of_forall_lift₂` with the sources allowed to differ, which is what the laws of
 the quotient need: the three arguments of associativity live in three different degrees. -/
 private theorem eq_of_forall_lift_three
-    {M₁ M₂ M₃ N₁ N₂ N₃ P : PresheafOfModules.{u} S.ringCatSheaf.val}
+    {M₁ M₂ M₃ N₁ N₂ N₃ P : PresheafOfModules.{u} S.ringCatSheaf.obj}
     (hP : Presheaf.IsSeparated (Opens.grothendieckTopology ↥S) P.presheaf)
     (α₁ : M₁ ⟶ N₁) (α₂ : M₂ ⟶ N₂) (α₃ : M₃ ⟶ N₃)
     [PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology ↥S) α₁]

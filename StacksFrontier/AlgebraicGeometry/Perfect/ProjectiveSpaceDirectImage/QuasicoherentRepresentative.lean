@@ -127,6 +127,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
     {G F : X.Modules} [G.IsQuasicoherent] (hF : F.IsFiniteType) (f : G ⟶ F) [Epi f] :
     ∃ S : FiniteTypeQuasicoherentSubobject G, Epi (S.obj.arrow ≫ f) := by
   classical
+  have : HasEqualizers X.Modules := inferInstance
   let J := FiniteTypeQuasicoherentSubobject G
   have : IsFiltered J := inferInstance
   have : Nonempty J := IsFiltered.nonempty
@@ -258,9 +259,11 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
   have hIso : IsIso (imageSubobject (S.obj.arrow ≫ f)).arrow :=
     (Subobject.isIso_iff_mk_eq_top (imageSubobject (S.obj.arrow ≫ f)).arrow).2 (by
       simpa [img] using hTopImage)
+  have hepi₁ : Epi (factorThruImageSubobject (S.obj.arrow ≫ f)) := by
+    set_option synthInstance.maxHeartbeats 400000 in infer_instance
   have hepi : Epi (factorThruImageSubobject (S.obj.arrow ≫ f) ≫
-      (imageSubobject (S.obj.arrow ≫ f)).arrow) := inferInstance
-  simpa [imageSubobject_arrow_comp] using hepi
+      (imageSubobject (S.obj.arrow ≫ f)).arrow) := epi_comp' hepi₁ (IsIso.epi_of_iso _)
+  rwa [imageSubobject_arrow_comp] at hepi
 
 end AlgebraicGeometry
 

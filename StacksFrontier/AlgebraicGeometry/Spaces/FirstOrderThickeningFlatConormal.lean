@@ -240,7 +240,9 @@ theorem isFlat_and_isPullback_of_isIso_conormalMapOfImmersions
   have hcart : IsPullback X.1.ι f.hom g.hom Y.1.ι := by
     refine (Subfunctor.isPullback_preimage g.hom Y.1).flip.of_iso (asIso φ).symm (Iso.refl _)
       (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-    · simp [φ]
+    · simp only [Iso.refl_hom, Category.comp_id, Iso.symm_hom, asIso_inv]
+      rw [IsIso.eq_inv_comp]
+      exact Subfunctor.homOfLe_ι hle
     · simp only [Iso.refl_hom, Category.comp_id, Iso.symm_hom, asIso_inv]
       rw [IsIso.eq_inv_comp, ← cancel_mono Y.1.ι, Category.assoc,
         (Subfunctor.isPullback_preimage g.hom Y.1).w, ← Category.assoc]

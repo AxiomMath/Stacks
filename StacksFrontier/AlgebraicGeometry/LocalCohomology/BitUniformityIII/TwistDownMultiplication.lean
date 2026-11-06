@@ -192,6 +192,7 @@ theorem twistScalarSheafMap_reesDegOne_comp_twistDownMap (t t' : ℤ)
 
 /-! ### The `c`-step law -/
 
+set_option maxHeartbeats 600000 in
 /-- **Multiplication by `(b⁽¹⁾)^c` followed by twisting down `c` steps is multiplication by
 `b^c`**, as morphisms `𝒪_X(q') ⟶ 𝒪_X(q')`, for every `b ∈ I`, every `c : ℕ` and every pair of
 integers `q' ≤ q` with `c + q' = q`.
@@ -293,6 +294,7 @@ theorem twistDownMap_comp_twistScalarSheafMap_reesDegOne (t t' : ℤ)
   exact (eq_whisker (twistDownMap_succ I t hle) _).trans
     (twistShiftMap_comp_twistScalarSheafMap_reesDegOne I t hb)
 
+set_option maxHeartbeats 600000 in
 /-- **Twisting down `c` steps followed by multiplication by `a · (b⁽¹⁾)^c` is multiplication by
 `a · b^c`**, as morphisms `𝒪_X(q) ⟶ 𝒪_X(q)`, for every `a : A`, every `b ∈ I`, every `c : ℕ` and
 every pair of integers `q' ≤ q` with `c + q' = q`.

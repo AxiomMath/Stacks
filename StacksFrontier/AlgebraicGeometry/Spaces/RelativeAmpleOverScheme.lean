@@ -121,7 +121,8 @@ theorem isRelativelyAmple_of_exists_scheme {X Y : AlgebraicSpaces B S hS} (f : X
       hsq.of_iso (Iso.refl _) eX.symm (Iso.refl _) eY
         (by simp [hmapr]) (by simp) (by rw [hmapq]; simp) (by simp [hmaps])
     have hsq₂ : IsPullback r q' q s :=
-      IsPullback.of_map yoneda (yoneda.map_injective (by simpa using hsq₁.w)) hsq₁
+      IsPullback.of_map yoneda
+        (yoneda.map_injective (by simp only [Functor.map_comp]; exact hsq₁.w)) hsq₁
     have hamp' := Stacks.AmpleBridge.isRelativelyAmple_pullbackModule_of_isPullback
       (hsq₂.map (BigFppfOver.toScheme B S hS)) (baseChangeModule B S hS L U eX.hom) hamp
     obtain ⟨e⟩ := nonempty_baseChangeModule_baseChange_of_isInvertible L hLinv U U' eX.hom r

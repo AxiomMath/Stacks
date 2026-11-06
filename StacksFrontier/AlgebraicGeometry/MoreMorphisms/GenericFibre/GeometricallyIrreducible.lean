@@ -1017,7 +1017,6 @@ theorem exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFi
                       s.residueFieldMap qSpec ≫
                       (Scheme.Spec.residueFieldIso (.of B) qSpec).hom)
                     hCongCancel using 1
-                  cat_disch
                 _ = _ := by
                   have hcl :
                       hAffine₀.isoSpec.hom.residueFieldMap η₀ ≫

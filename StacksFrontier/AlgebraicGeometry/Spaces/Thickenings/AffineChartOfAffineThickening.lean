@@ -147,6 +147,7 @@ theorem isQuasiCompact_of_isPullback_of_isAffine {X : AlgebraicSpaces B S hS}
       (@Etale.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS))) φ)
     (t s : R ⟶ V) (hpb : IsPullback (yoneda.map t) (yoneda.map s) φ φ) :
     IsQuasiCompact B S hS φ := by
+  have : HasPullback φ φ := hpb.hasPullback
   have _ : (MorphismProperty.inverseImage
       (@AlgebraicGeometry.QuasiCompact.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).IsStableUnderBaseChange :=

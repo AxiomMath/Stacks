@@ -125,6 +125,7 @@ variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additiv
     HomologicalComplex.HasMapBifunctor A B
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
 
+set_option maxHeartbeats 1000000 in
 /-- **The tensorator of `f^*` applied termwise is the inverse of the comparison of total tensor
 complexes of Stacks 07A4**: both act on the summand of bidegree `(p, q)` by the comparison of
 Stacks 03EL, which is the tensorator of `f^*` (`pullbackToposMonoidal_δ`). -/

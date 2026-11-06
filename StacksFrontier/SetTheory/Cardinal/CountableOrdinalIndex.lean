@@ -55,12 +55,12 @@ theorem mk_omegaOne : #(OmegaOne.{u}) = ℵ₁ := by
 
 /-- The countable ordinals are uncountable. -/
 instance instUncountableOmegaOne : Uncountable (OmegaOne.{u}) :=
-  Cardinal.aleph1_le_mk_iff.mp (le_of_eq mk_omegaOne.symm)
+  Cardinal.aleph0_lt_mk_iff.mp (mk_omegaOne.symm ▸ Cardinal.aleph0_lt_aleph_one)
 
 /-- Every proper initial segment of the countable ordinals is countable: it has the cardinality
 of its order type, which is a countable ordinal. -/
 theorem countable_Iio_omegaOne (a : OmegaOne.{u}) : (Set.Iio a).Countable := by
-  rw [Cardinal.countable_iff_lt_aleph_one]
+  rw [← Cardinal.le_aleph0_iff_set_countable, ← not_lt, ← Cardinal.aleph_one_le_iff, not_le]
   have hcard : #(Set.Iio a) = (Ordinal.typein (α := OmegaOne.{u}) (· < ·) a).card := by
     rw [Ordinal.card_typein]
     rfl

@@ -240,7 +240,8 @@ instance epi_tensorTwistQuotient : Epi (tensorTwistQuotient (L := L) hqc) := by
     ⟨fun _ _ w ↦ (Iso.cancel_iso_hom_left _ _ _).1 w⟩
   have h4 : Epi ((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).map
       ((Scheme.Modules.pullbackId X).hom.app (Stacks.SymTwistChart.tensorObj E L))) :=
-    inferInstance
+    (((Scheme.Modules.pullback (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).mapIso
+      ((Scheme.Modules.pullbackId X).app (Stacks.SymTwistChart.tensorObj E L))).isIso_hom).epi_of_iso
   exact epi_comp' h4 (epi_comp' h3 h2)
 
 /-- **Morphisms out of a module pulled back to a chart are determined by pulled-back
@@ -280,8 +281,13 @@ theorem chart_pullback_hom_ext {F : X.Modules} [F.IsQuasicoherent] {U : X.Opens}
       (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).map
         ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
           (𝟙 X)).inv.app F)
-  haveI : IsIso κ := by dsimp only [κ]; infer_instance
-  refine (cancel_epi κ).1 ?_
+  haveI : IsIso κ :=
+    (((Scheme.Modules.pullbackComp ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)
+        ((relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ≫ 𝟙 X)).app F).symm ≪≫
+      (Scheme.Modules.pullback ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU)).mapIso
+        ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
+          (𝟙 X)).app F).symm).isIso_hom
+  refine (IsIso.epi_of_iso κ).left_cancellation _ _ ?_
   refine pullback_hom_ext_of_isAffineOpen _ hU hFU F fun y => ?_
   have hk : κ.val.app (op (((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU ≫
       (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ≫ 𝟙 X) ⁻¹ᵁ U))

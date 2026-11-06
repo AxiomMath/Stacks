@@ -117,9 +117,9 @@ def standardUpperShriekDualizingComplexIso :
   (modelEquiv (hLS U) (HasDerivedCategory.standard U.Modules)).functor.mapIso
       ((derivedRestrictIsoDerivedPullback c.immersion).app ω).symm ≪≫
     (mapDerivedCategoryCompModelEquivIso (Scheme.Modules.restrictFunctor c.immersion) (hLS c.space)
-      (hLS U) (HasDerivedCategory.standard U.Modules)).app ω ≪≫
+      (hLS _) (HasDerivedCategory.standard _)).app ω ≪≫
     ((modelEquivCompMapDerivedCategoryIso (Scheme.Modules.restrictFunctor c.immersion) (hLS c.space)
-      (HasDerivedCategory.standard _) (HasDerivedCategory.standard U.Modules)).app ω).symm
+      (HasDerivedCategory.standard _) (HasDerivedCategory.standard _)).app ω).symm
 
 /-- `ω_{U/k}^•` is a dualizing complex: `𝒪_{Spec k}` is one, and `p^!` carries dualizing
 complexes to dualizing complexes, [Stacks, Tag 0AA3]

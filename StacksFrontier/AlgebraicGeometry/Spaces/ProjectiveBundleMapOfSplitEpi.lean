@@ -212,7 +212,7 @@ theorem projectiveBundleChart_app_mem_range_iff {b : BigFppfOver B S hS}
     refine ⟨(projectiveBundleChart E' hfree').app (Opposite.op b) w', ?_⟩
     have h := congrArg (fun k => k.app (Opposite.op b) w')
       (projectiveBundleChart_comp_projectiveBundleMapOfSplitEpi E E' u σ hσ hfree hfree')
-    simp only [FunctorToTypes.comp, yoneda_map_app] at h
+    simp only [NatTrans.comp_app_apply, yoneda_map_app] at h
     exact h.trans (congrArg (fun t => (projectiveBundleChart E hfree).app (Opposite.op b) t) hw')
 
 end AlgebraicGeometry.Space

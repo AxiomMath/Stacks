@@ -362,7 +362,7 @@ private theorem completionSubfunctor_has_representable_cover
   have : IsAffine (H.obj (A l)) := hA l
   obtain ⟨c, hc⟩ := hfactor (H.obj (A l)) (H.map g) hg
   obtain ⟨b', hbi'⟩ := exists_comp_overHomMk_eq B S hS k₀ g c (by rwa [← hi] at hc)
-  refine ⟨ULift.up b', Subtype.ext (ULift.ext _ _ ?_)⟩
+  refine ⟨ULift.up b', Subtype.ext (ULift.ext ?_)⟩
   change q.app _ (b' ≫ i) = X.map (a l ≫ j).op s.val.down
   rwa [hbi']
 

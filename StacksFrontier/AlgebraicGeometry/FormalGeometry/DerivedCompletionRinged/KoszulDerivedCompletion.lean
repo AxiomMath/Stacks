@@ -240,7 +240,7 @@ def koszulScalar (e : Fin r → ℕ) :
     SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶
       SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
   (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-      (koszulFamily X f e)).app
+      (koszulFamily X f e)).asHom.app
     (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
 
 /-- On local sections over `U`, `koszulScalar` is multiplication by the monomial

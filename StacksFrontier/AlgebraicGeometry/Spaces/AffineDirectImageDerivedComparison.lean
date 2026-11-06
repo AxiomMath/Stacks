@@ -72,9 +72,32 @@ local instance.
 
 open CategoryTheory CategoryTheory.Limits
 
-attribute [local instance 5000] SheafOfModules.instAbelian
-
 universe w w' u
+
+/-- An object is right acyclic for `G` exactly when the unit of `RG` (Mathlib's
+`rightDerivedFunctorPlusUnith`, whose definition is not exposed) is invertible at the single
+complex on it in degree zero: both are units of right derived functors of the same functor. -/
+private lemma rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app {D E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [EnoughInjectives D]
+    [HasDerivedCategory.{w} D] [HasDerivedCategory.{w'} E] (G : D ⥤ E) [G.Additive]
+    [(G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
+      (HomotopyCategory.Plus.quasiIso D)] (X : D) :
+    G.rightAcyclic X ↔ IsIso (G.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor D 0).obj X)) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  change IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app _) ↔ _
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))]
+  exact isIso_comp_right_iff _ _
+
+attribute [local instance 5000] SheafOfModules.instAbelian
 
 namespace AlgebraicGeometry.Space
 
@@ -101,10 +124,17 @@ theorem isIso_rightDerivedFunctorPlusUnit_app_modulePushforward_isAffineHom
     [HasDerivedCategory.{w'} (Modules.{u, u} B S hS Y.1 Y.2)]
     (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) :
-    IsIso ((modulePushforward B S hS f).rightDerivedFunctorPlusUnit.app
+    IsIso ((modulePushforward B S hS f).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor (Modules.{u, u} B S hS X.1 X.2) 0).obj F)) :=
-  (Stacks.DerivedIndexing.rightAcyclic_iff_forall_nat (modulePushforward B S hS f) F).2
-    fun p hp ↦ isZero_rightDerived_modulePushforward_isAffineHom B S hS f hf F hF p hp
+  have : ((modulePushforward B S hS f).mapHomotopyCategoryPlus ⋙
+      DerivedCategory.Plus.Qh).HasRightDerivedFunctor (HomotopyCategory.Plus.quasiIso _) :=
+    have := (HomotopyCategory.Plus.localizerMorphism_derives
+      ((modulePushforward B S hS f).mapHomotopyCategoryPlus ⋙
+        DerivedCategory.Plus.Qh)).hasPointwiseRightDerivedFunctor
+    Functor.hasRightDerivedFunctor_of_hasPointwiseRightDerivedFunctor _ _
+  (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app (modulePushforward B S hS f) F).1
+    ((Stacks.DerivedIndexing.rightAcyclic_iff_forall_nat (modulePushforward B S hS f) F).2
+      fun p hp ↦ isZero_rightDerived_modulePushforward_isAffineHom B S hS f hf F hF p hp)
 
 end AlgebraicGeometry.Space
 

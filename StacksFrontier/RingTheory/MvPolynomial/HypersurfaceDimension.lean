@@ -74,7 +74,7 @@ number of variables.** -/
 theorem ringKrullDim_mvPolynomial :
     ringKrullDim (MvPolynomial ι k) = (Nat.card ι : WithBot ℕ∞) := by
   rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
-  simp
+  simp [ENat.card_eq_coe_natCard]
 
 /-- **`k[ι]` is equidimensional: every maximal ideal has height `#ι`.**  This is the third
 conjunct of Tag 00OQ, which gives the Krull dimension of the localization at an arbitrary maximal

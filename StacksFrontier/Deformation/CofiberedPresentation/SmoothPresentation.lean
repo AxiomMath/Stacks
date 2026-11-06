@@ -57,12 +57,12 @@ theorem elements_map_transport {R : C ⥤ Type v} {a b : R.Elements} (m : a ⟶ 
     (h₁ : a.1 = T) (h₂ : b.1 = T') (g : T ⟶ T')
     (hm : m.1 = eqToHom h₁ ≫ g ≫ eqToHom h₂.symm) :
     R.map g (R.map (eqToHom h₁) a.2) = R.map (eqToHom h₂) b.2 := by
-  obtain ⟨A, x⟩ := a
-  obtain ⟨B, y⟩ := b
+  obtain @⟨A, x⟩ := a
+  obtain @⟨B, y⟩ := b
   dsimp only at h₁ h₂
   subst h₁ h₂
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at hm
-  simp only [eqToHom_refl, FunctorToTypes.map_id_apply]
+  simp only [eqToHom_refl, Functor.map_id_apply]
   rw [← hm]
   exact m.2
 
@@ -70,8 +70,8 @@ theorem elements_map_transport {R : C ⥤ Type v} {a b : R.Elements} (m : a ⟶ 
 functors.** The component at `T` sends `x ∈ P(T)` to the element of `Q` underlying the image of
 `(T, x)`, transported back along the equality of its base with `T`. -/
 noncomputable def isoOfElementsEquivalenceOver {P Q : C ⥤ Type v}
-    (e : StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π P)
-      (CategoryOfElements.π Q)) : P ≅ Q := by
+    (e : StacksRepresentableCFG.EquivalenceOver (Functor.Elements.π P)
+      (Functor.Elements.π Q)) : P ≅ Q := by
   have hf : ∀ (T : C) (x : P.obj T), (e.hom.functor.obj (P.elementsMk T x)).1 = T :=
     fun T x => Functor.congr_obj e.hom.w (P.elementsMk T x)
   have hg : ∀ (T : C) (y : Q.obj T), (e.inv.functor.obj (Q.elementsMk T y)).1 = T :=
@@ -92,8 +92,8 @@ noncomputable def isoOfElementsEquivalenceOver {P Q : C ⥤ Type v}
       ⟨eqToHom (hf T x), rfl⟩
     let c := e.unitIso.hom.app (P.elementsMk T x) ≫ e.inv.functor.map n
     have := e.isHomLift_unitIso_hom_app (P.elementsMk T x)
-    have hu := IsHomLift.fac' (CategoryOfElements.π P)
-      (𝟙 ((CategoryOfElements.π P).obj (P.elementsMk T x))) (e.unitIso.hom.app (P.elementsMk T x))
+    have hu := IsHomLift.fac' (Functor.Elements.π P)
+      (𝟙 ((Functor.Elements.π P).obj (P.elementsMk T x))) (e.unitIso.hom.app (P.elementsMk T x))
     have hn := Functor.congr_hom e.inv.w n
     have hc : c.1 = eqToHom (rfl : (P.elementsMk T x).1 = T) ≫ 𝟙 T ≫
         eqToHom (hg T (φ T x)).symm := by
@@ -110,8 +110,8 @@ noncomputable def isoOfElementsEquivalenceOver {P Q : C ⥤ Type v}
       ⟨eqToHom (hg T y), rfl⟩
     let c := e.counitIso.inv.app (Q.elementsMk T y) ≫ e.hom.functor.map n
     have := e.isHomLift_counitIso_inv_app (Q.elementsMk T y)
-    have hu := IsHomLift.fac' (CategoryOfElements.π Q)
-      (𝟙 ((CategoryOfElements.π Q).obj (Q.elementsMk T y))) (e.counitIso.inv.app (Q.elementsMk T y))
+    have hu := IsHomLift.fac' (Functor.Elements.π Q)
+      (𝟙 ((Functor.Elements.π Q).obj (Q.elementsMk T y))) (e.counitIso.inv.app (Q.elementsMk T y))
     have hn := Functor.congr_hom e.hom.w n
     have hc : c.1 = eqToHom (rfl : (Q.elementsMk T y).1 = T) ≫ 𝟙 T ≫
         eqToHom (hf T (ψ T y)).symm := by
@@ -436,7 +436,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k] {F : 
 morphism `f : A|_{𝒞_Λ} ⟶ ℱ` out of a prorepresentable functor. -/
 noncomputable abbrev smoothChartGroupoid (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
     (hp : IsCofiberedInGroupoids p) (A : CompleteLocalAlgCat.{u, w, w} Λ k)
-    (f : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda A)))
+    (f : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda A)))
       (BasedCategory.ofFunctor p)) :
     GroupoidInFunctors.{_, w, w} (ArtinianLocalAlgCat.{u, w, w} Λ k) :=
   (presentationGroupoid p (restrictedCoyoneda A) f.toFunctor f.w hp).toGroupoidInFunctors
@@ -445,7 +445,7 @@ noncomputable abbrev smoothChartGroupoid (p : F ⥤ ArtinianLocalAlgCat.{u, w, w
 smooth. -/
 public theorem isSmooth_smoothChartGroupoid (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
     (hp : IsCofiberedInGroupoids p) (A : CompleteLocalAlgCat.{u, w, w} Λ k)
-    (f : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda A)))
+    (f : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda A)))
       (BasedCategory.ofFunctor p)) (hf : IsSmooth f) :
     GroupoidInFunctors.IsSmooth (smoothChartGroupoid p hp A f) :=
   isSmooth_presentationGroupoid p _ _ hp hf
@@ -453,7 +453,7 @@ public theorem isSmooth_smoothChartGroupoid (p : F ⥤ ArtinianLocalAlgCat.{u, w
 /-- The objects of the groupoid of a morphism out of `A|_{𝒞_Λ}` are prorepresented by `A`. -/
 public noncomputable def smoothChartGroupoidObjectsIso (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
     (hp : IsCofiberedInGroupoids p) (A : CompleteLocalAlgCat.{u, w, w} Λ k)
-    (f : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda A)))
+    (f : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda A)))
       (BasedCategory.ofFunctor p)) :
     (smoothChartGroupoid p hp A f).objects ≅ restrictedCoyoneda A :=
   Functor.isoWhiskerLeft _ uliftFunctorTrivial ≪≫ Functor.rightUnitor _
@@ -462,14 +462,14 @@ public noncomputable def smoothChartGroupoidObjectsIso (p : F ⥤ ArtinianLocalA
 predeformation category presents the category. -/
 public noncomputable def presentationOfIsSmooth (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
     (hp : IsPredeformationCategory.{u, w, w} p) (A : CompleteLocalAlgCat.{u, w, w} Λ k)
-    (f : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda A)))
+    (f : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda A)))
       (BasedCategory.ofFunctor p)) (hf : IsSmooth f) :
     Presentation (smoothChartGroupoid p hp.cofibered A f) p := by
   classical
   let U := restrictedCoyoneda.{u, w, w} A
   have hu₀ : Nonempty (U.obj (residueFieldObject.{u, w, w} Λ k)) :=
     ⟨(restrictedCoyoneda_isPredeformationFunctor.{u, w, w} A).some.default⟩
-  let y₀ : U.Elements := ⟨residueFieldObject.{u, w, w} Λ k, hu₀.some⟩
+  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, w, w} Λ k) hu₀.some
   have h₀ : (fiberFunctor f (residueFieldObject.{u, w, w} Λ k)).EssSurj :=
     ⟨fun z => ⟨⟨y₀, rfl⟩, by
       obtain ⟨E⟩ := hp.specialFiber
@@ -499,23 +499,23 @@ and of arrows are prorepresented by `A` and by `B`. -/
 public theorem exists_presentation_of_smoothChart (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
     (hp : IsPredeformationCategory.{u, w, w} p) (A B : CompleteLocalAlgCat.{u, w, w} Λ k)
     {FV : Type u₂} [Category.{v₂} FV] {pV : FV ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k}
-    (eV : StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π (restrictedCoyoneda A)) pV)
+    (eV : StacksRepresentableCFG.EquivalenceOver (Functor.Elements.π (restrictedCoyoneda A)) pV)
     (g : FV ⥤ F) (hg : g ⋙ p = pV)
     (hsm : IsSmooth
       (⟨g, hg⟩ : BasedFunctor (BasedCategory.ofFunctor pV) (BasedCategory.ofFunctor p)))
     (eB : StacksRepresentableCFG.EquivalenceOver (TwoFibreProductOver.structureFunctor pV pV p g g)
-      (CategoryOfElements.π (restrictedCoyoneda B))) :
+      (Functor.Elements.π (restrictedCoyoneda B))) :
     ∃ G : GroupoidInFunctors.{_, w, w} (ArtinianLocalAlgCat.{u, w, w} Λ k),
       GroupoidInFunctors.IsSmooth G ∧ Nonempty (Presentation G p) ∧
         Nonempty (G.objects ≅ restrictedCoyoneda A) ∧
           Nonempty (G.arrows ≅ restrictedCoyoneda B) := by
   let U := restrictedCoyoneda.{u, w, w} A
-  let f₁ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+  let f₁ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor pV) := ⟨eV.hom.functor, eV.hom.w⟩
-  let f : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+  let f : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor p) := BasedFunctor.comp f₁ ⟨g, hg⟩
   have hf : IsSmooth f :=
-    isSmooth_comp_of_equivalenceOver (𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π U))
+    isSmooth_comp_of_equivalenceOver (𝓕 := BasedCategory.ofFunctor (Functor.Elements.π U))
       (𝓖 := BasedCategory.ofFunctor pV) eV (isCofiberedInGroupoids_elementsProjection U)
       (⟨g, hg⟩ : BasedFunctor (BasedCategory.ofFunctor pV) (BasedCategory.ofFunctor p)) hsm
   let P := presentationGroupoid p U f.toFunctor f.w hp.cofibered
@@ -523,11 +523,11 @@ public theorem exists_presentation_of_smoothChart (p : F ⥤ ArtinianLocalAlgCat
     isSmooth_smoothChartGroupoid p hp.cofibered A f hf,
     ⟨presentationOfIsSmooth p hp A f hf⟩, ⟨smoothChartGroupoidObjectsIso p hp.cofibered A f⟩, ?_⟩
   let : Category (TwoFibreProductOver
-      (CategoryOfElements.π U) (CategoryOfElements.π U) p f.toFunctor f.toFunctor) :=
+      (Functor.Elements.π U) (Functor.Elements.π U) p f.toFunctor f.toFunctor) :=
     TwoFibreProductOver.instCategory
   have : P.fibreProductEquivalence.functor.IsEquivalence := inferInstance
-  let E₁ : StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π P.arrows)
-      (TwoFibreProductOver.structureFunctor (CategoryOfElements.π U) (CategoryOfElements.π U) p
+  let E₁ : StacksRepresentableCFG.EquivalenceOver (Functor.Elements.π P.arrows)
+      (TwoFibreProductOver.structureFunctor (Functor.Elements.π U) (Functor.Elements.π U) p
         f.toFunctor f.toFunctor) :=
     equivalenceOverOfCofibered (isCofiberedInGroupoids_elementsProjection P.arrows)
       P.fibreProductEquivalence.functor P.fibreProductOverBase

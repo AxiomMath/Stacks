@@ -379,7 +379,7 @@ lemma cotangent_generators_linearIndependent {R : Type u} [CommRing R]
   have h := hf hp
   ext i
   simpa only [MvPolynomial.coeff_sumSMulX] using
-    congrArg (MvPolynomial.coeff (Finsupp.single i 1)) h
+    congrArg (fun p => p.coeff (Finsupp.single i 1)) h
 
 @[sga "1 II 4.14" "(ii), special case"]
 noncomputable def cotangentBasis {R : Type u} [CommRing R] {r : ℕ}

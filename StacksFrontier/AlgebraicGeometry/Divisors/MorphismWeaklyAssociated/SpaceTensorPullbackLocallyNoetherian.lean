@@ -71,6 +71,19 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] modulesMonoidalCategory
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_spaceTensorPullbackLocallyNoetherian
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_spaceTensorPullbackLocallyNoetherian
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  (hasPullbacks_presheaf_spaceTensorPullbackLocallyNoetherian B S hS).has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS}
 

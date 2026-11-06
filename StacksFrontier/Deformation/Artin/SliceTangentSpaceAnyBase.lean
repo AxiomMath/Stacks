@@ -36,7 +36,7 @@ namespace Deformation.Artin.SliceTangent
 
 universe u
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 

@@ -9,6 +9,7 @@ public import Mathlib.CategoryTheory.Functor.Derived.LeftDerived
 public import Mathlib.CategoryTheory.Triangulated.TStructure.TruncLTGE
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import Mathlib.RingTheory.Extension.Cotangent.BaseChange
+public import Mathlib.RingTheory.Kaehler.TensorProduct
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Homology.TwoTermComplex.BaseChange
 public import StacksFrontier.RingTheory.NaiveCotangent.Defs

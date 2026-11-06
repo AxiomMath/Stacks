@@ -166,10 +166,11 @@ def diagonalComplementChartAut :
 /-- The comparison functor carries the action of a permutation on the chart of the complement of
 the diagonals to the conjugate of the corresponding action on the spaces-étale site. -/
 theorem comparisonFunctor_map_diagonalComplementChartAut (σ : Equiv.Perm (Fin (n + 1))) :
-    (comparisonFunctor B S hS X).map (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom =
+    (comparisonFunctor B S hS X).map
+        (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom =
       (comparisonDiagonalComplementChartIso B S hS X W c hc hsep n).hom ≫
         (SpacesEtale.diagonalComplementAut B S hS X (SpacesEtale.chartObj B S hS X W c hc)
-          (n + 1) hsep σ).hom ≫
+          (n + 1) hsep σ).asIso.hom ≫
         (comparisonDiagonalComplementChartIso B S hS X W c hc hsep n).inv :=
   (comparisonFullyFaithful B S hS X).map_preimage _
 
@@ -193,7 +194,7 @@ theorem comparisonFunctor_map_diagonalComplementChartπ (i : Fin (n + 1)) :
 
 /-- Translating by a permutation permutes the projections. -/
 theorem diagonalComplementChartAut_comp_π (σ : Equiv.Perm (Fin (n + 1))) (i : Fin (n + 1)) :
-    (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom ≫
+    (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom ≫
         diagonalComplementChartπ B S hS X W c hc hsep n i =
       diagonalComplementChartπ B S hS X W c hc hsep n (σ⁻¹ i) := by
   apply (comparisonFullyFaithful B S hS X).map_injective
@@ -222,10 +223,10 @@ def chartWedge {V : SmallEtale B S hS X.1}
 theorem chartWedge_comp_aut {V : SmallEtale B S hS X.1}
     (ψ : V ⟶ diagonalComplementChart B S hS X W c hc hsep n) (σ : Equiv.Perm (Fin (n + 1))) :
     chartWedge B S hS X W c hc hsep n
-        (ψ ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom) =
+        (ψ ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom) =
       ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • chartWedge B S hS X W c hc hsep n ψ := by
   have hfam : (fun i => FreeAbelianGroup.of
-        ((ψ ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom) ≫
+        ((ψ ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom) ≫
           diagonalComplementChartπ B S hS X W c hc hsep n i)) =
       (fun i => FreeAbelianGroup.of (ψ ≫ diagonalComplementChartπ B S hS X W c hc hsep n i)) ∘
         (σ⁻¹ : Equiv.Perm (Fin (n + 1))) :=
@@ -336,7 +337,7 @@ theorem exists_lift_diagonalComplementChart {V : SmallEtale B S hS X.1}
   refine (key _ _ _).trans ?_
   show L ≫ SpacesEtale.diagonalComplementι B S hS X _ (n + 1) hsep ≫ Pi.π _ i = _
   rw [← assoc, SpacesEtale.diagonalComplementLift_ι]
-  exact Pi.lift_π (fun i => (comparisonFunctor B S hS X).map (a i)) i
+  exact Pi.lift_comp_π (fun i => (comparisonFunctor B S hS X).map (a i)) i
 
 /-- **Stacks 0726, local surjectivity, on the small étale site.** -/
 theorem isLocallySurjective_signTwistToWedge :
@@ -478,7 +479,7 @@ theorem isLocallyInjective_signTwistToWedge :
           (QuotientAddGroup.mk' rel)) (fun a => signTwistToWedgeApp_twistedGenerator
             B S hS X W c hc hsep n a) (z₁ - z₂) ?_
       · intro a b σ hab
-        have hcomp : a = b ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ⁻¹).hom := by
+        have hcomp : a = b ≫ (diagonalComplementChartAut B S hS X W c hc hsep n σ⁻¹).asIso.hom := by
           refine diagonalComplementChart_hom_ext B S hS X W c hc hsep n fun i => ?_
           rw [assoc, diagonalComplementChartAut_comp_π, inv_inv]
           exact congrFun hab i
@@ -612,8 +613,9 @@ theorem eq_one_of_appTop_comp_eq {K : Type u} [Field K]
     (σ : Equiv.Perm (Fin (n + 1)))
     (ψ : Γ(chartScheme (diagonalComplementChart B S hS X W c hc hsep n), ⊤) ⟶ CommRingCat.of K)
     (hψ : Function.Surjective ψ)
-    (hfix : (chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom).appTop ≫
-      ψ = ψ) : σ = 1 := by
+    (hfix : (chartSchemeMap
+        (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom).appTop ≫ ψ = ψ) :
+    σ = 1 := by
   have := isAffine_chartScheme_diagonalComplementChart B S hS X W c hc hsep n hW hcA
   let V := diagonalComplementChart B S hS X W c hc hsep n
   let Y := chartScheme V
@@ -627,10 +629,10 @@ theorem eq_one_of_appTop_comp_eq {K : Type u} [Field K]
   let ιT : T ⟶ (SmallEtale.toOver B S hS X.1).obj V := Over.homMk (ObjectProperty.homMk ι) rfl
   -- the point is fixed by `σ`
   have hιfix : ιT ≫ (SmallEtale.toOver B S hS X.1).map
-      (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom = ιT := by
+      (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom = ιT := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp]
-    show ι ≫ chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom = ι
+    show ι ≫ chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom = ι
     simp only [ι, assoc]
     rw [← Scheme.isoSpec_inv_naturality, ← assoc, ← Spec.map_comp, hfix]
   by_contra hσ
@@ -646,9 +648,9 @@ theorem eq_one_of_appTop_comp_eq {K : Type u} [Field K]
   -- `g` is fixed by the action, which permutes the projections
   set θ := diagonalComplementRepIso B S hS X W c hc hsep n with hθ
   let autₚ := ((SpacesEtale.toSpaces B S hS X).map (SpacesEtale.diagonalComplementAut B S hS X
-      (SpacesEtale.chartObj B S hS X W c hc) (n + 1) hsep σ).hom).hom
+      (SpacesEtale.chartObj B S hS X W c hc) (n + 1) hsep σ).asIso.hom).hom
   have h : yoneda.map ((SmallEtale.toOver B S hS X.1).map
-      (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom) = θ.hom ≫ autₚ ≫ θ.inv :=
+      (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom) = θ.hom ≫ autₚ ≫ θ.inv :=
     congrArg (fun k => ((SpacesEtale.toSpaces B S hS X).map k).hom)
       (comparisonFunctor_map_diagonalComplementChartAut B S hS X W c hc hsep n σ)
   have aux : ∀ {C : Type (u + 1)} [Category.{u + 1} C] {T A Y : C} (ι : T ⟶ A) (s : A ⟶ A)
@@ -677,7 +679,7 @@ of the diagonals. -/
 abbrev autPullback (σ : Equiv.Perm (Fin (n + 1))) :
     Γ(chartScheme (diagonalComplementChart B S hS X W c hc hsep n), ⊤) →+*
       Γ(chartScheme (diagonalComplementChart B S hS X W c hc hsep n), ⊤) :=
-  (chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom).appTop.hom
+  (chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom).appTop.hom
 
 /-- Pulling back along the identity permutation is the identity. -/
 theorem autPullback_one : autPullback B S hS X W c hc hsep n 1 = RingHom.id _ := by
@@ -690,9 +692,9 @@ theorem autPullback_one : autPullback B S hS X W c hc hsep n 1 = RingHom.id _ :=
 theorem autPullback_mul (σ τ : Equiv.Perm (Fin (n + 1))) (a) :
     autPullback B S hS X W c hc hsep n (σ * τ) a =
       autPullback B S hS X W c hc hsep n τ (autPullback B S hS X W c hc hsep n σ a) := by
-  simp only [autPullback, map_mul, Aut.Aut_mul_def]
-  show (chartSchemeMap ((diagonalComplementChartAut B S hS X W c hc hsep n τ).hom ≫
-    (diagonalComplementChartAut B S hS X W c hc hsep n σ).hom)).appTop.hom a = _
+  simp only [autPullback, map_mul, Aut.mul_asIso]
+  show (chartSchemeMap ((diagonalComplementChartAut B S hS X W c hc hsep n τ).asIso.hom ≫
+    (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom)).appTop.hom a = _
   simp only [chartSchemeMap, Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
     RingHom.coe_comp, Function.comp_apply]
 

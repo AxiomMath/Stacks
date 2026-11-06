@@ -142,6 +142,12 @@ public theorem preservesFiniteColimits_affineSections :
   rw [← adequateComparison_ι.{u, u} B]
   have : PreservesFiniteColimits (adequateOn.{u, u} A (schemeSizeBelow B.cutoff)).ι :=
     have := (adequateOn.{u, u} A (schemeSizeBelow B.cutoff)).preservesCokernels_ι
+    have : HasFiniteProducts (adequateOn.{u, u} A (schemeSizeBelow B.cutoff)).FullSubcategory :=
+      inferInstance
+    have : HasFiniteBiproducts (adequateOn.{u, u} A (schemeSizeBelow B.cutoff)).FullSubcategory :=
+      HasFiniteBiproducts.of_hasFiniteProducts
+    have : HasFiniteCoproducts (adequateOn.{u, u} A (schemeSizeBelow B.cutoff)).FullSubcategory :=
+      hasFiniteCoproducts_of_hasFiniteBiproducts _
     Functor.preservesFiniteColimits_of_preservesCokernels _
   exact comp_preservesFiniteColimits _ _
 

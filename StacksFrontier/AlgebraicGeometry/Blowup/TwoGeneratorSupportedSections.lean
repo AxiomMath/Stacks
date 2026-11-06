@@ -153,10 +153,10 @@ theorem C_pow_mul_eq_of_isHomogeneous (i : Fin 2) {n : ℕ} {p : MvPolynomial (F
   have hrel := mk_C_mul_mk_X A f₁ f₂
   have h1 : Ideal.Quotient.mk (relationIdeal A f₁ f₂) p =
       ∑ d ∈ p.support, Ideal.Quotient.mk (relationIdeal A f₁ f₂)
-        (MvPolynomial.monomial d (MvPolynomial.coeff d p)) := by
+        (MvPolynomial.monomial d (p.coeff d)) := by
     rw [← map_sum, ← MvPolynomial.as_sum]
   have h2 : MvPolynomial.eval (centerGens A f₁ f₂) p =
-      ∑ d ∈ p.support, MvPolynomial.coeff d p * ∏ j, centerGens A f₁ f₂ j ^ d j :=
+      ∑ d ∈ p.support, p.coeff d * ∏ j, centerGens A f₁ f₂ j ^ d j :=
     MvPolynomial.eval_eq' _ p
   rw [h1, h2, Finset.mul_sum, map_sum, map_sum, Finset.sum_mul]
   refine Finset.sum_congr rfl fun d hd => ?_
@@ -166,8 +166,8 @@ theorem C_pow_mul_eq_of_isHomogeneous (i : Fin 2) {n : ℕ} {p : MvPolynomial (F
       by_contra h
       exact (MvPolynomial.mem_support_iff.mp hd) (this h)
     rw [← hd', Finsupp.degree_eq_sum, Fin.sum_univ_two]
-  have hmon : MvPolynomial.monomial d (MvPolynomial.coeff d p) =
-      MvPolynomial.C (MvPolynomial.coeff d p) *
+  have hmon : MvPolynomial.monomial d (p.coeff d) =
+      MvPolynomial.C (p.coeff d) *
         (MvPolynomial.X (0 : Fin 2) ^ d 0 * MvPolynomial.X (1 : Fin 2) ^ d 1) := by
     rw [MvPolynomial.monomial_eq]
     congr 1
@@ -182,7 +182,7 @@ theorem C_pow_mul_eq_of_isHomogeneous (i : Fin 2) {n : ℕ} {p : MvPolynomial (F
           Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X (0 : Fin 2))) ^ d 1 := by
       rw [hrel]
     linear_combination (Ideal.Quotient.mk (relationIdeal A f₁ f₂)
-          (MvPolynomial.C (MvPolynomial.coeff d p)) *
+          (MvPolynomial.C (p.coeff d)) *
         Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X (0 : Fin 2)) ^ d 0 *
         Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.C f₁) ^ d 0) * hb
   · simp only [Fin.mk_one, centerGens_one]
@@ -192,7 +192,7 @@ theorem C_pow_mul_eq_of_isHomogeneous (i : Fin 2) {n : ℕ} {p : MvPolynomial (F
           Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X (1 : Fin 2))) ^ d 0 := by
       rw [hrel]
     linear_combination (Ideal.Quotient.mk (relationIdeal A f₁ f₂)
-          (MvPolynomial.C (MvPolynomial.coeff d p)) *
+          (MvPolynomial.C (p.coeff d)) *
         Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X (1 : Fin 2)) ^ d 1 *
         Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.C f₂) ^ d 1) * ha
 

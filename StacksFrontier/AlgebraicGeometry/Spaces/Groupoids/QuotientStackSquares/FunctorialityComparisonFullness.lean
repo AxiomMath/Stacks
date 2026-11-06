@@ -361,7 +361,7 @@ private theorem exists_hom_of_hbase_eq_id (φ : Hom G G')
     exact (congrArg (fun k => (pointwiseToQuotientStack G).map k)
       (CategoryTheory.Functor.map_id _ _)).trans (CategoryTheory.Functor.map_id _ _)
   have hΦb' : Φ.b = 𝟙 _ :=
-    ULift.ext _ _ (Pseudofunctor.CoGrothendieck.Hom.ext _ _ hbbase Discrete.hom_eq)
+    ULift.ext (Pseudofunctor.CoGrothendieck.Hom.ext _ _ hbbase Discrete.hom_eq)
   exact ⟨𝟙 _, (CategoryTheory.Functor.map_id (functorialityComparison φ) _).trans
     (TwoFibreProductOver.Hom.ext' hΦa'.symm hΦb'.symm)⟩
 

@@ -281,7 +281,7 @@ theorem quasiIso_piLift_unit (hU : IsClopenDecomposition U)
   refine quasiIso_map_of_quasiIso_map_comp_π_counit U hU _ m ?_
   have hl : (Pi.lift fun k => (adj[U k]).unit.app A) ≫
       Pi.π (fun k => (ψC[U k]).obj ((ρC[U k]).obj A)) m = (adj[U m]).unit.app A :=
-    Pi.lift_π _ _
+    Pi.lift_comp_π _ _
   rw [hl, (adj[U m]).left_triangle_components A]
   exact (inferInstance : QuasiIso (𝟙 ((ρC[U m]).obj A)))
 

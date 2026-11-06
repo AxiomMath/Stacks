@@ -301,7 +301,8 @@ include hnat hbase in
 in the internal hom `𝓗om_{O₂}(M, P)`.** This is the universal-property form of the symbol
 of `D`: the sheaf of relative differentials can be mapped out of it by Tag 04BL, which is
 what replaces a comparison with the presheaf of objectwise Kähler differentials. -/
-noncomputable def internalHomDerivation : (internalHom O₂ M P).Derivation' φ where
+noncomputable def internalHomDerivation :
+    PresheafOfModulesOfCommRing.Derivation' (internalHom O₂ M P) φ where
   d {X} := AddMonoidHom.mk' (fun b => internalHomBracket M P D hbr hnat X.unop b)
     (internalHomBracket_add M P D hbr hnat X.unop)
   d_mul {X} a b := by
@@ -365,8 +366,8 @@ applies to it; this is what lets the sheaf of relative differentials be mapped o
 without comparing it to the presheaf of objectwise Kähler differentials. -/
 @[ega "IV 16.11.1" "special case"]
 noncomputable def principalPartsSymbolDerivation :
-    (internalHomSheafOfModules F (principalPartsOne.{v, u, w, m} φ F)).val.Derivation'
-      φ.hom :=
+    PresheafOfModulesOfCommRing.Derivation'
+      (internalHomSheafOfModules F (principalPartsOne.{v, u, w, m} φ F)).val φ.hom :=
   internalHomDerivation φ.hom F.val (principalPartsOne.{v, u, w, m} φ F).val
     (universalDiffOp.{v, u, w, m} (underlyingRingSheafMapOfSite φ) F 1)
     (fun X b r x => isGlobalDiffOpOfOrder_one_bracket _

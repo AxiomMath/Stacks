@@ -605,11 +605,11 @@ abbrev sectionsPresentationIso :
 /-- The comparison `Γ(U, K) ⟶ R⁺Γ(U, K)` commutes with the shift. -/
 instance natTransCommShift_boundedSectionsUnitPlus :
     NatTrans.CommShift (boundedSectionsUnitPlus X U) ℤ := by
-  have : NatTrans.CommShift (sectionsOverOpen X U).rightDerivedFunctorPlusUnit ℤ :=
+  have : NatTrans.CommShift (sectionsOverOpen X U).rightDerivedFunctorPlusUnith ℤ :=
     CategoryTheory.Functor.natTransCommShiftRightDerivedFunctorPlusUnit _
   refine NatTrans.commShift_of_eq_conj (sectionsPresentationIso X U)
     (Functor.associator _ _ _).symm
-    (Functor.whiskerRight (sectionsOverOpen X U).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (sectionsOverOpen X U).rightDerivedFunctorPlusUnith
       DerivedCategory.Plus.ι) ?_
   ext K
   simp only [Functor.comp_obj, ObjectProperty.ι_obj, boundedSectionsUnitPlus,
@@ -679,7 +679,7 @@ def forgetPlusUnit :
         ((forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlus ⋙
           DerivedCategory.Plus.ι) :=
   (presentationIso (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u})).hom ≫
-    Functor.whiskerRight (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit
+    Functor.whiskerRight (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith
       DerivedCategory.Plus.ι ≫
     (Functor.associator _ _ _).hom
 
@@ -702,7 +702,7 @@ def forgetUnbUnit :
 /-- The transformation `forgetPlusUnit R` commutes with the shift. -/
 instance natTransCommShift_forgetPlusUnit : NatTrans.CommShift (forgetPlusUnit R) ℤ := by
   have : NatTrans.CommShift
-      (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit ℤ :=
+      (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith ℤ :=
     CategoryTheory.Functor.natTransCommShiftRightDerivedFunctorPlusUnit _
   dsimp only [forgetPlusUnit]
   infer_instance
@@ -885,10 +885,25 @@ instance isIso_mapCochainComplexPlusDerivedUnit {A₁ A₂ : Type*} [Category* A
     (T : A₁ ⥤ A₂) [T.Additive] [PreservesFiniteLimits T] [PreservesFiniteColimits T] :
     IsIso (Functor.mapCochainComplexPlusDerivedUnit T) := by
   have : ∀ K, IsIso ((Functor.mapCochainComplexPlusDerivedUnit T).app K) := fun K => by
-    have hu : IsIso (T.rightDerivedFunctorPlusUnit.app
-        ((HomotopyCategory.Plus.quotient A₁).obj K)) :=
-      T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K.obj K.property
+    have hu : IsIso (T.rightDerivedFunctorPlusUnith.app
+        ((HomotopyCategory.Plus.quotient A₁).obj K)) := by
+      have h₀ := T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K.obj K.property
         (fun n => Functor.rightAcyclic_of_exact T _)
+      have h₂ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+        ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A₁))
+        ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A₁))
+        (HomotopyCategory.Plus.quasiIso A₁) T.rightDerivedFunctorPlus
+        T.rightDerivedFunctorPlusUnith).1 inferInstance
+      rw [← Functor.rightDerived_fac_app
+        ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A₁))
+        ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A₁))
+        (HomotopyCategory.Plus.quasiIso A₁) T.rightDerivedFunctorPlus
+        T.rightDerivedFunctorPlusUnith]
+      infer_instance
     have h₁ : IsIso ((DerivedCategory.Plus.quotientCompQhIso A₂).inv.app
         (T.mapCochainComplexPlus.obj K)) := inferInstance
     have h₃ : IsIso (T.rightDerivedFunctorPlus.map

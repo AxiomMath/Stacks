@@ -526,6 +526,17 @@ section MapLimit
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SpecGlobalFunctions :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SpecGlobalFunctions
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_SpecGlobalFunctions (B := B) (S := S) (hS := hS)).has_limit _
+
 /-- Pasting the pullback square of `f` and `g` onto a pullback square on `g`. -/
 private theorem isPullback_pullback_fst_snd_comp {C : Type*} [Category C] {X Y T W Z : C}
     (f : X ⟶ Y) (g : T ⟶ Y) (q : T ⟶ W) (pZ : Y ⟶ Z) (aW : W ⟶ Z) [HasPullback f g]

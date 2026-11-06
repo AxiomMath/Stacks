@@ -57,6 +57,17 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_Datum (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_Datum {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace DerivedChow
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

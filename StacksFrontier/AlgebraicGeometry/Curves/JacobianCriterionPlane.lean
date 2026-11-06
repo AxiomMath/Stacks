@@ -47,7 +47,7 @@ quadratic term in `f` is nondegenerate".
 ## Implementation notes
 
 The linear coefficient of a power series at `x_i` is `MvPowerSeries.coeff (Finsupp.single i 1)`,
-which is `MvPowerSeries.constantCoeff ∘ MvPowerSeries.pderiv k i`; the second description is the
+which is `MvPowerSeries.constantCoeff ∘ MvPowerSeries.pderiv i`; the second description is the
 one used in the proofs, because the Leibniz rule for `pderiv` then gives the behaviour of linear
 coefficients on products for free, and that is the only property of them the argument needs. No
 model of `𝔪/𝔪²` is chosen: the statements are equalities of ideals of `A`, and the passage
@@ -79,7 +79,7 @@ variable {k : Type u} [Field k]
 /-- The coefficient of `x_i` in a power series, computed as the constant coefficient of its
 `i`-th formal partial derivative. -/
 private noncomputable def linCoeff {n : ℕ} (i : Fin n) (g : MvPowerSeries (Fin n) k) : k :=
-  MvPowerSeries.constantCoeff (pderiv k i g)
+  MvPowerSeries.constantCoeff (pderiv (R := k) i g)
 
 private theorem linCoeff_eq_coeff {n : ℕ} (i : Fin n) (g : MvPowerSeries (Fin n) k) :
     linCoeff i g = MvPowerSeries.coeff (Finsupp.single i 1) g := by
@@ -104,7 +104,7 @@ private theorem linCoeff_sum {n : ℕ} {ι : Type*} (i : Fin n) (s : Finset ι)
 private theorem linCoeff_mul {n : ℕ} (i : Fin n) (u v : MvPowerSeries (Fin n) k) :
     linCoeff i (u * v) = MvPowerSeries.constantCoeff u * linCoeff i v +
       linCoeff i u * MvPowerSeries.constantCoeff v := by
-  rw [linCoeff, linCoeff, linCoeff, (pderiv k i).leibniz]
+  rw [linCoeff, linCoeff, linCoeff, (pderiv (R := k) i).leibniz]
   simp [mul_comm]
 
 private theorem linCoeff_X {n : ℕ} (i j : Fin n) :
@@ -325,12 +325,13 @@ theorem span_pair_eq_maximalIdeal_iff (g : Fin 2 → MvPowerSeries (Fin 2) k)
 /-- A partial derivative of a power series in `𝔪 ^ 2` lies in the maximal ideal. -/
 private theorem pderiv_mem_maximalIdeal_of_mem_sq {n : ℕ} (i : Fin n)
     {f : MvPowerSeries (Fin n) k} (hf : f ∈ (maximalIdeal (MvPowerSeries (Fin n) k)) ^ 2) :
-    pderiv k i f ∈ maximalIdeal (MvPowerSeries (Fin n) k) :=
+    pderiv (R := k) i f ∈ maximalIdeal (MvPowerSeries (Fin n) k) :=
   mem_maximalIdeal_of_constantCoeff_eq_zero (linCoeff_eq_zero_of_mem_sq i hf)
 
 /-- The partial derivatives of a power series in two variables, as a range and as a pair. -/
 private theorem range_pderiv_eq_pair (f : MvPowerSeries (Fin 2) k) :
-    Set.range (fun i : Fin 2 => pderiv k i f) = {pderiv k 0 f, pderiv k 1 f} := by
+    Set.range (fun i : Fin 2 => pderiv (R := k) i f) =
+      {pderiv (R := k) 0 f, pderiv (R := k) 1 f} := by
   ext x
   simp only [Set.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff]
   exact ⟨by rintro ⟨i, rfl⟩; fin_cases i <;> simp, by
@@ -343,12 +344,12 @@ exactly when the quadratic term of `f` is nondegenerate.** -/
 @[sga "7 XV 1.2.7" "partial, special case"]
 theorem span_pderiv_eq_maximalIdeal_iff {f : MvPowerSeries (Fin 2) k}
     (hf : f ∈ (maximalIdeal (MvPowerSeries (Fin 2) k)) ^ 2) :
-    Ideal.span {pderiv k 0 f, pderiv k 1 f} = maximalIdeal (MvPowerSeries (Fin 2) k) ↔
+    Ideal.span {pderiv (R := k) 0 f, pderiv (R := k) 1 f} = maximalIdeal (MvPowerSeries (Fin 2) k) ↔
       4 * MvPowerSeries.coeff (Finsupp.single 0 2) f *
             MvPowerSeries.coeff (Finsupp.single 1 2) f -
           MvPowerSeries.coeff (Finsupp.single 0 1 + Finsupp.single 1 1) f ^ 2 ≠ 0 := by
   classical
-  set g : Fin 2 → MvPowerSeries (Fin 2) k := fun i => pderiv k i f with hgdef
+  set g : Fin 2 → MvPowerSeries (Fin 2) k := fun i => pderiv (R := k) i f with hgdef
   have hg : ∀ i, g i ∈ maximalIdeal (MvPowerSeries (Fin 2) k) :=
     fun i => pderiv_mem_maximalIdeal_of_mem_sq i hf
   -- the four linear coefficients of the two partial derivatives
@@ -419,7 +420,7 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff {n m : ℕ}
     (f : Fin m → MvPowerSeries (Fin n) k) (r : ℕ)
     [IsLocalRing (MvPowerSeries (Fin n) k ⧸ I)] :
     jacobianMinorIdealModulo I f r = maximalIdeal (MvPowerSeries (Fin n) k ⧸ I) ↔
-      minorIdeal (fun i j => pderiv k i (f j)) r ⊔ I =
+      minorIdeal (fun i j => pderiv (R := k) i (f j)) r ⊔ I =
         maximalIdeal (MvPowerSeries (Fin n) k) :=
   map_eq_maximalIdeal_quotient_iff I _ hI
 
@@ -446,14 +447,14 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_nondegenerate
   have hIsq : Ideal.span {f} ≤ (maximalIdeal (MvPowerSeries (Fin 2) k)) ^ 2 :=
     Ideal.span_le.mpr (Set.singleton_subset_iff.mpr hf)
   have hminor :
-      minorIdeal (fun (i : Fin 2) (j : Fin 1) => pderiv k i ((fun _ : Fin 1 => f) j)) 1 =
-        Ideal.span {pderiv k 0 f, pderiv k 1 f} :=
+      minorIdeal (fun (i : Fin 2) (j : Fin 1) => pderiv (R := k) i ((fun _ : Fin 1 => f) j)) 1 =
+        Ideal.span {pderiv (R := k) 0 f, pderiv (R := k) 1 f} :=
     (minorIdeal_one _).trans (by
       rw [← range_pderiv_eq_pair]
       congr 1
       ext x
       simp [eq_comm])
-  have hJle : Ideal.span {pderiv k 0 f, pderiv k 1 f} ≤
+  have hJle : Ideal.span {pderiv (R := k) 0 f, pderiv (R := k) 1 f} ≤
       maximalIdeal (MvPowerSeries (Fin 2) k) := by
     rw [← range_pderiv_eq_pair, Ideal.span_le]
     rintro x ⟨i, rfl⟩

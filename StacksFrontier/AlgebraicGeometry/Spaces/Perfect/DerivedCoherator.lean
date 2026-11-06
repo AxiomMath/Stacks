@@ -184,6 +184,18 @@ theorem nonempty_restrictPush_obj_iso {Y W : AlgebraicSpaces B S hS} (j : Y ⟶ 
       (etaleModulePullback.{u, u} B S hS j hj).mapDerivedCategory.mapIso e
   exact ⟨R.mapIso e.symm ≪≫ e₁ ≪≫ e₂ ≪≫ Rj.mapIso e₃⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_DerivedCoherator :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Limits of cospans of presheaves on the big fppf site, found directly. -/
+local instance (priority := high) hasPullback_presheaf_DerivedCoherator
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An open subspace of an absolutely quasi-separated algebraic space is absolutely
 quasi-separated. -/
 theorem isAbsolutelyQuasiSeparated_of_isOpenSubspace (hZ : B.Contains (⊤_ Scheme.{u}))

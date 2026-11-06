@@ -425,7 +425,7 @@ noncomputable def idealTensorHom (hi : FirstOrderThickening i)
   (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).map
-      (PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val) β.val)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) β.val)
 
 /-- The ideal tensor map of two extensions only depends on the thickening and the map of
 quotient modules. -/
@@ -446,9 +446,9 @@ private lemma idealTensorHom_add (hi : FirstOrderThickening i)
       (show PreservesFiniteColimits (PresheafOfModules.sheafification (𝟙 R.obj)) from
         inferInstance)
   have hval : (β + γ).val = β.val + γ.val := Functor.map_add (SheafOfModules.forget R)
-  have hadd : PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val) (β + γ).val =
-      PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val) β.val +
-        PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val) γ.val := by
+  have hadd : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) (β + γ).val =
+      PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) β.val +
+        PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val) γ.val := by
     rw [hval]
     apply PresheafOfModules.hom_ext
     intro U

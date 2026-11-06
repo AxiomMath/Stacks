@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
 import StacksCore.GroupTheory.Index
 
 /-! # Basic facts about cyclic groups -/

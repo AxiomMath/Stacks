@@ -79,6 +79,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_Dilatations :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_Dilatations
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X X' Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-! ### Proper modifications are finite-type modifications -/
@@ -135,6 +146,7 @@ theorem comp_eq_openComplement_of_comp_eq {f : X' ⟶ X} {T : Set (points B S hS
       (compl_preimage_subset_preimage_of_comp_eq B S hS hc T)
   have hiso : IsIso (openComplementRestriction B S hS f T) :=
     isIso_openComplementRestriction B S hS f T hfU
+  have hmono : Mono (openComplementRestriction B S hS f T) := IsIso.mono_of_iso _
   have key :
       Subfunctor.lift _ (hle hag) ≫ openComplementRestriction B S hS f T =
         Subfunctor.lift _ (hle hbg) ≫ openComplementRestriction B S hS f T := by

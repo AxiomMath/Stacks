@@ -106,16 +106,16 @@ variable {Y X : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f] {F : X.Modules}
 under `AlgebraicGeometry.Scheme.Hom.appIso` acts on the same section read as a section of
 `F.restrict f` over `V`. -/
 theorem smul_eq_restrict_smul (V : Y.Opens) (r : Γ(X, f ''ᵁ V)) (x : Γ(F.restrict f, V)) :
-    (F.smul r).hom x = ((f.appIso V).hom r) • x :=
+    (F.smul r).asHom.hom x = ((f.appIso V).hom r) • x :=
   Scheme.Modules.smul_restrictAppIso_inv_apply f F V r x
 
 /-- A submodule `P` of `F.restrict f` is stable, over an open `V` of `Y`, under the action of
-the sections of `𝒪_X` over `f ''ᵁ V`. The action is written `(F.smul r).hom x` rather than
+the sections of `𝒪_X` over `f ''ᵁ V`. The action is written `(F.smul r).asHom.hom x` rather than
 `r • x`: the carriers `Γ(F, f ''ᵁ V)` and `Γ(F.restrict f, V)` are equal but not syntactically
 so, and `•` chooses its `Module` instance from the spelling. -/
 theorem smul_mem_obj (P : (F.restrict f).Submodule) (V : Y.Opens) (r : Γ(X, f ''ᵁ V))
     {x : Γ(F.restrict f, V)} (hx : x ∈ P.obj (op V)) :
-    (F.smul r).hom x ∈ P.obj (op V) := by
+    (F.smul r).asHom.hom x ∈ P.obj (op V) := by
   rw [smul_eq_restrict_smul f V r x]
   exact Submodule.smul_mem _ _ hx
 

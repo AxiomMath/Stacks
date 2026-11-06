@@ -56,6 +56,27 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)} {φ : X ⟶ Y} {cY : Cone Y}
   {V : BigFppfOver B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_RelativeAmpleFibreStage :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RelativeAmpleFibreStage
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of inverse systems of presheaves on the big fppf site. -/
+local instance hasPullbacks_system_RelativeAmpleFibreStage :
+    HasPullbacks (Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) := inferInstance
+
+local instance (priority := high) hasPullback_system_RelativeAmpleFibreStage
+    {X Y Z : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The fibre stage of Stacks 0D3D.** Let `φ : X ⟶ Y` be a morphism of directed systems of
 algebraic spaces with affine transition morphisms and proper, finitely presented stages, with
 limit `f : cX.pt ⟶ cY.pt`, let `k : h_V ⟶ cY.pt` with `V` affine, and let `Lᵢ` be an invertible

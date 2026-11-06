@@ -100,12 +100,12 @@ def inverseLimitSequenceMapComparison {A : Type u₁} {B : Type u₂} [Category.
     have hF : (inverseLimitSequence F).g ≫ Pi.π (fun n : ℕ => F.obj ⟨n⟩) n =
         Pi.π (fun n : ℕ => F.obj ⟨n⟩) n -
           Pi.π (fun n : ℕ => F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op :=
-      Pi.lift_π _ _
+      Pi.lift_comp_π _ _
     have hFG : (inverseLimitSequence (F ⋙ G)).g ≫ Pi.π (fun n : ℕ => (F ⋙ G).obj ⟨n⟩) n =
         Pi.π (fun n : ℕ => (F ⋙ G).obj ⟨n⟩) n -
           Pi.π (fun n : ℕ => (F ⋙ G).obj ⟨n⟩) (n + 1) ≫
             (F ⋙ G).map (homOfLE (Nat.le_succ n)).op :=
-      Pi.lift_π _ _
+      Pi.lift_comp_π _ _
     have hL : ((Pi.lift fun n : ℕ => G.map (Pi.π (fun n : ℕ => F.obj ⟨n⟩) n) :
         G.obj (∏ᶜ fun n : ℕ => F.obj ⟨n⟩) ⟶ ∏ᶜ fun n : ℕ => (F ⋙ G).obj ⟨n⟩) ≫
         (inverseLimitSequence (F ⋙ G)).g) ≫ Pi.π (fun n : ℕ => (F ⋙ G).obj ⟨n⟩) n =
@@ -113,8 +113,8 @@ def inverseLimitSequenceMapComparison {A : Type u₁} {B : Type u₂} [Category.
           G.map (Pi.π (fun n : ℕ => F.obj ⟨n⟩) (n + 1)) ≫
             G.map (F.map (homOfLE (Nat.le_succ n)).op) :=
       (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hFG).trans
-        ((Preadditive.comp_sub _ _ _).trans (congrArg₂ (· - ·) (Pi.lift_π _ _)
-          ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) (Pi.lift_π _ _))))))
+        ((Preadditive.comp_sub _ _ _).trans (congrArg₂ (· - ·) (Pi.lift_comp_π _ _)
+          ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) (Pi.lift_comp_π _ _))))))
     have hR : (G.map (inverseLimitSequence F).g ≫
         (Pi.lift fun n : ℕ => G.map (Pi.π (fun n : ℕ => F.obj ⟨n⟩) n) :
           G.obj (∏ᶜ fun n : ℕ => F.obj ⟨n⟩) ⟶ ∏ᶜ fun n : ℕ => (F ⋙ G).obj ⟨n⟩)) ≫
@@ -122,7 +122,7 @@ def inverseLimitSequenceMapComparison {A : Type u₁} {B : Type u₂} [Category.
         G.map (Pi.π (fun n : ℕ => F.obj ⟨n⟩) n) -
           G.map (Pi.π (fun n : ℕ => F.obj ⟨n⟩) (n + 1)) ≫
             G.map (F.map (homOfLE (Nat.le_succ n)).op) :=
-      (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Pi.lift_π _ _)).trans
+      (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Pi.lift_comp_π _ _)).trans
         ((G.map_comp _ _).symm.trans ((congrArg G.map hF).trans
           (G.map_sub.trans (congrArg (_ - ·) (G.map_comp _ _))))))
     exact hL.trans hR.symm
@@ -179,7 +179,7 @@ theorem bijective_comp_singleFunctor_map_piLift_of_isPerfect [IsProper f] [Flat 
       fun n => φ ≫ (DerivedCategory.singleFunctor X.Modules 0).map
         ((tilde.functor R ⋙ Scheme.Modules.pullback f).map (Pi.π (fun n : ℕ => M.obj ⟨n⟩) n))) := by
     funext x n
-    simp only [Function.comp_apply, Category.assoc, ← Functor.map_comp, Pi.lift_π]
+    simp only [Function.comp_apply, Category.assoc, ← Functor.map_comp, Pi.lift_comp_π]
   rw [heq]
   exact bijective_comp_singleFunctor_pullback_map_π f (fun n : ℕ => M.obj ⟨n⟩) E hE
 

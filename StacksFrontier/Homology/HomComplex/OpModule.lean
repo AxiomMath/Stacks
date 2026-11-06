@@ -37,7 +37,7 @@ structure on `𝒜` is assumed.
 
 ## Implementation notes
 
-The multiplication of `End F` is `f * g = g ≫ f` (`CategoryTheory.End.mul_def`), so
+The multiplication of `End F` is `f * g = g ≫ f` (`CategoryTheory.End.mul_asHom`), so
 `ρ (s * r) = ρ r ≫ ρ s`, and `op r • (op s • z) = ρ r ≫ ρ s ≫ z = ρ (s * r) ≫ z
 = (op r * op s) • z`: precomposition is a left action of `Rᵐᵒᵖ`, i.e. a right action of `R`.
 -/
@@ -87,34 +87,34 @@ lemma ext {z w : OpCochain ρ G n} (h : toCochain z = toCochain w) : z = w := h
 
 /-- `op r` acts on cochains by precomposition with `ρ r`. -/
 instance : SMul Rᵐᵒᵖ (OpCochain ρ G n) where
-  smul r z := of ((Cochain.ofHom (ρ r.unop)).comp (toCochain z) (zero_add n))
+  smul r z := of ((Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z) (zero_add n))
 
 /-- The underlying cochain of `op r • z` is `ρ r ≫ z`. -/
 @[simp] lemma toCochain_smul (r : Rᵐᵒᵖ) (z : OpCochain ρ G n) :
-    toCochain (r • z) = (Cochain.ofHom (ρ r.unop)).comp (toCochain z) (zero_add n) := rfl
+    toCochain (r • z) = (Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z) (zero_add n) := rfl
 
 /-- Precomposition with the action makes the cochains an `Rᵐᵒᵖ`-module. -/
 instance : Module Rᵐᵒᵖ (OpCochain ρ G n) where
   one_smul z := by
-    change (Cochain.ofHom (ρ 1)).comp (toCochain z) (zero_add n) = toCochain z
-    rw [map_one]
+    change (Cochain.ofHom (ρ 1).asHom).comp (toCochain z) (zero_add n) = toCochain z
+    rw [map_one, End.one_asHom]
     exact Cochain.id_comp _
   mul_smul r s z := by
-    change (Cochain.ofHom (ρ (s.unop * r.unop))).comp (toCochain z) (zero_add n) =
-      (Cochain.ofHom (ρ r.unop)).comp ((Cochain.ofHom (ρ s.unop)).comp (toCochain z)
+    change (Cochain.ofHom (ρ (s.unop * r.unop)).asHom).comp (toCochain z) (zero_add n) =
+      (Cochain.ofHom (ρ r.unop).asHom).comp ((Cochain.ofHom (ρ s.unop).asHom).comp (toCochain z)
         (zero_add n)) (zero_add n)
-    rw [map_mul, End.mul_def, Cochain.ofHom_comp]
+    rw [map_mul, End.mul_asHom, Cochain.ofHom_comp]
     exact Cochain.comp_assoc _ _ _ (zero_add 0) (zero_add n) (by omega)
-  smul_zero r := Cochain.comp_zero (Cochain.ofHom (ρ r.unop)) (zero_add n)
+  smul_zero r := Cochain.comp_zero (Cochain.ofHom (ρ r.unop).asHom) (zero_add n)
   smul_add r z w := Cochain.comp_add _ (toCochain z) (toCochain w) (zero_add n)
   add_smul r s z := by
-    change (Cochain.ofHom (ρ (r.unop + s.unop))).comp (toCochain z) (zero_add n) =
-      (Cochain.ofHom (ρ r.unop)).comp (toCochain z) (zero_add n) +
-        (Cochain.ofHom (ρ s.unop)).comp (toCochain z) (zero_add n)
-    rw [map_add, Cochain.ofHom_add, Cochain.add_comp]
+    change (Cochain.ofHom (ρ (r.unop + s.unop)).asHom).comp (toCochain z) (zero_add n) =
+      (Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z) (zero_add n) +
+        (Cochain.ofHom (ρ s.unop).asHom).comp (toCochain z) (zero_add n)
+    rw [map_add, End.add_asHom, Cochain.ofHom_add, Cochain.add_comp]
   zero_smul z := by
-    change (Cochain.ofHom (ρ 0)).comp (toCochain z) (zero_add n) = (0 : Cochain F G n)
-    rw [map_zero, Cochain.ofHom_zero, Cochain.zero_comp]
+    change (Cochain.ofHom (ρ 0).asHom).comp (toCochain z) (zero_add n) = (0 : Cochain F G n)
+    rw [map_zero, End.zero_asHom, Cochain.ofHom_zero, Cochain.zero_comp]
 
 end OpCochain
 
@@ -125,7 +125,7 @@ complexes. -/
 def δOpLinear (n m : ℤ) : OpCochain ρ G n →ₗ[Rᵐᵒᵖ] OpCochain ρ G m where
   toFun z := of (δ n m (toCochain z))
   map_add' z w := δ_add n m (toCochain z) (toCochain w)
-  map_smul' r z := δ_ofHom_comp (ρ r.unop) (toCochain z) m
+  map_smul' r z := δ_ofHom_comp (ρ r.unop).asHom (toCochain z) m
 
 /-- **The Hom complex `Hom^•(F, G)` as a complex of `Rᵐᵒᵖ`-modules**, for an action
 `ρ : R →+* End F` of `R` on the source: its degree-`n` term is `Cochain F G n`, on which `op r`
@@ -154,7 +154,7 @@ def opModuleHomComplexPostcomp {G G' : CochainComplex 𝒜 ℤ} (h : G ⟶ G') :
   f n := ModuleCat.ofHom
     { toFun z := of ((toCochain z).comp (Cochain.ofHom h) (add_zero n))
       map_add' z w := Cochain.add_comp (toCochain z) (toCochain w) (Cochain.ofHom h) (add_zero n)
-      map_smul' r z := Cochain.comp_assoc (Cochain.ofHom (ρ r.unop)) (toCochain z)
+      map_smul' r z := Cochain.comp_assoc (Cochain.ofHom (ρ r.unop).asHom) (toCochain z)
         (Cochain.ofHom h) (zero_add n) (add_zero n) (by omega) }
   comm' _ m _ :=
     ModuleCat.hom_ext <| LinearMap.ext fun z => δ_comp_ofHom (toCochain z) h m
@@ -188,15 +188,15 @@ lemma opModuleHomComplexPostcomp_comp {G G' G'' : CochainComplex 𝒜 ℤ} (h : 
 /-- **Precomposition** `g^* : Hom^•(F, G) ⟶ Hom^•(F', G)` with a morphism of complexes
 `g : F' ⟶ F` intertwining the two actions; it is `Rᵐᵒᵖ`-linear by the intertwining. -/
 def opModuleHomComplexPrecomp {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F') (g : F' ⟶ F)
-    (hg : ∀ r : R, ρ' r ≫ g = g ≫ ρ r) :
+    (hg : ∀ r : R, (ρ' r).asHom ≫ g = g ≫ (ρ r).asHom) :
     opModuleHomComplex ρ G ⟶ opModuleHomComplex ρ' G where
   f n := ModuleCat.ofHom
     { toFun z := of ((Cochain.ofHom g).comp (toCochain z) (zero_add n))
       map_add' z w := Cochain.comp_add (Cochain.ofHom g) (toCochain z) (toCochain w) (zero_add n)
       map_smul' r z := by
-        change (Cochain.ofHom g).comp ((Cochain.ofHom (ρ r.unop)).comp (toCochain z)
+        change (Cochain.ofHom g).comp ((Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z)
             (zero_add n)) (zero_add n) =
-          (Cochain.ofHom (ρ' r.unop)).comp ((Cochain.ofHom g).comp (toCochain z) (zero_add n))
+          (Cochain.ofHom (ρ' r.unop).asHom).comp ((Cochain.ofHom g).comp (toCochain z) (zero_add n))
             (zero_add n)
         rw [← Cochain.comp_assoc _ _ _ (zero_add 0) (zero_add n) (by omega),
           ← Cochain.comp_assoc _ _ _ (zero_add 0) (zero_add n) (by omega),
@@ -207,13 +207,13 @@ def opModuleHomComplexPrecomp {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End 
 /-- In degree `n`, precomposition with `g` sends a cochain `z` to `g ≫ z`. -/
 @[simp]
 lemma opModuleHomComplexPrecomp_f_apply {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F')
-    (g : F' ⟶ F) (hg : ∀ r : R, ρ' r ≫ g = g ≫ ρ r) (n : ℤ) (z : OpCochain ρ G n) :
+    (g : F' ⟶ F) (hg : ∀ r : R, (ρ' r).asHom ≫ g = g ≫ (ρ r).asHom) (n : ℤ) (z : OpCochain ρ G n) :
     toCochain (ρ := ρ') (G := G) (((opModuleHomComplexPrecomp ρ G ρ' g hg).f n).hom z) =
       (Cochain.ofHom g).comp (toCochain z) (zero_add n) := rfl
 
 /-- Pre- and postcomposition commute. -/
 lemma opModuleHomComplexPrecomp_postcomp {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F')
-    (g : F' ⟶ F) (hg : ∀ r : R, ρ' r ≫ g = g ≫ ρ r) {G' : CochainComplex 𝒜 ℤ} (h : G ⟶ G') :
+    (g : F' ⟶ F) (hg : ∀ r : R, (ρ' r).asHom ≫ g = g ≫ (ρ r).asHom) {G' : CochainComplex 𝒜 ℤ} (h : G ⟶ G') :
     opModuleHomComplexPrecomp ρ G ρ' g hg ≫ opModuleHomComplexPostcomp ρ' h =
       opModuleHomComplexPostcomp ρ h ≫ opModuleHomComplexPrecomp ρ G' ρ' g hg := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
@@ -253,7 +253,7 @@ def postcompHomotopyCochain (H : Homotopy φ₁ φ₂) :
   Cochain.mk (fun p q hpq => ModuleCat.ofHom
     { toFun z := of ((toCochain z).comp (Cochain.ofHomotopy H) hpq)
       map_add' z w := Cochain.add_comp (toCochain z) (toCochain w) _ hpq
-      map_smul' r z := Cochain.comp_assoc (Cochain.ofHom (ρ r.unop)) (toCochain z)
+      map_smul' r z := Cochain.comp_assoc (Cochain.ofHom (ρ r.unop).asHom) (toCochain z)
         (Cochain.ofHomotopy H) (zero_add p) hpq (by omega) })
 
 /-- The component of `postcompHomotopyCochain ρ H` from degree `p` to degree `q` sends a
@@ -310,15 +310,15 @@ end Homotopy
 section PrecompHomotopy
 
 variable {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F') {g₁ g₂ : F' ⟶ F}
-  (hg₁ : ∀ r : R, ρ' r ≫ g₁ = g₁ ≫ ρ r) (hg₂ : ∀ r : R, ρ' r ≫ g₂ = g₂ ≫ ρ r)
+  (hg₁ : ∀ r : R, (ρ' r).asHom ≫ g₁ = g₁ ≫ (ρ r).asHom) (hg₂ : ∀ r : R, (ρ' r).asHom ≫ g₂ = g₂ ≫ (ρ r).asHom)
 
 /-- An equivariant homotopy `h` commutes with the actions, as a cochain of degree `-1`. -/
 lemma ofHomotopy_comp_ofHom_eq {H : Homotopy g₁ g₂}
     (hH : ∀ (r : R) (p q : ℤ) (hpq : p + -1 = q),
-      (ρ' r).f p ≫ (Cochain.ofHomotopy H).v p q hpq = (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).f q)
+      (ρ' r).asHom.f p ≫ (Cochain.ofHomotopy H).v p q hpq = (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).asHom.f q)
     (r : R) :
-    (Cochain.ofHomotopy H).comp (Cochain.ofHom (ρ r)) (add_zero (-1)) =
-      (Cochain.ofHom (ρ' r)).comp (Cochain.ofHomotopy H) (zero_add (-1)) := by
+    (Cochain.ofHomotopy H).comp (Cochain.ofHom (ρ r).asHom) (add_zero (-1)) =
+      (Cochain.ofHom (ρ' r).asHom).comp (Cochain.ofHomotopy H) (zero_add (-1)) := by
   ext a b hab
   rw [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v, Cochain.ofHom_v,
     Cochain.ofHom_v, hH]
@@ -327,8 +327,8 @@ lemma ofHomotopy_comp_ofHom_eq {H : Homotopy g₁ g₂}
 equivariant homotopy `h` between two morphisms `F' ⟶ F`. -/
 def precompHomotopyCochain (H : Homotopy g₁ g₂)
     (hH : ∀ (r : R) (p q : ℤ) (hpq : p + -1 = q),
-      (ρ' r).f p ≫ (Cochain.ofHomotopy H).v p q hpq =
-        (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).f q) :
+      (ρ' r).asHom.f p ≫ (Cochain.ofHomotopy H).v p q hpq =
+        (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).asHom.f q) :
     Cochain (opModuleHomComplex ρ G) (opModuleHomComplex ρ' G) (-1) :=
   Cochain.mk (fun p q hpq => ModuleCat.ofHom
     { toFun z := of (p.negOnePow • (Cochain.ofHomotopy H).comp (toCochain z) (by omega))
@@ -340,8 +340,8 @@ def precompHomotopyCochain (H : Homotopy g₁ g₂)
       map_smul' r z := by
         apply OpCochain.ext (ρ := ρ') (G := G)
         change p.negOnePow • (Cochain.ofHomotopy H).comp
-            ((Cochain.ofHom (ρ r.unop)).comp (toCochain z) (zero_add p)) (by omega) =
-          (Cochain.ofHom (ρ' r.unop)).comp
+            ((Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z) (zero_add p)) (by omega) =
+          (Cochain.ofHom (ρ' r.unop).asHom).comp
             (p.negOnePow • (Cochain.ofHomotopy H).comp (toCochain z) (by omega)) (zero_add q)
         rw [Cochain.comp_units_smul]
         congr 1
@@ -354,8 +354,8 @@ def precompHomotopyCochain (H : Homotopy g₁ g₂)
 between `g₁ g₂ : F' ⟶ F` gives the homotopy `z ↦ (-1)ᵖ h ∘ z` between `g₁^*` and `g₂^*`. -/
 def opModuleHomComplexPrecompHomotopy (H : Homotopy g₁ g₂)
     (hH : ∀ (r : R) (p q : ℤ) (hpq : p + -1 = q),
-      (ρ' r).f p ≫ (Cochain.ofHomotopy H).v p q hpq =
-        (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).f q) :
+      (ρ' r).asHom.f p ≫ (Cochain.ofHomotopy H).v p q hpq =
+        (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).asHom.f q) :
     Homotopy (opModuleHomComplexPrecomp ρ G ρ' g₁ hg₁) (opModuleHomComplexPrecomp ρ G ρ' g₂ hg₂) :=
   (Cochain.equivHomotopy _ _).symm ⟨precompHomotopyCochain ρ G ρ' H hH, by
     refine Cochain.ext₀ _ _ fun p => ?_
@@ -383,18 +383,21 @@ variable {ℬ : Type*} [Category.{v} ℬ] [Preadditive ℬ] (Φ : 𝒜 ⥤ ℬ) 
 
 /-- The action of `R` on `Φ F` transported along an additive functor `Φ`. -/
 def mapAction : R →+* End ((Φ.mapHomologicalComplex _).obj F) where
-  toFun r := (Φ.mapHomologicalComplex _).map (ρ r)
-  map_one' := by rw [map_one]; exact (Φ.mapHomologicalComplex _).map_id F
+  toFun r := .of ((Φ.mapHomologicalComplex _).map (ρ r).asHom)
+  map_one' := by
+    rw [map_one]; exact congrArg End.of ((Φ.mapHomologicalComplex _).map_id F)
   map_mul' r s := by
-    rw [map_mul, End.mul_def, End.mul_def]
-    exact (Φ.mapHomologicalComplex _).map_comp _ _
-  map_zero' := by rw [map_zero]; exact (Φ.mapHomologicalComplex _).map_zero F F
-  map_add' r s := by rw [map_add]; exact (Φ.mapHomologicalComplex _).map_add
+    rw [map_mul]
+    exact congrArg End.of ((Φ.mapHomologicalComplex _).map_comp _ _)
+  map_zero' := by
+    rw [map_zero]; exact congrArg End.of ((Φ.mapHomologicalComplex _).map_zero F F)
+  map_add' r s := by
+    rw [map_add]; exact congrArg End.of (Φ.mapHomologicalComplex _).map_add
 
 /-- `mapAction ρ Φ r` is the image of `ρ r` under `Φ`. -/
 @[simp]
 lemma mapAction_apply (r : R) :
-    mapAction ρ Φ r = (Φ.mapHomologicalComplex _).map (ρ r) := rfl
+    mapAction ρ Φ r = .of ((Φ.mapHomologicalComplex _).map (ρ r).asHom) := rfl
 
 /-- **The map of Hom complexes induced by an additive functor** `Φ`,
 `Hom^•(F, G) ⟶ Hom^•(Φ F, Φ G)`, `z ↦ Φ z`; it is `Rᵐᵒᵖ`-linear for the transported action. -/
@@ -405,8 +408,8 @@ def opModuleHomComplexMap :
     { toFun z := of ((toCochain z).map Φ)
       map_add' z w := Cochain.map_add (toCochain z) (toCochain w) Φ
       map_smul' r z := by
-        change ((Cochain.ofHom (ρ r.unop)).comp (toCochain z) (zero_add n)).map Φ =
-          (Cochain.ofHom ((Φ.mapHomologicalComplex _).map (ρ r.unop))).comp
+        change ((Cochain.ofHom (ρ r.unop).asHom).comp (toCochain z) (zero_add n)).map Φ =
+          (Cochain.ofHom ((Φ.mapHomologicalComplex _).map (ρ r.unop).asHom)).comp
             ((toCochain z).map Φ) (zero_add n)
         rw [Cochain.map_comp, Cochain.map_ofHom] }
   comm' n m _ :=

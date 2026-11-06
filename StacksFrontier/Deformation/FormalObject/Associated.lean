@@ -252,13 +252,13 @@ private lemma point_base_comp {R : CompleteLocalAlgCat.{u, v, w} Λ k}
     {a : AdicTruncation.obj R n ⟶ α.1} {b : AdicTruncation.obj R n ⟶ β.1}
     (ha : a.hom.comp (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal R n)) = α.2.hom)
     (hb : b.hom.comp (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal R n)) = β.2.hom) :
-    a ≫ g.val = b := by
+    a ≫ g.hom = b := by
   apply ArtinianLocalAlgCat.hom_ext; apply AlgHom.ext; intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show g.val.hom (a.hom (Ideal.Quotient.mk _ r)) = b.hom (Ideal.Quotient.mk _ r)
-  have hg := congrArg (fun f : (restrictedCoyoneda R).obj β.1 ↦ f.hom r) g.property
-  change g.val.hom (α.2.hom r) = β.2.hom r at hg
-  exact (congrArg g.val.hom (DFunLike.congr_fun ha r)).trans
+  show g.hom.hom (a.hom (Ideal.Quotient.mk _ r)) = b.hom (Ideal.Quotient.mk _ r)
+  have hg := congrArg (fun f : (restrictedCoyoneda R).obj β.1 ↦ f.hom r) g.map_val
+  change g.hom.hom (α.2.hom r) = β.2.hom r at hg
+  exact (congrArg g.hom.hom (DFunLike.congr_fun ha r)).trans
     (hg.trans (DFunLike.congr_fun hb r).symm)
 
 private lemma exists_point_map (hp : IsCofiberedInGroupoids p)
@@ -269,7 +269,7 @@ private lemma exists_point_map (hp : IsCofiberedInGroupoids p)
     (hb : b.hom.comp (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base nβ)) = β.2.hom)
     {x y : F} (i : ξ.level nα ⟶ x) (j : ξ.level nβ ⟶ y)
     (hi : p.IsHomLift a i) (hj : p.IsHomLift b j) :
-    ∃ φ : x ⟶ y, p.IsHomLift g.val φ ∧
+    ∃ φ : x ⟶ y, p.IsHomLift g.hom φ ∧
       ∀ (m : ℕ) (hα : nα ≤ m) (hβ : nβ ≤ m),
         transitionTo ξ hα ≫ i ≫ φ = transitionTo ξ hβ ≫ j := by
   obtain ⟨a', ha', hia⟩ := point_lift ξ ha i hi (Nat.le_max_left nα nβ)
@@ -277,7 +277,7 @@ private lemma exists_point_map (hp : IsCofiberedInGroupoids p)
   have := isStronglyCocartesian_of_isCofiberedInGroupoids hp a'
     (transitionTo ξ (Nat.le_max_left nα nβ) ≫ i) inferInstance
   obtain ⟨φ, ⟨hφ, hfac⟩, _⟩ := Functor.IsStronglyCocartesian.universal_property
-    p a' (transitionTo ξ (Nat.le_max_left nα nβ) ≫ i) g.val b'
+    p a' (transitionTo ξ (Nat.le_max_left nα nβ) ≫ i) g.hom b'
     (point_base_comp g ha' hb').symm (transitionTo ξ (Nat.le_max_right nα nβ) ≫ j)
   refine ⟨φ, hφ, ?_⟩
   intro m hα hβ
@@ -316,7 +316,7 @@ private lemma exists_associatedMorphism
   let φ {α β : (restrictedCoyoneda ξ.base).Elements} (g : α ⟶ β) : O α ⟶ O β :=
     Classical.choose (hm g)
   have hφ {α β : (restrictedCoyoneda ξ.base).Elements} (g : α ⟶ β) :
-      p.IsHomLift g.val (φ g) := (Classical.choose_spec (hm g)).1
+      p.IsHomLift g.hom (φ g) := (Classical.choose_spec (hm g)).1
   have htriangle {α β : (restrictedCoyoneda ξ.base).Elements} (g : α ⟶ β)
       (m : ℕ) (hα : l α ≤ m) (hβ : l β ≤ m) :
       transitionTo ξ hα ≫ i α ≫ φ g = transitionTo ξ hβ ≫ i β :=
@@ -333,7 +333,7 @@ private lemma exists_associatedMorphism
     have hγ : l γ ≤ m := Nat.le_max_right _ _
     have hg := hφ g
     have hh := hφ h
-    apply point_map_ext hp ξ (ha α).2.2 (i α) (hi α) hα (g.val ≫ h.val)
+    apply point_map_ext hp ξ (ha α).2.2 (i α) (hi α) hα (g.hom ≫ h.hom)
       (hφ (g ≫ h)) (IsHomLift.comp p _ _ _ _)
     rw [htriangle (g ≫ h) m hα hγ, ← Category.assoc (i α),
       ← Category.assoc, htriangle g m hα hβ, Category.assoc, htriangle h m hβ hγ]
@@ -341,7 +341,7 @@ private lemma exists_associatedMorphism
     { obj := O, map := φ, map_id := hid, map_comp := hcomp }
   have hH : H ⋙ p = CategoryOfElements.π (restrictedCoyoneda ξ.base) := by
     refine CategoryTheory.Functor.ext hO ?_
-    intro α β g; have := hφ g; exact IsHomLift.fac' p g.val (φ g)
+    intro α β g; have := hφ g; exact IsHomLift.fac' p g.hom (φ g)
   exact ⟨{ toBasedFunctor := { toFunctor := H, w := hH }, level := l,
            factor := a, factor_spec := ha, obj_eq := fun _ ↦ rfl,
            pointInclusion := i, pointInclusion_eq := fun α ↦ Category.comp_id (i α),

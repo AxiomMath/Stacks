@@ -289,7 +289,7 @@ theorem isIsolatedPoint_asFiber_chartLeg
       (toScheme_chartLeg_comp_siteMap_eq B S hS k hk toBase q U p P F eF R c)))
     (r₀ : (BigFppfOver.toScheme B S hS).obj R)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-      (chartLeg B S hS U p P F eF R c P.snd) r₀} :
+                            (chartLeg B S hS U p P F eF R c P.snd) r₀} :
       Set ((BigFppfOver.toScheme B S hS).obj U))) :
     IsIsolatedPoint
       ((((BigFppfOver.toScheme B S hS).map

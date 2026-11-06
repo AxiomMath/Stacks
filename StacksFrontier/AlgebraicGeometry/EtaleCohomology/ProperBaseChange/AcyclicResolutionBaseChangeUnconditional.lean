@@ -55,7 +55,6 @@ public theorem isIso_natTrans_mapHomotopyCategory_app {ι : Type*} {V W : Type*}
   have : ∀ n, IsIso (((NatTrans.mapHomologicalComplex α c).app Z.as).f n) := hZ
   have : IsIso ((NatTrans.mapHomologicalComplex α c).app Z.as) :=
     HomologicalComplex.Hom.isIso_of_components _
-  rw [NatTrans.mapHomotopyCategory_app]
   exact Functor.map_isIso (HomotopyCategory.quotient W c)
     ((NatTrans.mapHomologicalComplex α c).app Z.as)
 

@@ -149,7 +149,7 @@ of its monomials, and a monomial of total degree at least `t` is a product of at
 variables. -/
 theorem mem_pow_span_range_MvPolynomial_X_iff {t : ℕ} {p : MvPolynomial (Fin n) R} :
     p ∈ Ideal.span (Set.range (MvPolynomial.X : Fin n → MvPolynomial (Fin n) R)) ^ t ↔
-      ∀ d : Fin n →₀ ℕ, (∑ i, d i) < t → MvPolynomial.coeff d p = 0 := by
+      ∀ d : Fin n →₀ ℕ, (∑ i, d i) < t → p.coeff d = 0 := by
   constructor
   · intro hp d hd
     have hmapgen :

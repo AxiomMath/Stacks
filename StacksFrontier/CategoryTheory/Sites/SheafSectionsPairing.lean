@@ -79,8 +79,8 @@ theorem sectionsFunctor_map_pairing_natIso
       (Sheaf.sectionsFunctor J U).map ((PreservesLimitPair.iso Φ'' P Q).inv ≫ Φ''.map q)
         (Functor.prodObjMk ((Sheaf.sectionsFunctor J U).map (ε.hom.app P) x)
           ((Sheaf.sectionsFunctor J U).map (ε.hom.app Q) y)) := by
-  rw [← FunctorToTypes.map_comp_apply, Limits.preservesLimitPair_iso_inv_map_comp_natIso,
-    FunctorToTypes.map_comp_apply, sectionsFunctor_map_prodMap_prodObjMk]
+  rw [← Functor.map_comp_apply, Limits.preservesLimitPair_iso_inv_map_comp_natIso,
+    Functor.map_comp_apply, sectionsFunctor_map_prodMap_prodObjMk]
 
 /-- For restriction of sheaves of sets along a continuous functor `F`, the pairing
 `F_*P ⨯ F_*Q ≅ F_*(P ⨯ Q) ⟶ F_*N` on a pair of local sections over `U` is the pairing `q` on the
@@ -100,7 +100,7 @@ theorem sectionsFunctor_map_pairing_sheafPushforwardContinuous
       (Sheaf.sectionsFunctor J' (F.op.obj U)).map q
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} J' (F.op.obj U)) (A := P) (B := Q)
           x y) := by
-  rw [FunctorToTypes.map_comp_apply]
+  rw [Functor.map_comp_apply]
   congr 1
   refine Functor.prodObjMk_ext (P := Sheaf.sectionsFunctor.{w} J' (F.op.obj U)) ?_ ?_
   · have h1 : (Sheaf.sectionsFunctor J U).map
@@ -108,7 +108,7 @@ theorem sectionsFunctor_map_pairing_sheafPushforwardContinuous
           (F.sheafPushforwardContinuous (Type w) J J').map prod.fst)
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} J U) x y) = x := by
       rw [PreservesLimitPair.iso_inv_fst, Functor.map_fst_prodObjMk]
-    exact (FunctorToTypes.map_comp_apply _ _ _ _).symm.trans
+    exact (Functor.map_comp_apply _ _ _ _).symm.trans
       (h1.trans
         (Functor.map_fst_prodObjMk (P := Sheaf.sectionsFunctor.{w} J' (F.op.obj U)) x y).symm)
   · have h1 : (Sheaf.sectionsFunctor J U).map
@@ -116,7 +116,7 @@ theorem sectionsFunctor_map_pairing_sheafPushforwardContinuous
           (F.sheafPushforwardContinuous (Type w) J J').map prod.snd)
         (Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} J U) x y) = y := by
       rw [PreservesLimitPair.iso_inv_snd, Functor.map_snd_prodObjMk]
-    exact (FunctorToTypes.map_comp_apply _ _ _ _).symm.trans
+    exact (Functor.map_comp_apply _ _ _ _).symm.trans
       (h1.trans
         (Functor.map_snd_prodObjMk (P := Sheaf.sectionsFunctor.{w} J' (F.op.obj U)) x y).symm)
 

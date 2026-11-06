@@ -4,6 +4,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.SmallSiteAbelianInstances
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Abelian.RightDerived
+public import Mathlib.CategoryTheory.Preadditive.Injective.LiftingProperties
 public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.CategoryTheory.Sites.GlobalSections
 public import Mathlib.CategoryTheory.Sites.SheafCohomology.Basic

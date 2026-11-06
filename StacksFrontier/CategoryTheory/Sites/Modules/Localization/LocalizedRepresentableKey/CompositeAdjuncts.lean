@@ -113,7 +113,7 @@ projection out of the pullback: both the comparison and that projection are the 
 adjunction `Over.map e.inv ⊣ Over.pullback e.inv` read through uniqueness of right adjoints. -/
 theorem Over.mapIso_counit_app_left {E : Type*} [Category E] {K H : E} (e : K ≅ H)
     (Z : Over K) : ((Over.mapIso e.symm).counit.app Z).left = 𝟙 Z.left := by
-  simp only [mapIso, Comma.mapRightIso, Equivalence.mk'', Comma.mapRightId, Functor.id_obj,
+  simp only [mapIso, Comma.mapRightIso, Comma.mapRightId, Functor.id_obj,
     Comma.mapRight_obj_right, Comma.mapRight_obj_left, Comma.mapRightEq, Comma.mapRightComp,
     Functor.comp_obj, Equivalence.counit, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
     NatIso.ofComponents'_inv_app, NatIso.ofComponents'_hom_app, Comma.comp_left]

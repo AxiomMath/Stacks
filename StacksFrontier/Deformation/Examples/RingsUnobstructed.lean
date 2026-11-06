@@ -98,11 +98,11 @@ private theorem isPushout_quotientMap
   let : Algebra (R ⧸ I) (S ⧸ J) :=
     Ideal.Quotient.algebraQuotientOfLEComap Ideal.le_comap_map
   refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv
-    (Ideal.qoutMapEquivTensorQout S).symm ?_⟩
+    (Ideal.quotMapEquivTensorQuot S).symm ?_⟩
   intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [LinearEquiv.symm_apply_eq]
-  simp [Ideal.qoutMapEquivTensorQout, LinearEquiv.eq_symm_apply, Algebra.smul_def]
+  simp [Ideal.quotMapEquivTensorQuot, LinearEquiv.eq_symm_apply, Algebra.smul_def]
 
 /-- The base map of a morphism of `𝒞_Λ` onto the residue field object is surjective. -/
 private theorem surjective_hom_residueFieldAlgebra_base

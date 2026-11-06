@@ -83,6 +83,18 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
   (D : MorphismDescentSituation B S hS hZ I)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_AffineMorphismDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, found directly from `HasPullbacks`. -/
+local instance (priority := high) hasPullback_presheaf_AffineMorphismDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 07SF, part (1), at the distinguished stage, under the chapter's convention.** The
 projection `B ⟶ B₀` from the limit of the system of bases is affine. -/
 theorem isAffineHom_limit_π_initial_of_siteContainsBaseChangeLimits

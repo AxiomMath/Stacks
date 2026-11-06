@@ -215,6 +215,20 @@ private theorem isIso_smallEtaleInverseImageAdjunction_counit {Z X : Scheme.{u}}
 
 section Gluing
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Fibre products of sheaves of sets on a small étale site, supplied directly: instance search
+for them times out. -/
+instance hasPullbacks_smallEtaleSheaf_setSheafEquivalence (X : Scheme.{u}) :
+    HasPullbacks (Sheaf (smallEtaleTopology X) (Type (u + 1))) :=
+  inferInstance
+
+/-- The fibre product of two morphisms of sheaves of sets on a small étale site, from
+`hasPullbacks_smallEtaleSheaf_setSheafEquivalence`: instance search for it times out. -/
+instance (priority := high) hasPullback_smallEtaleSheaf_setSheafEquivalence (X : Scheme.{u})
+    {F₁ F₂ F₃ : Sheaf (smallEtaleTopology X) (Type (u + 1))} (a : F₁ ⟶ F₃) (b : F₂ ⟶ F₃) :
+    HasPullback a b :=
+  HasLimitsOfShape.has_limit _
+
 variable {X X' Z E : Scheme.{u}} (f : X' ⟶ X) (i : Z ⟶ X) (j : E ⟶ X') (g : E ⟶ Z)
 
 /-- The square of inverse images of sheaves of sets attached to a commutative square

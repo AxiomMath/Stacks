@@ -98,7 +98,6 @@ theorem piRight_lTensor_pi_apply {N : Type u} [AddCommGroup N] [Module A N]
         (LinearMap.lTensor B (LinearMap.pi f) w) a =
       LinearMap.lTensor B (f a) w := by
   induction w with
-  | zero => simp
   | tmul b m => simp
   | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
 
@@ -108,7 +107,6 @@ theorem lTensor_comp_proj_apply {P : Type u} [AddCommGroup P] [Module A P] (a : 
     LinearMap.lTensor B (g ∘ₗ (LinearMap.proj a : (∀ b, M b) →ₗ[A] M a)) z =
       LinearMap.lTensor B g (TensorProduct.piRightOfFinitePresentation A B B M z a) := by
   induction z with
-  | zero => simp
   | tmul b m => simp
   | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
 

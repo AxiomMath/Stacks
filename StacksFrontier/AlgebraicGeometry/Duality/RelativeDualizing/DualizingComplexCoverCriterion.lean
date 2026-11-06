@@ -144,9 +144,9 @@ def tildeIsoSpecRestrictDerivedIso {U V : X.Opens} (hU : IsAffineOpen U) (hV : I
           (X.presheaf.map (homOfLE hle).op).hom).mapDerivedCategory ⋙
         (tilde.functor Γ(X, V) ⋙
           Scheme.Modules.restrictFunctor hV.isoSpec.hom).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr (tildeIsoSpecRestrictIso hU hV hle) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm
 
 /-- One further restriction along the inverse of `U ≅ Spec Γ(X, U)` cancels the transport in the
 functor presenting a dualizing model, leaving derived sheafification. -/
@@ -155,7 +155,7 @@ def tildeIsoSpecCancelIso {U : X.Opens} (hU : IsAffineOpen U) :
           Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory ⋙
         (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory ≅
       (tilde.functor Γ(X, U)).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr (Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft _ hU.restrictIsoSpecCompIso ≪≫ Functor.rightUnitor _)
 
@@ -244,7 +244,7 @@ theorem nonempty_iso_extendScalars_basicOpen {K : DerivedCategory X.Modules} (V 
   let eres : (Scheme.Modules.restrictFunctor V.1.ι).mapDerivedCategory ⋙
       (Scheme.Modules.restrictFunctor (X.homOfLE (X.basicOpen_le f))).mapDerivedCategory ≅
       (Scheme.Modules.restrictFunctor (X.basicOpen f).ι).mapDerivedCategory :=
-    Functor.mapDerivedCategoryCompIso
+    Functor.mapDerivedCategoryCompIsoOfCompIso
       ((Scheme.Modules.restrictFunctorComp (X.homOfLE (X.basicOpen_le f)) V.1.ι).symm ≪≫
         Scheme.Modules.restrictFunctorCongr (X.homOfLE_ι (X.basicOpen_le f)))
   exact ⟨(eres.app K).symm ≪≫
@@ -331,11 +331,11 @@ theorem exists_nonempty_iso_tilde_of_isQuasicoherent {K : DerivedCategory X.Modu
   let ecancel : (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory ⋙
       (Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory ≅
       𝟭 (DerivedCategory U.toScheme.Modules) :=
-    Functor.mapDerivedCategoryCompIso hU.restrictIsoSpecInvCompIso ≪≫
+    Functor.mapDerivedCategoryCompIsoOfCompIso hU.restrictIsoSpecInvCompIso ≪≫
       Functor.mapDerivedCategoryId _
   exact ⟨ω, ⟨(ecancel.app _).symm ≪≫
     (Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory.mapIso e.symm ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).app ω⟩⟩
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).app ω⟩⟩
 
 omit [IsLocallyNoetherian X] [HasDerivedCategory.{w} X.Modules] in
 /-- **Two presenting objects over the same affine open are isomorphic.** Derived sheafification

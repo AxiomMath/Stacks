@@ -96,6 +96,11 @@ attribute [local instance] ModuleCat.hasLimitsOfSize
 
 variable {R : Type u} [CommRing R] {n : ℕ} (f : Fin n → R) (M : ModuleCat.{max u v} R)
 
+/-- Products indexed by `Type` in `ModuleCat.{max u v} R`, stated directly: since the bump the
+search through `ModuleCat.hasLimitsOfSize` and its `UnivLE` side goal times out. -/
+local instance : HasProducts.{0} (ModuleCat.{max u v} R) := fun J ↦
+  (ModuleCat.hasLimitsOfSize.{0, 0, max u v, u} (R := R)).has_limits_of_shape (Discrete J)
+
 /-! ### The presheaf of sections of the associated module -/
 
 /-- The presheaf of `R`-modules of locally fractional sections of `M̃` on the opens of `Spec R`:

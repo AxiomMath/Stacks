@@ -101,7 +101,7 @@ theorem surjective_closedPointDivisorRestriction :
     Function.Surjective (closedPointDivisorRestriction p q j) := fun d =>
   ⟨Finsupp.mapDomain (closedPointsMapOfOpenImmersion p q j) d, Finsupp.ext fun x => by
     rw [closedPointDivisorRestriction_apply,
-      Finsupp.mapDomain_apply (injective_closedPointsMapOfOpenImmersion p q j)]⟩
+      Finsupp.mapDomain_apply_of_injective (injective_closedPointsMapOfOpenImmersion p q j)]⟩
 
 variable [IsLocallyNoetherian U] [IsLocallyNoetherian Y] [NoetherianSpace U] [NoetherianSpace Y]
 

@@ -11,6 +11,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Products
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Basic
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.FunctorCategory
 public import Mathlib.CategoryTheory.EssentiallySmall
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 public import Mathlib.CategoryTheory.ObjectProperty.FunctorCategory.PreservesLimits
 public import Mathlib.LinearAlgebra.DirectSum.TensorProduct
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
@@ -229,6 +230,7 @@ private noncomputable def tensorCoproductIsColimit {O : Cᵒᵖ ⥤ CommRingCat.
       simp [hdesc]
   exact hKX.ofIsoColimit (Cocone.ext (Iso.refl _) fun _ => rfl)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 03EU, direct sums.** A coproduct of flat presheaves of modules is flat. -/
 @[stacks 03EU "part (1), direct sums"]
 lemma isFlat_coproduct {O : Cᵒᵖ ⥤ CommRingCat.{w}} {ι : Type z}
@@ -261,10 +263,16 @@ lemma isFlat_coproduct {O : Cᵒᵖ ⥤ CommRingCat.{w}} {ι : Type z}
       simp [c', c, K, E, H₀, H₁, D, tensorCoproductCocone, α, tensorRightMap, tensorMapRight])
     exact ((IsColimit.precomposeHomEquiv α c).symm
       (tensorCoproductIsColimit F G)).ofIsoColimit w.symm
+  have : HasColimitsOfShape (Discrete ι) AddCommGrpCat.{z} := inferInstance
+  have : HasColimitsOfShape (Discrete ι) A := PresheafOfModules.hasColimitsOfShape _ _
+  have : HasColimitsOfShape (Discrete ι) (Cᵒᵖ ⥤ AddCommGrpCat.{z}) :=
+    functorCategoryHasColimitsOfShape
   have : HasExactColimitsOfShape (Discrete ι) A :=
     HasExactColimitsOfShape.domain_of_functor (Discrete ι)
       (PresheafOfModules.toPresheaf (ringPresheaf O))
-  let : HasExactColimitsOfShape (Discrete ι) (A ⥤ A) := inferInstance
+  have : HasColimitsOfShape (Discrete ι) (A ⥤ A) := functorCategoryHasColimitsOfShape
+  let : HasExactColimitsOfShape (Discrete ι) (A ⥤ A) :=
+    { preservesFiniteLimits := { preservesFiniteLimits _ := inferInstance } }
   have hD (i : ι) : PreservesFiniteLimits (D.obj ⟨i⟩) ∧
       PreservesFiniteColimits (D.obj ⟨i⟩) := (exactFunctor_iff (D.obj ⟨i⟩)).mp (hF i)
   have hlim : PreservesFiniteLimits (colimit D) :=

@@ -61,6 +61,8 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.GrothendieckTopology Op
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000
+
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
@@ -236,7 +238,8 @@ instance initial_neighborhoodToSpacesPointElements_spacesEtaleModulePullbackFlat
 theorem neighborhoodToSpacesPointElements_obj_spacesEtaleModulePullbackFlatExact
     (U : SmallEtaleNeighborhood x) :
     (neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).obj U =
-      ⟨(comparisonFunctor B S hS X).obj U.chart, ULift.up ⟨U.point, U.point_comp⟩⟩ := rfl
+      (sitePoint x).fiber.elementsMk ((comparisonFunctor B S hS X).obj U.chart)
+        (ULift.up ⟨U.point, U.point_comp⟩) := rfl
 
 /-- The structure sheaf of the spaces-étale site along the small étale neighbourhoods is the
 universe lift of the structure sheaf of the small étale site. -/
@@ -505,6 +508,7 @@ theorem flat_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePullbackFlatExact
   refine RingHom.ext fun z => ?_
   simp
 
+set_option maxHeartbeats 1000000 in
 /-- The pullback of modules along a flat morphism of the spaces-étale morphism, followed by the
 stalk at a geometric point of the source, preserves finite limits and finite colimits. -/
 private theorem preservesFiniteLimits_and_colimits_spacesEtale_pullbackModules_comp_stalk
@@ -538,6 +542,7 @@ private theorem preservesFiniteLimits_and_colimits_spacesEtale_pullbackModules_c
   exact ⟨@preservesFiniteLimits_of_natIso _ _ _ _ _ _ iso hl,
     @preservesFiniteColimits_of_natIso _ _ _ _ _ _ iso hc⟩
 
+set_option maxHeartbeats 1000000 in
 /-- **Pullback of modules on the spaces-étale sites along a flat morphism is exact.** For a flat
 morphism `f : X ⟶ Y` of algebraic spaces, `f^*` from `𝒪_Y`-modules to `𝒪_X`-modules on the
 spaces-étale sites preserves finite limits: exactness is checked on the stalks at the geometric

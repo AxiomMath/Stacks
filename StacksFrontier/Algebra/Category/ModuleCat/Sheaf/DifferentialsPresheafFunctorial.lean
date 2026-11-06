@@ -33,13 +33,13 @@ respect identities and composition of squares.
 ## Implementation notes
 
 Everything here is at the level of *presheaves* of modules: the universal property used is
-`PresheafOfModules.Derivation.Universal`, which factors derivations with values in an
+`PresheafOfModulesOfCommRing.Derivation.Universal`, which factors derivations with values in an
 arbitrary presheaf of modules.
 
 A presheaf of rings on `X` is a presheaf of commutative rings on the site of opens,
 `(Opens X)ᵒᵖ ⥤ CommRingCat`; the sheaf condition is available as the predicate
 `IsRingSheaf` but is nowhere used. A homomorphism `φ : O₁ → O₂` is recorded in the shape
-`O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂` that `PresheafOfModules.Derivation` expects; since
+`O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂` that `PresheafOfModulesOfCommRing.Derivation` expects; since
 `(𝟭 _).op ⋙ O₂ = O₂`, this is a morphism of presheaves of commutative rings.
 -/
 
@@ -72,14 +72,15 @@ of `O₁`. -/
   sga "3 VIIA 5.2" "more general"]
 abbrev IsDerivation {O₁ O₂ : PreRing X} (φ : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂)
     (M : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)) : Type _ :=
-  M.Derivation φ
+  PresheafOfModulesOfCommRing.Derivation M φ
 
 /-- `Ω` (with derivation `d : Ω.Derivation φ`) is *the* module of differentials of `O₂` over
 `O₁` exactly when `d` is universal, i.e. `d.Universal`: every `O₁`-derivation
 `D : M.Derivation φ` factors uniquely through `d` via a module homomorphism `Ω ⟶ M`. This
 is the representability of the functor `M ↦ Der_{O₁}(O₂, M)`. -/
 abbrev IsModuleOfDifferentials {O₁ O₂ : PreRing X} {φ : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂}
-    {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)} (d : Ω.Derivation φ) : Type _ :=
+    {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
+    (d : PresheafOfModulesOfCommRing.Derivation Ω φ) : Type _ :=
   d.Universal
 
 /-- The category of arrows of `PreRing X`: objects are homomorphisms `φ : O₁ ⟶ O₂` of presheaves
@@ -112,8 +113,8 @@ is an `O₁`-derivation. -/
 def compDeriv {O₁ O₂ O₁' O₂' : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂} {ι' : O₁' ⟶ (𝟭 (Opens X)).op ⋙ O₂'}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
-    (d' : Ω'.Derivation ι') (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁')
-    (hcomm : ι ≫ φ = ψ ≫ ι') : (Ωres φ Ω').Derivation ι where
+    (d' : PresheafOfModulesOfCommRing.Derivation Ω' ι') (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁')
+    (hcomm : ι ≫ φ = ψ ≫ ι') : PresheafOfModulesOfCommRing.Derivation (Ωres φ Ω') ι where
   d {U} := (d'.d (X := U)).comp ((φ.app U).hom : (O₂.obj U) →+* (O₂'.obj U)).toAddMonoidHom
   d_mul {U} a b :=
     (congrArg (fun z => d'.d z) (map_mul (φ.app U).hom a b)).trans (d'.d_mul _ _)
@@ -133,7 +134,7 @@ def compDeriv {O₁ O₂ O₁' O₂' : PreRing X}
 theorem compDeriv_d {O₁ O₂ O₁' O₂' : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂} {ι' : O₁' ⟶ (𝟭 (Opens X)).op ⋙ O₂'}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
-    (d' : Ω'.Derivation ι') (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁')
+    (d' : PresheafOfModulesOfCommRing.Derivation Ω' ι') (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁')
     (hcomm : ι ≫ φ = ψ ≫ ι') {U : (Opens X)ᵒᵖ} (f : O₂.obj U) :
     (compDeriv d' φ ψ hcomm).d f = d'.d ((φ.app U).hom f) := rfl
 
@@ -145,7 +146,8 @@ def inducedMap {O₁ O₂ O₁' O₂' : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂} {ι' : O₁' ⟶ (𝟭 (Opens X)).op ⋙ O₂'}
     {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
-    {d : Ω.Derivation ι} (hΩ : d.Universal) (d' : Ω'.Derivation ι')
+    {d : PresheafOfModulesOfCommRing.Derivation Ω ι} (hΩ : d.Universal)
+    (d' : PresheafOfModulesOfCommRing.Derivation Ω' ι')
     (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁') (hcomm : ι ≫ φ = ψ ≫ ι') :
     Ω ⟶ Ωres φ Ω' :=
   hΩ.desc (compDeriv d' φ ψ hcomm)
@@ -156,12 +158,13 @@ theorem inducedMap_comp_d {O₁ O₂ O₁' O₂' : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂} {ι' : O₁' ⟶ (𝟭 (Opens X)).op ⋙ O₂'}
     {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
-    {d : Ω.Derivation ι} (hΩ : d.Universal) (d' : Ω'.Derivation ι')
+    {d : PresheafOfModulesOfCommRing.Derivation Ω ι} (hΩ : d.Universal)
+    (d' : PresheafOfModulesOfCommRing.Derivation Ω' ι')
     (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁') (hcomm : ι ≫ φ = ψ ≫ ι')
     {U : (Opens X)ᵒᵖ} (f : O₂.obj U) :
     (ConcreteCategory.hom ((inducedMap hΩ d' φ ψ hcomm).app U)) (d.d f)
       = d'.d ((φ.app U).hom f) :=
-  congrArg (fun (D : (Ωres φ Ω').Derivation ι) => D.d (X := U) f)
+  congrArg (fun (D : PresheafOfModulesOfCommRing.Derivation (Ωres φ Ω') ι) => D.d (X := U) f)
     (hΩ.fac (compDeriv d' φ ψ hcomm))
 
 /-- Any `O₂`-module homomorphism `β : Ω ⟶ Ωres φ Ω'`
@@ -170,7 +173,8 @@ theorem inducedMap_unique {O₁ O₂ O₁' O₂' : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂} {ι' : O₁' ⟶ (𝟭 (Opens X)).op ⋙ O₂'}
     {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
-    {d : Ω.Derivation ι} (hΩ : d.Universal) (d' : Ω'.Derivation ι')
+    {d : PresheafOfModulesOfCommRing.Derivation Ω ι} (hΩ : d.Universal)
+    (d' : PresheafOfModulesOfCommRing.Derivation Ω' ι')
     (φ : O₂ ⟶ O₂') (ψ : O₁ ⟶ O₁') (hcomm : ι ≫ φ = ψ ≫ ι')
     (β : Ω ⟶ Ωres φ Ω')
     (hβ : ∀ {U : (Opens X)ᵒᵖ} (f : O₂.obj U),
@@ -186,7 +190,7 @@ identity on `Ω_{O₂/O₁}`. (Here `φ = 𝟙 O₂`, `ψ = 𝟙 O₁`, and `Ωr
 theorem inducedMap_id {O₁ O₂ : PreRing X}
     {ι : O₁ ⟶ (𝟭 (Opens X)).op ⋙ O₂}
     {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
-    {d : Ω.Derivation ι} (hΩ : d.Universal)
+    {d : PresheafOfModulesOfCommRing.Derivation Ω ι} (hΩ : d.Universal)
     (hcomm : ι ≫ 𝟙 O₂ = 𝟙 O₁ ≫ ι) :
     inducedMap hΩ d (𝟙 O₂) (𝟙 O₁) hcomm = 𝟙 Ω :=
   (inducedMap_unique hΩ d (𝟙 O₂) (𝟙 O₁) hcomm (𝟙 Ω) fun _ => rfl).symm
@@ -208,9 +212,9 @@ theorem inducedMap_comp {O₁ O₂ O₁' O₂' O₁'' O₂'' : PreRing X}
     {Ω : PresheafOfModules (O₂ ⋙ forget₂ CommRingCat RingCat)}
     {Ω' : PresheafOfModules (O₂' ⋙ forget₂ CommRingCat RingCat)}
     {Ω'' : PresheafOfModules (O₂'' ⋙ forget₂ CommRingCat RingCat)}
-    {d : Ω.Derivation ι} (hΩ : d.Universal)
-    {d' : Ω'.Derivation ι'} (hΩ' : d'.Universal)
-    (d'' : Ω''.Derivation ι'')
+    {d : PresheafOfModulesOfCommRing.Derivation Ω ι} (hΩ : d.Universal)
+    {d' : PresheafOfModulesOfCommRing.Derivation Ω' ι'} (hΩ' : d'.Universal)
+    (d'' : PresheafOfModulesOfCommRing.Derivation Ω'' ι'')
     (ψ : O₁ ⟶ O₁') (φ : O₂ ⟶ O₂') (hcomm : ι ≫ φ = ψ ≫ ι')
     (ψ' : O₁' ⟶ O₁'') (φ' : O₂' ⟶ O₂'') (hcomm' : ι' ≫ φ' = ψ' ≫ ι'')
     (hcomm'' : ι ≫ (φ ≫ φ') = (ψ ≫ ψ') ≫ ι'') :

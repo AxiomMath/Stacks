@@ -7,6 +7,7 @@ public import Mathlib.Algebra.AlgebraicCard
 public import Mathlib.Algebra.Algebra.Hom.Rat
 public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 public import Mathlib.FieldTheory.IsAlgClosed.Classification
+public import Mathlib.RingTheory.Algebraic.Cardinality
 public import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
 public import Mathlib.RingTheory.AlgebraicIndependent.Transcendental
 public import Mathlib.LinearAlgebra.Eigenspace.Charpoly

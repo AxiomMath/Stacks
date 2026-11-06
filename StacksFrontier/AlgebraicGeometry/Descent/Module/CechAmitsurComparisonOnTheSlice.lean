@@ -72,7 +72,7 @@ noncomputable def sliceSingletonCechSect (n : SimplexCategory) :
 /-- The diagonal `Stacks.CechSite.sliceSingletonCechSect` is a section of the projection
 `Stacks.CechSite.sliceSingletonCechProj`. -/
 lemma sliceSingletonCechSect_comp_proj (n : SimplexCategory) :
-    sliceSingletonCechSect h H n ≫ sliceSingletonCechProj.{w} h H n = 𝟙 _ := Pi.lift_π _ _
+    sliceSingletonCechSect h H n ≫ sliceSingletonCechProj.{w} h H n = 𝟙 _ := Pi.lift_comp_π _ _
 
 /-- The projection `Stacks.CechSite.sliceSingletonCechProj` followed by the diagonal
 `Stacks.CechSite.sliceSingletonCechSect` is the identity. -/
@@ -104,7 +104,7 @@ lemma sliceSingletonCechProj_naturality {n m : SimplexCategory} (g : n ⟶ m) :
         (powerSections (Over.mk h) H).map g)) ≫
       Pi.π (fun _ : (Fin (m.len + 1) → PUnit.{w + 1}) =>
         (powerSections (Over.mk h) H).obj m) (fun _ => PUnit.unit) = _
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- The projection, as a morphism of cosimplicial objects. -/
 noncomputable def sliceSingletonCechProjNatTrans :

@@ -178,21 +178,6 @@ theorem P_d (j : ℕ) (n₁ n₂ : ℤ) (h₁ : -((j + 1 : ℕ) : ℤ) = n₁) (
 
 end DualNumberLike
 
-namespace CochainComplex.HomComplex.Cochain
-
-variable {C : Type*} [Category* C] [Preadditive C] {R : Type*} [Ring R] [Linear R C]
-  [HasZeroObject C] {K : CochainComplex C ℤ} {X : C}
-
-/-- `Cochain.toSingleMk` is compatible with scalar multiplication. -/
-theorem toSingleMk_smul {p q : ℤ} (r : R) (f : K.X p ⟶ X) {n : ℤ} (h : p + n = q) :
-    toSingleMk (r • f) h = r • toSingleMk f h := by
-  apply (toSingleEquiv h).injective
-  rw [toSingleEquiv_toSingleMk]
-  show _ = (r • toSingleMk f h).v p q h ≫ (HomologicalComplex.singleObjXSelf (.up ℤ) q X).hom
-  rw [smul_v, toSingleMk_v, Linear.smul_comp, Category.assoc, Iso.inv_hom_id, Category.comp_id]
-
-end CochainComplex.HomComplex.Cochain
-
 namespace DualNumberLike
 
 variable {A : Type u} [CommRing A] {e : A} (he : e * e = 0)

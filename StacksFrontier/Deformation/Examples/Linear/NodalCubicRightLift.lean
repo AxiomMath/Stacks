@@ -258,8 +258,8 @@ def qLiftAlgEquivNMod : QLift ≃ₐ[ABase] NMod :=
             invFun := nModToQLift
             left_inv := nModToQLift_qLiftToNMod
             right_inv := qLiftToNMod_nModToQLift
-            map_mul' := map_mul _
-            map_add' := map_add _ })
+            map_mul' := qLiftToNMod.map_mul
+            map_add' := qLiftToNMod.map_add })
     (fun a => qLiftToNMod_algebraMap_ABase a)
 
 /-- **`Module.Flat A' N'`**: the lift `N' = Q' ⧸ (x − t·z)` is flat over `A'`. -/

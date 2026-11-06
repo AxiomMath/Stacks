@@ -83,6 +83,7 @@ public instance moduleExtensionFunctorOn_preservesColimitsOfShape
     pushforward₀_preservesColimitsOfShape.{max u v w} ι.op (algebraRingDiagram.{v} A) J
   comp_preservesColimitsOfShape _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Coproducts of module-valued functors on a restricted domain of algebras, indexed by a type in
 the value universe, are exact: they are computed objectwise on the underlying presheaves of
 abelian groups, where exactness is the corresponding Grothendieck axiom. -/
@@ -92,6 +93,14 @@ public lemma hasExactColimitsOfShape_moduleValuedFunctorOn (ι : C ⥤ CommAlgCa
   let _ : AB4OfSize.{w} AddCommGrpCat.{max u v w} :=
     AB4OfSize_shrink.{w, max u v w} (C := AddCommGrpCat.{max u v w})
   let _ := AB4OfSize.ofShape (C := AddCommGrpCat.{max u v w}) K
+  let _ : HasColimitsOfShape (Discrete K) AddCommGrpCat.{max u v w} :=
+    hasColimitsOfShape_of_equivalence (Discrete.equivalence Equiv.ulift.{max u v, w})
+  let _ : HasCoproducts.{w} AddCommGrpCat.{max u v w} := fun K =>
+    hasColimitsOfShape_of_equivalence (Discrete.equivalence Equiv.ulift.{max u v, w})
+  let _ : HasCoproducts.{w} (Cᵒᵖᵒᵖ ⥤ AddCommGrpCat.{max u v w}) :=
+    fun _ => functorCategoryHasColimitsOfShape
+  let _ : HasCoproducts.{w} (ModuleValuedFunctorOn.{max u v w, v} ι) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
   HasExactColimitsOfShape.domain_of_functor (Discrete K)
     (PresheafOfModules.toPresheaf.{max u v w} (algebraRingDiagramOn.{v} ι))
 

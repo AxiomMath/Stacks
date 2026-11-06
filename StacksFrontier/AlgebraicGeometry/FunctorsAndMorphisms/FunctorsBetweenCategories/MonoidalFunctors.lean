@@ -201,7 +201,7 @@ public theorem tensorSquare (A : Type u) [CommRing A] :
     Functor.prod'_η_snd, tensor_η, ModuleCat.hom_hom_leftUnitor,
     ModuleCat.MonoidalCategory.leftUnitor_inv_apply, ModuleCat.MonoidalCategory.tensorHom_tmul,
     ConcreteCategory.hom_ofHom, LinearMap.mulLeft_apply, mul_one, LinearEquiv.coe_coe, pow_two]
-  rw [TensorProduct.lid_tmul]
+  change TensorProduct.lid A A ((a * 1) ⊗ₜ[A] (a * 1)) = a * a
   simp [smul_eq_mul]
 
 private lemma torsion_le_ker {R M N : Type*} [CommRing R] [IsDomain R]

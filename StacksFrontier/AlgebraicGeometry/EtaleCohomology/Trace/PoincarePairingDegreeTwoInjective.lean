@@ -108,7 +108,7 @@ theorem etaleModule_section_eq_zero_of_local {S : Scheme.{u}} {Λ : Type} [Ring 
     rw [ofArrows_mem_smallEtaleTopology_iff]
     exact Set.eq_univ_of_forall fun x => Set.mem_iUnion.2 ⟨x, hx x⟩
   have hsh := (isSheaf_iff_isSheaf_of_type _ _).1
-    ((sheafCompose (smallEtaleTopology S) (forget (ModuleCat.{u + 1} Λ))).obj F).cond
+    ((sheafCompose (smallEtaleTopology S) (forget (ModuleCat.{u + 1} Λ))).obj F).property
   refine (hsh.isSeparated _ hcov).ext fun W g hg => ?_
   obtain ⟨x, a, rfl⟩ := Sieve.ofArrows.exists hg
   show F.obj.map (a ≫ f x).op y = F.obj.map (a ≫ f x).op 0

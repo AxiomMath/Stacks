@@ -289,7 +289,7 @@ def d (F : Finset (Fin r) ⥤ 𝒜) (p : ℤ) : term F p ⟶ term F (p + 1) :=
 theorem d_comp_pi (F : Finset (Fin r) ⥤ 𝒜) (p : ℤ) (T : Idx r (p + 1)) :
     d F p ≫ Pi.π (fun S : Idx r (p + 1) => F.obj S.1) T =
       ∑ k ∈ T.1.attach, Cech.cechSign T.1 k.1 • proj F (T.erase k) (T.erase_subset k) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The differential followed by a transition map out of the factor indexed by `T`. -/
 theorem d_comp_proj (F : Finset (Fin r) ⥤ 𝒜) {p : ℤ} (T : Idx r (p + 1))
@@ -541,7 +541,7 @@ theorem extendedAlternatingCechAugmentation_comp_pi (S : AlternatingCech.Idx r 0
     extendedAlternatingCechAugmentation X f ≫
         Pi.π (fun S : AlternatingCech.Idx r 0 => awayModule X (prodGlobalSection f S.1)) S =
       unitToAwayModule X (prodGlobalSection f S.1) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The degree-zero term of the extended alternating Čech complex is `𝒪`: it is the single
 factor `𝒪_{f_∅}`, and inverting the empty subproduct `f_∅ = 1` changes nothing. -/

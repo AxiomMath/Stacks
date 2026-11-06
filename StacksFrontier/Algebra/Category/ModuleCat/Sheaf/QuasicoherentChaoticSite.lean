@@ -604,6 +604,12 @@ private theorem presentation_of_baseChange_isIso (hX : X.J = ⊥)
   let : X.J.WEqualsLocallyBijective AddCommGrpCat.{max w m} := by
     rw [hX]
     exact botWEqualsLocallyBijective
+  have : ∀ J : Type (max m w), HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{max w m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :=
+    fun J => PresheafOfModules.hasColimitsOfShape _ _
+  have : ∀ J : Type (max m w), HasColimitsOfShape (Discrete J)
+      (_root_.SheafOfModules.{max w m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
+    fun J => SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   let A := _root_.SheafOfModules.uliftForPresentation.{u,v,w,w,m}
     (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
   let I := M.val.obj (Opposite.op T)

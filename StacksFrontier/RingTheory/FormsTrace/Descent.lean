@@ -97,8 +97,8 @@ surjective. -/
 theorem algebraMap_surjective_of_isPushout (h : Function.Surjective (algebraMap R A)) :
     Function.Surjective (algebraMap S B) := by
   intro y
-  refine (Algebra.IsPushout.out (R := R) (S := S) (R' := A) (S' := B)).inductionOn y
-    (fun y => y ∈ Set.range (algebraMap S B)) ⟨0, map_zero _⟩ ?_ ?_ ?_
+  refine (Algebra.IsPushout.out (R := R) (S := S) (R' := A) (S' := B)).inductionOn
+    (motive := fun y => y ∈ Set.range (algebraMap S B)) y ?_ ?_ ?_
   · intro a
     obtain ⟨r, rfl⟩ := h a
     refine ⟨algebraMap R S r, ?_⟩

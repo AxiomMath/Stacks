@@ -312,7 +312,6 @@ private theorem stalk_residueField_algEquiv {k : Type u} [Field k] [IsAlgClosed 
   letI : Algebra.FiniteType k (X.residueField x) := by
     change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
     · simp only [RingHom.algebraMap_toAlgebra]
       rw [← Scheme.Γevaluation_naturality]
       simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]

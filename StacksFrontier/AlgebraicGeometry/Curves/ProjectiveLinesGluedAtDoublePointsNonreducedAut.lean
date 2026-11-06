@@ -160,7 +160,7 @@ variable [CharP k 2]
 omit [IsAlgClosed k] in
 /-- The automorphism `t ↦ t + ε` is the identity on the closed fibre. -/
 theorem gluedCurveClosedFibre_comp_aut :
-    gluedCurveClosedFibre k pts hpts ≫ (gluedCurveDualNumbersAut k pts hpts).hom.left =
+    gluedCurveClosedFibre k pts hpts ≫ (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
       gluedCurveClosedFibre k pts hpts := by
   refine gluedCurve_hom_ext k pts hpts fun b ↦ ?_
   rw [← Category.assoc, gluedCurveComponent_comp_closedFibre, Category.assoc,
@@ -193,9 +193,9 @@ omit [IsAlgClosed k] in
 /-- The base change of `t ↦ t + ε` to the closed point is the identity. -/
 theorem endBaseChange_gluedCurveDualNumbersAut :
     Scheme.endBaseChange (gluedCurveOver k pts hpts) (dualNumbersClosedPoint k)
-      (gluedCurveDualNumbersAut k pts hpts).hom = 𝟙 _ := by
+      (gluedCurveDualNumbersAut k pts hpts).asIso.hom = 𝟙 _ := by
   have key : Scheme.baseChangeMap (gluedCurveOver k pts hpts) (dualNumbersClosedPoint k) ≫
-      (gluedCurveDualNumbersAut k pts hpts).hom.left =
+      (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
         Scheme.baseChangeMap (gluedCurveOver k pts hpts) (dualNumbersClosedPoint k) := by
     rw [← cancel_epi (inv (pullback.fst (gluedCurveToBase k pts hpts) (𝟙 _))), ← Category.assoc,
       inv_fst_comp_baseChangeMap, gluedCurveClosedFibre_comp_aut]
@@ -212,7 +212,7 @@ theorem autFunctor_map_gluedCurveDualNumbersAut :
       (gluedCurveDualNumbersAut k pts hpts) =
         (1 : Aut ((Over.pullback (pointOver k).hom).obj (gluedCurveOver k pts hpts))) := by
   rw [Scheme.autFunctor_map_apply]
-  exact Aut.ext (endBaseChange_gluedCurveDualNumbersAut k pts hpts)
+  exact Aut.ext (Iso.ext (endBaseChange_gluedCurveDualNumbersAut k pts hpts))
 
 /-! ### Non-reducedness -/
 

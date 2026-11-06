@@ -62,6 +62,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_schemeOfAffineCase :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_schemeOfAffineCase
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The target of a closed immersion bijective on points out of a scheme is a scheme, given the
 affine case.** Let `f : F ⟶ G` be a closed immersion of algebraic spaces over `S` which is
 bijective on points, with `F` representable. If every algebraic space receiving a surjective

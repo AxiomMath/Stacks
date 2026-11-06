@@ -40,6 +40,18 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_NormalizedBlowupLiftStep :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_NormalizedBlowupLiftStep
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Away from the centre a normalized blowing up does not change the base change.** If no
 point of `Z ×_X P` lies over the centre `z` of the normalized blowing up `g : Z' ⟶ Z` and
 `Z ×_X P` is normal, then `Z' ×_X P = Z ×_X P` over `P`. -/

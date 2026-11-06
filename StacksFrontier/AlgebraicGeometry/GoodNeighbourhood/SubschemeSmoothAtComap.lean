@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.GoodNeighbourhood.GoodSections
+public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 
 /-!
 # Restricting a smooth closed subscheme to an open

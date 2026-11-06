@@ -413,14 +413,14 @@ private theorem squareZero_kernelStalkInclusion_smul
     _ = squareZero_kernelStalkInclusion E x
           (E.I.presheaf.germ W x hxW
             (((E.I.val.obj (Opposite.op W)).smul
-              (E.π.hom.app (Opposite.op W) a')).hom m')) :=
+              (E.π.hom.app (Opposite.op W) a')).asHom.hom m')) :=
         DFunLike.congr_arg (squareZero_kernelStalkInclusion E x)
           (PresheafOfModules.germ_smul (R := X.presheaf) E.I.val x W hxW
             (E.π.hom.app (Opposite.op W) a') m').symm
     _ = TopCat.Presheaf.germ E.A.presheaf W x hxW
           (E.ι (Opposite.op W)
             (((E.I.val.obj (Opposite.op W)).smul
-              (E.π.hom.app (Opposite.op W) a')).hom m')) :=
+              (E.π.hom.app (Opposite.op W) a')).asHom.hom m')) :=
         squareZero_kernelStalkInclusion_germ E x W hxW _
     _ = TopCat.Presheaf.germ E.A.presheaf W x hxW (a' * E.ι (Opposite.op W) m') :=
         DFunLike.congr_arg

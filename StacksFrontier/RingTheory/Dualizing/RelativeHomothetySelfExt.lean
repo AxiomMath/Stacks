@@ -130,7 +130,8 @@ theorem isIso_relativeHomothety_of_bijective_smul_id (K : DerivedCategory (Modul
   have : J.IsKInjective := CochainComplex.isKInjective_of_injective J a
   let e : K ≅ DerivedCategory.Q.obj J := eP ≪≫ asIso (DerivedCategory.Q.map Rs.ι)
   let e₀ : End K ≃ₗ[A] A :=
-    (LinearEquiv.ofBijective (LinearMap.toSpanSingleton A (End K) (𝟙 K)) hbij).symm
+    (LinearEquiv.ofBijective (LinearMap.toSpanSingleton A (End K) (End.of (𝟙 K)))
+      (End.homEquiv.symm.bijective.comp hbij)).symm
   have hJ : QuasiIso (homothety J) := by
     refine quasiIso_homothety_of_rankOne.{u, 0} J
       ((homologyZeroEndLinearEquiv J).trans ((endLinearEquivOfIso e.symm).trans e₀))

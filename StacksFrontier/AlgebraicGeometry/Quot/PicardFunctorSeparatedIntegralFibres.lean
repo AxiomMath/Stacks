@@ -337,7 +337,7 @@ private theorem exists_unit_map_pullback_ne_zero_of_section
   refine ⟨((smallEtaleDerivedModuleAdjunction B S hS f').homEquiv _ K' t) ≫ @inv _ _ _ _ β hBC,
     fun h0 => hσ ?_⟩
   have h1 : (smallEtaleDerivedModuleAdjunction B S hS f').homEquiv _ K' t = 0 :=
-    @zero_of_comp_mono _ _ _ _ _ _ _ (@inv _ _ _ _ β hBC)
+    @zero_of_comp_mono _ _ _ _ _ _ (@inv _ _ _ _ β hBC) _
       (@IsIso.mono_of_iso _ _ _ _ _ (@IsIso.inv_isIso _ _ _ _ _ hBC)) h0
   have h2 : t = 0 := by
     have := congrArg ((smallEtaleDerivedModuleAdjunction B S hS f').homEquiv _ K').symm h1
@@ -470,7 +470,7 @@ private theorem exists_unit_map_ne_zero_of_pullback
   refine ⟨y, fun h0 => hw ?_⟩
   have hy' : (representedAffineDerivedAssociated B S hS U').map y = _ := hy
   rw [h0, Functor.map_zero] at hy'
-  exact @zero_of_comp_mono _ _ _ _ _ _ _ ε.hom (@IsIso.mono_of_iso _ _ _ _ _ ε.isIso_hom)
+  exact @zero_of_comp_mono _ _ _ _ _ _ ε.hom _ (@IsIso.mono_of_iso _ _ _ _ _ ε.isIso_hom)
     (zero_of_epi_comp (representedAffineDerivedAssociatedSingleUnitIso B S hS U' 0).hom hy'.symm)
 
 end BaseChange
@@ -704,7 +704,7 @@ private theorem id_structureModule_ne_zero {Z : AlgebraicSpaces B S hS}
     (h : Nontrivial (globalFunctions B S hS Z.1)) : 𝟙 (structureModule Z) ≠ 0 := by
   intro h0
   let e := unitEndRingEquivGlobalFunctions B S hS Z.1 Z.2
-  have := congrArg e h0
+  have := congrArg (fun φ => e (End.of φ)) h0
   exact one_ne_zero ((map_one e).symm.trans (this.trans (map_zero e)))
 
 /-- **An invertible module over a valuation ring which is trivial on the generic fibre is
@@ -774,7 +774,8 @@ private theorem nonempty_iso_structureModule_of_valuationRing
       structureModule X₀ := e₀raw
   -- `s` is an isomorphism on the closed fibre
   have hiso₀ : IsIso (u₀.inv ≫ (modulePullback B S hS j₀).map s ≫ e₀.hom) :=
-    isIso_of_ne_zero B S hS X₀.1 X₀.2 hfield₀ _ (comp_ne _ e₀ u₀.symm hs)
+    isIso_of_ne_zero B S hS X₀.1 X₀.2 hfield₀ _
+      (fun h => comp_ne _ e₀ u₀.symm hs (congrArg End.asHom h))
   have hiso : IsIso ((modulePullback B S hS j₀).map s) := by
     have := hiso₀
     have : IsIso ((modulePullback B S hS j₀).map s ≫ e₀.hom) :=
@@ -1021,7 +1022,7 @@ private theorem uniquenessUpToExtension_of_uLift {f : X ⟶ Y}
   refine ⟨R', inferInstance, inferInstance, inferInstance, K', inferInstance, inferInstance,
     inferInstance, ring_mem', field_mem', φ, ψ, hφ, hfrac, ?_⟩
   rw [reassoc_of% hnat, reassoc_of% hnat] at heq
-  exact (cancel_epi _).1 heq
+  exact (Iso.cancel_iso_hom_left (ι.app _) _ _).1 heq
 
 /-- **The relative diagonal of a morphism satisfying the uniqueness part of the valuative
 criterion up to an extension satisfies the existence part.** A valuative square for the

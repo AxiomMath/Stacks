@@ -95,7 +95,7 @@ variable [J.HasSheafCompose (forget AddCommGrpCat.{w})]
 /-- The underlying presheaf of sets of an abelian sheaf satisfies the sheaf condition. -/
 theorem isSheaf_forget (F : Sheaf J AddCommGrpCat.{w}) :
     Presieve.IsSheaf J (F.obj ⋙ forget AddCommGrpCat.{w}) :=
-  (isSheaf_iff_isSheaf_of_type J _).1 ((sheafCompose J (forget AddCommGrpCat.{w})).obj F).cond
+  (isSheaf_iff_isSheaf_of_type J _).1 ((sheafCompose J (forget AddCommGrpCat.{w})).obj F).property
 
 include g in
 /-- The fibre of a morphism of abelian sheaves over a global section satisfies the sheaf

@@ -10,6 +10,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Basic
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.ColimCoyoneda
 public import Mathlib.CategoryTheory.SmallObject.TransfiniteIteration
 public import Mathlib.CategoryTheory.SmallObject.Construction
+public import Mathlib.CategoryTheory.Preadditive.Injective.LiftingProperties
 public import StacksFrontier.Homology.Injectives.Size.BoundedSizeObjects
 public import StacksFrontier.Homology.Injectives.KInjective.Enlargement
 public import StacksFrontier.Homology.Injectives.KInjective.Criterion

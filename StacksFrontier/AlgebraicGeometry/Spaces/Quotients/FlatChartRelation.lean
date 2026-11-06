@@ -158,6 +158,8 @@ private theorem flat_and_locallyOfFinitePresentation_of_yoneda_map_eq
 
 variable {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {R U : Over Z}
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The restriction of an equivalence relation of algebraic spaces with flat, locally finitely
 presented target and source along a chart `a : h_{U₀} ⟶ U` from a representable presheaf is
 represented by an object of the site, with flat and locally finitely presented target and
@@ -188,6 +190,8 @@ theorem exists_flatSiteRelation_of_chart (j : PreRelation R U)
         (PreRelation.restrict j (chartInSliceMap U a)).source.left =
           e.hom ≫ yoneda.map s₀ := by
   classical
+  have _ : HasPullbacks (Over Z) := Over.hasLimitsOfShape_of_isConnected (B := Z)
+    (J := WalkingCospan) (C := (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
   have _ : HasBinaryProducts (BigFppfOver B S hS) :=
     hasBinaryProducts_of_hasTerminal_and_pullbacks _
   set t := j.target.left with hts
@@ -259,9 +263,11 @@ theorem exists_flatSiteRelation_of_chart (j : PreRelation R U)
     have hj : (prod.lift j.target j.source : R ⟶ U ⨯ U) = j :=
       prod.hom_ext (by simp) (by simp)
     rwa [hj] at h
+  have _ : HasPullback (prod.map g g) j := (Over.hasLimitsOfShape_of_isConnected (B := Z)
+    (J := WalkingCospan) (C := (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
   let iso := hfin.isoIsPullback _ _ (IsPullback.of_hasPullback (prod.map g g) j)
   have hfst : iso.hom ≫ PreRelation.restrict j g = prod.lift (p₁ ≫ a₁) (p₂ ≫ d₂) :=
-    IsPullback.isoIsPullback_hom_fst _ _ hfin (IsPullback.of_hasPullback _ _)
+    IsPullback.isoIsPullback_hom_fst _ _ hfin (IsPullback.of_hasPullback (prod.map g g) j)
   have htgt : iso.hom.left ≫ (PreRelation.restrict j g).target.left = σ ≫ π := by
     have h : iso.hom ≫ (PreRelation.restrict j g).target = p₁ ≫ a₁ := by
       rw [PreRelation.target, ← Category.assoc, hfst, prod.lift_fst]
@@ -309,6 +315,9 @@ theorem exists_flatSiteRelation_of_chart (j : PreRelation R U)
         (p₂ := (PreRelation.restrict j g).source.left) f₁ f₂ ?_ ?_
       · simpa only [Category.assoc, prod.lift_fst] using congrArg (· ≫ prod.fst) h
       · simpa only [Category.assoc, prod.lift_snd] using congrArg (· ≫ prod.snd) h
+    have hpy : Mono py.inv := ⟨fun {_} f₁ f₂ h => by
+      simpa only [Category.assoc, Iso.inv_hom_id, Category.comp_id] using
+        congrArg (· ≫ py.hom) h⟩
     rw [hm]
     exact mono_comp _ _
   have hmsnd : m ≫ yoneda.map (prod.snd : U₀ ⨯ U₀ ⟶ U₀) =

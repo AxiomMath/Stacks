@@ -218,8 +218,8 @@ theorem weilDivisorClassOfInvertibleSheaf_eq_of_forall_ord (I : X.IdealSheafData
   have hideal : (zeroScheme X (Stacks.Divisors.modulesInvertibleSheaf I)
       ((Stacks.Divisors.canonicalSections I).eval (op (⊤ : X.Opens)))).ideal U =
       Ideal.span {Stacks.Divisors.frameSections X (Stacks.Divisors.modulesInvertibleSheaf I) eU
-        ((Stacks.Divisors.modulesInvertibleSheaf I).presheaf.map (homOfLE le_top).op
-          ((Stacks.Divisors.canonicalSections I).eval (op (⊤ : X.Opens))))} :=
+                    ((Stacks.Divisors.modulesInvertibleSheaf I).presheaf.map (homOfLE le_top).op
+                      ((Stacks.Divisors.canonicalSections I).eval (op (⊤ : X.Opens))))} :=
     zeroScheme_ideal_of_trivialization X (Stacks.Divisors.modulesInvertibleSheaf I) _ U
       (Stacks.Divisors.frameSections X (Stacks.Divisors.modulesInvertibleSheaf I) eU) _ rfl
   rw [Stacks.Divisors.zeroScheme_canonicalSections I] at hideal

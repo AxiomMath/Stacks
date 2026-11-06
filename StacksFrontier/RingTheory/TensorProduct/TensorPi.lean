@@ -60,7 +60,6 @@ the same underlying function. -/
 theorem piRightHom_apply_eq_of_tower (x : N ⊗[R] (∀ i, M i)) :
     piRightHom R S N M x = piRightHom R R N M x := by
   induction x with
-  | zero => simp
   | tmul n m => rfl
   | add x y hx hy => simp [hx, hy]
 

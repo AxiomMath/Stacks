@@ -156,7 +156,7 @@ theorem exists_epi_biproduct_constantSheaf_of_isFiniteTypeLocallyConstant [IsAff
   obtain ⟨n, s, hs⟩ :=
     Scheme.ProEt.exists_sections_forall_exists_mem_span_of_isFiniteTypeSections hX
     (Stacks.PresheafOfModules.ofFunctorObj Λ G.obj)
-    ((sheafCompose _ (CategoryTheory.forget (ModuleCat.{max (u + 1) w} Λ))).obj G).cond
+    ((sheafCompose _ (CategoryTheory.forget (ModuleCat.{max (u + 1) w} Λ))).obj G).property
   refine ⟨n, biproductDescOfSections fun i => (s i).eval (op (Scheme.ProEt.mk (𝟙 X))),
     epi_biproductDescOfSections _ fun V m => ?_⟩
   obtain ⟨S, hS, h⟩ := hs V m

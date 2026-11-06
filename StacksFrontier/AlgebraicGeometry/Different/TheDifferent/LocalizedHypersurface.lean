@@ -171,7 +171,7 @@ theorem cokerSpanIdeal_traceElement_localization_adjoinRoot (A : Type u) [CommRi
       Stacks.Annihilator.cokerSpanIdeal (Localization.Away (AdjoinRoot.mk f h))
           (dualizingModule.traceElement F) =
         Ideal.span {algebraMap (AdjoinRoot f) (Localization.Away (AdjoinRoot.mk f h))
-          (AdjoinRoot.mk f f.derivative)} := by
+                      (AdjoinRoot.mk f f.derivative)} := by
   let : IsNoetherianRing (Localization.Away (AdjoinRoot.mk f h)) :=
     isNoetherianRing_localization_adjoinRoot A f h
   let : Module.Flat A (Localization.Away (AdjoinRoot.mk f h)) :=
@@ -206,7 +206,7 @@ theorem different_sections_eq_span_derivative (ω : RelativeDualizingModuleData 
       (e : Localization.Away (AdjoinRoot.mk f h) ≃ₐ[Γ(X, U.1)] Γ(Y, V.1)),
       (show Ideal Γ(Y, V.1) from (different ω τ).toSubmodule.obj (op V.1)) =
         Ideal.span {e (algebraMap (AdjoinRoot f) (Localization.Away (AdjoinRoot.mk f h))
-          (AdjoinRoot.mk f f.derivative))} := by
+                        (AdjoinRoot.mk f f.derivative))} := by
   let : Algebra Γ(X, U.1) Γ(Y, V.1) := (g.appLE U V hVU).hom.toAlgebra
   let : IsNoetherianRing Γ(X, U.1) := IsLocallyNoetherian.component_noetherian U
   let : IsNoetherianRing Γ(Y, V.1) := IsLocallyNoetherian.component_noetherian V

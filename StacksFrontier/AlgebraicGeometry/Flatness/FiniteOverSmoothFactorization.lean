@@ -75,7 +75,7 @@ theorem purelyTranscendental_of_ringEquiv_base {k k' K : Type*} [Field k] [Field
   · refine eq_top_iff.mpr fun y _ => ?_
     have hy : y ∈ IntermediateField.adjoin k s := by rw [hgen]; trivial
     refine IntermediateField.adjoin_induction (F := k) (E := K) (s := s)
-      (p := fun z _ ↦ z ∈ IntermediateField.adjoin k' s)
+      (motive := fun z _ ↦ z ∈ IntermediateField.adjoin k' s)
       (fun z hz ↦ IntermediateField.subset_adjoin k' s hz)
       (fun a ↦ ?_) (fun _ _ _ _ h₁ h₂ ↦ add_mem h₁ h₂)
       (fun _ _ h₁ ↦ inv_mem h₁) (fun _ _ _ _ h₁ h₂ ↦ mul_mem h₁ h₂) hy

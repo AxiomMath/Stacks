@@ -49,6 +49,9 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
 section Kill
 
+-- The universe-polymorphic `max (u + 1) r` instance leaves `r` stuck against `u + 1`.
+attribute [-instance] isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing
+
 /-- An integer killing every element of an abelian group kills every element of an isomorphic
 one. -/
 private theorem nsmul_eq_zero_of_iso {A B : AddCommGrpCat.{u + 1}} (e : A ≅ B) {N : ℕ}

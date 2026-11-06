@@ -119,7 +119,7 @@ structure AbstractGroupQuotientStack where
   toTarget_equivariant : ∀ (W : (Over base)ᵒᵖ) (g : G) (s : torsor.presheaf.obj W),
     toTarget W (torsor.act W (constantSheafOfGroupsUnit
         (BigFppfOver.topology B S hS) G (op W.unop.left) g) s) =
-      (ρ g).hom.app (op W.unop.left) (toTarget W s)
+      (ρ g).asIso.hom.app (op W.unop.left) (toTarget W s)
 
 namespace AbstractGroupQuotientStack
 

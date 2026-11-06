@@ -94,9 +94,9 @@ theorem tensorSheafSwap_app_toTensorSheafSection (X : AlgebraicGeometry.RingedSp
         (toTensorSheafSection X F G (op U) (m ⊗ₜ[X.presheaf.obj (op U)] n))
       = toTensorSheafSection X G F (op U) (n ⊗ₜ[X.presheaf.obj (op U)] m) := by
   let : MonoidalCategory (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat)) :=
-    PresheafOfModules.monoidalCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   let : SymmetricCategory (PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat)) :=
-    PresheafOfModules.symmetricCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
   unfold toTensorSheafSection tensorSheafSwap
   have hnat := (PresheafOfModules.sheafificationAdjunction (R := structureSheafRing X)
       (𝟙 (structureSheafRing X).obj)).unit.naturality

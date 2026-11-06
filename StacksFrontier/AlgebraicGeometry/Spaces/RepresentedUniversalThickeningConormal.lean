@@ -286,6 +286,8 @@ theorem exists_schemeThickening_of_universalFirstOrderThickening
   -- Formal unramifiedness of `g` passes to the morphism of schemes, Stacks 049T.
   have hFUy : FormallyUnramified (yoneda.map q) := by
     rw [hq]
+    haveI : Mono eV.hom := IsIso.mono_of_iso _
+    haveI : Mono eU.inv := IsIso.mono_of_iso _
     exact formallyUnramified_comp _ _ (formallyUnramified_of_mono eV.hom)
       (formallyUnramified_comp _ _ s.formallyUnramified
         (formallyUnramified_of_mono eU.inv))

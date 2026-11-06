@@ -117,6 +117,15 @@ local instance moduleStructureRingPresheafSections (U : Cᵒᵖ)
   inferInstanceAs (Module ((Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj.obj
     U) (A.obj U))
 
+/-- The sections `A(U)` of a presheaf of modules over the structure sheaf, as a module over the
+ring `O(U)`. -/
+local instance moduleCommRingSections (U : Cᵒᵖ)
+    (A : PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
+      :
+    Module (O.obj U) (A.obj U) :=
+  inferInstanceAs (Module ((Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj.obj
+    U) (A.obj U))
+
 /-- The shuffle `(A ⊗ B) ⊗ (A ⊗ B) ≅ (A ⊗ A) ⊗ (B ⊗ B)` of a braided monoidal category. -/
 noncomputable def pairShuffle
     {D : Type*} [Category.{v} D] [MonoidalCategory D] [BraidedCategory D] (A B : D) :

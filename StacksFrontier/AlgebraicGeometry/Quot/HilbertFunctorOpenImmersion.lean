@@ -58,6 +58,13 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X Y A : AlgebraicSpaces B S hS} {π : X ⟶ Y} {bX : X ⟶ A} {bY : Y ⟶ A}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_hilbertFunctorOpenImmersion
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Generalities -/
 
 /-- A morphism factors through one leg of a cartesian square exactly when its composite with

@@ -102,7 +102,7 @@ theorem sliceTransport_map_awaySmul_app_apply (T : (Over W.left)ᵒᵖ)
     (x : (SheafOfModules.unit
       (Stacks.SheafOfModules.Tensor.ringSheaf (X.over W.left).O)).val.obj T) :
     (((sliceTransport X U W).map
-        ((awaySmul ((X.over U).over W) h).app
+        ((awaySmul ((X.over U).over W) h).asHom.app
           (SheafOfModules.unit
             (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))).val.app T).hom x =
       globalSectionVal (globalSectionTransport X U W h) T • x := by
@@ -116,7 +116,7 @@ def awaySmulTransport :
     SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (X.over W.left).O) ⟶
       SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (X.over W.left).O) :=
   (sliceTransport X U W).map
-    ((awaySmul ((X.over U).over W) h).app
+    ((awaySmul ((X.over U).over W) h).asHom.app
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))
 
 omit [HasWeakSheafify ((X.over U).over W).J CommRingCat.{u}]
@@ -132,22 +132,22 @@ theorem awaySmulTransport_app_apply (T : (Over W.left)ᵒᵖ)
 /-- The transported sequential diagram is the sequential diagram of the transported section. -/
 def awaySequenceTransportHom :
     awaySequence ((X.over U).over W)
-        ((awaySmul ((X.over U).over W) h).app
+        ((awaySmul ((X.over U).over W) h).asHom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O))) ⋙
         sliceTransport X U W ⟶
       awaySequence (X.over W.left) (awaySmulTransport X U W h) :=
   NatTrans.ofSequence (F := awaySequence ((X.over U).over W)
-        ((awaySmul ((X.over U).over W) h).app
+        ((awaySmul ((X.over U).over W) h).asHom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O))) ⋙
         sliceTransport X U W)
     (G := awaySequence (X.over W.left) (awaySmulTransport X U W h))
     (fun _ => 𝟙 _) (fun n => by
       have h₁ : (awaySequence ((X.over U).over W)
-            ((awaySmul ((X.over U).over W) h).app
+            ((awaySmul ((X.over U).over W) h).asHom.app
               (SheafOfModules.unit
                 (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))).map
               (homOfLE (Nat.le_add_right n 1)) =
-          (awaySmul ((X.over U).over W) h).app
+          (awaySmul ((X.over U).over W) h).asHom.app
             (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)) :=
         awaySequence_map_succ ((X.over U).over W) _ n
       have h₂ : (awaySequence (X.over W.left) (awaySmulTransport X U W h)).map
@@ -171,7 +171,7 @@ instance isIso_awaySequenceTransportHom : IsIso (awaySequenceTransportHom X U W 
 /-- **The sequential diagram presenting `𝒪_f` transports to the one presenting `𝒪_{f'}`.** -/
 def awaySequenceTransportIso :
     awaySequence ((X.over U).over W)
-        ((awaySmul ((X.over U).over W) h).app
+        ((awaySmul ((X.over U).over W) h).asHom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O))) ⋙
         sliceTransport X U W ≅
       awaySequence (X.over W.left) (awaySmulTransport X U W h) :=
@@ -181,12 +181,12 @@ def awaySequenceTransportIso :
 def awayModuleTransportColimit :
     IsColimit ((sliceTransport X U W).mapCocone
       (awayModuleCocone ((X.over U).over W) h
-        ((awaySmul ((X.over U).over W) h).app
+        ((awaySmul ((X.over U).over W) h).asHom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))
         (fun V x => awaySmul_app_apply ((X.over U).over W) h _ V x))) :=
   isColimitOfPreserves _
     (isColimitAwayModuleCocone ((X.over U).over W) h
-      ((awaySmul ((X.over U).over W) h).app
+      ((awaySmul ((X.over U).over W) h).asHom.app
         (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))
       (fun V x => awaySmul_app_apply ((X.over U).over W) h _ V x))
 
@@ -214,7 +214,7 @@ theorem sliceTransport_map_unitToAwayModule_comp_awayModuleTransportIso :
     (awayTransportedColimit X U W h) (awaySequenceTransportIso X U W h) 0
   have hsrc : ((sliceTransport X U W).mapCocone
         (awayModuleCocone ((X.over U).over W) h
-          ((awaySmul ((X.over U).over W) h).app
+          ((awaySmul ((X.over U).over W) h).asHom.app
             (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))
           (fun V x => awaySmul_app_apply ((X.over U).over W) h _ V x))).ι.app 0 =
       (sliceTransport X U W).map (unitToAwayModule ((X.over U).over W) h) := by

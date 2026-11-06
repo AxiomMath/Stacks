@@ -134,7 +134,7 @@ theorem stabilizer_eq_comap_of_mono {X Y : Scheme.{u}} [ConnectedSpace X] [Conne
     MulAction.mem_stabilizer_iff]
   have hnat : (finiteEtaleFiberFunctor y).map ι (w • t) =
       w • (finiteEtaleFiberFunctor y).map ι t :=
-    (ConcreteCategory.congr_hom (w.hom.naturality ι) t).symm
+    (ConcreteCategory.congr_hom (w.asIso.hom.naturality ι) t).symm
   have hproj := etaleFundamentalGroupMap_finiteEtaleFiberProjection g y V₀ w
     ((finiteEtaleFiberFunctor y).map ι t)
   constructor
@@ -286,10 +286,10 @@ theorem finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_
       (finiteEtaleOverSourcePoint hg yV)).Normal :=
     hstab ▸ Subgroup.Normal.comap inferInstance _
   have hMres : ∀ s' ∈ MulAction.stabilizer (EtaleFundamentalGroup W.1 (yV.map g.hom))
-      (finiteEtaleOverSourcePoint hg yV), ∀ v, (Mres.obj.obj.obj.ρ s').hom v = v := by
+      (finiteEtaleOverSourcePoint hg yV), ∀ v, (Mres.obj.obj.obj.ρ s').asHom.hom v = v := by
     intro s' hs' v
     rw [hstab] at hs'
-    exact congrArg (fun F => F.hom v) (hM _ hs')
+    exact congrArg (fun F => F.asHom.hom v) (hM _ hs')
   have hGC := finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_of_cover B W
     fW (compactificationFieldBaseChange f j L) kbar m p q' hq' hm hWgi g yV hgi hg hN Mres hMres
   -- the coinvariants of `π₁(W)` are a quotient of those of the geometric fundamental group

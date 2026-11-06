@@ -36,7 +36,7 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {X : Type u₃} [Category.{v�
 variable {p : X ⥤ 𝒞} {p𝒯 : 𝒯 ⥤ 𝒞} {q : 𝒴 ⥤ 𝒞} {F : X ⥤ 𝒴} {Y : 𝒯 ⥤ X}
 
 attribute [local implicit_reducible] _root_.CategoryTheory.TwoFibreProductOver.fst
-  RelativeInertia.π Aut
+  RelativeInertia.π
 
 /-- The 2-fibre product of the point `Y` with the forgetful functor of the relative inertia. -/
 abbrev Fib (p : X ⥤ 𝒞) (p𝒯 : 𝒯 ⥤ 𝒞) (F : X ⥤ 𝒴) (Y : 𝒯 ⥤ X) :=
@@ -56,16 +56,16 @@ lemma map_eq_id_of_isHomLift (hF : F ⋙ q = p) [q.Faithful] {x : X} {c : 𝒞} 
 
 /-- An endomorphism `α` with `F α = 𝟙` lies over an identity. -/
 lemma isHomLift_auto (hF : F ⋙ q = p) (A : RelativeInertia F) :
-    p.IsHomLift (𝟙 (p.obj A.obj)) A.auto.hom := by
+    p.IsHomLift (𝟙 (p.obj A.obj)) A.auto.asIso.hom := by
   refine IsHomLift.of_fac' p _ _ rfl rfl ?_
-  have h := Functor.congr_hom hF A.auto.hom
+  have h := Functor.congr_hom hF A.auto.asIso.hom
   rw [Functor.comp_map, A.cond, q.map_id] at h
   simp only [eqToHom_refl, Category.comp_id]
   simpa [eqToHom_comp_iff, comp_eqToHom_iff] using h.symm
 
 /-- The conjugate of the automorphism of an object of the 2-fibre product to `Y a`. -/
 def conjOf (A : Fib p p𝒯 F Y) : Y.obj A.x ⟶ Y.obj A.x :=
-  A.iso.hom ≫ A.y.auto.hom ≫ A.iso.inv
+  A.iso.hom ≫ A.y.auto.asIso.hom ≫ A.iso.inv
 
 /-- The inverse of the structure isomorphism of an object of the 2-fibre product is vertical. -/
 private lemma isHomLift_inv_iso (A : Fib p p𝒯 F Y) : p.IsHomLift (𝟙 A.base) A.iso.inv := by
@@ -76,7 +76,7 @@ lemma isHomLift_conjOf (hF : F ⋙ q = p) (A : Fib p p𝒯 F Y) :
     p.IsHomLift (𝟙 (p𝒯.obj A.x)) (conjOf A) := by
   have hv := A.vertical
   have hvi := isHomLift_inv_iso A
-  have ha : p.IsHomLift (𝟙 A.base) A.y.auto.hom := by
+  have ha : p.IsHomLift (𝟙 A.base) A.y.auto.asIso.hom := by
     have h := isHomLift_auto hF A.y
     have hy : p.obj A.y.obj = A.base := A.hy
     rw [hy] at h
@@ -99,15 +99,15 @@ lemma inv_comp_map (A B : Fib p p𝒯 F Y) (u : A ⟶ B) :
 lemma conjOf_naturality (A B : Fib p p𝒯 F Y) (u : A ⟶ B) :
     conjOf A ≫ Y.map u.a = Y.map u.a ≫ conjOf B := by
   have hw : A.iso.hom ≫ u.b.hom = Y.map u.a ≫ B.iso.hom := u.w.symm
-  have hc : A.y.auto.hom ≫ u.b.hom = u.b.hom ≫ B.y.auto.hom := u.b.comm.symm
+  have hc : A.y.auto.asIso.hom ≫ u.b.hom = u.b.hom ≫ B.y.auto.asIso.hom := u.b.comm.symm
   unfold conjOf
-  calc (A.iso.hom ≫ A.y.auto.hom ≫ A.iso.inv) ≫ Y.map u.a
-      = A.iso.hom ≫ A.y.auto.hom ≫ (A.iso.inv ≫ Y.map u.a) := by simp only [Category.assoc]
-    _ = A.iso.hom ≫ (A.y.auto.hom ≫ u.b.hom) ≫ B.iso.inv := by
+  calc (A.iso.hom ≫ A.y.auto.asIso.hom ≫ A.iso.inv) ≫ Y.map u.a
+      = A.iso.hom ≫ A.y.auto.asIso.hom ≫ (A.iso.inv ≫ Y.map u.a) := by simp only [Category.assoc]
+    _ = A.iso.hom ≫ (A.y.auto.asIso.hom ≫ u.b.hom) ≫ B.iso.inv := by
         rw [inv_comp_map A B u]; simp only [Category.assoc]
-    _ = (A.iso.hom ≫ u.b.hom) ≫ B.y.auto.hom ≫ B.iso.inv := by
+    _ = (A.iso.hom ≫ u.b.hom) ≫ B.y.auto.asIso.hom ≫ B.iso.inv := by
         rw [hc]; simp only [Category.assoc]
-    _ = Y.map u.a ≫ B.iso.hom ≫ B.y.auto.hom ≫ B.iso.inv := by
+    _ = Y.map u.a ≫ B.iso.hom ≫ B.y.auto.asIso.hom ≫ B.iso.inv := by
         rw [hw]; simp only [Category.assoc]
 
 variable (hp : p.IsFiberedInGroupoids) (hF : F ⋙ q = p) (hY : Y ⋙ p = p𝒯)
@@ -137,7 +137,7 @@ lemma isIso_vertHom (a : 𝒯) (m : VertHom p p𝒯 Y Y a) : IsIso m.1 := by
 noncomputable def inertiaOf (a : 𝒯) (m : VertHom p p𝒯 Y Y a) : RelativeInertia F :=
   haveI := isIso_vertHom hp a m
   { obj := Y.obj a
-    auto := asIso m.1
+    auto := Aut.of (asIso m.1)
     cond := map_eq_id_of_isHomLift hF m.1 m.2 }
 
 /-- The object of the 2-fibre product attached to a vertical automorphism of `Y a`. -/
@@ -198,7 +198,7 @@ noncomputable def unitIso : 𝟭 (Fib p p𝒯 F Y) ≅ toElements hp hF hY ⋙ o
             b :=
               { hom := A.iso.inv
                 comm := by
-                  change A.iso.inv ≫ conjOf A = A.y.auto.hom ≫ A.iso.inv
+                  change A.iso.inv ≫ conjOf A = A.y.auto.asIso.hom ≫ A.iso.inv
                   simp [conjOf] }
             ha := isHomLift_eqToHom_of_id p𝒯 (𝟙 A.x) A.hx rfl A.hx.symm (IsHomLift.id rfl)
             hb := isHomLift_π_map _ _
@@ -212,7 +212,7 @@ noncomputable def unitIso : 𝟭 (Fib p p𝒯 F Y) ≅ toElements hp hF hY ⋙ o
             b :=
               { hom := A.iso.hom
                 comm := by
-                  change A.iso.hom ≫ A.y.auto.hom = conjOf A ≫ A.iso.hom
+                  change A.iso.hom ≫ A.y.auto.asIso.hom = conjOf A ≫ A.iso.hom
                   simp [conjOf] }
             ha := isHomLift_eqToHom_of_id p𝒯 (𝟙 A.x) rfl A.hx A.hx (IsHomLift.id rfl)
             hb := by

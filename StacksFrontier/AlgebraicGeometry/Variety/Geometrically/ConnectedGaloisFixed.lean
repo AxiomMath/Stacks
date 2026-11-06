@@ -237,7 +237,7 @@ private theorem galoisActionOnBaseChange_fst_apply
     (X : Over (Spec (.of k))) (σ : MulOpposite (kbar ≃ₐ[k] kbar))
     (y : (galoisActionOnBaseChange k kbar X).V) :
     (pullback.fst X.hom (spectrumMap k kbar))
-        (((galoisActionOnBaseChange k kbar X).ρ σ).base y) =
+        (((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y) =
       (pullback.fst X.hom (spectrumMap k kbar)) y := by
   exact apply_eq_of_comp_eq (galoisBaseChangeMap_fst k kbar X.left X.hom σ.unop) y
 
@@ -246,9 +246,9 @@ private theorem galoisActionOnGeometricConnectedComponents_mk
     (k kbar : Type u) [Field k] [Field kbar] [Algebra k kbar]
     (X : Over (Spec (.of k))) (σ : MulOpposite (kbar ≃ₐ[k] kbar))
     (y : (galoisActionOnBaseChange k kbar X).V) :
-    ConcreteCategory.hom ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ)
+    ConcreteCategory.hom ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ).asHom
         (ConnectedComponents.mk y) =
-      ConnectedComponents.mk (((galoisActionOnBaseChange k kbar X).ρ σ).base y) := rfl
+      ConnectedComponents.mk (((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y) := rfl
 
 /-- A connected component of the base change to a separable algebraic closure `kbar` which is
 fixed by the Galois action is the inverse image of a geometrically connected component of `X`. -/
@@ -258,7 +258,7 @@ private theorem exists_connectedComponent_preimage_eq_of_galois_fixed
     (C : ConnectedComponents (galoisActionOnBaseChange k kbar X).V)
     (hfix : ∀ σ : MulOpposite (kbar ≃ₐ[k] kbar),
         ConcreteCategory.hom
-          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ) C = C) :
+          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ).asHom C = C) :
     ∃ T : Set X.left, (∃ x : X.left, T = connectedComponent x) ∧
       IsGeometricallyConnectedSubset X.hom T ∧
       ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T = ConnectedComponents.mk ⁻¹' {C} := by
@@ -280,7 +280,7 @@ private theorem exists_connectedComponent_preimage_eq_of_galois_fixed
   have hinj : ∀ σ : MulOpposite (kbar ≃ₐ[k] kbar),
       Function.Injective (fun z : (galoisActionOnGeometricConnectedComponents k kbar X).V =>
         ConcreteCategory.hom
-          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ) z) :=
+          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ).asHom z) :=
     fun σ => MulAction.injective σ
   have hstable : ∀ σ : kbar ≃ₐ[k] kbar,
       ⇑(galoisBaseChangeMap k kbar X.left X.hom σ) ⁻¹'
@@ -293,7 +293,7 @@ private theorem exists_connectedComponent_preimage_eq_of_galois_fixed
         ((hmk.trans h).trans (hfix (MulOpposite.op σ)).symm),
       fun h => (hmk.symm.trans
         (congrArg (ConcreteCategory.hom
-          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ (MulOpposite.op σ)))
+          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ (MulOpposite.op σ)).asHom)
           h)).trans (hfix (MulOpposite.op σ))⟩
   obtain ⟨T, -, hTpre⟩ :=
     exists_closed_subset_with_preimage_eq_of_galois_invariant k kbar X.left X.hom
@@ -321,7 +321,7 @@ public theorem galoisActionOnGeometricConnectedComponents_fixed_iff
     (C : ConnectedComponents (galoisActionOnBaseChange k kbar X).V) :
     (∀ σ : MulOpposite (kbar ≃ₐ[k] kbar),
         ConcreteCategory.hom
-          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ) C = C) ↔
+          ((galoisActionOnGeometricConnectedComponents k kbar X).ρ σ).asHom C = C) ↔
       ∃ T : Set X.left, (∃ x : X.left, T = connectedComponent x) ∧
         IsGeometricallyConnectedSubset X.hom T ∧
         ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T =
@@ -333,10 +333,10 @@ public theorem galoisActionOnGeometricConnectedComponents_fixed_iff
   have hy : y ∈ ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T := by
     rw [hTpre]
     exact rfl
-  have hy2 : ((galoisActionOnBaseChange k kbar X).ρ σ).base y ∈
+  have hy2 : ((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y ∈
       ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T := by
     show (pullback.fst X.hom (spectrumMap k kbar))
-      (((galoisActionOnBaseChange k kbar X).ρ σ).base y) ∈ T
+      (((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y) ∈ T
     rw [galoisActionOnBaseChange_fst_apply k kbar X σ y]
     exact hy
   rwa [hTpre] at hy2

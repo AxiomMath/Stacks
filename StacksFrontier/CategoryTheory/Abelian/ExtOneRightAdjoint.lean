@@ -41,7 +41,7 @@ include adj in
 `L` preserving monomorphisms and enough injectives in the target of `L`. -/
 theorem subsingleton_ext_one_rightAdjoint_obj (P : C) (hP : IsZero (L.obj P)) (M : D) :
     Subsingleton (Ext.{w} P (R.obj M) 1) := by
-  have := adj.rightAdjoint_preservesLimits
+  have := adj.rightAdjoint_preservesLimits.{0, 0}
   have : R.IsRightAdjoint := adj.isRightAdjoint
   refine subsingleton_of_forall_eq 0 fun x => ?_
   let i : M ⟶ Injective.under M := Injective.ι M

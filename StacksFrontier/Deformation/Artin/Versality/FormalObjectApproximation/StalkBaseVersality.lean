@@ -40,7 +40,6 @@ binder, even though the two types print identically.
 open AlgebraicGeometry CategoryTheory IsLocalRing
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber.fiberInclusion
 attribute [local implicit_reducible] Deformation.Artin.baseOver
@@ -569,7 +568,6 @@ private theorem exists_finiteType_versal_approximation_aux
   have heqMap : (eqToHom xA.2).left.hom = eqToHom (congrArg Over.left hxA) := by
     show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom xA.2) = _
     simp
-    rfl
   have hrbase : ((eqToHom (Deformation.Artin.chosenBase_eq B S hS 𝒳.val.p xCR.obj).symm ≫
       𝒳.val.p.map rC).left.hom ≫ eqToHom (congrArg Over.left hxA)) =
       Spec.map (CommRingCat.ofHom er.toRingHom) ≫

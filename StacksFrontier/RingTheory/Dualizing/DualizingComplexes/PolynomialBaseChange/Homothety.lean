@@ -367,9 +367,9 @@ private noncomputable def liftedHomComplexMapRestrictScalars
   · intro n
     exact AddCommGrpCat.ofHom
       { toFun := fun z => ULift.up (z.down.map F)
-        map_zero' := ULift.ext _ _ (CochainComplex.HomComplex.Cochain.map_zero I I n F)
+        map_zero' := ULift.ext (CochainComplex.HomComplex.Cochain.map_zero I I n F)
         map_add' z z' :=
-          ULift.ext _ _ (CochainComplex.HomComplex.Cochain.map_add z.down z'.down F) }
+          ULift.ext (CochainComplex.HomComplex.Cochain.map_add z.down z'.down F) }
   · intro n m _
     ext z
     apply ULift.ext

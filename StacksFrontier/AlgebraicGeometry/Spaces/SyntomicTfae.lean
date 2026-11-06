@@ -64,6 +64,17 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_syntomicTfae :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_syntomicTfae
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_syntomicTfae B S hS).has_limit _
+
 /-- **Stacks 03ZA.** Nine criteria for a morphism of algebraic spaces over `S` to be syntomic:
 pointwise syntomicity, syntomicity of every base change to a scheme or to an affine scheme or
 to one surjective étale chart of the target, syntomicity of the composite with one surjective

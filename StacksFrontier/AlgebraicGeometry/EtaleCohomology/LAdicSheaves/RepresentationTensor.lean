@@ -209,7 +209,7 @@ variable (hρρ' : Continuous (restrictScalarsRepresentation B X x b (kroneckerR
 on the stalk of the sheaf of `ρ ⊗ ρ'` with `O`-trace `tr ρ(g) · tr ρ'(g)`. -/
 public theorem trace_kroneckerRepresentation_stalkEnd {s' : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s' ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s' s')
-    (σ : EtaleFundamentalGroup X.1 s') (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s') (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     LinearMap.trace O _
         ((coefficientRepresentationSheaf B X x b (kroneckerRepresentation ρ ρ') hρρ').stalkEnd a) =
       (ρ (etaleFundamentalGroupMulEquiv t σ)).val.trace *

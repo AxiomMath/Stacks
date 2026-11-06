@@ -676,7 +676,7 @@ private def rightDerivedIsoOfInjectiveComplex
       ((F.mapHomologicalComplex (up ℤ)).obj I.obj))
   exact DerivedCategory.Plus.ι.mapIso
     (F.rightDerivedFunctorPlus.mapIso eI.symm ≪≫
-      (asIso (F.rightDerivedFunctorPlusUnit.app
+      (asIso (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj I))).symm ≪≫
       DerivedCategory.Plus.Qh.mapIso eF ≪≫ eFI)
 

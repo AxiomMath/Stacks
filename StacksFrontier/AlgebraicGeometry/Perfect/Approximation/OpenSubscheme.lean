@@ -23,12 +23,8 @@ the derived counit of `j_! ⊣ j^*`.
 
 ## Main definitions
 
-* `CategoryTheory.NatTrans.mapDerivedCategory`: the natural transformation of functors on
-  unbounded derived categories induced by a natural transformation of exact additive functors.
 * `CategoryTheory.NatTrans.mapDerivedCategoryCompToId`: its counit-shaped form, for a
   transformation `G ⋙ F ⟶ 𝟭`.
-* `CategoryTheory.Functor.mapDerivedCategoryIdIso`: the identity functor induces the identity
-  on derived categories.
 
 ## Main results
 
@@ -93,39 +89,6 @@ universe v₁ v₂ u₁ u₂ w₁ w₂
 
 variable {C : Type u₁} [Category.{v₁} C] [Abelian C] {D : Type u₂} [Category.{v₂} D] [Abelian D]
 
-/-- **The identity functor induces the identity on derived categories.**
-`CategoryTheory.Functor.mapHomotopyCategoryIdIso` lifted through the localization of the
-homotopy category at the quasi-isomorphisms. -/
-noncomputable def Functor.mapDerivedCategoryIdIso [HasDerivedCategory.{w₁} C] :
-    (𝟭 C).mapDerivedCategory ≅ 𝟭 (DerivedCategory C) :=
-  have e : DerivedCategory.Qh (C := C) ⋙ (𝟭 C).mapDerivedCategory ≅
-      DerivedCategory.Qh (C := C) :=
-    (𝟭 C).mapDerivedCategoryFactorsh ≪≫
-      Functor.isoWhiskerRight (Functor.mapHomotopyCategoryIdIso C (ComplexShape.up ℤ))
-        (DerivedCategory.Qh (C := C))
-  Localization.liftNatIso (DerivedCategory.Qh (C := C))
-    (HomotopyCategory.quasiIso C (ComplexShape.up ℤ)) _ _ _ _ e
-
-/-- **A natural transformation of exact additive functors induces one between the functors they
-induce on unbounded derived categories.** It is the degreewise transformation on cochain
-complexes, conjugated by the two factorizations and lifted through the localization at the
-quasi-isomorphisms. -/
-noncomputable def NatTrans.mapDerivedCategory
-    [HasDerivedCategory.{w₁} C] [HasDerivedCategory.{w₂} D]
-    {F G : C ⥤ D} [F.Additive] [G.Additive]
-    [PreservesFiniteLimits F] [PreservesFiniteColimits F]
-    [PreservesFiniteLimits G] [PreservesFiniteColimits G]
-    (η : F ⟶ G) : F.mapDerivedCategory ⟶ G.mapDerivedCategory :=
-  Localization.liftNatTrans DerivedCategory.Q
-    (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
-    (DerivedCategory.Q ⋙ F.mapDerivedCategory)
-    (DerivedCategory.Q ⋙ G.mapDerivedCategory)
-    F.mapDerivedCategory G.mapDerivedCategory
-    (F.mapDerivedCategoryFactors.hom ≫
-      Functor.whiskerRight
-        (NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)) DerivedCategory.Q ≫
-      G.mapDerivedCategoryFactors.inv)
-
 /-- **The homology comparison of a homology-preserving functor is natural in the functor.** On a
 homological complex, the degreewise transformation followed by the comparison for the target
 functor is the comparison for the source functor followed by the transformation at the homology
@@ -169,7 +132,7 @@ theorem NatTrans.mapDerivedCategory_homology
     apply Localization.natTrans_ext (DerivedCategory.Q (C := C))
       (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
     intro K
-    simp only [Functor.comp_obj, NatTrans.mapDerivedCategory,
+    simp only [Functor.comp_obj, NatTrans.mapDerivedCategory_app_Q_obj,
       Functor.mapDerivedCategoryHomologyIso, Functor.mapDerivedCategoryHomologyIsoAux,
       Localization.liftNatIso_hom, Iso.trans_hom, Functor.isoWhiskerLeft_hom,
       Functor.isoWhiskerRight_hom, Iso.symm_hom, comp_app, Functor.whiskerRight_app,
@@ -261,7 +224,7 @@ noncomputable def NatTrans.mapDerivedCategoryCompToId
     (η : G ⋙ F ⟶ 𝟭 C) :
     G.mapDerivedCategory ⋙ F.mapDerivedCategory ⟶ 𝟭 (DerivedCategory C) :=
   (Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso G F).inv ≫
-    NatTrans.mapDerivedCategory η ≫ Functor.mapDerivedCategoryIdIso.hom
+    NatTrans.mapDerivedCategory η ≫ (Functor.mapDerivedCategoryIdIso C).hom
 
 /-- **The derived counit is invertible on cohomology wherever the counit is.** -/
 theorem isIso_homologyFunctor_map_mapDerivedCategoryCompToId
@@ -282,7 +245,7 @@ theorem isIso_homologyFunctor_map_mapDerivedCategoryCompToId
     exact IsIso.of_isIso_comp_right _ (((𝟭 C).mapDerivedCategoryHomologyIso n).hom.app K)
   show IsIso ((DerivedCategory.homologyFunctor C n).map
     ((Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso G F).inv.app K ≫
-      (NatTrans.mapDerivedCategory η).app K ≫ Functor.mapDerivedCategoryIdIso.hom.app K))
+      (NatTrans.mapDerivedCategory η).app K ≫ (Functor.mapDerivedCategoryIdIso C).hom.app K))
   rw [Functor.map_comp, Functor.map_comp]
   infer_instance
 

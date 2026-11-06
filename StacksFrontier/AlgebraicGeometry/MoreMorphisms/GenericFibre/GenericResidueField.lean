@@ -182,7 +182,8 @@ theorem fiberι_genericPoint_fiber
     rw [f.range_fiberι (genericPoint (Spec R))]
     exact hgen
   have hmem : genericPoint X ∈ closure ({f.fiberι (genericPoint (Spec R))
-      (genericPoint (f.fiber (genericPoint (Spec R))))} : Set X) := by
+                                          (genericPoint (f.fiber (genericPoint (Spec R))))} :
+      Set X) := by
     have hsub : f.fiberι (genericPoint (Spec R)) ''
           closure ({genericPoint (f.fiber (genericPoint (Spec R)))} : Set _) ⊆
         closure (f.fiberι (genericPoint (Spec R)) ''

@@ -286,8 +286,9 @@ theorem ker_constantCoeff_fin_one (B : Type u) [CommRing B] :
 theorem eq_zero_of_X_mul_eq_zero (B : Type u) [CommRing B] (p : MvPolynomial (Fin 1) B)
     (h : MvPolynomial.X 0 * p = 0) : p = 0 := by
   refine MvPolynomial.ext _ _ fun m => ?_
-  have hc := congrArg (MvPolynomial.coeff (Finsupp.single 0 1 + m)) h
-  rwa [MvPolynomial.coeff_X_mul, MvPolynomial.coeff_zero] at hc
+  have hc := congrArg (fun q : MvPolynomial (Fin 1) B => q.coeff (Finsupp.single 0 1 + m)) h
+  simp only [MvPolynomial.coeff_X_mul, AddMonoidAlgebra.coeff_zero, Pi.zero_apply] at hc
+  exact hc
 
 /-- Two elements of a commutative ring generating the same principal ideal differ by a unit,
 provided one of them is not a zero divisor. -/

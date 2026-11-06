@@ -153,10 +153,10 @@ theorem isIso_counit_of_isLocallyFromImage [IsIso adj.unit] {T : C} (hT : IsTerm
     obtain ⟨W₂, p₂, k₂, y₂, hk₂, hy₂⟩ := hs₂ hh₂
     set x₂ := P.obj.map (u.map p₂).op x₁
     have hx₂ : P.obj.map (h₂ ≫ h₁).op x = P.obj.map k₂.op x₂ := by
-      rw [op_comp, FunctorToTypes.map_comp_apply, hx₁, ← FunctorToTypes.map_comp_apply,
-        ← op_comp, ← hk₂, op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply, hx₁, ← Functor.map_comp_apply,
+        ← op_comp, ← hk₂, op_comp, Functor.map_comp_apply]
     have hy₂' : P.obj.map (h₂ ≫ h₁).op y = P.obj.map k₂.op y₂ := by
-      rw [op_comp, FunctorToTypes.map_comp_apply, hy₂]
+      rw [op_comp, Functor.map_comp_apply, hy₂]
     have hxy₂ : Q.obj.map k₂.op (c.hom.app _ x₂) = Q.obj.map k₂.op (c.hom.app _ y₂) := by
       rw [← hc, ← hc, ← hx₂, ← hy₂', hc, hc]
       exact congrArg _ hxy
@@ -168,8 +168,8 @@ theorem isIso_counit_of_isLocallyFromImage [IsIso adj.unit] {T : C} (hT : IsTerm
     have e₁ : ∀ z z₂, P.obj.map (h₂ ≫ h₁).op z = P.obj.map k₂.op z₂ →
         P.obj.map ((h₃ ≫ h₂) ≫ h₁).op z = P.obj.map k₃.op (P.obj.map (u.map p₃).op z₂) := by
       intro z z₂ hz
-      rw [Category.assoc, op_comp, FunctorToTypes.map_comp_apply, hz,
-        ← FunctorToTypes.map_comp_apply, ← op_comp, ← hk₃, op_comp, FunctorToTypes.map_comp_apply]
+      rw [Category.assoc, op_comp, Functor.map_comp_apply, hz,
+        ← Functor.map_comp_apply, ← op_comp, ← hk₃, op_comp, Functor.map_comp_apply]
     exact (e₁ x x₂ hx₂).trans ((congrArg (P.obj.map k₃.op) hp₃').trans (e₁ y y₂ hy₂').symm)
   · -- local surjectivity
     obtain ⟨S, hS, hs⟩ := hQ.exists_restriction s (hT.from V)
@@ -334,7 +334,7 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
     obtain ⟨S, hS, hSloc⟩ := hloc W₀
     refine exists_covering_of_forall_exists_covering _ (fun _ _ h g ⟨W, p, k, a, hk, ha⟩ =>
       ⟨W, p, g ≫ k, a, by rw [Category.assoc, hk, Category.assoc], by
-        rw [op_comp, FunctorToTypes.map_comp_apply, ha, ← FunctorToTypes.map_comp_apply,
+        rw [op_comp, Functor.map_comp_apply, ha, ← Functor.map_comp_apply,
           op_comp]⟩) (K.pullback_stable k₀ (hu.cover_preserve hS)) fun V₁ h₁ hh₁ => ?_
     obtain ⟨W₁, f₁, k₁, hf₁, hk₁⟩ := hh₁
     obtain ⟨P', hP', ⟨e⟩⟩ := hSloc hf₁
@@ -345,7 +345,7 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
     refine ⟨W, p ≫ f₁, k, e.inv.app (op (Over.mk (u.map p))) a, ?_, ?_⟩
     · rw [u.map_comp, ← Category.assoc, hk, Category.assoc, ← hk₁, Category.assoc]
     · have e₁ : e.hom.app (op (Over.mk (g ≫ k₁))) (P.map (g ≫ h₁).op s) = P'.map k.op a := by
-        rw [op_comp, FunctorToTypes.map_comp_apply]
+        rw [op_comp, Functor.map_comp_apply]
         exact (NatTrans.naturality_apply e.hom
           (Over.homMk g : Over.mk (g ≫ k₁) ⟶ Over.mk k₁).op _).trans ha
       have e₂ : e.inv.app (op (Over.mk (g ≫ k₁))) (P'.map k.op a) =
@@ -369,10 +369,10 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
         (Over.homMk k₁ (by simp) : Over.mk k₁ ⟶ Over.mk (𝟙 (u.obj W₁))).op _).symm.trans
         (congrArg (e.hom.app _) ?_)
       show P.map k₁.op (P.map (u.map f₁).op c) = _
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, hk₁]
+      rw [← Functor.map_comp_apply, ← op_comp, hk₁]
     have hab₁ : P'.map k₁.op (e.hom.app (op (Over.mk (𝟙 _))) (P.map (u.map f₁).op a)) =
         P'.map k₁.op (e.hom.app (op (Over.mk (𝟙 _))) (P.map (u.map f₁).op b)) := by
-      rw [hres, hres, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, hab]
+      rw [hres, hres, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hab]
     obtain ⟨R, hR, hr⟩ := hP'.exists_eq _ _ k₁ hab₁
     refine ⟨R, hR, fun V₂ g₂ hg₂ => ?_⟩
     obtain ⟨W₂, p, k₂, hk₂, hp⟩ := hr hg₂
@@ -386,7 +386,7 @@ theorem IsLocallyFromImage.of_locallyIso (hu : CoverPreserving J K u) (P : Dᵒ�
           Over.mk (u.map p) ⟶ Over.mk (𝟙 (u.obj W₁))).op _).symm
         rw [hih]
         show _ = P.map (u.map p).op (P.map (u.map f₁).op c)
-        rw [← FunctorToTypes.map_comp_apply, ← op_comp, u.map_comp]
+        rw [← Functor.map_comp_apply, ← op_comp, u.map_comp]
       rw [hc, hc]
       exact congrArg _ hp
 

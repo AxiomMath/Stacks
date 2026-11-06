@@ -102,9 +102,19 @@ theorem exists_finiteProjective_representedTilde_iso_of_isPerfect
   have : PreservesFiniteColimits ε :=
     preservesFiniteColimits_representedAssociatedModule B S hS T _
   have : PreservesFiniteLimits ε := preservesFiniteLimits_representedAssociatedModule B S hS T _
+  have : (representedAssociatedModule B S hS (BigFppfOver.mk B S hS hA p)
+      (isAlgebraicSpace_yoneda B S hS _)).Additive :=
+    additive_representedAssociatedModule B S hS _ _
+  have : PreservesFiniteColimits (representedAssociatedModule B S hS (BigFppfOver.mk B S hS hA p)
+      (isAlgebraicSpace_yoneda B S hS _)) :=
+    preservesFiniteColimits_representedAssociatedModule B S hS _ _
+  have : PreservesFiniteLimits (representedAssociatedModule B S hS (BigFppfOver.mk B S hS hA p)
+      (isAlgebraicSpace_yoneda B S hS _)) :=
+    preservesFiniteLimits_representedAssociatedModule B S hS _ _
   refine ⟨C, hbd, hfin, hproj, ⟨?_⟩⟩
   exact DerivedCategory.Q.mapIso
-      ((Functor.mapHomologicalComplexCompIso (Iso.refl (representedTilde B S hS hA p))
+      ((Functor.mapHomologicalComplexCompIso (F := tilde.functor (CommRingCat.of A)) (G := ε)
+        (Iso.refl (representedTilde B S hS hA p))
         (ComplexShape.up ℤ)).app C).symm ≪≫
     (ε.mapDerivedCategoryFactors.app _).symm ≪≫
     ε.mapDerivedCategory.mapIso

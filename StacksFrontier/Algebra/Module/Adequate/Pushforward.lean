@@ -231,7 +231,6 @@ public lemma isAdequate_pushforward
               (ModuleCat.restrictScalars
                 (RingCat.Hom.hom ((AdequateFunctor.algebraRingDiagram A).map t))).map eY.hom := by
           convert hh using 1
-          simp only [Category.assoc]
         have hh₂ := congrArg (fun q => eX.hom ≫ q) hh₁
         simpa [Category.assoc, Iso.hom_inv_id] using hh₂.symm)
     exact eM

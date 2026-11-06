@@ -52,14 +52,14 @@ def piProductHomEquiv (M : C) (N : ∀ i, D i) :
   invFun h i := ((adj i).homEquiv M (N i)).symm (h ≫ Pi.π _ i)
   left_inv g := by
     funext i
-    exact (congrArg _ (Pi.lift_π _ i)).trans (Equiv.symm_apply_apply _ _)
-  right_inv h := Pi.hom_ext _ _ fun i => (Pi.lift_π _ i).trans (Equiv.apply_symm_apply _ _)
+    exact (congrArg _ (Pi.lift_comp_π _ i)).trans (Equiv.symm_apply_apply _ _)
+  right_inv h := Pi.hom_ext _ _ fun i => (Pi.lift_comp_π _ i).trans (Equiv.apply_symm_apply _ _)
 
 /-- The `i`-th component of `piProductHomEquiv adj M N g` is the transpose of `g i` along
 `F i ⊣ G i`. -/
 theorem piProductHomEquiv_apply_π (M : C) (N : ∀ i, D i) (g : (Functor.pi' F).obj M ⟶ N)
     (i : ι) : piProductHomEquiv adj M N g ≫ Pi.π _ i = (adj i).homEquiv M (N i) (g i) :=
-  Pi.lift_π _ i
+  Pi.lift_comp_π _ i
 
 /-- The `i`-th component of the inverse of `piProductHomEquiv` at `h` is the transpose of
 `h ≫ Pi.π _ i` along `F i ⊣ G i`. -/

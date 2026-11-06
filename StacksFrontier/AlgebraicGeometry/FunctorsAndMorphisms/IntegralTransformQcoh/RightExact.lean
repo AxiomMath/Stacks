@@ -67,6 +67,7 @@ universe u
 
 namespace AlgebraicGeometry
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Quasi-coherent modules on a scheme have finite coproducts.  The coproducts are built here
 from the ones indexed by `Type u` rather than left to instance search, which does not
 find them in this file: `inferInstance` closes this statement in a file importing only

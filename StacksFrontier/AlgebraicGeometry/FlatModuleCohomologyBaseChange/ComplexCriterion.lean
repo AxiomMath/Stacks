@@ -47,7 +47,7 @@ theorem isIso_comparisonOnHomotopy_app_of_isIso (w : g' ≫ f = f' ≫ g)
     (G : SheafOfModules.{u} (structureSheafRing S'.toRingedSpace))
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G)
     (L : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (h : IsIso ((derivedComparison G w hG).app (DerivedCategory.Plus.Qh.obj L))) :
     IsIso ((comparisonOnHomotopy G w hG).app L) := by
   have key := NatTrans.congr_app (derivedComparison_fac G w hG) L
@@ -64,7 +64,7 @@ theorem isIso_complexComparison_of_isIso (H : IsPullback g' f' f g)
     (G : SheafOfModules.{u} (structureSheafRing S'.toRingedSpace)) [G.IsQuasicoherent]
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G)
     (L : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (h : IsIso ((derivedComparison G H.w hG).app (DerivedCategory.Plus.Qh.obj L))) :
     IsIso (complexComparison H.w G L) :=
   (isIso_comparisonOnHomotopy_app_iff H G hG L).1

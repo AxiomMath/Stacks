@@ -59,6 +59,28 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable (Λ : Type r) [Ring Λ] {X Y : Scheme.{u}} {f : X ⟶ Y}
 
+/-- The unit of `RF` (Mathlib's `rightDerivedFunctorPlusUnith`, whose definition is not exposed)
+is invertible at `K` exactly when the unit of `Functor.totalRightDerived` is: both are units of
+right derived functors of the same functor. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_iff_unboundedCoefficientUniverse
+    {D : Type*} {E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] (G : D ⥤ E) [G.Additive]
+    [EnoughInjectives D] (K : HomotopyCategory.Plus D) :
+    IsIso (G.rightDerivedFunctorPlusUnith.app K) ↔
+      IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app K) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)) K]
+  exact (isIso_comp_right_iff _ _).symm
+
 /-! ### Units of unbounded derived functors -/
 
 section Units
@@ -90,7 +112,9 @@ lemma isIso_etaleModuleDerivedDirectImageUnboundedUnit_app_of_rightAcyclic_univ 
     (L : CochainComplex (EtaleModules.{u, r} Λ A) ℤ)
     (hL : ∀ i, (etaleModuleDirectImage.{u, r} Λ a).rightAcyclic (L.X i)) :
     IsIso ((etaleModuleDerivedDirectImageUnboundedUnit.{u, r} Λ a).app L) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le a
+  obtain ⟨d, hd⟩ :=
+    @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ a
+      (IsProper.toLocallyOfFiniteType (f := a)) (quasiCompact_of_isProper a) ‹_›
   let F := etaleModuleDirectImage.{u, r} Λ a
   let RF := etaleModuleDerivedDirectImageUnbounded.{u, r} Λ a
   let α := Stacks.Injectives.KInjectiveResolution.homotopyCategoryUnit F RF
@@ -103,13 +127,13 @@ lemma isIso_etaleModuleDerivedDirectImageUnboundedUnit_app_of_rightAcyclic_univ 
         (EtaleModules.{u, r} Λ A)).HasLeftCalculusOfFractions := by
       rw [HomotopyCategory.Plus.quasiIso_eq_subcategoryAcyclic_trW]; infer_instance
     rw [Functor.computesRightDerived_iff_isIso_app _ DerivedCategory.Plus.Qh
-      F.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso _) F.rightDerivedFunctorPlusUnit _
+      F.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso _) F.rightDerivedFunctorPlusUnith _
       (fun K => ?_)]
-    · exact hZ
+    · exact (isIso_rightDerivedFunctorPlusUnith_app_iff_unboundedCoefficientUniverse F _).2 hZ
     · let r : (HomotopyCategory.Plus.localizerMorphism _).RightResolution K := Classical.arbitrary _
       exact ⟨_, r.w, r.hw, inferInstance⟩
   have h07K7 := Functor.hasRightDerivedFunctor_of_isZero_rightDerived F
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
     (fun Z => (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
       (HomotopyCategory.Plus.quasiIso _) ((HomotopyCategory.Plus.singleFunctor _ 0).obj Z))
     (fun _ => Iff.rfl)

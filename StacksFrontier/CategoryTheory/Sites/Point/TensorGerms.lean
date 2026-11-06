@@ -264,7 +264,7 @@ theorem exists_restrictTensor_eq_zero {X : C} (x : Φ.fiber.obj X)
   obtain ⟨Y, h, y, hy, hvan⟩ :=
     exists_restrictTensor_eq_zero_finsupp Φ P ε hε εΦ hεΦ x₁ d hd
   let := (ε Y).toAlgebra
-  refine ⟨Y, h ≫ g₁, y, by rw [FunctorToTypes.map_comp_apply, hy, hx₁], ?_⟩
+  refine ⟨Y, h ≫ g₁, y, by rw [Functor.map_comp_apply, hy, hx₁], ?_⟩
   have hs : restrictTensor P ε hε (M →₀ Γ) g₁ s = d + ψ.lTensor _ z₁ := by
     simp only [d, sub_add_cancel]
   rw [restrictTensor_lTensor, restrictTensor_comp, hs, map_add, hvan, zero_add,

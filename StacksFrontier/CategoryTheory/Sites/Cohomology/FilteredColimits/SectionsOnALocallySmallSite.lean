@@ -138,15 +138,15 @@ theorem widePullback_asSmall {C : Type u} [Category.{v} C] {K : Type*}
     ∃ s : WidePullbackCone f, Nonempty (IsLimit s) ∧ ULift.down s.pt = c.pt := by
   let s : WidePullbackCone f :=
     WidePullbackCone.mk (W := (⟨c.pt⟩ : AsSmall.{z} C)) ⟨c.base⟩
-      (fun i ↦ ⟨c.π i⟩) (fun i ↦ ULift.ext _ _ (c.condition i))
+      (fun i ↦ ⟨c.π i⟩) (fun i ↦ ULift.ext (c.condition i))
   refine ⟨s, ⟨?_⟩, rfl⟩
   apply WidePullbackCone.IsLimit.mk s
     (fun r ↦ ⟨WidePullbackCone.IsLimit.lift hc r.base.down
       (fun i ↦ (r.π i).down) (fun i ↦ congrArg ULift.down (r.condition i))⟩)
   · intro r
-    exact ULift.ext _ _ (WidePullbackCone.IsLimit.lift_base _ _ _ _)
+    exact ULift.ext (WidePullbackCone.IsLimit.lift_base _ _ _ _)
   · intro r i
-    exact ULift.ext _ _ (WidePullbackCone.IsLimit.lift_π _ _ _ _ _)
+    exact ULift.ext (WidePullbackCone.IsLimit.lift_π _ _ _ _ _)
   · intro r m hm hπ
     apply ULift.ext
     apply WidePullbackCone.IsLimit.hom_ext hc

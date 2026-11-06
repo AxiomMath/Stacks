@@ -69,21 +69,21 @@ public def autFintypeInclContinuousMulEquiv {D : Type (u + 1)} [Category.{u, u +
     let (X : D) : TopologicalSpace (Equiv.Perm ((W.obj H).obj X)) := autTopology
     let : TopologicalSpace (∀ X : D, Equiv.Perm ((W.obj H).obj X)) := inferInstance
     apply continuous_induced_rng.mpr
-    change Continuous (fun σ : Aut H => fun X : D => ((m σ).app X).toEquiv)
+    change Continuous (fun σ : Aut H => fun X : D => ((m σ).asIso.app X).toEquiv)
     rw [continuous_pi_iff]
     intro X
     let : TopologicalSpace (FintypeCat.incl.obj (H.obj X)) := ⊥
     let : DiscreteTopology (FintypeCat.incl.obj (H.obj X)) := ⟨rfl⟩
-    let : TopologicalSpace (H.obj X ≅ H.obj X) := ⊥
-    let : DiscreteTopology (H.obj X ≅ H.obj X) := ⟨rfl⟩
-    change Continuous (fun σ : Aut H => (FintypeCat.incl.mapIso (σ.app X)).toEquiv)
+    let : TopologicalSpace (Aut (H.obj X)) := ⊥
+    let : DiscreteTopology (Aut (H.obj X)) := ⟨rfl⟩
+    change Continuous (fun σ : Aut H => (FintypeCat.incl.mapIso (σ.asIso.app X)).toEquiv)
     have hcomp : Continuous (CategoryTheory.PreGaloisCategory.autEmbedding H) :=
       continuous_induced_dom
     have hev : Continuous (fun σ : Aut H =>
         CategoryTheory.PreGaloisCategory.autEmbedding H σ X) :=
       (continuous_apply X).comp hcomp
-    have hconv : Continuous (fun τ : H.obj X ≅ H.obj X =>
-        (FintypeCat.incl.mapIso τ).toEquiv) := continuous_of_discreteTopology
+    have hconv : Continuous (fun τ : Aut (H.obj X) =>
+        (FintypeCat.incl.mapIso τ.asIso).toEquiv) := continuous_of_discreteTopology
     exact hconv.comp hev
   letI : ∀ X : D, Finite ((W.obj H).obj X) := fun X => (H.obj X).property
   have hprof : Stacks.Chapter05.Tag_0BR1.IsProfiniteTop (Aut (W.obj H)) :=
@@ -233,13 +233,13 @@ public theorem _root_.CategoryTheory.GaloisFunctorData.hom_app_fiberIso_hom_appl
     {C C' : Type*} [Category C] [Category C']
     {F : C ⥤ FintypeCat.{u}} {F' : C' ⥤ FintypeCat.{u}} {H : C ⥤ C'} {t : H ⋙ F' ≅ F}
     (data : GaloisFunctorData F F' H t) (a : Aut F') (Y : C) (x : (F'.obj (H.obj Y)).obj) :
-    ConcreteCategory.hom ((data.hom a).hom.app Y) (ConcreteCategory.hom (t.hom.app Y) x) =
-      ConcreteCategory.hom (t.hom.app Y) (ConcreteCategory.hom (a.hom.app (H.obj Y)) x) := by
+    ConcreteCategory.hom ((data.hom a).asIso.hom.app Y) (ConcreteCategory.hom (t.hom.app Y) x) =
+      ConcreteCategory.hom (t.hom.app Y) (ConcreteCategory.hom (a.asIso.hom.app (H.obj Y)) x) := by
   have hcomm := (data.actionIso.hom.app Y).hom.comm a
   simp only [data.actionIso_hom_app Y] at hcomm
   let A := ((PreGaloisCategory.functorToContAction F ⋙
-    ContAction.res FintypeCat data.hom).obj Y).obj.ρ a
-  let B := ((H ⋙ PreGaloisCategory.functorToContAction F').obj Y).obj.ρ a
+    ContAction.res FintypeCat data.hom).obj Y).obj.ρ a |>.asHom
+  let B := ((H ⋙ PreGaloisCategory.functorToContAction F').obj Y).obj.ρ a |>.asHom
   have hcommx := ConcreteCategory.congr_hom hcomm (ConcreteCategory.hom (t.hom.app Y) x)
   change ConcreteCategory.hom (t.inv.app Y)
       (ConcreteCategory.hom A (ConcreteCategory.hom (t.hom.app Y) x)) =
@@ -262,11 +262,11 @@ public theorem galoisEquivEtaleFundamentalGroup_app_finiteEtaleFiberIso_hom
     [Algebra.IsAlgebraic K Ω]
     (Y : FiniteEtaleOver (Spec (.of K))) (σ : Gal(L/K))
     (y : ((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.V.obj) :
-    (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app Y).hom
+    (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app Y).hom
         ((finiteEtaleFiberIso K L Ω).hom.app Y y) =
       (finiteEtaleFiberIso K L Ω).hom.app Y
         (ConcreteCategory.hom
-          (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ) y) := by
+          (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ).asHom y) := by
   classical
   let G := Gal(L/K)
   let E := finiteEtaleEquivalenceGaloisSets K L Ω
@@ -288,25 +288,25 @@ public theorem galoisEquivEtaleFundamentalGroup_app_finiteEtaleFiberIso_hom
   let c : G →ₜ* Aut (F' ⋙ FintypeCat.incl) := CategoryTheory.canonicalHom G
   let a := eAction.symm (c σ)
   have hpreimage (x : (E.functor.obj Y).obj.V.obj) :
-      ConcreteCategory.hom (a.hom.app (E.functor.obj Y)) x =
-        ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ) x := by
+      ConcreteCategory.hom (a.asIso.hom.app (E.functor.obj Y)) x =
+        ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom x := by
     have h := congrArg
       (fun γ : Aut (F' ⋙ FintypeCat.incl) =>
-        ConcreteCategory.hom (γ.hom.app (E.functor.obj Y)) x)
+        ConcreteCategory.hom (γ.asIso.hom.app (E.functor.obj Y)) x)
       (eAction.apply_symm_apply (c σ))
-    change ConcreteCategory.hom (a.hom.app (E.functor.obj Y)) x =
-      ConcreteCategory.hom (((CategoryTheory.canonicalHom G) σ).hom.app
+    change ConcreteCategory.hom (a.asIso.hom.app (E.functor.obj Y)) x =
+      ConcreteCategory.hom (((CategoryTheory.canonicalHom G) σ).asIso.hom.app
         (E.functor.obj Y)) x at h
     rwa [CategoryTheory.canonicalHom_apply] at h
-  show ConcreteCategory.hom ((eSource (data.hom a)).hom.app Y)
+  show ConcreteCategory.hom ((eSource (data.hom a)).asIso.hom.app Y)
       (ConcreteCategory.hom ((finiteEtaleFiberIso K L Ω).hom.app Y) y) =
     ConcreteCategory.hom ((finiteEtaleFiberIso K L Ω).hom.app Y)
-      (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ) y)
+      (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y)
   calc
-    _ = ConcreteCategory.hom ((data.hom a).hom.app Y)
+    _ = ConcreteCategory.hom ((data.hom a).asIso.hom.app Y)
         (ConcreteCategory.hom (tAction.hom.app Y) y) := rfl
     _ = ConcreteCategory.hom (tAction.hom.app Y)
-        (ConcreteCategory.hom (a.hom.app (E.functor.obj Y)) y) :=
+        (ConcreteCategory.hom (a.asIso.hom.app (E.functor.obj Y)) y) :=
       data.hom_app_fiberIso_hom_apply a Y y
     _ = _ := by
       rw [hpreimage]
@@ -352,7 +352,7 @@ public theorem galoisEquivEtaleFundamentalGroup_apply
       (algebraicClosureGeometricPoint K Ω) Y)
     (f : Spec (.of L) ⟶ Y.left)
     (hf : p.1 = Spec.map (CommRingCat.ofHom (algebraMap L Ω)) ≫ f) :
-    ((((galoisEquivEtaleFundamentalGroup K L Ω) σ).app Y).hom p).1 =
+    ((((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app Y).hom p).1 =
       Spec.map (CommRingCat.ofHom (algebraMap L Ω)) ≫
         Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ f := by
   classical

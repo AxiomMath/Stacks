@@ -60,7 +60,7 @@ private noncomputable def isLimitQuotientProductFan
   refine Fan.IsLimit.mk _ (fun s => q.map (Pi.lift fun i => q.preimage (s.proj i))) ?_ ?_
   · intro s i
     change q.map (Pi.lift fun j => q.preimage (s.proj j)) ≫ q.map (Pi.π I i) = s.proj i
-    rw [← Functor.map_comp, Pi.lift_π, Functor.map_preimage]
+    rw [← Functor.map_comp, Pi.lift_comp_π, Functor.map_preimage]
   · intro s m hm
     have hm' : q.map (q.preimage m) = m := Functor.map_preimage _ _
     rw [← hm']
@@ -74,7 +74,7 @@ private noncomputable def isLimitQuotientProductFan
         q.map (q.preimage m) ≫ q.map (Pi.π I i) = m ≫ q.map (Pi.π I i) := by rw [hm']
         _ = s.proj i := hm i
         _ = q.map ((Pi.lift fun j => q.preimage (s.proj j)) ≫ Pi.π I i) := by
-          rw [Pi.lift_π, Functor.map_preimage]
+          rw [Pi.lift_comp_π, Functor.map_preimage]
     exact (HomotopyCategory.quotient_map_eq_iff
       (q.preimage m ≫ Pi.π I i)
       ((Pi.lift fun j => q.preimage (s.proj j)) ≫ Pi.π I i)).mp ht

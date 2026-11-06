@@ -214,7 +214,7 @@ This is the square `CategoryTheory.SheafOfModules.pushforwardNatTrans` consumes 
 `AlgebraicGeometry.BigFppfOver.objPreimageNatTrans`. -/
 public theorem structureMap_comp_objPreimageHom (V : S.Opens) :
     (structureMap B S hS).hom.app (op V) ≫
-        (structureSheaf B S hS).val.map (objPreimageHom B S hS T V).op =
+        (structureSheaf B S hS).obj.map (objPreimageHom B S hS T V).op =
       (objHom B S hS T).toRingCatSheafHom.hom.app (op V) ≫
         (structureMap B (objScheme B S hS T) (contains_objScheme B S hS T)).hom.app
           (op (objHom B S hS T ⁻¹ᵁ V)) := by

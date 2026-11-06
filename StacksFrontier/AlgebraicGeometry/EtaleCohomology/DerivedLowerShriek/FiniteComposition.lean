@@ -232,6 +232,23 @@ theorem exists_isFinite_toBase [IsFinite f] [QuasiCompact g] [CompactSpace Z]
     rw [CompactificationOf.immersion_toBase]
     infer_instance
   have : QuasiCompact jg.immersion := QuasiCompact.of_comp jg.immersion jg.toBase
+  have : IsOpenImmersion jg.immersion := jg.property.1
+  have : LocallyQuasiFinite f := ((IsFinite.iff_isProper_and_locallyQuasiFinite f).1 ‹_›).2
+  have : LocallyQuasiFinite jg.immersion := inferInstance
+  have : LocallyQuasiFinite (f ≫ jg.immersion) :=
+    MorphismProperty.comp_mem _ _ _ ‹LocallyQuasiFinite f› ‹LocallyQuasiFinite jg.immersion›
+  have : LocallyOfFiniteType f :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType f).1 ‹_›).2
+  have : LocallyOfFiniteType jg.immersion := inferInstance
+  have : LocallyOfFiniteType (f ≫ jg.immersion) :=
+    MorphismProperty.comp_mem _ _ _ ‹LocallyOfFiniteType f› ‹LocallyOfFiniteType jg.immersion›
+  have : QuasiCompact f := inferInstance
+  have : QuasiCompact (f ≫ jg.immersion) :=
+    MorphismProperty.comp_mem _ _ _ ‹QuasiCompact f› ‹QuasiCompact jg.immersion›
+  have : IsSeparated f := inferInstance
+  have : IsSeparated jg.immersion := inferInstance
+  have : IsSeparated (f ≫ jg.immersion) :=
+    MorphismProperty.comp_mem _ _ _ ‹IsSeparated f› ‹IsSeparated jg.immersion›
   obtain ⟨T, i, π, hi, -, hπ, hfac⟩ :=
     Stacks.FiniteFactorization.exists_isOpenImmersion_isFinite_factorization (f ≫ jg.immersion)
   have : IsFinite π := hπ
@@ -300,6 +317,16 @@ def derivedLowerShriekCompIsoOfIsFinite [IsFinite f] [IsSeparated g] [LocallyOfF
     (isTorsionPlus.{u, 0} Λ X).ι ⋙ derivedLowerShriek.{u, 0} (f ≫ g) j Λ ≅
       (isTorsionPlus.{u, 0} Λ X).ι ⋙ derivedLowerShriek.{u, 0} f (CompactificationOf.ofProper f) Λ ⋙
         derivedLowerShriek.{u, 0} g jg Λ :=
+  haveI : LocallyOfFiniteType f :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType f).1 ‹_›).2
+  haveI : LocallyOfFiniteType (f ≫ g) :=
+    MorphismProperty.comp_mem _ _ _ ‹LocallyOfFiniteType f› ‹LocallyOfFiniteType g›
+  haveI : QuasiCompact f := inferInstance
+  haveI : QuasiCompact (f ≫ g) :=
+    MorphismProperty.comp_mem _ _ _ ‹QuasiCompact f› ‹QuasiCompact g›
+  haveI : IsSeparated f := inferInstance
+  haveI : IsSeparated (f ≫ g) :=
+    MorphismProperty.comp_mem _ _ _ ‹IsSeparated f› ‹IsSeparated g›
   haveI : IsFinite (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose.toBase :=
     (CompactificationOf.exists_isFinite_toBase (f := f) jg).choose_spec
   derivedLowerShriekCompactificationIso (f ≫ g) j

@@ -73,7 +73,7 @@ theorem exists_smallEtaleNeighborhood_hasStrictlyPerfectModel
 theorem isField_structureSheaf_idChart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (x : FieldValuedPoint B S hS F) :
     IsField ((structureSheaf B S hS (yoneda.obj x.siteObject)
-      (isAlgebraicSpace_yoneda B S hS x.siteObject)).val.obj
+      (isAlgebraicSpace_yoneda B S hS x.siteObject)).obj.obj
         (op (idChart B S hS x.siteObject))) :=
   (Scheme.ΓSpecIso (CommRingCat.of x.carrier)).commRingCatIsoToRingEquiv.toMulEquiv.isField
     (Field.toIsField x.carrier)
@@ -82,14 +82,14 @@ theorem isField_structureSheaf_idChart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
 along the morphism of represented algebraic spaces attached to `g : T' ⟶ T` is pullback of
 global functions along `g`. -/
 theorem baseChangeRingHom_representedSpaceMap {T' T : BigFppfOver B S hS} (g : T' ⟶ T)
-    (a : (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)).val.obj
+    (a : (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)).obj.obj
       (op (idChart B S hS T))) :
     baseChangeRingHom.{u}
       (C := Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
       (D := Modules.{u, u} B S hS (yoneda.obj T') (isAlgebraicSpace_yoneda B S hS T'))
-      (R := (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)).val.obj
+      (R := (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)).obj.obj
         (op (idChart B S hS T)))
-      (R' := (structureSheaf B S hS (yoneda.obj T') (isAlgebraicSpace_yoneda B S hS T')).val.obj
+      (R' := (structureSheaf B S hS (yoneda.obj T') (isAlgebraicSpace_yoneda B S hS T')).obj.obj
         (op (idChart B S hS T')))
       (ρ := Stacks.SheafOfModules.unitEndRingHom.{u}
         (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
@@ -123,7 +123,7 @@ theorem finrank_homology_homModule_of_Q_iso_single {F : (BigFppfOver B S hS)ᵒ�
         ⟨yoneda.obj p.val.siteObject, isAlgebraicSpace_yoneda B S hS p.val.siteObject⟩)
         (ULift.{u} (Fin n)))) (j : ℤ) :
     Module.finrank ((structureSheaf B S hS (yoneda.obj p.val.siteObject)
-        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).val.obj
+        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).obj.obj
           (op (idChart B S hS p.val.siteObject)))
       ((((homModule (SheafOfModules.unit _) (Stacks.SheafOfModules.unitEndRingHom.{u}
         (structureSheaf B S hS (yoneda.obj p.val.siteObject)
@@ -134,7 +134,7 @@ theorem finrank_homology_homModule_of_Q_iso_single {F : (BigFppfOver B S hS)ᵒ�
     (isAlgebraicSpace_yoneda B S hS p.val.siteObject)
   let hT := isTerminal_idChart B S hS p.val.siteObject
   let ρ := Stacks.SheafOfModules.unitEndRingHom.{u} O hT
-  let : Field (O.val.obj (op (idChart B S hS p.val.siteObject))) :=
+  let : Field (O.obj.obj (op (idChart B S hS p.val.siteObject))) :=
     (isField_structureSheaf_idChart B S hS p.val).toField
   have :=
     Stacks.SheafOfModules.projective_unit_of_mem O hT
@@ -190,7 +190,7 @@ induced by the pullback of modules on the endomorphisms of the structure sheaves
 theorem isUnit_baseChangeRingHom_of_preimage_basicOpen {V V' : SmallEtale B S hS X.1}
     (k : V' ⟶ V)
     (g : (structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V))
-      (isAlgebraicSpace_yoneda B S hS _)).val.obj
+      (isAlgebraicSpace_yoneda B S hS _)).obj.obj
         (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V))))
     (hk : (BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map k) ⁻¹ᵁ
       (chartScheme V).basicOpen (show Γ(chartScheme V, ⊤) from g) = ⊤) :
@@ -200,10 +200,10 @@ theorem isUnit_baseChangeRingHom_of_preimage_basicOpen {V V' : SmallEtale B S hS
       (D := Modules.{u, u} B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
         (isAlgebraicSpace_yoneda B S hS _))
       (R := (structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V))
-        (isAlgebraicSpace_yoneda B S hS _)).val.obj
+        (isAlgebraicSpace_yoneda B S hS _)).obj.obj
           (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V))))
       (R' := (structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-        (isAlgebraicSpace_yoneda B S hS _)).val.obj
+        (isAlgebraicSpace_yoneda B S hS _)).obj.obj
           (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V'))))
       (ρ := Stacks.SheafOfModules.unitEndRingHom.{u}
         (structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V))
@@ -269,11 +269,11 @@ theorem isFreeOfRankInDegree_of_homotopyEquiv_homModule
             (ComplexShape.up ℤ)).obj A))
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) i).obj
         (ModuleCat.of ((structureSheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-            (isAlgebraicSpace_yoneda B S hS _)).val.obj
+            (isAlgebraicSpace_yoneda B S hS _)).obj.obj
               (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V'))))
           (ULift.{u + 1} (Fin n → (structureSheaf B S hS
             (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj V'))
-              (isAlgebraicSpace_yoneda B S hS _)).val.obj
+              (isAlgebraicSpace_yoneda B S hS _)).obj.obj
                 (op (idChart B S hS ((SmallEtale.toOver B S hS X.1).obj V')))))))) :
     IsFreeOfRankInDegree
       ((smallEtaleDerivedModulePullback B S hS (chartToSpace B S hS X V')).obj E) i n := by
@@ -296,8 +296,8 @@ theorem isFreeOfRankInDegree_of_homotopyEquiv_homModule
   let G' := homModule _ ρV'
   let Fr := SheafOfModules.free (R := ringedToposStructureRingSheaf B S hS
     ⟨yoneda.obj TV', isAlgebraicSpace_yoneda B S hS TV'⟩) (ULift.{u} (Fin n))
-  let eF : ModuleCat.of (OV'.val.obj (op (idChart B S hS TV')))
-      (ULift.{u + 1} (Fin n → OV'.val.obj (op (idChart B S hS TV')))) ≅ G'.obj Fr :=
+  let eF : ModuleCat.of (OV'.obj.obj (op (idChart B S hS TV')))
+      (ULift.{u + 1} (Fin n → OV'.obj.obj (op (idChart B S hS TV')))) ≅ G'.obj Fr :=
     (ULift.moduleEquiv.trans (homModuleFiniteFreeEquiv hρV' n).symm).toModuleIso ≪≫
       G'.mapIso (Stacks.SheafOfModules.freeULiftFinIsoBiproduct OV' n).symm
   let eS := (HomologicalComplex.single _ (ComplexShape.up ℤ) i).mapIso eF ≪≫
@@ -409,11 +409,11 @@ theorem pointsMap_mem_singleDegreeFreePoints {F : (BigFppfOver B S hS)ᵒᵖ ⥤
       (modulePullbackUnitIso B S hS bm)
   have hψ : ∀ t, ψ t = ((BigFppfOver.toScheme B S hS).map N.point).appTop t :=
     baseChangeRingHom_representedSpaceMap B S hS (T' := K) (T := TV) N.point
-  let : Field (OK.val.obj (op (idChart B S hS K))) :=
+  let : Field (OK.obj.obj (op (idChart B S hS K))) :=
     (isField_structureSheaf_idChart B S hS p.val).toField
   let ebc := homModuleBaseChangeComplexIso (ρ := ρV) ρK hρK (modulePullback B S hS bm)
     (hF := modulePullback_additive bm) (modulePullbackUnitIso B S hS bm) hρV A hAret
-  have hdim : ∀ j, Module.finrank (OK.val.obj (op (idChart B S hS K)))
+  have hdim : ∀ j, Module.finrank (OK.obj.obj (op (idChart B S hS K)))
       ((((ModuleCat.extendScalars.{u, u, u + 1} ψ).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj L).homology j) = if j = i then n else 0 := fun j ↦
     ((HomologicalComplex.homologyFunctor _ _ j).mapIso ebc).toLinearEquiv.finrank_eq.trans

@@ -75,14 +75,14 @@ value is continuous for the topology of `Stacks.FundamentalGroup.functorAutomorp
 the value carrying the discrete topology. -/
 theorem continuous_componentEmbedding_apply (F : C ⥤ Type w) (Z : C) (a : F.obj Z) :
     @Continuous (Aut F) (F.obj Z) (functorAutomorphismTopology F) ⊥
-      (fun σ ↦ (σ.app Z).hom a) := by
+      (fun σ ↦ (σ.asIso.app Z).hom a) := by
   let _tF (W : C) : TopologicalSpace (F.obj W) := ⊥
   let _dF (W : C) : DiscreteTopology (F.obj W) := ⟨rfl⟩
   let _tP (W : C) : TopologicalSpace (Equiv.Perm (F.obj W)) := autTopology
   let _tA : TopologicalSpace (Aut F) :=
     TopologicalSpace.induced (componentEmbedding F) inferInstance
   have hcomp : Continuous (componentEmbedding F) := continuous_induced_dom
-  have heval : Continuous (fun σ : Aut F ↦ (σ.app Z).toEquiv) :=
+  have heval : Continuous (fun σ : Aut F ↦ (σ.asIso.app Z).toEquiv) :=
     (continuous_apply Z).comp hcomp
   have hfun : Continuous (fun e : Equiv.Perm (F.obj Z) ↦ (e : F.obj Z → F.obj Z)) :=
     continuous_induced_dom
@@ -96,7 +96,7 @@ the topology of `Stacks.FundamentalGroup.functorAutomorphismTopology`. -/
 theorem continuous_of_continuous_component (F : C ⥤ Type w) (G : D ⥤ Type w)
     (φ : Aut F → Aut G)
     (h : ∀ (Z : D) (b : G.obj Z), @Continuous (Aut F) (G.obj Z)
-      (functorAutomorphismTopology F) ⊥ (fun σ ↦ ((φ σ).app Z).hom b)) :
+      (functorAutomorphismTopology F) ⊥ (fun σ ↦ ((φ σ).asIso.app Z).hom b)) :
     @Continuous (Aut F) (Aut G) (functorAutomorphismTopology F)
       (functorAutomorphismTopology G) φ := by
   let _tA : TopologicalSpace (Aut F) := functorAutomorphismTopology F
@@ -178,9 +178,9 @@ def etaleFundamentalGroupMonoidHom {X Y : Scheme.{u}} [ConnectedSpace X] [Connec
 theorem etaleFundamentalGroupMonoidHom_app_apply {X Y : Scheme.{u}} [ConnectedSpace X]
     [ConnectedSpace Y] (f : X ⟶ Y) (x : GeometricPoint X) (V : FiniteEtaleOver Y)
     (σ : EtaleFundamentalGroup X x) (q : finiteEtaleFiber (x.map f) V) :
-    ((etaleFundamentalGroupMonoidHom f x σ).app V).hom q =
+    ((etaleFundamentalGroupMonoidHom f x σ).asIso.app V).hom q =
       finiteEtaleFiberProjection f x V
-        ((σ.app ((finiteEtaleBaseChange f).obj V)).hom
+        ((σ.asIso.app ((finiteEtaleBaseChange f).obj V)).hom
           ((finiteEtaleFiberProjectionEquiv f x V).symm q)) :=
   rfl
 
@@ -223,12 +223,12 @@ theorem etaleFundamentalGroupMap_finiteEtaleFiberProjection {X Y : Scheme.{u}}
     [ConnectedSpace X] [ConnectedSpace Y] (f : X ⟶ Y) (x : GeometricPoint X)
     (V : FiniteEtaleOver Y) (σ : EtaleFundamentalGroup X x)
     (p : finiteEtaleFiber x ((finiteEtaleBaseChange f).obj V)) :
-    finiteEtaleFiberProjection f x V ((σ.app _).hom p) =
-      ((etaleFundamentalGroupMap f x σ).app V).hom
+    finiteEtaleFiberProjection f x V ((σ.asIso.app _).hom p) =
+      ((etaleFundamentalGroupMap f x σ).asIso.app V).hom
         (finiteEtaleFiberProjection f x V p) :=
   congrArg
     (fun r ↦ finiteEtaleFiberProjection f x V
-      ((σ.app ((finiteEtaleBaseChange f).obj V)).hom r))
+      ((σ.asIso.app ((finiteEtaleBaseChange f).obj V)).hom r))
     ((finiteEtaleFiberProjectionEquiv f x V).symm_apply_apply p).symm
 
 end AlgebraicGeometry

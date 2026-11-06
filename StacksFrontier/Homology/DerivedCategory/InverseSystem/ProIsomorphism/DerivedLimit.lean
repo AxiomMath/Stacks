@@ -117,7 +117,7 @@ private lemma comparison_productFirst {C : Type u} [Category.{v} C]
   apply Pi.hom_ext
   intro n
   simp only [SequentialRep.productFirst, refinedRep, proIsoProductFirst,
-    Functor.comp_obj, Pi.map', Category.assoc, Pi.lift_π, piComparison_comp_π_assoc,
+    Functor.comp_obj, Pi.map', Category.assoc, Pi.lift_comp_π, piComparison_comp_π_assoc,
     ← H.map_comp, map_lift_piComparison_assoc]
 
 private lemma comparison_productSecond {C : Type u} [Category.{v} C] [Preadditive C]
@@ -129,7 +129,7 @@ private lemma comparison_productSecond {C : Type u} [Category.{v} C] [Preadditiv
   apply Pi.hom_ext
   intro n
   simp only [SequentialRep.productSecond, refinedRep, proIsoProductSecond,
-    Functor.comp_obj, Functor.comp_map, Category.assoc, Pi.lift_π,
+    Functor.comp_obj, Functor.comp_map, Category.assoc, Pi.lift_comp_π,
     map_lift_piComparison, Functor.map_sum,
     Preadditive.comp_sum]
   apply Finset.sum_congr rfl

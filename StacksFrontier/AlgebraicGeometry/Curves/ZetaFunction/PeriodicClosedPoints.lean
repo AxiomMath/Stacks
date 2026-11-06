@@ -38,6 +38,12 @@ open AlgebraicGeometry CategoryTheory Order
 
 universe u
 
+-- Mathlib's `instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent` (a simple nilpotent additive group
+-- is commutative) is tried first for `AddCommGroup C.functionField`; its failure sends instance
+-- search back through every `IsVariety ?k ?f` instance and every `Field ?k`, which times out
+-- (seen on `Neg C.functionField`). It is irrelevant here.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 namespace Stacks.Zeta
 
 /-! ### Finite subfields -/

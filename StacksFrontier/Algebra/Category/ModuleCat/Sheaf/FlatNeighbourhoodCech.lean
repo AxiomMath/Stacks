@@ -391,9 +391,9 @@ theorem koszulFunctor_powFamily_eq (n : ℕ) :
   refine CategoryTheory.Functor.ext (fun S ↦ rfl) fun S T g ↦ ?_
   simp only
   show (KoszulGlobalSections.smulEnd X.O
-      (KoszulGlobalSections.prodSection X.O (powFamily X f n) (T \ S))).app _ =
+      (KoszulGlobalSections.prodSection X.O (powFamily X f n) (T \ S))).asHom.app _ =
     koszulScalar X f (koszulExp n S T)
-  refine congrArg (fun a ↦ (KoszulGlobalSections.smulEnd X.O a).app _) (Subtype.ext (funext ?_))
+  refine congrArg (fun a ↦ (KoszulGlobalSections.smulEnd X.O a).asHom.app _) (Subtype.ext (funext ?_))
   intro U
   have hexp : ∀ i : Fin r, koszulExp n S T i = if i ∈ T \ S then n + 1 else 0 := fun _ ↦ rfl
   show ∏ i ∈ T \ S, globalSectionVal (f i) U ^ (n + 1) =
@@ -538,7 +538,7 @@ theorem restrictScalars_map_koszulScalar (e : Fin r → ℕ) :
     (SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).map
         (koszulScalar (ringedSite O') (baseChangeFamily O f φ) e) =
       (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O)
-        (koszulFamily (ringedSite O) f e)).app (RestrictedRingModule φ) := by
+        (koszulFamily (ringedSite O) f e)).asHom.app (RestrictedRingModule φ) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
   show koszulRingValue (ringedSite O') (baseChangeFamily O f φ) e U •
@@ -569,7 +569,7 @@ theorem sheafTensorRightUnitIso_koszulScalar_naturality (e : Fin r → ℕ) :
       (koszulFamily (ringedSite O) f e)
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))).trans
     (((Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O)
-      (koszulFamily (ringedSite O) f e)).naturality
+      (koszulFamily (ringedSite O) f e)).asHom.naturality
         (sheafTensorRightUnitIso O (RestrictedRingModule φ)).hom).symm.trans
       (congrArg
         (fun scalarMap => (sheafTensorRightUnitIso O (RestrictedRingModule φ)).hom ≫ scalarMap)

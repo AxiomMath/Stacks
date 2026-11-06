@@ -194,8 +194,8 @@ theorem isFibrewiseDegreeZero_map [IsProper (B.inclusion.map f)]
   intro t
   obtain ⟨L, hL, hLξ⟩ := hξ ((BigFppfOver.toScheme B (Spec (.of k)) hk).map g t)
   refine ⟨_, picardMap_residueTestMap_mem_fibreDegreeZero B hX hk f hdim g t hL, ?_⟩
-  rw [toPicardFunctor_app_naturality, hLξ, ← FunctorToTypes.map_comp_apply,
-    ← FunctorToTypes.map_comp_apply]
+  rw [toPicardFunctor_app_naturality, hLξ, ← Functor.map_comp_apply,
+    ← Functor.map_comp_apply]
   exact congrArg (fun φ => (picardFunctor B hX hk f).map φ ξ)
     (Quiver.Hom.unop_inj (residueTestMap_comp_residueTestι B hk g t))
 

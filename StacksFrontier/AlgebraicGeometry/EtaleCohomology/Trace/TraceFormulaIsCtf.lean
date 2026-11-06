@@ -124,6 +124,14 @@ theorem cohomologicalTraceFormula_extensionByZero_of_openClosed_step
       refine h₁ ⟨s.base x', ?_⟩
       change (s ≫ Zc.subschemeι).base x' = (u ≫ J.immersion).base y
       rw [← pullback.condition, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, ← hy]
+    have : IsClosedImmersion e := inferInstanceAs
+      (IsClosedImmersion (pullback.fst J.immersion Zc.subschemeι))
+    have : IsFinite e := inferInstance
+    have : LocallyOfFiniteType e :=
+      ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType e).mp ‹_›).2
+    have : QuasiCompact e := inferInstance
+    have : LocallyOfFiniteType (e ≫ f) := inferInstance
+    have : QuasiCompact (e ≫ f) := inferInstance
     have hX' : B.Contains (pullback J.immersion Zc.subschemeι) :=
       (Scheme.size_le_of_locallyOfFiniteType_of_quasiCompact (e ≫ f)).trans_lt hk
     have hs : s ≫ Zc.subschemeι ≫ J.toBase = e ≫ f := by
@@ -267,6 +275,10 @@ theorem cohomologicalTraceFormula_extensionByZero_of_isCtf_of_hasAffineCoverOfCa
         hU hA hk (fun KA hKA hKAs => IHd m (by omega) 1 fA hA hdimA hcovA JA KA hKA hKAs)
         Ku hKu hKus
     · intro X' e _ hrange hX' Jz K' hK' hK's
+      have : IsFinite e := inferInstance
+      have : LocallyOfFiniteType e :=
+        ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType e).mp ‹_›).2
+      have : LocallyOfFiniteType (e ≫ f) := inferInstance
       refine IHn (e ≫ f) hX' (e.isClosedEmbedding.isInducing.topologicalKrullDim_le.trans hdim)
         (hasAffineCoverOfCard_of_isClosedImmersion Y ι hι hY hcov e (fun x' hx' => hrange x' ?_))
         Jz K' hK' hK's

@@ -70,6 +70,7 @@ theorem kernelSubobject_pullMapOf_quotientProjection {T' T : SchemesOver D.Y} (h
     (α : (modulePullback B S hS (D.relativeMap h)).obj (D.quotientModule T K) ⟶ M')
     (hα : IsIso α) :
     kernelSubobject (D.pullMapOf h α (D.quotientProjection T K)) = D.quotientPullback h K := by
+  haveI : Mono α := IsIso.mono_of_iso α
   rw [pullMapOf_def, ← Category.assoc, kernelSubobject_comp_mono]
   rfl
 
@@ -106,7 +107,9 @@ theorem pullMapOf_quotientProjection_injective {T' T : SchemesOver D.Y} (h : T' 
     (hαβ : D.pullMapOf h α (D.quotientProjection T K) =
       D.pullMapOf h β (D.quotientProjection T K)) : α = β := by
   have := (modulePullback B S hS (D.relativeMap h)).map_epi (D.quotientProjection T K)
-  simpa only [pullMapOf_def, cancel_epi] using hαβ
+  rw [pullMapOf_def, pullMapOf_def] at hαβ
+  exact (cancel_epi _).1
+    ((Iso.cancel_iso_hom_left ((D.baseChangeComparison h).app D.F) _ _).1 hαβ)
 
 /-- **Two morphisms of `Coh_{X/B}` into the object attached to a quotient, with the same base map,
 agree as soon as they pull the projection onto the quotient back to the same map.** -/

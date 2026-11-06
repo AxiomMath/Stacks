@@ -611,20 +611,20 @@ support monomials whose `mapDomain g'` equals `d`. -/
 theorem mvpoly_coeff_rename_map
     {σ τ' : Type*} {K K'' : Type*} [CommRing K] [CommRing K'']
     (qt : MvPolynomial σ K) (g' : σ → τ') (φ' : K →+* K'') (d : τ' →₀ ℕ) :
-    MvPolynomial.coeff d (MvPolynomial.rename g' (MvPolynomial.map φ' qt))
+    (MvPolynomial.rename g' (MvPolynomial.map φ' qt)).coeff d
       = ∑ m ∈ (qt.support.filter (fun m => Finsupp.mapDomain g' m = d)),
-          φ' (MvPolynomial.coeff m qt) := by
+          φ' (qt.coeff m) := by
   classical
   -- Extending a fiber sum from a polynomial's support to any larger finset (the
   -- extra terms vanish because the coefficient is zero off the support).
   have ext : ∀ (R : MvPolynomial σ K) (T : Finset (σ →₀ ℕ)), R.support ⊆ T →
-      ∑ m ∈ R.support.filter (fun m => Finsupp.mapDomain g' m = d), φ' (MvPolynomial.coeff m R)
-      = ∑ m ∈ T.filter (fun m => Finsupp.mapDomain g' m = d), φ' (MvPolynomial.coeff m R) := by
+      ∑ m ∈ R.support.filter (fun m => Finsupp.mapDomain g' m = d), φ' (R.coeff m)
+      = ∑ m ∈ T.filter (fun m => Finsupp.mapDomain g' m = d), φ' (R.coeff m) := by
     intro R T hsub
     apply Finset.sum_subset (Finset.filter_subset_filter _ hsub)
     intro m hmT hmR
     rw [Finset.mem_filter] at hmT
-    have hm0 : MvPolynomial.coeff m R = 0 := by
+    have hm0 : R.coeff m = 0 := by
       by_contra hc
       exact hmR (Finset.mem_filter.mpr ⟨MvPolynomial.mem_support_iff.mpr hc, hmT.right⟩)
     rw [hm0, map_zero]
@@ -639,14 +639,14 @@ theorem mvpoly_coeff_rename_map
             ite_eq_left rfl]
       · rw [ite_eq_right hd, ite_eq_right hd, Finset.sum_empty]
   | add p q hp hq =>
-    rw [map_add, map_add, MvPolynomial.coeff_add, hp, hq,
+    rw [map_add, map_add, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hp, hq,
       ext p (p.support ∪ q.support) Finset.subset_union_left,
       ext q (p.support ∪ q.support) Finset.subset_union_right,
       ext (p + q) (p.support ∪ q.support) MvPolynomial.support_add,
       ← Finset.sum_add_distrib]
     apply Finset.sum_congr rfl
     intro m _
-    rw [MvPolynomial.coeff_add, map_add]
+    rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, map_add]
 
 open Classical in
 /-- **Abstract descent for `rename`/`map` of a multivariate polynomial.** If the
@@ -661,12 +661,12 @@ theorem mvpoly_rename_map_descends
       Finsupp.mapDomain g' m = Finsupp.mapDomain g' m')
     (hCoeff : ∀ e : τ →₀ ℕ,
       φ' (∑ m ∈ qt.support.filter (fun m => Finsupp.mapDomain g m = e),
-        MvPolynomial.coeff m qt) = 0) :
+        qt.coeff m) = 0) :
     MvPolynomial.rename g' (MvPolynomial.map φ' qt) = 0 := by
   classical
   apply MvPolynomial.ext
   intro d
-  rw [mvpoly_coeff_rename_map, MvPolynomial.coeff_zero]
+  rw [mvpoly_coeff_rename_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   set Sd := qt.support.filter (fun m => Finsupp.mapDomain g' m = d) with hSd
   rw [← Finset.sum_fiberwise_of_maps_to (g := fun m => Finsupp.mapDomain g m)
       (t := Sd.image (fun m => Finsupp.mapDomain g m))
@@ -816,14 +816,14 @@ theorem polyColim_zero_exact [IsDirected Λ (· ≤ ·)] [Nonempty Λ] {j : Λ}
   set V : Finset (sys.S j) := qt.support.biUnion (fun m => m.support) with hV
   set σfun : (sys.Sinf →₀ ℕ) → sys.R j :=
     fun e => ∑ m ∈ qt.support.filter (fun m => Finsupp.mapDomain (sys.toSinf j) m = e),
-      MvPolynomial.coeff m qt with hσfun
+      qt.coeff m with hσfun
   -- ∞-coefficient vanishing
   have hinfCoeff : ∀ e : sys.Sinf →₀ ℕ, sys.toRinf j (σfun e) = 0 := by
     intro e
     rw [hσfun]
     simp only [map_sum]
     rw [← mvpoly_coeff_rename_map qt (sys.toSinf j) (sys.toRinf j) e, hq,
-      MvPolynomial.coeff_zero]
+      AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   -- realize variable collisions at a stage k1
   set xsV : Finset (sys.S j) :=
     ((V ×ˢ V).image (fun p => p.fst - p.snd)).filter (fun z => sys.toSinf j z = 0) with hxsV

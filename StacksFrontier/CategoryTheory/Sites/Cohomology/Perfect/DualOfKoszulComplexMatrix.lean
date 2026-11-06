@@ -105,7 +105,7 @@ theorem koszulUnitι_π (n : ℕ) {m : ℤ} (S T : AlternatingCech.Idx r m) :
     koszulUnitι X f n S ≫
         Pi.π (fun T : AlternatingCech.Idx r m => (koszulPowerFunctor X f n).obj T.1) T =
       if T = S then 𝟙 _ else 0 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The entries of the Koszul differential are its matrix coefficients. -/
@@ -132,7 +132,7 @@ theorem koszulUnitι_comp_koszulPowerComplex_d_comp_π (n : ℕ) (m : ℤ)
       (Category.id_comp ((koszulPowerFunctor X f n).map (homOfLE (T.erase_subset k))))
   · exact (congrArg (fun φ => Cech.cechSign T.1 k.1 • φ)
       (zero_comp (X := SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-        (f := (koszulPowerFunctor X f n).map (homOfLE (T.erase_subset k))))).trans (smul_zero _)
+        (f := (koszulPowerFunctor X f n).map (homOfLE (T.erase_subset k))))).trans (zsmul_zero _)
 
 /-- **The matrix of the differential of the dual Koszul complex.** From degree `-(p+1)` to degree
 `-p`, the component at a subset `S` of cardinality `p` is `(-1)^p` times the sum over the

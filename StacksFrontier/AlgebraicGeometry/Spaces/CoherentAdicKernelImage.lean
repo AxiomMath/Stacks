@@ -49,6 +49,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
     {E E' : CoherentAdicSystems B S hS F hF 𝓘}
 
+set_option synthInstance.maxHeartbeats 200000
+
 /-! ### The kernel image at a level -/
 
 /-- The image in the `m`-th term of `E` of the kernel of `α` at a level `l ≥ m`, taken along the

@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPushforwardModules.HasSheafComposeForget
+public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.Tensor
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Monoidal
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Submodule
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Localization
@@ -65,7 +66,7 @@ variable (M : PresheafOfModules.{max u v w} R)
 /-- Multiplication by `r : R.obj X`, as an endomorphism of the abelian group
 `M.presheaf.obj X`. -/
 noncomputable def smulPresheaf {X : Cᵒᵖ} (r : R.obj X) :
-    M.presheaf.obj X ⟶ M.presheaf.obj X := (M.obj X).smul r
+    M.presheaf.obj X ⟶ M.presheaf.obj X := ((M.obj X).smul r).asHom
 
 /-- `M.smulPresheaf r` sends `m` to `r • m`. -/
 @[simp] lemma smulPresheaf_apply {X : Cᵒᵖ} (r : R.obj X) (m : M.obj X) :
@@ -73,17 +74,17 @@ noncomputable def smulPresheaf {X : Cᵒᵖ} (r : R.obj X) :
 
 /-- Multiplication by `0` is the zero morphism. -/
 @[simp] lemma smulPresheaf_zero (X : Cᵒᵖ) : M.smulPresheaf (0 : R.obj X) = 0 :=
-  map_zero (M.obj X).smul
+  congrArg End.asHom (map_zero (M.obj X).smul)
 
 /-- Multiplication by `r + s` is the sum of the multiplications by `r` and by `s`. -/
 lemma smulPresheaf_add {X : Cᵒᵖ} (r s : R.obj X) :
     M.smulPresheaf (r + s) = M.smulPresheaf r + M.smulPresheaf s :=
-  map_add (M.obj X).smul r s
+  congrArg End.asHom (map_add (M.obj X).smul r s)
 
 /-- Multiplication by `r` followed by multiplication by `s` is multiplication by `s * r`. -/
 lemma smulPresheaf_comm' {X : Cᵒᵖ} (r s : R.obj X) :
     M.smulPresheaf r ≫ M.smulPresheaf s = M.smulPresheaf (s * r) :=
-  (map_mul (M.obj X).smul s r).symm
+  (congrArg End.asHom (map_mul (M.obj X).smul s r)).symm
 
 end SmulPresheaf
 
@@ -343,10 +344,9 @@ noncomputable def ofModuleHom {X : Cᵒᵖ} (f : M.obj X ⟶ N.obj X) :
 noncomputable def tmulRight
     (M L : PresheafOfModules.{max u v w} (R₀ ⋙ forget₂ CommRingCat RingCat)) {X : Cᵒᵖ}
     (l : L.obj X) : M.obj X ⟶ (M ⊗ L).obj X :=
-  ModuleCat.ofHom
-    { toFun := fun m ↦ m ⊗ₜ l
-      map_add' := fun _ _ ↦ TensorProduct.add_tmul _ _ _
-      map_smul' := fun _ _ ↦ TensorProduct.smul_tmul' _ _ _ }
+  (ModuleCat.ofHom (R := R₀.obj X) ((TensorProduct.mk (R₀.obj X)
+    (PresheafOfModulesOfCommRing.obj M X) (PresheafOfModulesOfCommRing.obj L X)).flip l) :
+    PresheafOfModulesOfCommRing.obj M X ⟶ PresheafOfModulesOfCommRing.obj (M ⊗ L) X)
 
 /-- `tmulRight M L l` sends `m` to `m ⊗ₜ l`. -/
 @[simp] lemma tmulRight_apply
@@ -369,7 +369,8 @@ noncomputable def curryApp (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l : L.obj X) :
     change α.app (op Z.unop.left) ((M.restrictₛₗ φ.unop.left.op m) ⊗ₜ
         (L.restrictₛₗ Z.unop.hom.op l)) = _
     exact congrArg _ ((congrArg (fun x ↦ (M.restrictₛₗ φ.unop.left.op m) ⊗ₜ x) hl).trans
-      (Monoidal.tensorObj_map_tmul φ.unop.left.op m (L.restrictₛₗ Y.unop.hom.op l)).symm)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul φ.unop.left.op m
+        (L.restrictₛₗ Y.unop.hom.op l)).symm)
 
 /-- The component of `curryApp α l` at `Y` sends `m` to `α` applied to `m` tensored with the
 restriction of `l`. -/
@@ -378,15 +379,20 @@ restriction of `l`. -/
     (curryApp α l).app Y m
       = α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l)) := rfl
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The section `curryApp α l` is linear. -/
 lemma isLinearSection_curryApp (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l : L.obj X) :
     IsLinearSection M N (curryApp α l) := fun Y r ↦ by
   ext (m : M.obj (op Y.unop.left))
   show α.app (op Y.unop.left) ((r • m) ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l))
     = r • α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l))
-  have h2 : α.app (op Y.unop.left) (r • (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l)))
+  have h2 : α.app (op Y.unop.left)
+        (r • (show (M ⊗ L).obj (op Y.unop.left) from m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l)))
       = r • α.app (op Y.unop.left) (m ⊗ₜ (L.restrictₛₗ Y.unop.hom.op l)) := map_smul _ _ _
-  exact (congrArg _ (TensorProduct.smul_tmul' r m (L.restrictₛₗ Y.unop.hom.op l))).trans h2
+  exact (congrArg _ (TensorProduct.smul_tmul' (R := R₀.obj (op Y.unop.left))
+    (R' := R₀.obj (op Y.unop.left)) (M := PresheafOfModulesOfCommRing.obj M (op Y.unop.left))
+    (N := PresheafOfModulesOfCommRing.obj L (op Y.unop.left))
+    r m (L.restrictₛₗ Y.unop.hom.op l))).trans h2
 
 /-- `curryApp α` is additive. -/
 lemma curryApp_add (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l₁ l₂ : L.obj X) :
@@ -403,6 +409,7 @@ lemma curryApp_add (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (l₁ l₂ : L.obj X) :
     ((congrArg (fun x ↦ m ⊗ₜ x) (map_add (L.restrictₛₗ Y.unop.hom.op) l₁ l₂)).trans
       (TensorProduct.tmul_add m _ _))).trans h2
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `curryApp α` commutes with scalar multiplication. -/
 lemma curryApp_smul (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (r : R₀.obj X) (l : L.obj X) :
     curryApp α (r • l) = r • curryApp α l := by
@@ -413,7 +420,11 @@ lemma curryApp_smul (α : M ⊗ L ⟶ N) {X : Cᵒᵖ} (r : R₀.obj X) (l : L.o
           (L.restrictₛₗ Y.unop.hom.op l))
   exact congrArg _
     ((congrArg (fun x ↦ m ⊗ₜ x) (map_smulₛₗ (L.restrictₛₗ Y.unop.hom.op) r l)).trans
-      (TensorProduct.smul_tmul _ m (L.restrictₛₗ Y.unop.hom.op l)).symm)
+      (TensorProduct.smul_tmul (R := R₀.obj (op Y.unop.left)) (R' := R₀.obj (op Y.unop.left))
+        (M := PresheafOfModulesOfCommRing.obj M (op Y.unop.left))
+        (N := PresheafOfModulesOfCommRing.obj L (op Y.unop.left))
+        ((R₀ ⋙ forget₂ CommRingCat RingCat).map Y.unop.hom.op r) m
+        (L.restrictₛₗ Y.unop.hom.op l)).symm)
 
 /-- `curryApp α` commutes with restriction along `f`. -/
 lemma curryApp_restrict (α : M ⊗ L ⟶ N) {X Y : Cᵒᵖ} (f : X ⟶ Y) (l : L.obj X) :

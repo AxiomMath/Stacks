@@ -206,7 +206,8 @@ abbrev chernRing : Subring (TotalChowClass C sX) :=
 
 /-- The ring of Chern classes of `X` is commutative. -/
 instance : CommRing (chernRing C sX) :=
-  Subring.closureCommRingOfComm (chernSet_commute C sX)
+  have := Subring.isMulCommutative_closure fun x hx y hy _ => chernSet_commute C sX x hx y hy
+  { (inferInstance : Ring (chernRing C sX)) with mul_comm := fun a b => Std.Commutative.comm a b }
 
 /-- The sequence `1, c_1(ℰ), c_2(ℰ), …` of a module of constant rank, in the ring of Chern
 classes. -/

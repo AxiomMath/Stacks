@@ -113,7 +113,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 topology, which is subcanonical. -/
 theorem isSheaf_yoneda_chart :
     Presheaf.IsSheaf (SmallEtale.topology B S hS X.1) (yoneda.obj U) :=
-  (smallEtaleChartSheaf B S hS X U).cond
+  (smallEtaleChartSheaf B S hS X U).property
 
 /-- **The sheafification of the presheaf represented by a chart is the sheaf represented by
 it.**  The presheaf is already a sheaf, so the unit of the sheafification adjunction at it is an
@@ -384,6 +384,19 @@ noncomputable def chartLocalizationCommRingInverseImageIso :
       inverseImageCommRingFunctor.{u, u, u, u + 1, u, u + 1}
         (smallEtaleRestrictionToposHom B S hS (chartToSpace B S hS X U)
           (isEtale_chartToSpace B S hS X U)) :=
+  -- instance search for these times out
+  letI : PreservesFiniteProducts ((RingedTopos.localizationMorphism
+      (smallEtaleRingedTopos B S hS X) (smallEtaleChartSheaf B S hS X U)).toToposHom.comp
+        (chartLocalizationToposHom' B S hS X U)).inverseImage :=
+    letI := ((RingedTopos.localizationMorphism
+      (smallEtaleRingedTopos B S hS X) (smallEtaleChartSheaf B S hS X U)).toToposHom.comp
+        (chartLocalizationToposHom' B S hS X U)).preservesFiniteLimits
+    instPreservesFiniteProductsOfPreservesFiniteLimits _
+  letI : PreservesFiniteProducts (smallEtaleRestrictionToposHom B S hS (chartToSpace B S hS X U)
+      (isEtale_chartToSpace B S hS X U)).inverseImage :=
+    letI := (smallEtaleRestrictionToposHom B S hS (chartToSpace B S hS X U)
+      (isEtale_chartToSpace B S hS X U)).preservesFiniteLimits
+    instPreservesFiniteProductsOfPreservesFiniteLimits _
   pullbackCommRingSheafFunctorIsoOfNatIso.{u, u, u, u + 1, u, u + 1}
     (SmallEtale.topology B S hS (chartSpace B S hS X U).1)
     (chartLocalizationInverseImageIso' B S hS X U)

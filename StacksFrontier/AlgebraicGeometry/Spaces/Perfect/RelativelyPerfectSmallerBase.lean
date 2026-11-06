@@ -65,33 +65,35 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 /-- The functor of neighbourhoods induced by an equivalence of sites matching the fibre functors
 of two points. -/
 def elementsFunctorOfFiberIso : Ψ'.fiber.Elements ⥤ Ψ.fiber.Elements :=
-  CategoryOfElements.map θ.hom ⋙ Functor.Elements.precomp e.functor Ψ.fiber
+  NatTrans.mapElements θ.hom ⋙ Functor.Elements.precomp e.functor Ψ.fiber
 
 /-- The functor of neighbourhoods induced by an equivalence of sites is faithful. -/
 instance elementsFunctorOfFiberIso_faithful : (elementsFunctorOfFiberIso e Ψ' Ψ θ).Faithful where
-  map_injective {_ _} _ _ hfg := Subtype.ext (e.functor.map_injective (congrArg Subtype.val hfg))
+  map_injective {_ _} _ _ hfg :=
+    Functor.Elements.hom_ext (e.functor.map_injective (congrArg Functor.Elements.Hom.hom hfg))
 
 /-- The functor of neighbourhoods induced by an equivalence of sites is full. -/
 instance elementsFunctorOfFiberIso_full : (elementsFunctorOfFiberIso e Ψ' Ψ θ).Full where
   map_surjective {x y} φ := by
-    refine ⟨⟨e.functor.preimage φ.1, ?_⟩, ?_⟩
-    · apply (ConcreteCategory.bijective_of_isIso (θ.hom.app y.1)).1
-      have h1 : θ.hom.app y.1 (Ψ'.fiber.map (e.functor.preimage φ.1) x.2) =
-          Ψ.fiber.map (e.functor.map (e.functor.preimage φ.1)) (θ.hom.app x.1 x.2) :=
-        ConcreteCategory.congr_hom (θ.hom.naturality (e.functor.preimage φ.1)) x.2
-      exact h1.trans ((congrArg (fun k : e.functor.obj x.1 ⟶ e.functor.obj y.1 =>
-        Ψ.fiber.map k (θ.hom.app x.1 x.2)) (e.functor.map_preimage φ.1)).trans φ.2)
-    · exact Subtype.ext (e.functor.map_preimage φ.1)
+    refine ⟨⟨e.functor.preimage φ.hom, ?_⟩, ?_⟩
+    · apply (ConcreteCategory.bijective_of_isIso (θ.hom.app y.obj)).1
+      have h1 : θ.hom.app y.obj (Ψ'.fiber.map (e.functor.preimage φ.hom) x.val) =
+          Ψ.fiber.map (e.functor.map (e.functor.preimage φ.hom)) (θ.hom.app x.obj x.val) :=
+        ConcreteCategory.congr_hom (θ.hom.naturality (e.functor.preimage φ.hom)) x.val
+      exact h1.trans ((congrArg (fun k : e.functor.obj x.obj ⟶ e.functor.obj y.obj =>
+        Ψ.fiber.map k (θ.hom.app x.obj x.val)) (e.functor.map_preimage φ.hom)).trans φ.map_val)
+    · exact Functor.Elements.hom_ext (e.functor.map_preimage φ.hom)
 
 /-- The functor of neighbourhoods induced by an equivalence of sites is essentially surjective. -/
 instance elementsFunctorOfFiberIso_essSurj : (elementsFunctorOfFiberIso e Ψ' Ψ θ).EssSurj where
   mem_essImage z := by
-    refine ⟨⟨e.inverse.obj z.1, θ.inv.app _ (Ψ.fiber.map (e.counitIso.inv.app z.1) z.2)⟩,
-      ⟨CategoryOfElements.isoMk _ _ (e.counitIso.app z.1) ?_⟩⟩
+    refine ⟨Ψ'.fiber.elementsMk (e.inverse.obj z.obj)
+        (θ.inv.app _ (Ψ.fiber.map (e.counitIso.inv.app z.obj) z.val)),
+      ⟨Functor.Elements.isoMk (e.counitIso.app z.obj) ?_⟩⟩
     change Ψ.fiber.map _ (θ.hom.app _ (θ.inv.app _ _)) = _
     rw [← types_comp_apply (θ.inv.app _) (θ.hom.app _), Iso.inv_hom_id_app]
-    change (Ψ.fiber.map (e.counitIso.inv.app z.fst) ≫
-      Ψ.fiber.map (e.counitIso.hom.app z.fst)) z.2 = _
+    change (Ψ.fiber.map (e.counitIso.inv.app z.obj) ≫
+      Ψ.fiber.map (e.counitIso.hom.app z.obj)) z.val = _
     rw [← Functor.map_comp, Iso.inv_hom_id_app, Functor.map_id]
     rfl
 
@@ -105,7 +107,7 @@ variable {A : Type u₃} [Category.{v₃} A] [HasColimitsOfSize.{w, w} A]
 def presheafFiberIsoOfEquivalence (P : Dᵒᵖ ⥤ A) :
     Ψ'.presheafFiber.obj (e.functor.op ⋙ P) ≅ Ψ.presheafFiber.obj P :=
   Functor.Final.colimitIso (elementsFunctorOfFiberIso e Ψ' Ψ θ).op
-    ((CategoryOfElements.π Ψ.fiber).op ⋙ P)
+    ((Functor.Elements.π Ψ.fiber).op ⋙ P)
 
 /-- The comparison of `CategoryTheory.GrothendieckTopology.Point.presheafFiberIsoOfEquivalence`
 takes the germ at `(X, x)` to the germ at the image neighbourhood `(e X, θ x)`. -/
@@ -115,7 +117,7 @@ theorem toPresheafFiber_presheafFiberIsoOfEquivalence_hom (P : Dᵒᵖ ⥤ A) (X
     Ψ'.toPresheafFiber X x (e.functor.op ⋙ P) ≫ (presheafFiberIsoOfEquivalence e Ψ' Ψ θ P).hom =
       Ψ.toPresheafFiber (e.functor.obj X) (θ.hom.app X x) P :=
   Functor.Final.ι_colimitIso_hom (elementsFunctorOfFiberIso e Ψ' Ψ θ).op
-    ((CategoryOfElements.π Ψ.fiber).op ⋙ P) (op ⟨X, x⟩)
+    ((Functor.Elements.π Ψ.fiber).op ⋙ P) (op (Ψ'.fiber.elementsMk X x))
 
 end CategoryTheory.GrothendieckTopology.Point
 

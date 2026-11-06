@@ -141,6 +141,7 @@ theorem singleToDerivedPushforward_app (a : ℤ) (M' : RModules X') :
           M') := by
   simp [singleToDerivedPushforward]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The identity of cochain complexes behind `singleToDerivedPushforward_comp`: the comparison of
 `(-)[a]` with `(G' ≫ G)_*`, followed by the composition isomorphism of the direct images, is the
 comparison for `G` at `G'_*ℳ''` followed by `G_*` of the comparison for `G'`. -/

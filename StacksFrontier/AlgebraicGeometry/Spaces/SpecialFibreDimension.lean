@@ -173,6 +173,13 @@ attribute [local instance] pointTopology
 variable (A : Type u) [CommRing A] [IsLocalRing A] (B : BigFppfSite.{u})
     (hA : B.Contains (Spec (.of A)))
 
+/-- Pullbacks of presheaves on the big fppf site over `Spec A` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_SpecialFibreDimension
+    {X Y Z : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The closed point of `Spec A`, for `A` local, as a point of the base valued in the residue
 field `κ`: the structure morphism of `Spec κ` read as a `κ`-valued point. -/
 def residueFieldPoint :

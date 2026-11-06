@@ -83,7 +83,6 @@ public theorem smallZariskiToOpens_baseChange_obj
   calc
     _ = Set.range ((e.hom.app X).left ≫ Yover.hom) := by
       rw [htri]
-      rfl
     _ = Set.range Yover.hom := by
       show Set.range (Yover.hom ∘ (e.hom.app X).left) = _
       rw [Set.range_comp, Set.range_eq_univ.mpr hsurj, Set.image_univ]

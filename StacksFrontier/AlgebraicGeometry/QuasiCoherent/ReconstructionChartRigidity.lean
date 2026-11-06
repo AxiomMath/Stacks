@@ -115,9 +115,10 @@ functor.**  For `Φ : C ⥤ D` fully faithful and `σ : Φ ⟶ Φ`, taking the p
 component gives an endomorphism of `𝟭 C`; its naturality is the naturality of `σ`, read through
 the faithfulness of `Φ`. -/
 def catCenterOfFullyFaithful {C : Type*} [Category* C] {D : Type*} [Category* D] {Φ : C ⥤ D}
-    (hΦ : Φ.FullyFaithful) (σ : Φ ⟶ Φ) : CatCenter C where
-  app A := hΦ.preimage (σ.app A)
-  naturality A B φ := hΦ.map_injective (by simp)
+    (hΦ : Φ.FullyFaithful) (σ : Φ ⟶ Φ) : CatCenter C :=
+  End.of
+    { app A := hΦ.preimage (σ.app A)
+      naturality A B φ := hΦ.map_injective (by simp) }
 
 /-- The image under `Φ` of the component at `A` of `catCenterOfFullyFaithful hΦ σ` is the
 component `σ.app A`. -/
@@ -135,7 +136,7 @@ theorem eq_id_of_catCenterOfFullyFaithful_eq_one {C : Type*} [Category* C] {D : 
     (h : catCenterOfFullyFaithful hΦ σ = 1) : σ = 𝟙 Φ := by
   ext B
   rw [← map_catCenterOfFullyFaithful_app hΦ σ B, h]
-  simp [CategoryTheory.End.one_def]
+  simp [CatCenter.app_one]
 
 /-- **An endomorphism conjugate to the identity is the identity.** -/
 theorem eq_id_of_conj_eq_id {C : Type*} [Category* C] {G H : C} (κ : G ≅ H) (τ : H ⟶ H)

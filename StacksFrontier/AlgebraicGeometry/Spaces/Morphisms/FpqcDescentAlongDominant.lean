@@ -60,6 +60,15 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+local instance (priority := high) hasPullbacks_presheaf_fpqcDescentAlongDominant :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_fpqcDescentAlongDominant
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_fpqcDescentAlongDominant.has_limit _
+
 /-- **Two morphisms into a separated space agreeing after a morphism with full scheme-theoretic
 image are equal.** Let `f, g : X ⟶ Y` be morphisms over `q : Y ⟶ T` with `q` separated and let
 `d : D ⟶ X` have scheme-theoretic image all of `X`. If `d ≫ f = d ≫ g` then `f = g`: the

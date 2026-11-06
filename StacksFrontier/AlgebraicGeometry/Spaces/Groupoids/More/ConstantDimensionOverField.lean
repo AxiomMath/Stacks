@@ -91,6 +91,12 @@ universe u v w
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of functors into types, supplied directly: instance search for them times out. -/
+private instance (priority := high) hasPullback_functorToTypes {D : Type v} [Category.{w} D]
+    {X Y Z : D ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) : HasPullback f g :=
+  have : HasPullbacks (D ⥤ Type u) := functorCategoryHasLimitsOfShape
+  inferInstance
+
 /-! ### Left translation in a groupoid in functors -/
 
 /-- The composite of a composable pair whose second arrow is the identity at the source of the

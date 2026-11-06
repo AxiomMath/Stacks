@@ -38,9 +38,9 @@ def exactResolutionIso {A B : Type*} [Category* A] [Category* B] [Abelian A] [Ab
     (e : DerivedCategory.Plus.Qh.obj K ≅ (DerivedCategory.Plus.singleFunctor A 0).obj F) :
     DerivedCategory.Plus.Qh.obj (E.mapHomotopyCategoryPlus.obj K) ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (E.obj F) :=
-  letI : IsIso E.rightDerivedFunctorPlusUnit := Stacks.Cohomology.BaseChange.exactUnit_isIso E
-  letI : IsIso (E.rightDerivedFunctorPlusUnit.app K) := NatIso.isIso_app_of_isIso _ _
-  asIso (E.rightDerivedFunctorPlusUnit.app K) ≪≫ E.rightDerivedFunctorPlus.mapIso e ≪≫
+  letI : IsIso E.rightDerivedFunctorPlusUnith := Stacks.Cohomology.BaseChange.exactUnit_isIso E
+  letI : IsIso (E.rightDerivedFunctorPlusUnith.app K) := NatIso.isIso_app_of_isIso _ _
+  asIso (E.rightDerivedFunctorPlusUnith.app K) ≪≫ E.rightDerivedFunctorPlus.mapIso e ≪≫
     ((Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso E 0).app F).symm
 
 /-- **Every object of the bounded below derived category is the image of a bounded below complex

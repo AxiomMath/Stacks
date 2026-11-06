@@ -81,6 +81,23 @@ noncomputable def comparisonRestrictionULiftIso (X : AlgebraicSpaces B S hS) :
 
 variable {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
 
+/-- The comma categories indexing the left Kan extension along base change of étale charts have
+colimits of sets in universe `u + 1`, being essentially small at `u`. -/
+instance hasColimitsOfShape_costructuredArrow_spacesEtaleChartBaseChange_op_uliftUniverse
+    (W : (SpacesEtale B S hS X)ᵒᵖ) :
+    HasColimitsOfShape
+      (CostructuredArrow (spacesEtaleChartBaseChange B S hS f).op W) (Type (u + 1)) :=
+  have : EssentiallySmall.{u}
+      (CostructuredArrow (spacesEtaleChartBaseChange B S hS f).op W) := inferInstance
+  hasColimitsOfShape_of_essentiallySmall _ _
+
+/-- Left Kan extensions of presheaves of sets valued in `Type (u + 1)` exist along base change of
+étale charts. -/
+instance hasPointwiseLeftKanExtension_spacesEtaleChartBaseChange_uliftUniverse
+    (F : (SmallEtale B S hS Y.1)ᵒᵖ ⥤ Type (u + 1)) :
+    (spacesEtaleChartBaseChange B S hS f).op.HasPointwiseLeftKanExtension F :=
+  fun _ => inferInstance
+
 /-- The inverse image of `AlgebraicGeometry.Space.smallToposMorphismTypeU` is the inverse image
 along base change of étale charts followed by restriction to the étale charts of `X`: both are
 left adjoint to the same direct image. -/

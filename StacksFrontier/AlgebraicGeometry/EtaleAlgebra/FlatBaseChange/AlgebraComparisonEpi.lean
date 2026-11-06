@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.EtaleAlgebra.FlatBaseChange.AlgebraComparison
 public import StacksFrontier.Topology.Sheaves.Stalk.CommRingPushout
 public import StacksFrontier.Topology.Sheaves.Stalk.PullbackUnit
+import Mathlib.Topology.Sheaves.LocallySurjective
 import StacksCore.Tactic.StacksAttribute
 
 /-!

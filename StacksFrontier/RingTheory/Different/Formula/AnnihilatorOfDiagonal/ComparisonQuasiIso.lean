@@ -259,7 +259,7 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
         ((P ⊗[A] B) ⧸ Ideal.span (Set.range g)))) :=
     ModuleCat.ofHom
       { toFun := fun x => ULift.up (eSpan x.down)
-        map_add' x y := ULift.ext _ _ (eSpan.toLinearEquiv.map_add x.down y.down)
+        map_add' x y := ULift.ext (eSpan.toLinearEquiv.map_add x.down y.down)
         map_smul' := by
           intro a x
           apply ULift.ext
@@ -270,8 +270,8 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
           rw [IsScalarTower.algebraMap_smul]
           exact eSpan.toLinearEquiv.map_smul a x.down }
   have htSpan : Function.Bijective tSpan.hom :=
-    ⟨fun x y hxy => ULift.ext _ _ (eSpan.injective (congrArg ULift.down hxy)),
-      fun y => ⟨ULift.up (eSpan.symm y.down), ULift.ext _ _ (eSpan.apply_symm_apply y.down)⟩⟩
+    ⟨fun x y hxy => ULift.ext (eSpan.injective (congrArg ULift.down hxy)),
+      fun y => ⟨ULift.up (eSpan.symm y.down), ULift.ext (eSpan.apply_symm_apply y.down)⟩⟩
   let eULSpan := (LinearEquiv.ofBijective tSpan.hom htSpan).toModuleIso
   let eHSpan : K.homology 0 ≅ L.homology 0 :=
     hK0 ≪≫ eULSpan ≪≫ hL0.symm
@@ -282,7 +282,7 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
       α.f 0 ≫ L.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ L).inv ≫ hL0.hom =
         K.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ K).inv ≫
           hK0.hom ≫ eULSpan.hom := by
-    refine ModuleCat.hom_ext (LinearMap.ext fun z => ULift.ext _ _ ?_)
+    refine ModuleCat.hom_ext (LinearMap.ext fun z => ULift.ext ?_)
     show ((L.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ L).inv ≫
         hL0.hom).hom ((α.f 0).hom z)).down =
       (eULSpan.hom.hom ((K.pOpcycles 0 ≫
@@ -447,7 +447,6 @@ private theorem tensoredExtendedKoszul_d_eq_zero
     refine h.trans ?_
     clear h
     induction x with
-    | zero => simp
     | tmul b z =>
         show b ⊗ₜ[P] ((K.d (s + 1) s).hom (ULift.up z)).down =
           b ⊗ₜ[P] Koszul.d (Koszul.seqDual f) s z
@@ -524,7 +523,6 @@ private theorem lTensor_comparison_injective_and_surjective
     refine h.trans ?_
     clear h
     induction x with
-    | zero => simp
     | tmul b z => rfl
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have hLd (r : ℕ)
@@ -538,7 +536,6 @@ private theorem lTensor_comparison_injective_and_surjective
     refine h.trans ?_
     clear h
     induction x with
-    | zero => simp
     | tmul b z =>
         let (j : ℕ) : Module P ((Koszul.seqComplex g).X j) :=
           inferInstanceAs (Module P
@@ -646,7 +643,6 @@ theorem exists_linearEquiv_annihilator_ker_lmul
       (Algebra.TensorProduct.productLeftAlgHom q (AlgHom.id A B)).toRingHom := by
     refine RingHom.ext fun x => ?_
     induction x with
-    | zero => simp
     | tmul a b => simp [φ, ψ, Algebra.TensorProduct.productLeftAlgHom,
         Algebra.TensorProduct.lmul'_apply_tmul, Algebra.TensorProduct.lift_tmul]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy

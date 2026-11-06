@@ -178,7 +178,7 @@ theorem eq_of_map_eq_of_fieldSpecHom (hX : IsAlgebraicSpace B S hS X)
     hqc)).isSeparatedFor).ext ?_
   rintro W k ⟨Z, u, v, hv, rfl⟩
   cases hv
-  rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, h]
+  rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h]
 
 /-! ### Condition (2) implies condition (1) -/
 

@@ -44,14 +44,14 @@ The fill-in clause of `Functor.IsFiberedInGroupoids` produces `β` as a vertical
 it is invertible because a morphism lying over an identity is strongly cartesian over it, and a
 strongly cartesian morphism over an isomorphism is an isomorphism. -/
 theorem exists_aut_of_lift (hp : p.IsFiberedInGroupoids) {x y : S} (ψ : y ⟶ x) (α : Aut x)
-    (hα : p.map α.hom = 𝟙 (p.obj x)) :
-    ∃ β : Aut y, p.map β.hom = 𝟙 (p.obj y) ∧ β.hom ≫ ψ = ψ ≫ α.hom := by
+    (hα : p.map α.asIso.hom = 𝟙 (p.obj x)) :
+    ∃ β : Aut y, p.map β.asIso.hom = 𝟙 (p.obj y) ∧ β.asIso.hom ≫ ψ = ψ ≫ α.asIso.hom := by
   obtain ⟨χ, ⟨hχmap, hχfac⟩, -⟩ :=
-    hp.unique_lift ψ (ψ ≫ α.hom) (𝟙 (p.obj y)) (by simp [hα])
+    hp.unique_lift ψ (ψ ≫ α.asIso.hom) (𝟙 (p.obj y)) (by simp [hα])
   have : p.IsHomLift (𝟙 (p.obj y)) χ := hχmap ▸ (inferInstance : p.IsHomLift (p.map χ) χ)
   have := hp.isStronglyCartesian_homLift (𝟙 (p.obj y)) χ
   have : IsIso χ := IsStronglyCartesian.isIso_of_base_isIso (p := p) (f := 𝟙 (p.obj y)) χ
-  exact ⟨asIso χ, hχmap, hχfac⟩
+  exact ⟨.of (asIso χ), hχmap, hχfac⟩
 
 /-- **Stacks 042I.** If `p : S ⥤ C` is fibred in groupoids, then so is the inertia fibred
 category `I_S ⥤ C`. -/
@@ -68,10 +68,10 @@ theorem absoluteInertia (p : S ⥤ C) (hp : p.IsFiberedInGroupoids) :
   · -- Fill-ins: the fill-in for `p` automatically commutes with the two automorphisms.
     intro X Y Z Φ Ψ g hcomm
     obtain ⟨χ, ⟨hχmap, hχfac⟩, huniq⟩ := hp.unique_lift Φ.hom Ψ.hom g hcomm
-    have hcomm' : g ≫ p.map Φ.hom = p.map (Ψ.hom ≫ X.auto.hom) := by
+    have hcomm' : g ≫ p.map Φ.hom = p.map (Ψ.hom ≫ X.auto.asIso.hom) := by
       rwa [p.map_comp, X.cond, Category.comp_id]
-    have hχcomm : χ ≫ Y.auto.hom = Z.auto.hom ≫ χ :=
-      (hp.unique_lift Φ.hom (Ψ.hom ≫ X.auto.hom) g hcomm').unique
+    have hχcomm : χ ≫ Y.auto.asIso.hom = Z.auto.asIso.hom ≫ χ :=
+      (hp.unique_lift Φ.hom (Ψ.hom ≫ X.auto.asIso.hom) g hcomm').unique
         ⟨by rw [p.map_comp, Y.cond, Category.comp_id, hχmap],
           by rw [Category.assoc, ← Φ.comm, ← Category.assoc, hχfac]⟩
         ⟨by rw [p.map_comp, Z.cond, Category.id_comp, hχmap],

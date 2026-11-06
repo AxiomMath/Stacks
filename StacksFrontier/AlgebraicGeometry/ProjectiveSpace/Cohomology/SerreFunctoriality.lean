@@ -187,7 +187,8 @@ theorem residuePairing_mapDomain_add (a : Fin (n + 1) → ℤ) (g h : (Fin (n + 
     funext i
     show -b i - 1 = a i + (-(a i + b i) - 1)
     ring
-  rw [hkey, Finsupp.mapDomain_apply (injective_add_left a)]
+  rw [hkey]
+  exact (Finsupp.mapDomain_apply_of_injective (injective_add_left a) h _).symm
 
 /-- **The residue pairing is adjoint to multiplication**: pairing `f · g` against `h` and
 pairing `g` against `f · h` both compute the coefficient of `1/(T₀ ⋯ Tₙ)` in `f · g · h`. This is

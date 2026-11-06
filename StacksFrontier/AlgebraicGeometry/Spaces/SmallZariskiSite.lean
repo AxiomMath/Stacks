@@ -242,6 +242,7 @@ private theorem ι_comp_directMap (E : Covering (OpenSubspaces B S hS F)) (i : E
       Subfunctor.homOfLe (E.2.f i).le :=
   Sigma.ι_desc _ _
 
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem isCovering_iff_directMap (E : Covering (OpenSubspaces B S hS F)) :
     IsCovering B S hS F E ↔
       Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
@@ -581,8 +582,9 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
       show yonedaEquiv (xmap.hom ≫ (fAlg j).hom) =
         yonedaEquiv (ymap.hom ≫ gAlg.hom)
       rw [yonedaEquiv_comp, yonedaEquiv_comp]
-      simpa [xmap, ymap, fAlg, gAlg, fFun, gFun,
-        ← NatTrans.naturality_apply] using hcompat
+      simp [xmap, ymap, fAlg, gAlg, fFun, gFun,
+        ← NatTrans.naturality_apply] at hcompat ⊢
+      exact Subtype.ext hcompat
     let zmap := (sq j).lift xmap ymap hxy
     let z : (P j).obj.obj (op T') := yonedaEquiv zmap.hom
     have hzmap : zmap.hom ≫ (p2 j).hom = ymap.hom :=

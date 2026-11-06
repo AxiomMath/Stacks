@@ -104,7 +104,7 @@ public lemma deltaInvariant_ge_numberOfGeometricBranches_sub_one_of_strictlyHens
   have hmax (m : MaximalSpectrum B) :
       maximalIdeal A = m.asIdeal.comap (algebraMap A B) :=
     (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m.asIdeal)).symm
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m.asIdeal)).symm
   let k := A ⧸ maximalIdeal A
   let : Field k := Ideal.Quotient.field (maximalIdeal A)
   have hcomponent (m : MaximalSpectrum B) :
@@ -216,7 +216,7 @@ private theorem isLocalHom_algebraMap_of_finite (A B : Type u) [CommRing A] [Com
   let : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
   have hmax : (maximalIdeal B).comap (algebraMap A B) = maximalIdeal A :=
     eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) (maximalIdeal B))
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (maximalIdeal B))
   refine ⟨fun a hu => ?_⟩
   by_contra hna
   have hmap : algebraMap A B a ∈ maximalIdeal B := by

@@ -417,7 +417,7 @@ lemma tensorLegBilin_apply
 variable (a b x) in
 /-- The objectwise tensor product of the sections of `a_*𝒪_𝒴` and `b_*𝒪_𝒵` over `x`. -/
 abbrev tensorPushforwardSections :=
-  (PresheafOfModules.Monoidal.tensorObj
+  (PresheafOfModulesOfCommRing.Monoidal.tensorObj
     (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
     (pushUnit a).val (pushUnit b).val).obj (op x)
 
@@ -505,13 +505,13 @@ leg `j` precomposed with `g`. -/
 lemma tensorLeg_map {x' : 𝒳.val.val.obj} (g : op x ⟶ op x')
     (j : StructuredArrow (op x') (CatFiberedInGroupoids.homFunctor (tensorProj a b).hom).op)
     (m : tensorPushforwardSections a b x) :
-    tensorLeg j ((PresheafOfModules.Monoidal.tensorObj
+    tensorLeg j ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val).map g m) =
         tensorLeg ((StructuredArrow.map g).obj j) m := by
   induction m using TensorProduct.induction_on with
   | zero =>
-    exact (congrArg (tensorLeg j) (map_zero ((PresheafOfModules.Monoidal.tensorObj
+    exact (congrArg (tensorLeg j) (map_zero ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val).map g).hom)).trans
         ((map_zero _).trans (map_zero _).symm)
@@ -528,7 +528,7 @@ lemma tensorLeg_map {x' : 𝒳.val.val.obj} (g : op x ⟶ op x')
       (congrArg (sndRingHom j.right.unop) hb)).trans
         (tensorLeg_tmul ((StructuredArrow.map g).obj j) s t).symm)
   | add m m' hm hm' =>
-    exact (congrArg (tensorLeg j) (map_add ((PresheafOfModules.Monoidal.tensorObj
+    exact (congrArg (tensorLeg j) (map_add ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val).map g).hom m m')).trans (((tensorLeg j).map_add _ _).trans
       ((congrArg₂ (· + ·) hm hm').trans ((tensorLeg _).map_add m m').symm))
@@ -576,7 +576,9 @@ lemma tensorLeg_smul
   | tmul s t =>
     have e₁ : unitLeg a (legFst j) (r • s) = legRingHom a (legFst j) r * unitLeg a (legFst j) s :=
       unitLeg_smul a (legFst j) r s
-    refine (congrArg (tensorLeg j) (TensorProduct.smul_tmul' r s t)).trans ?_
+    refine (congrArg (tensorLeg j) (TensorProduct.smul_tmul'
+      (show ((FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+        .fppf).obj.obj (op x)) from r) s t)).trans ?_
     refine (tensorLeg_tmul j (r • s) t).trans ?_
     refine (congrArg (fun z => fstRingHom j.right.unop z * sndRingHom j.right.unop
       (unitLeg b (legSnd j) t)) e₁).trans ?_
@@ -585,7 +587,9 @@ lemma tensorLeg_smul
         (fstRingHom_legRingHom j r)))).trans ?_
     exact (mul_assoc _ _ _).trans (congrArg (_ * ·) (tensorLeg_tmul j s t).symm)
   | add m m' hm hm' =>
-    exact (congrArg (tensorLeg j) (smul_add r m m')).trans (((tensorLeg j).map_add _ _).trans
+    exact (congrArg (tensorLeg j) (smul_add
+      (show ((FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+        .fppf).obj.obj (op x)) from r) m m')).trans (((tensorLeg j).map_add _ _).trans
       ((congrArg₂ (· + ·) hm hm').trans ((mul_add _ _ _).symm.trans
         (congrArg (_ * ·) ((tensorLeg j).map_add m m').symm))))
 
@@ -593,7 +597,7 @@ variable (a b) in
 /-- **The canonical map `a_*𝒪_𝒴 ⊗ b_*𝒪_𝒵 ⟶ f_*𝒪_𝒫` of presheaves of modules**, from the
 objectwise tensor product: `s ⊗ t ↦ pr₁^*s · pr₂^*t`. -/
 def tensorPushforwardPresheafMap :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val ⟶ (pushUnit (tensorProj a b)).val :=
   PresheafOfModules.homMk
@@ -627,14 +631,14 @@ variable (a b) in
 /-- The first factor of `AlgebraicGeometry.Stack.AlgebraicStacks.tensorPushforwardPresheafComp`:
 the objectwise tensor product of the counits `Q(a_*𝒪) ⟶ a_*𝒪`, `Q(b_*𝒪) ⟶ b_*𝒪`. -/
 def tensorPushforwardCounitTensor :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit a)).val
       ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit b)).val ⟶
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       (pushUnit a).val (pushUnit b).val :=
-  PresheafOfModules.Monoidal.tensorHom
+  PresheafOfModulesOfCommRing.Monoidal.tensorHom
     ((coheratorAdjunction B S hS 𝒳).counit.app _ ≫
       (fppfModulesPushforwardIsoModuleDirectImage B S hS a).hom.app _).val
     ((coheratorAdjunction B S hS 𝒳).counit.app _ ≫
@@ -652,7 +656,7 @@ variable (a b) in
 /-- The presheaf map underlying `AlgebraicGeometry.Stack.AlgebraicStacks.tensorPushforwardMap`:
 `Q(a_*𝒪) ⊗_p Q(b_*𝒪) ⟶ a_*𝒪 ⊗_p b_*𝒪 ⟶ f_*𝒪`, through the counits of the coherator. -/
 def tensorPushforwardPresheafComp :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit a)).val
       ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit b)).val ⟶
@@ -951,8 +955,8 @@ at `X` is bijective at `X`. -/
 lemma bijective_tensorHom_app {C : Type*} [Category C] {R : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M₁ M₂ M₃ M₄ : PresheafOfModules.{u} (R ⋙ forget₂ _ _)} (f : M₁ ⟶ M₂) (g : M₃ ⟶ M₄)
     (X : Cᵒᵖ) (hf : Function.Bijective (f.app X)) (hg : Function.Bijective (g.app X)) :
-    Function.Bijective ((PresheafOfModules.Monoidal.tensorHom f g).app X) := by
-  rw [PresheafOfModules.Monoidal.tensorHom_app]
+    Function.Bijective ((PresheafOfModulesOfCommRing.Monoidal.tensorHom f g).app X) := by
+  rw [PresheafOfModulesOfCommRing.Monoidal.tensorHom_app]
   exact (TensorProduct.congr (LinearEquiv.ofBijective (f.app X).hom hf)
     (LinearEquiv.ofBijective (g.app X).hom hg)).bijective
 
@@ -1002,6 +1006,7 @@ lemma bijective_tensorPushforwardPresheafComp_app (ha : AlgebraicStacks.IsAffine
     (bijective_comp_app (tensorPushforwardPresheafMap a b) (tensorPushforwardIsoInv a b) (op x)
       h2 h3)
 
+set_option maxHeartbeats 2000000 in
 attribute [local instance] fppfModulesMonoidal fppfModulesBraided fppfModulesSymmetric in
 /-- **Stacks 0GRN, corrected: one leg affine.** Let `a : 𝒴 ⟶ 𝒳` be an affine (Stacks 0CHQ),
 quasi-compact, quasi-separated and flat 1-morphism of algebraic stacks and `b : 𝒵 ⟶ 𝒳` one which
@@ -1065,7 +1070,7 @@ theorem isIso_tensorPushforwardMap (ha : AlgebraicStacks.IsAffineHom B S hS a)
     (fun ψ hz hx hψ => isIso_restrictionBaseChange_of_flat B E hE S hS _ _
       (pushforwardUnit b).obj.val hGc ψ hψ hz hx) hxa
   have hg : Function.Bijective (g.val.app (op x)) := by
-    have e : ⇑(g.val.app (op x)) ∘ ⇑((adj.unit.app (PresheafOfModules.Monoidal.tensorObj
+    have e : ⇑(g.val.app (op x)) ∘ ⇑((adj.unit.app (PresheafOfModulesOfCommRing.Monoidal.tensorObj
         (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
         ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit a)).val
         ((quasicoherentInclusion B S hS 𝒳).obj (pushforwardUnit b)).val)).app (op x)) =

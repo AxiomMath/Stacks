@@ -208,7 +208,7 @@ def rootsOfUnityFiniteTypeContinuousModule :
         ext g
         change ULift.up (Additive.ofMul (galoisRootsOfUnity k K n (π g) z.down.toMul)) = z ↔
           Additive.ofMul (galoisRootsOfUnity k K n (π g) z.down.toMul) = z.down
-        exact ⟨fun e ↦ congrArg ULift.down e, fun e ↦ ULift.ext _ _ e⟩), by
+        exact ⟨fun e ↦ congrArg ULift.down e, fun e ↦ ULift.ext e⟩), by
     change Module.Finite (ZMod n) (ULift.{w} (Additive (rootsOfUnity n K)))
     exact Module.Finite.of_finite⟩
 
@@ -223,7 +223,7 @@ lemma rootsOfUnityFiniteTypeContinuousModule_V :
 `galoisRootsOfUnity k K n (π g)`. -/
 lemma rootsOfUnityFiniteTypeContinuousModule_ρ_apply (g : G)
     (z : ULift.{w} (Additive (rootsOfUnity n K))) :
-    (((rootsOfUnityFiniteTypeContinuousModule.{u, v, w} n π).obj.obj.obj.ρ g).hom z :
+    (((rootsOfUnityFiniteTypeContinuousModule.{u, v, w} n π).obj.obj.obj.ρ g).asHom.hom z :
         ULift.{w} (Additive (rootsOfUnity n K))) =
       ULift.up (Additive.ofMul (galoisRootsOfUnity k K n (π g) z.down.toMul)) :=
   rfl
@@ -262,7 +262,7 @@ lemma cyclotomicContinuousModule_ρ_apply
       EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))
     (z : ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) :
-    (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ γ).hom z :
+    (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ γ).asHom.hom z :
         ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) =
       ULift.up (Additive.ofMul
         (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) z.down.toMul)) :=
@@ -283,11 +283,11 @@ lemma cyclotomicContinuousModule_ρ_eq_one_of_mem_range
   let := connectedSpace_fieldBaseChange f kbar
   have h1 : geometricGaloisProjection B X f kbar y γ = 1 :=
     MonoidHom.mem_ker.mp ((ker_geometricGaloisProjection B X f kbar y).symm ▸ hγ)
-  refine ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_)
+  refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_))
   show ULift.up (Additive.ofMul
     (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) z.down.toMul)) = z
   rw [h1]
-  refine ULift.ext _ _ (additive_rootsOfUnity_ext ?_)
+  refine ULift.ext (additive_rootsOfUnity_ext ?_)
   show ((galoisRootsOfUnity k kbar n 1 z.down.toMul : kbarˣ) : kbar) = _
   rw [galoisRootsOfUnity_coe, AlgEquiv.one_apply]
 
@@ -317,7 +317,7 @@ lemma cyclotomicIntContinuousModule_ρ_apply
       EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))
     (z : ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) :
-    (((cyclotomicIntContinuousModule B X f kbar y n).obj.obj.ρ γ).hom z :
+    (((cyclotomicIntContinuousModule B X f kbar y n).obj.obj.ρ γ).asHom.hom z :
         ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) =
       ULift.up (Additive.ofMul
         (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) z.down.toMul)) :=

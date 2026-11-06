@@ -80,7 +80,7 @@ open CategoryTheory CategoryTheory.Limits Opposite
 -- `Over.post` are unfolded. Both unfoldings have to be available at `implicit` transparency
 -- for the two sides of the naturality squares below to be seen as composable.
 attribute [local implicit_reducible] cechFormalCoproduct cechFormalCoproductMap
-  CategoryTheory.PreZeroHypercover.map CategoryTheory.Over.post
+  CategoryTheory.PreZeroHypercover.map
 
 variable {C : Type u} [Category.{v} C] {D : Type u₂} [Category.{v₂} D]
   (u : C ⥤ D) {X : C} (E : PreZeroHypercover.{w} X)
@@ -106,7 +106,7 @@ noncomputable def cechProductMapOfFunctor (n : ℕ) (i : Fin (n + 1) → E.I₀)
 theorem cechProductMapOfFunctor_comp_π (n : ℕ) (i : Fin (n + 1) → E.I₀) (b : Fin (n + 1)) :
     cechProductMapOfFunctor u E n i ≫ Pi.π (fun a ↦ Over.mk ((E.map u).f (i a))) b =
       (Over.post (X := X) u).map (Pi.π (fun a ↦ Over.mk (E.f (i a))) b) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The comparison map is the product comparison map of `Over.post u`. -/
 theorem cechProductMapOfFunctor_eq_piComparison (n : ℕ) (i : Fin (n + 1) → E.I₀) :
@@ -200,7 +200,7 @@ theorem cechComplexMapOfFunctorDegree_comp_π (I : Dᵒᵖ ⥤ A) (n : ℕ)
             (op (((cechSimplicialObject (E.map u)).obj
               (op (SimplexCategory.mk n))).obj l))) i ≫
         I.map (cechProductMapOfFunctor u E n i).left.op :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 attribute [local implicit_reducible] CategoryTheory.Limits.FormalCoproduct.evalOp in
 /-- The degreewise comparison maps commute with each signed coface map of the cosimplicial
@@ -289,12 +289,12 @@ theorem isIso_cechComplexMapOfFunctorDegree (I : Dᵒᵖ ⥤ A) (n : ℕ)
             (op (((cechSimplicialObject E).obj (op (SimplexCategory.mk n))).obj l))) i ≫
         inv (I.map (cechProductMapOfFunctor u E n i).left.op)), ?_, ?_⟩
   · refine Pi.hom_ext _ _ fun i ↦ ?_
-    rw [Category.assoc, Pi.lift_π, ← Category.assoc,
+    rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc,
       cechComplexMapOfFunctorDegree_comp_π, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id, Category.id_comp]
   · refine Pi.hom_ext _ _ fun i ↦ ?_
     rw [Category.assoc, cechComplexMapOfFunctorDegree_comp_π, ← Category.assoc,
-      Pi.lift_π, Category.assoc, IsIso.inv_hom_id, Category.comp_id, Category.id_comp]
+      Pi.lift_comp_π, Category.assoc, IsIso.inv_hom_id, Category.comp_id, Category.id_comp]
 
 /-- **Čech functoriality along a functor of sites.** The morphism of Čech complexes from the
 Čech complex of the image family `{u(U_i) → u(U)}` with coefficients in a presheaf `I` on `D`

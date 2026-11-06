@@ -257,9 +257,9 @@ private theorem completionSubspaceSubfunctor_square_isPullback
   refine ⟨by ext z; rfl, fun a b h => Subtype.ext h.left, ?_⟩
   intro x y h
   have hval : f.hom.app U x.down = y.1.down := congrArg ULift.down h
-  refine ⟨⟨x, ?_⟩, rfl, Subtype.ext (ULift.ext _ _ hval)⟩
+  refine ⟨⟨x, ?_⟩, rfl, Subtype.ext (ULift.ext hval)⟩
   exact (mem_completionSubspaceSubfunctor_preimage B S hS f Z U x).2
-    ((ULift.ext _ _ hval : (ULift.up (f.hom.app U x.down) : _) = y.1) ▸ y.2)
+    ((ULift.ext hval : (ULift.up (f.hom.app U x.down) : _) = y.1) ▸ y.2)
 
 /-- **Stacks 0GXV.** Completion along a closed subspace is compatible with base change: for a
 morphism `f : X' ⟶ X` of algebraic spaces over `S` and a subfunctor `Z` of `X`, in the source a

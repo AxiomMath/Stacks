@@ -20,9 +20,14 @@ import Mathlib.CategoryTheory.Filtered.OfColimitCommutesFiniteLimit
 import Mathlib.CategoryTheory.Functor.ReflectsIso.Limits
 import Mathlib.CategoryTheory.Functor.TypeValuedFlat
 import Mathlib.CategoryTheory.Generator.Abelian
+import Mathlib.CategoryTheory.Generator.Indization
 import Mathlib.CategoryTheory.Groupoid.Subgroupoid
 import Mathlib.CategoryTheory.Idempotents.FunctorExtension
 import Mathlib.CategoryTheory.Limits.ConcreteCategory.Filtered
+import Mathlib.CategoryTheory.Limits.Elements
+import Mathlib.CategoryTheory.Limits.Indization.FilteredColimits
+import Mathlib.CategoryTheory.Limits.Indization.Products
+import Mathlib.CategoryTheory.Limits.Preserves.Presheaf
 import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Square
 import Mathlib.CategoryTheory.Limits.Shapes.Reflexive
 import Mathlib.CategoryTheory.Limits.Types.ColimitTypeFiltered
@@ -354,7 +359,6 @@ add_to_sga "4 I 4.2" CategoryTheory.Subfunctor.sieveOfSection
 add_to_sga "4 I 4.3" CategoryTheory.Presheaf.imageSieve
 add_to_sga "4 I 4.3" CategoryTheory.Presieve.category
 add_to_sga "4 I 4.3" CategoryTheory.Presieve.diagram
-add_to_sga "4 I 4.3" "bijection Hom(R" CategoryTheory.Presieve.natTransEquivCompatibleFamily
 add_to_sga "4 I 4.3" "bijection Hom(R" CategoryTheory.Presieve.shrinkFunctorHomEquiv
 add_to_sga "4 I 4.3" CategoryTheory.Sieve.functor
 add_to_sga "4 I 4.3" CategoryTheory.Sieve.functorInclusion
@@ -468,8 +472,6 @@ add_to_sga "4 I 6.2" "(ii), special case"
 add_to_sga "4 I 6.2" "(ii)" CategoryTheory.ConcreteCategory.surjective_of_epi_of_preservesPushout
 add_to_sga "4 I 6.2" "(ii)" CategoryTheory.Functor.reflectsEpimorphisms_of_faithful
 add_to_sga "4 I 6.2" "(ii)" CategoryTheory.Functor.reflectsMonomorphisms_of_faithful
-add_to_sga "4 I 6.2" "(iii), single functor" CategoryTheory.HasClassifier.reflectsIsomorphisms
-add_to_sga "4 I 6.2" "(iii), special case" CategoryTheory.HasClassifier.reflectsIsomorphismsOp
 add_to_sga "4 I 6.2" "(iii), single functor"
   CategoryTheory.HasSubobjectClassifier.reflectsIsomorphisms
 add_to_sga "4 I 6.2" "(iii), special case"
@@ -634,11 +636,11 @@ add_to_sga "4 I 8.3.2" CategoryTheory.Presheaf.functorToRepresentables
 add_to_sga "4 I 8.3.2" CategoryTheory.Presheaf.isColimitTautologicalCocone
 add_to_sga "4 I 8.3.2" CategoryTheory.Presheaf.isColimitTautologicalCocone'
 add_to_sga "4 I 8.3.2" "more general" CategoryTheory.Pseudofunctor.Grothendieck.forget
-add_to_sga "4 I 8.3.2" CategoryTheory.categoryOfElements
+add_to_sga "4 I 8.3.2" CategoryTheory.Functor.Elements.instCategory
 add_to_sga "4 I 8.3.2" "partial" CategoryTheory.yonedaEquiv
-add_to_sga "4 I 8.3.2.3" "more general" CategoryTheory.CategoryOfElements.instCreatesLimitElementsπ
+add_to_sga "4 I 8.3.2.3" "more general" CategoryTheory.Functor.Elements.instCreatesLimitπ
 add_to_sga "4 I 8.3.2.3" "more general"
-  CategoryTheory.CategoryOfElements.instHasLimitsOfShapeElements
+  CategoryTheory.Functor.Elements.instHasLimitsOfShape
 add_to_sga "4 I 8.3.2.3" "filteredness of C/F" CategoryTheory.Functor.isCofiltered_elements
 add_to_sga "4 I 8.3.2.3" "filteredness consequence"
   CategoryTheory.Limits.isFiltered_costructuredArrow_yoneda_iff_nonempty_preservesFiniteLimits
@@ -851,7 +853,7 @@ add_to_sga "4 I 8.10.10" CategoryTheory.Functor.Elements
 add_to_sga "4 I 8.10.10" CategoryTheory.Functor.Elements.isColimitCoconeπOpCompShrinkYonedaFlip
 add_to_sga "4 I 8.10.10" "more general" CategoryTheory.StructuredArrow
 add_to_sga "4 I 8.10.10" "more general" CategoryTheory.StructuredArrow.proj
-add_to_sga "4 I 8.10.10" CategoryTheory.categoryOfElements
+add_to_sga "4 I 8.10.10" CategoryTheory.Functor.Elements.instCategory
 add_to_sga "4 I 8.11.6" "special case" CategoryTheory.Adjunction.representableBy
 add_to_sga "4 I 8.11.6" "special case" CategoryTheory.Functor.leftAdjointObjIsDefined_of_adjunction
 add_to_sga "4 I 8.12.6" CategoryTheory.Limits.IsIndObject

@@ -479,7 +479,7 @@ private theorem exists_hom_on_affine_chart
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
-  apply (cancel_epi h.isoPullback.hom).mp
+  apply (Iso.cancel_iso_hom_left h.isoPullback _ _).mp
   have hh : h.isoPullback.hom ≫
       (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.lift
         (pullback.fst _ _ ≫ limit.π D j.left) (pullback.snd _ _)

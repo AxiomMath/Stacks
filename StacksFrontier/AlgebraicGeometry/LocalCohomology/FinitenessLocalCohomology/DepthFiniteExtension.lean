@@ -115,7 +115,7 @@ theorem localized_maximal_contracts_to_prime
   let Rp := Localization.AtPrime p
   let : Algebra Rp S := inferInstance
   have hmax : (P.asIdeal.comap (algebraMap Rp S)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P.asIdeal
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Rp) P.asIdeal
   have hcontract : P.asIdeal.comap (algebraMap Rp S) = IsLocalRing.maximalIdeal Rp :=
     IsLocalRing.eq_maximalIdeal hmax
   ext a
@@ -167,7 +167,7 @@ private theorem exists_maximalSpectrum_localization_over_prime
     rw [hrcon]
     infer_instance
   have hrmax : r.IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := Rp) r (inferInstance)
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := Rp) r inferInstance
   exact ⟨⟨r, hrmax⟩, hrunder⟩
 
 /-- Localizing `M` first away from `p` and then at a maximal ideal `P` gives the same depth as

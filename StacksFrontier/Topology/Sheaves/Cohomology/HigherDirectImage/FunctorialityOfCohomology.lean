@@ -156,7 +156,7 @@ instance isIso_toDerivedPushforwardPlus {G : CochainComplex.Plus (Modules Y)}
     {F : CochainComplex.Plus (Modules X)} [∀ n : ℤ, Injective (F.obj.X n)]
     (phi : G ⟶ (pushforward f).mapCochainComplexPlus.obj F) [IsIso phi] :
     IsIso (toDerivedPushforwardPlus f phi) := by
-  have h1 : IsIso ((pushforward f).rightDerivedFunctorPlusUnit.app
+  have h1 : IsIso ((pushforward f).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (Modules X)).obj F)) := inferInstance
   have h2 : IsIso ((DerivedCategory.Plus.quotientCompQhIso (Modules Y)).inv.app
       ((pushforward f).mapCochainComplexPlus.obj F)) := inferInstance

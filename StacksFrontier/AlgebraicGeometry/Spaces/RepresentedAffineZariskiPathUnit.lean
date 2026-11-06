@@ -313,10 +313,12 @@ theorem pathZ_tail_eq {D : Type*} [Category* D] (Qh : HomotopyCategory E' (Compl
       Qh.map ((homotopyEdgeIso pb).hom.app P) ≫
       Qh.map ((a'.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
               HomotopyCategory.quotient _ _).map τc) := by
-  refine Eq.trans ?_
-      ((congrArg Qh.map (pathZ_tail_eq_aux Ψ₁ Ψ₂ t j ε f g0z g0 ε' fε εg sc j' t' ext a a'
+  have key := @pathZ_tail_eq_aux _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+    Ψ₁ Ψ₂ _ _ t j ε f g0z g0 ε' fε εg sc j' t' ext a a'
+    hAt _ _ _ _ _ _ _ _ _ _ hAt' hAext _ _ _ _ hts het _
     pc1 e pc2 z m1 κ m2 tp η η' pb τm sqI hsq M1 hM1 M2 hM2 tpc htpc Hη hHη Hη' hHη'
-    (fun M => by simpa using hmod M) P τc hτ azph haz)).trans ?_)
+    (by intro M; simpa using hmod M) P τc hτ azph haz
+  refine Eq.trans ?_ ((congrArg Qh.map key).trans ?_)
   · exact ((Qh.map_comp _ _).trans (congrArg (Qh.map _ ≫ ·) (Qh.map_comp _ _))).symm
   · exact (Qh.map_comp _ _).trans (congrArg (Qh.map _ ≫ ·) (Qh.map_comp _ _))
 

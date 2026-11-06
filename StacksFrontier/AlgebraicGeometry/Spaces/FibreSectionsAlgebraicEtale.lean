@@ -250,7 +250,7 @@ theorem isAlgebraicSpace_isEtale_restrictionOfScalars_of_relocalizedBase
     hpb.isoIsPullback _ _ IsPullback.of_id_fst
   have heWhom : eW.hom =
       OverShriek.relocalizeFibreOfSectionMap U.hom (w.hom ≫ ζ.hom) (𝟙 (yoneda.obj U)) := by
-    simpa using hpb.isoIsPullback_hom_fst _ _ IsPullback.of_id_fst
+    simpa only [Category.comp_id] using hpb.isoIsPullback_hom_fst _ _ IsPullback.of_id_fst
   have htotal : eW.hom ≫ w.hom ≫ eZ.hom = relocalizedTotalHom B S hS U Z₀ W₀ w₀ := by
     rw [heWhom]
     exact relocalizeFibreOfSectionMap_comp_eq_relocalizedTotalHom Z₀ w.hom ζ.hom eZ heZ

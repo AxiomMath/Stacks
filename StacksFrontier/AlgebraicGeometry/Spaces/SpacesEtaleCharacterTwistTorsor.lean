@@ -275,7 +275,7 @@ theorem twistTensorLocalSection_eq (s : characterSections W act χ F.obj) {V : C
   refine (characterTwistTensor F.obj act χ J).isSeparated V (translationSieve act φ ψ)
     (h.translationSieve_mem φ ψ) _ _ ?_
   rintro V' f ⟨g, hg⟩
-  have hcomp : f ≫ ψ = (f ≫ φ) ≫ (act g).hom := by rw [hg, Category.assoc]
+  have hcomp : f ≫ ψ = (f ≫ φ) ≫ (act g).asIso.hom := by rw [hg, Category.assoc]
   have hgen : twistedGenerator W act χ (f ≫ ψ) =
       (χ g : ℤ) • twistedGenerator W act χ (f ≫ φ) := by
     rw [hcomp, twistedGenerator_act]
@@ -527,13 +527,13 @@ theorem twistTensorGlobalSection_surjective (F : Sheaf J AddCommGrpCat.{u + 1}) 
     have ht : twistTensorGenSection (J := J) act χ (F.obj.map f.op s) f =
       (characterTwistTensor F.obj act χ J).obj.map (hT.from V).op τ := hgen f hf
     have hfgwit : twistTensorGenSection (J := J) act χ ((χ g : ℤ) • F.obj.map f.op s)
-        (f ≫ (act g).hom) =
+        (f ≫ (act g).asIso.hom) =
         (characterTwistTensor F.obj act χ J).obj.map (hT.from V).op τ := by
       rw [twistTensorGenSection, twistedGenerator_act, characterTwistTensorGen_smul_smul,
         Int.units_coe_mul_self, one_smul]
       exact ht
-    have key := h.twistTensorGenSection_injective χ hT (f ≫ (act g).hom)
-      ((hgen (f ≫ (act g).hom) ⟨_, hfgwit⟩).trans hfgwit.symm)
+    have key := h.twistTensorGenSection_injective χ hT (f ≫ (act g).asIso.hom)
+      ((hgen (f ≫ (act g).asIso.hom) ⟨_, hfgwit⟩).trans hfgwit.symm)
     rw [map_zsmul, ← key, op_comp, F.obj.map_comp, ConcreteCategory.comp_apply]
   refine ⟨⟨s, hchar⟩, ?_⟩
   refine (characterTwistTensor F.obj act χ J).isSeparated T _ (h.splittingSieve_mem T) _ _ ?_

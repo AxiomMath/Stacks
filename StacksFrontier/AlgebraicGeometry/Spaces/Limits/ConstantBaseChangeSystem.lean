@@ -58,6 +58,27 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)} (φ : X ⟶ Y)
   {cY : Cone Y} {K : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (k : K ⟶ cY.pt)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut; not private, since the exposed `constantBaseChangeSystem` uses it). -/
+local instance hasPullbacks_constantBaseChange_presheaf :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_constantBaseChange_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of inverse systems of presheaves on the big fppf site. -/
+local instance hasPullbacks_constantBaseChange_system :
+    HasPullbacks (Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) := inferInstance
+
+local instance (priority := high) hasPullback_constantBaseChange_system
+    {X Y Z : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The morphism from the constant system on `K` to `Y` induced by `k : K ⟶ cY.pt`. -/
 def constantBaseChangeMap : (Functor.const Iᵒᵖ).obj K ⟶ Y where
   app i := k ≫ cY.π.app i
@@ -65,11 +86,11 @@ def constantBaseChangeMap : (Functor.const Iᵒᵖ).obj K ⟶ Y where
 
 /-- **The inverse system `Xᵢ ×_{Yᵢ} K`.** -/
 abbrev constantBaseChangeSystem : Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
-  pullback φ (constantBaseChangeMap k)
+  Limits.pullback φ (constantBaseChangeMap k)
 
 /-- The stages of the base change system are the fibre products. -/
 def constantBaseChangeSystemObjIso (i : Iᵒᵖ) :
-    (constantBaseChangeSystem φ k).obj i ≅ pullback (φ.app i) (k ≫ cY.π.app i) :=
+    (constantBaseChangeSystem φ k).obj i ≅ Limits.pullback (φ.app i) (k ≫ cY.π.app i) :=
   pullbackObjIso φ (constantBaseChangeMap k) i
 
 variable {φ k}
@@ -79,7 +100,7 @@ of `X` which is a limit, a limit cone `cY` of `Y` and `f : cX.pt ⟶ cY.pt` comp
 the limit of `Xᵢ ×_{Yᵢ} K` is `cX.pt ×_{cY.pt} K`. -/
 def constantBaseChangeSystemLimitIso {cX : Cone X} (hcX : IsLimit cX) (hcY : IsLimit cY)
     (f : cX.pt ⟶ cY.pt) (hf : ∀ i, f ≫ cY.π.app i = cX.π.app i ≫ φ.app i) :
-    limit (constantBaseChangeSystem φ k) ≅ pullback f k := by
+    limit (constantBaseChangeSystem φ k) ≅ Limits.pullback f k := by
   have _ : IsConnected Iᵒᵖ := IsCofiltered.isConnected Iᵒᵖ
   let e₁ : limit X ≅ cX.pt := (limit.isLimit X).conePointUniqueUpToIso hcX
   let e₂ : limit ((Functor.const Iᵒᵖ).obj K) ≅ K :=
@@ -169,13 +190,13 @@ theorem isAffineHom_of_isPullback_of_isPullback
     (Category.id_comp _).symm
   have hm : IsAffineHom B S hS m :=
     IsAffineHom.of_isPullback (pullback_map_diagonal_isPullback fb gb y) hΔ
-  let u : Eb ⟶ pullback (x ≫ fa) ga :=
+  let u : Eb ⟶ Limits.pullback (x ≫ fa) ga :=
     hb.isoPullback.hom ≫ m ≫ (pullback.congrHom hx.symm hy).hom
   have hu : IsAffineHom B S hS u :=
     isAffineHom_comp B S hS _ _ (isAffineHom_of_isIso _)
       (isAffineHom_comp B S hS _ _ hm (isAffineHom_of_isIso _))
   -- `X_b ×_{Y_a} K ⟶ E_a`
-  let v : pullback (x ≫ fa) ga ⟶ Ea := ha.lift (pullback.fst _ _ ≫ x) (pullback.snd _ _)
+  let v : Limits.pullback (x ≫ fa) ga ⟶ Ea := ha.lift (pullback.fst _ _ ≫ x) (pullback.snd _ _)
     (by rw [Category.assoc, pullback.condition])
   have hv₁ : v ≫ pa₁ = pullback.fst _ _ ≫ x := ha.lift_fst _ _ _
   have hv₂ : v ≫ pa₂ = pullback.snd _ _ := ha.lift_snd _ _ _

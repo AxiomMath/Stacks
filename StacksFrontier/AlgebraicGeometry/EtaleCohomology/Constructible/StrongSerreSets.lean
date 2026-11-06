@@ -508,7 +508,7 @@ private theorem exists_representable_of_subterminal
     show QuasiSeparatedSpace W.toScheme
     infer_instance
   exact ⟨V, inferInstance, inferInstance, ⟨e ≪≫ (presheafToSheaf _ _).mapIso isoRep ≪≫
-    (sheafificationIso ((SmallEtale.topology B X.obj X.property).uliftYoneda.obj V)).symm⟩⟩
+    (sheafificationIso ((SmallEtale.topology B X.obj X.property).uliftYoneda.{u + 1}.obj V)).symm⟩⟩
 
 /-- **A subobject of a quasi-compact representable sheaf of sets on a Noetherian scheme is
 constructible.** Its fibre over the tautological section is a subterminal sheaf on the small étale
@@ -552,8 +552,8 @@ private theorem isConstructibleSetSheaf_of_mono_representable
     inferInstanceAs (E.functor.IsDenseSubsite JU (J.over U))
   let ES := E.symm.sheafCongr (J.over U) JU (Type (u + 1))
   obtain ⟨V, hVc, hVq, ⟨eV⟩⟩ := exists_representable_of_subterminal B U.obj.left
-    (isSubterminal_of_faithful_of_mono ES.inverse (ES.unitIso.inv.app _)
-      (isSubterminal_representableFiberSheaf J j))
+    (@isSubterminal_of_faithful_of_mono _ _ _ _ ES.inverse _ _ _ (ES.unitIso.inv.app _)
+      (IsIso.mono_of_iso _) (isSubterminal_representableFiberSheaf J j))
   let W := E.functor.obj V
   let eR : ES.functor.obj ((J.over U).uliftYoneda.{u + 1}.obj W) ≅
       JU.uliftYoneda.{u + 1}.obj V :=

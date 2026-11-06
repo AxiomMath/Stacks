@@ -132,7 +132,7 @@ public def LAdicSheaf.padicTransition (F : LAdicSheaf B X ℓ) (n : ℕ) :
 of the ℓ-adic sheaf. -/
 @[simp]
 public theorem LAdicSheaf.padicTransition_hom_app_apply (F : LAdicSheaf B X ℓ) (n : ℕ)
-    (V : (SmallEtale B X.1 X.property)ᵒᵖ) (x : (F.level (n + 1)).val.obj V) :
+    (V : (SmallEtale B X.1 X.property)ᵒᵖ) (x : (F.level (n + 1)).obj.obj V) :
     ((LAdicSheaf.padicTransition B X ℓ F n).hom.app V).hom x =
       ((F.transition n).hom.app V).hom x :=
   rfl

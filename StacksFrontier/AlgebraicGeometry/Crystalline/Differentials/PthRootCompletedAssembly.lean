@@ -462,8 +462,10 @@ theorem completedHomotopy_zero (y : primeCompletedTerm A B p lam hp M 0) :
           ((primeCompletedComparison A B p lam hp M 0 (completedReverse A B p lam hp M nabla hint S
           S' 0 y)).val n) :=
     (congrArg (primeLevelEquiv A B p lam hp M 0 n) (map_sub (AdicCompletion.eval _ _ n) _ _)).trans
-      ((map_sub _ _ _).trans (congrArg (· - _) ((congrArg (primeLevelEquiv A B p lam hp M 0 n)
-        (map_nsmul (AdicCompletion.eval _ _ n) p y)).trans (map_nsmul _ p _))))
+      (((primeLevelEquiv A B p lam hp M 0 n).toLinearMap.map_sub _ _).trans
+        (congrArg (· - _) ((congrArg (primeLevelEquiv A B p lam hp M 0 n)
+        (map_nsmul (AdicCompletion.eval _ _ n) p y)).trans
+          (map_nsmul (primeLevelEquiv A B p lam hp M 0 n).toLinearMap.toAddMonoidHom p _))))
   refine Eq.trans ?_ h3.symm
   refine congrArg (p • primeLevelEquiv A B p lam hp M 0 n (y.val n) - ·) ?_
   refine Eq.trans ?_ (primeLevel_comparison A B p lam hp M nabla hint S S' n 0 (completedReverse A B
@@ -517,8 +519,10 @@ theorem completedHomotopy_succ (q : ℕ) (y : primeCompletedTerm A B p lam hp M 
           M nabla hint S S' (q + 1) y)).val n) :=
     (congrArg (primeLevelEquiv A B p lam hp M (q + 1) n) (map_sub (AdicCompletion.eval _ _ n) _
         _)).trans
-      ((map_sub _ _ _).trans (congrArg (· - _) ((congrArg (primeLevelEquiv A B p lam hp M (q + 1) n)
-        (map_nsmul (AdicCompletion.eval _ _ n) p y)).trans (map_nsmul _ p _))))
+      (((primeLevelEquiv A B p lam hp M (q + 1) n).toLinearMap.map_sub _ _).trans
+        (congrArg (· - _) ((congrArg (primeLevelEquiv A B p lam hp M (q + 1) n)
+        (map_nsmul (AdicCompletion.eval _ _ n) p y)).trans
+          (map_nsmul (primeLevelEquiv A B p lam hp M (q + 1) n).toLinearMap.toAddMonoidHom p _))))
   refine Eq.trans ?_ h6.symm
   refine congrArg (p • primeLevelEquiv A B p lam hp M (q + 1) n (y.val n) - ·) ?_
   refine Eq.trans ?_

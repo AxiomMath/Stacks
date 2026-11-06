@@ -258,7 +258,7 @@ theorem isCompletionLift_id_of_forall {a : Y ⟶ X'} (hag : a ≫ f = g)
   refine ⟨by rw [hag, Category.id_comp], fun W y hy => ?_⟩
   have e : ((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop) = y := by
     show Y.map (𝟙 W.unop).op y = y
-    rw [op_id, FunctorToTypes.map_id_apply]
+    rw [op_id, Functor.map_id_apply]
   have hy' : HasImageIn B S hS Y (pointsMap B S hS Y g ⁻¹' T) W.unop
       (((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop)) := by
     rw [e]
@@ -1019,6 +1019,8 @@ theorem completionSubfunctorHom_comp_completionMap
     completionSubfunctorHom hY hX' α ≫ completionMap B S hS f T = completionMap B S hS g T := by
   have hiso := GrothendieckTopology.isIso_toSheafify (BigFppfOver.topology B S hS)
     (isSheaf_completionSubfunctor B S hS hX T)
+  haveI : Mono ((BigFppfOver.topology B S hS).toSheafify
+      (completionSubfunctor B S hS X T).toFunctor) := IsIso.mono_of_iso _
   rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify _), Category.assoc,
     GrothendieckTopology.toSheafify_naturality, GrothendieckTopology.toSheafify_naturality]
   show completionSubfunctorHom hY hX' α ≫
@@ -1195,6 +1197,9 @@ theorem isCompletionLift_of_completionOverFunctor_map_eq
           (pointsMap B S hS Y g ⁻¹' T)
           (image_preimage_subset_preimage_of_comp_eq B S hS (rfl : v ≫ g = v ≫ g) T) ≫
         completionSubfunctorHom hY hX' α.left := by
+    haveI : Mono ((BigFppfOver.topology B S hS).toSheafify
+        (completionSubfunctor B S hS X' (pointsMap B S hS X' f ⁻¹' T)).toFunctor) :=
+      IsIso.mono_of_iso _
     rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify _)]
     exact h1.symm.trans
       ((congrArg (fun φ => (BigFppfOver.topology B S hS).toSheafify _ ≫ φ) hl).trans

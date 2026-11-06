@@ -100,6 +100,17 @@ end CategoryTheory.Over
 
 namespace CategoryTheory
 
+/-- Pullbacks of presheaves of types (instance search times out without this shortcut). -/
+local instance (priority := high) hasLimit_cospan_presheaf_ModificationsSingleClosedPoint
+    {D : Type*} [Category.{u} D] {X Y Z : D ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Pullbacks in presheaves of types (instance search times out without this shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_ModificationsSingleClosedPoint
+    {D : Type*} [Category.{u} D] : HasPullbacks (D ⥤ Type u) :=
+  ⟨inferInstance⟩
+
 /-- **Restricting to a subfunctor commutes with base change.** For an object `Y` over `U`, a
 subfunctor `U₀` of `U` and a morphism `c : P ⟶ U`, the base change along `c` of the restriction
 `Y ×_U U₀ ⟶ U₀` is an isomorphism exactly when the base change of `Y` along `c` is an isomorphism

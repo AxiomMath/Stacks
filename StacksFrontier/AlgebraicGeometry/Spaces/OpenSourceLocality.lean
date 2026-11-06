@@ -60,6 +60,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_openSourceLocality
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An isomorphism of algebraic spaces over `S` is universally open: each of its base changes
 is again an isomorphism, and the map on points of an isomorphism is a homeomorphism. -/
 private theorem universallyOpen_of_isIso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : F ⟶ G)

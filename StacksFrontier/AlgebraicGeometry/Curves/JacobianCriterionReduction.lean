@@ -107,7 +107,7 @@ theorem minorIdeal_submatrix_equiv {R : Type*} [CommRing R] {l l' o o' : Type*}
 coefficient of a linear monomial, which vanishes in `𝔪 ^ 2`. -/
 theorem pderiv_mem_maximalIdeal_of_mem_sq {n : ℕ} {u : MvPowerSeries (Fin n) k}
     (hu : u ∈ (maximalIdeal (MvPowerSeries (Fin n) k)) ^ 2) (i : Fin n) :
-    pderiv k i u ∈ maximalIdeal (MvPowerSeries (Fin n) k) := by
+    pderiv i u ∈ maximalIdeal (MvPowerSeries (Fin n) k) := by
   refine (Stacks.MvPowerSeries.RegularParameters.mem_maximalIdeal_iff_constantCoeff_eq_zero_field
     _).2 ?_
   have hdeg : ∑ j : Fin n, (((0 : Fin n →₀ ℕ) + Finsupp.single i 1) : Fin n →₀ ℕ) j < 2 := by
@@ -184,7 +184,7 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
       (MvPowerSeries (Fin d) k ⧸ Ideal.span (Set.range h))).ne_top,
       fun hrel => absurd hrel (hnone (by omega))⟩
     have hdef : jacobianMinorIdealModulo (Ideal.span (Set.range h)) h 0 =
-        (minorIdeal (Matrix.of fun i j => pderiv k i (h j)) 0).map
+        (minorIdeal (Matrix.of fun i j => pderiv i (h j)) 0).map
           (Ideal.Quotient.mk (Ideal.span (Set.range h))) := rfl
     rw [← hjac, hdef, minorIdeal_zero, Ideal.map_top]
   · subst heq
@@ -192,7 +192,7 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
   · refine ⟨fun hjac => ?_, fun hrel => absurd hrel (hnone (by omega))⟩
     exfalso
     rw [jacobianMinorIdealModulo_eq_maximalIdeal_iff _ hJm h (d - 1)] at hjac
-    have hle : minorIdeal (fun (i : Fin d) (j : Fin m) => pderiv k i (h j)) (d - 1) ≤
+    have hle : minorIdeal (fun (i : Fin d) (j : Fin m) => pderiv i (h j)) (d - 1) ≤
         (maximalIdeal (MvPowerSeries (Fin d) k)) ^ 2 :=
       (minorIdeal_le_pow_of_entries_mem _ _
         (fun i j => pderiv_mem_maximalIdeal_of_mem_sq (hh j) i) (d - 1)).trans
@@ -289,12 +289,12 @@ back along the quotient map. -/
 theorem minorIdeal_sup_eq_of_generators {n m l : ℕ} (I : Ideal (MvPowerSeries (Fin n) k))
     (f : Fin m → MvPowerSeries (Fin n) k) (g : Fin l → MvPowerSeries (Fin n) k)
     (hf : Ideal.span (Set.range f) = I) (hg : Ideal.span (Set.range g) = I) (t : ℕ) :
-    minorIdeal (Matrix.of fun i j => pderiv k i (f j)) t ⊔ I =
-      minorIdeal (Matrix.of fun i j => pderiv k i (g j)) t ⊔ I := by
+    minorIdeal (Matrix.of fun i j => pderiv i (f j)) t ⊔ I =
+      minorIdeal (Matrix.of fun i j => pderiv i (g j)) t ⊔ I := by
   have hdeff : jacobianMinorIdealModulo I f t =
-      (minorIdeal (Matrix.of fun i j => pderiv k i (f j)) t).map (Ideal.Quotient.mk I) := rfl
+      (minorIdeal (Matrix.of fun i j => pderiv i (f j)) t).map (Ideal.Quotient.mk I) := rfl
   have hdefg : jacobianMinorIdealModulo I g t =
-      (minorIdeal (Matrix.of fun i j => pderiv k i (g j)) t).map (Ideal.Quotient.mk I) := rfl
+      (minorIdeal (Matrix.of fun i j => pderiv i (g j)) t).map (Ideal.Quotient.mk I) := rfl
   have hq := jacobianMinorIdealModulo_eq_of_generators I f g hf hg t
   rw [hdeff, hdefg] at hq
   have hc := congrArg (Ideal.comap (Ideal.Quotient.mk I)) hq
@@ -466,19 +466,19 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
   -- step A: the coordinate change
   have hstepA : (jacobianMinorIdealModulo I f (n - 1) =
       maximalIdeal (MvPowerSeries (Fin n) k ⧸ I)) ↔
-        minorIdeal (Matrix.of fun i j => pderiv k i (f' j)) (n - 1) ⊔ I' =
+        minorIdeal (Matrix.of fun i j => pderiv i (f' j)) (n - 1) ⊔ I' =
           maximalIdeal (MvPowerSeries (Fin n) k) := by
     rw [jacobianMinorIdealModulo_eq I f f hf hf y hy (n - 1)]
     have hdef : jacobianMinorIdealModuloInParameters I y hy f (n - 1) =
         (minorIdeal (Matrix.of fun i j => (powerSeriesCoordinateEquiv y hy)
-            (pderiv k i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) (n - 1)).map
+            (pderiv i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) (n - 1)).map
           (Ideal.Quotient.mk I) := rfl
     rw [hdef, map_eq_maximalIdeal_quotient_iff I _ hI]
     have hminor : minorIdeal (Matrix.of fun (i : Fin n) (j : Fin m) =>
           (powerSeriesCoordinateEquiv y hy)
-            (pderiv k i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) (n - 1) =
+            (pderiv i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) (n - 1) =
         Ideal.map (τ : MvPowerSeries (Fin n) k →+* MvPowerSeries (Fin n) k)
-          (minorIdeal (Matrix.of fun i j => pderiv k i (f' j)) (n - 1)) := by
+          (minorIdeal (Matrix.of fun i j => pderiv i (f' j)) (n - 1)) := by
       rw [minorIdeal_map_matrix]
       rfl
     have hIeq : I = Ideal.map (τ : MvPowerSeries (Fin n) k →+* MvPowerSeries (Fin n) k) I' := by
@@ -506,7 +506,7 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
     intro i; rw [hg, Fin.append_left]
   have hgright : ∀ j : Fin m, g (Fin.natAdd r j) = f' j := by
     intro j; rw [hg, Fin.append_right]
-  have hone : ∀ i j : Fin r, pderiv k (Fin.castLE hrn i)
+  have hone : ∀ i j : Fin r, pderiv (Fin.castLE hrn i)
       (MvPowerSeries.X (Fin.castLE hrn j) : MvPowerSeries (Fin n) k) =
       (1 : Matrix (Fin r) (Fin r) (MvPowerSeries (Fin n) k)) i j := by
     intro i j
@@ -516,18 +516,18 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
     · have hne : Fin.castLE hrn i ≠ Fin.castLE hrn j :=
         fun hc => hij (Fin.ext (by simpa using congrArg Fin.val hc))
       simp [hij]
-  have hgen : minorIdeal (Matrix.of fun i j => pderiv k i (f' j)) (n - 1) ⊔ I' =
-      minorIdeal (Matrix.of fun i j => pderiv k i (g j)) (n - 1) ⊔ I' :=
+  have hgen : minorIdeal (Matrix.of fun i j => pderiv i (f' j)) (n - 1) ⊔ I' =
+      minorIdeal (Matrix.of fun i j => pderiv i (g j)) (n - 1) ⊔ I' :=
     minorIdeal_sup_eq_of_generators I' f' g hI'span hgspan (n - 1)
   rw [hgen]
   rcases Nat.eq_zero_or_pos (n - r) with hd0 | hdpos
   · -- no variables survive: the Jacobian minors are everything, and there is no relation
     have hnr : n - 1 ≤ r := by omega
-    have htop : minorIdeal (Matrix.of fun i j => pderiv k i (g j)) (n - 1) = ⊤ := by
+    have htop : minorIdeal (Matrix.of fun i j => pderiv i (g j)) (n - 1) = ⊤ := by
       rw [Ideal.eq_top_iff_one]
       refine Ideal.subset_span ⟨fun t => Fin.castLE hrn (Fin.castLE hnr t),
         fun t => Fin.castAdd m (Fin.castLE hnr t), ?_⟩
-      have hsub : (Matrix.of fun i j => pderiv k i (g j)).submatrix
+      have hsub : (Matrix.of fun i j => pderiv i (g j)).submatrix
             (fun t => Fin.castLE hrn (Fin.castLE hnr t))
             (fun t => Fin.castAdd m (Fin.castLE hnr t)) =
           (1 : Matrix (Fin (n - 1)) (Fin (n - 1)) (MvPowerSeries (Fin n) k)) := by
@@ -544,13 +544,13 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
   · -- the surviving variables: block reduction, then the case already proved
     have hn1 : n - 1 = r + ((n - r) - 1) := by omega
     set Mb : Matrix (Fin (n - r)) (Fin m) (MvPowerSeries (Fin n) k) :=
-      Matrix.of fun i j => pderiv k (Stacks.MvPowerSeries.RegularParameters.QuotInitVars.embedFn hrn
+      Matrix.of fun i j => pderiv (Stacks.MvPowerSeries.RegularParameters.QuotInitVars.embedFn hrn
         i) (f' j) with hMb
-    have hblocks : (Matrix.of fun i j => pderiv k i (g j)).submatrix
+    have hblocks : (Matrix.of fun i j => pderiv i (g j)).submatrix
           (finSumFinEquiv.trans (finCongr (by omega : r + (n - r) = n)))
           (finSumFinEquiv (m := r) (n := m)) =
         Matrix.fromBlocks 1
-          (Matrix.of fun (i : Fin r) (j : Fin m) => pderiv k (Fin.castLE hrn i) (f' j)) 0 Mb := by
+          (Matrix.of fun (i : Fin r) (j : Fin m) => pderiv (Fin.castLE hrn i) (f' j)) 0 Mb := by
       have hrow : ∀ i : Fin r,
           (finSumFinEquiv.trans (finCongr (by omega : r + (n - r) = n))) (Sum.inl i) =
             Fin.castLE hrn i := fun i => Fin.ext (by simp)
@@ -574,28 +574,28 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
             Fin.val_castLE] at this
           omega
         simp [hne]
-    have hminorblocks : minorIdeal (Matrix.of fun i j => pderiv k i (g j)) (n - 1) =
+    have hminorblocks : minorIdeal (Matrix.of fun i j => pderiv i (g j)) (n - 1) =
         minorIdeal Mb ((n - r) - 1) := by
-      rw [← minorIdeal_submatrix_equiv (Matrix.of fun i j => pderiv k i (g j))
+      rw [← minorIdeal_submatrix_equiv (Matrix.of fun i j => pderiv i (g j))
           (finSumFinEquiv.trans (finCongr (by omega : r + (n - r) = n)))
           (finSumFinEquiv (m := r) (n := m)) (n - 1),
         hblocks, hn1, minorIdeal_fromBlocks_isUnit_det 1 _ 0 Mb (by simp),
         Matrix.zero_mul, Matrix.zero_mul, sub_zero]
     rw [hminorblocks]
-    have hmat : Mb.map S = Matrix.of fun i j => pderiv k i (hfam j) :=
+    have hmat : Mb.map S = Matrix.of fun i j => pderiv i (hfam j) :=
       Matrix.ext fun i j => by
         simp only [Matrix.map_apply, hMb, Matrix.of_apply, hfamdef]
         exact Stacks.MvPowerSeries.RegularParameters.initialVarsAlgHom_pderiv hrn i (f' j)
     have hSmap : Ideal.map S (minorIdeal Mb ((n - r) - 1)) =
-        minorIdeal (fun i j => pderiv k i (hfam j)) ((n - r) - 1) := by
+        minorIdeal (fun i j => pderiv i (hfam j)) ((n - r) - 1) := by
       rw [minorIdeal_map_matrix, hmat]
       rfl
     have hmapsup : Ideal.map S (minorIdeal Mb ((n - r) - 1) ⊔ I') =
-        minorIdeal (fun i j => pderiv k i (hfam j)) ((n - r) - 1) ⊔ J := by
+        minorIdeal (fun i j => pderiv i (hfam j)) ((n - r) - 1) ⊔ J := by
       rw [Ideal.map_sup, hSmap, hJmap]
     have hLHS : (minorIdeal Mb ((n - r) - 1) ⊔ I' =
         maximalIdeal (MvPowerSeries (Fin n) k)) ↔
-          minorIdeal (fun i j => pderiv k i (hfam j)) ((n - r) - 1) ⊔ J =
+          minorIdeal (fun i j => pderiv i (hfam j)) ((n - r) - 1) ⊔ J =
             maximalIdeal (MvPowerSeries (Fin (n - r)) k) := by
       rw [← hmaxS, ← hmapsup]
       exact (map_eq_map_iff_of_ker_le hSsurj (hSker ▸ hKI'.trans le_sup_right)

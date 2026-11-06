@@ -95,15 +95,15 @@ and composition becomes multiplication. -/
 noncomputable def unitEndRingEquivGlobalFunctions :
     End (SheafOfModules.unit (modulesRingSheaf B S hS F hF)) ≃+*
       globalFunctions B S hS F where
-  toEquiv := (SheafOfModules.unit
+  toEquiv := End.homEquiv.trans (SheafOfModules.unit
     (modulesRingSheaf B S hS F hF)).unitHomEquiv
   map_mul' f g := by
     apply Subtype.ext
     funext U
     let fU : ((structureSheaf B S hS F hF).obj).obj U →ₗ[((structureSheaf B S hS F hF).obj).obj U]
-      ((structureSheaf B S hS F hF).obj).obj U := (f.val.app U).hom
+      ((structureSheaf B S hS F hF).obj).obj U := (f.asHom.val.app U).hom
     let gU : ((structureSheaf B S hS F hF).obj).obj U →ₗ[((structureSheaf B S hS F hF).obj).obj U]
-      ((structureSheaf B S hS F hF).obj).obj U := (g.val.app U).hom
+      ((structureSheaf B S hS F hF).obj).obj U := (g.asHom.val.app U).hom
     change fU (gU 1) = fU 1 * gU 1
     have h := fU.map_smul (gU 1) (1 : ((structureSheaf B S hS F hF).obj).obj U)
     simp only [smul_eq_mul, mul_one] at h
@@ -113,13 +113,13 @@ noncomputable def unitEndRingEquivGlobalFunctions :
 /-- If `H⁰(F, 𝒪_F)` is a field then every nonzero endomorphism of `𝒪_F` is an isomorphism. -/
 theorem isIso_of_ne_zero (hfield : IsField (globalFunctions B S hS F))
     (f : End (SheafOfModules.unit (modulesRingSheaf B S hS F hF)))
-    (hf : f ≠ 0) : IsIso f := by
+    (hf : f ≠ 0) : IsIso f.asHom := by
   let e := unitEndRingEquivGlobalFunctions B S hS F hF
   let _ := hfield.toField
   have hn : e f ≠ 0 := fun h => hf (e.injective (h.trans e.map_zero.symm))
   have huf : IsUnit f := by
     simpa using (isUnit_iff_ne_zero.mpr hn).map e.symm.toMonoidHom
-  exact (isUnit_iff_isIso f).mp huf
+  exact (CategoryTheory.isUnit_iff_isIso f).mp huf
 
 /-! ### Nonvanishing on a common chart -/
 
@@ -404,7 +404,8 @@ theorem isTrivial_of_mono_of_isField (hfield : IsField (globalFunctions B S hS F
   have hab : a ≫ b ≠ 0 := by
     intro h
     exact ha ((cancel_mono b).mp (by simpa using h))
-  have _ : IsIso (a ≫ b) := isIso_of_ne_zero B S hS F hF hfield _ hab
+  have _ : IsIso (a ≫ b) :=
+    isIso_of_ne_zero B S hS F hF hfield (End.of (a ≫ b)) fun h => hab congr(($h).asHom)
   exact ⟨(Iso.mk a (b ≫ inv (a ≫ b)) (by simp [← Category.assoc])
     (by apply (cancel_mono b).mp; simp [Category.assoc])).symm⟩
 

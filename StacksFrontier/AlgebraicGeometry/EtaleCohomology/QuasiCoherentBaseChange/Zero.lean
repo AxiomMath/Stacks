@@ -205,7 +205,7 @@ theorem finalSectionsMap_surjective (F : X.Modules) [F.IsQuasicoherent] :
   intro t
   refine ⟨(finalIso₁ F).inv.app ⊤ ((finalIso₂ F).hom.app ⊤ t.down), ?_⟩
   rw [finalSectionsMap_apply]
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((finalIso₁ F).inv.app ⊤ ≫ (finalIso₁ F).hom.app ⊤ ≫ (finalIso₂ F).inv.app ⊤)
     ((finalIso₂ F).hom.app ⊤ t.down) = t.down
   rw [← Category.assoc, ← Scheme.Modules.Hom.comp_app, (finalIso₁ F).inv_hom_id,

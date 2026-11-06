@@ -67,6 +67,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_FlatChartAlgebraic :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_FlatChartAlgebraic
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_FlatChartAlgebraic B S hS).has_limit _
+
 /-- The second projection of the kernel pair of `f` has every property of morphisms of algebraic
 spaces invariant under isomorphism that the first projection has: the two differ by the
 interchange isomorphism of the fibre product. -/

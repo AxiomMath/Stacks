@@ -185,7 +185,7 @@ public theorem coe_support_specialFiberComponentIdeal :
 the closure of its singleton. -/
 public theorem closure_singleton_genericPoint_specialFiberComponent :
     closure ({(S.specialFiberComponentIdeal Z).subschemeι.base
-        (genericPoint (S.specialFiberComponentIdeal Z).subscheme)} : Set S.X) =
+                (genericPoint (S.specialFiberComponentIdeal Z).subscheme)} : Set S.X) =
       S.specialFiberι.base '' (Z.1 : Set S.specialFiber) := by
   rw [← Set.image_singleton,
     (S.specialFiberComponentIdeal Z).subschemeι.isClosedEmbedding.closure_image_eq,

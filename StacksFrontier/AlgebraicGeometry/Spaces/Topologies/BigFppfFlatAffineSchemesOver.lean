@@ -221,6 +221,7 @@ instance flatRestriction_preservesFiniteLimits :
   dsimp only [flatRestriction]
   infer_instance
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Restriction to the flat affine schemes over `U` preserves finite colimits. -/
 instance flatRestriction_preservesFiniteColimits :
     PreservesFiniteColimits (flatRestriction V₀ hV₀ e) := by
@@ -292,7 +293,7 @@ instance flatBaseChangePresheaf_preservesFiniteLimits :
         (flatIsTerminal V₀ hV₀ e) Y)).symm _).symm
     (IsLimit.ofIsoLimit (isLimitOfPreserves (ModuleCat.extendScalars.{u + 1, u + 1, u + 1}
       (Stacks.TerminalBaseChange.rho (flatRingSheaf V₀ hV₀ e).obj (flatIsTerminal V₀ hV₀ e) Y)) hc)
-      (Cones.ext (Iso.refl _) (fun _ ↦ rfl)))
+      (Cone.ext (Iso.refl _) (fun _ ↦ rfl)))
 
 /-- The base change sheaf functor preserves finite limits. -/
 instance flatBaseChange_preservesFiniteLimits :

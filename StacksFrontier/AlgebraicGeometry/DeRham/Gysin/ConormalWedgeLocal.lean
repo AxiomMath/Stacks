@@ -150,6 +150,9 @@ theorem restrictFunctor_map_openUnit_comp (V : X.Opens) {M N : X.Modules}
       (Scheme.Modules.restrictAdjunction V.ι).counit.app
         ((Scheme.Modules.restrictFunctor V.ι).obj M) ≫ ψ :=
     (Scheme.Modules.restrictAdjunction V.ι).counit.naturality ψ
+  haveI : Mono ((Scheme.Modules.restrictAdjunction V.ι).counit.app
+      ((Scheme.Modules.restrictFunctor V.ι).obj N)) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (NatIso.isIso_app_of_isIso _ _)
   refine (cancel_mono ((Scheme.Modules.restrictAdjunction V.ι).counit.app
     ((Scheme.Modules.restrictFunctor V.ι).obj N))).mp ?_
   rw [CategoryTheory.Functor.map_comp, Category.assoc, hnat, ← Category.assoc,

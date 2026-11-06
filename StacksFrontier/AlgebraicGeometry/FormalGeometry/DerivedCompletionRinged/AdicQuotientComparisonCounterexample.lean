@@ -160,7 +160,7 @@ theorem not_isIso_derivedCompletionComparison_of_periodic (e : ℕ → A)
   have hmemI : ∀ n, toO A (e n) ∈ Ideal.span {toO A x ^ 1} := fun n =>
     Ideal.mem_span_singleton'.2 ⟨toO A (e (n + 1)),
       (by rw [pow_one, mul_comm]; exact he n : e (n + 1) * x ^ 1 = e n)⟩
-  have ha : ∀ n, (mulEnd A (e n)).app M = 0 := fun n =>
+  have ha : ∀ n, (mulEnd A (e n)).asHom.app M = 0 := fun n =>
     Stacks.Sites.globalSectionToEnd_app_adicQuotientModule_eq_zero I 1 (constFamily A (e n))
       fun U => by
         obtain rfl := eq_op_pt A U

@@ -82,7 +82,7 @@ noncomputable def stabilizerLoopIso (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : (BigFppfOver C S hS)ᵒᵖ)
     (x : (inertiaGroupoid G).toGroupoidInFunctors.Evaluation T) :
     Aut (((inertiaForgetful G).toGroupoidHom.evaluation T).obj x) :=
-  asIso ((G.toGroupoidInFunctors.evaluationArrowEquiv T _ _).symm
+  .of <| asIso ((G.toGroupoidInFunctors.evaluationArrowEquiv T _ _).symm
     ⟨(stabilizerArrow G).app T x,
       stabilizerArrow_source_app G T x, stabilizerArrow_target_app G T x⟩)
 
@@ -91,7 +91,7 @@ arrow that point carries. -/
 lemma stabilizerLoopIso_arrow (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : (BigFppfOver C S hS)ᵒᵖ)
     (x : (inertiaGroupoid G).toGroupoidInFunctors.Evaluation T) :
-    (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ (stabilizerLoopIso G T x).hom).1 =
+    (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ (stabilizerLoopIso G T x).asIso.hom).1 =
       (stabilizerArrow G).app T x :=
   congrArg Subtype.val (Equiv.apply_symm_apply _ _)
 
@@ -140,8 +140,8 @@ at its target: `t'(r, g) = c(r, c(g, i(r)))`. -/
 lemma stabilizerLoopIso_naturality (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : (BigFppfOver C S hS)ᵒᵖ)
     {x y : (inertiaGroupoid G).toGroupoidInFunctors.Evaluation T} (f : x ⟶ y) :
-    ((inertiaForgetful G).toGroupoidHom.evaluation T).map f ≫ (stabilizerLoopIso G T y).hom =
-      (stabilizerLoopIso G T x).hom ≫
+    ((inertiaForgetful G).toGroupoidHom.evaluation T).map f ≫ (stabilizerLoopIso G T y).asIso.hom =
+      (stabilizerLoopIso G T x).asIso.hom ≫
         ((inertiaForgetful G).toGroupoidHom.evaluation T).map f := by
   let K := G.toGroupoidInFunctors
   let L := (inertiaGroupoid G).toGroupoidInFunctors
@@ -149,8 +149,8 @@ lemma stabilizerLoopIso_naturality (G : GroupoidInAlgebraicSpaces C S hS B)
   let r : K.arrows.obj T := (inertiaOriginalArrow G).app T a.1
   let g : K.arrows.obj T := (inertiaLoopArrow G).app T a.1
   let ρ := ((inertiaForgetful G).toGroupoidHom.evaluation T).map f
-  let α := (stabilizerLoopIso G T x).hom
-  let β := (stabilizerLoopIso G T y).hom
+  let α := (stabilizerLoopIso G T x).asIso.hom
+  let β := (stabilizerLoopIso G T y).asIso.hom
   have hρ : (K.evaluationArrowEquiv T _ _ ρ).1 = r :=
     Deformation.GroupoidInFunctors.Hom.evaluation_map_arrow
       (inertiaForgetful G).toGroupoidHom T f
@@ -199,26 +199,26 @@ automorphism of the underlying point of the pointwise presentation of `(U, R, s,
 noncomputable def presentationLoop (G : GroupoidInAlgebraicSpaces C S hS B)
     (x : (pointwisePresentation (inertiaGroupoid G)).obj) :
     Aut (underlyingPoint G x) :=
-  (Pseudofunctor.CoGrothendieck.ι
+  .of <| (Pseudofunctor.CoGrothendieck.ι
     (evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
       Grpd.forgetToCat).toPseudofunctor' x.base).mapIso
-    (stabilizerLoopIso G (Opposite.op x.base) x.fiber)
+    (stabilizerLoopIso G (Opposite.op x.base) x.fiber).asIso
 
 /-- The loop of a point of the pointwise presentation of the inertia groupoid is the image of the
 loop in the fibre under the inclusion of that fibre. -/
 lemma presentationLoop_hom (G : GroupoidInAlgebraicSpaces C S hS B)
     (x : (pointwisePresentation (inertiaGroupoid G)).obj) :
-    (presentationLoop G x).hom =
+    (presentationLoop G x).asIso.hom =
       (Pseudofunctor.CoGrothendieck.ι
         (evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
           Grpd.forgetToCat).toPseudofunctor' x.base).map
-        (stabilizerLoopIso G (Opposite.op x.base) x.fiber).hom := rfl
+        (stabilizerLoopIso G (Opposite.op x.base) x.fiber).asIso.hom := rfl
 
 /-- The loop of a point of the pointwise presentation of the inertia groupoid lies over the
 identity of the test object. -/
 lemma presentationLoop_base (G : GroupoidInAlgebraicSpaces C S hS B)
     (x : (pointwisePresentation (inertiaGroupoid G)).obj) :
-    (presentationLoop G x).hom.base = 𝟙 x.base := rfl
+    (presentationLoop G x).asIso.hom.base = 𝟙 x.base := rfl
 
 /-- The arrow of a morphism of the pointwise presentation, read through the identification of the
 morphisms of an evaluated groupoid with the generalized points of the arrow space. -/
@@ -234,7 +234,7 @@ lemma presentationLoop_spec (G : GroupoidInAlgebraicSpaces C S hS B)
     (x : (pointwisePresentation (inertiaGroupoid G)).obj) :
     let K := G.toGroupoidInFunctors
     let y := (underlyingPoint G x).fiber
-    let α := (presentationLoop G x).hom.fiber ≫
+    let α := (presentationLoop G x).asIso.hom.fiber ≫
       eqToHom (by rw [presentationLoop_base]; exact K.objects.map_id_apply _ y)
     (K.evaluationArrowEquiv (Opposite.op x.base) y y α).1 =
       (stabilizerArrow G).app (Opposite.op x.base) x.fiber := by
@@ -248,7 +248,7 @@ lemma presentationLoop_spec (G : GroupoidInAlgebraicSpaces C S hS B)
 /-- The arrow of the loop of a point of the pointwise presentation of the inertia groupoid. -/
 lemma presentationLoop_arrow (G : GroupoidInAlgebraicSpaces C S hS B)
     (x : (pointwisePresentation (inertiaGroupoid G)).obj) :
-    presentationArrow G (presentationLoop G x).hom =
+    presentationArrow G (presentationLoop G x).asIso.hom =
       (stabilizerArrow G).app (Opposite.op x.base) x.fiber := by
   have h := presentationLoop_spec G x
   dsimp only at h
@@ -399,8 +399,8 @@ lemma underlyingPointFunctor_map_arrow (G : GroupoidInAlgebraicSpaces C S hS B)
 two endpoints. -/
 lemma presentationLoop_naturality (G : GroupoidInAlgebraicSpaces C S hS B)
     {x y : (pointwisePresentation (inertiaGroupoid G)).obj} (f : x ⟶ y) :
-    (underlyingPointFunctor G).map f ≫ (presentationLoop G y).hom =
-      (presentationLoop G x).hom ≫ (underlyingPointFunctor G).map f := by
+    (underlyingPointFunctor G).map f ≫ (presentationLoop G y).asIso.hom =
+      (presentationLoop G x).asIso.hom ≫ (underlyingPointFunctor G).map f := by
   let K := G.toGroupoidInFunctors
   let T := Opposite.op x.base
   let ρ := ((inertiaForgetful G).toGroupoidHom.evaluation T).map f.fiber
@@ -437,7 +437,7 @@ def inertiaFunctorOfAutomorphisms {A D E : Type*} [Category A] [Category D] [Cat
     (hα : ∀ x, p.map (α x).hom = 𝟙 (p.obj (F.obj x)))
     (hcomm : ∀ {x y} (f : x ⟶ y), F.map f ≫ (α y).hom = (α x).hom ≫ F.map f) :
     A ⥤ RelativeInertia p where
-  obj x := ⟨F.obj x, α x, hα x⟩
+  obj x := ⟨F.obj x, .of (α x), hα x⟩
   map f := ⟨F.map f, hcomm f⟩
   map_id x := RelativeInertiaHom.ext (F.map_id x)
   map_comp f g := RelativeInertiaHom.ext (F.map_comp f g)
@@ -450,7 +450,7 @@ noncomputable def presentationInertiaFunctor (G : GroupoidInAlgebraicSpaces C S 
     (pointwisePresentation (inertiaGroupoid G)).obj ⥤
       RelativeInertia (pointwisePresentation G).p :=
   inertiaFunctorOfAutomorphisms (pointwisePresentation G).p
-    (underlyingPointFunctor G) (presentationLoop G) (fun _ => rfl)
+    (underlyingPointFunctor G) (fun x => (presentationLoop G x).asIso) (fun _ => rfl)
     (presentationLoop_naturality G)
 
 /-- The pointwise comparison is strictly over the site. -/
@@ -495,15 +495,15 @@ lemma conjugateLoopMap_eq_of_comm (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : (BigFppfOver C S hS)ᵒᵖ)
     {x y : (inertiaGroupoid G).toGroupoidInFunctors.Evaluation T}
     (f : (stabilizerToElements G T x).1 ⟶ (stabilizerToElements G T y).1)
-    (hf : f ≫ (stabilizerLoopIso G T y).hom = (stabilizerLoopIso G T x).hom ≫ f) :
+    (hf : f ≫ (stabilizerLoopIso G T y).asIso.hom = (stabilizerLoopIso G T x).asIso.hom ≫ f) :
     G.toGroupoidInFunctors.conjugateLoopMap T f (stabilizerToElements G T x).2 =
       (stabilizerToElements G T y).2 := by
   apply Subtype.ext
-  have he : Groupoid.inv f ≫ (stabilizerLoopIso G T x).hom ≫ f =
-      (stabilizerLoopIso G T y).hom :=
+  have he : Groupoid.inv f ≫ (stabilizerLoopIso G T x).asIso.hom ≫ f =
+      (stabilizerLoopIso G T y).asIso.hom :=
     (congrArg (fun k => Groupoid.inv f ≫ k) hf.symm).trans (by simp)
   show (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _
-    (Groupoid.inv f ≫ (stabilizerLoopIso G T x).hom ≫ f)).1 = _
+    (Groupoid.inv f ≫ (stabilizerLoopIso G T x).asIso.hom ≫ f)).1 = _
   rw [he]
   exact stabilizerLoopIso_arrow G T y
 
@@ -512,14 +512,14 @@ object, intertwines the two loops of the stabilizer it connects. -/
 lemma presentationComm_fiber (G : GroupoidInAlgebraicSpaces C S hS B)
     {x y : (pointwisePresentation (inertiaGroupoid G)).obj}
     (f : underlyingPoint G x ⟶ underlyingPoint G y)
-    (hf : f ≫ (presentationLoop G y).hom = (presentationLoop G x).hom ≫ f) :
+    (hf : f ≫ (presentationLoop G y).asIso.hom = (presentationLoop G x).asIso.hom ≫ f) :
     let T := Opposite.op x.base
     let z := (inertiaGroupoid G).objects.obj.map f.base.op y.fiber
     let h : G.toGroupoidInFunctors.objects.map f.base.op (underlyingPoint G y).fiber =
         (stabilizerToObjects G).hom.app T z :=
       (NatTrans.naturality_apply (stabilizerToObjects G).hom f.base.op y.fiber).symm
     let ρ := f.fiber ≫ eqToHom h
-    ρ ≫ (stabilizerLoopIso G T z).hom = (stabilizerLoopIso G T x.fiber).hom ≫ ρ := by
+    ρ ≫ (stabilizerLoopIso G T z).asIso.hom = (stabilizerLoopIso G T x.fiber).asIso.hom ≫ ρ := by
   dsimp only
   let K := G.toGroupoidInFunctors
   apply (K.evaluationArrowEquiv (Opposite.op x.base) _ _).injective
@@ -576,13 +576,13 @@ lemma presentationInertiaFunctor_surjective (G : GroupoidInAlgebraicSpaces C S h
   intro A
   let K := G.toGroupoidInFunctors
   let T := Opposite.op A.obj.base
-  have hb : A.auto.hom.base = 𝟙 A.obj.base := A.cond
+  have hb : A.auto.asIso.hom.base = 𝟙 A.obj.base := A.cond
   let α : A.obj.fiber ⟶ A.obj.fiber :=
-    A.auto.hom.fiber ≫ eqToHom (by rw [hb]; exact K.objects.map_id_apply _ _)
+    A.auto.asIso.hom.fiber ≫ eqToHom (by rw [hb]; exact K.objects.map_id_apply _ _)
   let a := K.evaluationArrowEquiv T _ _ α
-  let z := (stabilizerElementsEquiv G T).symm ⟨A.obj.fiber, a⟩
-  have hz := (stabilizerElementsEquiv G T).apply_symm_apply ⟨A.obj.fiber, a⟩
-  have hz₁ : (stabilizerToObjects G).hom.app T z = A.obj.fiber := congrArg Sigma.fst hz
+  let z := (stabilizerElementsEquiv G T).symm (Functor.Elements.mk (obj := A.obj.fiber) a)
+  have hz := (stabilizerElementsEquiv G T).apply_symm_apply (Functor.Elements.mk (obj := A.obj.fiber) a)
+  have hz₁ : (stabilizerToObjects G).hom.app T z = A.obj.fiber := congrArg Functor.Elements.obj hz
   have hz₂ : (stabilizerArrow G).app T z = a.1 := congrArg (fun e => e.2.1) hz
   let x : (pointwisePresentation (inertiaGroupoid G)).obj := ⟨A.obj.base, z⟩
   have ho : underlyingPoint G x = A.obj := by
@@ -591,19 +591,19 @@ lemma presentationInertiaFunctor_surjective (G : GroupoidInAlgebraicSpaces C S h
     rw [hz₁]
     rfl
   refine ⟨x, RelativeInertia.obj_ext ho ?_⟩
-  show (presentationLoop G x).hom = eqToHom ho ≫ A.auto.hom ≫ eqToHom ho.symm
+  show (presentationLoop G x).asIso.hom = eqToHom ho ≫ A.auto.asIso.hom ≫ eqToHom ho.symm
   apply presentationHom_ext G
-  · show (presentationLoop G x).hom.base =
-      (pointwisePresentation G).p.map (eqToHom ho ≫ A.auto.hom ≫ eqToHom ho.symm)
+  · show (presentationLoop G x).asIso.hom.base =
+      (pointwisePresentation G).p.map (eqToHom ho ≫ A.auto.asIso.hom ≫ eqToHom ho.symm)
     rw [presentationLoop_base, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
-    show 𝟙 _ = (𝟙 _) ≫ A.auto.hom.base ≫ (𝟙 _)
+    show 𝟙 _ = (𝟙 _) ≫ A.auto.asIso.hom.base ≫ (𝟙 _)
     rw [hb]
     simp
   · refine (presentationLoop_arrow G x).trans ?_
-    refine Eq.trans ?_ (presentationArrow_transport G ho ho.symm A.auto.hom).symm
+    refine Eq.trans ?_ (presentationArrow_transport G ho ho.symm A.auto.asIso.hom).symm
     show (stabilizerArrow G).app T z = K.arrows.map (𝟙 T) _
     rw [K.arrows.map_id_apply, hz₂]
-    exact evaluationArrowEquiv_comp_eqToHom K T A.auto.hom.fiber _
+    exact evaluationArrowEquiv_comp_eqToHom K T A.auto.asIso.hom.fiber _
 
 /-- The pointwise comparison is an equivalence of categories over the big fppf site:
 `[G/_p R'] = ℐ_{[U/_p R]}`. -/

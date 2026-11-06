@@ -89,7 +89,7 @@ theorem singleMapHomologicalComplex_inv_app_comp (M : A) :
       (HomologicalComplex.singleMapHomologicalComplex H (ComplexShape.up ℤ) 0).inv.app M ≫
         (Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).inv.app
           ((CochainComplex.singleFunctor A 0).obj M) := by
-  ext n
+  refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
   by_cases hn : n = 0
   · subst hn
     simp only [Functor.comp_obj, Functor.mapHomologicalComplex_obj_X, HomologicalComplex.comp_f,
@@ -348,7 +348,7 @@ theorem singleDerivedPushforwardHomologyIso_comp {A B C : Scheme.{u}} (h : A ⟶
   simp only [Functor.comp_map, Functor.id_map] at hs
   simp only [Category.assoc] at hH
   rw [reassoc_of% hs] at hH
-  rw [← (cancel_epi _).mp hH]
+  rw [← (Iso.cancel_iso_hom_left ((singleFunctorCompHomologyFunctorIso C.Modules 0).app _) _ _).mp hH]
   simp only [Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app]
   exact congrArg (_ ≫ ·) (congrArg (_ ≫ ·) (congrArg _ (Category.comp_id _).symm))
 

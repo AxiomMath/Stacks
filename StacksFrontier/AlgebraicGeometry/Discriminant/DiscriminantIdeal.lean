@@ -204,8 +204,7 @@ theorem lmul_scalarTensor
   classical
   apply LinearMap.ext
   intro z
-  refine TensorProduct.induction_on z ?_ ?_ ?_
-  · simp
+  refine TensorProduct.inductionOn z ?_ ?_
   · intro k x
     show (1 ⊗ₜ[R] a) * (k ⊗ₜ[R] x) =
       ((Algebra.lmul R A).toLinearMap a).baseChange K (k ⊗ₜ[R] x)
@@ -353,8 +352,7 @@ theorem finiteProjectiveTraceForm_scalarTensor_map
   intro s a
   apply LinearMap.ext
   intro z
-  refine TensorProduct.induction_on z ?_ ?_ ?_
-  · simp [dualTensorBaseChange]
+  refine TensorProduct.inductionOn z ?_ ?_
   · intro t b
     rw [tmul_eq_smul_one_tmul s a, tmul_eq_smul_one_tmul t b, map_smul, map_smul]
     simp [dualTensorBaseChange,
@@ -413,8 +411,7 @@ theorem dualTensorBaseChange_bijective
     intro ψ
     apply LinearMap.ext
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp [inv]
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro s a
       show dualTensorBaseChange R A S
         (∑ i, ψ (1 ⊗ₜ[R] b i) ⊗ₜ[R] φ i) (s ⊗ₜ[R] a) = ψ (s ⊗ₜ[R] a)
@@ -519,8 +516,7 @@ noncomputable def cokerBaseChangeEquivScalars
       Submodule.Quotient.equiv _ _ (LinearEquiv.refl R _) hmap
   let eR' := eR.trans (Submodule.Quotient.restrictScalarsEquiv R rangeS)
   have he (x : S ⊗[R] Q) : e x = eR' x := by
-    refine TensorProduct.induction_on x ?_ ?_ ?_
-    · simp [e, eR']
+    refine TensorProduct.inductionOn x ?_ ?_
     · intro s q
       induction q using Quotient.inductionOn with
       | _ n =>
@@ -739,8 +735,7 @@ theorem traceForm_scalarTensor_right_eq_dualBaseChange
     Algebra.traceForm K (K ⊗[R] A) x (1 ⊗ₜ[R] a) =
       Module.Dual.baseChange K (finiteProjectiveTraceForm R A a) x := by
   classical
-  refine TensorProduct.induction_on x ?_ ?_ ?_
-  · simp
+  refine TensorProduct.inductionOn x ?_ ?_
   · intro k b
     rw [tmul_eq_smul_one_tmul k b, map_smul]
     simp only [LinearMap.smul_apply]
@@ -779,8 +774,7 @@ theorem exists_dual_baseChange_ne_zero
   have hcoord (z : K ⊗[R] (Fin n → R)) :
       (TensorProduct.piRightHom R K K (fun _ : Fin n => R) z) j =
         (LinearMap.baseChange K (LinearMap.proj j)) z := by
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp [TensorProduct.piRightHom]
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro k y
       simp [TensorProduct.piRightHom_tmul, LinearMap.baseChange_tmul]
     · intro z z' hz hz'

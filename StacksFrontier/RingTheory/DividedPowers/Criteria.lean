@@ -192,7 +192,7 @@ structure if and only if it has a set of ideal generators `s` such that, for eve
 every positive `n`, the power `x ^ n` belongs to `(n!) I`. -/
 @[stacks 07GM "generator_criterion"]
 public lemma nonempty_dividedPowers_iff_exists_generators_pow_mem_factorial_mul
-    {A : Type*} [CommRing A] [IsAddTorsionFree A] (I : Ideal A) :
+    {A : Type*} [CommRing A] [HasUniqueDiv A] (I : Ideal A) :
     Nonempty (_root_.DividedPowers I) ↔
       ∃ s : Set A, (Ideal.span s = I ∧
         ∀ x ∈ s, ∀ n : ℕ, (1 ≤ n →

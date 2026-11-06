@@ -372,14 +372,14 @@ private noncomputable def derivedTruncationSpectralObjectFunctor
     (F : A ⥤ B) (G : B ⥤ C) [F.Additive] [G.Additive] :
     DerivedCategory.Plus A ⥤ Abelian.SpectralObject C EInt := by
   letI : G.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnit
+    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso B) ℤ
-  haveI : NatTrans.CommShift G.rightDerivedFunctorPlusUnit ℤ :=
+  haveI : NatTrans.CommShift G.rightDerivedFunctorPlusUnith ℤ :=
     Functor.IsRightDerivedFunctor.natTrans_commShift G.rightDerivedFunctorPlus
-      G.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso B) ℤ
+      G.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso B) ℤ
   haveI : G.rightDerivedFunctorPlus.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus G _
-      G.rightDerivedFunctorPlusUnit
+      G.rightDerivedFunctorPlusUnith
   exact F.rightDerivedFunctorPlus ⋙
     DerivedCategory.Plus.TStructure.t.spectralObjectFunctor ⋙
     G.rightDerivedFunctorPlus.mapTriangulatedSpectralObject EInt ⋙
@@ -417,7 +417,7 @@ private theorem rightDerivedFunctorPlus_isGE
     show CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
       (((InjectiveObject.ι A).mapHomologicalComplex _).obj L.obj)) a
     infer_instance
-  have hiso : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have hiso : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj N)) := by
     have : ∀ i : ℤ, Injective (((HomotopyCategory.Plus.quotient A).obj N).obj.as.X i) :=
       fun _ => inferInstance

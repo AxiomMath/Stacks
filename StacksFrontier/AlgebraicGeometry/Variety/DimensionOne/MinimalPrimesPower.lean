@@ -3,6 +3,7 @@ module
 public import Mathlib.RingTheory.Ideal.MinimalPrime.Basic
 public import Mathlib.RingTheory.KrullDimension.LocalRing
 public import Mathlib.RingTheory.Localization.AtPrime.Basic
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import StacksFrontier.AlgebraicGeometry.Variety.DeltaInvariant.Parameters
 public import StacksFrontier.RingTheory.MinimalPrimes.Reduced
 public import StacksFrontier.RingTheory.Nilpotent.Ideal

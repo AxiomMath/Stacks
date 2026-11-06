@@ -157,22 +157,22 @@ theorem full_geometricFibreFunctor_spaceModuliComparison
       inferInstance hb
   have : IsIso c := Functor.isIso_of_fiber_isGroupoid hgpd _ hc
   let cA : 𝒳.val.val.p.verticalAut (h.hom.hom.obj a₂.1) :=
-    ⟨asIso c, (Functor.mem_verticalAut_iff _ _).2 (by
+    ⟨Aut.of (asIso c), (Functor.mem_verticalAut_iff _ _).2 (by
       show 𝒳.val.val.p.map c = _
       rw [IsHomLift.fac' 𝒳.val.val.p (𝟙 V) c]
       simp)⟩
   obtain ⟨γ, hγ⟩ := hAut a₂.1 cA
-  have hγc : h.hom.hom.map (γ : Aut a₂.1).hom = c :=
-    congrArg (fun x => x.1.hom) hγ
-  have hγV : 𝒳'.val.val.p.IsHomLift (𝟙 V) (γ : Aut a₂.1).hom := by
+  have hγc : h.hom.hom.map (γ : Aut a₂.1).asIso.hom = c :=
+    congrArg (fun x => x.1.asIso.hom) hγ
+  have hγV : 𝒳'.val.val.p.IsHomLift (𝟙 V) (γ : Aut a₂.1).asIso.hom := by
     refine IsHomLift.of_fac' _ _ _ a₂.2 a₂.2 ?_
     rw [Functor.verticalAut.cond γ]
     simp
-  let α : a₁.1 ⟶ a₂.1 := β ≫ (γ : Aut a₂.1).hom
+  let α : a₁.1 ⟶ a₂.1 := β ≫ (γ : Aut a₂.1).asIso.hom
   have hα : 𝒳'.val.val.p.IsHomLift (𝟙 V) α :=
-    @IsHomLift.comp_of_lift_id _ _ _ _ 𝒳'.val.val.p V _ _ _ β (γ : Aut a₂.1).hom hβ hγV
+    @IsHomLift.comp_of_lift_id _ _ _ _ 𝒳'.val.val.p V _ _ _ β (γ : Aut a₂.1).asIso.hom hβ hγV
   have hαb : h.hom.hom.map α = Φ.1.b := by
-    show h.hom.hom.map (β ≫ (γ : Aut a₂.1).hom) = Φ.1.b
+    show h.hom.hom.map (β ≫ (γ : Aut a₂.1).asIso.hom) = Φ.1.b
     rw [Functor.map_comp, hγc]
     exact IsIso.hom_inv_id_assoc (h.hom.hom.map β) Φ.1.b
   have hM'set : (fibredCategory B S hS M'.obj).val.p.IsFiberedInSetoids :=

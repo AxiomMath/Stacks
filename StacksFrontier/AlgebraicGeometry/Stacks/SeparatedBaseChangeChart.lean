@@ -306,8 +306,9 @@ theorem isSeparated_baseChange_iff_isProper
       (representingMap B S hS R.pt Q₀.pt TR T₀ eTR eT₀ R.snd)
       (pullback.snd q (diagonalCoverStructureMap B S hS f₀ g₀ V₀ eV₀))
       (diagonalCoverBaseChangeMap B S hS f₀ g₀ V₀ eV₀ T₀ eT₀) :=
-    hI.of_iso (Iso.refl _) j (Iso.refl _) (Iso.refl _) (by simp; rfl) (by simp; rfl)
-      (by rw [hj]; simp) (by simp; rfl)
+    hI.of_iso (Iso.refl _) j (Iso.refl _) (Iso.refl _) (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
+      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
+      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id, hj] <;> rfl) (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
   let k := hI'.isoIsPullback _ _ hA.flip
   have hk : k.hom ≫ φ = representingMap B S hS R.pt C.pt TR E eTR eE R.fst ≫ j.hom :=
     hI'.isoIsPullback_hom_fst _ _ hA.flip

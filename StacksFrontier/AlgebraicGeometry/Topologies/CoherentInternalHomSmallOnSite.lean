@@ -82,6 +82,8 @@ theorem isCoherentOnSite_over_internalHomSheafSmall
   let eHW : H.over W ≅ kernel f := hL.preimageIso (eH ≪≫ eK.symm)
   have hNW : SheafOfModules.IsCoherentOnSite (R := Rs.over W) (N.over W) :=
     Stacks.SheafOfModules.isCoherentOnSite_over N hN W
+  have : HasFiniteProducts (SheafOfModules.{w} (Rs.over W)) :=
+    hasFiniteProducts_of_hasFiniteLimits _
   have hprod : ∀ m : ℕ,
       SheafOfModules.IsCoherentOnSite (R := Rs.over W) (∏ᶜ fun _ : Fin m => N.over W) :=
     fun m => Stacks.SheafOfModules.isCoherentOnSite_piFin.{max u w v, v, w}

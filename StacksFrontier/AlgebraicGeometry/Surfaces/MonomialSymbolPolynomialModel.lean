@@ -86,7 +86,7 @@ def coordIdeal : Ideal (MvPolynomial (Fin 2) k) := Ideal.span {X 0, X 1}
 
 /-- The polynomials in two variables with no term of degree below `n`. -/
 def lowDegreeIdeal (n : ℕ) : Ideal (MvPolynomial (Fin 2) k) where
-  carrier := {f | ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → coeff e f = 0}
+  carrier := {f | ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → f.coeff e = 0}
   zero_mem' := by intro e _; simp
   add_mem' := by intro a b ha hb e he; simp [ha e he, hb e he]
   smul_mem' := by
@@ -101,7 +101,7 @@ def lowDegreeIdeal (n : ℕ) : Ideal (MvPolynomial (Fin 2) k) where
 /-- A polynomial lies in `lowDegreeIdeal k n` iff all its coefficients of degree below `n`
 vanish. -/
 theorem mem_lowDegreeIdeal {n : ℕ} {f : MvPolynomial (Fin 2) k} :
-    f ∈ lowDegreeIdeal k n ↔ ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → coeff e f = 0 := Iff.rfl
+    f ∈ lowDegreeIdeal k n ↔ ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → f.coeff e = 0 := Iff.rfl
 
 /-- Each variable has no term of degree zero. -/
 theorem coordIdeal_le_lowDegreeIdeal_one : coordIdeal k ≤ lowDegreeIdeal k 1 := by
@@ -155,7 +155,7 @@ theorem lowDegreeIdeal_le_coordIdeal_pow (n : ℕ) : lowDegreeIdeal k n ≤ coor
   have hdeg : n ≤ Finsupp.degree e := by
     by_contra hlt
     exact (MvPolynomial.mem_support_iff.1 he) (hf e (by omega))
-  exact Ideal.pow_le_pow_right hdeg (monomial_mem_coordIdeal_pow_degree k e (coeff e f))
+  exact Ideal.pow_le_pow_right hdeg (monomial_mem_coordIdeal_pow_degree k e (f.coeff e))
 
 /-- **The `n`-th power of `(T₀, T₁)` is exactly the polynomials with no term of degree below
 `n`.** -/
@@ -167,14 +167,14 @@ variable {k}
 /-- An element of `(T₀, T₁)ⁿ` has zero coefficient at every exponent of degree below `n`. -/
 theorem coeff_eq_zero_of_mem_coordIdeal_pow {n : ℕ} {f : MvPolynomial (Fin 2) k}
     (hf : f ∈ coordIdeal k ^ n) {e : Fin 2 →₀ ℕ} (he : Finsupp.degree e < n) :
-    coeff e f = 0 := by
+    f.coeff e = 0 := by
   rw [coordIdeal_pow_eq_lowDegreeIdeal] at hf
   exact hf e he
 
 /-- A polynomial with zero coefficient at every exponent of degree below `n` lies in
 `(T₀, T₁)ⁿ`. -/
 theorem mem_coordIdeal_pow_of_coeff_eq_zero {n : ℕ} {f : MvPolynomial (Fin 2) k}
-    (hf : ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → coeff e f = 0) :
+    (hf : ∀ e : Fin 2 →₀ ℕ, Finsupp.degree e < n → f.coeff e = 0) :
     f ∈ coordIdeal k ^ n := by
   rw [coordIdeal_pow_eq_lowDegreeIdeal]
   exact hf
@@ -193,7 +193,7 @@ theorem homogeneousComponent_eq_zero_of_mem_coordIdeal_pow_succ {n : ℕ}
     {f : MvPolynomial (Fin 2) k} (hf : f ∈ coordIdeal k ^ (n + 1)) :
     homogeneousComponent n f = 0 := by
   refine MvPolynomial.ext _ _ fun e => ?_
-  rw [coeff_zero, coeff_homogeneousComponent]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, coeff_homogeneousComponent]
   split_ifs with h
   · exact coeff_eq_zero_of_mem_coordIdeal_pow hf (by omega)
   · rfl

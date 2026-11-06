@@ -117,7 +117,7 @@ def derivedSectionsCompIso (A : Over U) :
     derivedRestriction.{w} O U ⋙
         RGamma.{w} (overRingPresheaf O U) (Opposite.op A) ≅
       RGamma.{w} O (Opposite.op A.left) :=
-  (mapDerivedCategoryCompIso
+  (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso
       (PresheafOfModules.pushforward₀.{max u v r w} (Over.forget U) O)
       (PresheafOfModules.evaluation.{max u v r w} (overRingPresheaf O U)
         (Opposite.op A))).symm

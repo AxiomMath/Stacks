@@ -58,6 +58,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 local notation "𝒯" => BigFppfOver.toScheme B S hS
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ProperRepresentableOfAffine :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProperRepresentableOfAffine
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Properly representing a base change over every object of the site, from the affine
 objects.** If every base change of `a : F ⟶ G` along a morphism `h_W ⟶ G` from an object `W`
 with affine underlying scheme is represented by an object `Z` proper over `W`, then so is every

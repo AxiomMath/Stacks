@@ -147,9 +147,9 @@ theorem sheafTensor_map_smul_id_app (a : Γ(X, ⊤))
       a • 𝟙 (((Tensor.sheafTensor (ringedSite X.sheaf).O).obj M).obj N) := by
   show ((Tensor.sheafTensor (ringedSite X.sheaf).O).map
       ((Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf
-        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).app M)).app N =
+        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).asHom.app M)).app N =
     (Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf
-        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).app _
+        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).asHom.app _
   exact AlgebraicGeometry.SheafOfModules.sheafTensorRight_map_globalSectionToEnd
     (ringedSite X.sheaf).O N
     (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a) M

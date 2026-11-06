@@ -163,14 +163,14 @@ private theorem mono_ι_app_of_iio {R : Type u} [CommRing R] {α : Ordinal.{u}} 
           obtain rfl : f = g := Subsingleton.elim _ _
           obtain rfl : xh = yh := Subsingleton.elim _ _
           rfl)
+  have : LocallySmall.{u} (Under j₀) := ⟨fun X Y =>
+    small_of_injective (f := fun _ : X ⟶ Y => PUnit.unit)
+      fun _ _ _ => Under.UnderMorphism.ext (Subsingleton.elim _ _)⟩
   have : EssentiallySmall.{u} (Under j₀) := inferInstance
   let : HasColimitsOfSize.{u, u} (ModuleCat.{u} R) := inferInstance
   let : HasColimitsOfShape (Under j₀) (ModuleCat.{u} R) :=
     hasColimitsOfShape_of_essentiallySmall _ _
   have : IsFiltered (Under j₀) := inferInstance
-  have : LocallySmall.{u} (Under j₀) := ⟨fun X Y =>
-    small_of_injective (f := fun _ : X ⟶ Y => PUnit.unit)
-      fun _ _ _ => Under.UnderMorphism.ext (Subsingleton.elim _ _)⟩
   let e : Under j₀ ≌ SmallModel (Under j₀) := equivSmallModel.{u} (Under j₀)
   have : IsFiltered (SmallModel (Under j₀)) :=
     IsFiltered.of_equivalence e
@@ -291,7 +291,6 @@ private theorem baerIterate_factor_through_stage
       (F.map (homOfLE (show S.obj (eOrder i) ≤ ⊤ from le_top))).app M := by
     show E.map (cBase.ι.app (eOrder i)) = _
     dsimp [E, cBase]
-    rfl
   refine ⟨i, g, ?_⟩
   rw [← hι]
   exact hg

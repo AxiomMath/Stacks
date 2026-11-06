@@ -89,7 +89,7 @@ theorem functionField_pullback_ringHom_ext {R : Type*} [CommRing R]
   let := (functionFieldTensorToPullback k f g).toAlgebra
   have := isFractionRing_functionFieldTensorToPullback k f g
   refine IsLocalization.ringHom_ext (nonZeroDivisors (X.functionField ⊗[k] Y.functionField))
-    (RingHom.ext fun t => t.induction_on (by simp) (fun a b => ?_)
+    (RingHom.ext fun t => t.inductionOn (fun a b => ?_)
       (fun x y hx hy => by simp only [map_add, hx, hy]))
   show φ (functionFieldTensorToPullback k f g (a ⊗ₜ b)) =
     ψ (functionFieldTensorToPullback k f g (a ⊗ₜ b))
@@ -579,8 +579,7 @@ lemma injective_tensorProductMap_id {L : Type u} [Field L] [Algebra k L]
   have h : ⇑(Algebra.TensorProduct.map (AlgHom.id k G.left.functionField) ρ) =
       ⇑(ρ.toLinearMap.lTensor G.left.functionField) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   rw [h]
@@ -611,7 +610,7 @@ theorem pullbackFunctionFieldEquiv_mu_mem_range {L : Type u} [Field L] [Algebra 
           (injective_tensorProductMap_id G ρ)).comp swapL =
       (sqSwap G).comp (TensorProduct.fractionRingMap G.left.functionField ρ) := by
     refine IsLocalization.ringHom_ext (nonZeroDivisors (L ⊗[k] G.left.functionField))
-      (RingHom.ext fun t => t.induction_on (by simp) (fun l c => ?_)
+      (RingHom.ext fun t => t.inductionOn (fun l c => ?_)
         (fun x y hx hy => by simp only [map_add, hx, hy]))
     simp only [RingHom.comp_apply]
     rw [TensorProduct.fractionRingMap_algebraMap_tmul, sqSwap_algebraMap_tmul]
@@ -655,8 +654,7 @@ theorem functionFieldMap_mu_mem_of_leftInvariant
   rw [hμ]
   refine TensorProduct.RationalGroup.map_mem_of_forall_algebraMap_mem
     (A := G.left.functionField ⊗[k] K₁) ψ R (fun t => ?_) w
-  induction t using TensorProduct.induction_on with
-  | zero => rw [RingHom.map_zero, RingHom.map_zero]; exact R.zero_mem
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => rw [RingHom.map_add, RingHom.map_add]; exact R.add_mem hx hy
   | tmul c a =>
     have h : ψ (algebraMap (G.left.functionField ⊗[k] K₁) _ (c ⊗ₜ a)) =

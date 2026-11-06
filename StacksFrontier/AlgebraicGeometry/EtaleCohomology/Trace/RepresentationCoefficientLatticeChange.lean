@@ -100,8 +100,8 @@ public theorem exists_representationCoefficientSheaf_isogeny_of_conj (M : GL (Fi
         (representationCoefficientSheaf B X x τ₁ hτ₁ μ₁ hμ₁).toLAdicSheaf) (N : ℕ),
       φ ≫ ψ = (ℓ ^ N) • 𝟙 _ ∧ ψ ≫ φ = (ℓ ^ N) • 𝟙 _ ∧
       ∀ (o₁ : O₁) (o₂ : O₂), algebraMap O₁ E o₁ = algebraMap O₂ E o₂ →
-        φ ≫ (representationCoefficientSheaf B X x τ₂ hτ₂ μ₂ hμ₂).act o₂ =
-          (representationCoefficientSheaf B X x τ₁ hτ₁ μ₁ hμ₁).act o₁ ≫ φ := by
+        φ ≫ ((representationCoefficientSheaf B X x τ₂ hτ₂ μ₂ hμ₂).act o₂).asHom =
+          ((representationCoefficientSheaf B X x τ₁ hτ₁ μ₁ hμ₁).act o₁).asHom ≫ φ := by
   set e := canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x
   obtain ⟨a, ha⟩ := exists_isIntegralMatrix_pow_smul M.val
   obtain ⟨b, hb⟩ := exists_isIntegralMatrix_pow_smul M⁻¹.val
@@ -187,8 +187,8 @@ public theorem exists_representationSheafCommutantCoefficientSheaf_isogeny_of_co
       ∀ (o₁ : conjIntegralSubring (representationSheafConj B X x ρ₁ hρ₁) α)
         (o₂ : conjIntegralSubring (representationSheafConj B X x ρ₂ hρ₂) α),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (representationSheafCommutantCoefficientSheaf B X x ρ₂ hρ₂ α hα₂).act o₂ =
-          (representationSheafCommutantCoefficientSheaf B X x ρ₁ hρ₁ α hα₁).act o₁ ≫ φ := by
+        φ ≫ ((representationSheafCommutantCoefficientSheaf B X x ρ₂ hρ₂ α hα₂).act o₂).asHom =
+          ((representationSheafCommutantCoefficientSheaf B X x ρ₁ hρ₁ α hα₁).act o₁).asHom ≫ φ := by
   have := compactSpace_etaleFundamentalGroup X.1 x
   have hP : ∀ (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ) g,
       (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (integralModel ρ hρ g).val =
@@ -248,8 +248,8 @@ public theorem exists_restrictScalarsRepCoefficientSheaf_isogeny_of_conj :
           (representationSheafConj B X x (restrictScalarsRep b σ₂) hσ₂)
           (restrictScalarsScalarAlgHom b m)),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (restrictScalarsRepCoefficientSheaf B X x b σ₂ hσ₂).act o₂ =
-          (restrictScalarsRepCoefficientSheaf B X x b σ₁ hσ₁).act o₁ ≫ φ := by
+        φ ≫ ((restrictScalarsRepCoefficientSheaf B X x b σ₂ hσ₂).act o₂).asHom =
+          ((restrictScalarsRepCoefficientSheaf B X x b σ₁ hσ₁).act o₁).asHom ≫ φ := by
   refine exists_representationSheafCommutantCoefficientSheaf_isogeny_of_conj B X x hσ₁ hσ₂ _ _ _
     (Units.map (restrictScalarsMonoidHom b m) g) (fun γ => ?_) (fun e => ?_)
   · show Units.map (restrictScalarsMonoidHom b m) (σ₂ γ) = _

@@ -227,8 +227,8 @@ private noncomputable def closedFibreAlgebra
     (hπ : IsLocalRing.maximalIdeal S.R = Ideal.span ({π} : Set S.R)) :
     Algebra (IsLocalRing.maximalIdeal S.R).ResidueField
       ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-        Ideal.span ({algebraMap S.R
-          (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) := by
+        Ideal.span
+          ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) := by
   let T := Localization.AtPrime S.maximalIdealPreimage
   let I : Ideal T := Ideal.span ({algebraMap S.R T π} : Set T)
   let m := IsLocalRing.maximalIdeal S.R
@@ -378,8 +378,8 @@ private lemma closedFibreAlgebra_isScalarTower (S : NeronSituation) (π : S.R)
     letI := closedFibreAlgebra S π hπ
     IsScalarTower S.R (IsLocalRing.maximalIdeal S.R).ResidueField
       ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-        Ideal.span ({algebraMap S.R
-          (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) := by
+        Ideal.span
+          ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) := by
   let := closedFibreAlgebra S π hπ
   let T := Localization.AtPrime S.maximalIdealPreimage
   let I : Ideal T := Ideal.span ({algebraMap S.R T π} : Set T)
@@ -408,13 +408,13 @@ private lemma isSeparableExtension_residueField_closedFibre (S : NeronSituation)
       (IsLocalRing.maximalIdeal S.R).ResidueField
       (IsLocalRing.maximalIdeal S.Λ).ResidueField _ _ S.residueFieldExtension)
     [IsLocalRing ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-      Ideal.span ({algebraMap S.R
-        (Localization.AtPrime S.maximalIdealPreimage) π} : Set _))] :
+      Ideal.span
+        ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _))] :
     letI := closedFibreAlgebra S π hπ
     Algebra.IsSeparableExtension (IsLocalRing.maximalIdeal S.R).ResidueField
       (IsLocalRing.ResidueField ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-        Ideal.span ({algebraMap S.R
-          (Localization.AtPrime S.maximalIdealPreimage) π} : Set _))) := by
+        Ideal.span
+          ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _))) := by
   let := closedFibreAlgebra S π hπ
   let T := Localization.AtPrime S.maximalIdealPreimage
   let I : Ideal T := Ideal.span ({algebraMap S.R T π} : Set T)
@@ -533,8 +533,8 @@ private lemma linearIndependent_one_tmul_D_atPrime
     (g₀ : Fin c → Localization.AtPrime S.maximalIdealPreimage)
     (hdim : ringKrullDim
       ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-        Ideal.span ({algebraMap S.R
-          (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c)
+        Ideal.span
+          ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c)
     (hgen : IsLocalRing.maximalIdeal (Localization.AtPrime S.maximalIdealPreimage) =
       Ideal.span ({algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage) π} : Set _) ⊔
         Ideal.span (Set.range g₀)) :

@@ -33,7 +33,7 @@ corresponding automorphism of the `FintypeCat`-valued fibre functor. -/
 theorem autMulEquivEtaleFundamentalGroup_app_apply
     (σ : Aut (finiteEtaleFiberFintypeFunctor X base)) (A : FiniteEtaleOver X)
     (z : (finiteEtaleFiberFintypeFunctor X base).obj A) :
-    (((autMulEquivEtaleFundamentalGroup X base) σ).app A).hom z = σ • z :=
+    (((autMulEquivEtaleFundamentalGroup X base) σ).asIso.app A).hom z = σ • z :=
   rfl
 
 /-- **The connected cover attached to a proper open normal subgroup of `π₁`.** For an open
@@ -42,7 +42,7 @@ at least two points in its fibre at `base`, on which every element of `U` acts t
 theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalGroup X base))
     (hUn : U.Normal) (hUo : IsOpen (U : Set (EtaleFundamentalGroup X base))) (hne : U ≠ ⊤) :
     ∃ Z : FiniteEtaleOver X, ConnectedSpace Z.left ∧ PreGaloisCategory.IsGalois Z ∧
-      (∀ u ∈ U, ∀ z : (finiteEtaleFiberFunctor base).obj Z, (u.app Z).hom z = z) ∧
+      (∀ u ∈ U, ∀ z : (finiteEtaleFiberFunctor base).obj Z, (u.asIso.app Z).hom z = z) ∧
       2 ≤ Nat.card ((finiteEtaleFiberFunctor base).obj Z) := by
   set F := finiteEtaleFiberFintypeFunctor X base
   set e := autMulEquivEtaleFundamentalGroup X base
@@ -70,7 +70,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
   obtain ⟨A, ⟨iso⟩⟩ := exists_lift_of_quotient_openSubgroup (F := F') W
   set ψ : F'.obj A ≃ F.obj A := (F.obj A).uSwitchEquiv
   have hψ : ∀ (σ : Aut F) (y : F'.obj A), ψ (φ σ • y) = σ • ψ y := fun σ y =>
-    (FintypeCat.uSwitchEquiv_naturality (σ.hom.app A) y).symm
+    (FintypeCat.uSwitchEquiv_naturality (σ.asIso.hom.app A) y).symm
   have hiso_inv : ∀ (σ : Aut F') (q : Aut F' ⧸ V), iso.inv.hom (σ • q) = σ • iso.inv.hom q :=
     fun σ q => congrArg (fun φ => φ q) (iso.inv.comm σ)
   have hiso_hom : ∀ y : F'.obj A, iso.inv.hom (iso.hom.hom y) = y := fun y =>
@@ -112,7 +112,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
   have hinj : Function.Injective (F.map i) :=
     (ConcreteCategory.mono_iff_injective_of_preservesPullback (F.map i)).1 inferInstance
   have hequiv : ∀ (σ : Aut F) (w : F.obj Z), F.map i (σ • w) = σ • F.map i w := fun σ w =>
-    (congrArg (fun φ => φ w) (σ.hom.naturality i)).symm
+    (congrArg (fun φ => φ w) (σ.asIso.hom.naturality i)).symm
   have hstabA : ∀ g : Aut F, g • a₀ = a₀ → φ g ∈ V := by
     intro g hg
     have h1 : ψ (iso.inv.hom (φ g • (QuotientGroup.mk 1 : Aut F' ⧸ V))) =

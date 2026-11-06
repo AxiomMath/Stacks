@@ -52,6 +52,16 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {U X Y : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom) (f : X ⟶ Y)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along the postcomposition functor of an étale morphism
+preserves finite products (it is a right adjoint); found directly, as instance search times out
+on it under Lean v4.35.0. -/
+local instance (priority := high)
+    preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction :
+    Limits.PreservesFiniteProducts ((smallEtalePostcomp B S hS a ha).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS U.1) (SmallEtale.topology B S hS X.1)) :=
+  inferInstance
+
 /-- **The ring data of étale restriction.** Restriction along the postcomposition functor of
 an étale `a : U ⟶ X` carries `f^♯ : f⁻¹𝒪_Y ⟶ 𝒪_X` to `(a ≫ f)^♯ : (a ≫ f)⁻¹𝒪_Y ⟶ 𝒪_U`, up to
 the identifications `a⁻¹f⁻¹𝒪_Y ≅ (a ≫ f)⁻¹𝒪_Y` of Stacks 03G8 and `a⁻¹𝒪_X ≅ 𝒪_U` of

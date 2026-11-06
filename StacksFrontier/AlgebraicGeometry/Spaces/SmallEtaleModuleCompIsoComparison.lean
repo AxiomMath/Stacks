@@ -118,6 +118,7 @@ private theorem restrictScalars_comp_eq_pushforwardModules
     ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O) ⋙
       SheafOfModules.restrictScalars α) hstruct).trans h3)
 
+set_option maxHeartbeats 1600000 in
 /-- The transport of the direct image of sheaves of modules built from a comparison of the
 direct images of sheaves of sets is that comparison on underlying sheaves of sets.  Neither the
 whiskered comparison of inverse images nor the transport along the equality of the two direct

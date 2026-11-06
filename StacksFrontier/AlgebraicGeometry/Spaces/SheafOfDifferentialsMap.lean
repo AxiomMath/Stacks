@@ -91,6 +91,20 @@ namespace AlgebraicGeometry.Space
 
 universe t₀ w₀ v₀ u₀ u
 
+universe w₁ v₁ u₁
+
+/-! Instance search for binary products and the terminal object of sheaves of sets tries the
+default-priority `HasLimit` instances before the low-priority one through `HasLimitsOfShape`,
+and under the current imports those time out; the shortcut instances below go there directly. -/
+
+local instance (priority := high) hasLimit_pair_sheafType {C : Type u₁} [Category.{v₁} C]
+    {J : GrothendieckTopology C} (X Y : Sheaf J (Type w₁)) : HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
+local instance (priority := high) hasLimit_empty_sheafType {C : Type u₁} [Category.{v₁} C]
+    {J : GrothendieckTopology C} : HasLimit (Functor.empty.{0} (Sheaf J (Type w₁))) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Derivations of sheaves of rings as morphisms out of a product -/
 
 section Transport
@@ -486,7 +500,8 @@ direct image of the sheaf of differentials of `p'`. -/
 @[stacks 04CX "the composite `f_*d_{X'/Y'} ∘ f♯` is a `Y`-derivation"]
 noncomputable def pushforwardUniversalDerivation (f : X' ⟶ X) (p : X ⟶ Y) (p' : X' ⟶ Y')
     (q : Y' ⟶ Y) (hcomm : f ≫ p = p' ≫ q) :
-    ((modulePushforward B S hS f).obj (sheafOfDifferentials B S hS p')).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS f).obj (sheafOfDifferentials B S hS p')).val
       (structureSharpInverseImage B S hS p).hom where
   d {U} := AddMonoidHom.mk'
     (fun t ↦ (pushforwardUniversalDerivationHom B S hS f p').hom.app U t)
@@ -530,7 +545,7 @@ theorem isSheafOfDifferentialsMap_sheafOfDifferentialsMap (f : X' ⟶ X) (p : X 
     (p' : X' ⟶ Y') (q : Y' ⟶ Y) (hcomm : f ≫ p = p' ≫ q) :
     IsSheafOfDifferentialsMap B S hS f p p'
       (sheafOfDifferentialsMap B S hS f p p' q hcomm) := fun _U t ↦
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     ((derivationDirectImageEquiv B S hS f p (sheafOfDifferentials B S hS p')).apply_symm_apply
       (pushforwardUniversalDerivation B S hS f p p' q hcomm))
     t

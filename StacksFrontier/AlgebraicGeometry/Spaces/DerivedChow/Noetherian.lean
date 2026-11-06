@@ -82,6 +82,19 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 open DerivedChow
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on a big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_DerivedChowNoetherian (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_DerivedChowNoetherian
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section GraphClosure
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -307,9 +320,15 @@ theorem exists_derivedChowDatum_of_chart [IsNoetherianRing A]
       have hy' : y ∈ (Subfunctor.range Γ').obj c := hR ▸ hy
       obtain ⟨y₀, rfl⟩ := hy'
       exact ⟨y₀, rfl⟩
+  haveI : HasPullback (toBase B (Spec (.of A)) hA X).hom
+      (yoneda.map (projectiveSpaceSiteObjToBase B (Spec (.of A)) hA m hP)) :=
+    HasLimitsOfShape.has_limit _
   have hsqA : IsPullback (k ≫ Zs.fromPreimage _) Γ' Zs.ι (pullback.fst _ (yoneda.map aP)) :=
     IsPullback.of_iso (Subfunctor.isPullback_preimage _ Zs) (asIso k).symm (Iso.refl _)
-      (Iso.refl _) (Iso.refl _) (by simp) (by simp [k]) (by simp) (by simp)
+      (Iso.refl _) (Iso.refl _) (by simp)
+      (by
+        rw [Iso.refl_hom, Category.comp_id]
+        exact (IsIso.eq_inv_comp k).2 (Subfunctor.lift_ι _ _)) (by simp) (by simp)
   have hsq := hsqA.paste_vert (IsPullback.of_hasPullback (pullback.snd
     (toBase B (Spec (.of A)) hA X).hom
     (yoneda.map (projectiveSpaceSiteObjToBase B (Spec (.of A)) hA m hP))) (yoneda.map aP))

@@ -200,7 +200,7 @@ public theorem picardDecomposition_left_inv
   rw [hb.schemePullbackClassHom_pushforwardHom
       (exceptionalDegreeHom_exceptionalTwist_self hE hφ L),
     exceptionalTwist_eq_sub_negativeExceptionalMultipleHom]
-  abel
+  exact sub_add_cancel _ _
 
 /-- Composing `(ℒ', n) ↦ (b^*ℒ')(-nE)` with `ℒ ↦ (b_*ℒ(nE), n)` is the identity on
 `Pic(X') × ℤ`. -/
@@ -222,7 +222,7 @@ public theorem picardDecomposition_right_inv
   have ht : D.exceptionalTwist n (Stacks.Picard.schemePullbackClassHom b L' +
       D.negativeExceptionalMultipleHom n) = Stacks.Picard.schemePullbackClassHom b L' := by
     rw [exceptionalTwist_eq_sub_negativeExceptionalMultipleHom]
-    abel
+    exact add_sub_cancel_right _ _
   rw [hd, ht, hb.pushforwardHom_pullback]
 
 /-- The map `ℒ ↦ (b_*ℒ(nE), n)` is additive. -/
@@ -237,8 +237,9 @@ public theorem picardDecomposition_map_add
   have ht : D.exceptionalTwist (D.exceptionalDegreeHom k e φ (L₁ + L₂)) (L₁ + L₂) =
       D.exceptionalTwist (D.exceptionalDegreeHom k e φ L₁) L₁ +
         D.exceptionalTwist (D.exceptionalDegreeHom k e φ L₂) L₂ := by
-    simp only [exceptionalTwist_def, map_add, add_zsmul]
-    abel
+    simp only [exceptionalTwist_eq_sub_negativeExceptionalMultipleHom, map_add]
+    rw [AddMonoidHom.map_add (negativeExceptionalMultipleHom D)]
+    exact add_sub_add_comm _ _ _ _
   rw [Prod.mk_add_mk, Prod.mk.injEq]
   exact ⟨by rw [ht, map_add], map_add _ L₁ L₂⟩
 

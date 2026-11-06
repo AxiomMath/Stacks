@@ -282,10 +282,7 @@ private theorem reesTotalEquivOfTop_of (n : ℕ) (a : (reesSituation I).sectionP
       ((reesPieceEquivOfTop I V hI n a : ↥(openProjGrading (A := ↑Γ(X, V.1)) ⊤ n)) :
         ↥(openProjAlgebra (A := ↑Γ(X, V.1)) ⊤)) := by
   rw [reesTotalEquivOfTop_apply, reesDirectSumEquivOfTop_of]
-  refine (DirectSum.decomposeRingEquiv
-    (openProjGrading (A := ↑Γ(X, V.1)) ⊤)).injective ?_
-  rw [RingEquiv.apply_symm_apply]
-  exact (DirectSum.decompose_of_mem _ (reesPieceEquivOfTop I V hI n a).property).symm
+  exact DirectSum.decompose_symm_of (ℳ := openProjGrading (A := ↑Γ(X, V.1)) ⊤) _
 
 private theorem reesTotalEquivOfTop_symm_of (n : ℕ)
     (z : ↥(openProjGrading (A := ↑Γ(X, V.1)) ⊤ n)) :

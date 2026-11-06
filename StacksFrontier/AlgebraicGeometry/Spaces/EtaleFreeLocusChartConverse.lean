@@ -86,7 +86,7 @@ def SmallEtaleNeighborhood.ofEtaleSource {X V : AlgebraicSpaces B S hS} {a : V �
   point_comp := by
     change (N.chart.obj.hom ≫ a.hom).app (Opposite.op vbar.val.siteObject) N.point =
       a.hom.app (Opposite.op vbar.val.siteObject) vbar.val.value
-    rw [FunctorToTypes.comp, N.point_comp]
+    rw [NatTrans.comp_app_apply, N.point_comp]
 
 /-- The chart of a small étale neighbourhood read along an étale morphism is the chart read along
 that morphism. -/

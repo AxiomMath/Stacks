@@ -162,7 +162,7 @@ public theorem nonempty_derivedPullback_isoSpec_iso_tilde_derivedSections
   refine ⟨Scheme.Modules.derivedPullbackObjIsoRestrictFunctor hU.isoSpec.inv _ ≪≫
     (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory.mapIso e₁ ≪≫ ?_⟩
   refine ?_ ≪≫ (tilde.functor Γ(X, U)).mapDerivedCategory.mapIso eΓ
-  exact (Functor.mapDerivedCategoryCompIso
+  exact (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Scheme.Modules.restrictFunctorAdjCounitIso hU.isoSpec.inv)).app _ ≪≫
     (Functor.mapDerivedCategoryId (Spec Γ(X, U)).Modules).app _
 

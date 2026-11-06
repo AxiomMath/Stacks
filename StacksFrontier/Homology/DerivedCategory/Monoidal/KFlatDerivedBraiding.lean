@@ -59,7 +59,7 @@ variable [HasDerivedCategory.{w} A] [SymmetricCategory (CochainComplex A ℤ)]
 
 attribute [local instance] homotopyMonoidal homotopySymmetric
 
-attribute [local implicit_reducible] HomotopyCategory.quotient
+attribute [local implicit_reducible]
   CochainComplex.KFlatBifunctor.KFlat CategoryTheory.LocalizedMonoidal
   CategoryTheory.Localization.Monoidal.toMonoidalCategory
   CategoryTheory.Localization.instCategoryLocalizedMonoidal

@@ -18,6 +18,21 @@ open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) AlgebraicGeometry.Space.hasPullbacks_presheaf_notAlgebraic
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_notAlgebraic
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.Space.hasPullbacks_presheaf_notAlgebraic B S hS).has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-! ### The fourth point does not extend off the origin -/

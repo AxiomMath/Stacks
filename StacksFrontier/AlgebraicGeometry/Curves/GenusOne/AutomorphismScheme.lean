@@ -363,8 +363,9 @@ the `T`-points of `G` over `k` are the automorphisms of `X_T = X ×_k T` over `T
 `T`. -/
 def autFunctorRepresentableBy :
     (Scheme.autFunctor (Over.mk f)).RepresentableBy (autSchemeOver f p hp r) where
-  homEquiv {T} := autSchemeHomEquiv f p hp r T
+  homEquiv {T} := (autSchemeHomEquiv f p hp r T).trans Aut.isoEquiv.symm
   homEquiv_comp {T T'} h g := by
+    apply Aut.ext
     apply Iso.ext
     apply Scheme.endo_ext
     have hx : r.homEquiv T.left ((h ≫ g).left ≫ pullback.fst _ _) =

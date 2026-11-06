@@ -111,7 +111,7 @@ noncomputable abbrev cofreeOneObjLift {T : Cᵒᵖ} {A : ModuleCat.{v} (R.obj T)
 theorem cofreeOneObjLift_comp_cofreeOneπ {T : Cᵒᵖ} {A : ModuleCat.{v} (R.obj T)}
     (x : ∀ g : T ⟶ W₀, A ⟶ cofreeOneFactor W₀ J T g) (g : T ⟶ W₀) :
     cofreeOneObjLift W₀ J x ≫ cofreeOneπ W₀ J g = x g :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- **Two morphisms into a restriction of scalars of `cofreeOneObj W₀ J T` agree as soon as
 they agree after every projection.** Restriction of scalars preserves products, so the
@@ -158,7 +158,7 @@ theorem cofreeOneMap_comp_cofreeOneπ {T T' : Cᵒᵖ} (f : T ⟶ T') (g : T' �
     cofreeOneMap W₀ J f ≫ (ModuleCat.restrictScalars (R.map f).hom).map (cofreeOneπ W₀ J g) =
       cofreeOneπ W₀ J (f ≫ g) ≫ (cofreeOneFactorComp W₀ J f g).hom := by
   rw [cofreeOneMap, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- **The restriction maps of the cofree presheaf of modules are reindexings**, stated for any
 `k : T ⟶ W₀` with `k = f ≫ g` in place of the composite `f ≫ g`. -/

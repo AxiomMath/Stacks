@@ -157,6 +157,10 @@ private theorem preservesTerminal_sheafPullback
     [∀ X : D, IsCofilteredOrEmpty (StructuredArrow X u)]
     (hmem : ∀ X : D, u.structuredArrowSieve X ∈ K X) :
     PreservesLimitsOfShape (Discrete.{0} PEmpty.{1}) (u.sheafPullback (Type w) J K) := by
+  have : HasLimitsOfShape (Discrete PEmpty.{1}) (Cᵒᵖ ⥤ Type w) := inferInstance
+  have : HasLimitsOfShape (Discrete PEmpty.{1}) (Dᵒᵖ ⥤ Type w) := inferInstance
+  have : HasLimitsOfShape (Discrete PEmpty.{1}) (Sheaf J (Type w)) := inferInstance
+  have : HasLimitsOfShape (Discrete PEmpty.{1}) (Sheaf K (Type w)) := inferInstance
   let P : Cᵒᵖ ⥤ Type w := (Functor.const Cᵒᵖ).obj PUnit
   have hP : IsTerminal P := Functor.isTerminalConst _ Types.isTerminalPUnit
   let R : Dᵒᵖ ⥤ Type w := (Functor.const Dᵒᵖ).obj PUnit

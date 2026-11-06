@@ -63,8 +63,10 @@ theorem exists_isZero_rightDerived_etaleAbelianDirectImage_toBase {X Y : Scheme.
     ∃ d : ℕ, ∀ G : Sheaf j.space.smallEtaleTopology AddCommGrpCat.{u + 1},
       Stacks.Torsion.torsionSheafProperty j.space.smallEtaleTopology G → ∀ q : ℕ, d < q →
         IsZero (((etaleAbelianDirectImage.{u, u + 1} j.toBase).rightDerived q).obj G) := by
-  have : IsProper j.toBase := j.property.2
-  obtain ⟨m, hm⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have hP : IsProper j.toBase := j.property.2
+  obtain ⟨m, hm⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ j.toBase
+    hP.toLocallyOfFiniteType
+    (haveI := hP.toUniversallyClosed; inferInstance) ‹_›
   exact ⟨2 * m, fun G hG q hq ↦
     isZero_rightDerived_etaleAbelianDirectImage_of_isProper j.toBase m hm G hG q hq⟩
 

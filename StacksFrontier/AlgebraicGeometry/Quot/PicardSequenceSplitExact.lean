@@ -228,7 +228,7 @@ theorem surjective_picardClassMap (hstr : s.StructureSheafMapIso) (T : s.Schemes
       · rw [sectionPicardPullback_picardMap, hk0 i, picardPullback_zero]
       · rw [sectionPicardPullback_picardMap, hk0 j, picardPullback_zero]
       · rw [picardClassMap_picardMap, picardClassMap_picardMap, hkz i, hkz j,
-          ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+          ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
           ← op_comp, hab]
     rw [← hLk i, ← hLk j, picardMap_eq, picardMap_eq, picardPullback_picardClass,
       picardPullback_picardClass] at hka
@@ -242,7 +242,7 @@ theorem surjective_picardClassMap (hstr : s.StructureSheafMapIso) (T : s.Schemes
   have hi : s.picardMap (g i) (picardClass _ M hM) = k i := by
     rw [picardMap_eq, picardPullback_picardClass, ← hLk i]
     exact (picardClass_eq_picardClass_iff _ _ _ _ _).2 ⟨(hML i).some.symm⟩
-  rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
+  rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
     ← picardClassMap_picardMap, hi, hkz i]
 
 /-! ### Stacks 0D28 -/

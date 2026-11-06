@@ -82,7 +82,8 @@ attribute [local instance] isContinuous_representedToZariskiRingedToposSiteHom_u
 
 variable (T : SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf
     (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O))
-  (D₀ : ((representedEpsilonModulePushforward B S hS U).obj T).val.Derivation'
+  (D₀ : PresheafOfModulesOfCommRing.Derivation'
+    ((representedEpsilonModulePushforward B S hS U).obj T).val
     (representedZariskiSchemeHom B S hS φ).fSharpInverseImage.hom)
 
 /-- Two sections of `T` agreeing over a covering sieve are equal. -/
@@ -464,7 +465,7 @@ theorem representedEpsilonGlueValue_fSharpInverseImage
 affine charts mapping to charts of affine opens glue to an `f♯`-derivation of `𝒪_X` with values
 in `T`. -/
 def representedEpsilonGluedDerivation :
-    T.val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' T.val
       (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).fSharpInverseImage.hom :=
   Stacks.SheafOfModules.glueDerivationOfCover (representedEpsilonAffineChart B S hS U)
     (generate_representedEpsilonAffineChart_mem B S hS U φ)

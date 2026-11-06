@@ -81,7 +81,7 @@ def exactSquarePlusUnitLeft :
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ V.mapDerivedCategoryPlus) :=
   Functor.whiskerLeft F.mapHomotopyCategoryPlus V.mapDerivedCategoryPlusFactorsh.inv ≫
     (Functor.associator _ _ _).inv ≫
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit V.mapDerivedCategoryPlus ≫
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith V.mapDerivedCategoryPlus ≫
     (Functor.associator _ _ _).hom
 
 /-- The unit exhibiting `U ⋙ RF'` as a right derived functor of the degreewise `V ∘ F`: the
@@ -95,7 +95,7 @@ def exactSquarePlusUnitRight :
       ((mapHomotopyCategoryPlusCompIso e).hom ≫ (mapHomotopyCategoryPlusCompIso (Iso.refl _)).inv)
       DerivedCategory.Plus.Qh ≫
     (Functor.associator _ _ _).hom ≫
-    Functor.whiskerLeft U.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnit ≫
+    Functor.whiskerLeft U.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnith ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight U.mapDerivedCategoryPlusFactorsh.inv F'.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
@@ -148,7 +148,7 @@ theorem isRightDerivedFunctor_exactSquarePlusUnitRight
 theorem exactSquarePlusUnitLeft_app (K : HomotopyCategory.Plus A) :
     (exactSquarePlusUnitLeft F V).app K =
       V.mapDerivedCategoryPlusFactorsh.inv.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        V.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
+        V.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
   simp [exactSquarePlusUnitLeft]
 
 omit [EnoughInjectives A] [HasDerivedCategory B] [PreservesFiniteLimits V]
@@ -158,7 +158,7 @@ theorem exactSquarePlusUnitRight_app (K : HomotopyCategory.Plus A) :
     (exactSquarePlusUnitRight F F' U V e).app K =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).hom.app K ≫
           (mapHomotopyCategoryPlusCompIso (Iso.refl (U ⋙ F'))).inv.app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (U.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlusUnith.app (U.mapHomotopyCategoryPlus.obj K) ≫
           F'.rightDerivedFunctorPlus.map (U.mapDerivedCategoryPlusFactorsh.inv.app K) := by
   simp only [exactSquarePlusUnitRight, NatTrans.comp_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app, Functor.associator_hom_app, Functor.associator_inv_app,
@@ -194,12 +194,12 @@ variable {F F' U V} in
 through the units of `RF` and of `RF'`. -/
 theorem rightDerivedFunctorPlusExactSquareIso_hom_app_Qh
     (hU : ∀ I : A, Injective I → F'.rightAcyclic (U.obj I)) (K : HomotopyCategory.Plus A) :
-    V.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    V.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedFunctorPlusExactSquareIso e hU).hom.app (DerivedCategory.Plus.Qh.obj K) =
       V.mapDerivedCategoryPlusFactorsh.hom.app (F.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).hom.app K ≫
           (mapHomotopyCategoryPlusCompIso (Iso.refl (U ⋙ F'))).inv.app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (U.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlusUnith.app (U.mapHomotopyCategoryPlus.obj K) ≫
           F'.rightDerivedFunctorPlus.map (U.mapDerivedCategoryPlusFactorsh.inv.app K) := by
   have h := NatTrans.congr_app (rightDerivedFunctorPlusExactSquareIso_fac e hU) K
   rw [NatTrans.comp_app, Functor.whiskerLeft_app, exactSquarePlusUnitLeft_app,

@@ -252,7 +252,7 @@ theorem epi_ι_openSubspaceOfPoints_of_eq_univ {F : (BigFppfOver B S hS)ᵒᵖ �
   subst hW
   have : IsIso (Space.openSubspaceOfPoints B S hS F Set.univ).ι :=
     (Subfunctor.eq_top_iff_isIso _).mp (Space.openSubspaceOfPoints_univ B S hS (F := F))
-  infer_instance
+  exact IsIso.epi_of_iso _
 
 /-- A triple whose closed subset is empty is the triple `(∅, u, ∅ ⟶ W)` of its second
 component. -/

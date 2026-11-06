@@ -224,7 +224,6 @@ theorem tensorSections_braidingAt (U : Cᵒᵖ)
     inferInstanceAs (CommRing (O.obj U))
   have hβApp : (ConcreteCategory.hom ((β_ F.val G.val).hom.app U))
       (s ⊗ₜ t) = t ⊗ₜ s := by
-    rw [PresheafOfModules.braiding_hom_app]
     exact ModuleCat.MonoidalCategory.braiding_hom_apply s t
   show (((TensorSheafification.sheafify O hO).map (β_ F.val G.val).hom).val.app
       U)
@@ -296,7 +295,6 @@ theorem tensorSections_associatorAt (U : Cᵒᵖ)
     rfl
   have hAlphaApp : ((α_ F.val G.val H.val).hom.app U) x = z := by
     show ((CategoryTheory.MonoidalCategoryStruct.associator F.val G.val H.val).hom.app U) x = z
-    rw [PresheafOfModules.associator_hom_app]
     exact ModuleCat.MonoidalCategory.associator_hom_apply s t u
   have hAlpha : (((TensorSheafification.sheafify O hO).map (α_ F.val G.val H.val).hom).val.app U)
       ((TensorSheafification.toSheafify O hO ((F.val ⊗ G.val) ⊗ H.val)).app U x) =

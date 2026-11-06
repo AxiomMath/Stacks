@@ -654,8 +654,9 @@ private lemma homotopyTensorRightUnitor_app {R : Type u} [CommRing R] (K : C R) 
     (homotopyTensorRightUnitor R).hom.app ((HomotopyCategory.quotient _ _).obj K) =
       (homotopyTensorComparison K (𝟙_ _)).hom ≫
         (HomotopyCategory.quotient _ _).map (ρ_ K).hom := by
-  simp [homotopyTensorRightUnitor, Localization.liftNatIso, homotopyTensorComparison,
-    Localization.liftNatTrans_app, Localization.Lifting₂.snd, Localization.Lifting₂.fst]
+  dsimp only [homotopyTensorRightUnitor, Localization.liftNatIso]
+  rw [Localization.liftNatTrans_app]
+  simp [homotopyTensorComparison, Localization.Lifting₂.snd, Localization.Lifting₂.fst]
   rfl
 
 private lemma derivedTensorRightUnitorCore_app {R : Type u} [CommRing R]

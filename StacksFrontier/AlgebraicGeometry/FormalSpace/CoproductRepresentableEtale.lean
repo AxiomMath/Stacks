@@ -98,9 +98,13 @@ theorem exists_cofan_pullback_sigmaDesc {I : Type (u + 1)} [Finite I]
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   let : (BigFppfOver.topology B S hS).Subcanonical := bigFppfOver_subcanonical B S hS
   let J := BigFppfOver.topology B S hS
+  let : HasPullbacks (FppfSheaf B S hS) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type (u + 1)))
   let Tsh := J.uliftYoneda.{u + 1}.obj T
   let ξ' : Tsh ⟶ W := ⟨ξ⟩
   let u : (∐ Z) ⟶ W := Sigma.desc g
+  let : ∀ {X Y V : FppfSheaf B S hS} (f : X ⟶ V) (f' : Y ⟶ V), HasPullback f f' :=
+    fun _ _ ↦ HasLimitsOfShape.has_limit _
   have hApb : IsPullback (pullback.fst u ξ') (pullback.snd u ξ') u ξ' :=
     IsPullback.of_hasPullback u ξ'
   let t := pullback.fst u ξ'

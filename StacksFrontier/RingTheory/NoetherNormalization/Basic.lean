@@ -3,6 +3,7 @@ module
 public import StacksCore.Tactic.StacksAttribute
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.Polynomial
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.Localization.Away.AdjoinRoot
 public import Mathlib.RingTheory.NoetherNormalization
 public import Mathlib.RingTheory.RegularLocalRing.Defs

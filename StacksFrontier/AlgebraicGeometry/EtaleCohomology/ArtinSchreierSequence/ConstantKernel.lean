@@ -272,7 +272,7 @@ theorem isLocallyInjective_zmodPresheafHom :
       (X.smallEtaleTopology.top_mem U.unop)
   · exact mem_smallEtaleTopology_of_isEmpty X U.unop
       (isEmpty_of_zero_eq_one _ (zero_eq_one_of_constZModHom_eq X hp hX U.unop
-        (fun hd => hab (ULift.ext _ _ hd)) (congrArg ULift.down h))) _
+        (fun hd => hab (ULift.ext hd)) (congrArg ULift.down h))) _
 
 include hp in
 /-- The inclusion `𝐙/p𝐙 ⟶ 𝐆_a` is locally injective. -/

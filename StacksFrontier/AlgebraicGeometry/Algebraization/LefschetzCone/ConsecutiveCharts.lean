@@ -166,8 +166,8 @@ public theorem zeroScheme_ideal_consecutiveChart (hL : Stacks.Ample.IsAmple X L)
     [IsIso (projHomOfIsAmple L hL)] (s : Γ(L, ⊤)) (ch : ConsecutiveChart L) :
     (zeroScheme X L s).ideal (ch.affineOpen hL) =
       Ideal.span {Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl
-        (Stacks.DegreeOneUnitAway.chartRatio ch.cR_mem ch.bR_mem ch.cR_mul_bR
-          (Stacks.ExternalGrading.of_mem_summand 1 (degreeOneSection L s)))} := by
+                    (Stacks.DegreeOneUnitAway.chartRatio ch.cR_mem ch.bR_mem ch.cR_mul_bR
+                      (Stacks.ExternalGrading.of_mem_summand 1 (degreeOneSection L s)))} := by
   rw [zeroScheme_ideal_eq_span_ratio L ch.c ch.b s (ch.affineOpen hL) ch.nv_le_c ch.nv_le_b]
   congr 2
   set fR : sectionRing L := DirectSum.of (powSections L) 1 (degreeOneSection L s) with hfR

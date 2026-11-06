@@ -193,7 +193,7 @@ theorem eval_equivMvPolynomial (f : R[X][Y]) (p : Fin 2 → R) :
 /-- The coefficient of `X₀ⁱ X₁ʲ` in `equivMvPolynomial R f` is the coefficient of `Xⁱ` in the
 coefficient of `Yʲ` in `f`. -/
 theorem coeff_equivMvPolynomial (f : R[X][Y]) (i j : ℕ) :
-    MvPolynomial.coeff (Finsupp.single 0 i + Finsupp.single 1 j) (equivMvPolynomial R f) =
+    (equivMvPolynomial R f).coeff (Finsupp.single 0 i + Finsupp.single 1 j) =
       (f.coeff j).coeff i := by
   induction f using Polynomial.induction_on' with
   | add f g hf hg => simp [hf, hg]
@@ -223,8 +223,8 @@ theorem natDegree_coeff_add_le_totalDegree (f : R[X][Y]) (j : ℕ) (hj : f.coeff
     (f.coeff j).natDegree + j ≤ (equivMvPolynomial R f).totalDegree := by
   have h := coeff_equivMvPolynomial f (f.coeff j).natDegree j
   rw [coeff_natDegree] at h
-  have hne : MvPolynomial.coeff (Finsupp.single 0 (f.coeff j).natDegree + Finsupp.single 1 j)
-      (equivMvPolynomial R f) ≠ 0 := by
+  have hne : (equivMvPolynomial R f).coeff
+      (Finsupp.single 0 (f.coeff j).natDegree + Finsupp.single 1 j) ≠ 0 := by
     rw [h]
     exact leadingCoeff_ne_zero.mpr hj
   simpa [Finsupp.sum_add_index, Finsupp.sum_single_index] using

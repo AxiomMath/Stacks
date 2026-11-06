@@ -65,28 +65,30 @@ variable {C : Type u₁} [Category.{v₁} C]
 /-- Morphisms of the opposite of the category of elements with the same base map are equal. -/
 private theorem elements_op_hom_ext {G : Cᵒᵖ ⥤ Type w} {x y : G.Elementsᵒᵖ} {f g : x ⟶ y}
     (h : f.unop.1 = g.unop.1) : f = g :=
-  Quiver.Hom.unop_inj (CategoryOfElements.ext _ _ _ h)
+  Quiver.Hom.unop_inj (Functor.Elements.hom_ext h)
 
 /-- **The opposite of the category of elements of a presheaf of sets is fibred in groupoids**
 over the base: the restriction of `t ∈ G(U)` along `f : V ⟶ U` is a lift of `f`, and a morphism
 of elements is determined by its image in the base. -/
 theorem isFiberedInGroupoids_elements_leftOp (G : Cᵒᵖ ⥤ Type w) :
-    (CategoryOfElements.π G).leftOp.IsFiberedInGroupoids where
+    (Functor.Elements.π G).leftOp.IsFiberedInGroupoids where
   exists_lift {V U} f x hx := by
-    obtain ⟨⟨⟨U'⟩, t⟩⟩ := x
+    obtain ⟨@⟨⟨U'⟩, t⟩⟩ := x
     change U' = U at hx
     subst hx
-    exact ⟨op ⟨op V, G.map f.op t⟩,
-      (CategoryOfElements.homMk ⟨op U', t⟩ ⟨op V, G.map f.op t⟩ f.op rfl).op,
-      IsHomLift.map (p := (CategoryOfElements.π G).leftOp)
-        (CategoryOfElements.homMk ⟨op U', t⟩ ⟨op V, G.map f.op t⟩ f.op rfl).op⟩
+    exact ⟨op (G.elementsMk (op V) (G.map f.op t)),
+      (Functor.Elements.homMk (x := G.elementsMk (op U') t)
+        (y := G.elementsMk (op V) (G.map f.op t)) f.op rfl).op,
+      IsHomLift.map (p := (Functor.Elements.π G).leftOp)
+        (Functor.Elements.homMk (x := G.elementsMk (op U') t)
+          (y := G.elementsMk (op V) (G.map f.op t)) f.op rfl).op⟩
   unique_lift {x y z} φ ψ f hf := by
     have hz : G.map f.op y.unop.2 = z.unop.2 := by
       rw [← φ.unop.2, ← ψ.unop.2]
       show G.map f.op (G.map φ.unop.1 x.unop.2) = G.map ψ.unop.1 x.unop.2
       have e : φ.unop.1 ≫ f.op = ψ.unop.1 := Quiver.Hom.unop_inj hf
-      rw [← FunctorToTypes.map_comp_apply, e]
-    refine ⟨(CategoryOfElements.homMk y.unop z.unop f.op hz).op, ⟨rfl, ?_⟩, ?_⟩
+      rw [← Functor.map_comp_apply, e]
+    refine ⟨(Functor.Elements.homMk (x := y.unop) (y := z.unop) f.op hz).op, ⟨rfl, ?_⟩, ?_⟩
     · exact elements_op_hom_ext (Quiver.Hom.unop_inj hf)
     · rintro χ ⟨hχ, -⟩
       exact elements_op_hom_ext (Quiver.Hom.unop_inj hχ)
@@ -105,13 +107,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 /-- The object of the fibre over `V` of the category of elements of `G` given by an element
 `t` of `G(V)`. -/
 abbrev elementsFiberMk {V : BigFppfOver B S hS} (t : G.obj (op V)) :
-    (CategoryOfElements.π G).leftOp.Fiber V :=
-  ⟨op ⟨op V, t⟩, rfl⟩
+    (Functor.Elements.π G).leftOp.Fiber V :=
+  ⟨op (G.elementsMk (op V) t), rfl⟩
 
 /-- Every object of a fibre of the category of elements of `G` is given by an element. -/
 theorem exists_eq_elementsFiberMk {V : BigFppfOver B S hS}
-    (z : (CategoryOfElements.π G).leftOp.Fiber V) : ∃ t : G.obj (op V), z = elementsFiberMk t := by
-  obtain ⟨⟨⟨⟨V'⟩, t⟩⟩, h⟩ := z
+    (z : (Functor.Elements.π G).leftOp.Fiber V) : ∃ t : G.obj (op V), z = elementsFiberMk t := by
+  obtain ⟨⟨@⟨⟨V'⟩, t⟩⟩, h⟩ := z
   change V' = V at h
   subst h
   exact ⟨t, rfl⟩
@@ -119,14 +121,14 @@ theorem exists_eq_elementsFiberMk {V : BigFppfOver B S hS}
 /-- A morphism of the category of elements lying over `f` into the object given by `t` exhibits
 its source as the object given by `G(f)(t)`. -/
 theorem elementsFiberMk_eq_of_isHomLift {V U : BigFppfOver B S hS} (f : V ⟶ U)
-    (t : G.obj (op U)) {x : G.Elementsᵒᵖ} (hx : (CategoryOfElements.π G).leftOp.obj x = V)
-    (m : x ⟶ op ⟨op U, t⟩) (hm : (CategoryOfElements.π G).leftOp.IsHomLift f m) :
-    (⟨x, hx⟩ : (CategoryOfElements.π G).leftOp.Fiber V) = elementsFiberMk (G.map f.op t) := by
-  obtain ⟨⟨⟨V'⟩, s⟩⟩ := x
+    (t : G.obj (op U)) {x : G.Elementsᵒᵖ} (hx : (Functor.Elements.π G).leftOp.obj x = V)
+    (m : x ⟶ op (G.elementsMk (op U) t)) (hm : (Functor.Elements.π G).leftOp.IsHomLift f m) :
+    (⟨x, hx⟩ : (Functor.Elements.π G).leftOp.Fiber V) = elementsFiberMk (G.map f.op t) := by
+  obtain ⟨@⟨⟨V'⟩, s⟩⟩ := x
   change V' = V at hx
   subst hx
   have hb : m.unop.1 = f.op := by
-    have h := IsHomLift.fac' (CategoryOfElements.π G).leftOp f m
+    have h := IsHomLift.fac' (Functor.Elements.π G).leftOp f m
     simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at h
     exact Quiver.Hom.unop_inj h
   obtain rfl : G.map f.op t = s := by
@@ -136,10 +138,10 @@ theorem elementsFiberMk_eq_of_isHomLift {V U : BigFppfOver B S hS} (f : V ⟶ U)
 
 /-- A morphism of a fibre of the category of elements of `G` lies over the identity. -/
 theorem val_unop_fiberInclusion_map {V : BigFppfOver B S hS}
-    {z z' : (CategoryOfElements.π G).leftOp.Fiber V} (φ : z ⟶ z') :
+    {z z' : (Functor.Elements.π G).leftOp.Fiber V} (φ : z ⟶ z') :
     (Fiber.fiberInclusion.map φ).unop.1 =
       (eqToHom z.2 ≫ eqToHom z'.2.symm).op := by
-  have h := IsHomLift.fac' (CategoryOfElements.π G).leftOp (𝟙 V) (Fiber.fiberInclusion.map φ)
+  have h := IsHomLift.fac' (Functor.Elements.π G).leftOp (𝟙 V) (Fiber.fiberInclusion.map φ)
   rw [Category.id_comp] at h
   exact Quiver.Hom.unop_inj h
 
@@ -158,14 +160,14 @@ theorem eq_of_elementsFiber_hom {V : BigFppfOver B S hS} {t t' : G.obj (op V)}
 
 /-- Between two objects of a fibre of the category of elements there is at most one morphism. -/
 instance subsingleton_elementsFiber_hom {V : BigFppfOver B S hS}
-    (z z' : (CategoryOfElements.π G).leftOp.Fiber V) : Subsingleton (z ⟶ z') :=
-  ⟨fun φ ψ => Fiber.hom_ext (Quiver.Hom.unop_inj (CategoryOfElements.ext _ _ _
+    (z z' : (Functor.Elements.π G).leftOp.Fiber V) : Subsingleton (z ⟶ z') :=
+  ⟨fun φ ψ => Fiber.hom_ext (Quiver.Hom.unop_inj (Functor.Elements.hom_ext
     ((val_unop_fiberInclusion_map φ).trans (val_unop_fiberInclusion_map ψ).symm)))⟩
 
 /-- A choice of pullbacks of the category of elements of `G` pulls the element `t` back to
 `G(f)(t)`. -/
 theorem elements_pullbackFunctor_obj_eq
-    (c : (CategoryOfElements.π G).leftOp.ChoiceOfPullbacks)
+    (c : (Functor.Elements.π G).leftOp.ChoiceOfPullbacks)
     {V U : BigFppfOver B S hS} (f : V ⟶ U) (t : G.obj (op U)) :
     (c.pullbackFunctor f).obj (elementsFiberMk t) = elementsFiberMk (G.map f.op t) :=
   elementsFiberMk_eq_of_isHomLift f t ((c.pullbackFunctor f).obj (elementsFiberMk t)).2
@@ -174,7 +176,7 @@ theorem elements_pullbackFunctor_obj_eq
 /-- A morphism between pullbacks of elements in a fibre of the category of elements of `G`
 identifies the restricted elements. -/
 theorem map_eq_of_pullbackFunctor_hom
-    (c : (CategoryOfElements.π G).leftOp.ChoiceOfPullbacks)
+    (c : (Functor.Elements.π G).leftOp.ChoiceOfPullbacks)
     {V U U' : BigFppfOver B S hS} (f : V ⟶ U) (f' : V ⟶ U') {t : G.obj (op U)}
     {t' : G.obj (op U')}
     (φ : (c.pullbackFunctor f).obj (elementsFiberMk t) ⟶
@@ -188,18 +190,18 @@ elements.** The fibres of the category of elements are discrete, so the comparis
 Stacks 07WP is, up to the identification of the objects of a fibre with elements of `G`, the map
 `G(Y') ⟶ G(Y) ×_{G(X)} G(X')`. -/
 theorem satisfiesRS_elements_of_satisfiesRSFunctor (h : SatisfiesRSFunctor B S hS G) :
-    SatisfiesRS B S hS (CategoryOfElements.π G).leftOp
+    SatisfiesRS B S hS (Functor.Elements.π G).leftOp
       (isFiberedInGroupoids_elements_leftOp G) := by
   intro X X' Y Y' i j i' j' w hX hX' hY hY' hX₁ hX'₁ hY₁ hY'₁ hci hpo
-  let : (CategoryOfElements.π G).leftOp.IsFibered :=
+  let : (Functor.Elements.π G).leftOp.IsFibered :=
     (isFiberedInGroupoids_elements_leftOp G).isFibered
-  let p := (CategoryOfElements.π G).leftOp
+  let p := (Functor.Elements.π G).leftOp
   let c := p.chosenPullbacks
   let K := fiberSquareComparison p c j i j' i' w.symm
   have hRS := h i j i' j' w hX hX' hY hY' hX₁ hX'₁ hY₁ hY'₁ hci hpo
   have hcomp : ∀ t : G.obj (op Y'), G.map j.op (G.map j'.op t) = G.map i.op (G.map i'.op t) := by
     intro t
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       w]
   have : K.Faithful := ⟨fun {_ _} _ _ _ => Subsingleton.elim _ _⟩
   have : K.Full := by
@@ -268,7 +270,7 @@ variable {F}
 def ranSectionOf {U₀ : LocallyNoetherianOver B S hS} (t : F.obj (op U₀)) :
     (bigSiteRan F).obj (op U₀.obj) :=
   ⟨fun U f => F.map (ObjectProperty.homMk f : U ⟶ U₀).op t, fun U U' g f => by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     rfl⟩
 
 /-- The family attached to `t ∈ F(U₀)` takes the value `t` at the identity of `U₀`. -/
@@ -298,7 +300,7 @@ theorem ranSectionOf_map {U₀ U₁ : LocallyNoetherianOver B S hS} (g : U₁ �
   funext U f
   show F.map (ObjectProperty.homMk (f ≫ g.hom) : U ⟶ U₀).op t =
     F.map (ObjectProperty.homMk f : U ⟶ U₁).op (F.map g.op t)
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [← Functor.map_comp_apply, ← op_comp]
   rfl
 
 /-- Distinct elements of `F` over a locally Noetherian object give distinct families. -/
@@ -349,7 +351,7 @@ variable (F)
 extension.** -/
 def elementsToBigSiteRan : F.Elementsᵒᵖ ⥤ (bigSiteRan F).Elementsᵒᵖ :=
   (show F.Elements ⥤ (bigSiteRan F).Elements from
-    { obj := fun x => ⟨op x.1.unop.obj, ranSectionOf x.2⟩
+    { obj := fun x => (bigSiteRan F).elementsMk (op x.1.unop.obj) (ranSectionOf x.2)
       map := fun {x _} f => ⟨f.1.unop.hom.op,
         (ranSectionOf_map f.1.unop x.2).trans (congrArg ranSectionOf f.2)⟩
       map_id := fun _ => rfl
@@ -364,7 +366,7 @@ theorem elementsToBigSiteRan_comp_bigElementsToOver :
 instance : (elementsToBigSiteRan F).Faithful :=
   ⟨fun {x y} f g h => by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply ObjectProperty.hom_ext
     exact congrArg (fun k => k.unop.1.unop) h⟩
@@ -373,8 +375,8 @@ instance : (elementsToBigSiteRan F).Faithful :=
 of the image comes from a morphism of the category of elements of `F`. -/
 instance : (elementsToBigSiteRan F).Full :=
   ⟨fun {x y} g => by
-    obtain ⟨⟨⟨X₀⟩, x₀⟩⟩ := x
-    obtain ⟨⟨⟨Y₀⟩, y₀⟩⟩ := y
+    obtain ⟨@⟨⟨X₀⟩, x₀⟩⟩ := x
+    obtain ⟨@⟨⟨Y₀⟩, y₀⟩⟩ := y
     let g₀ : X₀ ⟶ Y₀ := ObjectProperty.homMk g.unop.1.unop
     exact ⟨Quiver.Hom.op ⟨g₀.op,
       ranSectionOf_injective ((ranSectionOf_map g₀ y₀).symm.trans g.unop.2)⟩, rfl⟩⟩
@@ -383,9 +385,10 @@ instance : (elementsToBigSiteRan F).Full :=
 theorem elementsToBigSiteRan_surjective (y' : (bigSiteRan F).Elementsᵒᵖ)
     (hy' : IsLocallyNoetherian ((bigElementsToOver (bigSiteRan F)).obj y').left) :
     ∃ y : F.Elementsᵒᵖ, (elementsToBigSiteRan F).obj y = y' := by
-  obtain ⟨⟨⟨T⟩, s⟩⟩ := y'
-  refine ⟨op ⟨op ⟨T, hy'⟩, s.1 ⟨T, hy'⟩ (𝟙 _)⟩, ?_⟩
-  show op (⟨op T, ranSectionOf (s.1 ⟨T, hy'⟩ (𝟙 _))⟩ : (bigSiteRan F).Elements) = op ⟨op T, s⟩
+  obtain ⟨@⟨⟨T⟩, s⟩⟩ := y'
+  refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (s.1 ⟨T, hy'⟩ (𝟙 _))), ?_⟩
+  show op ((bigSiteRan F).elementsMk (op T) (ranSectionOf (s.1 ⟨T, hy'⟩ (𝟙 _)))) =
+    op ((bigSiteRan F).elementsMk (op T) s)
   rw [ranSectionOf_val_id_eq (U₀ := ⟨T, hy'⟩) s]
 
 /-! ### Predeformation categories -/
@@ -409,7 +412,7 @@ theorem isDeformationCategory_predeformationCategory_of_satisfiesRS (hF : Satisf
     IsDeformationCategory
       (predeformationCategory iΛ (elementsToOver B S hS F) x₀ hx₀).projection := by
   have hD' := Deformation.Artin.isDeformationCategory_predeformationCategory B S hS
-    (CategoryOfElements.π (bigSiteRan F)).leftOp
+    (Functor.Elements.π (bigSiteRan F)).leftOp
     (Functor.isFiberedInGroupoids_elements_leftOp (bigSiteRan F))
     (satisfiesRS_elements_of_satisfiesRSFunctor (satisfiesRSFunctor_bigSiteRan hF))
     iΛ ((elementsToBigSiteRan F).obj x₀) hx₀ hfinite hqc

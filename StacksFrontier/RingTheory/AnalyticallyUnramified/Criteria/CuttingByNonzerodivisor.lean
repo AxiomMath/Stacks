@@ -214,8 +214,7 @@ private theorem exists_isDomain_localization_atPrime_of_mem_associatedPrimes {R 
     simp
   have e :
     (AdicCompletion (maximalIdeal R) R ⧸
-        Ideal.span {algebraMap R (AdicCompletion (maximalIdeal R) R)
-              x}) ≃ₗ[AdicCompletion (maximalIdeal R) R]
+        Ideal.span {(algebraMap R (AdicCompletion (maximalIdeal R) R)) x}) ≃ₗ[AdicCompletion (maximalIdeal R) R]
       (AdicCompletion (maximalIdeal R) R) ⊗[R] (R ⧸ Ideal.span {x}) :=
     (Submodule.quotEquivOfEq _ _ hspan).trans
       (Ideal.qoutMapEquivTensorQout (AdicCompletion (maximalIdeal R) R))

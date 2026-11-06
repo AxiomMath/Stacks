@@ -297,6 +297,10 @@ theorem coherentOnSiteModules_isClosedUnderFiniteCoproducts
   have := coherentOnSiteModules_containsZero.{u, t} B S hS 𝒳
   have := coherentOnSiteModules_isClosedUnderIsomorphisms.{u, t} B S hS 𝒳
   have := coherentOnSiteModules_isClosedUnderBinaryCoproducts.{u, t} B S hS 𝒳 h𝒳
+  have : HasFiniteBiproducts (SheafOfModules.{u} (ringStructureSheafCore B S hS 𝒳.val.val.p
+      𝒳.val.isFiberedInGroupoids B.topology le_rfl)) := Abelian.hasFiniteBiproducts
+  have : HasFiniteCoproducts (SheafOfModules.{u} (ringStructureSheafCore B S hS 𝒳.val.val.p
+      𝒳.val.isFiberedInGroupoids B.topology le_rfl)) := hasFiniteCoproducts_of_hasFiniteBiproducts _
   ObjectProperty.IsClosedUnderFiniteCoproducts.mk'
 
 /-- **Stacks 0GR9, the abelian-category clause.**  The category of coherent `𝒪_𝒳`-modules on a

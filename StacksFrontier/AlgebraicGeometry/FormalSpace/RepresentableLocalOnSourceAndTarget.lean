@@ -250,7 +250,7 @@ used: the disjoint union of the members of the covering is one object of the sit
 after base change along it. Nothing is asked of `X` or `Y` beyond the sheaf condition, and the
 conclusion is the full representability of `f`. -/
 theorem isRepresentable_of_forall_surjective_etale_cover {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
-    (h : ∀ (T : BigFppfOver B S hS) (ξ : (uliftYoneda.{u + 1}).obj T ⟶ Y.val),
+    (h : ∀ (T : BigFppfOver B S hS) (ξ : (uliftYoneda.{u + 1}).obj T ⟶ Y.obj),
       ∃ (T' : BigFppfOver B S hS) (q : T' ⟶ T),
         Surjective ((BigFppfOver.toScheme B S hS).map q) ∧
         Etale ((BigFppfOver.toScheme B S hS).map q) ∧
@@ -258,7 +258,7 @@ theorem isRepresentable_of_forall_surjective_etale_cover {X Y : FppfSheaf B S hS
           (pullback ((uliftYoneda.{u + 1}).map q ≫ ξ) f.hom)) :
     Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom :=
   Space.isRepresentableByAlgebraicSpacesULift_of_forall_surjective_etale_cover B S hS f.hom
-    X.cond Y.cond h
+    X.property Y.property h
 
 /-- **Stacks 0AN4, condition (2) implies condition (1)**, for a source column which is
 representable by objects of the site and not merely by algebraic spaces.
@@ -280,7 +280,7 @@ theorem isRepresentable_of_siteSurjectiveEtaleChart {X Y U : FppfSheaf B S hS} (
     (hpf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS (p ≫ f).hom) :
     Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom :=
   Space.isRepresentableByAlgebraicSpacesULift_of_comp_of_surjective_etale B S hS p.hom f.hom
-    X.cond Y.cond hs he hpf
+    X.property Y.property hs he hpf
 
 end AlgebraicGeometry.FormalSpace
 

@@ -85,6 +85,9 @@ private theorem subsingleton_sheafH_inverse_of_iso
       (constantSheaf J AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))
     (F : Sheaf K AddCommGrpCat.{a}) (q : ℕ) (h : Subsingleton (Sheaf.H.{w'} F q)) :
     Subsingleton (Sheaf.H.{w} (E.inverse.obj F) q) := by
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{a}) := hasBinaryProducts_of_hasBinaryBiproducts
+  have : E.symm.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_full _
   have : E.symm.functor.Additive := Functor.additive_of_preserves_binary_products _
   have h₀ : Subsingleton (Ext.{w'}
       ((constantSheaf K AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))

@@ -63,6 +63,17 @@ namespace AlgebraicGeometry.BigFppfSpaceSite
 
 variable {S : Scheme.{u}} (T : BigFppfSpaceSite S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without
+this shortcut). -/
+private instance hasPullbacks_presheaf :
+    HasPullbacks ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The big fppf topology is subcanonical -/
 
 /-- A presheaf represented by an algebraic space satisfies the sheaf condition for an fppf

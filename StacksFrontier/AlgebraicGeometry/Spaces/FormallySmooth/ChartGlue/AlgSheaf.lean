@@ -83,7 +83,7 @@ theorem eq_of_map_specMap_eq (hff : (φ : C →+* D).FaithfullyFlat)
       obtain ⟨W, g, k, ⟨⟩, rfl⟩ := he
       rw [yonedaEquiv_symm_naturality_left, yonedaEquiv_symm_naturality_left]
       congr 1
-      rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, h])
+      rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h])
   exact yonedaEquiv.symm.injective key
 
 end Separation
@@ -156,8 +156,8 @@ theorem exists_of_map_specMap_eq (hff : (algebraMap (ringOf B S hS T') D).Faithf
         exacts [hl₁, hl₂]
       rw [yonedaEquiv_symm_naturality_left, yonedaEquiv_symm_naturality_left]
       congr 1
-      rw [← hs, ← ht, op_comp, op_comp, FunctorToTypes.map_comp_apply,
-        FunctorToTypes.map_comp_apply, h])
+      rw [← hs, ← ht, op_comp, op_comp, Functor.map_comp_apply,
+        Functor.map_comp_apply, h])
   refine ⟨yonedaEquiv d, ?_⟩
   rw [yonedaEquiv_naturality, hd PUnit.unit, Equiv.apply_symm_apply]
 

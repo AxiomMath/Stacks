@@ -187,7 +187,19 @@ namespace AlgebraicGeometry.Space
 section BaseChangeCovering
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-    {X Y : AlgebraicSpaces B S hS}
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_relativeIsom :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_relativeIsom
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : P ⟶ R) (b : Q ⟶ R) :
+    HasLimit (cospan a b) :=
+  (hasPullbacks_presheaf_relativeIsom (B := B) (S := S) (hS := hS)).has_limit _
+
+variable {X Y : AlgebraicSpaces B S hS}
 
 /-- **The base change of a test scheme is the chosen fibre product.**  The base change `X_U` of
 `f : X ⟶ Y` along a test scheme `U` over `Y` mapping to a test scheme `T` is identified with the

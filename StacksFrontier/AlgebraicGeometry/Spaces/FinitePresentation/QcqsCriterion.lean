@@ -249,13 +249,13 @@ private theorem colimInj_uliftFunctor_iff :
     ColimInj D c (Functor.whiskerRight a uliftFunctor.{v', v}) ↔ ColimInj D c a := by
   constructor
   · intro h i x₁ x₂ hx j g hg
-    obtain ⟨k, p, hp⟩ := h i (ULift.up x₁) (ULift.up x₂) (ULift.ext _ _ hx) j g
-      (ULift.ext _ _ hg)
+    obtain ⟨k, p, hp⟩ := h i (ULift.up x₁) (ULift.up x₂) (ULift.ext hx) j g
+      (ULift.ext hg)
     exact ⟨k, p, congrArg ULift.down hp⟩
   · intro h i x₁ x₂ hx j g hg
     obtain ⟨k, p, hp⟩ := h i x₁.down x₂.down (congrArg ULift.down hx) j g
       (congrArg ULift.down hg)
-    exact ⟨k, p, ULift.ext _ _ hp⟩
+    exact ⟨k, p, ULift.ext hp⟩
 
 /-- Lifting the values of a transformation to a larger universe does not change the
 stagewise surjectivity condition. -/
@@ -263,11 +263,11 @@ private theorem colimSurj_uliftFunctor_iff :
     ColimSurj D c (Functor.whiskerRight a uliftFunctor.{v', v}) ↔ ColimSurj D c a := by
   constructor
   · intro h i x y hxy
-    obtain ⟨j, g, z, hz₁, hz₂⟩ := h i (ULift.up x) (ULift.up y) (ULift.ext _ _ hxy)
+    obtain ⟨j, g, z, hz₁, hz₂⟩ := h i (ULift.up x) (ULift.up y) (ULift.ext hxy)
     exact ⟨j, g, z.down, congrArg ULift.down hz₁, congrArg ULift.down hz₂⟩
   · intro h i x y hxy
     obtain ⟨j, g, z, hz₁, hz₂⟩ := h i x.down y.down (congrArg ULift.down hxy)
-    exact ⟨j, g, ULift.up z, ULift.ext _ _ hz₁, ULift.ext _ _ hz₂⟩
+    exact ⟨j, g, ULift.up z, ULift.ext hz₁, ULift.ext hz₂⟩
 
 end Ulift
 
@@ -275,6 +275,24 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_QcqsCriterion :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_QcqsCriterion
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of `u`-small diagrams of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_presheaf (I : Type u) [Category.{u} I] :
+    HasLimitsOfShape I ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 /-! ### The Yoneda translation of the elementwise conditions -/
 
@@ -1074,8 +1092,9 @@ private theorem isPullback_of_chartBridges {f : X ⟶ Y}
       (colimSurj_uliftFunctor_iff (yoneda.map f)).mpr ?_⟩
   · refine (colimInj_presheaf_iff B S hS D c f).mpr fun i x₁ x₂ hx j g hg => ?_
     have hx' : limit.π D i ≫ x₁ = limit.π D i ≫ x₂ := by
-      rw [← cancel_epi e.hom, ← Category.assoc, ← Category.assoc, he i]
-      exact hx
+      have hπ : limit.π D i = e.inv ≫ c.π.app i := by
+        rw [← he i, ← Category.assoc, e.inv_hom_id, Category.id_comp]
+      rw [hπ, Category.assoc, Category.assoc, hx]
     exact colimInj_limit B S hS hZ hXsh D hbr hD hqc hqs hAffine i x₁ x₂ hx' j g hg
   · refine (colimSurj_presheaf_iff B S hS D c f).mpr fun i x y hxy => ?_
     have hxy' : (e.inv ≫ x) ≫ f = limit.π D i ≫ y := by

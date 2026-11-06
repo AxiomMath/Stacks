@@ -230,6 +230,7 @@ lemma exists_poincareCoeffacingEpi
     · have h := hprop i.M c.π i.I IP φ hφ
       rwa [show ((n + 1 : ℕ) : ℤ) = 2 - m by omega] at h
 
+set_option maxHeartbeats 400000 in
 omit [IsCurve k f] [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar]
   [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The inductive step for the family**: a coeffacing epimorphism `π : P ⟶ M` gives members
@@ -308,11 +309,14 @@ lemma poincarePairing_step (i : PoincareIndex B X x Λ f j) (m : ℤ)
       (Stacks.AbelianInternalHom.homOpComplexPrecomp
         (M := etaleHomOpTarget (Over.mk j.toBase) Kc) fh),
     galoisHomOpA_map_comp_eq_zero kbar fh gh w, galoisHomOpE_map_comp_eq_zero kbar Kc fh gh w,
-    hSE.1, hSE.2, poincarePairing_precomp kbar Kc t (PoincareIndex.mk' (j := j) P T₂ ι₂)
-      (PoincareIndex.mk' (j := j) (kernel π) T₁ ι₁) fh,
-    poincarePairing_precomp kbar Kc t i (PoincareIndex.mk' (j := j) P T₂ ι₂) gh,
-    @hA0 (PoincareIndex.mk' (j := j) P T₂ ι₂).I hge₂ gh hc₂,
-    hE0 (PoincareIndex.mk' (j := j) P T₂ ι₂).I gh hc₂⟩
+    ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact hSE.1
+  · exact hSE.2
+  · exact poincarePairing_precomp kbar Kc t (PoincareIndex.mk' (j := j) P T₂ ι₂)
+      (PoincareIndex.mk' (j := j) (kernel π) T₁ ι₁) fh
+  · exact poincarePairing_precomp kbar Kc t i (PoincareIndex.mk' (j := j) P T₂ ι₂) gh
+  · exact @hA0 (PoincareIndex.mk' (j := j) P T₂ ι₂).I hge₂ gh hc₂
+  · exact hE0 (PoincareIndex.mk' (j := j) P T₂ ι₂).I gh hc₂
 
 /-- **The Poincaré pairings of the family are quasi-isomorphisms**, given the base case in
 degree `2`, the vanishing of the cohomology of `Γ^Gal(ℋom^•(I, K))` outside `[0, 2]`, and

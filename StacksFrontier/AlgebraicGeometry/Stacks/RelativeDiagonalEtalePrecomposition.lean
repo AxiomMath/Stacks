@@ -298,6 +298,17 @@ theorem isRelativelyEtale_comp_relativeDiagonal_iff (hk : IsRelativelyEtale B S 
     fun h => isRelativelyEtale_congr_twoIso B S hS (diagPrecompDiagonalIso B S hS k f)
       (isRelativelyEtale_comp B S hS _ _ h (isRelativelyEtale_diagPrecomp B S hS k f hk))⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance hasPullbacks_presheaf_RelativeDiagonalEtalePrecomposition :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_RelativeDiagonalEtalePrecomposition
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- Let `U` and `V` be algebraic spaces over `S` and `F : 𝒮_U ⟶ 𝒮_V` a 1-morphism of the
 associated categories fibred in groupoids, inducing `h : U ⟶ V`. Then the relative diagonal of `F`
 is relatively étale exactly when the diagonal `U ⟶ U ×_V U` of `h` is an étale morphism of

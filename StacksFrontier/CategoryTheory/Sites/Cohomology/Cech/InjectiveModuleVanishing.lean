@@ -78,7 +78,7 @@ open scoped ChangeOfRings
 -- index type that occurs; without it the comparison of the two sites needs
 -- `backward.isDefEq.respectTransparency`.
 attribute [local implicit_reducible] CategoryTheory.PreZeroHypercover.map
-  cechFormalCoproduct cechFormalCoproductMap CategoryTheory.Over.post
+  cechFormalCoproduct cechFormalCoproductMap
   CategoryTheory.ULiftHom.up CategoryTheory.ULiftHom.down
   CategoryTheory.Limits.FormalCoproduct.cochainComplexFunctor
   CategoryTheory.Limits.FormalCoproduct.cosimplicialObjectFunctor
@@ -351,14 +351,14 @@ private noncomputable def cechULiftHomIso
           Pi.π (fun a : ToType (SimplexCategory.mk (n + 1)) => Over.mk (E'.f (q a))) j' := by
         dsimp [q₀, S', S, δ, cechSimplicialObject,
           cechFormalCoproductMap]
-        simp only [Pi.lift_π]
+        simp only [Pi.lift_comp_π]
         simp [j']
       have hface : ((S.map δ).φ q) ≫
           Pi.π (fun a : ToType (SimplexCategory.mk n) => Over.mk (E.f (q₀ a))) j =
           Pi.π (fun a : ToType (SimplexCategory.mk (n + 1)) => Over.mk (E.f (q a))) j' := by
         dsimp [q₀, S, δ, cechSimplicialObject,
           cechFormalCoproductMap]
-        simp only [Pi.lift_π]
+        simp only [Pi.lift_comp_π]
         simp [j']
       rw [hP₀hom, hP₁inv, Category.assoc, Category.assoc, piComparison_comp_π,
         ← Functor.map_comp, hface', inv_piComparison_comp_map_π, hface]
@@ -397,7 +397,7 @@ private noncomputable def cechULiftHomIso
   simp only [Functor.rightOp_obj, Functor.comp_obj, Functor.whiskeringLeft_obj_obj,
     Functor.op_obj, Opposite.unop_op]
   dsimp only [termIso, id]
-  rw [Pi.lift_π,
+  rw [Pi.lift_comp_π,
     Pi.mapIso_hom_π_assoc (g := fun y => F.obj (op ((Over.forget U).obj
       (((cechSimplicialObject E).obj (op (SimplexCategory.mk i))).obj y)))),
     Pi.mapIso_hom_π (g := fun y => F.obj (op ((Over.forget U).obj
@@ -408,7 +408,7 @@ private noncomputable def cechULiftHomIso
     ((Category.assoc _ _ _).symm.trans
       ((congrArg (fun z => z ≫ F.map (Over.Hom.left (PreservesProduct.iso downOver
           (fun j => Over.mk (E'.f (q j)))).inv).op)
-        (Pi.lift_π (fun y => Pi.π (fun x => F.obj (op (down.obj ((Over.forget (up.obj U)).obj
+        (Pi.lift_comp_π (fun y => Pi.π (fun x => F.obj (op (down.obj ((Over.forget (up.obj U)).obj
             (((cechSimplicialObject E').obj (op (SimplexCategory.mk i))).obj x)))))
               (((cechSimplicialObject E').map (SimplexCategory.δ k).op).f y) ≫
             ((Over.forget (up.obj U)).op ⋙ down.op ⋙ F).map
@@ -563,7 +563,7 @@ open scoped ChangeOfRings
 -- index type that occurs; without it the comparison of the two sites needs
 -- `backward.isDefEq.respectTransparency`.
 attribute [local implicit_reducible] CategoryTheory.PreZeroHypercover.map
-  cechFormalCoproduct cechFormalCoproductMap CategoryTheory.Over.post
+  cechFormalCoproduct cechFormalCoproductMap
   CategoryTheory.ULiftHom.up CategoryTheory.ULiftHom.down
   CategoryTheory.Limits.FormalCoproduct.cochainComplexFunctor
   CategoryTheory.Limits.FormalCoproduct.cosimplicialObjectFunctor

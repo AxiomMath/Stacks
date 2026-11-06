@@ -60,7 +60,7 @@ namespace Stacks.ProjectiveFromSections
 attribute [local implicit_reducible] AlgebraicGeometry.Scheme.Modules
   AlgebraicGeometry.Scheme.Modules.Hom AlgebraicGeometry.Scheme.Modules.pullback
   AlgebraicGeometry.Scheme.Modules.pushforward
-  CategoryTheory.Subfunctor.toFunctor TopCat.Sheaf CategoryTheory.sheafCompose
+  TopCat.Sheaf CategoryTheory.sheafCompose
   SheafOfModules.unit PresheafOfModules.unit
 
 /-! ### Invertibility and rank one -/

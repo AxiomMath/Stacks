@@ -139,7 +139,7 @@ theorem columnMap_zero_columnZeroIso07Q9 :
     F.columnMap 0 ≫ W'.toCosimplicialCompletedModule.columnZeroIso.hom =
       W.toCosimplicialCompletedModule.columnZeroIso.hom ≫ F.carrierMap07Q9 :=
   NatTrans.ext (funext fun n => AddCommGrpCat.ext fun x =>
-    ULift.ext _ _ (F.columnZeroEquiv_tensorApp07Q9 n.len x))
+    ULift.ext (F.columnZeroEquiv_tensorApp07Q9 n.len x))
 
 /-- **The morphism of the Moore complexes of the columns zero induced by `F` is, through the
 identifications of the columns zero with the cosimplicial modules, the Moore complex of the

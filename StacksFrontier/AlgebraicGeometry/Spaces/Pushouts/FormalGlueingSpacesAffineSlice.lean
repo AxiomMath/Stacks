@@ -63,6 +63,21 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesAffineSlice
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
+/-- Pullbacks in presheaves on `BigFppfOver B S hS`, given directly (see above). -/
+local instance (priority := high) hasPullbacks_presheaf_FormalGlueingSpacesAffineSlice
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- The construction of affine glueing data in the slice over a space `Qq` over `X`: a morphism
 of glueing data `ψ : G ⟶ F Qq` whose two legs are affine is the restriction of a morphism
 `k : T ⟶ Qq` of spaces over `X`, up to an isomorphism `F T ≅ G`. Clause (1) of Stacks 0AF4 for

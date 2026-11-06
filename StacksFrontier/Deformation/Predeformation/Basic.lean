@@ -529,76 +529,76 @@ universe u v w t
 cofibered in groupoids. -/
 public theorem categoryOfElements_π_isCofibered
     {C : Type u} [Category.{v} C] (F : C ⥤ Type t) :
-    IsCofiberedInGroupoids (CategoryOfElements.π F) := by
-  show Functor.IsFiberedInGroupoids (CategoryOfElements.π F).op
+    IsCofiberedInGroupoids (Functor.Elements.π F) := by
+  show Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
   constructor
   · intro V U f x hx
     rcases V with ⟨V⟩
     rcases U with ⟨U⟩
     rcases x with ⟨x⟩
-    change Opposite.op ((CategoryOfElements.π F).obj x) = Opposite.op U at hx
+    change Opposite.op ((Functor.Elements.π F).obj x) = Opposite.op U at hx
     cases hx
     let y := F.elementsMk V (F.map f.unop x.2)
-    let g : x ⟶ y := CategoryOfElements.homMk x y f.unop rfl
+    let g : x ⟶ y := Functor.Elements.homMk (x := x) (y := y) f.unop rfl
     refine ⟨Opposite.op y, g.op, ?_⟩
-    have hmap : (CategoryOfElements.π F).op.map g.op = f := by
-      apply Quiver.Hom.opEquiv.injective; simp [g, CategoryOfElements.π]
+    have hmap : (Functor.Elements.π F).op.map g.op = f := by
+      apply Quiver.Hom.opEquiv.injective; simp [g, Functor.Elements.π]
     rw [← hmap]
     exact inferInstance
   · intro x y z φ ψ f hf
     rcases x with ⟨x⟩
     rcases y with ⟨y⟩
     rcases z with ⟨z⟩
-    have hbase : φ.unop.val ≫ f.unop = ψ.unop.val := by
+    have hbase : φ.unop.hom ≫ f.unop = ψ.unop.hom := by
       simpa using congrArg Quiver.Hom.unop hf
-    let g : y ⟶ z := CategoryOfElements.homMk y z f.unop (by
+    let g : y ⟶ z := Functor.Elements.homMk (x := y) (y := z) f.unop (by
       calc
-        F.map f.unop y.2 = F.map f.unop (F.map φ.unop.val x.2) := by
-          rw [CategoryOfElements.map_snd]
-        _ = F.map (φ.unop.val ≫ f.unop) x.2 := by rw [Functor.map_comp_apply]
-        _ = F.map ψ.unop.val x.2 := by rw [hbase]
-        _ = z.2 := CategoryOfElements.map_snd ψ.unop)
+        F.map f.unop y.2 = F.map f.unop (F.map φ.unop.hom x.2) := by
+          rw [Functor.Elements.Hom.map_val]
+        _ = F.map (φ.unop.hom ≫ f.unop) x.2 := by rw [Functor.map_comp_apply]
+        _ = F.map ψ.unop.hom x.2 := by rw [hbase]
+        _ = z.2 := Functor.Elements.Hom.map_val ψ.unop)
     refine ⟨g.op, ⟨?_, ?_⟩, ?_⟩
-    · have hmap : (CategoryOfElements.π F).op.map g.op = f := by
-        apply Quiver.Hom.opEquiv.injective; simp [g, CategoryOfElements.π]
+    · have hmap : (Functor.Elements.π F).op.map g.op = f := by
+        apply Quiver.Hom.opEquiv.injective; simp [g, Functor.Elements.π]
       exact hmap
     · apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact hbase
     · intro χ hχ
       apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       have hh := congrArg Quiver.Hom.unop hχ.1
-      change χ.unop.val = f.unop at hh
-      show χ.unop.val = f.unop
+      change χ.unop.hom = f.unop at hh
+      show χ.unop.hom = f.unop
       exact hh
 
 private theorem categoryOfElements_fiber_hom_subsingleton
     {C : Type u} [Category.{v} C] (F : C ⥤ Type t)
-    (S : C) {X Y : (CategoryOfElements.π F).Fiber S} (f g : X ⟶ Y) : f = g := by
-  apply Functor.Fiber.hom_ext; apply Functor.map_injective (CategoryOfElements.π F)
-  let : (CategoryOfElements.π F).IsHomLift (𝟙 S)
+    (S : C) {X Y : (Functor.Elements.π F).Fiber S} (f g : X ⟶ Y) : f = g := by
+  apply Functor.Fiber.hom_ext; apply Functor.map_injective (Functor.Elements.π F)
+  let : (Functor.Elements.π F).IsHomLift (𝟙 S)
       (Functor.Fiber.fiberInclusion.map f) := f.2
-  let : (CategoryOfElements.π F).IsHomLift (𝟙 S)
+  let : (Functor.Elements.π F).IsHomLift (𝟙 S)
       (Functor.Fiber.fiberInclusion.map g) := g.2
-  have hf := IsHomLift.fac' (CategoryOfElements.π F) (𝟙 S) (Functor.Fiber.fiberInclusion.map f)
-  have hg := IsHomLift.fac' (CategoryOfElements.π F) (𝟙 S) (Functor.Fiber.fiberInclusion.map g)
+  have hf := IsHomLift.fac' (Functor.Elements.π F) (𝟙 S) (Functor.Fiber.fiberInclusion.map f)
+  have hg := IsHomLift.fac' (Functor.Elements.π F) (𝟙 S) (Functor.Fiber.fiberInclusion.map g)
   rw [hf, hg]
 
 private def categoryOfElements_fiberIso
     {C : Type u} [Category.{v} C] (F : C ⥤ Type t)
-    (S : C) (X : (CategoryOfElements.π F).Fiber S) (a : F.obj S)
+    (S : C) (X : (Functor.Elements.π F).Fiber S) (a : F.obj S)
     (ha : F.map (eqToHom X.2) X.1.2 = a) :
-    X ≅ (⟨F.elementsMk S a, rfl⟩ : (CategoryOfElements.π F).Fiber S) := by
+    X ≅ (⟨F.elementsMk S a, rfl⟩ : (Functor.Elements.π F).Fiber S) := by
   let Y := F.elementsMk S a
-  let e : X.1 ≅ Y := CategoryOfElements.isoMk X.1 Y (eqToIso X.2) ha
-  have hhom : (CategoryOfElements.π F).IsHomLift (𝟙 S) e.hom := by
-    apply IsHomLift.of_fac' (CategoryOfElements.π F) (𝟙 S) e.hom X.2 rfl
-    simp [e, CategoryOfElements.isoMk, CategoryOfElements.homMk, CategoryOfElements.π]
-  have hinv : (CategoryOfElements.π F).IsHomLift (𝟙 S) e.inv := by
-    apply IsHomLift.of_fac' (CategoryOfElements.π F) (𝟙 S) e.inv rfl X.2
-    simp [e, CategoryOfElements.isoMk, CategoryOfElements.homMk, CategoryOfElements.π]
-  let Z : (CategoryOfElements.π F).Fiber S := ⟨Y, rfl⟩
+  let e : X.1 ≅ Y := Functor.Elements.isoMk (x := X.1) (y := Y) (eqToIso X.2) ha
+  have hhom : (Functor.Elements.π F).IsHomLift (𝟙 S) e.hom := by
+    apply IsHomLift.of_fac' (Functor.Elements.π F) (𝟙 S) e.hom X.2 rfl
+    simp [e, Functor.Elements.isoMk, Functor.Elements.homMk, Functor.Elements.π]
+  have hinv : (Functor.Elements.π F).IsHomLift (𝟙 S) e.inv := by
+    apply IsHomLift.of_fac' (Functor.Elements.π F) (𝟙 S) e.inv rfl X.2
+    simp [e, Functor.Elements.isoMk, Functor.Elements.homMk, Functor.Elements.π]
+  let Z : (Functor.Elements.π F).Fiber S := ⟨Y, rfl⟩
   let hom : X ⟶ Z := ⟨e.hom, hhom⟩
   let inv : Z ⟶ X := ⟨e.inv, hinv⟩
   refine ⟨hom, inv, ?_, ?_⟩
@@ -619,9 +619,9 @@ set, the category of elements, is a predeformation category. -/
 public theorem isPredeformationCategory_iff
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t) :
-    IsPredeformationCategory (CategoryOfElements.π F) ↔
+    IsPredeformationCategory (Functor.Elements.π F) ↔
       IsPredeformationFunctor F := by
-  let p := CategoryOfElements.π F
+  let p := Functor.Elements.π F
   constructor
   · intro h
     rcases h.specialFiber with ⟨e⟩
@@ -647,8 +647,8 @@ public theorem isPredeformationCategory_iff
         change p.map (Functor.Fiber.fiberInclusion.map g) =
           eqToHom X.2 ≫ 𝟙 (residueFieldObject Λ k) ≫ eqToHom Y.2.symm at hfac
         rw [hX, hY] at hfac
-        simpa [X, Y, p, CategoryOfElements.π] using hfac
-      have hval := CategoryOfElements.map_snd (Functor.Fiber.fiberInclusion.map g)
+        simpa [X, Y, p, Functor.Elements.π] using hfac
+      have hval := Functor.Elements.Hom.map_val (Functor.Fiber.fiberInclusion.map g)
       change F.map (p.map (Functor.Fiber.fiberInclusion.map g)) a = b at hval
       rw [hbase'] at hval
       exact (Functor.map_id_apply F (residueFieldObject Λ k) a).symm.trans hval

@@ -391,6 +391,7 @@ def affineForm (b : ℕ) (ν : (Stacks.KatzOda.ShiftedSum.intComplex (baseMap g)
     (((Stacks.AlgebraicGeometry.AffineDifferentialsIso.ringDeRhamComplex (baseMap g)).extendXIso
       ComplexShape.embeddingUpNat rfl).hom.hom ν)
 
+set_option maxRecDepth 8000 in
 /-- In degree `b`, `affineClassComplexMap g` sends a form `ν` of `Ω^•_{A/R}` to the cochain
 `restrictTot g topCover b (affineForm g b ν)`. -/
 theorem affineClassComplexMap_f_apply (b : ℕ)

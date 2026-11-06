@@ -304,7 +304,7 @@ theorem eulerFirstArrow_comp_eulerContraction :
     (universalRelativeDerivation_postcomp_eulerFirstArrow R n)
     (eulerContraction R n)).trans ?_
   ext W g
-  simp only [PresheafOfModules.Derivation.postcomp_d_apply]
+  simp only [PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply]
   refine (eulerContraction_app_eulerDerivation R n W.unop g).trans ?_
   rfl
 

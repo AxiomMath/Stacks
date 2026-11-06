@@ -246,7 +246,7 @@ theorem isNthOrderThickening_of_isRepresentedAtOrder (n : ℕ)
       (hG.2.rep.snd (𝟙 (yoneda.obj V)))).2 hn.isThickening.2
     have hw : hG.2.rep.fst (𝟙 (yoneda.obj V)) ≫ G.ι =
         yoneda.map (hG.2.rep.snd (𝟙 (yoneda.obj V))) := by
-      simpa using hsq.w
+      exact hsq.w.trans (Category.comp_id _)
     rw [← hw, pointsMap_comp] at hs0
     exact hs0.of_comp
   refine ⟨⟨hG, hsurj⟩, fun W ↦ ?_⟩
@@ -393,7 +393,8 @@ private theorem exists_isRepresentedNthOrder_of_isAffine {V : BigFppfOver B S hS
   have hP : (MorphismProperty.inverseImage (thickOrder.{u} m)
       (BigFppfOver.toScheme B S hS)).presheaf (yoneda.map i₀) :=
     (BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS _ i₀).2 ⟨hci, hpow⟩
-  have hw : hG.2.rep.fst (𝟙 (yoneda.obj V)) ≫ G.ι = yoneda.map i₀ := by simpa using hsq.w
+  have hw : hG.2.rep.fst (𝟙 (yoneda.obj V)) ≫ G.ι = yoneda.map i₀ :=
+    hsq.w.trans (Category.comp_id _)
   have hiso : IsIso (hG.2.rep.fst (𝟙 (yoneda.obj V))) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (P := MorphismProperty.isomorphisms ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u))

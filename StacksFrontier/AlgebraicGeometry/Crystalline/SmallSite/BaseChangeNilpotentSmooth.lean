@@ -666,7 +666,12 @@ theorem quasiIso_transpose_changeBaseCechMap [Finite ι] (N : BigModuleSheaf S')
       refine ModuleCat.isIso_homEquiv_symm_comp (baseChangeRingHom f) _ _ _
         (ha := Iso.isIso_hom _) (hc := Iso.isIso_inv _) ?_
       exact ModuleCat.isIso_homEquiv_symm_of_isLimit (baseChangeRingHom f)
-          (isLimitFan (cechObjects hp' L') _ q) (isLimitFan (cechObjects hp L) _ q) _
+          (Stacks.CechSite.FinalCover.isLimitFan (cechObjects hp' L')
+            ((basePresheaf.{0, u, u + 1, u, u} (crystallineStructureSheaf S')
+              (bigBaseRingHom S')).obj N) q)
+          (Stacks.CechSite.FinalCover.isLimitFan (cechObjects hp L)
+            ((basePresheaf.{0, u, u + 1, u, u} (crystallineStructureSheaf S) (bigBaseRingHom S)).obj
+              ((changeBaseBigModulePullback S S' f g h).obj N)) q) _
           (fun x ↦ changeBaseCechComponent hp hp' L L' f g h γ N x)
           (fun x ↦ pushforwardCechMapF_comp (crystallineStructureSheaf S') (bigBaseRingHom S')
             (cechObjects hp' L') (crystallineStructureSheaf S) (bigBaseRingHom S)

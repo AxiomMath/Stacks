@@ -70,6 +70,24 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X A : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (fA : A ⟶ X) (W : Subfunctor X)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_GluedDiagonalRelation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, found directly. -/
+local instance (priority := high) hasPullback_presheaf_GluedDiagonalRelation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_GluedDiagonalRelation (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-! ### The relation -/
 
 /-- The union of the diagonal of `A ×_X A` and of its part lying over `W`: the sections of the

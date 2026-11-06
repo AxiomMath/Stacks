@@ -201,6 +201,10 @@ variable (R : Type w) [CommRing R] (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
   (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
+-- The rings of sections of `ringSheaf J O` are commutative (instance search no longer sees
+-- through the composite with `forget₂`); the instance is declared, locally, upstream.
+attribute [local instance] isMulCommutativeRingSheafObj
+
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Extension of scalars along `θ` carries the action of a scalar on the identity to
 multiplication by the image of that scalar. -/

@@ -172,7 +172,7 @@ lemma cechDegreeZeroRestriction_π {ι : Type u} (F : TopCat.Presheaf AddCommGrp
     fun k => F.map ((Limits.Pi.π (fun a : Fin 1 => U (k a)) 0) ≫ homOfLE (le_iSup U (k 0))).op
   exact (Category.assoc (F.map (eqToHom (congrArg op hU))) (Limits.Pi.lift q)
       (Limits.Pi.π (fun b : Fin 1 → ι => F.obj (op (∏ᶜ fun a : Fin 1 => U (b a)))) j)).trans
-    (congrArg (fun t => F.map (eqToHom (congrArg op hU)) ≫ t) (Limits.Pi.lift_π q j))
+    (congrArg (fun t => F.map (eqToHom (congrArg op hU)) ≫ t) (Limits.Pi.lift_comp_π q j))
 
 private lemma cechRestriction_zeroIso {ι : Type u} (F : TopCat.Presheaf AddCommGrpCat.{u} X)
     (V : Opens X) (U : ι → Opens X) (hU : V = iSup U) :
@@ -261,7 +261,7 @@ private lemma cech_coface_zero_π {ι : Type u} (F : TopCat.Presheaf AddCommGrpC
     CategoryTheory.Limits.FormalCoproduct.mapPower,
     SimplexCategory.δ_zero_eq_const, Nat.reduceAdd, Functor.rightOp_obj, Fin.isValue,
     SimplexCategory.const]
-  exact Limits.Pi.lift_π _ i
+  exact Limits.Pi.lift_comp_π _ i
 
 private lemma cech_coface_one_π {ι : Type u} (F : TopCat.Presheaf AddCommGrpCat.{u} X)
     (U : ι → Opens X) (i : Fin 2 → ι) :
@@ -278,7 +278,7 @@ private lemma cech_coface_one_π {ι : Type u} (F : TopCat.Presheaf AddCommGrpCa
     CategoryTheory.Limits.FormalCoproduct.mapPower,
     SimplexCategory.δ_one_eq_const, Nat.reduceAdd, Functor.rightOp_obj, Fin.isValue,
     SimplexCategory.const]
-  exact Limits.Pi.lift_π _ i
+  exact Limits.Pi.lift_comp_π _ i
 
 /-- Transport of a commutative square along a functor, stated on variables so that the two
 `CategoryTheory.Functor.map_comp` rewrites never have to be keyed. -/
@@ -300,7 +300,7 @@ private lemma cechDifferential_component_zero {ι : Type u}
         Limits.Pi.π (fun q => F.obj (op (U q.1 ⊓ U q.2))) (finTwoArrowEquiv ι i) =
       Limits.Pi.π (fun k => F.obj (op (U k))) (i 1) ≫
         F.map (TopologicalSpace.Opens.infLERight (U (i 0)) (U (i 1))).op :=
-    Limits.Pi.lift_π _ (finTwoArrowEquiv ι i)
+    Limits.Pi.lift_comp_π _ (finTwoArrowEquiv ι i)
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun t => t ≫
     F.map (eqToHom (congrArg op (cechPairProduct_eq_inf U i))))
@@ -333,7 +333,7 @@ private lemma cechDifferential_component_one {ι : Type u}
         Limits.Pi.π (fun q => F.obj (op (U q.1 ⊓ U q.2))) (finTwoArrowEquiv ι i) =
       Limits.Pi.π (fun k => F.obj (op (U k))) (i 0) ≫
         F.map (TopologicalSpace.Opens.infLELeft (U (i 0)) (U (i 1))).op :=
-    Limits.Pi.lift_π _ (finTwoArrowEquiv ι i)
+    Limits.Pi.lift_comp_π _ (finTwoArrowEquiv ι i)
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun t => t ≫
     F.map (eqToHom (congrArg op (cechPairProduct_eq_inf U i))))

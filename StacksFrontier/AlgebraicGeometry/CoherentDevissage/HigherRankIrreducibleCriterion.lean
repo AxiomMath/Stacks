@@ -625,8 +625,8 @@ lemma mem_supp_pushforward_iff {Z X : Scheme.{u}} (i : Z ⟶ X)
   have : IsIso a :=
     TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing
       (C := Ab.{u}) i.isClosedEmbedding.isInducing F.presheaf x
-  have ha := (AddCommGrpCat.mono_iff_injective a).mp inferInstance
-  have ha' := (AddCommGrpCat.epi_iff_surjective a).mp inferInstance
+  have ha := (AddCommGrpCat.mono_iff_injective a).mp (IsIso.mono_of_iso a)
+  have ha' := (AddCommGrpCat.epi_iff_surjective a).mp (IsIso.epi_of_iso a)
   constructor
   · rintro ⟨s, hs⟩
     exact ⟨a.hom s, fun h => hs (ha (h.trans (map_zero _).symm))⟩

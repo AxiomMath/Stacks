@@ -78,16 +78,16 @@ public theorem derivationToTangent_surjective
   intro y
   obtain ⟨z, hz⟩ := ((isVersal_iff_differential_surjective_and_base_lifts
     (BasedCategory.ofFunctor p) hp hS1 hS2 ξ P).mp hξ).1 y
-  obtain ⟨⟨⟨A', α⟩, hA⟩, hx⟩ := classOf_surjective 𝓢 hsource (artinianDualNumbers Λ k) z
+  obtain ⟨⟨@⟨A', α⟩, hA⟩, hx⟩ := classOf_surjective 𝓢 hsource (artinianDualNumbers Λ k) z
   change A' = artinianDualNumbers Λ k at hA
   cases hA
   refine ⟨tangentSpaceDerivationsLinearEquiv ξ.base α, ?_⟩
   show mapIsomorphismClasses hsource hp.cofibered
       (associatedMorphism hp.cofibered ξ P).toBasedFunctor
       (artinianDualNumbers Λ k)
-      (classOf 𝓢 hsource ⟨⟨artinianDualNumbers Λ k,
-        (tangentSpaceDerivationsLinearEquiv ξ.base).symm
-          (tangentSpaceDerivationsLinearEquiv ξ.base α)⟩, rfl⟩) = y
+      (classOf 𝓢 hsource ⟨Functor.elementsMk _ (artinianDualNumbers Λ k)
+        ((tangentSpaceDerivationsLinearEquiv ξ.base).symm
+          (tangentSpaceDerivationsLinearEquiv ξ.base α)), rfl⟩) = y
   rw [LinearEquiv.symm_apply_apply]
   rwa [← hx] at hz
 
@@ -166,9 +166,9 @@ public theorem derivationToTangent_add_residueCompDerivation
   let α : tangentSpaceArtinian Λ k (restrictedCoyoneda ξ.base) := e.symm D
   let α' := (restrictedCoyoneda ξ.base).map twist α
   let x : 𝓢.p.Fiber (artinianDualNumbers.{u, w, v} Λ k) :=
-    ⟨⟨artinianDualNumbers.{u, w, v} Λ k, α⟩, rfl⟩
+    ⟨Functor.elementsMk _ (artinianDualNumbers.{u, w, v} Λ k) α, rfl⟩
   let y : 𝓢.p.Fiber (artinianDualNumbers.{u, w, v} Λ k) :=
-    ⟨⟨artinianDualNumbers.{u, w, v} Λ k, α'⟩, rfl⟩
+    ⟨Functor.elementsMk _ (artinianDualNumbers.{u, w, v} Λ k) α', rfl⟩
   let m : x.1 ⟶ y.1 := ⟨twist, rfl⟩
   let hm : 𝓢.p.IsHomLift twist m := IsHomLift.map 𝓢.p m
   have hα' : α' = e.symm (D + residueCompDerivation ξ.base δ) := by
@@ -190,8 +190,8 @@ public theorem derivationToTangent_add_residueCompDerivation
   show mapIsomorphismClasses hsource hp.cofibered
       (associatedMorphism hp.cofibered ξ P).toBasedFunctor
       (artinianDualNumbers.{u, w, v} Λ k)
-      (classOf 𝓢 hsource ⟨⟨artinianDualNumbers.{u, w, v} Λ k,
-        e.symm (D + residueCompDerivation ξ.base δ)⟩, rfl⟩) = _
+      (classOf 𝓢 hsource ⟨Functor.elementsMk _ (artinianDualNumbers.{u, w, v} Λ k)
+        (e.symm (D + residueCompDerivation ξ.base δ)), rfl⟩) = _
   rwa [← hα']
 
 /-- For a predeformation category satisfying (S2), two derivations of the base of a formal object

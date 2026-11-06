@@ -111,6 +111,19 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+local instance (priority := high) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W)
+    (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
+local instance (priority := high) {J : Type} :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-! ### A closed immersion is a decent morphism -/
 
 /-- A base change of a closed immersion of algebraic spaces over `S` is a closed immersion
@@ -333,11 +346,11 @@ theorem image_closure_singleton_baseChangeImmersion
     (ζ : points B S hS (c.situation.baseChangeSpace T g).1) :
     pointsMap B S hS (pullback g P.f) (pullback.fst g P.f) ''
         closure {pointsMap B S hS (c.situation.baseChangeSpace T g).1
-          (c.baseChangeImmersion T g).hom ζ} =
+                  (c.baseChangeImmersion T g).hom ζ} =
       pointsMap B S hS (pullback g (c.i.hom ≫ P.f)) (pullback.fst g (c.i.hom ≫ P.f)) ''
         closure {ζ} := by
   have hclosure : closure {pointsMap B S hS (c.situation.baseChangeSpace T g).1
-      (c.baseChangeImmersion T g).hom ζ} =
+                            (c.baseChangeImmersion T g).hom ζ} =
       pointsMap B S hS (c.situation.baseChangeSpace T g).1
         (c.baseChangeImmersion T g).hom '' closure {ζ} := by
     rw [← Set.image_singleton (f := pointsMap B S hS (c.situation.baseChangeSpace T g).1

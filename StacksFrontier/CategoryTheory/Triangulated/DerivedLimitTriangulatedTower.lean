@@ -69,7 +69,7 @@ def familyDifference (Y : ℕ → D) [HasProduct Y] (t : ∀ n : ℕ, Y (n + 1) 
 @[reassoc (attr := simp)]
 theorem familyDifference_π (Y : ℕ → D) [HasProduct Y] (t : ∀ n : ℕ, Y (n + 1) ⟶ Y n)
     (n : ℕ) : familyDifference Y t ≫ Pi.π Y n = Pi.π Y n - Pi.π Y (n + 1) ≫ t n :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The difference maps commute with a map of families compatible with the transition maps. -/
 @[reassoc]

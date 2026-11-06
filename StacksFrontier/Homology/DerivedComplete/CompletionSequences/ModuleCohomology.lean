@@ -109,7 +109,7 @@ private lemma milnorTriangle_homology_shortExact
       H.map T.mor₁ ≫ H.map (DerivedCategory.Q.map (Pi.π (fun n : ℕ => E.obj ⟨n⟩) n)) := by
     have h := congrArg (fun f => f ≫
       Pi.π (fun n : ℕ => H.obj (DerivedCategory.Q.obj (E.obj ⟨n⟩))) n) hq
-    simpa only [H, Functor.comp_obj, Category.assoc, Pi.lift_π, e₀, complexHomologyProductIso_π]
+    simpa only [H, Functor.comp_obj, Category.assoc, Pi.lift_comp_π, e₀, complexHomologyProductIso_π]
       using h
   have hiq : i ≫ q = 0 := by
     rw [← cancel_epi (cokernel.π δ₁)]
@@ -358,7 +358,7 @@ public lemma moduleDifference_naturality (A : Type u) [CommRing A]
   apply Pi.hom_ext
   intro n
   simp only [Category.assoc, Pi.mapIso_hom_π, moduleDifference,
-    Pi.lift_π_assoc, Pi.lift_π, comp_sub, sub_comp, Pi.mapIso_hom_π_assoc]
+    Pi.lift_comp_π_assoc, Pi.lift_comp_π, comp_sub, sub_comp, Pi.mapIso_hom_π_assoc]
   simp only [Iso.app_hom]
   rw [e.hom.naturality]
 
@@ -521,7 +521,7 @@ private lemma moduleDifference_epi (A : Type u) [CommRing A]
   apply (ModuleCat.piIsoPi X).toLinearEquiv.injective
   funext n
   show ((moduleDifference A E ≫ Pi.π X n) ((ModuleCat.piIsoPi X).inv x)) = _
-  rw [moduleDifference, Pi.lift_π]
+  rw [moduleDifference, Pi.lift_comp_π]
   show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n

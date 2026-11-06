@@ -274,7 +274,7 @@ public theorem prodTermBaseChange_π (F : X.Modules) (p : ℕ)
       (Scheme.Modules.pullback g).map
           (Pi.π (fun u : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p u) s) ≫
         restrictedModuleBaseChange g f F p s :=
-  Limits.Pi.lift_π _ s
+  Limits.Pi.lift_comp_π _ s
 
 /-- **The degree-`0` square of the comparison commutes.** -/
 public theorem prodTermBaseChange_difZero (F : X.Modules) :
@@ -283,12 +283,12 @@ public theorem prodTermBaseChange_difZero (F : X.Modules) :
   refine Limits.Pi.hom_ext _ _ fun s => ?_
   have hd : difZero f F ≫
       Pi.π (fun u : CechCochains.OrdIndex (I := Fin c) 0 => restrictedModule f F 0 u) s =
-      augR f F 0 s := Limits.Pi.lift_π _ s
+      augR f F 0 s := Limits.Pi.lift_comp_π _ s
   have hmap := congrArg (Scheme.Modules.pullback g).map hd
   rw [Functor.map_comp] at hmap
   rw [Category.assoc, prodTermBaseChange_π, ← Category.assoc, hmap,
     restrictedModuleBaseChange_augR]
-  exact (Limits.Pi.lift_π _ s).symm
+  exact (Limits.Pi.lift_comp_π _ s).symm
 
 /-- The components of `difSucc` are the alternating sums of the restrictions of the components
 in the previous degree. -/
@@ -300,7 +300,7 @@ private theorem difSucc_π (F : X.Modules) (p : ℕ) (t : CechCochains.OrdIndex 
         (Pi.π (fun u : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p u)
             ⟨t.1 ∘ j.succAbove, CechCochains.strictMono_omit t.2 j⟩ ≫
           canR f F _ t (omitLe f t j)) :=
-  Limits.Pi.lift_π _ t
+  Limits.Pi.lift_comp_π _ t
 
 /-- **The degree-`(p+1)` square of the comparison commutes.** -/
 public theorem prodTermBaseChange_difSucc (F : X.Modules) (p : ℕ) :

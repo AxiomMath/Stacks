@@ -23,7 +23,6 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 namespace Deformation.Artin
 

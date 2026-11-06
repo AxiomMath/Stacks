@@ -103,18 +103,20 @@ private def clopenPoint {X : Type u} [TopologicalSpace X] (x : X) :
   fiber.obj U := ULift.{u} (PLift (x ∈ U))
   fiber.map f := ↾fun h ↦ ⟨⟨leOfHom f h.down.down⟩⟩
   isCofiltered := {
-    nonempty := ⟨⊤, ⟨⟨Set.mem_univ x⟩⟩⟩
+    nonempty := ⟨Functor.elementsMk _ ⊤ (ULift.up (PLift.up (Set.mem_univ x)))⟩
     cone_objs := by
-      rintro ⟨U, ⟨⟨hU⟩⟩⟩ ⟨V, ⟨⟨hV⟩⟩⟩
-      exact ⟨⟨U ⊓ V, ⟨⟨⟨hU, hV⟩⟩⟩⟩, ⟨homOfLE inf_le_left, rfl⟩,
-        ⟨homOfLE inf_le_right, rfl⟩, trivial⟩
+      intro a b
+      have hU : x ∈ a.obj := (a.val : ULift (PLift (x ∈ a.obj))).down.down
+      have hV : x ∈ b.obj := (b.val : ULift (PLift (x ∈ b.obj))).down.down
+      exact ⟨Functor.elementsMk _ (a.obj ⊓ b.obj) (ULift.up (PLift.up ⟨hU, hV⟩)),
+        ⟨homOfLE inf_le_left, rfl⟩, ⟨homOfLE inf_le_right, rfl⟩, trivial⟩
     cone_maps _ _ _ _ := ⟨_, 𝟙 _, rfl⟩
   }
   initiallySmall := initiallySmall_of_essentiallySmall _
   jointly_surjective := by
-    rintro U R hR ⟨⟨hx⟩⟩
-    obtain ⟨V, f, hf, hxV⟩ := hR x hx
-    exact ⟨V, f, hf, ⟨⟨hxV⟩⟩, rfl⟩
+    intro U R hR h
+    obtain ⟨V, f, hf, hxV⟩ := hR x (h : ULift (PLift (x ∈ U))).down.down
+    exact ⟨V, f, hf, ULift.up (PLift.up hxV), rfl⟩
 
 /-- The points of a space form a conservative family of points of its site of clopen
 subsets. -/
@@ -124,8 +126,9 @@ private theorem clopenTopology_hasEnoughPoints (X : Type u) [TopologicalSpace X]
   refine ⟨P, inferInstance, ?_⟩
   apply ObjectProperty.IsConservativeFamilyOfPoints.mk'
   intro U R hR x hx
-  obtain ⟨V, f, hf, ⟨⟨hxV⟩⟩, _⟩ := hR ⟨clopenPoint x, ⟨x⟩⟩ ⟨⟨hx⟩⟩
-  exact ⟨V, f, hf, hxV⟩
+  obtain ⟨V, f, hf, y, _⟩ := hR ⟨clopenPoint x, ⟨x⟩⟩
+    (ULift.up (PLift.up hx) : ULift (PLift (x ∈ U)))
+  exact ⟨V, f, hf, (y : ULift (PLift (x ∈ V))).down.down⟩
 
 /-- A site whose objects with a given property are cover dense has enough points as soon as
 each such object is, up to isomorphism, the image of an object of a site with enough points

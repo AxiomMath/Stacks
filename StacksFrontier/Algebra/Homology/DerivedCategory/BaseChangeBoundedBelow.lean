@@ -58,22 +58,31 @@ variable {A : Type uA} [Category.{vA} A] [Abelian A] [HasDerivedCategory.{wA} A]
 /-- For an exact functor the right derived functor on `D⁺` is the induced functor. -/
 def rightDerivedFunctorPlusIsoMapDerivedCategoryPlus :
     F.rightDerivedFunctorPlus ≅ F.mapDerivedCategoryPlus :=
-  haveI : IsIso F.rightDerivedFunctorPlusUnit :=
+  haveI : IsIso F.rightDerivedFunctorPlusUnith :=
     isIso_rightDerivedFunctorPlusUnit_of_preservesHomology F
   haveI : Localization.Lifting (DerivedCategory.Plus.Qh (C := A))
       (HomotopyCategory.Plus.quasiIso A)
       (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) F.rightDerivedFunctorPlus :=
-    ⟨(asIso F.rightDerivedFunctorPlusUnit).symm⟩
+    ⟨(asIso F.rightDerivedFunctorPlusUnith).symm⟩
   Localization.liftNatIso DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)
     F.rightDerivedFunctorPlus F.mapDerivedCategoryPlus (Iso.refl _)
 
 /-- Every object is right acyclic for an exact functor. -/
-theorem rightAcyclic_of_exact (X : A) : F.rightAcyclic X :=
-  have : IsIso F.rightDerivedFunctorPlusUnit :=
+theorem rightAcyclic_of_exact (X : A) : F.rightAcyclic X := by
+  have : IsIso F.rightDerivedFunctorPlusUnith :=
     isIso_rightDerivedFunctorPlusUnit_of_preservesHomology F
-  NatIso.isIso_app_of_isIso F.rightDerivedFunctorPlusUnit _
+  have hd := (F.rightDerivedFunctorPlus.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+    F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) _
+    ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).1 inferInstance
+  show IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app _)
+  rw [← F.rightDerivedFunctorPlus.rightDerived_fac_app F.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso A)]
+  exact @IsIso.comp_isIso _ _ _ _ _ _ _ (NatIso.isIso_app_of_isIso _ _)
+    (NatIso.isIso_app_of_isIso _ _)
 
 end Exact
 

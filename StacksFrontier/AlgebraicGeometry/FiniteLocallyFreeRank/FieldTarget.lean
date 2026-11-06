@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFreeRank.AffineTarge
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFreeRank.Field
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFreeRank.Module
 public import StacksFrontier.RingTheory.Module.LocallyFree.Field
+public import Mathlib.RingTheory.Finiteness.Descent
 
 /-!
 # Finite locally free morphisms to the spectrum of a field

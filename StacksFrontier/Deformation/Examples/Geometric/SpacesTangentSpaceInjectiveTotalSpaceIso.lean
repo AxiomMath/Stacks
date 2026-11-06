@@ -45,6 +45,19 @@ universe u
 
 namespace Deformation.Examples
 
+/- Lean v4.35.0: instance search for products of presheaves and the terminal sheaf of sets
+times out; supply them directly. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_TotalSpaceIso
+    {C : Type*} [Category C] (J : Type*) [HasLimitsOfShape (Discrete J) (Type u)] :
+    HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance (priority := high) hasTerminal_sheaf_TotalSpaceIso
+    {C : Type*} [Category C] (J : GrothendieckTopology C) :
+    HasTerminal (Sheaf J (Type u)) :=
+  inferInstance
+
 variable {Λ : Type u} {k : Type u} [CommRing Λ] [Field k] [Algebra Λ k]
 variable (B : BigFppfSite.{u}) (hΛ : B.Contains (Spec (.of Λ)))
 variable (hSpec : ∀ A : ArtinianLocalAlgCat.{u, u, u} Λ k, B.Contains (Spec (.of A)))

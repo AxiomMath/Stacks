@@ -413,9 +413,13 @@ public theorem factorPow_symm_quotientAwayCoefficientIdealPowEquiv (I : Ideal A)
         (RestrictedPowerSeries.coefficientProjection
           (I.map (algebraMap A (Localization.Away f))) σ m y) := by
   refine (quotientAwayCoefficientIdealPowEquiv I hI σ f m).injective ?_
-  rw [← coefficientTransition_quotientAwayCoefficientIdealPowEquiv, RingEquiv.apply_symm_apply,
-    RingEquiv.apply_symm_apply]
-  exact y.property hmn
+  refine (coefficientTransition_quotientAwayCoefficientIdealPowEquiv I hI σ f hmn _).symm.trans
+    ?_
+  refine (congrArg (RestrictedPowerSeries.coefficientTransition
+    (I.map (algebraMap A (Localization.Away f))) σ hmn)
+      ((quotientAwayCoefficientIdealPowEquiv I hI σ f n).apply_symm_apply _)).trans ?_
+  exact (y.property hmn).trans
+    ((quotientAwayCoefficientIdealPowEquiv I hI σ f m).apply_symm_apply _).symm
 
 /-- **The restricted power series ring over `A[1/f]` maps back to the completion of
 `A{σ}[1/f]`.**  The inverses of the level `n` identifications form a compatible family of ring
@@ -463,8 +467,9 @@ public theorem bijective_completedAwayRestrictedPowerSeriesMap (I : Ideal A) (hI
       coefficientProjection_completedAwayRestrictedPowerSeriesMap,
       RingEquiv.symm_apply_apply]
   · refine RestrictedPowerSeries.idealSystem_ext fun n => ?_
-    rw [coefficientProjection_completedAwayRestrictedPowerSeriesMap,
-      evalₐ_completedAwayRestrictedPowerSeriesInv, RingEquiv.apply_symm_apply]
+    exact (congrArg (quotientAwayCoefficientIdealPowEquiv I hI σ f n)
+      (evalₐ_completedAwayRestrictedPowerSeriesInv I hI σ f n y)).trans
+        ((quotientAwayCoefficientIdealPowEquiv I hI σ f n).apply_symm_apply _)
 
 /-- **Stacks 0GGG, principal localization of a restricted power series ring.**  The completed
 principal localization of `A{σ}` at `f` is the restricted power series ring over the completed

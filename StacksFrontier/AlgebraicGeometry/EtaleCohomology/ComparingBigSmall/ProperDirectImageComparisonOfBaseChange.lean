@@ -150,7 +150,7 @@ def rightDerivedFunctorPlusιObjIso (w : A ⥤ C) [w.Additive]
     (w.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh) hres).2
       DerivedCategory.Qh H α (I.obj K).obj.as hK
   exact DerivedCategory.Plus.ι.mapIso (w.rightDerivedFunctorPlus.mapIso e.symm) ≪≫
-    DerivedCategory.Plus.ι.mapIso (asIso (w.rightDerivedFunctorPlusUnit.app (I.obj K))).symm ≪≫
+    DerivedCategory.Plus.ι.mapIso (asIso (w.rightDerivedFunctorPlusUnith.app (I.obj K))).symm ≪≫
     (DerivedCategory.Plus.QhCompιIsoιCompQh C).app (w.mapHomotopyCategoryPlus.obj (I.obj K)) ≪≫
     DerivedCategory.Qh.mapIso
       ((Functor.mapHomotopyCategoryPlusCompιIso w).app (I.obj K)) ≪≫

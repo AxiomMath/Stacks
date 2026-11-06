@@ -175,11 +175,9 @@ theorem diagonalBaseMap_smul_extTensor (d : A ⊗[R] A) (x : M ⊗[R] B) :
   let := extTensorModule R B B M B
   let := extTensorModule R A A M B
   induction d with
-  | zero => simp
   | add u v hu hv => simp only [map_add, add_smul, hu, hv]
   | tmul a a' =>
       induction x with
-      | zero => simp
       | add u v hu hv => simp only [smul_add, hu, hv]
       | tmul m b =>
           rw [diagonalBaseMap_tmul, extTensorModule_smul_tmul, extTensorModule_smul_tmul,

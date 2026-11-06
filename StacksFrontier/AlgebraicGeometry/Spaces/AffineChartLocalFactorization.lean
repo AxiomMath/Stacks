@@ -108,7 +108,7 @@ theorem exists_affine_etale_nbhd_through_atlas {X : (BigFppfOver B S hS)ᵒᵖ �
     have e1 : f.app (op V) (vP ≫ q') = X.map vP.op (f.app (op P) q') :=
       NatTrans.naturality_apply f vP.op q'
     have e2 : q.app (op P) (𝟙 P) = q' := by rw [← hq']; simp
-    rw [e1, ← e2, htaut, op_comp, FunctorToTypes.map_comp_apply]
+    rw [e1, ← e2, htaut, op_comp, Functor.map_comp_apply]
 
 /-- Two sections of an algebraic space over a coproduct of the big fppf site agree as soon as
 their restrictions to every summand agree. -/
@@ -121,7 +121,7 @@ theorem eq_of_map_sigmaIncl_op_eq {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (BigFppfOver.sieve_sigmaCofan_mem_topology B S hS V)).isSeparatedFor.ext fun _ g hg => ?_
   obtain ⟨_, g', _, ⟨k⟩, rfl⟩ := hg
   have e₁ := congrArg (X.map g'.op) (h k)
-  rwa [← FunctorToTypes.map_comp_apply, ← op_comp, ← FunctorToTypes.map_comp_apply,
+  rwa [← Functor.map_comp_apply, ← op_comp, ← Functor.map_comp_apply,
     ← op_comp] at e₁
 
 /-- A finite coproduct of affine objects of the big fppf site is affine. -/
@@ -191,7 +191,7 @@ theorem exists_affine_etale_cover_through_affine_chart {X : (BigFppfOver B S hS)
   · exact MorphismProperty.comp_mem _ _ _
       ((BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS (@Etale.{u}) σ).2 hσE) hfE
   · refine eq_of_map_sigmaIncl_op_eq hX fun k => ?_
-    rw [← NatTrans.naturality_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, hw]
+    rw [← NatTrans.naturality_apply, ← Functor.map_comp_apply, ← op_comp, hw]
     change f.app _ ((BigFppfOver.sigmaIncl B S hS Vk k ≫ g) ≫ σ) = _
     rw [hg, Category.assoc, hσ]
     exact hfac k.1

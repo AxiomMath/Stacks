@@ -123,12 +123,10 @@ universe u
 variable {X Y : RingedTopos.{u, u, u}}
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 attribute [local instance] Stacks.SheafOfModules.Strict.monoidalUnderlyingRingSheaf
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}] in
 /-- `Stacks.SheafOfModules.RingedToposPullback.rightUnitality`, the right-unitality coherence of
 Stacks 03EL for the four-field pullback of Stacks 03D6, restated verbatim: the statement is that
 field, character for character, so that it can be quoted below without the elaborator having to
@@ -169,8 +167,7 @@ private def unitComparisonAscribed :
       𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
   SheafOfModules.pullbackObjUnitToUnit.{u} f.fSharpRing
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
@@ -192,8 +189,7 @@ private lemma unitComparison (hmos : f.u.IsMorphismOfSites Y.J X.J) :
         (modulesHomOfSiteHom f hmos)).hom :=
   pullbackModulesSiteIso_hom_app_unit_comp_pullbackObjUnitToUnit f hmos
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
@@ -296,7 +292,6 @@ private lemma lhs_eq (hmos : f.u.IsMorphismOfSites Y.J X.J)
           SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj A)).hom) hc))
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
@@ -321,8 +316,7 @@ private lemma rhs_eq (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringS
         SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map z)
     (Stacks.SheafOfModules.Strict.sheafTensorUnitNatIso_hom_app_eq Y.O A).symm
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]

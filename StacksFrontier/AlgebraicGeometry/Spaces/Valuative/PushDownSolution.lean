@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.Morphisms.Flat
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra
 public import Mathlib.RingTheory.Flat.TorsionFree
+public import Mathlib.RingTheory.RingHom.Injective
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.IndQuasiAffineFpqcSheaf
 public import StacksFrontier.AlgebraicGeometry.Size.Cutoff

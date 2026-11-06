@@ -48,7 +48,7 @@ theorem hom_isoChart_ext {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {T₀ : Big
   apply ObjectProperty.hom_ext
   apply CostructuredArrow.hom_ext
   apply yoneda.map_injective
-  exact (cancel_mono e.inv).1
+  exact (Iso.cancel_iso_inv_right _ _ e).1
     ((CostructuredArrow.w a.hom).trans (CostructuredArrow.w b.hom).symm)
 
 /-- Restricting a section over the chart `AlgebraicGeometry.Space.isoChart` to the charts is

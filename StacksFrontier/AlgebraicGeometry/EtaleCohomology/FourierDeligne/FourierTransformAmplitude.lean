@@ -123,7 +123,7 @@ theorem topologicalKrullDim_affineLineFibre_le_one (Ω : Type u) [Field Ω]
     _ = ringKrullDim (MvPolynomial (ULift.{u} (Fin 1)) Ω) :=
         PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _
     _ = ringKrullDim Ω + Nat.card (ULift.{u} (Fin 1)) :=
-        MvPolynomial.ringKrullDim_of_isNoetherianRing
+        MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite
     _ ≤ ((1 : ℕ) : WithBot ℕ∞) := by simp
 
 section Transform

@@ -857,7 +857,7 @@ theorem inclHomotopy_comm_succ (p : ℕ) (x : ↥(⋀[A[X]]^(p + 1) (Ω[A[X]⁄R
   have hbc1 := eq_on_mapBaseChangePow_of_forall_smul R A (p + 1) F LinearMap.id
     (fun g ω ↦ by
       rw [LinearMap.id_apply, hFapply, inclHomotopyMap_deRhamDifferential_smul,
-        inclHomotopyMap_smul_mapExteriorPower, map_zero, add_zero,
+        inclHomotopyMap_smul_mapExteriorPower, map_zero (deRhamDifferential (A := R) p), add_zero,
         mapExteriorPower_evalZero_smul, ← add_smul, sub_add_cancel])
   have hbc2 := eq_on_mapBaseChangePow_of_forall_smul R A p
     (F ∘ₗ (exteriorPower.wedgeLeft (D R A[X] (X : A[X])) p).restrictScalars R)

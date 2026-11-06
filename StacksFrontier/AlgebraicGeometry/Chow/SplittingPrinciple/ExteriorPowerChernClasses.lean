@@ -120,7 +120,8 @@ other. -/
 instance : CommRing (chernBicommutant C sX) :=
   { (chernBicommutant C sX).toRing with
     mul_comm := fun a b => Subtype.ext <|
-      Set.centralizer_centralizer_comm_of_comm (chernSet_commute C sX) _ a.2 _ b.2 }
+      Set.centralizer_centralizer_comm_of_comm
+        (fun x hx y hy _ => chernSet_commute C sX x hx y hy) _ a.2 _ b.2 }
 
 /-- The Chern classes lie in their bicommutant. -/
 theorem chernRing_le_chernBicommutant : chernRing C sX ≤ chernBicommutant C sX :=

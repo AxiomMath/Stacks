@@ -111,7 +111,7 @@ projection to the projection at the reindexed slot. -/
 lemma powerSectionsIncl_comp_map {n m : SimplexCategory} (g : n ⟶ m) (a : Fin (n.len + 1)) :
     powerSectionsIncl Y H n a ≫ (powerSections Y H).map g =
       powerSectionsIncl Y H m (g.toOrderHom a) := by
-  exact map_op_comp_eq H _ _ _ (Pi.lift_π _ _)
+  exact map_op_comp_eq H _ _ _ (Pi.lift_comp_π _ _)
 
 /-- A cosimplicial structure map of `Stacks.CechSite.powerSections` fixes the head. -/
 lemma powerSectionsHead_comp_map {n m : SimplexCategory} (g : n ⟶ m) :
@@ -314,7 +314,7 @@ lemma powerSectionsIncl_comp_powerSectionsDesc (i : Fin (n.len + 1)) :
           fun j => G.map ((s.ι.app (some j)).op ≫ adj.counit.app (op a)))) ≫
         L.map (Pi.π (fun _ : Fin (n.len + 1) => G.obj (op a)) i) =
       (s.ι.app (some i)).op := by
-    rw [Category.assoc, ← L.map_comp, Pi.lift_π, hc, IsIso.inv_hom_id_assoc]
+    rw [Category.assoc, ← L.map_comp, Pi.lift_comp_π, hc, IsIso.inv_hom_id_assoc]
   exact Quiver.Hom.op_inj hop
 
 end Desc
@@ -363,7 +363,7 @@ noncomputable def singletonCechSect (n : SimplexCategory) :
 
 /-- The diagonal section followed by the projection is the identity. -/
 lemma singletonCechSect_comp_proj (n : SimplexCategory) :
-    singletonCechSect h F n ≫ singletonCechProj.{w} h F n = 𝟙 _ := Pi.lift_π _ _
+    singletonCechSect h F n ≫ singletonCechProj.{w} h F n = 𝟙 _ := Pi.lift_comp_π _ _
 
 /-- The projection followed by the diagonal section is the identity. -/
 lemma singletonCechProj_comp_sect (n : SimplexCategory) :
@@ -392,7 +392,7 @@ lemma singletonCechProj_naturality {n m : SimplexCategory} (g : n ⟶ m) :
         (powerSections (Over.mk h) ((Over.forget T).op ⋙ F)).map g)) ≫
       Pi.π (fun _ : (Fin (m.len + 1) → PUnit.{w + 1}) =>
         (powerSections (Over.mk h) ((Over.forget T).op ⋙ F)).obj m) (fun _ => PUnit.unit) = _
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- The projection, as a morphism of cosimplicial objects. -/
 noncomputable def singletonCechProjNatTrans :

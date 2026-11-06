@@ -382,7 +382,7 @@ theorem isIso_abelianBaseChange (hcart : IsPullback g' f' f g)
   have _hei : ∀ Z : TopCat.{u}, EnoughInjectives (TopCat.Sheaf AddCommGrpCat.{u} Z) :=
     fun Z => Stacks.Topology.enoughInjectives_sheafOpens.{u, u} Z
   have _hunit :
-      IsIso (TopCat.Sheaf.pullback AddCommGrpCat.{u} g').rightDerivedFunctorPlusUnit :=
+      IsIso (TopCat.Sheaf.pullback AddCommGrpCat.{u} g').rightDerivedFunctorPlusUnith :=
     BaseChange.exactUnit_isIso (TopCat.Sheaf.pullback AddCommGrpCat.{u} g')
   exact ProperBaseChange.isIso_baseChangeDerived
     (TopCat.Sheaf.pushforward AddCommGrpCat.{u} f)

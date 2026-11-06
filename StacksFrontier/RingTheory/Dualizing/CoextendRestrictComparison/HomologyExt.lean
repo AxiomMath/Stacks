@@ -388,8 +388,8 @@ lemma derivedUnit_single_eq (q : ℤ) (N : (ModuleCat.{max v u} B)) :
           (ComplexShape.up ℤ)).inv.app
           ((HomologicalComplex.single (ModuleCat.{max v u} A) (ComplexShape.up ℤ) q).obj
           ((ModuleCat.restrictScalars.{max v u} f).obj N)))) := by
-    rw [← Category.assoc, ← DerivedCategory.quotientCompQhIso_hom_naturality]
-    simp [CategoryTheory.Functor.map_comp]
+    simp [CategoryTheory.Functor.map_comp, ← DerivedCategory.Q_map_single_map,
+      DerivedCategory.quotientCompQhIso_inv_naturality_assoc]
   have hB : (HomotopyCategory.quotient (ModuleCat.{max v u} B) (ComplexShape.up ℤ)).map
     ((HomologicalComplex.single (ModuleCat.{max v u} B) (ComplexShape.up ℤ) q).map
     ((ModuleCat.restrictCoextendScalarsAdj.{v, u, u} f).unit.app N) ≫

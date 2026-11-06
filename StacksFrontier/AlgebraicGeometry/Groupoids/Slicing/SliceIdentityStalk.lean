@@ -102,10 +102,11 @@ public noncomputable def quotientStalkEquivStalkSliceBaseChange
     (G.arrows.left.presheaf.stalk
           (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
             A.2.fromSpec) G.target.left q) ⧸
-        Ideal.span {(G.arrows.left.presheaf.germ B
-          (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
-            A.2.fromSpec) G.target.left q) hq).hom
-          (G.target.left.appLE A.1 B hBA b)}) ≃+*
+        Ideal.span
+          {(G.arrows.left.presheaf.germ B
+              (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
+                A.2.fromSpec) G.target.left q) hq).hom
+              (G.target.left.appLE A.1 B hBA b)}) ≃+*
       (pullback (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
         A.2.fromSpec) G.target.left).presheaf.stalk q :=
   quotientStalkEquivStalkPullbackSndOfSpan G.target.left hB _
@@ -236,10 +237,11 @@ public noncomputable def quotientStalkEquivStalkSourceMapFiber
     ((G.source.left.fiber u).presheaf.stalk
           (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
             A.2.fromSpec) (targetOnSourceFiber G u) P.point) ⧸
-        Ideal.span {((G.source.left.fiber u).presheaf.germ W
-          (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
-            A.2.fromSpec) (targetOnSourceFiber G u) P.point) hPW).hom
-          ((targetOnSourceFiber G u).appLE A.1 W hWA b)}) ≃+*
+        Ideal.span
+          {((G.source.left.fiber u).presheaf.germ W
+              (pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
+                A.2.fromSpec) (targetOnSourceFiber G u) P.point) hPW).hom
+              ((targetOnSourceFiber G u).appLE A.1 W hWA b)}) ≃+*
       ((pullback.snd (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) ≫
             A.2.fromSpec) G.target.left ≫ G.source.left).fiber u).presheaf.stalk
         ((fiberBaseChangeIso G.source.left G.target.left

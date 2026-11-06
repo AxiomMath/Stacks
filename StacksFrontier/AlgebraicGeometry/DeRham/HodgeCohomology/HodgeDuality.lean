@@ -258,8 +258,8 @@ theorem subsingleton_sheafCohomology_of_isZero {F : X.Modules} (hF : IsZero F) (
   h'
 
 /-- A bilinear form between two zero modules is a perfect pairing. -/
-theorem _root_.LinearMap.isPerfPair_of_subsingleton {R M N : Type*} [Field R] [AddCommGroup M]
-    [Module R M] [AddCommGroup N] [Module R N] [Subsingleton M] [Subsingleton N]
+theorem _root_.LinearMap.isPerfPair_of_subsingleton_of_subsingleton {R M N : Type*} [Field R]
+    [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N] [Subsingleton M] [Subsingleton N]
     (B : M →ₗ[R] N →ₗ[R] R) : B.IsPerfPair :=
   ⟨⟨fun _ _ _ => Subsingleton.elim _ _, fun φ => ⟨0, LinearMap.ext fun n => by
       rw [Subsingleton.elim n 0, map_zero, map_zero]⟩⟩,
@@ -328,7 +328,7 @@ theorem isPerfPair_hodgePairing_hodgeTraceOfIso (hCM : AlgebraicGeometry.IsCohen
           isZero_relativeDifferentialForms_of_neg f _ (by omega)⟩
     have := subsingleton_sheafCohomology_of_isZero f h₁ q
     have := subsingleton_sheafCohomology_of_isZero f h₂ ((d : ℤ) - q)
-    exact LinearMap.isPerfPair_of_subsingleton _
+    exact LinearMap.isPerfPair_of_subsingleton_of_subsingleton _
 
 end Perfect
 

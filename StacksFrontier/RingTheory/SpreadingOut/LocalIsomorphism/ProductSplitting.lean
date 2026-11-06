@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Algebra.Category.Ring.FinitePresentation
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic

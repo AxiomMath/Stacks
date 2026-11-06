@@ -58,6 +58,11 @@ namespace AlgebraicGeometry.FormalSpace
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+local instance (priority := high) hasPullback_presheaf_CompletionLocallyFiniteType
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The universe lift of a morphism of algebraic spaces over `S` which is locally of finite
 type is locally of finite type in the bootstrap sense of Stacks 03XZ: a base change of the
 lift along a universe-lifted scheme-valued point of its target is the lift of a base change

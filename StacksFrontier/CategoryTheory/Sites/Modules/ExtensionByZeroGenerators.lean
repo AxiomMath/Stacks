@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.Modules.ExtensionByZero
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Colimits
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Generator
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Sheafification
 import StacksCore.Tactic.EgaSgaAttribute

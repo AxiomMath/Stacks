@@ -116,7 +116,7 @@ def cosimplicialObjectLift {n : SimplexCategory} {T : A}
 theorem cosimplicialObjectLift_comp_π {n : SimplexCategory} {T : A}
     (f : ∀ x : Fin (n.len + 1) → ι, T ⟶ P.obj (op (inter D x))) (x : Fin (n.len + 1) → ι) :
     cosimplicialObjectLift D P f ≫ cosimplicialObjectπ D P n x = f x :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- **The structure maps of `cosimplicialObject D P`, componentwise**: for `f : m ⟶ n`, the
 component at the tuple `y` of `K(f)` is the restriction along `inter D y ⟶ inter D (y ∘ f)` of
@@ -128,7 +128,7 @@ theorem cosimplicialObject_map_comp_π {m n : SimplexCategory} (f : m ⟶ n)
       cosimplicialObjectπ D P m (y ∘ f.toOrderHom) ≫ P.map (interMap D y f.toOrderHom).op := by
   simp only [cosimplicialObject, cosimplicialFunctor,
     FormalCoproduct.cosimplicialObjectFunctor_obj_map]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- The cosimplicial object functor on morphisms, componentwise. -/
 @[reassoc (attr := simp)]

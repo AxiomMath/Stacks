@@ -151,7 +151,7 @@ theorem exists_isSeparated_stage_of_siteContainsBaseChangeLimits
   have hV₀qs : IsAbsolutelyQuasiSeparated B S hS hZ V₀ :=
     isAbsolutelyQuasiSeparated_of_isQuasiSeparated B S hS hZ hV₀
       (isAbsolutelyQuasiSeparated_pullback B S hS hZ _ _ hyU hyU hY₀ hyUqs hyUqs)
-      (isQuasiSeparated_of_mono B S hS hpb₁.isoPullback.hom inferInstance)
+      (isQuasiSeparated_of_mono B S hS hpb₁.isoPullback.hom (IsIso.mono_of_iso _))
   -- the base change of the relative diagonal of `f₀` along the cover
   let Δ₀ := relativeDiagonal.{u, u, u + 1} B S hS 𝒳₀.val
     (algebraicSpaceStack.{u, w} B S hS Y₀ hY₀).val f₀.hom

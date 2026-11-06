@@ -97,6 +97,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_affineOverBaseDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Affine morphisms out of an affine algebraic space -/
 
 /-- **A morphism from an affine algebraic space to an affine object of the site is affine.**
@@ -163,7 +170,7 @@ theorem DescentSituation.isAffineSpace_baseChangeOver_limitCone_pt
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U)) (u : yoneda.obj U ⟶ Y)
     (haff : IsAffineHom B S hS f) :
     IsAffineSpace B S hS
-      (D.baseChangeOver B S hS hZ hY hYqs t f hf U hU u).limitCone.pt :=
+      (DescentSituation.baseChangeOver B S hS hZ D hY hYqs t f hf U hU u).limitCone.pt :=
   (IsAffineHom.of_isPullback (IsPullback.of_hasPullback f u) haff).isAffineSpace_source
     (isAffineSpace_yoneda B S hS U hU)
 
@@ -216,10 +223,10 @@ theorem DescentSituation.exists_isAffineHom_system_app_of_affineStage
     (isQuasiCompactSpace_iff_exists_affine_etale_surjective_cover B S hS Y hY).mp hYqc
   -- the base changed descent situation, and affineness of its limit `X ×_Y W`
   have hlim : IsAffineSpace B S hS
-      (D.baseChangeOver B S hS hZ hY hYqs t f hf W hW a).limitCone.pt :=
+      (DescentSituation.baseChangeOver B S hS hZ D hY hYqs t f hf W hW a).limitCone.pt :=
     D.isAffineSpace_baseChangeOver_limitCone_pt B S hS hZ hY hYqs t f hf W hW a haff
   obtain ⟨i, hbi₀, hi⟩ :=
-    h07SQ (D.baseChangeOver B S hS hZ hY hYqs t f hf W hW a) hI hlim
+    h07SQ (DescentSituation.baseChangeOver B S hS hZ D hY hYqs t f hf W hW a) hI hlim
   have hbi : D.base ≤ i := hbi₀
   -- the base change of the stage along the chart of `Y` is affine, so the stage is affine
   -- over `Y` by the implication (4) ⇒ (2) of Stacks 03WG

@@ -664,6 +664,9 @@ theorem exists_subobject_step {X : Scheme.{u}} [QuasiSeparatedSpace X]
         (C : X.Modules)).app W') := isIso_app_of_isIso _ W'
     rw [Scheme.Modules.Hom.comp_app]
     infer_instance
+  have : Mono (B.arrow ≫ (Scheme.Modules.restrictFunctorIsoPullback Y.ι).hom.app
+      (C : X.Modules)) :=
+    mono_comp _ ((Scheme.Modules.restrictFunctorIsoPullback Y.ι).app (C : X.Modules)).hom
   obtain ⟨K, hKqc, p, hpmono, hpV, hKY⟩ :=
     exists_subobject_of_restrict (C : X.Modules) Y V (B : Y.toScheme.Modules)
       (B.arrow ≫ (Scheme.Modules.restrictFunctorIsoPullback Y.ι).hom.app (C : X.Modules)) hφapp

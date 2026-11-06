@@ -159,10 +159,11 @@ public theorem ideal_relativeSingularIdeal_specMap_nodalChartRing (h : R) :
     (relativeSingularIdeal
           (Spec.map (CommRingCat.ofHom (algebraMap R (nodalChartRing R h))))).ideal
         ⟨⊤, isAffineOpen_top _⟩ =
-      Ideal.span {nodalSectionsAlgEquiv h
-          (nodalGen Γ(Spec (CommRingCat.of R), ⊤) ((specSectionsRingEquiv R).symm h) 0),
-        nodalSectionsAlgEquiv h
-          (nodalGen Γ(Spec (CommRingCat.of R), ⊤) ((specSectionsRingEquiv R).symm h) 1)} := by
+      Ideal.span
+        {nodalSectionsAlgEquiv h
+            (nodalGen Γ(Spec (CommRingCat.of R), ⊤) ((specSectionsRingEquiv R).symm h) 0),
+          nodalSectionsAlgEquiv h
+            (nodalGen Γ(Spec (CommRingCat.of R), ⊤) ((specSectionsRingEquiv R).symm h) 1)} := by
   set f := Spec.map (CommRingCat.ofHom (algebraMap R (nodalChartRing R h)))
   have : LocallyOfFinitePresentation f :=
     locallyOfFinitePresentation (syntomic_specMap_nodalChartRing h)

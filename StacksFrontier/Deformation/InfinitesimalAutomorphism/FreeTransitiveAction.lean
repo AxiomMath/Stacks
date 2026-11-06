@@ -77,7 +77,7 @@ public theorem pushforwardAutomorphism_mem_relativeInfinitesimalAutomorphisms
     (a : ↥(relativeInfinitesimalAutomorphisms hp π₁ c₁ hc₁)) :
     pushforwardAutomorphism hp π₂ c₂ hc₂ a.1 ∈
       relativeInfinitesimalAutomorphisms hp g₂ f₂ hf₂ := by
-  have ha : (a.1 : Aut z).hom.val ≫ c₁ = c₁ :=
+  have ha : (a.1 : Aut z).asIso.hom.val ≫ c₁ = c₁ :=
     (mem_relativeInfinitesimalAutomorphisms_iff hp π₁ c₁ hc₁ a.1).mp a.2
   have := hc₂
   have := hf₂
@@ -115,20 +115,20 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_injective :
     Function.Injective
       (relativeInfinitesimalAutomorphismsFibreSquareHom hp hc₁ hc₂ hf₂ hsq) := by
   refine (injective_iff_map_eq_one _).2 fun a hcl => ?_
-  have ha : (a.1 : Aut z).hom.val ≫ c₁ = c₁ :=
+  have ha : (a.1 : Aut z).asIso.hom.val ≫ c₁ = c₁ :=
     (mem_relativeInfinitesimalAutomorphisms_iff hp π₁ c₁ hc₁ a.1).mp a.2
   have h1 : pushforwardAutomorphism hp π₂ c₂ hc₂ a.1 = 1 := by
     rw [← relativeInfinitesimalAutomorphismsFibreSquareHom_coe hp hc₁ hc₂ hf₂ hsq a, hcl]
     simp
   have hval : pushforwardEndomorphism hp π₂ c₂ hc₂ a.1 = 𝟙 x₂.1 := by
-    show (pushforwardAutomorphism hp π₂ c₂ hc₂ a.1).hom.val = 𝟙 x₂.1
+    show (pushforwardAutomorphism hp π₂ c₂ hc₂ a.1).asIso.hom.val = 𝟙 x₂.1
     rw [h1]
     rfl
-  have hsnd : (a.1 : Aut z).hom.val ≫ c₂ = 𝟙 z.1 ≫ c₂ := by
+  have hsnd : (a.1 : Aut z).asIso.hom.val ≫ c₂ = 𝟙 z.1 ≫ c₂ := by
     rw [Category.id_comp, hom_comp_eq_comp_pushforwardEndomorphism hp π₂ c₂ hc₂ a.1,
       hval, Category.comp_id]
-  have hfst : (a.1 : Aut z).hom.val ≫ c₁ = 𝟙 z.1 ≫ c₁ := by rwa [Category.id_comp]
-  exact Subtype.ext <| Aut.ext <| Functor.Fiber.hom_ext <| hsq.hom_ext hfst hsnd
+  have hfst : (a.1 : Aut z).asIso.hom.val ≫ c₁ = 𝟙 z.1 ≫ c₁ := by rwa [Category.id_comp]
+  exact Subtype.ext <| Aut.ext <| Iso.ext <| Functor.Fiber.hom_ext <| hsq.hom_ext hfst hsnd
 
 /-! ### Automorphisms produced from the universal property of the fibre square -/
 
@@ -176,9 +176,9 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_surjective :
   have := hf₂
   have := isStronglyCocartesian_of_isCofiberedInGroupoids hp π₂ c₂ hc₂
   intro ψ
-  have hψ : (ψ.1 : Aut x₂).hom.val ≫ f₂ = f₂ :=
+  have hψ : (ψ.1 : Aut x₂).asIso.hom.val ≫ f₂ = f₂ :=
     (mem_relativeInfinitesimalAutomorphisms_iff hp g₂ f₂ hf₂ ψ.1).mp ψ.2
-  have hψinv : (ψ.1 : Aut x₂).inv.val ≫ f₂ = f₂ :=
+  have hψinv : (ψ.1 : Aut x₂).asIso.inv.val ≫ f₂ = f₂ :=
     (mem_relativeInfinitesimalAutomorphisms_iff hp g₂ f₂ hf₂ ((ψ.1 : Aut x₂)⁻¹)).mp
       (inv_mem ψ.2)
   have hcomm : ∀ ρ : x₂.1 ⟶ x₂.1, ρ ≫ f₂ = f₂ → c₁ ≫ f₁ = (c₂ ≫ ρ) ≫ f₂ := by
@@ -207,11 +207,11 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_surjective :
         Category.comp_id, Category.id_comp]
   obtain ⟨φ, hφ₁, hφ₂⟩ := hlift _ hψ
   obtain ⟨φ', hφ'₁, hφ'₂⟩ := hlift _ hψinv
-  have hhi : (ψ.1 : Aut x₂).hom.val ≫ (ψ.1 : Aut x₂).inv.val = 𝟙 x₂.1 :=
-    congrArg Subtype.val (ψ.1 : Aut x₂).hom_inv_id
-  have hih : (ψ.1 : Aut x₂).inv.val ≫ (ψ.1 : Aut x₂).hom.val = 𝟙 x₂.1 :=
-    congrArg Subtype.val (ψ.1 : Aut x₂).inv_hom_id
-  let b : Aut z :=
+  have hhi : (ψ.1 : Aut x₂).asIso.hom.val ≫ (ψ.1 : Aut x₂).asIso.inv.val = 𝟙 x₂.1 :=
+    congrArg Subtype.val (ψ.1 : Aut x₂).asIso.hom_inv_id
+  have hih : (ψ.1 : Aut x₂).asIso.inv.val ≫ (ψ.1 : Aut x₂).asIso.hom.val = 𝟙 x₂.1 :=
+    congrArg Subtype.val (ψ.1 : Aut x₂).asIso.inv_hom_id
+  let b : Aut z := Aut.of
     { hom := φ
       inv := φ'
       hom_inv_id := Subtype.ext (hcompose _ _ φ φ' hhi hφ₁ hφ₂ hφ'₁ hφ'₂)
@@ -221,10 +221,11 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_surjective :
   refine ⟨⟨b, hbmem⟩, ?_⟩
   apply Subtype.ext
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show pushforwardEndomorphism hp π₂ c₂ hc₂ b = (ψ.1 : Aut x₂).hom.val
+  show pushforwardEndomorphism hp π₂ c₂ hc₂ b = (ψ.1 : Aut x₂).asIso.hom.val
   have := pushforwardEndomorphism_isHomLift hp π₂ c₂ hc₂ b
-  have := (ψ.1 : Aut x₂).hom.2
+  have := (ψ.1 : Aut x₂).asIso.hom.2
   refine Functor.IsStronglyCocartesian.ext p π₂ c₂ (𝟙 A₂) ?_
   rw [← hom_comp_eq_comp_pushforwardEndomorphism hp π₂ c₂ hc₂ b]
   exact hφ₂

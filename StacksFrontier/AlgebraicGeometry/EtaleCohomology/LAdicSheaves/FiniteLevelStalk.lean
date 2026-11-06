@@ -156,18 +156,18 @@ private noncomputable def finiteLevelStalkPoint (s : GeometricPoint X.1) :
     | pullback U S hS V f ih =>
       obtain ⟨W, g, hg, z, hz⟩ := ih ((geometricPointFiber B X.1 X.property s).map f x)
       let Fib := geometricPointFiber B X.1 X.property s
-      let dV : Fib.Elements := ⟨V, x⟩
-      let dW : Fib.Elements := ⟨W, z⟩
-      let dU : Fib.Elements := ⟨U, Fib.map f x⟩
-      let fV : dV ⟶ dU := CategoryOfElements.homMk dV dU f rfl
-      let fW : dW ⟶ dU := CategoryOfElements.homMk dW dU g hz
+      let dV : Fib.Elements := Fib.elementsMk V x
+      let dW : Fib.Elements := Fib.elementsMk W z
+      let dU : Fib.Elements := Fib.elementsMk U (Fib.map f x)
+      let fV : dV ⟶ dU := Functor.Elements.homMk (x := dV) (y := dU) f rfl
+      let fW : dW ⟶ dU := Functor.Elements.homMk (x := dW) (y := dU) g hz
       obtain ⟨q, qV, qW, hq⟩ := IsCofiltered.cospan fV fW
-      have hmaps : qV.val ≫ f = qW.val ≫ g := congrArg Subtype.val hq
-      refine ⟨q.1, qV.val, ?_, q.2, ?_⟩
-      · change S (qV.val ≫ f)
+      have hmaps : qV.hom ≫ f = qW.hom ≫ g := congrArg Functor.Elements.Hom.hom hq
+      refine ⟨q.obj, qV.hom, ?_, q.val, ?_⟩
+      · change S (qV.hom ≫ f)
         rw [hmaps]
-        exact S.downward_closed hg qW.val
-      · exact qV.property
+        exact S.downward_closed hg qW.hom
+      · exact qV.map_val
     | transitive U S R hS hlocal ihS ihlocal =>
       obtain ⟨V, f, hf, y, hy⟩ := ihS x
       obtain ⟨W, g, hg, z, hz⟩ := ihlocal hf y
@@ -200,7 +200,7 @@ private noncomputable def finiteLevelStalkScalarComparison
   let e₁ := (Φ.presheafToSheafCompSheafFiberIso
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))).app P
   let e₂ := (preservesColimitIso E
-    (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
+    (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
       (F.level (n + 1)).obj)).symm
   exact e₁ ≪≫ e₂
 
@@ -244,10 +244,10 @@ public noncomputable def finiteLevelStalkTransition (F : LAdicSheaf B X ℓ)
       (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).obj
         (finiteLevelStalk B X ℓ F s n) :=
   colim.map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
     (F.transition n).hom) ≫
     (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-      (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
+      (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) ⋙
         (F.level n).obj)).inv
 
 /-- The transition on stalks is the adjunct of the map induced by scalar reduction. -/
@@ -257,7 +257,7 @@ private theorem finiteLevelStalkTransition_eq_scalarReductionMap (F : LAdicSheaf
       (ModuleCat.extendRestrictScalarsAdj (finiteLevelRingHom ℓ n)).homEquiv _ _
         (finiteLevelStalkScalarReductionMap B X ℓ F s n) := by
   let J := SmallEtale.topology B X.1 X.property
-  let π := (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+  let π := (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
   let E := ModuleCat.extendScalars.{0, 0, u + 1} (finiteLevelRingHom ℓ n)
   let R := ModuleCat.restrictScalars.{u + 1, 0, 0} (finiteLevelRingHom ℓ n)
   let adj := ModuleCat.extendRestrictScalarsAdj.{u + 1, 0, 0} (finiteLevelRingHom ℓ n)
@@ -395,7 +395,8 @@ public theorem finite_finiteLevelStalk (F : LAdicSheaf B X ℓ) (s : GeometricPo
       Finite ((etaleModuleStalkFunctor.{u, u + 1, 0} B X (ZMod (ℓ ^ (n + 1))) s).obj
         (F.level n)) :=
     Module.finite_of_finite (ZMod (ℓ ^ (n + 1)))
-  simpa [finiteLevelStalk, etaleModuleStalkFunctor, etaleStalkPresheafFunctor, etaleStalk]
+  simpa [finiteLevelStalk, etaleModuleStalkFunctor, etaleStalkPresheafFunctor, etaleStalk,
+    CategoryOfElements.π]
     using htype
 
 /-- Each transition between consecutive finite-level stalks is surjective. -/

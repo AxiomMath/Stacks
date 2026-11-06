@@ -158,7 +158,6 @@ section VerticalPaste
 
 open Stacks.AlgebraicGeometry.AffinePushforward
 
-attribute [local implicit_reducible] CategoryTheory.TwoSquare
 
 /-- The associator of three functors is the identity. -/
 private theorem associator_hom_eq_id {C D E E' : Type*} [Category C] [Category D] [Category E]
@@ -350,7 +349,6 @@ end VerticalPaste
 
 section ProjectionComp
 
-attribute [local implicit_reducible] CategoryTheory.TwoSquare
 
 /-- A chain of morphisms whose middle factor is cancelled by two whiskerings of an isomorphism
 of functors. -/

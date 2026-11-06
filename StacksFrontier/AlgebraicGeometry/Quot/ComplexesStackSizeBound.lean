@@ -146,7 +146,7 @@ theorem injective_schemesOver_point (Y : AlgebraicSpaces B S hS) (U : BigFppfOve
   subst hT₂
   obtain ⟨⟨⟩⟩ := r₁
   obtain ⟨⟨⟩⟩ := r₂
-  simp only [eqToHom_refl, FunctorToTypes.map_id_apply] at h
+  simp only [eqToHom_refl, Functor.map_id_apply] at h
   obtain rfl : h₁ = h₂ := ObjectProperty.hom_ext _ (yonedaEquiv.injective h)
   rfl
 

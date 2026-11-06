@@ -100,7 +100,7 @@ theorem isIso_baseChangeMap_app_single_of_rightAcyclic
       ((DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf C.O)) 0).obj
         F)) := by
-  have : IsIso g'.toRingedToposModulesHom.pullbackModules.rightDerivedFunctorPlusUnit :=
+  have : IsIso g'.toRingedToposModulesHom.pullbackModules.rightDerivedFunctorPlusUnith :=
     inferInstanceAs (IsIso (flatPullbackComparison g' hg').hom)
   exact Stacks.Cohomology.BaseChange.isIso_derived_app_single_of_rightAcyclic
     (pushforwardModules f.toRingedToposModulesHom)

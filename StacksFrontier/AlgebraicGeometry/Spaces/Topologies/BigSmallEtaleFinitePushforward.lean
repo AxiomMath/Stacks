@@ -56,6 +56,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 /-! ### Exactness of the small direct image along a finite morphism -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0A4K, sheaves of sets, on the spaces-étale sites.** For a finite morphism
 `f : Y ⟶ X` the direct image of sheaves of sets on the spaces-étale sites preserves
 epimorphisms. -/
@@ -101,6 +102,7 @@ theorem abelianSmallEtalePushforward_preservesEpimorphisms_of_isFinite {X Y : T.
     exact (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X)
       (forget Ab.{u + 1})).epi_of_epi_map h₂
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0A4K, abelian sheaves, on the spaces-étale sites: exactness.** For a finite morphism
 the direct image of abelian sheaves on the spaces-étale sites preserves finite colimits. -/
 theorem smallEtalePushforward_preservesFiniteColimits_of_isFinite {X Y : T.Spaces} (f : Y ⟶ X)
@@ -148,6 +150,8 @@ theorem isZero_of_isZero_smallEtaleRestriction {X : T.Spaces}
   rw [IsZero.iff_id_eq_zero]
   exact (sheafToPresheaf _ _).map_injective (hP.eq_of_src _ _)
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The big direct image along a finite morphism is right exact: surjectivity.** For `f`
 finite, restriction of abelian sheaves along `Over.pullback f` — the big étale direct image —
 preserves epimorphisms. -/
@@ -180,6 +184,7 @@ theorem bigEtaleRestrictionPushforward_preservesEpimorphisms_of_isFinite {X Y : 
     exact (isZero_cokernel_of_epi ((smallEtaleRestriction T V.hom).map (P.map φ))).of_iso
       (PreservesCokernel.iso (smallEtaleRestriction T V.hom) (P.map φ))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The big direct image along a finite morphism is right exact.** For `f` finite the direct
 image of abelian sheaves on the big étale sites preserves finite colimits. -/
 theorem bigEtalePushforward_preservesFiniteColimits_of_isFinite {X Y : T.Spaces} (f : Y ⟶ X)
@@ -194,6 +199,7 @@ theorem bigEtalePushforward_preservesFiniteColimits_of_isFinite {X Y : T.Spaces}
   exact preservesFiniteColimits_of_natIso
     ((Over.mapPullbackAdj f).sheafPushforwardCocontinuousIso Ab.{u + 1}).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The direct image of abelian sheaves on the big étale sites preserves finite limits. -/
 instance bigEtalePushforward_preservesFiniteLimits {X Y : T.Spaces} (f : Y ⟶ X) :
     PreservesFiniteLimits (bigEtalePushforward T f) :=

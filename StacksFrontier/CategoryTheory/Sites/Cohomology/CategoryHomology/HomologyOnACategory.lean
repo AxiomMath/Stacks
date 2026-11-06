@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Category.Grp.ZModuleEquivalence
 public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import Mathlib.CategoryTheory.Abelian.LeftDerived
 public import Mathlib.CategoryTheory.Generator.Presheaf
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 import StacksCore.Tactic.StacksAttribute
 
 /-!

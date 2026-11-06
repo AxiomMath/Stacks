@@ -55,6 +55,17 @@ attribute [local instance] etaleModulePullback_additive
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_QcqsDerivedPushforwardQuasicoherent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_QcqsDerivedPushforwardQuasicoherent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 include hZ in
 /-- **`Rx_*` preserves `D_QCoh` for `x` with quasi-compact quasi-separated source and affine
 target**, by the induction of `AlgebraicGeometry.Space.prop_derivedPushforward_of_affine` down

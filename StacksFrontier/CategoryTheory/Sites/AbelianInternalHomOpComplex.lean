@@ -130,7 +130,7 @@ def homOpComplexLift {Y : Sheaf K (ModuleCat.{max u v} Λᵐᵒᵖ)} (n : ℤ)
 lemma homOpComplexLift_π {Y : Sheaf K (ModuleCat.{max u v} Λᵐᵒᵖ)} (n : ℤ)
     (φ : ∀ x : HomOpIndex n, Y ⟶ homOpSheaf K (L.X x.1.1) (M.X x.1.2)) (x : HomOpIndex n) :
     homOpComplexLift K L M n φ ≫ homOpComplexπ K L M n x = φ x :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Two morphisms into `ℋom^n_ℤ(L, M)` agree if all their components agree. -/
 lemma homOpComplexX_hom_ext {Y : Sheaf K (ModuleCat.{max u v} Λᵐᵒᵖ)} (n : ℤ)

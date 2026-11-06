@@ -92,7 +92,7 @@ variable {B S hS} {i : I ⟶ X} {p : W ⟶ I} {T : BigFppfOver B S hS}
 theorem map_comp_op_apply (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1))
     {A A' A'' : BigFppfOver B S hS} (t : A' ⟶ A) (s : A'' ⟶ A') (x : F.obj (Opposite.op A)) :
     F.map (s ≫ t).op x = F.map s.op (F.map t.op x) := by
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
 
 /-- The lifting rule of a section of `Π_i W` depends on its morphism argument only through
 that morphism, the compatibility proof being irrelevant. -/
@@ -392,7 +392,7 @@ theorem liftAlongSectionApp_lift_eq (T : BigFppfOver B S hS) (ξ : LiftAlong B S
     (hv : i.hom.app (Opposite.op T) v = X.obj.map (𝟙 T).op ξ.base) :
     liftAlongSectionApp B S hS hi p T (ξ.lift T (𝟙 T) v hv) = ξ := by
   have hv' : i.hom.app (Opposite.op T) v = ξ.base := by
-    rw [hv, op_id, FunctorToTypes.map_id_apply]
+    rw [hv, op_id, Functor.map_id_apply]
   refine LiftAlong.ext _ _ ?_ fun T' t w h h' ↦ ?_
   · show i.hom.app (Opposite.op T) (p.hom.app (Opposite.op T) (ξ.lift T (𝟙 T) v hv)) = ξ.base
     rw [ξ.lift_proj T (𝟙 T) v hv]
@@ -419,7 +419,7 @@ theorem liftAlongCone_cond (T : BigFppfOver B S hS) (z : Z.obj.obj (Opposite.op 
       = X.obj.map (𝟙 T).op (a.hom.app (Opposite.op T) z).base := by
   have h := congrArg (fun k : Z ⟶ X ↦ k.hom.app (Opposite.op T) z) hab
   rw [comp_app_apply, comp_app_apply] at h
-  exact h.symm.trans (by rw [op_id, FunctorToTypes.map_id_apply]; rfl)
+  exact h.symm.trans (by rw [op_id, Functor.map_id_apply]; rfl)
 
 /-- The morphism to `W` induced by a cone over the square of
 `AlgebraicGeometry.FormalSpace.DependentProduct.isPullback_liftAlongSection`: evaluate the
@@ -457,9 +457,9 @@ theorem liftAlongCone_unique (m : Z ⟶ W) (hm₁ : m ≫ liftAlongSection B S h
   have h₂ := congrArg (fun k : Z ⟶ I ↦ k.hom.app T z) hm₂
   rw [comp_app_apply] at h₁ h₂
   refine Eq.trans ?_ (LiftAlong.lift_congr (ξ := liftAlongSectionApp B S hS hi p T.unop
-    (m.hom.app T z)) h₁ rfl h₂ (by rw [op_id, FunctorToTypes.map_id_apply]; rfl)
+    (m.hom.app T z)) h₁ rfl h₂ (by rw [op_id, Functor.map_id_apply]; rfl)
     (liftAlongCone_cond B S hS a b hab T.unop z))
-  exact (FunctorToTypes.map_id_apply W.obj _).symm
+  exact (Functor.map_id_apply W.obj _ _).symm
 
 end Cone
 

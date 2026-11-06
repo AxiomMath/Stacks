@@ -482,7 +482,8 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion
     obtain ⟨ψ, hψ⟩ := Subfunctor.exists_iso_preimage_of_isIso_fromPreimage p.hom
       (Subfunctor.range j.hom) sU.hom (Subfunctor.toRange j.hom)
       (by rw [Subfunctor.toRange_ι]; exact congrArg (fun k => k.hom) hsj)
-    rw [← hψ, Subfunctor.range_comp, Subfunctor.range_eq_top ψ.hom, Subfunctor.image_top,
+    rw [← hψ, Subfunctor.range_comp,
+      @Subfunctor.range_eq_top _ _ _ _ ψ.hom (IsIso.epi_of_iso _), Subfunctor.image_top,
       Subfunctor.range_ι]
   have hO₁ : U₁.1.preimage p₁.hom = Subfunctor.range sU.hom := hO p₁ j₁ U₁.2 hiso₁ hsU₁
   have hO₂ : U₂.1.preimage p₂.hom = Subfunctor.range sU.hom := hO p₂ j₂ U₂.2 hiso₂ hsU₂

@@ -82,7 +82,7 @@ instance hasColimitsOfSize_mod : HasColimitsOfSize.{0, 0} (Mod R) :=
 
 /-- The coproducts along the antidiagonals of two graded `O`-modules exist. -/
 instance hasTensor_mod (X₁ X₂ : GradedObject ℤ (Mod R)) : GradedObject.HasTensor X₁ X₂ :=
-  inferInstance
+  fun _ => ((hasColimitsOfSize_mod R).has_colimits_of_shape _).has_colimit _
 
 /-- Tensoring on the left commutes with the coproducts of a threefold graded tensor product. -/
 instance hasTensor₄ObjExt_mod (X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R)) :

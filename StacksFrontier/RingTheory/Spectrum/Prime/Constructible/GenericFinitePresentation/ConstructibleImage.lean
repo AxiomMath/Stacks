@@ -1,5 +1,6 @@
 module
 
+import Mathlib.RingTheory.Localization.Away.AdjoinRoot
 import Mathlib.RingTheory.Localization.Integral
 public import Mathlib.RingTheory.RingHom.FinitePresentation
 import Mathlib.RingTheory.Spectrum.Prime.Chevalley

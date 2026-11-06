@@ -85,6 +85,24 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} {G : GroupoidInAlgebraicSpaces C S hS B}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_GroupoidStructure :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_GroupoidStructure
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasLimitsOfShapeDiscrete_presheaf_GroupoidStructure (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 
 /-! ### The two projections of the presheaf of composable pairs -/
 

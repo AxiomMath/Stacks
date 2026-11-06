@@ -165,10 +165,10 @@ noncomputable def liftPresheaf (ψ : G ⟶ AlgebraSheaf.underlyingModule 𝒜) :
 
 /-- **The morphism of algebra sheaves `Sym(G) ⟶ 𝒜` extending `ψ : G ⟶ 𝒜`.** -/
 noncomputable def lift (ψ : G ⟶ AlgebraSheaf.underlyingModule 𝒜) : algebra G ⟶ 𝒜 where
-  right := ⟨sheafifyLift _ (liftPresheaf ψ) 𝒜.right.cond⟩
+  right := ⟨sheafifyLift _ (liftPresheaf ψ) 𝒜.right.property⟩
   comm U r :=
     (ConcreteCategory.congr_hom (congrArg (fun k => k.app U)
-      (toSheafify_sheafifyLift _ (liftPresheaf ψ) 𝒜.right.cond)) _).trans
+      (toSheafify_sheafifyLift _ (liftPresheaf ψ) 𝒜.right.property)) _).trans
       (ConcreteCategory.congr_hom (congrArg (fun k => k.app U)
         (PresheafOfModules.toSymAlg_symAlgLift (O := structurePresheaf B S hS F) (𝒜.hom.hom)
           (liftLinear ψ) fun f m => (PresheafOfModules.naturality_apply ψ.val f m).symm)) r)
@@ -179,7 +179,7 @@ variable (ψ : G ⟶ AlgebraSheaf.underlyingModule 𝒜)
 theorem lift_right_app_unit (U : (SmallEtale B S hS F)ᵒᵖ) (x : (presheaf G).obj U) :
     (lift ψ).right.hom.app U ((unit G).app U x) = (liftPresheaf ψ).app U x :=
   ConcreteCategory.congr_hom (congrArg (fun k => k.app U)
-    (toSheafify_sheafifyLift _ (liftPresheaf ψ) 𝒜.right.cond)) x
+    (toSheafify_sheafifyLift _ (liftPresheaf ψ) 𝒜.right.property)) x
 
 /-- On sections over `U`, `lift ψ` sends the generator `genApp G U m` to `ψ m`. -/
 theorem gen_lift_apply (U : (SmallEtale B S hS F)ᵒᵖ) (m : (val' G).obj U) :
@@ -200,7 +200,7 @@ theorem hom_ext {g g' : algebra G ⟶ 𝒜}
       g.right.hom.app U (genApp G U m) = g'.right.hom.app U (genApp G U m)) :
     g = g' := by
   refine AlgebraSheaf.Hom.ext (Sheaf.hom_ext ?_)
-  refine sheafify_hom_ext _ _ _ 𝒜.right.cond ?_
+  refine sheafify_hom_ext _ _ _ 𝒜.right.property ?_
   refine PresheafOfModules.sectionwiseSymAlg_hom_ext ?_ h
   refine NatTrans.ext (funext fun U => CommRingCat.hom_ext (RingHom.ext fun r => ?_))
   exact (g.comm U r).trans (g'.comm U r).symm

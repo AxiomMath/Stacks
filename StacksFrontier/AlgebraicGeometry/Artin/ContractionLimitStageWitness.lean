@@ -133,6 +133,17 @@ attribute [local instance] Space.pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {c : ContractionSituation B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ContractionLimitStageWitness :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ContractionLimitStageWitness
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **For a witness of compatibility, `|p|⁻¹ Z = |x'|⁻¹ T'`.** A point of `V'` over `Z` is
 carried into `T'` by `x'` (it lies in `V'_{/Z}`, which `x̂'` maps to `X'_{/T'}`), and a point of
 `V'` outside the inverse image of `Z` comes from `V ∖ Z`, on which `x'` is `u' : V ∖ Z ⟶ U'`. -/
@@ -340,11 +351,10 @@ theorem restrict_jY : Space.openSubspaceOfPointsRestrict B S hS (yoneda.map (κ.
   have h₂ : (w.j ≫ W.a) ≫ W.q = r ≫ (Space.openSubspaceOfPoints B S hS _ W.Zᶜ).ι := by
     rw [Category.assoc, ← W.isPullback_a.w, ← Category.assoc, ← w.isPullback_j.w,
       Category.id_comp, hr]
-  have e : pullback.lift _ _ h₁ = pullback.lift _ _ h₂ := by
-    rw [← cancel_mono (pullback.snd W.q (Space.openSubspaceOfPoints B S hS _ W.Zᶜ).ι),
-      pullback.lift_snd, pullback.lift_snd]
-  have := congrArg (· ≫ pullback.fst W.q (Space.openSubspaceOfPoints B S hS _ W.Zᶜ).ι) e
-  rwa [pullback.lift_fst, pullback.lift_fst] at this
+  refine (?_ : _ = pullback.lift _ _ h₂ ≫ pullback.fst _ _).trans (pullback.lift_fst _ _ _)
+  rw [jY, ← Category.assoc]
+  refine congrArg (· ≫ pullback.fst _ _) ?_
+  exact (IsIso.comp_inv_eq _).2 (pullback.lift_snd _ _ _).symm
 
 /-- `u'_j` restricts to `u'` over the limit. -/
 theorem restrict_u : Space.openSubspaceOfPointsRestrict B S hS (yoneda.map (κ.π.app j).hom)

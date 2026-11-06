@@ -291,7 +291,7 @@ theorem toAdd_character_add (x : GeometricPoint (Spec (.of A)))
       map_fiberProductCoverSnd_fiberProductPoint p₁ p₂⟩
   have n : ∀ {g : A} (f : fiberProductCover k g₁ g₂ ⟶ cover k A g),
       σ • (finiteEtaleFiberFunctor x).map f q = (finiteEtaleFiberFunctor x).map f (σ • q) :=
-    fun f => ConcreteCategory.congr_hom (σ.hom.naturality f) q
+    fun f => ConcreteCategory.congr_hom (σ.asIso.hom.naturality f) q
   have n₁ := n (fiberProductCoverFst k g₁ g₂)
   have n₂ := n (fiberProductCoverSnd k g₁ g₂)
   rw [hq₁] at n₁

@@ -83,7 +83,7 @@ theorem exists_isGalois_of_torsor {M : Type*} [AddGroup M] [Finite M] (X : C) (�
     obtain ⟨m₂, hm₂⟩ := hex c₂
     obtain ⟨φ₁, hφ₁, -⟩ := key m₁ c₁ hm₁
     obtain ⟨φ₂, hφ₂, -⟩ := key m₂ c₂ hm₂
-    refine ⟨(φ₁.symm ≪≫ φ₂ : A ≅ A), ?_⟩
+    refine ⟨Aut.of (φ₁.symm ≪≫ φ₂), ?_⟩
     show F.map (φ₁.symm ≪≫ φ₂).hom c₁ = c₂
     rw [← hφ₁, ← hφ₂]
     simp [← FintypeCat.comp_apply]
@@ -147,12 +147,13 @@ Its *group* is that automorphism group, `Aut (Over.mk p)`. -/
 def IsGaloisCover {Z : Scheme.{u}} (p : Z ⟶ Y) : Prop :=
   IsFinite p ∧ Etale p ∧ ConnectedSpace Z ∧
     ∀ (y : GeometricPoint Y) (a b : {s : y.source ⟶ Z // s ≫ p = y.hom}),
-      ∃ σ : Aut (Over.mk p), a.1 ≫ σ.hom.left = b.1
+      ∃ σ : Aut (Over.mk p), a.1 ≫ σ.asIso.hom.left = b.1
 
 /-- The automorphisms of a finite étale cover in `FÉt_Y` are its automorphisms over `Y`. -/
 def autEquivOverAut (A : FiniteEtaleOver Y) : (A ≅ A) ≃ Aut (Over.mk A.hom) :=
   (Functor.FullyFaithful.ofFullyFaithful
-    (MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ Y)).isoEquiv
+    (MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ Y)).isoEquiv.trans
+    Aut.isoEquiv.symm
 
 /-- **A connected component of a torsor is a Galois cover.** Let `Y` be connected, let `x` be a
 geometric point of `Y`, and let a finite additive group `M` act on a finite étale cover `V` of
@@ -182,8 +183,8 @@ theorem exists_isGaloisCover_of_torsor [ConnectedSpace Y] (x : GeometricPoint Y)
       IsGaloisCategory.fiberFunctor (finiteEtaleFiberFintypeFunctor Y z)
     have := (isGalois_iff_pretransitive (finiteEtaleFiberFintypeFunctor Y z) A).1 hgal
     obtain ⟨σ, hσ⟩ := this.exists_smul_eq (a : finiteEtaleFiber z A) (b : finiteEtaleFiber z A)
-    exact ⟨autEquivOverAut A σ, congrArg Subtype.val hσ⟩
-  · rw [← Nat.card_congr (autEquivOverAut A)]
+    exact ⟨autEquivOverAut A σ.asIso, congrArg Subtype.val hσ⟩
+  · rw [← Nat.card_congr (Aut.isoEquiv.trans (autEquivOverAut A))]
     exact hcard
 
 end Stacks.EtaleCohomology

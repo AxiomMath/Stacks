@@ -262,7 +262,6 @@ theorem lTensor_koszul_d_eq_zero {P B : Type*} [CommRing P] [CommRing B] [Algebr
     (y : B ⊗[P] (⋀[P]^(k + 1) (Fin r → P))) :
     LinearMap.lTensor B (Koszul.d (Koszul.seqDual f) k) y = 0 := by
   induction y with
-  | zero => simp
   | tmul b z =>
       rw [LinearMap.lTensor_tmul, koszul_d_eq_sum, TensorProduct.tmul_sum]
       refine Finset.sum_eq_zero fun i _ => tensor_smul_eq_zero_of_mem_span (R := P) f b
@@ -275,7 +274,6 @@ private theorem tensor_top_eq_tmul
     (n : ℕ) (x : N ⊗[P] (⋀[P]^n (Fin n → P))) :
     ∃ b : N, x = b ⊗ₜ[P] exteriorPower.ιMulti P n (Pi.basisFun P (Fin n)) := by
   induction x with
-  | zero => exact ⟨0, (TensorProduct.zero_tmul _ _).symm⟩
   | tmul b y =>
       obtain ⟨a, rfl⟩ := exteriorPower_top_eq_smul n y
       exact ⟨a • b, TensorProduct.tmul_smul _ _ _⟩
@@ -330,7 +328,6 @@ theorem annihilator_equiv_of_tensor_comparison
       (Algebra.TensorProduct.productLeftAlgHom q (AlgHom.id A B)).toRingHom := by
     refine RingHom.ext fun x => ?_
     induction x with
-    | zero => simp
     | tmul p b => simp [φ, ψ, Algebra.TensorProduct.productLeftAlgHom,
         Algebra.TensorProduct.lmul'_apply_tmul, Algebra.TensorProduct.lift_tmul]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
@@ -348,7 +345,6 @@ theorem annihilator_equiv_of_tensor_comparison
   let eBase := TensorProduct.AlgebraTensorModule.cancelBaseChange A P B B B
   have heBase (b : B) (r : (P ⊗[A] B)) : eBase (b ⊗ₜ[P] r) = b • φ r := by
     induction r with
-    | zero => simp
     | tmul p c =>
         simp only [eBase, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
         simp [φ, Algebra.smul_def, hPB, Algebra.TensorProduct.tmul_mul_tmul, mul_comm]

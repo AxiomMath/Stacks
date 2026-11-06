@@ -112,13 +112,13 @@ instance liftTargetModules_additive (B : Sheaf J CommRingCat.{max u v w}) :
 read along `↑ε`, by `x ↦ ULift.up (d x.down)`. -/
 noncomputable def liftDerivation {A₀ P B₀ : Sheaf J CommRingCat.{max u v w}} {b : A₀ ⟶ P}
     {ε : P ⟶ B₀} {N : targetModules.{u, v, w} J B₀}
-    (d : ((SheafOfModules.restrictScalars
+    (d : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
       ((sheafCompose J (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})).map ε)).obj
-        N).val.Derivation' b.hom) :
-    ((SheafOfModules.restrictScalars ((sheafCompose J
+        N).val b.hom) :
+    PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars ((sheafCompose J
       (forget₂ CommRingCat.{max u v w w'} RingCat.{max u v w w'})).map
         ((sheafCompose J commRingCatULift.{max u v w, w'}).map ε))).obj
-        ((liftTargetModules.{u, v, w, w'} J B₀).obj N)).val.Derivation'
+        ((liftTargetModules.{u, v, w, w'} J B₀).obj N)).val
       ((sheafCompose J commRingCatULift.{max u v w, w'}).map b).hom where
   d {U} := AddMonoidHom.mk' (fun x => ULift.up (d.d x.down))
     (fun x y => congrArg ULift.up (d.d.map_add x.down y.down))
@@ -129,9 +129,9 @@ noncomputable def liftDerivation {A₀ P B₀ : Sheaf J CommRingCat.{max u v w}}
 /-- The lift of a derivation has components `x ↦ ULift.up (d x.down)`. -/
 theorem liftDerivation_d {A₀ P B₀ : Sheaf J CommRingCat.{max u v w}} {b : A₀ ⟶ P}
     {ε : P ⟶ B₀} {N : targetModules.{u, v, w} J B₀}
-    (d : ((SheafOfModules.restrictScalars
+    (d : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
       ((sheafCompose J (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})).map ε)).obj
-        N).val.Derivation' b.hom)
+        N).val b.hom)
     {U : Cᵒᵖ} (x : ((sheafCompose J commRingCatULift.{max u v w, w'}).obj P).obj.obj U) :
     (liftDerivation.{u, v, w, w'} J d).d x = ULift.up (d.d x.down) :=
   rfl
@@ -330,7 +330,7 @@ theorem bijective_liftDerivation_postcomp (n : ℕ)
         (χ ≫ ψ.val).app U (ULift.up (sectionsCotangentDifferential' J a U n p)) := by
       show φ.val.app U (χ.app U _) = ψ.val.app U (χ.app U _)
       rw [hgen]
-      exact PresheafOfModules.Derivation.congr_d h (ULift.up (c.app U p))
+      exact PresheafOfModulesOfCommRing.Derivation.congr_d h (ULift.up (c.app U p))
     apply SheafOfModules.hom_ext
     apply e.injective
     show χ ≫ φ.val = χ ≫ ψ.val
@@ -525,7 +525,7 @@ noncomputable def liftCotangentSimplicialModule :
   object := (cotangentSimplicialModule J a).object ⋙ liftTargetModules.{u, v, w, w'} J B
   derivationEquiv := liftCotangentDerivationEquiv.{u, v, w, w'} J a
   naturality _ _ _ _ _ :=
-    PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
   simplex_naturality {i j} g M h U x := by
     rw [liftCotangentDerivationEquiv_d, liftCotangentDerivationEquiv_d]
     have hD := (cotangentSimplicialModule J a).simplex_naturality g

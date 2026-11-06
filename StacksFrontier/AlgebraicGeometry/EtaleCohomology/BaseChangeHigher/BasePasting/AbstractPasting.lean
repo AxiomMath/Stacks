@@ -139,7 +139,7 @@ variable {A B C D : Type*} [Category* A] [Category* B] [Category* C] [Category* 
 public def compUnit :
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙ G.rightDerivedFunctorPlus ⟶
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus) :=
-  Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+  Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
 
 /-- `RF ⋙ RG` is a right derived functor of degreewise `F` followed by `RG`, with unit
@@ -153,7 +153,7 @@ public instance isRightDerivedFunctor_compUnit :
 /-- The component of `compUnit` at a bounded below complex. -/
 public theorem compUnit_app (K : HomotopyCategory.Plus A) :
     (compUnit F G).app K =
-      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
+      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
   simp [compUnit]
 
 variable (τ : F ⋙ G ⟶ G' ⋙ F')
@@ -164,7 +164,7 @@ variable (τ : F ⋙ G ⟶ G' ⋙ F')
 complex: the derived comparison precomposed with the unit of `RF` is `onHomotopy`. -/
 @[reassoc]
 public theorem derived_fac_app (K : HomotopyCategory.Plus A) :
-    G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (derived F F' G G' τ e).app (DerivedCategory.Plus.Qh.obj K) =
       (onHomotopy F F' G G' τ e).app K := by
   have h := NatTrans.congr_app (derived_fac F F' G G' τ e) K
@@ -177,8 +177,8 @@ public theorem onHomotopy_app (K : HomotopyCategory.Plus A) :
     (onHomotopy F F' G G' τ e).app K =
       e.inv.app (F.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map ((mapPlus τ).app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) := by
+        F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) := by
   have h : (onHomotopy F F' G G' τ e).app K =
       e.inv.app (F.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map
@@ -186,8 +186,8 @@ public theorem onHomotopy_app (K : HomotopyCategory.Plus A) :
         DerivedCategory.Plus.Qh.map ((mapPlus τ).app K) ≫
         DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) := by
+        F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) := by
     simp [onHomotopy]
   rw [h]
   simp only [map_mapHomotopyCategoryPlusCompIso_hom_app,
@@ -209,17 +209,17 @@ of an exact functor is computed degreewise. -/
 public def exactUnitIso :
     F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus :=
-  letI : IsIso F.rightDerivedFunctorPlusUnit := exactUnit_isIso F
-  asIso F.rightDerivedFunctorPlusUnit
+  letI : IsIso F.rightDerivedFunctorPlusUnith := exactUnit_isIso F
+  asIso F.rightDerivedFunctorPlusUnith
 
 /-- The isomorphism `exactUnitIso` is the derived-functor unit. -/
-public theorem exactUnitIso_hom : (exactUnitIso F).hom = F.rightDerivedFunctorPlusUnit := rfl
+public theorem exactUnitIso_hom : (exactUnitIso F).hom = F.rightDerivedFunctorPlusUnith := rfl
 
 /-- **The derived-functor unit of an exact functor cancels against `exactUnitIso`.** -/
 public theorem unit_comp_exactUnitIso_inv_assoc {X : DerivedCategory.Plus B}
     (M : HomotopyCategory.Plus A)
     (f : DerivedCategory.Plus.Qh.obj (F.mapHomotopyCategoryPlus.obj M) ⟶ X) :
-    F.rightDerivedFunctorPlusUnit.app M ≫ (exactUnitIso F).inv.app M ≫ f = f := by
+    F.rightDerivedFunctorPlusUnith.app M ≫ (exactUnitIso F).inv.app M ≫ f = f := by
   rw [← exactUnitIso_hom, Iso.hom_inv_id_app_assoc]
 
 end ExactUnit
@@ -239,16 +239,16 @@ public def iteratedUnit (M : HomotopyCategory.Plus B) :
         (H.mapHomotopyCategoryPlus.obj (G.mapHomotopyCategoryPlus.obj M)) ⟶
       (G.rightDerivedFunctorPlus ⋙ H.rightDerivedFunctorPlus).obj
         (DerivedCategory.Plus.Qh.obj M) :=
-  H.rightDerivedFunctorPlusUnit.app (G.mapHomotopyCategoryPlus.obj M) ≫
-    H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnit.app M)
+  H.rightDerivedFunctorPlusUnith.app (G.mapHomotopyCategoryPlus.obj M) ≫
+    H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnith.app M)
 
 /-- The iterated derived-functor unit, written out, in front of a morphism. -/
 public theorem iteratedUnit_comp (M : HomotopyCategory.Plus B) {X : DerivedCategory.Plus E}
     (f : (G.rightDerivedFunctorPlus ⋙ H.rightDerivedFunctorPlus).obj
       (DerivedCategory.Plus.Qh.obj M) ⟶ X) :
     iteratedUnit G H M ≫ f =
-      H.rightDerivedFunctorPlusUnit.app (G.mapHomotopyCategoryPlus.obj M) ≫
-        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnit.app M) ≫ f :=
+      H.rightDerivedFunctorPlusUnith.app (G.mapHomotopyCategoryPlus.obj M) ≫
+        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnith.app M) ≫ f :=
   Category.assoc _ _ f
 
 end IteratedUnit
@@ -295,17 +295,17 @@ of the right derived functor of the composite. -/
 public theorem unit_eq_comp_exactDerivedCompIso_inv (M : HomotopyCategory.Plus B) :
     iteratedUnit G H M ≫
         (exactDerivedCompIso G H).inv.app (DerivedCategory.Plus.Qh.obj M) =
-      (G ⋙ H).rightDerivedFunctorPlusUnit.app M := by
+      (G ⋙ H).rightDerivedFunctorPlusUnith.app M := by
   rw [← unit_comp_exactDerivedCompIso_hom G H M]
   erw [Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
   rfl
 
 /-- `unit_eq_comp_exactDerivedCompIso_inv` right associated. -/
 public theorem unit_eq_comp_exactDerivedCompIso_inv'' (M : HomotopyCategory.Plus B) :
-    H.rightDerivedFunctorPlusUnit.app (G.mapHomotopyCategoryPlus.obj M) ≫
-        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnit.app M) ≫
+    H.rightDerivedFunctorPlusUnith.app (G.mapHomotopyCategoryPlus.obj M) ≫
+        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnith.app M) ≫
         (exactDerivedCompIso G H).inv.app (DerivedCategory.Plus.Qh.obj M) =
-      (G ⋙ H).rightDerivedFunctorPlusUnit.app M :=
+      (G ⋙ H).rightDerivedFunctorPlusUnith.app M :=
   (iteratedUnit_comp G H M _).symm.trans (unit_eq_comp_exactDerivedCompIso_inv G H M)
 
 /-- `exactDerivedCompIso_hom_app_qh` in front of a morphism, right associated. -/
@@ -315,18 +315,18 @@ public theorem exactDerivedCompIso_hom_app_qh_assoc {X : DerivedCategory.Plus E}
       (DerivedCategory.Plus.Qh.obj M) ⟶ X) :
     (exactDerivedCompIso G H).hom.app (DerivedCategory.Plus.Qh.obj M) ≫ f =
       (exactUnitIso (G ⋙ H)).inv.app M ≫
-        H.rightDerivedFunctorPlusUnit.app (G.mapHomotopyCategoryPlus.obj M) ≫
-        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnit.app M) ≫ f := by
+        H.rightDerivedFunctorPlusUnith.app (G.mapHomotopyCategoryPlus.obj M) ≫
+        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnith.app M) ≫ f := by
   rw [exactDerivedCompIso_hom_app_qh]
   erw [Category.assoc]
   exact congrArg _ (iteratedUnit_comp G H M f)
 
 /-- `unit_eq_comp_exactDerivedCompIso_inv` with the iterated unit written out. -/
 public theorem unit_eq_comp_exactDerivedCompIso_inv' (M : HomotopyCategory.Plus B) :
-    (H.rightDerivedFunctorPlusUnit.app (G.mapHomotopyCategoryPlus.obj M) ≫
-        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnit.app M)) ≫
+    (H.rightDerivedFunctorPlusUnith.app (G.mapHomotopyCategoryPlus.obj M) ≫
+        H.rightDerivedFunctorPlus.map (G.rightDerivedFunctorPlusUnith.app M)) ≫
         (exactDerivedCompIso G H).inv.app (DerivedCategory.Plus.Qh.obj M) =
-      (G ⋙ H).rightDerivedFunctorPlusUnit.app M :=
+      (G ⋙ H).rightDerivedFunctorPlusUnith.app M :=
   unit_eq_comp_exactDerivedCompIso_inv G H M
 
 end ExactComp
@@ -384,45 +384,44 @@ against the comparison through which the derived comparison of the first square 
 and what is left commutes past the degreewise comparison by naturality of the unit of `RH`. -/
 @[reassoc]
 public theorem firstStep (K : HomotopyCategory.Plus A) :
-    H.rightDerivedFunctorPlusUnit.app
+    H.rightDerivedFunctorPlusUnith.app
           (G.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) ≫
+          (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) ≫
+          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) ≫
         H.rightDerivedFunctorPlus.map
           ((derived F F' G G' τ₁ (exactUnitIso G)).app (DerivedCategory.Plus.Qh.obj K)) =
       DerivedCategory.Plus.Qh.map (H.mapHomotopyCategoryPlus.map ((mapPlus τ₁).app K)) ≫
-        H.rightDerivedFunctorPlusUnit.app ((G' ⋙ F').mapHomotopyCategoryPlus.obj K) ≫
+        H.rightDerivedFunctorPlusUnith.app ((G' ⋙ F').mapHomotopyCategoryPlus.obj K) ≫
         H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+          (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K)) := by
-  have hinner : G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+          (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K)) := by
+  have hinner : G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (derived F F' G G' τ₁ (exactUnitIso G)).app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapPlus τ₁).app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) := by
+        F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) := by
     rw [derived_fac_app, onHomotopy_app, ← exactUnitIso_hom G]
     simp
-    rfl
   have h2 := congrArg (fun m ↦ H.rightDerivedFunctorPlus.map m) hinner
   have h3 : H.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map ((mapPlus τ₁).app K) ≫
-          F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-          F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K)) =
+          F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+          F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K)) =
       H.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map ((mapPlus τ₁).app K)) ≫
         H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+          (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K)) := by
+          (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K)) := by
     rw [Functor.map_comp]
     exact congrArg (fun t ↦ H.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map ((mapPlus τ₁).app K)) ≫ t)
       (H.rightDerivedFunctorPlus.map_comp _ _)
   rw [← Functor.map_comp, ← Functor.map_comp, h2.trans h3,
-    reassoc_of% H.rightDerivedFunctorPlusUnit.naturality ((mapPlus τ₁).app K)]
+    reassoc_of% H.rightDerivedFunctorPlusUnith.naturality ((mapPlus τ₁).app K)]
   rfl
 
 omit [EnoughInjectives A] in
@@ -431,16 +430,16 @@ square, read through its own factorization over the derived-functor unit of `RF'
 @[reassoc]
 public theorem secondStep (K : HomotopyCategory.Plus A) :
     H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+          (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
         (derived F' F'' H H' τ₂ (exactUnitIso H)).app
           (DerivedCategory.Plus.Qh.obj (G'.mapHomotopyCategoryPlus.obj K)) =
       (exactUnitIso H).inv.app
           (F'.mapHomotopyCategoryPlus.obj (G'.mapHomotopyCategoryPlus.obj K)) ≫
         DerivedCategory.Plus.Qh.map ((mapPlus τ₂).app (G'.mapHomotopyCategoryPlus.obj K)) ≫
-        F''.rightDerivedFunctorPlusUnit.app
+        F''.rightDerivedFunctorPlusUnith.app
           (H'.mapHomotopyCategoryPlus.obj (G'.mapHomotopyCategoryPlus.obj K)) ≫
         F''.rightDerivedFunctorPlus.map
-          (H'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) := by
+          (H'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) := by
   rw [derived_fac_app, onHomotopy_app]
 
 end PasteDerived
@@ -469,12 +468,12 @@ of `R(H' ∘ G')`.  Both units of the exact horizontal functors cancel on the wa
 against the comparison descending the first square, the one of `RH` against the comparison
 descending the second. -/
 public theorem pasteTail (K : HomotopyCategory.Plus A) :
-    H.rightDerivedFunctorPlusUnit.app
+    H.rightDerivedFunctorPlusUnith.app
           (G.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) ≫
+          (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) ≫
+          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) ≫
         H.rightDerivedFunctorPlus.map
           ((derived F F' G G' τ₁ (exactUnitIso G)).app (DerivedCategory.Plus.Qh.obj K)) ≫
         (derived F' F'' H H' τ₂ (exactUnitIso H)).app
@@ -484,35 +483,35 @@ public theorem pasteTail (K : HomotopyCategory.Plus A) :
       DerivedCategory.Plus.Qh.map
           (H.mapHomotopyCategoryPlus.map ((mapPlus τ₁).app K) ≫
             (mapPlus τ₂).app (G'.mapHomotopyCategoryPlus.obj K)) ≫
-        F''.rightDerivedFunctorPlusUnit.app
+        F''.rightDerivedFunctorPlusUnith.app
           (H'.mapHomotopyCategoryPlus.obj (G'.mapHomotopyCategoryPlus.obj K)) ≫
-        F''.rightDerivedFunctorPlus.map ((G' ⋙ H').rightDerivedFunctorPlusUnit.app K) := by
-  have h₃ : H.rightDerivedFunctorPlusUnit.app ((G' ⋙ F').mapHomotopyCategoryPlus.obj K) ≫
+        F''.rightDerivedFunctorPlus.map ((G' ⋙ H').rightDerivedFunctorPlusUnith.app K) := by
+  have h₃ : H.rightDerivedFunctorPlusUnith.app ((G' ⋙ F').mapHomotopyCategoryPlus.obj K) ≫
       H.rightDerivedFunctorPlus.map
-          (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+          (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
         (derived F' F'' H H' τ₂ (exactUnitIso H)).app
           (DerivedCategory.Plus.Qh.obj (G'.mapHomotopyCategoryPlus.obj K)) =
       DerivedCategory.Plus.Qh.map ((mapPlus τ₂).app (G'.mapHomotopyCategoryPlus.obj K)) ≫
-        F''.rightDerivedFunctorPlusUnit.app
+        F''.rightDerivedFunctorPlusUnith.app
           (H'.mapHomotopyCategoryPlus.obj (G'.mapHomotopyCategoryPlus.obj K)) ≫
         F''.rightDerivedFunctorPlus.map
-          (H'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) :=
+          (H'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) :=
     by
     erw [secondStep F' F'' G' H H' τ₂ K]
     exact unit_comp_exactUnitIso_inv_assoc H _ _
   have h₄ : F''.rightDerivedFunctorPlus.map
-        (H'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+        (H'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
       F''.rightDerivedFunctorPlus.map
-          (H'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K)) ≫
+          (H'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K)) ≫
         F''.rightDerivedFunctorPlus.map
           ((exactDerivedCompIso G' H').inv.app (DerivedCategory.Plus.Qh.obj K)) =
-      F''.rightDerivedFunctorPlus.map ((G' ⋙ H').rightDerivedFunctorPlusUnit.app K) :=
+      F''.rightDerivedFunctorPlus.map ((G' ⋙ H').rightDerivedFunctorPlusUnith.app K) :=
     by
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact congrArg _ (unit_eq_comp_exactDerivedCompIso_inv'' G' H' K)
   exact chaseAux (firstStep F F' G G' H τ₁ K)
     ((derived F' F'' H H' τ₂ (exactUnitIso H)).naturality
-      (G'.rightDerivedFunctorPlusUnit.app K))
+      (G'.rightDerivedFunctorPlusUnith.app K))
     h₃ h₄ (DerivedCategory.Plus.Qh.map_comp _ _).symm
 
 /-- **Base functoriality of the derived comparison, at a bounded below complex.**  Both sides
@@ -538,11 +537,10 @@ public theorem derived_paste_app (K : HomotopyCategory.Plus A) :
         DerivedCategory.Plus.Qh.map
             (H.mapHomotopyCategoryPlus.map ((mapPlus τ₁).app K) ≫
               (mapPlus τ₂).app (G'.mapHomotopyCategoryPlus.obj K)) ≫
-          F''.rightDerivedFunctorPlusUnit.app ((G' ⋙ H').mapHomotopyCategoryPlus.obj K) ≫
+          F''.rightDerivedFunctorPlusUnith.app ((G' ⋙ H').mapHomotopyCategoryPlus.obj K) ≫
             F''.rightDerivedFunctorPlus.map
-              ((G' ⋙ H').rightDerivedFunctorPlusUnit.app K) := by
+              ((G' ⋙ H').rightDerivedFunctorPlusUnith.app K) := by
     rw [compUnit_app, derived_fac_app, onHomotopy_app, mapPlus_pasteTrans_app]
-    rfl
   have hR : (compUnit F (G ⋙ H)).app K ≫
       (exactDerivedCompIso G H).hom.app
           (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
@@ -556,11 +554,11 @@ public theorem derived_paste_app (K : HomotopyCategory.Plus A) :
         DerivedCategory.Plus.Qh.map
             (H.mapHomotopyCategoryPlus.map ((mapPlus τ₁).app K) ≫
               (mapPlus τ₂).app (G'.mapHomotopyCategoryPlus.obj K)) ≫
-          F''.rightDerivedFunctorPlusUnit.app ((G' ⋙ H').mapHomotopyCategoryPlus.obj K) ≫
+          F''.rightDerivedFunctorPlusUnith.app ((G' ⋙ H').mapHomotopyCategoryPlus.obj K) ≫
             F''.rightDerivedFunctorPlus.map
-              ((G' ⋙ H').rightDerivedFunctorPlusUnit.app K) := by
+              ((G' ⋙ H').rightDerivedFunctorPlusUnith.app K) := by
     rw [compUnit_app, ← Category.assoc]
-    erw [(exactDerivedCompIso G H).hom.naturality (F.rightDerivedFunctorPlusUnit.app K),
+    erw [(exactDerivedCompIso G H).hom.naturality (F.rightDerivedFunctorPlusUnith.app K),
       Category.assoc, exactDerivedCompIso_hom_app_qh_assoc]
     exact congrArg _ (pasteTail F F' F'' G G' H H' τ₁ τ₂ K)
   exact hL.trans hR.symm

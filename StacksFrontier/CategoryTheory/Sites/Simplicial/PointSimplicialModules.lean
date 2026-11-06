@@ -76,7 +76,7 @@ theorem tot_hom_ext {M N : SheafOfModules.{u} (situation.{u}.totalRingSheaf (rin
 /-- A linear map of sections at the point is a morphism of sheaves of modules on a component. -/
 def compHomMk {n : SimplexCategory}
     {M N : (situation.{u}.componentRingedTopos (ringSheaf A) n).Modules}
-    (f : M.val.obj (op pt) →ₗ[(situation.{u}.componentRingedTopos (ringSheaf A) n).O.val.obj
+    (f : M.val.obj (op pt) →ₗ[(situation.{u}.componentRingedTopos (ringSheaf A) n).O.obj.obj
       (op pt)] N.val.obj (op pt)) : M ⟶ N where
   val := PresheafOfModules.homMk
     { app := fun _ => AddCommGrpCat.ofHom f.toAddMonoidHom
@@ -91,7 +91,7 @@ def compHomMk {n : SimplexCategory}
 /-- The sections at the point of `compHomMk f` are given by `f`. -/
 theorem compHomMk_app {n : SimplexCategory}
     {M N : (situation.{u}.componentRingedTopos (ringSheaf A) n).Modules}
-    (f : M.val.obj (op pt) →ₗ[(situation.{u}.componentRingedTopos (ringSheaf A) n).O.val.obj
+    (f : M.val.obj (op pt) →ₗ[(situation.{u}.componentRingedTopos (ringSheaf A) n).O.obj.obj
       (op pt)] N.val.obj (op pt)) (x : M.val.obj (op pt)) :
     (compHomMk f).val.app (op pt) x = f x := rfl
 
@@ -112,7 +112,7 @@ example {m n : SimplexCategory} (φ : m ⟶ n)
 component are taken. -/
 abbrev secRing (n : SimplexCategory) : RingCat.{u} :=
   (Stacks.SheafOfModules.Tensor.ringSheaf
-    (situation.{u}.componentRingedTopos (ringSheaf A) n).O).val.obj (op pt)
+    (situation.{u}.componentRingedTopos (ringSheaf A) n).O).obj.obj (op pt)
 
 /-- The ring map of the cosimplicial ring, between the rings of sections. -/
 abbrev secMap {m n : SimplexCategory} (φ : m ⟶ n) : secRing (A := A) m →+* secRing (A := A) n :=

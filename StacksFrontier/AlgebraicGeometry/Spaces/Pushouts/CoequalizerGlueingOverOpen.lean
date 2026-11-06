@@ -270,8 +270,10 @@ theorem isIso_pullback_snd_toTarget
   have : IsSplitMono σ := IsSplitMono.mk' { retraction := p, id := hσp }
   have : IsIso (Subfunctor.range σ).ι := (Subfunctor.eq_top_iff_isIso _).1 hrange
   have : IsIso σ := by
+    have : Mono σ := IsSplitMono.mono σ
+    have : IsIso (Subfunctor.toRange σ) := inferInstance
     rw [← Subfunctor.toRange_ι σ]
-    infer_instance
+    exact IsIso.comp_isIso
   have : IsIso (σ ≫ p) := by rw [hσp]; infer_instance
   exact IsIso.of_isIso_comp_left σ p
 

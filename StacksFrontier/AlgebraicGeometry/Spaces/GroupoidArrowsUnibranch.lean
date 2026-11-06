@@ -157,6 +157,19 @@ noncomputable abbrev baseFieldSpace {k : Type u} [Field k] (C : BigFppfSite.{u})
 
 attribute [local instance] ModObj.trivialAction
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over a scheme (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_GroupoidArrowsUnibranch {T : Scheme.{u}}
+    (C : BigFppfSite.{u}) (hT : C.Contains T) :
+    HasPullbacks ((BigFppfOver C T hT)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_GroupoidArrowsUnibranch
+    {T : Scheme.{u}} {C : BigFppfSite.{u}} {hT : C.Contains T}
+    {X Y Z : (BigFppfOver C T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {k : Type u} [Field k] (C : BigFppfSite.{u}) (hk : C.Contains (Spec (.of k)))
   (G : GroupAlgebraicSpace C (Spec (.of k)) hk (baseFieldSpace C hk).obj
     (baseFieldSpace C hk).property)

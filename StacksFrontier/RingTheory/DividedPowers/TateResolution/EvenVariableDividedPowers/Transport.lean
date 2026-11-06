@@ -527,7 +527,6 @@ private theorem evenExtensionDpow_mem_grade
       · have hcoefPow : a ^ n ∈ 𝒜 (n * (2 * k - i * d)) := by
           have h := SetLike.pow_mem_graded n ha
           convert h using 1
-          simp
         have hcoef :
             dividedPowerMonomialCoefficient n i • a ^ n ∈
               𝒜 (n * (2 * k - i * d)) :=

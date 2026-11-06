@@ -6,6 +6,7 @@ public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.RingTheory.Unramified.Basic
 public import StacksFrontier.RingTheory.Etale.LocalStructure
 public import StacksFrontier.RingTheory.Unramified.QuasiFinite
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 
 /-!
 # Local structure of unramified ring maps

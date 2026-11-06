@@ -223,6 +223,10 @@ structure preserves and reflects them. -/
 theorem preservesColimitsOfShape_discrete_restrictScalars' {O₁ O₂ : Sheaf J RingCat.{u}}
     (ψ : O₁ ⟶ O₂) (I : Type u) :
     PreservesColimitsOfShape (Discrete I) (_root_.SheafOfModules.restrictScalars.{u} ψ) := by
+  haveI : HasCoproducts.{u} (PresheafOfModules.{u} O₁.obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
+  haveI : HasCoproducts.{u} (PresheafOfModules.{u} O₂.obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
   have h₁ : PreservesColimitsOfShape (Discrete I) (_root_.SheafOfModules.toSheaf.{u} O₂) :=
     _root_.SheafOfModules.preservesColimitsOfShape_toSheaf O₂
   have h₂ : PreservesColimitsOfShape (Discrete I) (_root_.SheafOfModules.toSheaf.{u} O₁) :=
@@ -230,6 +234,9 @@ theorem preservesColimitsOfShape_discrete_restrictScalars' {O₁ O₂ : Sheaf J 
   have : PreservesColimitsOfShape (Discrete I)
       (_root_.SheafOfModules.restrictScalars.{u} ψ ⋙ _root_.SheafOfModules.toSheaf.{u} O₁) :=
     preservesColimitsOfShape_of_natIso (restrictScalarsCompToSheafIso' ψ).symm
+  haveI : HasColimitsOfShape (Discrete I) (_root_.SheafOfModules.{u} O₁) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      O₁ (Discrete I)
   have : ReflectsColimitsOfShape (Discrete I) (_root_.SheafOfModules.toSheaf.{u} O₁) :=
     reflectsColimitsOfShape_of_reflectsIsomorphisms
   exact preservesColimitsOfShape_of_reflects_of_preserves _ (_root_.SheafOfModules.toSheaf.{u} O₁)
@@ -243,6 +250,8 @@ theorem isClosedUnderFiniteCoproducts_isFlat_restrictScalars
         (O := O₁) ((_root_.SheafOfModules.restrictScalars.{u} ψ).obj M)) := by
   refine ObjectProperty.IsClosedUnderFiniteCoproducts.of_isClosedUnderColimitsOfShape.{u}
     fun I _ => ⟨fun M ⟨h⟩ => ?_⟩
+  haveI : HasCoproducts.{u} (PresheafOfModules.{u} O₂.obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
   let f : I → _root_.SheafOfModules.{u} O₂ := fun j => h.diag.obj ⟨j⟩
   let e : M ≅ ∐ f :=
     h.isColimit.coconePointUniqueUpToIso (colimit.isColimit h.diag) ≪≫

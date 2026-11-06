@@ -234,8 +234,8 @@ private theorem comap_asIdeal_fiberPoint {R S : Type*} [CommRing R] [CommRing S]
     Ideal.comap (Algebra.TensorProduct.includeRight :
         S →ₐ[R] (PrimeSpectrum.comap (algebraMap R S) 𝔮).asIdeal.Fiber S).toRingHom
       (fiberPoint (R := R) 𝔮).asIdeal = 𝔮.asIdeal :=
-  congrArg (fun q : PrimeSpectrum.comap (algebraMap R S) ⁻¹' {PrimeSpectrum.comap
-      (algebraMap R S) 𝔮} ↦ q.1.asIdeal)
+  congrArg (fun q : PrimeSpectrum.comap (algebraMap R S) ⁻¹' {(PrimeSpectrum.comap
+      (algebraMap R S) 𝔮)} ↦ q.1.asIdeal)
     ((PrimeSpectrum.preimageHomeomorphFiber R S
       (PrimeSpectrum.comap (algebraMap R S) 𝔮)).symm_apply_apply ⟨𝔮, rfl⟩)
 

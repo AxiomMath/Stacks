@@ -83,7 +83,7 @@ theorem bijective_of_tmul_normalisation {R B M N₁ N₂ : Type u} [CommRing R] 
     (ψ : N₁ →ₗ[B] N₂) (hψ : ∀ a : M, ψ (ρ₁ a) = ρ₂ a) : Function.Bijective ψ := by
   have key : ∀ x : B ⊗[R] M, ψ (e₁ x) = e₂ x := by
     intro x
-    refine TensorProduct.induction_on x (by simp) (fun b a => ?_) (fun y z hy hz => ?_)
+    refine TensorProduct.inductionOn x (fun b a => ?_) (fun y z hy hz => ?_)
     · rw [h₁, h₂, map_smul, hψ]
     · rw [map_add, map_add, map_add, hy, hz]
   have hfun : (ψ : N₁ → N₂) = (e₂ : B ⊗[R] M → N₂) ∘ (e₁.symm : N₁ → B ⊗[R] M) := by

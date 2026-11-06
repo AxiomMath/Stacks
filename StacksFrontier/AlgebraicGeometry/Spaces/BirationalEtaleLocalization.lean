@@ -64,6 +64,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_BirationalEtaleLocalization :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_BirationalEtaleLocalization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem chartEtale_of_isEtale (U : BigFppfOver B S hS)
     {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {f : yoneda.obj U ⟶ F} (hf : IsEtale B S hS f) :
@@ -302,6 +313,7 @@ private theorem pointsMap_injective_over_isIso_pullback
     (hxx' : pointsMap B S hS F f x = pointsMap B S hS F f x') : x = x' := by
   obtain ⟨w, hw, hwy⟩ := exists_point_pullback B S hS f g x y hx
   obtain ⟨w', hw', hw'y⟩ := exists_point_pullback B S hS f g x' y (hxx'.symm.trans hx)
+  have : Mono (pullback.snd f g) := IsIso.mono_of_iso _
   have heq : w = w' :=
     pointsMap_injective_of_mono B S hS _ (hwy.trans hw'y.symm)
   exact hw.symm.trans ((congrArg (pointsMap B S hS _ (pullback.fst f g)) heq).trans hw')
@@ -923,6 +935,7 @@ private theorem isIso_genericLocalRingMap_of_isPullback_fromGenericStalk
   have hr : yoneda.map r ≫ jD = jC ≫ q := by
     rw [Functor.map_preimage]
     simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
+  have : Mono jD := IsIso.mono_of_iso _
   have hpoint : Q.map r (schemePoint B S hS _ pC) = schemePoint B S hS _ pD := by
     exact map_schemePoint_eq_of_pointsMap_eq B S hS jD r pC pD (by
       rw [← pointsMap_comp_apply, hr, pointsMap_comp_apply, hpC, hpD])

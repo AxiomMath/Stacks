@@ -285,8 +285,7 @@ public def IsGradedSplitting (A : Type u) [CommRing A] (J : Ideal A) {X : Scheme
       (idealPowerMultiple (baseIdealSheaf A J fX) (σ.degree * d) F).toSubmodule.obj (op U)),
     Scheme.Modules.Hom.app (Ψ σ) U ⟨baseSectionHom A fX U g • m, hmem⟩ =
       baseSectionHom A fX U
-        (MvPolynomial.coeff σ
-          (extendLinearMaps (J ^ d) ψ (reesMonomial J d σ.degree ⟨g, hg⟩))) • m
+        ((extendLinearMaps (J ^ d) ψ (reesMonomial J d σ.degree ⟨g, hg⟩)).coeff σ) • m
 
 /-- The uniqueness half of [Stacks, Tag 0EH6]. Let `I = (f₁, …, f_r)` be an ideal of a Noetherian
 ring `A` with `cd(A, I) = 1`, let `φ_j : I ^ c ⟶ A` split the inclusion against the generators,

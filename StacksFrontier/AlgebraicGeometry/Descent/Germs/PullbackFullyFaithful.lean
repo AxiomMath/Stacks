@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Sites.Fpqc
+public import Mathlib.CategoryTheory.Sites.EffectiveEpimorphic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.PullbackFullyFaithful.BaseChangeComparison
 public import StacksFrontier.AlgebraicGeometry.Descent.Scheme.PullbackSquare

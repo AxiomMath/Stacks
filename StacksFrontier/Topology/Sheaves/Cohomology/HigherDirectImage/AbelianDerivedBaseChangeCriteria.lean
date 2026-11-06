@@ -102,11 +102,11 @@ variable {A B C D : Type*} [Category* A] [Category* B] [Category* C] [Category* 
 `RF` and of `RG'` are invertible at `K`, the comparison is invertible at `K` exactly when the
 degreewise comparison `τ(K)` followed by the unit of `RF'` at `G'(K)` is. -/
 theorem isIso_derived_app_Qh_iff (K : HomotopyCategory.Plus A)
-    (hF : IsIso (F.rightDerivedFunctorPlusUnit.app K))
-    (hG' : IsIso (G'.rightDerivedFunctorPlusUnit.app K)) :
+    (hF : IsIso (F.rightDerivedFunctorPlusUnith.app K))
+    (hG' : IsIso (G'.rightDerivedFunctorPlusUnith.app K)) :
     IsIso ((derived F F' G G' τ e).app (DerivedCategory.Plus.Qh.obj K)) ↔
       IsIso (DerivedCategory.Plus.Qh.map ((mapPlus τ).app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) := by
+        F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) := by
   have h₁ := isIso_iff_of_isIso_comp_eq (derived_fac_app F F' G G' τ e K)
   rw [onHomotopy_app] at h₁
   exact h₁.trans (isIso_comp₄_iff _ _ _ _)
@@ -115,9 +115,9 @@ theorem isIso_derived_app_Qh_iff (K : HomotopyCategory.Plus A)
 `K` whose image under `F` and whose image under `G'` are computed by the units, and on whose
 terms `τ` is invertible. -/
 theorem isIso_derived_app_Qh_of_acyclic (K : HomotopyCategory.Plus A)
-    (hF : IsIso (F.rightDerivedFunctorPlusUnit.app K))
-    (hG' : IsIso (G'.rightDerivedFunctorPlusUnit.app K))
-    (hF' : IsIso (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)))
+    (hF : IsIso (F.rightDerivedFunctorPlusUnith.app K))
+    (hG' : IsIso (G'.rightDerivedFunctorPlusUnith.app K))
+    (hF' : IsIso (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)))
     (hτ : ∀ n : ℤ, IsIso (τ.app (K.obj.as.X n))) :
     IsIso ((derived F F' G G' τ e).app (DerivedCategory.Plus.Qh.obj K)) := by
   have : IsIso ((mapPlus τ).app K) :=
@@ -172,21 +172,21 @@ followed by the comparison `R(P' ⋙ F') ⟶ RP' ⋙ RF'`, is the comparison of 
 `P(K)` followed by `RF'` applied to the comparison of the upper square at `K`. -/
 theorem comp_rightDerivedFunctorPlusComp_app (K : HomotopyCategory.Plus A₀) :
     (DerivedCategory.Plus.Qh.map ((mapPlus ρ).app K) ≫
-        (P' ⋙ F').rightDerivedFunctorPlusUnit.app (H.mapHomotopyCategoryPlus.obj K)) ≫
+        (P' ⋙ F').rightDerivedFunctorPlusUnith.app (H.mapHomotopyCategoryPlus.obj K)) ≫
       (Functor.rightDerivedFunctorPlusComp P' F').app
         (DerivedCategory.Plus.Qh.obj (H.mapHomotopyCategoryPlus.obj K)) =
     (DerivedCategory.Plus.Qh.map ((mapPlus τ).app (P.mapHomotopyCategoryPlus.obj K)) ≫
-        F'.rightDerivedFunctorPlusUnit.app
+        F'.rightDerivedFunctorPlusUnith.app
           (G'.mapHomotopyCategoryPlus.obj (P.mapHomotopyCategoryPlus.obj K))) ≫
       F'.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map ((mapPlus σ).app K) ≫
-          P'.rightDerivedFunctorPlusUnit.app (H.mapHomotopyCategoryPlus.obj K)) :=
+          P'.rightDerivedFunctorPlusUnith.app (H.mapHomotopyCategoryPlus.obj K)) :=
   vertical_chase
     (congrArg DerivedCategory.Plus.Qh.map (mapPlus_comp_app P P' H F F' G G' σ τ ρ hρ K) |>.trans
       (DerivedCategory.Plus.Qh.map_comp _ _))
     (map_mapHomotopyCategoryPlusCompIso_inv_app P' F' DerivedCategory.Plus.Qh _)
     (Functor.rightDerivedFunctorPlusComp_fac_app P' F' (H.mapHomotopyCategoryPlus.obj K))
-    (F'.rightDerivedFunctorPlusUnit.naturality ((mapPlus σ).app K))
+    (F'.rightDerivedFunctorPlusUnith.naturality ((mapPlus σ).app K))
     (F'.rightDerivedFunctorPlus.map_comp _ _)
 
 include hρ in
@@ -196,7 +196,7 @@ include hρ in
 of the outer rectangle is invertible at `K` exactly when the comparison of the lower square is
 invertible at `P(K)`. -/
 theorem isIso_derived_comp_app_iff [P.PreservesInjectiveObjects] [P'.PreservesInjectiveObjects]
-    [IsIso G'.rightDerivedFunctorPlusUnit] [IsIso H.rightDerivedFunctorPlusUnit]
+    [IsIso G'.rightDerivedFunctorPlusUnith] [IsIso H.rightDerivedFunctorPlusUnith]
     (K : HomotopyCategory.Plus A₀) (hK : ∀ n : ℤ, Injective (K.obj.as.X n))
     (hσ : IsIso ((derived P P' G' H σ e').app (DerivedCategory.Plus.Qh.obj K))) :
     IsIso ((derived (P ⋙ F) (P' ⋙ F') G H ρ e).app (DerivedCategory.Plus.Qh.obj K)) ↔
@@ -204,17 +204,17 @@ theorem isIso_derived_comp_app_iff [P.PreservesInjectiveObjects] [P'.PreservesIn
         (DerivedCategory.Plus.Qh.obj (P.mapHomotopyCategoryPlus.obj K))) := by
   have hPK : ∀ n : ℤ, Injective ((P.mapHomotopyCategoryPlus.obj K).obj.as.X n) := fun n =>
     Functor.PreservesInjectiveObjects.injective_obj (hK n)
-  have h₁ : IsIso ((P ⋙ F).rightDerivedFunctorPlusUnit.app K) := inferInstance
-  have h₂ : IsIso (P.rightDerivedFunctorPlusUnit.app K) := inferInstance
-  have h₃ : IsIso (F.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K)) :=
+  have h₁ : IsIso ((P ⋙ F).rightDerivedFunctorPlusUnith.app K) := inferInstance
+  have h₂ : IsIso (P.rightDerivedFunctorPlusUnith.app K) := inferInstance
+  have h₃ : IsIso (F.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K)) :=
     inferInstance
-  have h₄ : IsIso (H.rightDerivedFunctorPlusUnit.app K) := inferInstance
-  have h₅ : IsIso (G'.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K)) :=
+  have h₄ : IsIso (H.rightDerivedFunctorPlusUnith.app K) := inferInstance
+  have h₅ : IsIso (G'.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K)) :=
     inferInstance
   have hσ' := (isIso_derived_app_Qh_iff P P' G' H σ e' K h₂ h₄).1 hσ
   have hR : IsIso (F'.rightDerivedFunctorPlus.map
       (DerivedCategory.Plus.Qh.map ((mapPlus σ).app K) ≫
-        P'.rightDerivedFunctorPlusUnit.app (H.mapHomotopyCategoryPlus.obj K))) :=
+        P'.rightDerivedFunctorPlusUnith.app (H.mapHomotopyCategoryPlus.obj K))) :=
     (F'.rightDerivedFunctorPlus.mapIso (@asIso _ _ _ _ _ hσ')).isIso_hom
   have hc : IsIso ((Functor.rightDerivedFunctorPlusComp P' F').app
       (DerivedCategory.Plus.Qh.obj (H.mapHomotopyCategoryPlus.obj K))) := inferInstance
@@ -228,7 +228,7 @@ omit hρ in
 same statement as `isIso_derived_comp_app_iff`, for functors `PF` and `P'F'` equal to `P ⋙ F` and
 `P' ⋙ F'`, with the comparison `ρ'` of the outer rectangle expressed through `ρ`. -/
 theorem isIso_derived_comp_app_iff' [P.PreservesInjectiveObjects] [P'.PreservesInjectiveObjects]
-    [IsIso G'.rightDerivedFunctorPlusUnit] [IsIso H.rightDerivedFunctorPlusUnit]
+    [IsIso G'.rightDerivedFunctorPlusUnith] [IsIso H.rightDerivedFunctorPlusUnith]
     (PF : A₀ ⥤ B) [PF.Additive] (hPF : PF = P ⋙ F) (P'F' : C₀ ⥤ D) [P'F'.Additive]
     (hP'F' : P'F' = P' ⋙ F') (ρ' : PF ⋙ G ⟶ H ⋙ P'F')
     (hρ' : ∀ M : A₀, HEq (ρ'.app M) (τ.app (P.obj M) ≫ F'.map (σ.app M)))

@@ -251,7 +251,7 @@ theorem eq_one_of_smul_eq_diagonalComplement {A : BigFppfOver B S hS}
   by_contra hσ
   obtain ⟨i, hi⟩ : ∃ i : Fin n, σ.down⁻¹ i ≠ i := by
     by_contra hall
-    exact hσ (ULift.ext _ _
+    exact hσ (ULift.ext
       (inv_eq_one.1 (Equiv.ext fun j => not_ne_iff.1 fun hne => hall ⟨j, hne⟩)))
   have hfix : yonedaEquiv.symm x ≫ ((toSpaces B S hS X).map
       (diagonalComplementPerm B S hS X U n hsep σ.down)).hom = yonedaEquiv.symm x :=

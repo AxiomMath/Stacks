@@ -88,7 +88,7 @@ public theorem smul_map_τ {s : GeometricPoint X} (σ : EtaleFundamentalGroup X 
     (p : (finiteEtaleFiberFunctor s).obj T.cover) :
     σ • (finiteEtaleFiberFunctor s).map (T.τ a) p =
       (finiteEtaleFiberFunctor s).map (T.τ a) (σ • p) :=
-  ConcreteCategory.congr_hom (σ.hom.naturality (T.τ a)) p
+  ConcreteCategory.congr_hom (σ.asIso.hom.naturality (T.τ a)) p
 
 /-- The difference `fiberDiff p (σ • p)` does not depend on `p`. -/
 public theorem fiberDiff_smul_eq {s : GeometricPoint X} (σ : EtaleFundamentalGroup X s)
@@ -148,7 +148,7 @@ public theorem character_etaleFundamentalGroupMulEquiv {s x : GeometricPoint X}
   refine T.character_eq_of_smul x q₀ _ (t.hom.app T.cover p₀) ?_
   have h1 := T.smul_eq_character s p₀ σ p₀
   show (t.hom.app T.cover)
-    ((σ.hom.app T.cover) ((t.inv.app T.cover) ((t.hom.app T.cover) p₀))) = _
+    ((σ.asIso.hom.app T.cover) ((t.inv.app T.cover) ((t.hom.app T.cover) p₀))) = _
   rw [show (t.inv.app T.cover) ((t.hom.app T.cover) p₀) = p₀ from
     ConcreteCategory.congr_hom (t.hom_inv_id_app T.cover) p₀]
   show (t.hom.app T.cover) (σ • p₀) = _
@@ -172,7 +172,7 @@ public theorem isOpen_setOf_smul_eq (x : GeometricPoint X) (Y : FiniteEtaleOver 
         Equiv.Perm ((finiteEtaleFiberFunctor x).obj Y)) :
         (finiteEtaleFiberFunctor x).obj Y → (finiteEtaleFiberFunctor x).obj Y) :=
     continuous_induced_dom.comp h2
-  have hcont : Continuous fun σ : EtaleFundamentalGroup X x ↦ (σ.app Y).hom y :=
+  have hcont : Continuous fun σ : EtaleFundamentalGroup X x ↦ (σ.asIso.app Y).hom y :=
     (continuous_apply y).comp h3
   exact hcont.isOpen_preimage {z} (isOpen_discrete _)
 

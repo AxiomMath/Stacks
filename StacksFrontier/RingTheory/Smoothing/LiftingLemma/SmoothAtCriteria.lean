@@ -202,9 +202,9 @@ lemma mvPolynomial_divisible_of_map_quotient_zero
     (hp : MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {a})) p = 0) :
     ∃ q : MvPolynomial σ R, p = MvPolynomial.C a * q := by
   classical
-  have hcoeff (d : σ →₀ ℕ) : ∃ b : R, MvPolynomial.coeff d p = a * b := by
-    have hd := congrArg (MvPolynomial.coeff d) hp
-    have hd' : Ideal.Quotient.mk (Ideal.span {a}) (MvPolynomial.coeff d p) = 0 := by
+  have hcoeff (d : σ →₀ ℕ) : ∃ b : R, p.coeff d = a * b := by
+    have hd := congrArg (fun q : MvPolynomial σ (R ⧸ Ideal.span {a}) => q.coeff d) hp
+    have hd' : Ideal.Quotient.mk (Ideal.span {a}) (p.coeff d) = 0 := by
       simpa [MvPolynomial.coeff_map] using hd
     obtain ⟨b, hb⟩ := Ideal.mem_span_singleton.mp
       ((Ideal.Quotient.eq_zero_iff_mem).mp hd')

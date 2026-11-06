@@ -109,7 +109,7 @@ public theorem sum_pow_mul_extendCoeff (I : Ideal A) (d n : ℕ) (f : Fin r → 
   classical
   set P : MvPolynomial (Fin r) A := degreeMap ((I : Ideal A) ^ d) ψ n ⟨g, hg⟩ with hPdef
   have hcoeff : ∀ σ : Fin r →₀ ℕ,
-      extendCoeff I d n ψ σ ⟨g, hg⟩ = MvPolynomial.coeff σ P := fun _ => rfl
+      extendCoeff I d n ψ σ ⟨g, hg⟩ = P.coeff σ := fun _ => rfl
   have hhom : P.IsHomogeneous n := degreeMap_isHomogeneous ((I : Ideal A) ^ d) ψ n ⟨g, hg⟩
   have hsupp : ∀ σ ∈ P.support, Finsupp.degree σ = n := by
     intro σ hσ
@@ -145,24 +145,24 @@ public theorem sum_pow_mul_extendCoeff (I : Ideal A) (d n : ℕ) (f : Fin r → 
     congr 1
     simp only [← map_pow, ← map_prod]
   have hterm : ∀ σ : Fin r →₀ ℕ,
-      Polynomial.C (MvPolynomial.coeff σ P) * (∏ j, v j ^ σ j) =
+      Polynomial.C (P.coeff σ) * (∏ j, v j ^ σ j) =
         Polynomial.monomial (Finsupp.degree σ)
-          ((∏ j, f j ^ σ j) * MvPolynomial.coeff σ P) := by
+          ((∏ j, f j ^ σ j) * P.coeff σ) := by
     intro σ
     rw [hprod σ, ← mul_assoc, ← map_mul,
-      mul_comm (MvPolynomial.coeff σ P) (∏ j, f j ^ σ j),
+      mul_comm (P.coeff σ) (∏ j, f j ^ σ j),
       Polynomial.C_mul_X_pow_eq_monomial]
   have hexp : MvPolynomial.aeval v P =
-      Polynomial.monomial n (∑ σ ∈ P.support, (∏ j, f j ^ σ j) * MvPolynomial.coeff σ P) := by
+      Polynomial.monomial n (∑ σ ∈ P.support, (∏ j, f j ^ σ j) * P.coeff σ) := by
     rw [MvPolynomial.aeval_def, MvPolynomial.eval₂_eq', map_sum]
     exact Finset.sum_congr rfl fun σ hσ => (hterm σ).trans (by rw [hsupp σ hσ])
   rw [hexp] at hkey
-  have hval : (∑ σ ∈ P.support, (∏ j, f j ^ σ j) * MvPolynomial.coeff σ P) = g := by
+  have hval : (∑ σ ∈ P.support, (∏ j, f j ^ σ j) * P.coeff σ) = g := by
     have := congrArg (fun p : Polynomial A => p.coeff n) hkey
     simpa using this
   -- the sum over the degree-`n` monomials has the same value
   rw [show (∑ σ ∈ degreeMonomials r n, (∏ j, f j ^ σ j) * extendCoeff I d n ψ σ ⟨g, hg⟩) =
-      ∑ σ ∈ degreeMonomials r n, (∏ j, f j ^ σ j) * MvPolynomial.coeff σ P from
+      ∑ σ ∈ degreeMonomials r n, (∏ j, f j ^ σ j) * P.coeff σ from
     Finset.sum_congr rfl fun σ _ => by rw [hcoeff σ]]
   rw [← hval]
   refine (Finset.sum_subset (fun σ hσ => mem_degreeMonomials.2 (hsupp σ hσ)) ?_).symm

@@ -127,13 +127,15 @@ theorem mono_sheafifiedPullbackComparison_map {x y : 𝒳} (φ : x ⟶ y)
         ((Scheme.Modules.pullback (B.inclusion.map (p.map φ).left)).map g)) :=
     Functor.map_mono _ _
   have i₁ : Mono ((sheafifiedPullbackComparison B E h S hS p hp τ hτ φ).map
-      (inv (adj.counit.app G))) := inferInstance
+      (inv (adj.counit.app G))) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
   have i₂ : Mono (N.hom.app ((SmallEtale.restrictModule E V hV).obj G)) :=
-    inferInstanceAs (Mono (N.app _).hom)
+    @IsIso.mono_of_iso _ _ _ _ _ (N.app _).isIso_hom
   have i₃ : Mono (N.inv.app ((SmallEtale.restrictModule E V hV).obj G')) :=
-    inferInstanceAs (Mono (N.app _).inv)
+    @IsIso.mono_of_iso _ _ _ _ _ (N.app _).isIso_inv
   have i₄ : Mono ((sheafifiedPullbackComparison B E h S hS p hp τ hτ φ).map
-      (adj.counit.app G')) := inferInstance
+      (adj.counit.app G')) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
   rw [hm, Functor.map_comp, Functor.map_comp, hN]
   exact @mono_comp _ _ _ _ _ _ i₁ _ (@mono_comp _ _ _ _ _ _
     (@mono_comp _ _ _ _ _ _ i₂ _ (@mono_comp _ _ _ _ _ _ i₀ _ i₃)) _ i₄)

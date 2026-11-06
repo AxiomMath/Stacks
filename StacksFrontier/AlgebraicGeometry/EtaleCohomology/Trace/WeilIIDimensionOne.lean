@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.CoverCompactification
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LAdicFiniteEtaleDirectImageRealizable
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LAdicFiniteEtaleDirectImageWeights
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.SurjectiveClosedImmersionWeights
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilIICurveBoundAffineLine
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilIICurveSheafBound
 

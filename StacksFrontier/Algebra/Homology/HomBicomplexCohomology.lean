@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 public import Mathlib.CategoryTheory.Abelian.Injective.Basic
+public import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Opposite
 public import StacksFrontier.Algebra.Homology.HomBicomplexExt
 import StacksCore.Tactic.EgaSgaAttribute

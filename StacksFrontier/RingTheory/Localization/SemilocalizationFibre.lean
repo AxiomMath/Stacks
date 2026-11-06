@@ -86,7 +86,7 @@ maximal ideal of `T`: the contraction lies over `p`, which is maximal, and `T` i
 over `R`. -/
 theorem isMaximal_under_of_isMaximal (Q : Ideal L) [Q.IsMaximal] : (Q.under T).IsMaximal := by
   have h : Ideal.under R (Q.under T) = p := IsLocalization.under_under_eq_of_isMaximal p Q
-  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) (Q.under T)
+  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) (Q.under T)
     (h ▸ ‹p.IsMaximal› : (Ideal.under R (Q.under T)).IsMaximal)
 
 /-- **The maximal ideals of a semilocalization.** For an integral extension `R → T` and a maximal
@@ -164,7 +164,7 @@ variable (B : Type*) [CommRing B] (C : Type*) [CommRing C] [Algebra B C]
 
 /-- The maximal ideal of `B` below a maximal ideal of an integral extension `C`. -/
 def maximalSpectrumUnder (r : MaximalSpectrum C) : MaximalSpectrum B :=
-  ⟨r.asIdeal.under B, Ideal.isMaximal_comap_of_isIntegral_of_isMaximal r.asIdeal⟩
+  ⟨r.asIdeal.under B, Ideal.isMaximal_under_of_isIntegral_of_isMaximal r.asIdeal⟩
 
 /-- The maximal ideal of `B` below a maximal ideal `r` of `C` is the contraction of `r` to `B`. -/
 @[simp]
@@ -255,14 +255,14 @@ private theorem comap_top_prod (J : Ideal B) :
 contracts to the maximal ideal `𝔮` along the diagonal. -/
 theorem isMaximal_prod_top : (Ideal.prod q (⊤ : Ideal B)).IsMaximal := by
   let : (Ideal.prod q (⊤ : Ideal B)).IsPrime := Ideal.isPrime_ideal_prod_top
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := B) _ ?_
-  rw [comap_prod_top q]; infer_instance
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := B) _ ?_
+  rw [Ideal.under_def, comap_prod_top q]; infer_instance
 
 /-- In the split extension `B → B × B` the ideal `B × 𝔮` is maximal. -/
 theorem isMaximal_top_prod : (Ideal.prod (⊤ : Ideal B) q).IsMaximal := by
   let : (Ideal.prod (⊤ : Ideal B) q).IsPrime := Ideal.isPrime_ideal_prod_top'
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := B) _ ?_
-  rw [comap_top_prod q]; infer_instance
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := B) _ ?_
+  rw [Ideal.under_def, comap_top_prod q]; infer_instance
 
 /-- **A fibre of the decomposition can have more than one element.** Over a maximal ideal `𝔮` of
 `B` the split extension `B × B` has the two distinct maximal ideals `𝔮 × B` and `B × 𝔮`, so the

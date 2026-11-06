@@ -134,7 +134,8 @@ theorem isIso_of_ne_zero_between_trivial {Z : AlgebraicSpaces B integerBase hZ}
   have h' : σ = a.hom ≫ (a.inv ≫ σ ≫ b.hom) ≫ b.inv := by simp
   have hψ : a.inv ≫ σ ≫ b.hom ≠ 0 := fun h => hσ (by rw [h', h, zero_comp, comp_zero])
   have : IsIso (a.inv ≫ σ ≫ b.hom) :=
-    Space.isIso_of_ne_zero B integerBase hZ Z.1 Z.2 hfield _ hψ
+    Space.isIso_of_ne_zero B integerBase hZ Z.1 Z.2 hfield (End.of (a.inv ≫ σ ≫ b.hom))
+      fun h => hψ congr(($h).asHom)
   rw [h']
   infer_instance
 

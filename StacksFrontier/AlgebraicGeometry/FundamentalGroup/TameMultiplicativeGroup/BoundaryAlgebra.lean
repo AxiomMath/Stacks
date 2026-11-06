@@ -42,8 +42,8 @@ theorem isIntegral_inv_one_add_mul {O L : Type*} [CommRing O] [IsLocalRing O] [F
     obtain ⟨M, hM, hyM⟩ := Ideal.exists_le_maximal (Ideal.span {y})
       (by rwa [Ne, Ideal.span_singleton_eq_top])
     have hπM : algebraMap O (integralClosure O L) π ∈ M := by
-      rwa [← Ideal.mem_comap,
-        IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M)]
+      rwa [← Ideal.mem_under,
+        IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := O) M)]
     have h1 : (1 : integralClosure O L) ∈ M := by
       have := M.sub_mem (hyM (Ideal.mem_span_singleton_self y))
         (M.mul_mem_right (⟨r, hr⟩ : integralClosure O L) hπM)

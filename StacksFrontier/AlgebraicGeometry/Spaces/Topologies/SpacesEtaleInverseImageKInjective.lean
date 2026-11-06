@@ -82,6 +82,8 @@ def smallEtaleAbelianInverseImageIsoPostcomp {U V : T.Spaces} (h : U ⟶ V)
       (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem V) (forget Ab.{u + 1}))
       (Space.spacesToposMorphism_inverseImageIso T.fppfSite S T.fppf_mem h hh))
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The étale inverse image of abelian sheaves preserves K-injective complexes.** -/
 theorem isKInjective_smallEtaleAbelianInverseImage_of_isEtale {U V : T.Spaces} (h : U ⟶ V)
     (hh : Space.IsEtale T.fppfSite S T.fppf_mem h.hom)
@@ -101,7 +103,7 @@ theorem isKInjective_smallEtaleAbelianInverseImage_of_isEtale {U V : T.Spaces} (
     Stacks.Sites.LowerShriek.gShriek_preservesFiniteLimits.{u + 1, u + 1, u + 1, u + 1, u + 1}
       u' J' J
   have : PreservesFiniteColimits L :=
-    Stacks.Sites.LowerShriek.gShriek_preservesFiniteColimits AddCommGrpCat.{u + 1} u' J' J
+    Stacks.Sites.LowerShriek.gShriek_preservesFiniteColimits Ab.{u + 1} u' J' J
   have : L.Additive := Functor.additive_of_preserves_binary_products _
   have hR := CochainComplex.isKInjective_mapHomologicalComplex_of_exact R L adj I
   exact CochainComplex.isKInjective_of_iso

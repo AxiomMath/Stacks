@@ -651,10 +651,10 @@ private theorem milnorTriangle_homology_shortExact
     erw [Category.assoc, he]
     show (H q).map (Q.map (CompletionSequences.complexDifference A E)) ≫ _ = _
     rw [← Functor.map_comp, ← Functor.map_comp]
-    simp only [CompletionSequences.complexDifference, Pi.lift_π]
+    simp only [CompletionSequences.complexDifference, Pi.lift_comp_π]
     show _ = (e q).hom ≫ CompletionSequences.moduleDifference A (V q) ≫
       Pi.π (fun n : ℕ ↦ (V q).obj ⟨n⟩) n
-    rw [CompletionSequences.moduleDifference, Pi.lift_π, comp_sub, ← Category.assoc,
+    rw [CompletionSequences.moduleDifference, Pi.lift_comp_π, comp_sub, ← Category.assoc,
       he, he]
     simp [Functor.map_sub, Functor.map_comp, V]
   let c := (e (p - 1)).inv ≫ (H 0).homologySequenceδ T (p - 1) p (by omega)

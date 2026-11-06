@@ -54,6 +54,19 @@ variable {B : BigFppfSite.{u}}
 
 attribute [local instance] complexesCategory
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
+times out without this shortcut). -/
+local instance hasPullbacks_presheaf_ComplexesStackFiniteTypeReductionUnbounded
+    (hZ : B.Contains (⊤_ Scheme.{u})) :
+    HasPullbacks ((BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ComplexesStackFiniteTypeReductionUnbounded
+    {hZ : B.Contains (⊤_ Scheme.{u})}
+    {X Y Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0DLN, the reduction to a base of finite type over `ℤ`, given Stacks 08K0 and Stacks
 08K1 for the systems of finitely generated subrings.** This is
 `ComplexesSituation.isAlgebraicStack_spec_of_finiteType_case_unbounded_of_flatDescent` with its

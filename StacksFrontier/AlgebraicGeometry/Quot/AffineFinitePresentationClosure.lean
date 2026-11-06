@@ -52,6 +52,18 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_AffineFinitePresentationClosure :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Limits of cospans of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_AffineFinitePresentationClosure
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Sections of affine morphisms of finite presentation -/
 
 /-- **A section of an affine morphism of finite presentation is affine and of finite
@@ -378,7 +390,7 @@ def spacePointsOverEqIsoSectionEqualizer (hs : s ≫ p' = 𝟙 Y)
   NatIso.ofComponents
     (fun T => Equiv.toIso
       { toFun := fun x => ⟨⟨x.down.1⟩,
-          ULift.ext _ _ (Subtype.ext ((hφ₀ T x.down.1).trans x.down.2))⟩
+          ULift.ext (Subtype.ext ((hφ₀ T x.down.1).trans x.down.2))⟩
         invFun := fun y => ⟨⟨y.1.down, (hφ₀ T y.1.down).symm.trans
           (congrArg (fun z => z.down.1) y.2)⟩⟩
         left_inv := fun _ => rfl

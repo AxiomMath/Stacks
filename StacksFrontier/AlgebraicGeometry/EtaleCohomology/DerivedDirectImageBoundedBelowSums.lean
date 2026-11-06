@@ -141,6 +141,9 @@ theorem preservesColimit_of_isGE_of_isRightDerivedFunctor
     constructor
     intro s hs
     refine ⟨HomologicalComplex.isColimitOfEval _ _ (fun i ↦ ?_)⟩
+    have : HasColimitsOfShape (Discrete I) A := inferInstance
+    have : PreservesColimit E (HomologicalComplex.eval A (ComplexShape.up ℤ) i) :=
+      inferInstance
     have : PreservesColimit E (HomologicalComplex.eval A (ComplexShape.up ℤ) i ⋙ F) :=
       comp_preservesColimit _ _
     exact isColimitOfPreserves (HomologicalComplex.eval A (ComplexShape.up ℤ) i ⋙ F) hs

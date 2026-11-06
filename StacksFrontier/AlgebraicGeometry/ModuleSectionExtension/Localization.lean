@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import StacksFrontier.AlgebraicGeometry.Modules.QuasicoherentBaseChange
 import StacksCore.Tactic.EgaSgaAttribute
 

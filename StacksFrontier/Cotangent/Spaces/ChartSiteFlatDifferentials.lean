@@ -157,7 +157,7 @@ theorem isFlat_chartDifferentials :
   have := KaehlerDifferential.flat_ulift_of_free.{u, u + 1} Λ
     ((affinePresheaf Λ B hS X hX).obj P) hfree
   have : Module.Flat ((Stacks.ringPresheaf (liftedAffinePresheaf Λ B hS X hX)).obj P)
-      ((PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (liftedBasePresheafMap Λ B hS X hX)).obj P) := this
   exact Module.Flat.of_linearEquiv ULift.moduleEquiv
 

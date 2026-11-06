@@ -669,7 +669,7 @@ of the thickened structure sheaf `𝒪_{X'}` vanishing on the ideal, descends to
 is not a sectionwise construction: it is the extension of a derivation along the locally
 bijective map `𝒪_{X'}/ker ⟶ 𝒪_X`. -/
 theorem existsUnique_intermediateDerivation :
-    ∃! D : G.val.Derivation' (constIntMap X.presheaf),
+    ∃! D : PresheafOfModulesOfCommRing.Derivation' G.val (constIntMap X.presheaf),
       ∀ (U : (Opens X.carrier)ᵒᵖ)
         (a : (quotientPresheaf Q.thickenedReduction).obj U),
         D.d (((quotientToTarget Q.thickenedReduction).app U).hom a) =
@@ -689,7 +689,8 @@ theorem existsUnique_intermediateDerivation :
 
 open Stacks.Sites.Conormal AlgebraicGeometry.SheafOfModules in
 /-- The descended derivation of `𝒪_X`, before its base is recognised as `f⁻¹𝒪_S`. -/
-noncomputable def toDerivationAux : G.val.Derivation' (constIntMap X.presheaf) :=
+noncomputable def toDerivationAux :
+    PresheafOfModulesOfCommRing.Derivation' G.val (constIntMap X.presheaf) :=
   e.existsUnique_intermediateDerivation.choose
 
 open Stacks.Sites.Conormal in
@@ -856,7 +857,7 @@ theorem derivation_d_structureSheafMap
     congrArg (fun z : S.sheaf ⟶
       (TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).obj X.sheaf =>
         (z.hom.app V).hom b) e
-  exact (congrArg D.d e2).trans (PresheafOfModules.Derivation'.d_app D _)
+  exact (congrArg D.d e2).trans (PresheafOfModulesOfCommRing.Derivation'.d_app D _)
 
 namespace DeformationSolution
 

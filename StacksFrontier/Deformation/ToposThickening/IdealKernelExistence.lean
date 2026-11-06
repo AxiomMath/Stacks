@@ -115,7 +115,7 @@ def tensorSymm (O₀ : Sheaf J CommRingCat.{w}) (G I : SheafMod O₀) :
       (((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj G)).obj I := by
   letI : SymmetricCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) :=
-    PresheafOfModules.symmetricCategory (R := O₀.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := O₀.obj)
   exact (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj)).mapIso (β_ G.val I.val)
 
@@ -134,7 +134,7 @@ lemma tensorSymm_hom_tmul (O₀ : Sheaf J CommRingCat.{w}) (G I : SheafMod O₀)
         (PresheafOfModules.tensorObj I.val G.val)).app U (a ⊗ₜ[O₀.obj.obj U] x) := by
   let : SymmetricCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) :=
-    PresheafOfModules.symmetricCategory (R := O₀.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := O₀.obj)
   exact AlgebraicGeometry.SheafOfModules.sheafification_map_unit J
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₀).obj) (β_ G.val I.val).hom U
     (x ⊗ₜ[O₀.obj.obj U] a)

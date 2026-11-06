@@ -92,9 +92,9 @@ lemma moduleSheafFunctor_map_inverseImageIdealChain
     (p : idealSheaf.{max u' v' w', v', u'} K (presentationRingHom.{max u' v' w', v', u'} K φ) ⟶
       (SheafOfModules.restrictScalars (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
         ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M))
-    (DD : (((SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
           (presentationRingHom.{max u' v' w', v', u'} K φ)).obj
-        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val).Derivation' b.hom)
+        ((directImageCommModules.{w, w', v, u, v', u'} f B).obj M)).val b.hom)
     (hp : (Sheaf.moduleSheafFunctor
             (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map p ≫
           (Sheaf.moduleSheafFunctor (SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} A)).map
@@ -525,10 +525,11 @@ composing the universal property of the inverse image of the degree-`0` term. -/
 lemma inverseImageZeroStep₅_d
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B)))
-    (DD : ((show _root_.SheafOfModules.{max u v w} (Tensor.ringSheaf.{u, v, max u v w}
+    (DD : PresheafOfModulesOfCommRing.Derivation'
+        ((show _root_.SheafOfModules.{max u v w} (Tensor.ringSheaf.{u, v, max u v w}
             (f.inverseImageRing.obj (freeAlgebraSheaf K A (underlyingPresheaf K B)))) from
           (_root_.SheafOfModules.restrictScalars (inverseImageRingMap f
-            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val.Derivation'
+            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom)
     {U : Cᵒᵖ}
@@ -552,9 +553,9 @@ inverse image of the degree-`0` term. -/
 lemma inverseImageZeroStep₆_d
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B)))
-    (DD : (((_root_.SheafOfModules.restrictScalars
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((_root_.SheafOfModules.restrictScalars
         ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
-          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val).Derivation'
+          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom)
     {U : Cᵒᵖ}

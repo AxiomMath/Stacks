@@ -545,9 +545,10 @@ theorem IntegralClosedSubspace.definingIdealAt_zeroScheme_modulePullbackSections
             L)
           (modulePullbackSections B S hS
             (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace) L s)) (op W') =
-      Ideal.span {chartDiagramRestrict B S hS
-        (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace)
-        (V.baseChangeChartGeneratorDiagram hY W k) (l₀ (s.eval (op W)))} := by
+      Ideal.span
+        {chartDiagramRestrict B S hS
+            (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace)
+            (V.baseChangeChartGeneratorDiagram hY W k) (l₀ (s.eval (op W)))} := by
   rw [definingIdealAt_zeroScheme_eq_span_generator_of_isInvertible B S hS
     ⟨V.subspace.toFunctor, V.isClosedSubspace.1⟩
     ((modulePullback B S hS (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace)).obj L)
@@ -586,10 +587,11 @@ theorem IntegralClosedSubspace.definingIdealAt_zeroScheme_modulePullbackSections
           (modulePullbackSections B S hS
             (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace) L s))
         (op (V.baseChangeChart B S hS hY W)) =
-      Ideal.span {chartDiagramRestrict B S hS
-        (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace)
-        (V.baseChangeChartGeneratorDiagram hY W (𝟙 (V.baseChangeChart B S hS hY W)))
-        (l₀ (s.eval (op W)))} := by
+      Ideal.span
+        {chartDiagramRestrict B S hS
+            (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace)
+            (V.baseChangeChartGeneratorDiagram hY W (𝟙 (V.baseChangeChart B S hS hY W)))
+            (l₀ (s.eval (op W)))} := by
   have hbij := V.bijective_smul_baseChangeChartSection hY L W hL e hcompat hfree
     (V.baseChangeChart B S hS hY W) (𝟙 _)
   let e' := LinearEquiv.ofBijective (LinearMap.toSpanSingleton _ _
@@ -652,10 +654,11 @@ theorem IntegralClosedSubspace.length_quotient_definingIdealAt_zeroScheme_baseCh
           (modulePullbackSections B S hS
             (closedSubspaceHom B S hS hY V.subspace V.isClosedSubspace) L s))
         (op (V.baseChangeChart B S hS hY W))) =
-      Ideal.span {((chartScheme (V.baseChangeChart B S hS hY W)).presheaf.germ ⊤ y trivial).hom
-        (((BigFppfOver.toScheme B S hS).map
-          (V.baseChangeChartGeneratorDiagram hY W (𝟙 (V.baseChangeChart B S hS hY W))).g).appTop.hom
-            (l₀ (s.eval (op W))))} := by
+      Ideal.span
+        {((chartScheme (V.baseChangeChart B S hS hY W)).presheaf.germ ⊤ y trivial).hom
+          (((BigFppfOver.toScheme B S hS).map
+            (V.baseChangeChartGeneratorDiagram hY W (𝟙 (V.baseChangeChart B S hS hY W))).g).appTop.hom
+              (l₀ (s.eval (op W))))} := by
     rw [hdef]
     exact (Ideal.map_span _ _).trans (congrArg _ Set.image_singleton)
   rw [hmap]
@@ -1050,8 +1053,9 @@ theorem cycleCoeffOfClosedSubspace_vanishingLocus_eq_length_quotient (w : chartS
         (vanishingLocus D sX hX L s).2 k γ T =
       ((Module.length ((chartScheme W).presheaf.stalk w)
         ((chartScheme W).presheaf.stalk w ⧸
-          Ideal.span {((chartScheme W).presheaf.germ ⊤ w trivial).hom
-            (l₀ (s.eval (op W)))})).toNat : ℤ) := by
+          Ideal.span
+            {((chartScheme W).presheaf.germ ⊤ w trivial).hom
+                (l₀ (s.eval (op W)))})).toNat : ℤ) := by
   have hXdec := isDecentSpace_of_isGood D sX hX
   have hmap := map_germ_definingIdealAt_zeroScheme_eq_span hX.1 W L hL s (e W (𝟙 W)) l₀ hb w
   by_cases hTZ : subspacePointSet D.site D.base D.base_mem X T.subspace ⊆

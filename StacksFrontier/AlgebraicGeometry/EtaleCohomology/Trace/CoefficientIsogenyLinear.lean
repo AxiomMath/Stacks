@@ -66,7 +66,7 @@ variable {B : BigEtaleSite.{u}} {X : B.Scheme} {ℓ : ℕ} [Fact ℓ.Prime]
   (φ : F.toLAdicSheaf ⟶ F'.toLAdicSheaf) (ψ : F'.toLAdicSheaf ⟶ F.toLAdicSheaf) (N : ℕ)
   (h₁ : φ ≫ ψ = (ℓ ^ N) • 𝟙 _) (h₂ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _)
   (hφ : ∀ (o : O) (o' : O'), algebraMap O E o = algebraMap O' E o' →
-    φ ≫ F'.act o' = F.act o ≫ φ)
+    φ ≫ (F'.act o').asHom = (F.act o).asHom ≫ φ)
 
 omit [Fact ℓ.Prime] [Algebra ℚ_[ℓ] E] in
 /-- An element of a localization at the powers of `ℓ` has a multiple `ℓᵐ e` in the image. -/
@@ -101,13 +101,13 @@ theorem rationalIsogeny_rationalIntegralRingHom (o : O) (o' : O')
         ((LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsogenyIso B X ℓ f j kbar φ ψ N
           h₁ h₂ i).hom v) := by
   have key : (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
-        (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o) i) ≫
+        (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o).asHom i) ≫
       (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
         (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i) =
       (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
         (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i) ≫
       (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
-        (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F'.act o') i) := by
+        (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F'.act o').asHom i) := by
     rw [← Functor.map_comp, ← Functor.map_comp,
       ← LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp,
       ← LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, hφ o o' h]

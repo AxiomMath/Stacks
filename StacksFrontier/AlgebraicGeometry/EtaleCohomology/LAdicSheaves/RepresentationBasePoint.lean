@@ -113,11 +113,11 @@ public def representationLAdicSheafResIso :
   hom := representationLAdicSheafResHom B X e e' φ β hτ
   inv := representationLAdicSheafResInv B X e e' φ β hτ
   hom_inv_id := by
-    refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+    refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
     ext U y
     exact congrArg (fun g => (g.hom.hom.app U).hom y) (β.inv_hom_id_app (levelAbelian τ hτ (n + 1)))
   inv_hom_id := by
-    refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+    refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
     ext U y
     exact congrArg (fun g => (g.hom.hom.app U).hom y) (β.hom_inv_id_app (levelAbelian τ hτ (n + 1)))
 
@@ -131,7 +131,7 @@ public theorem representationLAdicSheafResIso_hom_naturality
           (fun g => hA (φ g)) =
       representationLAdicSheafMap B X x e hτ hτ' A hA ≫
         (representationLAdicSheafResIso B X e e' φ β hτ').hom := by
-  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
   ext U y
   exact congrArg (fun g => (g.hom.hom.app U).hom y)
     (β.inv.naturality (levelAbelianMap hτ hτ' A hA (n + 1))).symm

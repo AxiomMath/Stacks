@@ -261,7 +261,11 @@ theorem epi_globalSectionsAbRestriction_app_of_injective_of_isOpenImmersion
   simp only [NatTrans.comp_app] at h
   rw [h]
   have := epi_globalSectionsAbRestriction_app_of_injective B S hS (W := X) hsq I
-  exact epi_comp' inferInstance (epi_comp' inferInstance inferInstance)
+  refine epi_comp' inferInstance (epi_comp' ?_ ?_)
+  · simp only [Functor.whiskerRight_app, Functor.whiskerLeft_app]
+    infer_instance
+  · simp only [Functor.whiskerRight_app]
+    infer_instance
 
 include hj in
 /-- **The sequence of the pair on an injective module.**  For an open immersion `j : U ⟶ X`

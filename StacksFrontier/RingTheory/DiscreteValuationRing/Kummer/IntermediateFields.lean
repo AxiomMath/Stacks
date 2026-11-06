@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Kummer.Ramification
+public import Mathlib.RingTheory.Norm.Basic
 
 @[expose] public section
 

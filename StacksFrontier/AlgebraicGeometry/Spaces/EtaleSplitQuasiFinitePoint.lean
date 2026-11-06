@@ -135,6 +135,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_EtaleSplitQuasiFinitePoint :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_EtaleSplitQuasiFinitePoint
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A point of a presheaf covered by two subfunctors lies in the image of one of them.** If
 the join of `W` and `V` sheafifies to everything then the coproduct of the two inclusions is
 locally surjective, hence surjective on the points of Tag 03BU. -/

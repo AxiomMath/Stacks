@@ -315,8 +315,11 @@ private theorem isQuasiCompact_diagonal_of_represents_of_isom
     have h2 : yoneda.map l₁ ≫ yoneda.map snd = yoneda.map l₂ ≫ yoneda.map snd := by
       rw [← Functor.map_comp, ← Functor.map_comp, hl]
     refine hpb.hom_ext ?_ h2
-    rw [← cancel_mono (pullback.diagonal q), Category.assoc, Category.assoc, hpb.w,
-      reassoc_of% h2]
+    have h3 : yoneda.map l₁ ≫ fst ≫ pullback.diagonal q =
+        yoneda.map l₂ ≫ fst ≫ pullback.diagonal q := by
+      rw [hpb.w, reassoc_of% h2]
+    simpa only [Category.assoc, pullback.diagonal_fst, Category.comp_id] using
+      congrArg (· ≫ pullback.fst q q) h3
   rw [hEq] at hfac
   exact s.quasiCompact_of_represents_picardEqualizer_of_isom hIsom T x y snd hfac
 

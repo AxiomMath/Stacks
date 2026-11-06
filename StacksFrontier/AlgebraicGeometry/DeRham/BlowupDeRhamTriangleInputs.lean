@@ -237,8 +237,10 @@ lemma isIso_map_Q_single_map_iff {A B : RingedSpace.{u, u}} (g : A ⟶ B)
     (RingedSpaceModuleAdjunction.modulePushforward g) (derivedPushforwardUnit g)
     ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map φ)
   dsimp [e] at h₁ ⊢
-  rw [← Functor.map_comp_assoc, h₁, Functor.map_comp_assoc, Category.assoc]
-  exact congrArg (DerivedCategory.Q.map _ ≫ ·) h₂.symm
+  rw [Category.assoc]
+  refine (congrArg (DerivedCategory.Q.map _ ≫ ·) h₂.symm).trans ?_
+  rw [← Functor.map_comp_assoc, ← h₁, Functor.map_comp_assoc]
+  rfl
 
 /-- The term of the extended de Rham complex in degree `a ≥ 0` is the sheaf of `a`-forms with its
 coefficients restricted to the base. -/

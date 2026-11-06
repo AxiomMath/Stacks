@@ -354,7 +354,7 @@ theorem pullbackTensorIso_inv_val_app_toSheafify_pushforward
           ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
           (A.val ⊗ M.val)).app (F.op.obj U) (x ⊗ₜ y) := by
   have hε : ∀ (P : Sheaf Y.J (Type w))
-      (z : ((F.sheafPushforwardContinuous (Type w) X.J Y.J).obj P).val.obj U),
+      (z : ((F.sheafPushforwardContinuous (Type w) X.J Y.J).obj P).obj.obj U),
       (ε.hom.app P).hom.app U ((ε.inv.app P).hom.app U z) = z := fun P z ↦ by
     show ((ε.inv.app P ≫ ε.hom.app P).hom.app U z) = z
     rw [Iso.inv_hom_id_app]

@@ -477,7 +477,7 @@ theorem discreteTopology_doubleFibre_chartLeg
       (BigFppfOver.toScheme B S hS)).presheaf c)
     (r₀ : (BigFppfOver.toScheme B S hS).obj R)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-      (chartLeg B S hS U p P F eF R c P.snd) r₀} :
+                            (chartLeg B S hS U p P F eF R c P.snd) r₀} :
       Set ((BigFppfOver.toScheme B S hS).obj U))) :
     DiscreteTopology ((((BigFppfOver.toScheme B S hS).map
           (chartLeg B S hS U p P F eF R c P.snd)).fiberι
@@ -541,7 +541,7 @@ theorem isIsolatedPoint_asFiber_chartLeg_of_isQuasiDM
     (hab : (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p P F eF R c P.fst) r₀ =
       (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p P F eF R c P.snd) r₀)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-      (chartLeg B S hS U p P F eF R c P.snd) r₀} :
+                            (chartLeg B S hS U p P F eF R c P.snd) r₀} :
       Set ((BigFppfOver.toScheme B S hS).obj U))) :
     IsIsolatedPoint
       ((((BigFppfOver.toScheme B S hS).map
@@ -570,7 +570,7 @@ theorem isClosed_asFiber_chartLeg_of_isQuasiDM
     (hab : (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p P F eF R c P.fst) r₀ =
       (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p P F eF R c P.snd) r₀)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-      (chartLeg B S hS U p P F eF R c P.snd) r₀} :
+                            (chartLeg B S hS U p P F eF R c P.snd) r₀} :
       Set ((BigFppfOver.toScheme B S hS).obj U))) :
     IsClosed ({((BigFppfOver.toScheme B S hS).map
         (chartLeg B S hS U p P F eF R c P.snd)).asFiber r₀} :

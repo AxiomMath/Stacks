@@ -174,6 +174,14 @@ end
 
 end CategoryTheory.Presheaf
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high)
+    AlgebraicGeometry.Space.hasPullback_presheaf_bigEtaleStructureSheaf
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  HasLimitsOfShape.has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-! ### Base change of étale coverings of algebraic spaces -/

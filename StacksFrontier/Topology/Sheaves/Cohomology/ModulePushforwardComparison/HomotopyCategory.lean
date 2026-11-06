@@ -80,14 +80,14 @@ cochain complex: the inverse of the composite of
 order.  This is the companion over `DerivedCategory.Q` of
 `CategoryTheory.Functor.mapDerivedCategoryCompIso_inv_app_Qh`. -/
 theorem mapDerivedCategoryCompIso_inv_app_Q (e : F ⋙ G ≅ H) (K : CochainComplex C₁ ℤ) :
-    (Functor.mapDerivedCategoryCompIso e).inv.app (DerivedCategory.Q.obj K) =
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).inv.app (DerivedCategory.Q.obj K) =
       H.mapDerivedCategoryFactors.hom.app K ≫
         DerivedCategory.Q.map
             ((Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).inv.app K) ≫
           G.mapDerivedCategoryFactors.inv.app
               ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ≫
             G.mapDerivedCategory.map (F.mapDerivedCategoryFactors.inv.app K) := by
-  have hiso : (Functor.mapDerivedCategoryCompIso e).app (DerivedCategory.Q.obj K) =
+  have hiso : (Functor.mapDerivedCategoryCompIsoOfCompIso e).app (DerivedCategory.Q.obj K) =
       G.mapDerivedCategory.mapIso (F.mapDerivedCategoryFactors.app K) ≪≫
         G.mapDerivedCategoryFactors.app ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ≪≫
           DerivedCategory.Q.mapIso
@@ -149,9 +149,9 @@ private def compIsoBuild :
         (_root_.SheafOfModules.toSheaf (structureSheafRing Y)).mapDerivedCategory ≅
       (_root_.SheafOfModules.toSheaf (structureSheafRing X)).mapDerivedCategory ⋙
         (abelianPushforward f).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (modulePushforward f ⋙ _root_.SheafOfModules.toSheaf (structureSheafRing Y))) ≪≫
-    (Functor.mapDerivedCategoryCompIso (modulePushforwardCompToSheafIso f).symm).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (modulePushforwardCompToSheafIso f).symm).symm
 
 omit [PreservesFiniteLimits (modulePushforward f)] [PreservesFiniteColimits (modulePushforward f)]
   [PreservesFiniteColimits (abelianPushforward f)] in

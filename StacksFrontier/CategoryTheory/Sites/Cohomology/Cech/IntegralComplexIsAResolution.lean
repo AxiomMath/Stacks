@@ -6,6 +6,7 @@ public import Mathlib.Algebra.Homology.SingleHomology
 public import Mathlib.AlgebraicTopology.ExtraDegeneracy
 public import Mathlib.CategoryTheory.Abelian.FunctorCategory
 public import Mathlib.CategoryTheory.Adjunction.Evaluation
+public import Mathlib.CategoryTheory.Limits.Types.Coproducts
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Cech.IntegralComplex
 import StacksCore.Tactic.StacksAttribute
 
@@ -629,7 +630,7 @@ private noncomputable def homFiniteFiberProductEquiv (V : C) (n : ℕ)
     refine sigma_subtype_pi_ext ?_ fun a => ?_
     · exact hφ
     · change (q ≫ Pi.π (fun a => Over.mk (E.f (i a))) a).left = (g a).val
-      rw [Pi.lift_π]
+      rw [Pi.lift_comp_π]
       rfl
 
 private noncomputable def cechSimplexEquiv (V : C) (n : ℕ) :
@@ -762,7 +763,7 @@ private theorem cechSimplexNerveEquivHigh_map (V : C)
     show (Pi.lift (fun k => Pi.π (fun j => Over.mk (E.f (i j)))
       (g.unop.toOrderHom k)) ≫
       Pi.π (fun k => Over.mk (E.f ((q.f i) k))) k).left = _
-    exact congrArg Over.Hom.left (Pi.lift_π ..)
+    exact congrArg Over.Hom.left (Pi.lift_comp_π ..)
   show (⟨⟨i (g.unop.toOrderHom k),
       x.down ≫ (Pi.π (fun j => Over.mk (E.f (i j)))
         (g.unop.toOrderHom k)).left⟩⟩ :

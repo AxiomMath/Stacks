@@ -272,10 +272,10 @@ theorem kernelDeterminantEquiv_comp_baseChangeComparison (hf : Function.Surjecti
         LinearMap.baseChange A (TwoTermComplex.kernelDeterminantEquiv f hf).toLinearMap := by
   refine LinearMap.ext fun t => ?_
   induction t using TensorProduct.induction_on with
-  | zero => simp
+  | zero => set_option synthInstance.maxHeartbeats 100000 in simp
   | tmul a w =>
       induction w using TensorProduct.induction_on with
-      | zero => simp
+      | zero => set_option synthInstance.maxHeartbeats 100000 in simp
       | tmul x y =>
           simpa only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
             TensorProduct.AlgebraTensorModule.distribBaseChange_tmul, TensorProduct.congr_tmul,
@@ -671,19 +671,19 @@ theorem baseChange_determinantDiagram_of_tensor (hr : IsRankZero a.kernelDiffere
           (ProjectiveDeterminant.kerDeterminantBaseChangeEquiv (A := A) a.neg tx ⊗ₜ[A]
             ProjectiveDeterminant.baseChangeEquiv (R := R) (A := A) (M := L₁) ty)) := by
   induction tφ using TensorProduct.induction_on with
-  | zero => simp
+  | zero => set_option synthInstance.maxHeartbeats 100000 in simp
   | add u v hu hv =>
       simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
         TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv
   | tmul cφ φ =>
       induction tx using TensorProduct.induction_on with
-      | zero => simp
+      | zero => set_option synthInstance.maxHeartbeats 100000 in simp
       | add u v hu hv =>
           simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
             TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv
       | tmul c x =>
           induction ty using TensorProduct.induction_on with
-          | zero => simp
+          | zero => set_option synthInstance.maxHeartbeats 100000 in simp only [LinearEquiv.map_zero, LinearMap.map_zero, TensorProduct.tmul_zero]
           | add u v hu hv =>
               simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
                 TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv

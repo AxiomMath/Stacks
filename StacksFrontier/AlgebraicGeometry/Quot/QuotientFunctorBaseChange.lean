@@ -216,6 +216,18 @@ def IsFinitePresentationOnSiteInvariantUnderPullbackIso (B : BigFppfSite.{u}) (S
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_QuotientFunctorBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for pullbacks of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_QuotientFunctorBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Quasi-coherence along an isomorphism -/
 
 /-- **Quasi-coherence is invariant under the inverse image along an isomorphism of algebraic

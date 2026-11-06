@@ -57,6 +57,19 @@ namespace AlgebraicGeometry
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_prestableCurveFamilies
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_prestableCurveFamilies
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_prestableCurveFamilies (B := B) (S := S) (hS := hS)).has_limit _
+
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 /-- The direct image of the structure sheaf of a family of curves is the structure sheaf of

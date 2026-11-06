@@ -138,6 +138,23 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_decentRelativeConditions
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_decentRelativeConditions
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/- The private instances above are invisible to the public statements below (module system), where
+`HasPullback` on presheaves times out at the default budget. -/
+set_option synthInstance.maxHeartbeats 400000
+
 /-! ### Invariance of the absolute conditions under an isomorphism -/
 
 section Isomorphism

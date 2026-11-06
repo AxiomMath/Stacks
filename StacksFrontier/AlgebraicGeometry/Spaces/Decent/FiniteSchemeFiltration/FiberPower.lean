@@ -78,6 +78,10 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 
 universe u v u₁ v₁
 
+-- Instance search for pullbacks of presheaves on the big fppf site times out under the default
+-- limit, and the private shortcut instances below are not visible in public statements.
+set_option synthInstance.maxHeartbeats 400000
+
 namespace AlgebraicGeometry.Space
 
 theorem size_le_of_surjective_flat_locallyOfFinitePresentation
@@ -188,9 +192,9 @@ theorem exists_affineOpen_containing_finiteOrbit
     [LocallyQuasiFinite f] [IsAffine Y]
     (Z : Set U) (hnonempty : Z.Nonempty) :
     ∃ x ∈ Z, ∃ W : U.Opens, IsAffineOpen W ∧
-      ∀ g : G, ((a g).hom.base x) ∈ W := by
+      ∀ g : G, ((a g).asIso.hom.base x) ∈ W := by
   obtain ⟨x, hx⟩ := hnonempty
-  let orbit : Set U := Set.range (fun g : G ↦ (a g).hom.base x)
+  let orbit : Set U := Set.range (fun g : G ↦ (a g).asIso.hom.base x)
   have horbit : orbit.Finite := Set.finite_range _
   obtain ⟨W, hW, hcontains⟩ :=
     AlgebraicGeometry.exists_isAffineOpen_containing_finite_of_locallyQuasiFinite f horbit
@@ -205,7 +209,7 @@ private theorem exists_affineOpen_containing_groupoidOrbit
     (f : R.objects.left ⟶ Y) [_root_.AlgebraicGeometry.IsSeparated f] [LocallyOfFiniteType f]
     [LocallyQuasiFinite f] [IsAffine Y]
     (htarget : ∀ r : R.arrows.left, ∃ g : G,
-      R.target.left.base r = (a g).hom.base (R.source.left.base r))
+      R.target.left.base r = (a g).asIso.hom.base (R.source.left.base r))
     (Z : Set R.objects.left) (hZ : Z.Nonempty) :
     ∃ x ∈ Z, ∃ W : R.objects.left.Opens,
       IsAffineOpen W ∧ ∀ r : R.arrows.left,
@@ -237,6 +241,19 @@ theorem compact_of_isQuasiCompact_yoneda
   let : CompactSpace (q.obj T) :=
     compactSpace_of_surjective_continuous (q.map m).base hm.surj (by fun_prop)
   infer_instance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_fiberPower
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_fiberPower
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 private theorem compact_represented_pullback
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

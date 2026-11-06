@@ -82,7 +82,7 @@ and their preimages. -/
 def chartThickeningMapC {U V : SmallEtale B S hS X.1} (g : V ⟶ U) :
     (chartThickenedSpace B S hS E U).presheaf ⟶
       (chartSchemeMap g).base _* (chartThickenedSpace B S hS E V).presheaf :=
-  Functor.whiskerRight (NatTrans.op (openChartRestrictNatTrans B S hS X.1 g)) E.A.val
+  Functor.whiskerRight (NatTrans.op (openChartRestrictNatTrans B S hS X.1 g)) E.A.obj
 
 /-- The morphism of thickened sheafed spaces induced by a morphism of charts. -/
 def chartThickeningMapSh {U V : SmallEtale B S hS X.1} (g : V ⟶ U) :
@@ -97,7 +97,7 @@ theorem chartZariskiInclusion_comp_chartThickeningMapSh {U V : SmallEtale B S hS
   refine InducedCategory.hom_ext (PresheafedSpace.hext _ _ rfl (heq_of_eq ?_))
   ext O a
   show (Scheme.restrictFunctorΓ (X := chartScheme V)).hom.app (op (chartSchemeMap g ⁻¹ᵁ O))
-      (E.π.hom.app _ (E.A.val.map (openChartRestrict B S hS X.1 g O).op a)) =
+      (E.π.hom.app _ (E.A.obj.map (openChartRestrict B S hS X.1 g O).op a)) =
     (chartSchemeMap g).app O
       ((Scheme.restrictFunctorΓ (X := chartScheme U)).hom.app (op O) (E.π.hom.app _ a))
   exact (congrArg _ (ConcreteCategory.congr_hom
@@ -175,12 +175,12 @@ theorem chartThickeningMapSh_comp {W V U : SmallEtale B S hS X.1} (g : W ⟶ V) 
   obtain ⟨O, rfl⟩ : ∃ O' : (chartScheme U).Opens, O' = O := ⟨O, rfl⟩
   intro a
   rw [NatTrans.comp_app, Functor.whiskerRight_app, eqToHom_app]
-  show (E.A.val.map (openChartRestrict B S hS X.1 (g ≫ g') O).op ≫
-      E.A.val.map ((openChartFunctor B S hS X.1 W).op.map (eqToHom _))) a =
-    (E.A.val.map (openChartRestrict B S hS X.1 g' O).op ≫
-      E.A.val.map (openChartRestrict B S hS X.1 g (chartSchemeMap g' ⁻¹ᵁ O)).op) a
-  refine ConcreteCategory.congr_hom (((E.A.val.map_comp _ _).symm.trans
-    (congrArg E.A.val.map (Quiver.Hom.unop_inj ?_))).trans (E.A.val.map_comp _ _)) a
+  show (E.A.obj.map (openChartRestrict B S hS X.1 (g ≫ g') O).op ≫
+      E.A.obj.map ((openChartFunctor B S hS X.1 W).op.map (eqToHom _))) a =
+    (E.A.obj.map (openChartRestrict B S hS X.1 g' O).op ≫
+      E.A.obj.map (openChartRestrict B S hS X.1 g (chartSchemeMap g' ⁻¹ᵁ O)).op) a
+  refine ConcreteCategory.congr_hom (((E.A.obj.map_comp _ _).symm.trans
+    (congrArg E.A.obj.map (Quiver.Hom.unop_inj ?_))).trans (E.A.obj.map_comp _ _)) a
   exact openChartRestrict_comp_of_le B S hS X.1 g g' O (homOfLE (le_of_eq (by
     rw [show chartSchemeMap (g ≫ g') = chartSchemeMap g ≫ chartSchemeMap g' by
       simp [chartSchemeMap], Scheme.Hom.comp_preimage])))
@@ -209,9 +209,9 @@ theorem chartThickeningMapSh_id (U : SmallEtale B S hS X.1) :
   intro a
   rw [NatTrans.comp_app, Functor.whiskerRight_app, eqToHom_app]
   have hO : O ≤ chartSchemeMap (𝟙 U) ⁻¹ᵁ O := by simp [chartSchemeMap]
-  exact ConcreteCategory.congr_hom ((E.A.val.map_comp _ _).symm.trans
-    ((congrArg E.A.val.map (Quiver.Hom.unop_inj
-      (openChartRestrict_id B S hS X.1 U O (homOfLE hO)))).trans (E.A.val.map_id _))) a
+  exact ConcreteCategory.congr_hom ((E.A.obj.map_comp _ _).symm.trans
+    ((congrArg E.A.obj.map (Quiver.Hom.unop_inj
+      (openChartRestrict_id B S hS X.1 U O (homOfLE hO)))).trans (E.A.obj.map_id _))) a
 
 /-- **The functor `U ↦ U'`** of the proof of [Stacks Project, Tag 05ZT], on the whole small étale
 site of `X`. -/
@@ -240,9 +240,9 @@ affine open of its preimage is a restriction map of `𝒜`. -/
 theorem chartThickeningMap_appLE {U V : SmallEtale B S hS X.1} (g : V ⟶ U)
     (O : (chartScheme U).Opens) (Q : (chartScheme V).Opens) (e : Q ≤ chartSchemeMap g ⁻¹ᵁ O) :
     (chartThickeningMap B S hS E g).appLE O Q e =
-      E.A.val.map ((openChartFunctor B S hS X.1 V).map (homOfLE e) ≫
+      E.A.obj.map ((openChartFunctor B S hS X.1 V).map (homOfLE e) ≫
         openChartRestrict B S hS X.1 g O).op :=
-  (E.A.val.map_comp _ _).symm
+  (E.A.obj.map_comp _ _).symm
 
 /-- **The morphism of thickened charts induced by a morphism of the small étale site is
 étale.**  Étaleness is affine-local, and on affine opens the map of sections is a restriction map
@@ -254,8 +254,8 @@ theorem etale_chartThickeningMap {U V : SmallEtale B S hS X.1} (g : V ⟶ U) :
   rintro ⟨O, hO⟩ ⟨Q, hQ⟩ e
   let m : openChart B S hS X.1 V Q ⟶ openChart B S hS X.1 U O :=
     (openChartFunctor B S hS X.1 V).map (homOfLE e) ≫ openChartRestrict B S hS X.1 g O
-  let : Algebra (E.A.val.obj (op (openChart B S hS X.1 U O)))
-      (E.A.val.obj (op (openChart B S hS X.1 V Q))) := (E.A.val.map m.op).hom.toAlgebra
+  let : Algebra (E.A.obj.obj (op (openChart B S hS X.1 U O)))
+      (E.A.obj.obj (op (openChart B S hS X.1 V Q))) := (E.A.obj.map m.op).hom.toAlgebra
   show RingHom.Etale ((chartThickeningMap B S hS E g).appLE O Q e).hom
   rw [chartThickeningMap_appLE B S hS E g O Q e]
   exact SquareZeroExtension.algebraEtale_app_of_isAffine B S hS E m

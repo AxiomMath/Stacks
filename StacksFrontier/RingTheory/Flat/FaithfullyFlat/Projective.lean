@@ -254,7 +254,6 @@ private lemma range_baseChange {N : Type*} [AddCommGroup N] [Module R N] (f : N 
   refine le_antisymm ?_ ?_
   · rintro _ ⟨y, rfl⟩
     induction y with
-    | zero => simp
     | tmul a x =>
         rw [LinearMap.baseChange_tmul]
         exact Submodule.tmul_mem_baseChange_of_mem a ⟨x, rfl⟩
@@ -278,7 +277,6 @@ private lemma nonempty_baseChange_quotient_equiv [Module.Flat R S] {p q : Submod
       = LinearMap.baseChange S (q.subtype ∘ₗ (p.submoduleOf q).subtype) := by
     refine LinearMap.ext fun y ↦ ?_
     induction y with
-    | zero => simp
     | tmul a z => simp
     | add x y hx hy => simp only [map_add, hx, hy]
   have hmap : Submodule.map

@@ -78,6 +78,11 @@ namespace AlgebraicGeometry
 
 variable {k : Type u} [Field k]
 
+/- Mathlib's `[IsSimpleAddGroup G] [IsNilpotent G] : AddCommGroup G` instance is tried first for
+`AddCommGroup X.functionField` and, through `IsVariety.toIsIntegral` with an unknown base field,
+enumerates every `Field` instance before failing: it is switched off in this file. -/
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 /-! ### Descending towers of purely inseparable extensions -/
 
 /-- If `y ∉ B` and `y ^ p ∈ B`, where `p` is the exponential characteristic, then the simple
@@ -229,6 +234,8 @@ theorem finiteDimensional_functionField_of_isCurve {X Y : Scheme.{u}}
     (f : X ⟶ Y) (hf : f ≫ pY = pX) [IsDominant f] :
     letI := (functionFieldMap f).toAlgebra
     FiniteDimensional Y.functionField X.functionField := by
+  have : IsIntegral X := (inferInstance : IsCurve k pX).toIsVariety.toIsIntegral
+  have : IsIntegral Y := (inferInstance : IsCurve k pY).toIsVariety.toIsIntegral
   let VX : Variety k := { toScheme := X, structureMap := pX }
   let VY : Variety k := { toScheme := Y, structureMap := pY }
   let _ : Algebra k X.functionField := varietyFunctionFieldAlgebra VX
@@ -643,6 +650,10 @@ private theorem exists_chain_aux (p : ℕ) [Fact p.Prime] [CharP k p] (VX VY : V
             (Z i.castSucc).obj.left.functionField ∧
           (g i).left.residueDegree (genericPoint (Z i.castSucc).obj.left) = p := by
   classical
+  have : IsIntegral VX.toScheme :=
+    (inferInstance : IsCurve k VX.structureMap).toIsVariety.toIsIntegral
+  have : IsIntegral VY.toScheme :=
+    (inferInstance : IsCurve k VY.structureMap).toIsVariety.toIsIntegral
   let : IsNormal VX.toScheme := isNormal_of_isRegular _ hXreg
   let : IsNormal VY.toScheme := isNormal_of_isRegular _ hYreg
   let : Algebra VY.toScheme.functionField VX.toScheme.functionField :=

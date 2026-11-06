@@ -261,7 +261,8 @@ theorem exists_universallyInjective_pullbackMap_of_isCutoffBoundedSystem {I : Ty
       pullback.map t x t (pullback.fst f₀ f₀ ≫ x) (𝟙 _) (pullback.diagonal f₀) (𝟙 _)
           (by simp) (by simp) =
         (pullback.lift (pullback.fst t x) (pullback.snd t x ≫ pullback.diagonal f₀) (by
-            simpa [Category.assoc] using (pullback.condition (f := t) (g := x)) :
+            simp only [pullback.diagonal_fst_assoc, Category.id_comp]
+            exact pullback.condition (f := t) (g := x) :
               pullback.fst t x ≫ t =
                 pullback.snd t x ≫ pullback.diagonal f₀ ≫ pullback.fst f₀ f₀ ≫ x) :
           pullback t x ⟶ pullback t (pullback.fst f₀ f₀ ≫ x)) := by

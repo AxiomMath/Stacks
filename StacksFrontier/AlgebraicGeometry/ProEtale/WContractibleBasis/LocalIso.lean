@@ -85,7 +85,6 @@ private theorem mulAlgHom_surjective : Function.Surjective (mulAlgHom A B C) :=
 private theorem mulAlgHom_diagMap (x : B ⊗[A] B) :
     mulAlgHom A B C (diagMap A B C x) = algebraMap B C (Algebra.TensorProduct.lmul' A x) := by
   induction x with
-  | zero => simp
   | tmul b b' => simp [mulAlgHom, diagMap]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -93,7 +92,6 @@ private theorem sub_one_tmul_mem (x : B ⊗[A] C) :
     x - (1 : B) ⊗ₜ[A] (mulAlgHom A B C x) ∈
       Ideal.map (diagMap A B C) (KaehlerDifferential.ideal A B) := by
   induction x with
-  | zero => simp
   | tmul b c =>
       have h : (b ⊗ₜ[A] c : B ⊗[A] C) - (1 : B) ⊗ₜ[A] (mulAlgHom A B C (b ⊗ₜ c))
           = diagMap A B C (b ⊗ₜ 1 - 1 ⊗ₜ b) * ((1 : B) ⊗ₜ[A] c) := by

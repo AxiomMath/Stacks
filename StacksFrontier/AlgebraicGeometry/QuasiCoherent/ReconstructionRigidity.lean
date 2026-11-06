@@ -107,7 +107,7 @@ of `ModuleCat R` as `a • 𝟙 X`. -/
 theorem centerRingEquiv_app (R : Type u) [CommRing R] (a : R) (X : ModuleCat.{u} R) :
     (centerRingEquiv R a).app X = a • 𝟙 X := by
   show (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) a).app X = _
-  simp [CategoryTheory.Linear.toCatCenter_apply_app]
+  rfl
 
 /-! ### Uniqueness of the canonical ring isomorphism -/
 

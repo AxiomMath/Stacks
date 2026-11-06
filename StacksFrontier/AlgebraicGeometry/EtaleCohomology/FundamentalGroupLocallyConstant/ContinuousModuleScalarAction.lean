@@ -96,18 +96,21 @@ public def finiteTypeContinuousModuleForgetAbelian [Finite Λ] :
     let A : Action AddCommGrpCat.{w} G :=
       { V := AddCommGrpCat.of (ToType M.obj.obj.obj.V)
         ρ :=
-          { toFun := fun g ↦ AddCommGrpCat.ofHom (M.obj.obj.obj.ρ g).hom.toAddMonoidHom
+          { toFun := fun g ↦ End.of
+              (AddCommGrpCat.ofHom (M.obj.obj.obj.ρ g).asHom.hom.toAddMonoidHom)
             map_one' := by
+              apply End.ext
               apply AddCommGrpCat.hom_ext
               ext x
               simp
             map_mul' := by
               intro _ _
+              apply End.ext
               apply AddCommGrpCat.hom_ext
               ext x
-              simp [End.mul_def] } }
+              simp [End.mul_asHom] } }
     let A' : ContAction AddCommGrpCat.{w} G := ⟨A, by
-      rw [Action.isContinuous_def]
+      refine (Action.isContinuous_def _).2 ?_
       exact (Action.isContinuous_def M.obj.obj.obj).mp M.obj.obj.property⟩
     refine ⟨⟨A', by
       change DiscreteTopology (TopCat.discrete.obj (AddCommGrpCat.of (ToType M.obj.obj.obj.V)))
@@ -135,7 +138,7 @@ public def finiteContinuousScalarFunctor [Finite Λ]
           map_add' := smul_add a }
       comm := fun g ↦ by
         ext x
-        exact ((M.obj.obj.obj.ρ g).hom.map_smul a x).symm }))
+        exact ((M.obj.obj.obj.ρ g).asHom.hom.map_smul a x).symm }))
   map_id _ := by
     apply finiteContinuousAbelianHom_ext
     ext x
@@ -192,27 +195,29 @@ public def scalarActionToFiniteTypeContinuousModuleObj [Finite Λ]
   let A := F.obj.obj (SingleObj.star Λ)
   let V := (scalarActionToModule Λ).obj S
   let ρ : G →* End V :=
-    { toFun := fun g ↦ ModuleCat.ofHom
-        { (A.obj.obj.obj.ρ g).hom with
+    { toFun := fun g ↦ End.of <| ModuleCat.ofHom
+        { (A.obj.obj.obj.ρ g).asHom.hom with
           map_smul' := fun a x ↦
             (ConcreteCategory.congr_hom ((F.obj.map a).hom.hom.hom.comm g) x).symm }
       map_one' := by
+        apply End.ext
         apply ModuleCat.hom_ext
         ext x
-        change (A.obj.obj.obj.ρ 1).hom x = x
-        simp only [map_one, End.one_def, AddCommGrpCat.hom_id, AddMonoidHom.coe_id]
+        change (A.obj.obj.obj.ρ 1).asHom.hom x = x
+        simp only [map_one, End.one_asHom, AddCommGrpCat.hom_id, AddMonoidHom.coe_id]
         rfl
       map_mul' := by
         intro g h
+        apply End.ext
         apply ModuleCat.hom_ext
         ext x
-        change (A.obj.obj.obj.ρ (g * h)).hom x =
-          (A.obj.obj.obj.ρ g).hom ((A.obj.obj.obj.ρ h).hom x)
-        simp only [map_mul, End.mul_def, AddCommGrpCat.hom_comp, AddMonoidHom.coe_comp]
+        change (A.obj.obj.obj.ρ (g * h)).asHom.hom x =
+          (A.obj.obj.obj.ρ g).asHom.hom ((A.obj.obj.obj.ρ h).asHom.hom x)
+        simp only [map_mul, End.mul_asHom, AddCommGrpCat.hom_comp, AddMonoidHom.coe_comp]
         rfl }
   let M : Action (ModuleCat.{w} Λ) G := Action.mk V ρ
   let M' : ContAction (ModuleCat.{w} Λ) G := ⟨M, by
-    rw [Action.isContinuous_def]
+    refine (Action.isContinuous_def _).2 ?_
     exact (Action.isContinuous_def A.obj.obj.obj).mp A.obj.obj.property⟩
   refine ⟨⟨M', by
     change DiscreteTopology (TopCat.discrete.obj V)

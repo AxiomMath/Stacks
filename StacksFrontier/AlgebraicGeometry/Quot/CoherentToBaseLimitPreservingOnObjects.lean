@@ -129,7 +129,7 @@ theorem isLimitPreservingOnObjects_coherentToBaseCFG (D : CoherentSituation B S 
   have hγ' : q.IsStronglyCartesian (incl.map (E.map j.hom)) γ' := hq.isStronglyCartesian γ'
   have hsq : (coherentToBaseFunctor D.categoryData).map (δ : A₀ ⟶ xi) ≫ γ' =
       (coherentToBaseFunctor D.categoryData).map (𝟙 A₀) ≫ γ := by
-    refine ULift.ext _ _ (CostructuredArrow.hom_ext _ _ ?_)
+    refine ULift.ext (CostructuredArrow.hom_ext _ _ ?_)
     show (cT.π.app j ≫ γ'.down).left =
       ((Equiv.cast (D.categoryData.hom_type A₀ A₀) (𝟙 A₀)).base ≫ γ₀).left
     rw [D.categoryData.identity A₀]

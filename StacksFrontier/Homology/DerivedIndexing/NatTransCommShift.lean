@@ -43,16 +43,16 @@ lemma natTransCommShift_rightDerivedFunctorPlusNatTrans :
   refine ⟨fun a => ?_⟩
   refine Functor.rightDerived_ext _
     (Functor.IsRightDerivedFunctor.precomposeShiftNatTrans
-      F₁.rightDerivedFunctorPlus F₁.rightDerivedFunctorPlusUnit a)
+      F₁.rightDerivedFunctorPlus F₁.rightDerivedFunctorPlusUnith a)
     (HomotopyCategory.Plus.quasiIso C) _ _ _ (NatTrans.ext (funext fun K => ?_))
   have key (G : C ⥤ D) [G.Additive] :
-      G.rightDerivedFunctorPlusUnit.app ((shiftFunctor (HomotopyCategory.Plus C) a).obj K) ≫
+      G.rightDerivedFunctorPlusUnith.app ((shiftFunctor (HomotopyCategory.Plus C) a).obj K) ≫
           G.rightDerivedFunctorPlus.map
             ((Functor.commShiftIso DerivedCategory.Plus.Qh a).hom.app K) ≫
           (Functor.commShiftIso G.rightDerivedFunctorPlus a).hom.app
             (DerivedCategory.Plus.Qh.obj K) =
         (Functor.commShiftIso (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) a).hom.app K ≫
-          (shiftFunctor (DerivedCategory.Plus D) a).map (G.rightDerivedFunctorPlusUnit.app K) :=
+          (shiftFunctor (DerivedCategory.Plus D) a).map (G.rightDerivedFunctorPlusUnith.app K) :=
     Functor.IsRightDerivedFunctor.comp_map_commShiftIso_hom_app _ _
       (HomotopyCategory.Plus.quasiIso C) ℤ a K
   have hnat := (rightDerivedFunctorPlusNatTrans τ).naturality

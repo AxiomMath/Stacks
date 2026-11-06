@@ -779,12 +779,12 @@ private lemma stepEmbedding_component (E : DerivedCategory A)
           correctionFromModel F i p (le_of_not_gt h) := by
   rcases j with ⟨j⟩
   cases j with
-  | none => rw [stepEmbedding, Pi.lift_π]
+  | none => rw [stepEmbedding, Pi.lift_comp_π]
   | some p =>
       by_cases h : i < p
-      · rw [stepEmbedding, Pi.lift_π]
+      · rw [stepEmbedding, Pi.lift_comp_π]
         simp [stepFactor, ambientFactor, stepSome, h, Category.comp_id]
-      · rw [stepEmbedding, Pi.lift_π]
+      · rw [stepEmbedding, Pi.lift_comp_π]
         simp [stepFactor, ambientFactor, stepNone, h]
 
 /-- The comparison map from the `j`-th to the `i`-th filtration step, for `i ≤ j`. -/
@@ -810,12 +810,12 @@ private lemma transitionStep_component (F : ℤᵒᵖ ⥤ DerivedCategory A)
           correctionFromModel F j p.val (le_of_not_gt h) := by
   rcases k with ⟨k⟩
   cases k with
-  | none => rw [transitionStep, Pi.lift_π]
+  | none => rw [transitionStep, Pi.lift_comp_π]
   | some p =>
       by_cases h : j < p.val
-      · rw [transitionStep, Pi.lift_π]
+      · rw [transitionStep, Pi.lift_comp_π]
         simp [stepFactor, stepSome, h, Category.comp_id]
-      · rw [transitionStep, Pi.lift_π]
+      · rw [transitionStep, Pi.lift_comp_π]
         simp [stepFactor, stepNone, h]
 
 /-- The comparison maps between filtration steps are compatible with the embeddings into the

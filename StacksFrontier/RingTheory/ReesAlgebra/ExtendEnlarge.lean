@@ -129,9 +129,13 @@ public lemma extendLinearMaps_monomial_of_restrictsSplitting (J : Ideal A) {c d 
 `(J ^ d) ^ n`. -/
 public def extendCoeff (J : Ideal A) (d n : ℕ) (φ : Fin r → (J ^ d : Ideal A) →ₗ[A] A)
     (σ : Fin r →₀ ℕ) : ↥((J ^ d : Ideal A) ^ n) →ₗ[A] A where
-  toFun x := MvPolynomial.coeff σ (degreeMap (J ^ d) φ n x)
-  map_add' x y := by rw [map_add, MvPolynomial.coeff_add]
-  map_smul' a x := by simp [map_smul, MvPolynomial.coeff_smul]
+  toFun x := (degreeMap (J ^ d) φ n x).coeff σ
+  map_add' x y := by
+    rw [map_add (degreeMap (J ^ d) φ n), AddMonoidAlgebra.coeff_add]
+    rfl
+  map_smul' a x := by
+    rw [map_smul (degreeMap (J ^ d) φ n), MvPolynomial.coeff_smul]
+    rfl
 
 /-- `Stacks.ReesAlgebra.extendCoeff` is the coefficient of the extension that it is meant to
 be. -/
@@ -139,10 +143,10 @@ public lemma extendCoeff_apply (J : Ideal A) (d n : ℕ)
     (φ : Fin r → (J ^ d : Ideal A) →ₗ[A] A) (σ : Fin r →₀ ℕ) (x : A)
     (hx : x ∈ (J ^ d : Ideal A) ^ n) (p : Polynomial.monomial n x ∈ reesAlgebra (J ^ d)) :
     extendCoeff J d n φ σ ⟨x, hx⟩ =
-      MvPolynomial.coeff σ (extendLinearMaps (J ^ d) φ ⟨Polynomial.monomial n x, p⟩) := by
+      (extendLinearMaps (J ^ d) φ ⟨Polynomial.monomial n x, p⟩).coeff σ := by
   have h1 : reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩ =
       degreeMap (J ^ d) φ n ⟨x, hx⟩ := reesLinearMap_monomial (J ^ d) φ n x hx
-  show _ = MvPolynomial.coeff σ (reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩)
+  show _ = (reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩).coeff σ
   rw [h1]
   rfl
 
@@ -152,8 +156,8 @@ public lemma extendCoeff_of_restrictsSplitting (J : Ideal A) {c d : ℕ} (hcd : 
     (h : RestrictsSplitting J hcd φ ψ) (n : ℕ) (σ : Fin r →₀ ℕ) (x : A)
     (hxd : x ∈ (J ^ d : Ideal A) ^ n) (hxc : x ∈ (J ^ c : Ideal A) ^ n) :
     extendCoeff J d n ψ σ ⟨x, hxd⟩ = extendCoeff J c n φ σ ⟨x, hxc⟩ := by
-  show MvPolynomial.coeff σ (degreeMap (J ^ d) ψ n ⟨x, hxd⟩) =
-    MvPolynomial.coeff σ (degreeMap (J ^ c) φ n ⟨x, hxc⟩)
+  show (degreeMap (J ^ d) ψ n ⟨x, hxd⟩).coeff σ =
+    (degreeMap (J ^ c) φ n ⟨x, hxc⟩).coeff σ
   rw [degreeMap_of_restrictsSplitting J hcd φ ψ h n x hxd hxc]
 
 end Stacks.ReesAlgebra

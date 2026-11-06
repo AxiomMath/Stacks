@@ -86,7 +86,8 @@ private theorem exists_finite_mul_ker_eq {G Q : Type*} [Group G] [Group Q]
     ∃ T : Set G, T.Finite ∧
       ∀ u : G, ∃ h ∈ ψ.ker, ∃ w ∈ Subgroup.closure T, u = h * w := by
   classical
-  obtain ⟨S, hS⟩ := subgroup_fg_of_group_fg hcomm hQ ψ.range
+  obtain ⟨S, hS, hSfin⟩ := (Subgroup.fg_iff _).1 (subgroup_fg_of_group_fg hcomm hQ ψ.range)
+  have : Finite S := hSfin
   have hmem : ∀ s : S, (s : Q) ∈ ψ.range := fun s => hS ▸ Subgroup.subset_closure s.2
   let lift : S → G := fun s => Classical.choose (hmem s)
   have hliftspec (s : S) : ψ (lift s) = (s : Q) := Classical.choose_spec (hmem s)

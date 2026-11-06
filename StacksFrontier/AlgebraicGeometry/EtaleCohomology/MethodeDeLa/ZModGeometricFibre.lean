@@ -190,8 +190,8 @@ evaluation of natural automorphisms of the fibre functor on the representing cov
 theorem zmodGeometricFibreEquiv_smul [NeZero ℓ]
     (G : (zmodFiniteTypeLocallyConstant ℓ X.1).FullSubcategory) (σ : EtaleFundamentalGroup X.1 x)
     (a : ((zmodGeometricFibre ℓ B X x).obj G).V) :
-    zmodGeometricFibreEquiv ℓ B X x G ((((zmodGeometricFibre ℓ B X x).obj G).ρ σ).hom a) =
-      (σ.app ((representingCover B X).obj (zmodFibreSetSheaf ℓ B X G))).hom
+    zmodGeometricFibreEquiv ℓ B X x G ((((zmodGeometricFibre ℓ B X x).obj G).ρ σ).asHom a) =
+      (σ.asIso.app ((representingCover B X).obj (zmodFibreSetSheaf ℓ B X G))).hom
         (zmodGeometricFibreEquiv ℓ B X x G a) :=
   geometricFibreSetEquiv_smul B X x _ σ a
 
@@ -300,7 +300,7 @@ theorem card_zmodGeometricFibre_constant_and_smul [NeZero ℓ]
     Nat.card ((zmodGeometricFibre ℓ B X x).obj ⟨constantZMod.{0} ℓ X.1, hK⟩).V = ℓ ∧
       ∀ (σ : EtaleFundamentalGroup X.1 x)
         (a : ((zmodGeometricFibre ℓ B X x).obj ⟨constantZMod.{0} ℓ X.1, hK⟩).V),
-        (((zmodGeometricFibre ℓ B X x).obj ⟨constantZMod.{0} ℓ X.1, hK⟩).ρ σ).hom a = a := by
+        (((zmodGeometricFibre ℓ B X x).obj ⟨constantZMod.{0} ℓ X.1, hK⟩).ρ σ).asHom a = a := by
   set K : (zmodFiniteTypeLocallyConstant ℓ X.1).FullSubcategory := ⟨constantZMod.{0} ℓ X.1, hK⟩
   let φ := representingCoverConstantIso (B := B) hK
   let e : ((zmodGeometricFibre ℓ B X x).obj K).V ≃
@@ -309,12 +309,12 @@ theorem card_zmodGeometricFibre_constant_and_smul [NeZero ℓ]
   obtain ⟨hcard, htriv⟩ := card_finiteEtaleFiber_trivialCover_and_smul x (ULift.{u} (ZMod ℓ))
   refine ⟨by rw [Nat.card_congr e, hcard, Nat.card_ulift, Nat.card_zmod], fun σ a ↦ ?_⟩
   apply e.injective
-  have hn := congrArg (fun f ↦ f (zmodGeometricFibreEquiv ℓ B X x K a)) (σ.hom.naturality φ.hom)
+  have hn := congrArg (fun f ↦ f (zmodGeometricFibreEquiv ℓ B X x K a)) (σ.asIso.hom.naturality φ.hom)
   simp only [types_comp_apply] at hn
   change (finiteEtaleFiberFunctor x).map φ.hom (zmodGeometricFibreEquiv ℓ B X x K _) =
     (finiteEtaleFiberFunctor x).map φ.hom (zmodGeometricFibreEquiv ℓ B X x K a)
   rw [zmodGeometricFibreEquiv_smul]
-  change (finiteEtaleFiberFunctor x).map φ.hom (σ.hom.app _ _) = _
+  change (finiteEtaleFiberFunctor x).map φ.hom (σ.asIso.hom.app _ _) = _
   rw [← hn]
   exact htriv σ _
 
@@ -330,7 +330,7 @@ theorem exists_relSeries_constantRankOneStep_of_monodromy (hℓ : ℓ.Prime)
     (eY : (have : NeZero ℓ := ⟨hℓ.ne_zero⟩
       (representingCover B X).obj (zmodFibreSetSheaf ℓ B X ⟨G, hG⟩)) ≅ Y)
     (hmon : ∀ σ : EtaleFundamentalGroup X.1 x, ∃ k : ℕ,
-      ∀ p : (finiteEtaleFiberFunctor x).obj Y, ((σ ^ (ℓ ^ k)).app Y).hom p = p) :
+      ∀ p : (finiteEtaleFiberFunctor x).obj Y, ((σ ^ (ℓ ^ k)).asIso.app Y).hom p = p) :
     ∃ F : RelSeries (ConstantRankOneStep.{0} ℓ G),
       IsZero (Subobject.underlying.obj F.head) ∧ IsIso F.last.arrow := by
   have : NeZero ℓ := ⟨hℓ.ne_zero⟩
@@ -346,9 +346,9 @@ theorem exists_relSeries_constantRankOneStep_of_monodromy (hℓ : ℓ.Prime)
   rw [zmodGeometricFibreEquiv_smul]
   apply ((finiteEtaleFiberFunctor x).mapIso eY).toEquiv.injective
   have hn := congrArg (fun f ↦ f (zmodGeometricFibreEquiv ℓ B X x ⟨G, hG⟩ a))
-    ((σ ^ (ℓ ^ k)).hom.naturality eY.hom)
+    ((σ ^ (ℓ ^ k)).asIso.hom.naturality eY.hom)
   simp only [types_comp_apply] at hn
-  change (finiteEtaleFiberFunctor x).map eY.hom ((σ ^ (ℓ ^ k)).hom.app _ _) = _
+  change (finiteEtaleFiberFunctor x).map eY.hom ((σ ^ (ℓ ^ k)).asIso.hom.app _ _) = _
   rw [← hn]
   exact hk _
 

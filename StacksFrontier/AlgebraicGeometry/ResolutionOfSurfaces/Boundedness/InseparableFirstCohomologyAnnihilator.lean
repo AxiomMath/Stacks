@@ -162,7 +162,7 @@ theorem smulEnd_comp_toRestrictExtend_eq_sum {n : ℕ} (b e : Fin n → Γ(Y, �
       dominantFunctionFieldMap π (X.presheaf.germ ⊤ (genericPoint X) trivial d) * σ =
         ∑ i, dominantFunctionFieldMap π (θ (k i)) *
           Y.presheaf.germ ⊤ (genericPoint Y) trivial (e i)) :
-    (SheafOfModules.toSheaf X.ringCatSheaf).map ((Scheme.smulEnd X d).app
+    (SheafOfModules.toSheaf X.ringCatSheaf).map ((Scheme.smulEnd X d).asHom.app
         ((Scheme.Modules.pushforward π).obj (SheafOfModules.unit Y.ringCatSheaf))) ≫
       (Opens.toRestrictExtend U AddCommGrpCat.{u}).app (pushforwardUnitAb π) =
     ∑ i, ((SheafOfModules.toSheaf X.ringCatSheaf).map (pushMulHom π (b i)) ≫
@@ -213,7 +213,7 @@ theorem rightDerived_map_toSheaf_smulEnd_eq_zero [IsNormal Y] {n : ℕ} (b e : F
     (hX : IsZero (((sectionsAb X).rightDerived 1).obj (unitAb X)))
     (hext : Function.Surjective (X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op)) :
     ((sectionsAb X).rightDerived 1).map ((SheafOfModules.toSheaf X.ringCatSheaf).map
-      ((Scheme.smulEnd X d).app
+      ((Scheme.smulEnd X d).asHom.app
         ((Scheme.Modules.pushforward π).obj (SheafOfModules.unit Y.ringCatSheaf)))) = 0 := by
   have : ((sectionsAb X).rightDerived 1).Additive :=
     (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives (sectionsAb X)).additive 1
@@ -250,7 +250,10 @@ theorem rightDerived_map_eq_zero_of_toSheaf {M N : SheafOfModules.{u} X.ringCatS
   apply (forget₂ (ModuleCat.{u} (Scheme.sectionsRing X)) AddCommGrpCat.{u}).map_injective
   have hn := (firstCohomologyForgetIso X).hom.naturality φ
   simp only [Functor.comp_map] at hn
-  rw [Functor.map_zero, ← cancel_mono ((firstCohomologyForgetIso X).hom.app N), hn, h, comp_zero,
+  have : Mono ((firstCohomologyForgetIso X).hom.app N) :=
+    inferInstanceAs (Mono ((firstCohomologyForgetIso X).app N).hom)
+  rw [(forget₂ (ModuleCat.{u} (Scheme.sectionsRing X)) AddCommGrpCat.{u}).map_zero,
+    ← cancel_mono ((firstCohomologyForgetIso X).hom.app N), hn, h, comp_zero,
     zero_comp]
 
 /-- `H¹(X, 𝒪_X) = 0` in the module-valued cohomology gives it in abelian sheaf cohomology. -/

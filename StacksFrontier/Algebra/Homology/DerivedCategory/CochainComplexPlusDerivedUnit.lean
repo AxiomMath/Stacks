@@ -104,12 +104,12 @@ def mapCochainComplexPlusDerivedUnit (T : A ⥤ B) [T.Additive] :
       DerivedCategory.Plus.Q ⋙ T.rightDerivedFunctorPlus where
   app K :=
     (DerivedCategory.Plus.quotientCompQhIso B).inv.app (T.mapCochainComplexPlus.obj K) ≫
-      T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj K) ≫
+      T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj K) ≫
       T.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.quotientCompQhIso A).hom.app K)
   naturality K L g := by
     have hq := (DerivedCategory.Plus.quotientCompQhIso B).inv.naturality
       (T.mapCochainComplexPlus.map g)
-    have hu := T.rightDerivedFunctorPlusUnit.naturality
+    have hu := T.rightDerivedFunctorPlusUnith.naturality
       ((HomotopyCategory.Plus.quotient A).map g)
     have hp := (DerivedCategory.Plus.quotientCompQhIso A).hom.naturality g
     dsimp only [Functor.comp_map] at hq hu hp ⊢
@@ -123,13 +123,13 @@ def mapCochainComplexPlusDerivedUnit (T : A ⥤ B) [T.Additive] :
     refine (congrArg (fun z => z ≫ T.rightDerivedFunctorPlus.map
       ((DerivedCategory.Plus.quotientCompQhIso A).hom.app L)) hu).trans ?_
     refine (Category.assoc _ _ _).trans ?_
-    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnit.app
+    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj K) ≫ z)
       (T.rightDerivedFunctorPlus.map_comp _ _).symm).trans ?_
-    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnit.app
+    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj K) ≫
         T.rightDerivedFunctorPlus.map z) hp).trans ?_
-    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnit.app
+    refine (congrArg (fun z => T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj K) ≫ z)
       (T.rightDerivedFunctorPlus.map_comp _ _)).trans ?_
     exact (Category.assoc _ _ _).symm
@@ -139,7 +139,7 @@ lemma mapCochainComplexPlusDerivedUnit_app (T : A ⥤ B) [T.Additive]
     (K : CochainComplex.Plus A) :
     (mapCochainComplexPlusDerivedUnit T).app K =
       (DerivedCategory.Plus.quotientCompQhIso B).inv.app (T.mapCochainComplexPlus.obj K) ≫
-        T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj K) ≫
+        T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj K) ≫
         T.rightDerivedFunctorPlus.map
           ((DerivedCategory.Plus.quotientCompQhIso A).hom.app K) := rfl
 
@@ -201,11 +201,11 @@ followed by the image under `RR` of the unit of `RT` at `K`. -/
 lemma mapCochainComplexPlusDerivedUnit_comp (T : A ⥤ B) (R : B ⥤ C) [T.Additive] [R.Additive]
     (t : (T ⋙ R).rightDerivedFunctorPlus ⟶
       T.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus)
-    (ht : (T ⋙ R).rightDerivedFunctorPlusUnit ≫ whiskerLeft DerivedCategory.Plus.Qh t =
+    (ht : (T ⋙ R).rightDerivedFunctorPlusUnith ≫ whiskerLeft DerivedCategory.Plus.Qh t =
       whiskerRight (mapHomotopyCategoryPlusCompIso (Iso.refl (T ⋙ R))).inv
           DerivedCategory.Plus.Qh ≫
-        whiskerLeft T.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnit ≫
-        whiskerRight T.rightDerivedFunctorPlusUnit R.rightDerivedFunctorPlus)
+        whiskerLeft T.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnith ≫
+        whiskerRight T.rightDerivedFunctorPlusUnith R.rightDerivedFunctorPlus)
     (K : CochainComplex.Plus A) :
     (mapCochainComplexPlusDerivedUnit (T ⋙ R)).app K ≫ t.app (DerivedCategory.Plus.Q.obj K) =
       (mapCochainComplexPlusDerivedUnit R).app (T.mapCochainComplexPlus.obj K) ≫
@@ -224,34 +224,34 @@ lemma mapCochainComplexPlusDerivedUnit_comp (T : A ⥤ B) (R : B ⥤ C) [T.Addit
     DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus => η.app H) ht
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app] at hfac
   rw [hone] at hfac
-  have hfac' : (T ⋙ R).rightDerivedFunctorPlusUnit.app H ≫
+  have hfac' : (T ⋙ R).rightDerivedFunctorPlusUnith.app H ≫
         t.app (DerivedCategory.Plus.Qh.obj H) =
-      R.rightDerivedFunctorPlusUnit.app (T.mapHomotopyCategoryPlus.obj H) ≫
-        R.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app H) :=
+      R.rightDerivedFunctorPlusUnith.app (T.mapHomotopyCategoryPlus.obj H) ≫
+        R.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app H) :=
     hfac.trans (Category.id_comp _)
   refine (comp_eq_of_naturality_of_fac
     ((DerivedCategory.Plus.quotientCompQhIso C).inv.app
       ((T ⋙ R).mapCochainComplexPlus.obj K))
-    ((T ⋙ R).rightDerivedFunctorPlusUnit.app H)
+    ((T ⋙ R).rightDerivedFunctorPlusUnith.app H)
     ((T ⋙ R).rightDerivedFunctorPlus.map e)
     (t.app (DerivedCategory.Plus.Q.obj K))
     (t.app (DerivedCategory.Plus.Qh.obj H))
     (R.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlus.map e))
-    (R.rightDerivedFunctorPlusUnit.app (T.mapHomotopyCategoryPlus.obj H))
-    (R.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app H))
+    (R.rightDerivedFunctorPlusUnith.app (T.mapHomotopyCategoryPlus.obj H))
+    (R.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app H))
     hnat hfac').trans ?_
   refine Eq.trans ?_ (comp_map_eq_of_comp_eq_id R.rightDerivedFunctorPlus
     ((DerivedCategory.Plus.quotientCompQhIso C).inv.app
       (R.mapCochainComplexPlus.obj (T.mapCochainComplexPlus.obj K)))
-    (R.rightDerivedFunctorPlusUnit.app
+    (R.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient B).obj (T.mapCochainComplexPlus.obj K)))
     ((DerivedCategory.Plus.quotientCompQhIso B).hom.app (T.mapCochainComplexPlus.obj K))
     ((DerivedCategory.Plus.quotientCompQhIso B).inv.app (T.mapCochainComplexPlus.obj K))
-    (T.rightDerivedFunctorPlusUnit.app H ≫ T.rightDerivedFunctorPlus.map e)
+    (T.rightDerivedFunctorPlusUnith.app H ≫ T.rightDerivedFunctorPlus.map e)
     ((DerivedCategory.Plus.quotientCompQhIso B).hom_inv_id_app _)).symm
   exact congrArg (fun z => (DerivedCategory.Plus.quotientCompQhIso C).inv.app
       ((T ⋙ R).mapCochainComplexPlus.obj K) ≫
-    R.rightDerivedFunctorPlusUnit.app (T.mapHomotopyCategoryPlus.obj H) ≫ z)
+    R.rightDerivedFunctorPlusUnith.app (T.mapHomotopyCategoryPlus.obj H) ≫ z)
     (R.rightDerivedFunctorPlus.map_comp _ _).symm
 
 end Composition

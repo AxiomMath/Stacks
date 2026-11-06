@@ -76,12 +76,12 @@ theorem sheafTensorLeft_map_globalSmul
     (f : ((commRingSheafToRingSheaf O).obj ⋙ forget RingCat).sections)
     (G F : _root_.SheafOfModules.{u} (commRingSheafToRingSheaf O)) :
     ((SheafOfModules.Tensor.sheafTensor O).obj G).map
-        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app F) =
-      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app
+        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app F) =
+      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
         (((SheafOfModules.Tensor.sheafTensor O).obj G).obj F) := by
   have h1 : PresheafOfModules.tensorHom (O := O.obj) (𝟙 G.val)
-        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app F).val =
-      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).app
+        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app F).val =
+      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app
         (PresheafOfModules.tensorObj (O := O.obj) G.val F.val) := by
     refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
     let r : ((ringPresheaf O.obj).obj U) := f.val U

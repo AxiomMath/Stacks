@@ -485,8 +485,11 @@ private theorem etale_lift_matrix
   have hcorr : 1 - (1 - (pbar.map qA) ^ m) ^ m = pbar.map qA := by
     rw [hpb.pow_succ_eq k, hpb.one_sub.pow_succ_eq k, sub_sub_cancel]
   have hmap_eb : redQ (qT eb) = pbar.map qA := by
-    show redQ (qT (1 - (1 - (qb b) ^ m) ^ m)) = _
-    simpa only [map_sub, map_one, map_pow, hbase] using hcorr
+    let f : B ⧸ J →+* Matrix (Fin n) (Fin n) (A' ⧸ JA') := redQ.comp qT
+    change f (1 - (1 - (qb b) ^ m) ^ m) = _
+    have hfb : f (qb b) = pbar.map qA := hbase
+    rw [map_sub f, map_one f, map_pow f, map_sub f, map_one f, map_pow f, hfb]
+    exact hcorr
   have hmap_e : e.map (Ideal.Quotient.mk JA') = pbar.map
       (Ideal.quotientMap JA' (algebraMap A A') Ideal.le_comap_map) := by
     show redT e' = pbar.map qA

@@ -153,7 +153,7 @@ noncomputable def isLimitAlgΓBinaryFan :
       ((algΓ (CommRingCat.of k)).map (snd X Y))) :=
   (tensorProductIsBinaryProduct ((algΓ (CommRingCat.of k)).obj X)
       ((algΓ (CommRingCat.of k)).obj Y)).ofIsoLimit
-    (Cones.ext (CommAlgCat.isoMk (globalSectionsTensorAlgEquiv X Y)).op.symm (by
+    (Cone.ext (CommAlgCat.isoMk (globalSectionsTensorAlgEquiv X Y)).op.symm (by
       rintro ⟨⟨⟩⟩
       · apply Quiver.Hom.unop_inj
         ext a

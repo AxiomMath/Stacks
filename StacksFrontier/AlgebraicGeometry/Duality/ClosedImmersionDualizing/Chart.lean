@@ -91,7 +91,7 @@ def chartIso₁
         ((tilde.functor Γ(W, V)).mapDerivedCategory.obj ω)) :=
   restrictRhomOpensIso V K ≪≫
     (rhom (i ∣_ V)).mapIso e ≪≫
-    (rhom (i ∣_ V)).mapIso ((Functor.mapDerivedCategoryCompIso (Iso.refl _)).app ω).symm
+    (rhom (i ∣_ V)).mapIso ((Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).app ω).symm
 
 /-- The second half of the chart computation: transport along `i⁻¹V ≅ Spec Γ(Z, i⁻¹V)` and
 part (2) of [Stacks, Tag 0A78] on `Spec Γ(W, V)`. -/
@@ -107,7 +107,7 @@ def chartIso₂ [IsClosedImmersion (Spec.map (chartRingHom i V))]
     (Scheme.Modules.restrictFunctor (hV.preimage i).isoSpec.hom).mapDerivedCategory.mapIso
       (asIso ((affineDerivedSheafHomComparison Γ(W, V) Γ(Z, i ⁻¹ᵁ V) (chartRingHom i V)).app
         ω)).symm ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).app _
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).app _
 
 end ChartIso
 

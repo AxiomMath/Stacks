@@ -59,7 +59,7 @@ theorem conormalSequenceUnitDerivation_eq_pullbackUnitDerivation (Z : ClosedSubs
 theorem conormalSequenceIdealHom_eq_submoduleDerivationHom (Z : ClosedSubspaces B S hS X.1)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj U),

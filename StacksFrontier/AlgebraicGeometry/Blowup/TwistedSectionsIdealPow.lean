@@ -115,10 +115,12 @@ theorem degreeSection_smul (q : ℕ) (a : A) (b : reesGrading I q) :
       = Localization.mk ((reesGradingZeroEquiv I a : reesGrading I 0) : reesAlgebra I)
           (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl) :=
     blowUpCoeffScalar_val I a x.1
-  rw [hR, h1, h2, hval, LocalizedModule.mk_smul_mk, one_mul]
-  exact congrArg (fun z : reesAlgebra I =>
-      LocalizedModule.mk z (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl))
-    (coe_smul_reesGrading I q a b)
+  rw [hR, h1, h2]
+  refine Eq.trans ?_ (congrArg (fun s => s • LocalizedModule.mk ((b : reesAlgebra I))
+    (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)) hval).symm
+  rw [LocalizedModule.mk_smul_mk]
+  exact congrArg₂ LocalizedModule.mk (coe_smul_reesGrading I q a b)
+    (one_mul (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)).symm
 
 /-- **The canonical map `Iᑫ ⟶ Γ(X, 𝒪_X(q))` as an `A`-linear map.** Its underlying additive map is
 `Stacks.LocalCohomology.UniformityIII.ambientSections`. -/

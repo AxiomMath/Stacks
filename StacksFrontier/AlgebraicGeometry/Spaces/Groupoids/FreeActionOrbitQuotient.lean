@@ -77,14 +77,14 @@ left action because the product in an automorphism group is composition in the o
 def mulActionPoints (T : (BigFppfOver B S hS)ᵒᵖ) :
     MulAction G ((Stacks.Groupoids.points (Over.post B.inclusion)
       ((Over.post B.inclusion).obj V)).obj T) where
-  smul g x := x ≫ (a g).hom
+  smul g x := x ≫ (a g).asIso.hom
   one_smul x := by
-    change x ≫ (a (1 : G)).hom = x
+    change x ≫ (a (1 : G)).asIso.hom = x
     rw [map_one]
     exact Category.comp_id x
   mul_smul g h x := by
-    change x ≫ (a (g * h)).hom = (x ≫ (a h).hom) ≫ (a g).hom
-    rw [map_mul, Aut.Aut_mul_def]
+    change x ≫ (a (g * h)).asIso.hom = (x ≫ (a h).asIso.hom) ≫ (a g).asIso.hom
+    rw [map_mul, Aut.mul_asIso]
     exact (Category.assoc _ _ _).symm
 
 omit [Small.{u} G] [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
@@ -94,13 +94,13 @@ theorem isNaturalAction_points_of_smul_eq
     (hsmul : ∀ (T : (BigFppfOver B S hS)ᵒᵖ) (g : G)
       (x : (Stacks.Groupoids.points (Over.post B.inclusion)
         ((Over.post B.inclusion).obj V)).obj T),
-      g • x = x ≫ (a g).hom) :
+      g • x = x ≫ (a g).asIso.hom) :
     IsNaturalAction B S hS G (Stacks.Groupoids.points (Over.post B.inclusion)
       ((Over.post B.inclusion).obj V)) := by
   intro T W f g x
   rw [hsmul, hsmul]
-  show (Over.post B.inclusion).map f.unop ≫ x ≫ (a g).hom =
-    ((Over.post B.inclusion).map f.unop ≫ x) ≫ (a g).hom
+  show (Over.post B.inclusion).map f.unop ≫ x ≫ (a g).asIso.hom =
+    ((Over.post B.inclusion).map f.unop ≫ x) ≫ (a g).asIso.hom
   exact (Category.assoc _ _ _).symm
 
 omit [∀ T : (BigFppfOver B S hS)ᵒᵖ, MulAction G ((Stacks.Groupoids.points
@@ -111,7 +111,7 @@ the relation scheme, namely of the point in the copy indexed by that group eleme
 theorem toQuotientSheaf_actionRelation_smul (T : (BigFppfOver B S hS)ᵒᵖ)
     (x : (Over.post B.inclusion).obj T.unop ⟶ (Over.post B.inclusion).obj V) (g : G) :
     (Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
-        (actionRelation ((Over.post B.inclusion).obj V) G a)).app T (x ≫ (a g).hom) =
+        (actionRelation ((Over.post B.inclusion).obj V) G a)).app T (x ≫ (a g).asIso.hom) =
       (Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
         (actionRelation ((Over.post B.inclusion).obj V) G a)).app T x := by
   have happ := NatTrans.congr_app (Stacks.Groupoids.sourceMap_toQuotientSheaf
@@ -129,7 +129,7 @@ theorem toQuotientSheaf_actionRelation_smul (T : (BigFppfOver B S hS)ᵒᵖ)
       actionRelationSource]
   have htgt : (Stacks.Groupoids.targetMap (Over.post B.inclusion)
       (actionRelation ((Over.post B.inclusion).obj V) G a)).app T
-      (x ≫ Sigma.ι (fun _ : G ↦ (Over.post B.inclusion).obj V) g) = x ≫ (a g).hom := by
+      (x ≫ Sigma.ι (fun _ : G ↦ (Over.post B.inclusion).obj V) g) = x ≫ (a g).asIso.hom := by
     simp [Stacks.Groupoids.targetMap, actionRelation, Stacks.Groupoids.PreRelation.target,
       actionRelationTarget]
   rw [hsrc, htgt] at h
@@ -140,7 +140,7 @@ variable (hnat : IsNaturalAction B S hS G (Stacks.Groupoids.points (Over.post B.
     (hsmul : ∀ (T : (BigFppfOver B S hS)ᵒᵖ) (g : G)
       (x : (Stacks.Groupoids.points (Over.post B.inclusion)
         ((Over.post B.inclusion).obj V)).obj T),
-      g • x = x ≫ (a g).hom)
+      g • x = x ≫ (a g).asIso.hom)
 
 include hsmul in
 /-- The projection onto the quotient sheaf of the graph relation is invariant for the induced

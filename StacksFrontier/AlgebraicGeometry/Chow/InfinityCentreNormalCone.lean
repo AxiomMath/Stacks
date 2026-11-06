@@ -454,7 +454,7 @@ theorem infinityChartClass_add {I : Ideal A} {n : ℕ} {x y : A} (hx : x ∈ I ^
     (hy : y ∈ I ^ n) :
     infinityChartClass I n x hx + infinityChartClass I n y hy =
       infinityChartClass I n (x + y) (add_mem hx hy) := by
-  rw [infinityChartClass, infinityChartClass, infinityChartClass, ← map_add]
+  rw [infinityChartClass, infinityChartClass, infinityChartClass, ← RingHom.map_add]
   exact congrArg _ ((infinityChartMk_add _ _).trans
     (infinityChartMk_congr rfl (map_add C x y).symm))
 
@@ -482,8 +482,8 @@ private theorem sum_infinityChartClass_eq_mk {I : Ideal A} (x : ℕ → A) (hx :
       Ideal.Quotient.mk (infinityChartFibreIdeal I)
         (infinityChartMk I N (∑ n ∈ s, C (x n) * (X : A[X]) ^ (N - n))
           (sum_C_mul_X_pow_mem_pow_infinityChartIdeal I s x hx N)) := by
-  rw [← sum_infinityChartMk_C I x hx N s hN, map_sum]
-  rfl
+  rw [← sum_infinityChartMk_C I x hx N s hN]
+  exact (map_sum (Ideal.Quotient.mk (infinityChartFibreIdeal I)).toAddMonoidHom _ _).symm
 
 /-- The classes of the different degrees are independent: a vanishing finite sum of classes
 `xₙ/sⁿ` forces every `xₙ` into `Iⁿ⁺¹`. -/

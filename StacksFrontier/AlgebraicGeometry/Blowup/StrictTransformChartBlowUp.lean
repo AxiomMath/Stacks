@@ -96,8 +96,8 @@ theorem ideal_comap_exceptionalIdeal_blowUpAffineChart (U : S.affineOpens) {a : 
     ((Stacks.Blowup.exceptionalIdeal ℐ).comap
           (pullback.snd f (Stacks.Blowup.blowUpToBase ℐ))).ideal V =
       Ideal.span {((pullback.snd f (Stacks.Blowup.blowUpToBase ℐ)).appLE
-        (Stacks.Blowup.blowUpAffineChart ℐ U ha ''ᵁ ⊤) V.1 hV).hom
-          (Stacks.Blowup.exceptionalChartSection ℐ U ha)} :=
+                    (Stacks.Blowup.blowUpAffineChart ℐ U ha ''ᵁ ⊤) V.1 hV).hom
+                    (Stacks.Blowup.exceptionalChartSection ℐ U ha)} :=
   Stacks.IdealSheaf.ideal_comap_eq_span _ _
     ⟨_, (isAffineOpen_top _).image_of_isOpenImmersion _⟩ V hV
     (Stacks.Blowup.ideal_exceptionalIdeal_blowUpAffineChart ℐ U ha)

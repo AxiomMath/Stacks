@@ -34,7 +34,7 @@ reformulation of the continuity condition defining an `R`-`G`-module. -/
 @[sga "4 IV 2.7.2" "special case"]
 theorem isContinuous_iff_forall_isOpen_stabilizer [IsTopologicalGroup G]
     (V : Action (ModuleCat.{w} R) G) :
-    V.IsContinuous ↔ ∀ x : V.V, IsOpen {g : G | (V.ρ g).hom x = x} :=
+    V.IsContinuous ↔ ∀ x : V.V, IsOpen {g : G | (V.ρ g).asHom.hom x = x} :=
   continuousSMul_iff_stabilizer_isOpen
 
 end Stacks.GroupCohomology

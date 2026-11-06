@@ -184,7 +184,7 @@ public theorem mono_associatedModuleAdjunction_unit
         (structureMap B S hS)).counit.app _,
       (SheafOfModules.pullbackPushforwardAdjunction.{u}
         (structureMap B S hS)).left_triangle_components 𝓕⟩
-  exact hrefl.reflects _ inferInstance
+  exact hrefl.reflects _ (IsSplitMono.mono _)
 
 /-! ### Vanishing descends along `ε` on a slice -/
 

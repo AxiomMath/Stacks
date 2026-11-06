@@ -53,10 +53,10 @@ modules. -/
 def matrixCharacterSMulBilinear :
     ULift.{u + 1} (Fin m → Λ) →ₗ[Λ] ULift.{u + 1} Λ →ₗ[Λ] ULift.{u + 1} (Fin m → Λ) :=
   LinearMap.mk₂ Λ (fun v a => ULift.up (a.down • v.down))
-    (fun v₁ v₂ a => ULift.ext _ _ (smul_add a.down v₁.down v₂.down))
-    (fun c v a => ULift.ext _ _ (smul_comm a.down c v.down))
-    (fun v a₁ a₂ => ULift.ext _ _ (add_smul a₁.down a₂.down v.down))
-    (fun c v a => ULift.ext _ _ (mul_smul c a.down v.down))
+    (fun v₁ v₂ a => ULift.ext (smul_add a.down v₁.down v₂.down))
+    (fun c v a => ULift.ext (smul_comm a.down c v.down))
+    (fun v a₁ a₂ => ULift.ext (add_smul a₁.down a₂.down v.down))
+    (fun c v a => ULift.ext (mul_smul c a.down v.down))
 
 variable {Λ} in
 omit [Finite Λ] in
@@ -71,11 +71,11 @@ theorem matrixCharacterSMulBilinear_equivariant
     (a : (matrixContinuousModule.{u + 1, u + 1} Λ σ hσ).obj.obj.obj.V)
     (b : (characterContinuousModule Λ χ hχ).obj.obj.obj.V) :
     matrixCharacterSMulBilinear Λ
-        (((matrixContinuousModule.{u + 1, u + 1} Λ σ hσ).obj.obj.obj.ρ g).hom a)
-        (((characterContinuousModule Λ χ hχ).obj.obj.obj.ρ g).hom b) =
-      ((matrixContinuousModule.{u + 1, u + 1} Λ (characterTwist σ χ) hσχ).obj.obj.obj.ρ g).hom
+        (((matrixContinuousModule.{u + 1, u + 1} Λ σ hσ).obj.obj.obj.ρ g).asHom.hom a)
+        (((characterContinuousModule Λ χ hχ).obj.obj.obj.ρ g).asHom.hom b) =
+      ((matrixContinuousModule.{u + 1, u + 1} Λ (characterTwist σ χ) hσχ).obj.obj.obj.ρ g).asHom.hom
         (matrixCharacterSMulBilinear Λ a b) := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   have hs : ∀ w : Fin m → Λ, Matrix.scalar (Fin m) (χ g : Λ) *ᵥ w = (χ g : Λ) • w := fun w => by
     ext i
     simp [Matrix.scalar_apply, Matrix.mulVec_diagonal]
@@ -99,7 +99,7 @@ def lisseEtaleSheafMatrixTensorCharacterIso
   have hsurj :
       ∀ r : (matrixContinuousModule.{u + 1, u + 1} Λ (characterTwist σ χ) hσχ).obj.obj.obj.V,
         ∃ p q, matrixCharacterSMulBilinear Λ p q = r :=
-    fun r => ⟨r, ULift.up 1, ULift.ext _ _ (one_smul Λ r.down)⟩
+    fun r => ⟨r, ULift.up 1, ULift.ext (one_smul Λ r.down)⟩
   have hcard : Nat.card (TensorProduct Λ
       (matrixContinuousModule.{u + 1, u + 1} Λ σ hσ).obj.obj.obj.V
       (characterContinuousModule Λ χ hχ).obj.obj.obj.V) ≤

@@ -194,7 +194,10 @@ instance epi_tautologicalDatumUniv : Epi (tautologicalDatumUniv F) := by
       (isQuasicoherentPieces_of_isQuasicoherent F)) :=
     Stacks.ProjectiveBundleSplitting.epi_tautologicalMap F _
   unfold tautologicalDatumUniv
-  infer_instance
+  exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv (Iso.app _ F)))
+    (epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv (Iso.app
+      (Scheme.Modules.pullbackComp (bundlePresentationIso F).inv (symGradedBundle F).toBase) F)))
+      (Functor.map_epi _ _))
 
 /-- **The tautological datum of the projective bundle of an arbitrary quasi-coherent module**:
 `𝒪_{𝐏(F)}(1)` together with its universal surjection from `π^*F`. No hypothesis is placed on the

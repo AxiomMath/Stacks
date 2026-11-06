@@ -34,17 +34,19 @@ variable {S : Cᵒᵖ ⥤ CommRingCat.{u}} {F : C ⥤ D} {R : Dᵒᵖ ⥤ CommRi
   {M N : PresheafOfModules.{v} (R ⋙ forget₂ _ _)} {φ : S ⟶ F.op ⋙ R}
 
 /-- The zero derivation, vanishing on every section. -/
-instance instZero : Zero (M.Derivation φ) :=
+instance instZero : Zero (PresheafOfModulesOfCommRing.Derivation M φ) :=
   ⟨{ d := 0
      d_mul := fun _ _ => by simp
      d_map := fun _ _ => (map_zero _).symm
      d_app := fun _ => rfl }⟩
 
 /-- The zero derivation sends every section `a` of `R` to `0`. -/
-@[simp] theorem zero_d {X : Dᵒᵖ} (a : R.obj X) : (0 : M.Derivation φ).d a = 0 := rfl
+@[simp] theorem zero_d {X : Dᵒᵖ} (a : R.obj X) :
+    (0 : PresheafOfModulesOfCommRing.Derivation M φ).d a = 0 := rfl
 
 /-- Postcomposing a derivation with the zero morphism gives the zero derivation. -/
-@[simp] theorem postcomp_zero (d : M.Derivation φ) : d.postcomp (0 : M ⟶ N) = 0 := by
+@[simp] theorem postcomp_zero (d : PresheafOfModulesOfCommRing.Derivation M φ) :
+    d.postcomp (0 : M ⟶ N) = 0 := by
   ext X a
   simp
 

@@ -497,7 +497,7 @@ theorem perfectField_residueField_of_integral
     (q : Ideal S) [q.IsMaximal] : PerfectField q.ResidueField := by
   let p := IsLocalRing.maximalIdeal A
   have hpq : p = q.comap (algebraMap A S) :=
-    (IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)).symm
+    (IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q)).symm
   have : q.LiesOver p := ⟨hpq⟩
   let := Localization.AtPrime.algebraOfLiesOver p q
   have : PerfectField p.ResidueField :=

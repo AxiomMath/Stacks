@@ -91,7 +91,7 @@ private theorem exists_transcendental_series [Countable k] :
     ∃ f : PowerSeries k, Transcendental (RatFunc k) (f : LaurentSeries k) := by
   have : Uncountable (ℕ → k) := uncountable_sequences k
   by_contra! h
-  have : Countable k[X] := Function.Injective.countable Polynomial.toFinsupp_injective
+  have : Countable k[X] := Function.Injective.countable Polynomial.coeff_injective
   have : Countable (RatFunc k) := Function.Surjective.countable
     (f := fun pq : k[X] × k[X] => algebraMap k[X] (RatFunc k) pq.1 /
       algebraMap k[X] (RatFunc k) pq.2)

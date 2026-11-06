@@ -5,6 +5,7 @@ public import StacksFrontier.Homology.Injectives.DerivedCategory.ProductsAndCopr
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Coproducts
 public import Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor
 public import Mathlib.CategoryTheory.Sites.ConstantSheaf
+public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import StacksFrontier.CategoryTheory.Localization.LeftDerivedByResolutions
 public import StacksFrontier.Homology.KFlat.BifunctorCoproducts
 public import StacksFrontier.Algebra.Homology.DerivedCategory.SubcategoryLocalization

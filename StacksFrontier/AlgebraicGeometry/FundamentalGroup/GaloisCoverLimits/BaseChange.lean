@@ -107,7 +107,7 @@ base change of `G × V ⟶ V ×_S V` along `W ×_T W ⟶ V ×_S V`. -/
 theorem galoisCoverComparison_isPullback {G : Type v} [Group G] [Finite G]
     (H : IsPullback p h f q)
     (a : Gᵐᵒᵖ →* Aut (Over.mk f)) (b : Gᵐᵒᵖ →* Aut (Over.mk h))
-    (hab : ∀ g, (b g).hom.left ≫ p = p ≫ (a g).hom.left) :
+    (hab : ∀ g, (b g).asIso.hom.left ≫ p = p ≫ (a g).asIso.hom.left) :
     IsPullback (Stacks.Descent.galoisCoverComparison h b)
       (Sigma.desc fun i : G ↦ p ≫ Sigma.ι (fun _ : G ↦ V) i)
       (pullback.map h h f f p p q H.w.symm H.w.symm)
@@ -115,14 +115,15 @@ theorem galoisCoverComparison_isPullback {G : Type v} [Group G] [Finite G]
   have hu : IsUniversalColimit (Cofan.mk _ (Sigma.ι fun _ : G ↦ V)) :=
     FinitaryPreExtensive.isUniversal_finiteCoproducts (coproductIsCoproduct _)
   exact hu.isPullback_of_isColimit_left
-    (fun g ↦ pullback.lift (𝟙 V) (a (.op g)).hom.left
-      ((Category.id_comp _).trans (Over.w (a (.op g)).hom).symm))
+    (fun g ↦ pullback.lift (𝟙 V) (a (.op g)).asIso.hom.left
+      ((Category.id_comp _).trans (Over.w (a (.op g)).asIso.hom).symm))
     (Stacks.Descent.galoisCoverComparison f a)
     (pullback.map h h f f p p q H.w.symm H.w.symm)
-    (fun g ↦ pullback.lift (𝟙 W) (b (.op g)).hom.left
-      ((Category.id_comp _).trans (Over.w (b (.op g)).hom).symm))
+    (fun g ↦ pullback.lift (𝟙 W) (b (.op g)).asIso.hom.left
+      ((Category.id_comp _).trans (Over.w (b (.op g)).asIso.hom).symm))
     (fun _ ↦ p)
-    (fun g ↦ isPullback_lift_id_lift H _ (Over.w (a (.op g)).hom) _ (Over.w (b (.op g)).hom)
+    (fun g ↦ isPullback_lift_id_lift H _ (Over.w (a (.op g)).asIso.hom) _
+      (Over.w (b (.op g)).asIso.hom)
       (hab (.op g)))
     (coproductIsCoproduct _) (fun g ↦ by
       show Sigma.ι _ g ≫ Stacks.Descent.galoisCoverComparison f a = _
@@ -132,7 +133,7 @@ theorem galoisCoverComparison_isPullback {G : Type v} [Group G] [Finite G]
 theorem isIso_galoisCoverComparison_of_isPullback {G : Type v} [Group G] [Finite G]
     (H : IsPullback p h f q)
     (a : Gᵐᵒᵖ →* Aut (Over.mk f)) (b : Gᵐᵒᵖ →* Aut (Over.mk h))
-    (hab : ∀ g, (b g).hom.left ≫ p = p ≫ (a g).hom.left)
+    (hab : ∀ g, (b g).asIso.hom.left ≫ p = p ≫ (a g).asIso.hom.left)
     [IsIso (Stacks.Descent.galoisCoverComparison f a)] :
     IsIso (Stacks.Descent.galoisCoverComparison h b) :=
   MorphismProperty.of_isPullback (P := MorphismProperty.isomorphisms Scheme.{u})
@@ -144,7 +145,7 @@ theorem isIso_galoisCoverComparison_of_isPullback_of_flat {G : Type v} [Group G]
     [Flat q] [Surjective q] [QuasiCompact q]
     (H : IsPullback p h f q)
     (a : Gᵐᵒᵖ →* Aut (Over.mk f)) (b : Gᵐᵒᵖ →* Aut (Over.mk h))
-    (hab : ∀ g, (b g).hom.left ≫ p = p ≫ (a g).hom.left)
+    (hab : ∀ g, (b g).asIso.hom.left ≫ p = p ≫ (a g).asIso.hom.left)
     [IsIso (Stacks.Descent.galoisCoverComparison h b)] :
     IsIso (Stacks.Descent.galoisCoverComparison f a) := by
   let r := pullback.map h h f f p p q H.w.symm H.w.symm
@@ -166,7 +167,7 @@ isomorphism exactly when the base change along `T ⟶ S` of the comparison map
 theorem isIso_galoisCoverComparison_iff_isIso_pullback_map {G : Type v} [Group G] [Finite G]
     (H : IsPullback p h f q)
     (a : Gᵐᵒᵖ →* Aut (Over.mk f)) (b : Gᵐᵒᵖ →* Aut (Over.mk h))
-    (hab : ∀ g, (b g).hom.left ≫ p = p ≫ (a g).hom.left) :
+    (hab : ∀ g, (b g).asIso.hom.left ≫ p = p ≫ (a g).asIso.hom.left) :
     IsIso (Stacks.Descent.galoisCoverComparison h b) ↔
       IsIso ((Over.pullback q).map (galoisCoverComparisonOver f a)).left := by
   let r := pullback.map h h f f p p q H.w.symm H.w.symm
@@ -270,7 +271,7 @@ def FiniteEtaleGaloisCover.baseChange {S T : Scheme.{u}} (q : T ⟶ S) {G : Type
     GaloisCoverLimits.isIso_galoisCoverComparison_of_isPullback
       (IsPullback.of_hasPullback Z.obj.hom q)
       (((MorphismProperty.Over.forget finiteEtale ⊤ S).mapAut Z.obj).comp Z.action) _
-      fun g ↦ finiteEtaleBaseChange_map_left_fst q (Z.action g).hom
+      fun g ↦ finiteEtaleBaseChange_map_left_fst q (Z.action g).asIso.hom
 
 /-- The underlying cover of the base change of a Galois cover is the base change. -/
 theorem FiniteEtaleGaloisCover.baseChange_obj {S T : Scheme.{u}} (q : T ⟶ S) {G : Type v}
@@ -283,9 +284,9 @@ theorem FiniteEtaleGaloisCover.baseChange_obj {S T : Scheme.{u}} (q : T ⟶ S) {
 theorem FiniteEtaleGaloisCover.baseChange_action_fst {S T : Scheme.{u}} (q : T ⟶ S) {G : Type v}
     [Group G] [Finite G] (Z : FiniteEtaleGaloisCover S G)
     (hconn : ConnectedSpace ((finiteEtaleBaseChange q).obj Z.obj).left) (g : Gᵐᵒᵖ) :
-    ((Z.baseChange q hconn).action g).hom.left ≫ pullback.fst Z.obj.hom q =
-      pullback.fst Z.obj.hom q ≫ (Z.action g).hom.left :=
-  finiteEtaleBaseChange_map_left_fst q (Z.action g).hom
+    ((Z.baseChange q hconn).action g).asIso.hom.left ≫ pullback.fst Z.obj.hom q =
+      pullback.fst Z.obj.hom q ≫ (Z.action g).asIso.hom.left :=
+  finiteEtaleBaseChange_map_left_fst q (Z.action g).asIso.hom
 
 end AlgebraicGeometry
 

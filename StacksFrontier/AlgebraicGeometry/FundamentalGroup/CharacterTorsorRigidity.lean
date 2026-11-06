@@ -55,7 +55,7 @@ variable {X : Scheme.{u}} [ConnectedSpace X] {x : GeometricPoint X}
 theorem finiteEtaleFiberFunctor_map_smul {Y Z : FiniteEtaleOver X} (f : Y ⟶ Z)
     (σ : EtaleFundamentalGroup X x) (y : (finiteEtaleFiberFunctor x).obj Y) :
     (finiteEtaleFiberFunctor x).map f (σ • y) = σ • (finiteEtaleFiberFunctor x).map f y :=
-  (NatTrans.naturality_apply σ.hom f y).symm
+  (NatTrans.naturality_apply σ.asIso.hom f y).symm
 
 omit [ConnectedSpace X] in
 /-- The image of a fibre point `y` under the fibre functor's map along `f` is `y` composed with

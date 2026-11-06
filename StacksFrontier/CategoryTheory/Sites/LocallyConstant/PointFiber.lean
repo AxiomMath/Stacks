@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Comma.LocallySmall
 public import StacksFrontier.CategoryTheory.Sites.Point.ConstantSheafFiber
 public import StacksFrontier.CategoryTheory.Sites.Point.LocalizedPoint
 

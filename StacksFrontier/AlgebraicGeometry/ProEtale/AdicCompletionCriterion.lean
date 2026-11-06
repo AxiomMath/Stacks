@@ -570,12 +570,12 @@ private lemma locallyBijective_ulift
     have hh := Presheaf.equalizerSieve_mem J η x.down y.down (ULift.up_injective h)
     apply J.superset_covering _ hh
     intro W f hf
-    exact ULift.ext _ _ hf⟩
+    exact ULift.ext hf⟩
   let : Presheaf.IsLocallySurjective J η' := ⟨by
     intro V x
     apply J.superset_covering _ (Presheaf.imageSieve_mem J η x.down)
     rintro W f ⟨y, hy⟩
-    exact ⟨ULift.up y, ULift.ext _ _ hy⟩⟩
+    exact ⟨ULift.up y, ULift.ext hy⟩⟩
   exact J.W_of_isLocallyBijective η'
 
 private lemma exists_sections_refinement_of_surjective_sections
@@ -678,7 +678,7 @@ private lemma exists_sections_refinement_of_surjective_sections
       have h3 := NatTrans.naturality_apply ε g.op idU
       rw [h1, h2, hs, ← h3]
       congr 1
-      exact ULift.ext _ _ (Category.comp_id g)
+      exact ULift.ext (Category.comp_id g)
     apply J.superset_covering _
       (Presheaf.equalizerSieve_mem J ε (π.app _ t) gW heq)
     intro Z a ha
@@ -1476,7 +1476,8 @@ theorem isDerivedComplete_single_of_pow_smul_eq_zero_of_slicedObjectsSituation
     ← DerivedCompleteRecurrence.isIso_oneSubSmulShift_moduleCat_iff,
     ← isDerivedCompleteAt_iff_isIso]
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow]
+  ext1
+  rw [smul_id_pow, End.zero_asHom]
   apply ModuleCat.hom_ext
   ext x
   exact hn x

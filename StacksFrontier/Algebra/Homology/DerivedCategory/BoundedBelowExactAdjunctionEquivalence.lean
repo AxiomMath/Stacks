@@ -181,12 +181,12 @@ theorem isIso_derivedPlusAdjunction_unit_app_of_rightAcyclic
     (NatTrans.isIso_app_iff_of_iso _ (DerivedCategory.Plus.Qh.objObjPreimageIso K)).1 this
   have hη := adj.mapHomotopyCategoryPlus.derivedη_fac_app
     (HomotopyCategory.Plus.quasiIso A) L.mapDerivedCategoryPlusFactorsh.hom
-    R.rightDerivedFunctorPlusUnit K'
+    R.rightDerivedFunctorPlusUnith K'
   change (derivedPlusAdjunction adj).unit.app (DerivedCategory.Plus.Qh.obj K') ≫
       R.rightDerivedFunctorPlus.map (L.mapDerivedCategoryPlusFactorsh.hom.app K') = _ at hη
   have : IsIso adj.unit := NatIso.isIso_of_isIso_app _
   have := Adjunction.isIso_mapHomotopyCategoryPlus_unit_app adj K'
-  have : IsIso (R.rightDerivedFunctorPlusUnit.app (L.mapHomotopyCategoryPlus.obj K')) :=
+  have : IsIso (R.rightDerivedFunctorPlusUnith.app (L.mapHomotopyCategoryPlus.obj K')) :=
     Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic R _ fun n ↦ hac _
   have : IsIso ((derivedPlusAdjunction adj).unit.app (DerivedCategory.Plus.Qh.obj K') ≫
       R.rightDerivedFunctorPlus.map (L.mapDerivedCategoryPlusFactorsh.hom.app K')) := by

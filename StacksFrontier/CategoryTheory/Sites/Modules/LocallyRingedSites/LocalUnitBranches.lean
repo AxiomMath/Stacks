@@ -101,6 +101,11 @@ section Branches
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget RingCat.{w})] (R : Sheaf J RingCat.{w})
 
+-- Mathlib's instance deriving `HasBinaryProduct (G.obj X) (G.obj Y)` from a preserved
+-- product sends the search for `ringSheaf R ⨯ ringSheaf R` into `Sheaf J RingCat`, where it
+-- times out.
+attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+
 /-- The square of the underlying sheaf of sets of a sheaf of rings. -/
 noncomputable abbrev ringSq : Sheaf J (Type w) := Sheaf.ringSheaf R ⨯ Sheaf.ringSheaf R
 
@@ -112,9 +117,9 @@ noncomputable def oneSubFst : ringSq R ⟶ Sheaf.ringSheaf R :=
 
 @[simp]
 lemma sectionsFunctor_map_oneSubFst (X : Cᵒᵖ)
-    (z : (Sheaf.sectionsFunctor J X).obj (ringSq R)) :
-    (Sheaf.sectionsFunctor J X).map (oneSubFst R) z =
-      1 - (Sheaf.sectionsFunctor J X).map prod.fst z := by
+    (z : (Sheaf.sectionsFunctor.{w} J X).obj (ringSq R)) :
+    (Sheaf.sectionsFunctor.{w} J X).map (oneSubFst R) z =
+      1 - (Sheaf.sectionsFunctor.{w} J X).map prod.fst z := by
   rw [oneSubFst, Functor.map_comp_apply, Functor.map_lift_apply, Functor.map_comp_apply,
     Functor.map_terminalFrom_apply, Sheaf.sectionsFunctor_map_ringAddHom,
     Sheaf.sectionsFunctor_map_ringOneHom, Functor.map_comp_apply,
@@ -127,10 +132,10 @@ noncomputable def localUnitFactor (b : Bool) : ringSq R ⟶ Sheaf.ringSheaf R :=
 
 @[simp]
 lemma sectionsFunctor_map_localUnitFactor (b : Bool) (X : Cᵒᵖ)
-    (z : (Sheaf.sectionsFunctor J X).obj (ringSq R)) :
-    (Sheaf.sectionsFunctor J X).map (localUnitFactor R b) z =
-      (if b then 1 - (Sheaf.sectionsFunctor J X).map prod.fst z
-        else (Sheaf.sectionsFunctor J X).map prod.fst z) := by
+    (z : (Sheaf.sectionsFunctor.{w} J X).obj (ringSq R)) :
+    (Sheaf.sectionsFunctor.{w} J X).map (localUnitFactor R b) z =
+      (if b then 1 - (Sheaf.sectionsFunctor.{w} J X).map prod.fst z
+        else (Sheaf.sectionsFunctor.{w} J X).map prod.fst z) := by
   cases b with
   | false => simp only [localUnitFactor, Bool.false_eq_true, ite_false]
   | true => simp only [localUnitFactor, ite_true, sectionsFunctor_map_oneSubFst]
@@ -143,13 +148,13 @@ noncomputable def localUnitBranch (b : Bool) : ringSq R ⟶ ringSq R :=
 
 @[simp]
 lemma sectionsFunctor_map_localUnitBranch (b : Bool) (X : Cᵒᵖ)
-    (z : (Sheaf.sectionsFunctor J X).obj (ringSq R)) :
-    (Sheaf.sectionsFunctor J X).map (localUnitBranch R b) z =
-      Functor.prodObjMk (P := Sheaf.sectionsFunctor J X)
-        ((Sheaf.sectionsFunctor J X).map prod.fst z)
-        ((Sheaf.sectionsFunctor J X).map prod.snd z *
-          (if b then 1 - (Sheaf.sectionsFunctor J X).map prod.fst z
-            else (Sheaf.sectionsFunctor J X).map prod.fst z)) := by
+    (z : (Sheaf.sectionsFunctor.{w} J X).obj (ringSq R)) :
+    (Sheaf.sectionsFunctor.{w} J X).map (localUnitBranch R b) z =
+      Functor.prodObjMk (P := Sheaf.sectionsFunctor.{w} J X)
+        ((Sheaf.sectionsFunctor.{w} J X).map prod.fst z)
+        ((Sheaf.sectionsFunctor.{w} J X).map prod.snd z *
+          (if b then 1 - (Sheaf.sectionsFunctor.{w} J X).map prod.fst z
+            else (Sheaf.sectionsFunctor.{w} J X).map prod.fst z)) := by
   rw [localUnitBranch, Functor.map_lift_apply, Functor.map_comp_apply, Functor.map_lift_apply,
     Sheaf.sectionsFunctor_map_ringMulHom, sectionsFunctor_map_localUnitFactor]
 

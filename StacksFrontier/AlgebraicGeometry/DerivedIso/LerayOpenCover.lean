@@ -106,11 +106,23 @@ theorem isIso_rightDerivedFunctorPlusUnit_absoluteCechComplexPlus (f : X ⟶ S)
       IsAffineHom (∏ᶜ fun a ↦ Over.mk (𝒰.f (i a))).hom ∧
         IsAffineHom ((∏ᶜ fun a ↦ Over.mk (𝒰.f (i a))).hom ≫ f))
     (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory) :
-    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus 𝒰).obj F))) :=
-  CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic
+    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus 𝒰).obj F))) := by
+  have h := CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic
     (Scheme.Modules.pushforward f) _ ((absoluteCechComplexPlus 𝒰).obj F).property
     (rightAcyclic_absoluteCechComplexPlus_X f 𝒰 h𝒰 F)
+  have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlus
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso X.Modules) _
+    (((Scheme.Modules.pushforward f).mapHomotopyCategoryPlus ⋙
+      DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh
+        (HomotopyCategory.Plus.quasiIso X.Modules))).1 inferInstance
+  rw [← Functor.rightDerived_fac_app (Scheme.Modules.pushforward f).rightDerivedFunctorPlus
+    (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso X.Modules)] at h
+  haveI := hd
+  rwa [isIso_comp_right_iff] at h
 
 /-- The isomorphism of [Stacks, Tag 015E] at the absolute Čech resolution, as an isomorphism of
 functors of the quasi-coherent module. -/
@@ -125,9 +137,9 @@ noncomputable def absoluteCechUnitIso (f : X ⟶ S) (𝒰 : X.OpenCover.{u}) [Fi
   NatIso.ofComponents
     (fun F ↦
       haveI := isIso_rightDerivedFunctorPlusUnit_absoluteCechComplexPlus f 𝒰 h𝒰 F
-      asIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
+      asIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient X.Modules).obj ((absoluteCechComplexPlus 𝒰).obj F))))
-    (fun {_ _} φ ↦ (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.naturality
+    (fun {_ _} φ ↦ (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.naturality
       ((HomotopyCategory.Plus.quotient X.Modules).map ((absoluteCechComplexPlus 𝒰).map φ)))
 
 /-- **`Č ⁼(𝒰, f, ℱ) ≅ Rf_*(𝔠 ⁼(𝒰, ℱ))` in `D⁺(S)`**, functorially in `ℱ`. -/

@@ -187,7 +187,7 @@ public theorem
   have hc := LAdicSheaf.fieldExtensionCohomologyIso_comm B X ℓ f j k' kbar F i p q hcard m hcard'
   have hn := LAdicSheaf.fieldExtensionCohomologyIso_hom_naturality B X ℓ f j k' kbar i ψ
   have hcomb : (((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard
-      F i)) ^ (m + 1)) ≫ LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar ψ i) ≫
+      F i)) ^ (m + 1)).asHom ≫ LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar ψ i) ≫
         (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom =
       (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom ≫
         (LAdicSheaf.geometricCompactlySupportedFrobenius B (fieldExtensionScheme B X f k') ℓ
@@ -203,7 +203,7 @@ public theorem
   have hl := congrArg ModuleCat.Hom.hom h
   simp only [ModuleCat.hom_comp] at hl
   have hp : ((End.of (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q
-      hcard F i)) ^ (m + 1)).hom =
+      hcard F i)) ^ (m + 1)).asHom.hom =
       (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i).hom ^
         (m + 1) := by
     have h₀ := map_pow (ModuleCat.endRingEquiv

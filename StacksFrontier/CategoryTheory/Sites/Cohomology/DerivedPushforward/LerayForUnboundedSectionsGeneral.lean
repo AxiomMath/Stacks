@@ -170,13 +170,15 @@ theorem isIso_homologyMap_sectionsOverObject_map
     Stacks.Injectives.isIso_homologyMap_homComplexPostcomp _ s n
       (bijective_postcomp_quotient_shift_of_isKInjective f.toRingedToposSiteHom
         f.isMorphismOfSites_toRingedToposSiteHom _ I hI s hJ hs n)
-  refine (NatIso.isIso_map_iff (Functor.isoWhiskerRight
+  have h2 := isIso_homologyMap_coyonedaComplexMap
+    (Stacks.Sites.ExtensionByZero.extensionByZeroUnitObj Y.J
+      (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) V) s n
+  exact (NatIso.isIso_map_iff (Functor.isoWhiskerRight
     (NatIso.mapHomologicalComplex
       (Stacks.Sites.ExtensionByZero.coyonedaExtensionByZeroUnitIso Y.J
         (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) V)
       (ComplexShape.up ℤ))
-    (HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n)) s).1 ?_
-  exact isIso_homologyMap_coyonedaComplexMap _ s n
+    (HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n)) s).1 h2
 
 /-- **Sections over `V` carry a K-injective resolution of `f_* I` to a quasi-isomorphism.** -/
 theorem quasiIso_sectionsOverObject_map

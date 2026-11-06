@@ -212,7 +212,7 @@ composites is needed. -/
 lemma piUnitToFree_comp_freeToPiUnit (n : ℕ) :
     piUnitToFree (R := R) n ≫ freeToPiUnit n = 𝟙 (∏ᶜ fun _ : Fin n ↦ unit R) := by
   refine Pi.hom_ext _ _ fun k ↦ ?_
-  rw [piUnitToFree, freeToPiUnit, Category.assoc, Pi.lift_π, Category.id_comp,
+  rw [piUnitToFree, freeToPiUnit, Category.assoc, Pi.lift_comp_π, Category.id_comp,
     Preadditive.sum_comp]
   have hz : ∀ j ∈ (Finset.univ : Finset (Fin n)), j ≠ k →
       (Pi.π (fun _ : Fin n ↦ unit R) j ≫ ιFree (R := R) (ULift.up j)) ≫

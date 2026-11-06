@@ -72,7 +72,7 @@ public theorem eq_representationLAdicSheafMap_representationLAdicSheafHomMatrix
         (representationLAdicSheafHomMatrix_mul B X x hρ hρ' θ) (n + 1) := by
     apply finiteContinuousAbelianHom_ext
     ext y
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     obtain ⟨w, hw⟩ : ∃ w : Fin r → ℤ_[ℓ],
         (fun j => PadicInt.toZModPow (n + 1) (w j)) = y.down :=
       ⟨fun j => (ZMod.ringHom_surjective (PadicInt.toZModPow (n + 1)) (y.down j)).choose,

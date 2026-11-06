@@ -216,14 +216,14 @@ noncomputable def deltaInj (i : I) :
 @[simp]
 theorem deltaInj_comp_π_self (i : I) :
     deltaInj U F i ≫ Pi.π (fun i => pushforwardOpen U F i) i = 𝟙 _ := by
-  rw [deltaInj, Pi.lift_π]
+  rw [deltaInj, Pi.lift_comp_π]
   simp
 
 /-- The `j`-th component of the `i`-th canonical injection vanishes for `j ≠ i`. -/
 @[simp]
 theorem deltaInj_comp_π_ne {i j : I} (h : i ≠ j) :
     deltaInj U F i ≫ Pi.π (fun i => pushforwardOpen U F i) j = 0 := by
-  rw [deltaInj, Pi.lift_π]
+  rw [deltaInj, Pi.lift_comp_π]
   simp [h]
 
 /-- The presheaf direct sum `V ↦ ⨁ i, (F i) (V ∩ U i)`, that is the coproduct of the

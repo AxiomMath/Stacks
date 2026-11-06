@@ -869,7 +869,8 @@ theorem isIso_lift_of_isFlat (alg₂ : IsAlgebraicSpace B S hS X₂)
       (by rw [toSchemeTheoreticImage_ι]; exact isQuasiCompact_stageMap G₂ small _)
   have himage : schemeTheoreticImageSubfunctor B S hS χ = ⊤ := by
     have he : sq.flip.isoPullback.hom ≫ pullback.snd _ _ = χ := sq.flip.isoPullback_hom_snd
-    rw [← he, schemeTheoreticImageSubfunctor_comp_of_epi,
+    have : Epi sq.flip.isoPullback.hom := IsIso.epi_of_iso _
+    rw [← he, schemeTheoreticImageSubfunctor_comp_of_epi B S hS sq.flip.isoPullback.hom,
       schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact' B S hS _ _
         algT alg₂i alg₂ flatFst qcπ]
     have htop : schemeTheoreticImageSubfunctor B S hS (stageπ G₂ i (h₂₆.trans h₆)) = ⊤ :=

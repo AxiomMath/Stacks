@@ -136,9 +136,9 @@ private def sectionsFamilyCone
         (LinearMap.toSpanSingleton _ _ (x j))
       naturality := fun j j' f => by
         refine ModuleCat.hom_ext (LinearMap.ext fun r => ?_)
-        change (r : Γ(X, ⊤)) • x j' =
+        change (show Γ(X, ⊤) from r) • x j' =
           ((Stacks.Coherent.globalSectionsSystem
-            ((completionFunctor X i.ker).obj F)).map f).hom ((r : Γ(X, ⊤)) • x j)
+            ((completionFunctor X i.ker).obj F)).map f).hom ((show Γ(X, ⊤) from r) • x j)
         rw [map_smul, hx j j' f] }
 
 omit [IsClosedImmersion i] [F.obj.IsQuasicoherent] in

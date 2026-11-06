@@ -312,7 +312,7 @@ pushed down to the index `i`, followed by the transport of `pushforward_uC_comp`
 public def pushedSystemLeg (i : D.I) (A : Over i) :
     (abelianSheafPushforward.{v, u, w, t} D A.hom).obj (F.obj A.left) ⟶
       ((uC i).sheafPushforwardContinuous (Ab.{max u v w t}) (D.J i) K.toGrothendieck).obj 𝒢 :=
-  (abelianSheafPushforward.{v, u, w, t} D A.hom).map (Sheaf.Hom.mk (ι A.left)) ≫
+  (abelianSheafPushforward.{v, u, w, t} D A.hom).map (ObjectProperty.homMk (ι A.left)) ≫
     eqToHom (congrArg
       (fun G : Sheaf K.toGrothendieck (Ab.{max u v w t}) ⥤ Sheaf (D.J i) (Ab.{max u v w t}) =>
         G.obj 𝒢)
@@ -330,10 +330,10 @@ carry the same equality of presheaves and agree by proof irrelevance. No `Iso.re
 comparison definition appears, so nothing here has to be unfolded. -/
 public theorem sheafHomMk_leg_eq (hι : IsCompatible.{v, u, w, t} D uC hu F 𝒢.obj ι)
     {j k : D.I} (a : k ⟶ j) :
-    (Sheaf.Hom.mk (ι j) : F.obj j ⟶
+    (ObjectProperty.homMk (ι j) : F.obj j ⟶
         ((uC j).sheafPushforwardContinuous (Ab.{max u v w t}) (D.J j) K.toGrothendieck).obj 𝒢) =
       pushforwardTransition D F a ≫
-        (abelianSheafPushforward.{v, u, w, t} D a).map (Sheaf.Hom.mk (ι k)) ≫
+        (abelianSheafPushforward.{v, u, w, t} D a).map (ObjectProperty.homMk (ι k)) ≫
           eqToHom (congrArg
             (fun G : Sheaf K.toGrothendieck (Ab.{max u v w t}) ⥤
                 Sheaf (D.J j) (Ab.{max u v w t}) => G.obj 𝒢)

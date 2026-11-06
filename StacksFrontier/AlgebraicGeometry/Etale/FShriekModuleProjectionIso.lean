@@ -121,8 +121,10 @@ public theorem presheafFiber_map_modFiniteSupportTensorPresheafMap (s : Geometri
   obtain ⟨n, Z, aa, rfl⟩ := exists_modFiniteSupportGenerator_sum B Λ f F V pp
   rw [TensorProduct.sum_tmul, map_sum, map_sum]
   refine Finset.sum_congr rfl fun i _ => DFinsupp.ext fun x => ?_
-  exact (modFiniteSupportTensorBilinear_germ_generator B Λ f s F G ⟨V, y⟩ (Z i) (aa i) tt x).trans
-    (modProjectionFiberIso_germ_generator B Λ f s F G ⟨V, y⟩ (Z i) (aa i) tt x).symm
+  exact (modFiniteSupportTensorBilinear_germ_generator B Λ f s F G (Functor.elementsMk _ V y)
+      (Z i) (aa i) tt x).trans
+    (modProjectionFiberIso_germ_generator B Λ f s F G (Functor.elementsMk _ V y)
+      (Z i) (aa i) tt x).symm
 
 /-- The fibre of the projection map at a geometric point of `Y` is an isomorphism. -/
 public theorem isIso_presheafFiber_map_modFiniteSupportTensorPresheafMap

@@ -90,7 +90,7 @@ theorem derivedBaseChangePlus_natTrans (e : F ⟶ F₀) (e' : F' ⟶ F₀') (α 
     (derivedBaseChangePlusUnit F G) (HomotopyCategory.Plus.quasiIso A) _ _ _
     (NatTrans.ext (funext fun K => ?_))
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
-  have hL : G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+  have hL : G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
       G.mapDerivedCategoryPlus.map
         ((rightDerivedFunctorPlusNatTrans e).app (DerivedCategory.Plus.Qh.obj K)) ≫
       (derivedBaseChangePlus F₀ F₀' G G' α₀).app (DerivedCategory.Plus.Qh.obj K) =
@@ -99,7 +99,7 @@ theorem derivedBaseChangePlus_natTrans (e : F ⟶ F₀) (e' : F' ⟶ F₀') (α 
         (derivedBaseChangePlusAux F₀ F₀' G G' α₀).app K := by
     rw [← Category.assoc, ← Functor.map_comp, rightDerivedFunctorPlusNatTrans_app,
       Functor.map_comp, Category.assoc, derivedBaseChangePlus_fac]
-  have hR : G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+  have hR : G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
       (derivedBaseChangePlus F F' G G' α).app (DerivedCategory.Plus.Qh.obj K) ≫
       (rightDerivedFunctorPlusNatTrans e').app
         (G'.mapDerivedCategoryPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
@@ -362,15 +362,15 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
       Functor.whiskerRight (etaleModuleDerivedInverseImagePlusIdIso Λ X).inv
         (etaleModuleDerivedDirectImage.{u, 0} Λ f) := by
     refine Functor.rightDerived_ext (etaleModuleDerivedDirectImage.{u, 0} Λ f)
-      (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit
+      (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso _) _ _ _ (NatTrans.ext (funext fun L => ?_))
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
     -- notation: `M = f_* L`; the units of `Rf_*`, `Ri_!`, `Ri_*`, `R(f ≫ i)_*`
     have s1 := (etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ i).inv.naturality
-      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L)
+      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L)
     have s2 := congrArg (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
       ((etaleModuleDerivedExtensionByZeroToDirectImagePlus.{u, 0} Λ i).naturality
-        ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L))
+        ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L))
     simp only [Functor.map_comp] at s2
     have s4 := etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_hom_app_Qh Λ i
       ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L)
@@ -384,33 +384,33 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
     have s6 := (etaleModuleDerivedBaseChange_fac Λ (f ≫ i) f i (𝟙 X) (Category.id_comp _).symm
       L).trans (Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlusAux_app' _ _ _ L)
     have s7 := etaleModuleDerivedInverseImagePlusIdIso_hom_app_Qh Λ X L
-    have s8 := (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.naturality
+    have s8 := (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.naturality
       ((Functor.mapHomotopyCategoryPlusNatIso (etaleModuleInverseImageIdIso.{u, 0} Λ X)).inv.app L)
     dsimp only [Functor.comp_obj, Functor.comp_map, Functor.id_map, Functor.id_obj]
       at s1 s2 s3a s3b s4 s5 s6 s7 s8 ⊢
     -- (A) move the unit of `Rf_*` past `ζ⁻¹` and `Rj_! ⟶ Rj_*`
     have hA := ((reassoc_of% s1) _).trans (whisker_eq _ s2)
     -- (B) the unit of `Ri_*` against the composition isomorphism
-    have hB0 : (etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnit.app L ≫
+    have hB0 : (etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnith.app L ≫
         (etaleModuleDerivedDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl).hom.app
           (DerivedCategory.Plus.Qh.obj L) =
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl)).inv.app L) ≫
-          (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlusUnit.app
+          (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L) ≫
           (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlus.map
-            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L) := by
+            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L) := by
       rw [etaleModuleDerivedDirectImageComp_hom_eq_univ, NatTrans.comp_app]
       exact ((reassoc_of% s3a) _).trans (whisker_eq _ s3b)
-    have hB : (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlusUnit.app
+    have hB : (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlusUnith.app
           ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L) ≫
         (etaleModuleDirectImage.{u, 0} Λ i).rightDerivedFunctorPlus.map
-          ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L) ≫
+          ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L) ≫
         (etaleModuleDerivedDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl).inv.app
           (DerivedCategory.Plus.Qh.obj L) =
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl)).hom.app L) ≫
-          (etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnit.app L := by
+          (etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnith.app L := by
       refine (cancel_mono ((etaleModuleDerivedDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl).hom.app
         (DerivedCategory.Plus.Qh.obj L))).1 ?_
       refine ((Category.assoc _ _ _).trans (whisker_eq _ ((Category.assoc _ _ _).trans
@@ -434,7 +434,7 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
             ((etaleModuleExtensionByZero.{u, 0} Λ i).mapHomotopyCategoryPlus.obj
               ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L)) ≫
           (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
-            ((etaleModuleExtensionByZero.{u, 0} Λ i).rightDerivedFunctorPlusUnit.app
+            ((etaleModuleExtensionByZero.{u, 0} Λ i).rightDerivedFunctorPlusUnith.app
               ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L)) := by
       refine (cancel_mono ((etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ i).hom.app
         (DerivedCategory.Plus.Qh.obj
@@ -483,7 +483,7 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
     dsimp only [Functor.comp_map] at s9a s9b
     -- (L3) `i^{-1}` of (C)
     have hL3 : (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
-          ((etaleModuleExtensionByZero.{u, 0} Λ i).rightDerivedFunctorPlusUnit.app
+          ((etaleModuleExtensionByZero.{u, 0} Λ i).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L)) ≫
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
           ((etaleModuleDerivedExtensionByZeroToDirectImagePlus.{u, 0} Λ i).app
@@ -491,7 +491,7 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
               ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj L))) ≫
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
           ((etaleModuleDerivedDirectImage.{u, 0} Λ i).map
-            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L)) ≫
+            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L)) ≫
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
           ((etaleModuleDerivedDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl).inv.app
             (DerivedCategory.Plus.Qh.obj L)) =
@@ -503,7 +503,7 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
           (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleDirectImageComp.{u, 0} Λ f i (f ≫ i) rfl)).hom.app L)) ≫
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i).map
-          ((etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnit.app L) := by
+          ((etaleModuleDirectImage.{u, 0} Λ (f ≫ i)).rightDerivedFunctorPlusUnith.app L) := by
       refine (whisker_eq _ (whisker_eq _ (Functor.map_comp _ _ _).symm)).trans
         ((whisker_eq _ (Functor.map_comp _ _ _).symm).trans
           ((Functor.map_comp _ _ _).symm.trans ((congrArg _ hC).trans ?_)))
@@ -531,7 +531,7 @@ theorem etaleModuleDerivedExtensionByZeroToDirectImagePlus_comp_baseChange
         ((whisker_eq _ (Functor.map_comp _ _ _).symm).trans
           ((Functor.map_comp _ _ _).symm.trans (congrArg _ hH)))
     -- (R) the right-hand side
-    have hR := (whisker_eq ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app L)
+    have hR := (whisker_eq ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app L)
       ((congrArg (etaleModuleDerivedDirectImage.{u, 0} Λ f).map hI).trans
         (Functor.map_comp _ _ _))).trans ((reassoc_of% s8) _).symm
     -- the left-hand side

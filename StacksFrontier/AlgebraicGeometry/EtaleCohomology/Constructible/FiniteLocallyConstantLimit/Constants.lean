@@ -846,6 +846,8 @@ section Instances
 
 variable (B : BigEtaleSite.{u})
 
+attribute [local instance high] Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE
+
 attribute [local instance] SmallEtale.isRightAdjointPushforward_type
   SmallEtale.isRightAdjointPushforward_addCommGrpCat
   SmallEtale.isRightAdjointPushforward_moduleCat_site
@@ -890,6 +892,8 @@ public theorem smallEtaleConstantFaithful_moduleCat (Λ : Type (u + 1)) [CommRin
 end Instances
 
 section Concrete
+
+attribute [local instance high] Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE
 
 attribute [local instance] SmallEtale.isRightAdjointPushforward_type
   SmallEtale.isRightAdjointPushforward_addCommGrpCat

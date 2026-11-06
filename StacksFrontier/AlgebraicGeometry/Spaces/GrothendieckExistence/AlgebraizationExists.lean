@@ -284,9 +284,11 @@ theorem exists_image_algebraization (hZ : B.Contains (⊤_ Scheme.{u}))
     · have h1 : h.hom.app (op l) ≫ ((completionFunctor B S hS F hF 𝓘 hI).map g).hom.app (op l) =
           0 := congrArg (fun k => k.hom.app (op l)) hz
       rw [hg l hl, ← Category.assoc] at h1
-      have := hiso l hl
+      have hmo : Mono (C.obj.map (homOfLE hl).op ≫
+          completionTermProjection B S hS F hF 𝓘 hI Cc l) :=
+        @IsIso.mono_of_iso _ _ _ _ _ (hiso l hl)
       change h.hom.app (op l) ≫ γ.hom.app (op l) = 0
-      exact (cancel_mono _).1 (h1.trans zero_comp.symm)
+      exact hmo.right_cancellation _ _ (h1.trans zero_comp.symm)
     · have h1 : h.hom.app (op l) ≫ γ.hom.app (op l) = 0 := congrArg (fun k => k.hom.app (op l)) hz
       change h.hom.app (op l) ≫ ((completionFunctor B S hS F hF 𝓘 hI).map g).hom.app (op l) = 0
       rw [hg l hl, ← Category.assoc, h1, zero_comp]
@@ -317,7 +319,7 @@ theorem exists_image_algebraization (hZ : B.Contains (⊤_ Scheme.{u}))
       rw [Category.assoc, he, kernel.lift_ι]
       exact hp
     rw [hpe]
-    exact epi_comp _ _
+    exact @epi_comp _ _ _ _ _ _ this _ (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom e))
   · have hm : Mono ((ObjectProperty.ι (isCoherent.{u, u} B S hS F hF)).map
         (Abelian.factorThruCoimage g)) := Functor.map_mono _ _
     exact idealPowerMultiple_eq_bot_of_mono B S hS F hF 𝓘
@@ -489,7 +491,8 @@ theorem exists_algebraization_of_epi (hZ : B.Contains (⊤_ Scheme.{u}))
               ((kernel.ι a).hom ≫ φ l) := by
           rw [← hfac, IsIso.inv_hom_id_assoc]
         rw [this]
-        infer_instance
+        exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (IsIso.inv_isIso (f :=
+          completionTermProjection B S hS F hF 𝓘 hI (kernel a) l))) _ hm2
       have h1 : h'.hom.app (op l) ≫
           (((completionFunctor B S hS F hF 𝓘 hI).map (kernel.ι a)).hom.app (op l) ≫
             c.hom.app (op l)) = 0 :=

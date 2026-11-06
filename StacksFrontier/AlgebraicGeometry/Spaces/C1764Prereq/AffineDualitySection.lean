@@ -97,7 +97,6 @@ private theorem derivedPullback_map_Qh_map_eq_zero {X Y : AlgebraicSpaces B S hS
     refine e.trans ((congrArg (fun y => DerivedCategory.Qh.map
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map y)) hc).trans ?_)
     simp only [Functor.map_zero]
-    rfl
   rw [key, comp_zero] at h3
   exact eq_zero_of_comp_eq_zero_of_isIso hiso h3
 

@@ -456,8 +456,7 @@ public lemma iSup_range_eq_top :
 /-- A finitely generated submodule of `A` is contained in the image of some stage. -/
 public lemma exists_le_range_of_fg (N : Submodule R ↥A) (hN : N.FG) :
     ∃ i : J, N ≤ LinearMap.range (pres.ι.app i).hom.toLinearMap := by
-  obtain ⟨s, hs⟩ := CompleteLattice.IsCompactElement.exists_finset_of_le_iSup _
-    ((Submodule.fg_iff_compact N).mp hN) _
+  obtain ⟨s, hs⟩ := ((Submodule.fg_iff_compact N).mp hN).exists_finset_of_le_iSup _
     (by rw [iSup_range_eq_top pres]; exact le_top)
   obtain ⟨S, hS⟩ := IsFiltered.sup_objs_exists s
   refine ⟨S, hs.trans (iSup_le fun i => iSup_le fun hi => ?_)⟩
@@ -586,7 +585,7 @@ public lemma bcRight_C (T : Type*) [CommRing T] [Algebra R T] (b : B) :
 
 /-- The coefficients of `bcRight T p` are `1 ⊗` the coefficients of `p`. -/
 public lemma coeff_bcRight (T : Type*) [CommRing T] [Algebra R T] (p : MvPolynomial σ B)
-    (e : σ →₀ ℕ) : coeff e (bcRight (R := R) T p) = 1 ⊗ₜ[R] coeff e p :=
+    (e : σ →₀ ℕ) : (bcRight (R := R) T p).coeff e = 1 ⊗ₜ[R] p.coeff e :=
   MvPolynomial.coeff_map _ _ _
 
 /-- The base change of an algebra map on a tensor product is, on the underlying modules, the
@@ -607,7 +606,7 @@ public lemma bcMap_X {T T' : Type*} [CommRing T] [Algebra R T] [CommRing T'] [Al
 /-- The coefficients of `bcMap F p` are the images of those of `p` under `F ⊗ id`. -/
 public lemma coeff_bcMap {T T' : Type*} [CommRing T] [Algebra R T] [CommRing T']
     [Algebra R T'] (F : T →ₐ[R] T') (p : MvPolynomial σ (T ⊗[R] B)) (e : σ →₀ ℕ) :
-    coeff e (bcMap F p) = LinearMap.rTensor B F.toLinearMap (coeff e p) := by
+    (bcMap F p).coeff e = LinearMap.rTensor B F.toLinearMap (p.coeff e) := by
   rw [bcMap, MvPolynomial.coeff_map]
   exact map_id_eq_rTensor F _
 
@@ -878,14 +877,14 @@ public lemma exists_bcMap_eq_zero {i : J} (z : MvPolynomial σ (↥(pres.diag.ob
     ∃ (k : J) (u : i ⟶ k), bcMap (pres.diag.map u).hom z = 0 := by
   obtain ⟨k, u, hu⟩ := exists_forall_mem_of_forall_exists
     (fun k (u : i ⟶ k) (e : σ →₀ ℕ) =>
-      LinearMap.rTensor B (pres.diag.map u).hom.toLinearMap (coeff e z) = 0)
+      LinearMap.rTensor B (pres.diag.map u).hom.toLinearMap (z.coeff e) = 0)
     (fun {k l} u w e h => by rw [rTensor_map_comp pres B u w, h, map_zero])
     z.support
-    (fun e _ => exists_map_rTensor_eq_zero pres B (coeff e z) (by
-      have h := congrArg (MvPolynomial.coeff e) hz
-      rwa [coeff_bcMap, MvPolynomial.coeff_zero] at h))
+    (fun e _ => exists_map_rTensor_eq_zero pres B (z.coeff e) (by
+      have h := congrArg (fun q : MvPolynomial σ _ => q.coeff e) hz
+      rwa [coeff_bcMap, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h))
   refine ⟨k, u, MvPolynomial.ext _ _ fun e => ?_⟩
-  rw [coeff_bcMap, MvPolynomial.coeff_zero]
+  rw [coeff_bcMap, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_cases he : e ∈ z.support
   · exact hu e he
   · rw [MvPolynomial.notMem_support_iff.mp he, map_zero]

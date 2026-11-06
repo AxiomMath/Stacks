@@ -206,29 +206,30 @@ noncomputable def baseRingToSections (R : Type u) [CommRing R]
 noncomputable def baseScalar (R : Type u) [CommRing R]
     (X : Over (Spec (.of R))) (r : R) :
     CatCenter (SheafOfModules.{u} X.left.ringCatSheaf) where
-  app M := ⟨{
-    app U := by
-      letI : CommRing (X.left.ringCatSheaf.obj.obj U) :=
-        inferInstanceAs (CommRing (X.left.presheaf.obj U))
-      exact ModuleCat.ofHom ((baseRingToSections R X U r) •
-        LinearMap.id (R := X.left.ringCatSheaf.obj.obj U) (M := M.val.obj U))
-    naturality {U V} f := by
+  asHom := {
+    app M := ⟨{
+      app U := by
+        letI : CommRing (X.left.ringCatSheaf.obj.obj U) :=
+          inferInstanceAs (CommRing (X.left.presheaf.obj U))
+        exact ModuleCat.ofHom ((baseRingToSections R X U r) •
+          LinearMap.id (R := X.left.ringCatSheaf.obj.obj U) (M := M.val.obj U))
+      naturality {U V} f := by
+        ext x
+        change baseRingToSections R X V r • (M.val.map f).hom x =
+          (M.val.map f).hom (baseRingToSections R X U r • x)
+        rw [M.val.map_smul]
+        congr 1
+        exact congrArg (fun g => RingCat.Hom.hom g
+          (((Scheme.ΓSpecIso (.of R)).inv ≫ X.hom.appTop).hom r))
+          (X.left.ringCatSheaf.obj.map_comp U.unop.leTop.op f) }⟩
+    naturality {M N} f := by
+      change f ≫ _ = _ ≫ f
+      apply SheafOfModules.hom_ext
+      apply PresheafOfModules.hom_ext
+      intro U
+      apply ModuleCat.hom_ext
       ext x
-      change baseRingToSections R X V r • (M.val.map f).hom x =
-        (M.val.map f).hom (baseRingToSections R X U r • x)
-      rw [M.val.map_smul]
-      congr 1
-      exact congrArg (fun g => RingCat.Hom.hom g
-        (((Scheme.ΓSpecIso (.of R)).inv ≫ X.hom.appTop).hom r))
-        (X.left.ringCatSheaf.obj.map_comp U.unop.leTop.op f) }⟩
-  naturality {M N} f := by
-    change f ≫ _ = _ ≫ f
-    apply SheafOfModules.hom_ext
-    apply PresheafOfModules.hom_ext
-    intro U
-    apply ModuleCat.hom_ext
-    ext x
-    exact ((f.val.app U).hom.map_smul _ x).symm
+      exact ((f.val.app U).hom.map_smul _ x).symm }
 
 /-- The action of the base ring on the category of module sheaves. -/
 @[simps]
@@ -619,7 +620,9 @@ theorem quasicoherentIntegralTransform_preservesDirectSums
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨(pullback X.hom Y.hom).presheaf, (pullback X.hom Y.hom).IsSheaf⟩).obj K.obj
     let pf := Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)
-    let hHas₁ : HasColimitsOfShape (Discrete I) P₁.FullSubcategory := inferInstance
+    let hHasX : HasColimitsOfShape (Discrete I) X.left.Modules := inferInstance
+    let hHas₁ : HasColimitsOfShape (Discrete I) P₁.FullSubcategory :=
+      hasColimitsOfShape_of_closedUnderColimits (Discrete I) P₁
     let hCreates₁ : CreatesColimitsOfShape (Discrete I) (ObjectProperty.ι P₁) :=
       inferInstance
     let hι : PreservesColimitsOfShape (Discrete I) ι₁ :=

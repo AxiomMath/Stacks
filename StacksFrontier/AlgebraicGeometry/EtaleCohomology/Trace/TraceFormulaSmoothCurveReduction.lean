@@ -216,6 +216,8 @@ theorem canonicalTraceFormula_of_isOpenImmersion_of_dimLEZero (X : B.Scheme)
     CanonicalTraceFormula Λ kbar p q hcard f j K := by
   obtain ⟨Z, i, _, _, hrange⟩ := exists_isClosedImmersion_range_eq B X
     ⟨(Set.range jU.base)ᶜ, jU.isOpenEmbedding.isOpen_range.isClosed_compl⟩
+  have : LocallyOfFiniteType i := instLocallyOfFiniteTypeOfIsClosedImmersion i
+  have : LocallyOfFiniteType (i ≫ f) := locallyOfFiniteType_comp i f
   have hij : Set.range jU.base = (Set.range i.base)ᶜ := by
     rw [show Set.range i.base = (Set.range jU.base)ᶜ from hrange, compl_compl]
   have hZdim : topologicalKrullDim Z.obj ≤ ((0 : ℕ) : WithBot ℕ∞) :=
@@ -633,6 +635,8 @@ theorem traceFormulaUpToDim_one_of_smoothCurve
     TraceFormulaUpToDim B Λ kbar p q hcard 1 := by
   intro X f _ _ _ hX j K hK
   obtain ⟨Z, i, _, _, hrange⟩ := exists_isClosedImmersion_range_eq B X ⊤
+  have : LocallyOfFiniteType i := instLocallyOfFiniteTypeOfIsClosedImmersion i
+  have : LocallyOfFiniteType (i ≫ f) := locallyOfFiniteType_comp i f
   replace hrange : Set.range i.base = Set.univ := hrange
   let jU : (∅ : Scheme.{u}) ⟶ X.obj := Scheme.emptyTo X.obj
   have hij : Set.range jU.base = (Set.range i.base)ᶜ := by

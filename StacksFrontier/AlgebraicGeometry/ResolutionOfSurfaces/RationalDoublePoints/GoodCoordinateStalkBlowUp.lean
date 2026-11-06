@@ -251,10 +251,12 @@ ring, then the point also lies in the standard chart at `a`. -/
 theorem exists_blowupChartι_eq_of_span_eq {X : Scheme.{u}} (I : X.IdealSheafData)
     (U : X.affineOpens) (a b : I.ideal U) (z : Spec (.of (blowupChartRing I U b)))
     (hU : blowUpToBase I (blowupChartι I U b z) ∈ U.1)
-    (h : Ideal.span {((blowUpToBase I).stalkMap (blowupChartι I U b z))
-        (X.presheaf.germ U.1 _ hU (b : Γ(X, U.1)))} =
-      Ideal.span {((blowUpToBase I).stalkMap (blowupChartι I U b z))
-        (X.presheaf.germ U.1 _ hU (a : Γ(X, U.1)))}) :
+    (h : Ideal.span
+        {((blowUpToBase I).stalkMap (blowupChartι I U b z))
+          (X.presheaf.germ U.1 _ hU (b : Γ(X, U.1)))} =
+      Ideal.span
+        {((blowUpToBase I).stalkMap (blowupChartι I U b z))
+          (X.presheaf.germ U.1 _ hU (a : Γ(X, U.1)))}) :
     ∃ z0 : Spec (.of (blowupChartRing I U a)), blowupChartι I U a z0 = blowupChartι I U b z := by
   have hb := (mem_affineBlowupStandardOpen_iff_exceptionalIdeal_stalk_eq_span I U b
     (blowupChartι I U b z) hU).mp (blowupChartι_mem_range_relativeProjChart z)
@@ -287,9 +289,12 @@ theorem exists_blowupChartι_eq_of_span_blowUpStalkHom_eq (A : Type u) [CommRing
     (ha : (Scheme.ΓSpecIso (.of A)).inv.hom a ∈ (maximalIdealSheaf A).ideal ⟨⊤, isAffineOpen_top _⟩)
     (hb : (Scheme.ΓSpecIso (.of A)).inv.hom b ∈ (maximalIdealSheaf A).ideal ⟨⊤, isAffineOpen_top _⟩)
     (z : Spec (.of (blowupChartRing (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩ ⟨_, hb⟩)))
-    (h : Ideal.span {blowUpStalkHom A (blowupChartι (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩
-        ⟨_, hb⟩ z) b} = Ideal.span {blowUpStalkHom A (blowupChartι (maximalIdealSheaf A)
-          ⟨⊤, isAffineOpen_top _⟩ ⟨_, hb⟩ z) a}) :
+    (h : Ideal.span
+        {blowUpStalkHom A (blowupChartι (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩
+          ⟨_, hb⟩ z) b} =
+      Ideal.span
+        {blowUpStalkHom A (blowupChartι (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩
+          ⟨_, hb⟩ z) a}) :
     ∃ z0 : Spec (.of (blowupChartRing (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩ ⟨_, ha⟩)),
       blowupChartι (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩ ⟨_, ha⟩ z0 =
         blowupChartι (maximalIdealSheaf A) ⟨⊤, isAffineOpen_top _⟩ ⟨_, hb⟩ z := by
@@ -406,8 +411,9 @@ theorem RationalDoublePointSituation.isGoodCoordinate_stalk_blowUp
   · subst hj
     exact key0 z hz
   obtain ⟨k, rfl⟩ := Fin.exists_succ_eq.mpr hj
-  have hcl : IsClosed ({blowupChartι (maximalIdealSheaf S.A) ⟨⊤, isAffineOpen_top _⟩
-      ⟨g' k.succ, hg' k.succ⟩ z} : Set (blowUp (maximalIdealSheaf S.A))) := hz ▸ hclosed
+  have hcl : IsClosed
+      ({blowupChartι (maximalIdealSheaf S.A) ⟨⊤, isAffineOpen_top _⟩
+          ⟨g' k.succ, hg' k.succ⟩ z} : Set (blowUp (maximalIdealSheaf S.A))) := hz ▸ hclosed
   have := isMaximal_of_isClosed_singleton_blowupChartι _ _ _ z hcl
   have : IsLocalHom (blowUpStalkHom S.A (blowupChartι (maximalIdealSheaf S.A)
       ⟨⊤, isAffineOpen_top _⟩ ⟨g' k.succ, hg' k.succ⟩ z)) :=

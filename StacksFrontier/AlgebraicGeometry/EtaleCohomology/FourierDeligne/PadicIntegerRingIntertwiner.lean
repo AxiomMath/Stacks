@@ -194,10 +194,11 @@ theorem latticeChangeMatrixInv_mul_coefficientScalarRingHom
       _ = _ := by
           rw [latticeChangeMatrixInv_mul_latticeChangeMatrix, Matrix.smul_mul, Matrix.one_mul,
             Matrix.smul_mul]
-  ext i j
+  refine Matrix.ext fun i j => ?_
   have hij := congrFun (congrFun hK i) j
   simp only [Matrix.smul_apply, nsmul_eq_mul] at hij
-  exact mul_left_cancel₀ (Nat.cast_ne_zero.2 (latticeChangeDegree_ne_zero b σ hσ)) hij
+  refine mul_left_cancel₀ ?_ hij
+  exact Nat.cast_ne_zero.2 (latticeChangeDegree_ne_zero b σ hσ)
 
 /-- **Integral intertwiners between an `O_E`-model of `σ` and the integral model of `Res_b σ`**:
 for `τ_O ⊗ E = T⁻¹ σ T`, matrices `A`, `A'` over `ℤ_ℓ` with

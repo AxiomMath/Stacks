@@ -248,7 +248,7 @@ lemma map_sectionRestriction (F : AbelianTorsor (G.over U))
         (sectionRestriction E G F s (fun b ↦ k (j.succAbove b)) m) =
       sectionRestriction E G F s k (j.succAbove m) := by
   have hc : faceProjection E k j ≫ Pi.π (fun b ↦ Over.mk (E.f (k (j.succAbove b)))) m =
-      Pi.π (fun c ↦ Over.mk (E.f (k c))) (j.succAbove m) := Pi.lift_π _ _
+      Pi.π (fun c ↦ Over.mk (E.f (k c))) (j.succAbove m) := Pi.lift_comp_π _ _
   show F.1.presheaf.map (faceProjection E k j).op
       (F.1.presheaf.map (Pi.π (fun b ↦ Over.mk (E.f (k (j.succAbove b)))) m).op
         (s (k (j.succAbove m)))) =
@@ -528,8 +528,8 @@ lemma map_eq_of_transitionCochain_eq_zero (F : AbelianTorsor (G.over U))
     F.1.presheaf.map a.op (s (k 0)) = F.1.presheaf.map b.op (s (k 1)) := by
   let u : W ⟶ (∏ᶜ fun m ↦ Over.mk (E.f (k m))) :=
     Pi.lift (fun m ↦ match m with | 0 => a | 1 => b)
-  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_π _ _
-  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = b := Pi.lift_π _ _
+  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_comp_π _ _
+  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = b := Pi.lift_comp_π _ _
   have heq : sectionRestriction E G F s k 1 = sectionRestriction E G F s k 0 :=
     eq_of_torsorDifference_eq_zero (G.over U) F _ _ _ (congrFun hs k)
   have e0 := map_sectionRestriction_comp E G F s k 0 u

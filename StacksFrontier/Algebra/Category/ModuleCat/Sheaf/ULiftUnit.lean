@@ -491,7 +491,7 @@ theorem mono_moduleULift_map {M N : _root_.SheafOfModules.{v} R} (φ : M ⟶ N) 
   (_root_.SheafOfModules.forget R).mono_of_mono_map
     (PresheafOfModules.mono_of_injective
       (f := ((moduleULift.{t, v} R).map φ).val)
-      (fun {X} _ _ h => ULift.ext _ _ (injective_app_of_mono φ X (congrArg ULift.down h))))
+      (fun {X} _ _ h => ULift.ext (injective_app_of_mono φ X (congrArg ULift.down h))))
 
 /-! ### Separatedness, and killing the local closure of a range -/
 

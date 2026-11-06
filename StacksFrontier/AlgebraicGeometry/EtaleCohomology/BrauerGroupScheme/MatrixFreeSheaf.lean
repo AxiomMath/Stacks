@@ -140,7 +140,7 @@ theorem iso_unit_conj_tensorHom (w : 𝟙_ C ⊗ 𝟙_ C ≅ 𝟙_ C) (a b : �
 commutative.** -/
 scoped instance commRingUnitEnd [Preadditive C] : CommRing (End (𝟙_ C)) :=
   { (inferInstance : Ring (End (𝟙_ C))) with
-    mul_comm := fun a b => comp_comm_unitEnd b a }
+    mul_comm := fun a b => End.ext (comp_comm_unitEnd b.asHom a.asHom) }
 
 section Biproducts
 
@@ -220,14 +220,15 @@ theorem unitTensorBiproductIso_hom_comp_biproduct_π (I K : Type) [Finite I] [Fi
 cannot see either through the bare function type that `biproduct.matrixEquiv` is stated at. -/
 def unitMatrixEquiv (I : Type) [Finite I] :
     ((⨁ fun _ : I => 𝟙_ C) ⟶ ⨁ fun _ : I => 𝟙_ C) ≃ Matrix I I (End (𝟙_ C)) :=
-  biproduct.matrixEquiv
+  biproduct.matrixEquiv.trans
+    (Equiv.piCongrRight fun _ => Equiv.piCongrRight fun _ => End.homEquiv.symm)
 
 omit [MonoidalPreadditive C] in
 /-- The `(i, j)` entry of the matrix of `F` is the `(i, j)` component of `F` as a morphism of
 biproducts. -/
 lemma unitMatrixEquiv_apply (I : Type) [Finite I]
     (F : (⨁ fun _ : I => 𝟙_ C) ⟶ ⨁ fun _ : I => 𝟙_ C) (i j : I) :
-    unitMatrixEquiv I F i j = biproduct.components F i j := rfl
+    unitMatrixEquiv I F i j = End.of (biproduct.components F i j) := rfl
 
 omit [MonoidalPreadditive C] in
 /-- **The identity has the identity matrix.** -/
@@ -235,6 +236,7 @@ theorem unitMatrixEquiv_id (I : Type) [Finite I] [DecidableEq I] :
     unitMatrixEquiv I (𝟙 (⨁ fun _ : I => 𝟙_ C)) = 1 := by
   funext i j
   rw [unitMatrixEquiv_apply]
+  ext
   rcases eq_or_ne i j with rfl | h
   · simp [biproduct.components, Matrix.one_apply_eq]
   · simp [biproduct.components, Matrix.one_apply_ne h, biproduct.ι_π_ne _ h]
@@ -252,7 +254,9 @@ theorem unitMatrixEquiv_comp (I : Type) [Fintype I]
     rw [← CategoryTheory.SimplicialObject.EilenbergMacLane.biproduct_matrix_comp,
       biproduct.components_matrix, biproduct.components_matrix]
   funext j l
-  rw [unitMatrixEquiv_apply, h, biproduct.matrix_components, Matrix.mul_apply]
+  ext
+  simp only [unitMatrixEquiv_apply, h, biproduct.matrix_components, Matrix.mul_apply,
+    End.sum_asHom, End.mul_asHom]
   exact Finset.sum_congr rfl fun k _ => comp_comm_unitEnd _ _
 
 /-- **The Kronecker law.** Under the standard-basis identification
@@ -264,13 +268,14 @@ theorem unitMatrixEquiv_tensorHom (I K : Type) [Finite I] [Finite K]
     unitMatrixEquiv (I × K) ((unitTensorBiproductIso I K).inv ≫ (F ⊗ₘ G) ≫
         (unitTensorBiproductIso I K).hom) (i, k) (i', k') =
       unitMatrixEquiv I F i i' * unitMatrixEquiv K G k k' := by
-  rw [unitMatrixEquiv_apply]
-  simp only [biproduct.components, Category.assoc]
+  ext
+  rw [End.mul_asHom, comp_comm_unitEnd (unitMatrixEquiv K G k k').asHom]
+  simp only [unitMatrixEquiv_apply, biproduct.components, Category.assoc]
   rw [biproduct_ι_comp_unitTensorBiproductIso_inv_assoc,
     unitTensorBiproductIso_hom_comp_biproduct_π]
   simp only [tensorHom_comp_tensorHom_assoc]
   rw [iso_unit_conj_tensorHom]
-  exact comp_comm_unitEnd _ _
+  simp only [Category.assoc]
 
 end Biproducts
 
@@ -351,6 +356,7 @@ theorem freeEndMatrixEquiv_add (I : Type) [Finite I]
   funext i j
   simp only [freeEndMatrixEquiv_apply, unitMatrixEquiv_apply, Matrix.add_apply,
     biproduct.components, Category.assoc, Preadditive.comp_add, Preadditive.add_comp]
+  rfl
 
 /-- **The matrix dictionary as a ring isomorphism.** `CategoryTheory.End` multiplies in the
 order of `Function.comp`, so the entrywise dictionary is anti-multiplicative for that
@@ -359,15 +365,15 @@ the reversal. -/
 def freeEndRingEquiv (I : Type) [Fintype I] [DecidableEq I] :
     End (_root_.SheafOfModules.free (R := Tensor.ringSheaf S.sheaf) (ULift.{u, 0} I)) ≃+*
       Matrix I I (R₀ S) where
-  toFun f := (freeEndMatrixEquiv S I f).transpose
-  invFun M := (freeEndMatrixEquiv S I).symm M.transpose
+  toFun f := (freeEndMatrixEquiv S I f.asHom).transpose
+  invFun M := End.of ((freeEndMatrixEquiv S I).symm M.transpose)
   left_inv f := by simp
   right_inv M := by simp
   map_add' f g :=
-    (congrArg Matrix.transpose (freeEndMatrixEquiv_add S I f g)).trans
+    (congrArg Matrix.transpose (freeEndMatrixEquiv_add S I f.asHom g.asHom)).trans
       (Matrix.transpose_add _ _)
   map_mul' f g := by
-    change (freeEndMatrixEquiv S I (g ≫ f)).transpose = _
+    change (freeEndMatrixEquiv S I (g.asHom ≫ f.asHom)).transpose = _
     rw [freeEndMatrixEquiv_comp, Matrix.transpose_mul]
 
 /-- **The standard-basis identification `free (ULift I) ⊗ free (ULift K) ≅ free (ULift (I×K))`**

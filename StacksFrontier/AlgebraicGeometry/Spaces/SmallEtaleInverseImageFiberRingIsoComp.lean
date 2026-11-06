@@ -188,6 +188,8 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W Y Z : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1000000 in
 /-- The ring-level composition law in inverse-image form is, on underlying sheaves of sets, the
 geometric one, at every sheaf of commutative rings. -/
 theorem forgetRing_map_compInverseImageRingIso_hom (a : W ⟶ Y) (b : Y ⟶ Z)

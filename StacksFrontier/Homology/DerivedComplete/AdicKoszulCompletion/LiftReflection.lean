@@ -151,8 +151,8 @@ private theorem map_difference_comparison
   apply Pi.hom_ext
   intro index
   dsimp only [sequenceDifference]
-  rw [Category.assoc, piComparison_comp_π, ← F.map_comp, Pi.lift_π,
-    Category.assoc, Pi.lift_π, Preadditive.comp_sub, piComparison_comp_π,
+  rw [Category.assoc, piComparison_comp_π, ← F.map_comp, Pi.lift_comp_π,
+    Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, piComparison_comp_π,
     F.map_sub, F.map_comp, ← Category.assoc, piComparison_comp_π]
 
 private theorem isIso_difference_map_iff

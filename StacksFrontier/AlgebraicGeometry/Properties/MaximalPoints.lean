@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.AlgebraicGeometry.Properties
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 public import Mathlib.Topology.Inseparable
 public import Mathlib.Topology.Sober

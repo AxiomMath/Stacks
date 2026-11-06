@@ -81,6 +81,19 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_isolatedFibrePoint
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_isolatedFibrePoint
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_isolatedFibrePoint B S hS).has_limit _
+
 /-! ### The field fibre as a space over the spectrum of a field -/
 
 /-- The field fibre of a morphism of algebraic spaces along a field-valued point of the target

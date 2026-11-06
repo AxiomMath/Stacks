@@ -234,7 +234,7 @@ theorem hom_ext_of_derivationEquiv (n : SimplexCategoryᵒᵖ) {M : targetModule
       ((cotangentSimplicialModule J f).derivationEquiv n M h₁).d x =
         ((cotangentSimplicialModule J f).derivationEquiv n M h₂).d x) : h₁ = h₂ :=
   ((cotangentSimplicialModule J f).derivationEquiv n M).injective
-    (PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext (hd U)))
+    (PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext (hd U)))
 
 /-- A face of the standard resolution acts on derivations by precomposition. -/
 theorem derivationEquiv_delta (n : ℕ) (M : targetModules J B) (k : Fin (n + 2))
@@ -285,7 +285,7 @@ theorem tensorDifferentialSections_map {U V : Cᵒᵖ} (g : U ⟶ V)
         b ⊗ₜ[(resolutionTerm J f (op ⦋0⦌)).obj.obj V] ω)
     (map_one ((Stacks.Sites.Conormal.quotientPresheaf
       (resolutionAugmentation J f (op ⦋0⦌)).hom).map g).hom).symm
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
       (resolutionBase J f (op ⦋0⦌)).hom g p).symm
 
 /-- The universal derivation `p ↦ 1 ⊗ d p` of `P₀` with values in the middle term

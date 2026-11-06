@@ -154,7 +154,7 @@ public theorem localEulerFactor_frobeniusDataOfPath
       (representationFrobeniusMatrices f base σ).localFactor y := by
   have := finite_residueField f y.1 y.2
   set t' := (nonempty_finiteEtaleFiberFunctorIso X (geometricPointAt X y.1) base).some
-  let g : EtaleFundamentalGroup X base := t.symm ≪≫ t'
+  let g : EtaleFundamentalGroup X base := Aut.of (t.symm ≪≫ t')
   have hg : (frobeniusDataOfPath base y t').element =
       g * (frobeniusDataOfPath base y t).element * g⁻¹ := by
     rw [← FrobeniusData.element_path_trans]
@@ -217,6 +217,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   (σ : EtaleFundamentalGroup X.1 x →* GL (Fin r) E) (P : GL (Fin r) E)
   (hP : ∀ g, Matrix.GeneralLinearGroup.map (algebraMap (integralClosure ℤ_[ℓ] E) E) (σO g) =
     P * σ g * P⁻¹)
+
+/-- The rational stalk is a free `ℚ_ℓ`-module (it is a vector space); stated here since instance
+search times out finding it through the tensor product. -/
+local instance moduleFree_rationalStalkLeft_lFunctionFrobenius (F : LAdicSheaf.{u, u + 1} B X ℓ)
+    (y : GeometricPoint X.1) : Module.Free ℚ_[ℓ] (LAdicSheaf.rationalStalkLeft B X ℓ F y) :=
+  Module.Free.of_divisionRing _ _
 
 include hP in
 /-- **The geometric Frobenius `π_y^*` on the rational stalk of the `O_E`-sheaf `ℱ` of `σ_O` has

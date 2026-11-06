@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Filtered.Basic
 public import Mathlib.CategoryTheory.Quotient
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 public import StacksFrontier.CategoryTheory.Sites.Hypercovering.CechOfCovering
 public import StacksFrontier.CategoryTheory.Sites.Hypercovering.CoveringAndHomotopies.Homotopy
 public import StacksFrontier.CategoryTheory.Sites.Hypercovering.CoveringAndHomotopies.Product

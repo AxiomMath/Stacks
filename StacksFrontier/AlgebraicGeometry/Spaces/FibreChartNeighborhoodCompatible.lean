@@ -42,6 +42,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+private local instance (priority := high) hasPullbacks_presheaf_compatible :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private local instance (priority := high) hasPullback_presheaf_compatible
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_compatible B S hS).has_limit _
+
 /-- Let `X ⟶ Y` be a morphism of presheaves on the big fppf site of `S` with `X` and `Y` algebraic
 spaces, let `q : V ⟶ Y` be a scheme chart of the target which is surjective and étale after every
 represented base change, let `k'` be a field in the site and let `ρ : Spec k' ⟶ V` be a morphism of

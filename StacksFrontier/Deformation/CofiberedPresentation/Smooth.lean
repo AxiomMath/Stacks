@@ -60,45 +60,45 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 private theorem isSmooth_comp_equivalence_elements
     {R : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type uR}
     {𝓨 : BasedCategory.{vY, uY} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
-    (E : (BasedCategory.ofFunctor (CategoryOfElements.π R)).obj ≌ 𝓨.obj)
-    (hE : E.functor ⋙ 𝓨.p = CategoryOfElements.π R)
+    (E : (BasedCategory.ofFunctor (Functor.Elements.π R)).obj ≌ 𝓨.obj)
+    (hE : E.functor ⋙ 𝓨.p = Functor.Elements.π R)
     {𝓩 : BasedCategory.{vZ, uZ} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
     (g : BasedFunctor 𝓨 𝓩)
     (hg : IsSmooth g) :
     IsSmooth
       (BasedFunctor.comp ({ toFunctor := E.functor, w := hE } :
-        BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π R))
+        BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π R))
           𝓨) g) := by
   classical
   dsimp [IsSmooth] at hg ⊢
   intro B A f₀ hf y x h hlift
-  let e : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π R))
+  let e : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π R))
       𝓨 := { toFunctor := E.functor
              w := by simpa only [BasedCategory.ofFunctor] using hE }
   obtain ⟨z, hz, a, hhz, haz, hcomm⟩ := hg f₀ hf y (e.obj x) h hlift
-  let x₀ : (BasedCategory.ofFunctor (CategoryOfElements.π R)).obj := E.inverse.obj z
+  let x₀ : (BasedCategory.ofFunctor (Functor.Elements.π R)).obj := E.inverse.obj z
   let i : E.functor.obj x₀ ≅ z := E.counitIso.app z
-  have hx₀ : 𝓨.p.obj (e.obj x₀) = x₀.1 := Functor.congr_obj hE x₀
+  have hx₀ : 𝓨.p.obj (e.obj x₀) = x₀.obj := Functor.congr_obj hE x₀
   let : 𝓨.p.IsHomLift f₀ hz := hhz
   have hzB : 𝓨.p.obj z = B := IsHomLift.domain_eq 𝓨.p f₀ hz
-  let α : x₀.1 ⟶ B := eqToHom hx₀.symm ≫ 𝓨.p.map i.hom ≫ eqToHom hzB
+  let α : x₀.obj ⟶ B := eqToHom hx₀.symm ≫ 𝓨.p.map i.hom ≫ eqToHom hzB
   have hqI : IsIso (𝓨.p.map i.hom) := Functor.map_isIso 𝓨.p i.hom
   have hα : IsIso α := by dsimp [α]; infer_instance
   let : IsIso α := hα
-  let x' : (BasedCategory.ofFunctor (CategoryOfElements.π R)).obj := ⟨B, R.map α x₀.2⟩
+  let x' : (BasedCategory.ofFunctor (Functor.Elements.π R)).obj := R.elementsMk B (R.map α x₀.val)
   let k₀ : x₀ ⟶ x' := ⟨α, rfl⟩
-  have hm : (CategoryOfElements.π R).map k₀ = α := rfl
-  have hk₀ : (CategoryOfElements.π R).IsHomLift α k₀ := by
+  have hm : (Functor.Elements.π R).map k₀ = α := rfl
+  have hk₀ : (Functor.Elements.π R).IsHomLift α k₀ := by
     rw [← hm]
-    exact IsHomLift.map (CategoryOfElements.π R) k₀
-  let : (BasedCategory.ofFunctor (CategoryOfElements.π R)).p.IsHomLift α k₀ := by
+    exact IsHomLift.map (Functor.Elements.π R) k₀
+  let : (BasedCategory.ofFunctor (Functor.Elements.π R)).p.IsHomLift α k₀ := by
     simpa only [BasedCategory.ofFunctor] using hk₀
   have hEk₀ : 𝓨.p.IsHomLift α (e.map k₀) := e.preserves_isHomLift α k₀
   let : 𝓨.p.IsHomLift α (e.map k₀) := hEk₀
-  have hπiso : IsIso ((CategoryOfElements.π R).map k₀) := by simpa [hm] using hα
-  let : IsIso ((CategoryOfElements.π R).map k₀) := hπiso
-  let : (CategoryOfElements.π R).ReflectsIsomorphisms := inferInstance
-  have hk₀_iso : IsIso k₀ := isIso_of_reflects_iso k₀ (CategoryOfElements.π R)
+  have hπiso : IsIso ((Functor.Elements.π R).map k₀) := by simpa [hm] using hα
+  let : IsIso ((Functor.Elements.π R).map k₀) := hπiso
+  let : (Functor.Elements.π R).ReflectsIsomorphisms := inferInstance
+  have hk₀_iso : IsIso k₀ := isIso_of_reflects_iso k₀ (Functor.Elements.π R)
   have hi : 𝓨.p.IsHomLift α i.hom := by
     apply IsHomLift.of_fac 𝓨.p α i.hom hx₀ hzB
     rfl
@@ -120,7 +120,7 @@ private theorem isSmooth_comp_equivalence_elements
   let h' : x' ⟶ x := e.toFunctor.preimage m
   have hmap : e.map h' = m := by simp [h']
   have hEMap : 𝓨.p.IsHomLift f₀ (e.map h') := by rw [hmap]; exact hfj
-  have hh' : (CategoryOfElements.π R).IsHomLift f₀ h' := by
+  have hh' : (Functor.Elements.π R).IsHomLift f₀ h' := by
     let : 𝓨.p.IsHomLift f₀ (e.map h') := hEMap
     exact e.isHomLift_map f₀ h'
   let a' : g.obj (e.obj x') ⟶ y := g.map j.hom ≫ a
@@ -291,7 +291,7 @@ private theorem isSmooth_comp_basedEquivalence_target
     simp
   have htriangleX : E.counitIso.inv.app (E.functor.obj (g.obj x)) ≫
       E.functor.map (E.unitIso.inv.app (g.obj x)) = 𝟙 (E.functor.obj (g.obj x)) :=
-    E.counitIso_functor_comp (g.obj x)
+    E.counitInv_functor_comp (g.obj x)
   have hmapUnitInv : E.functor.map (E.unitIso.inv.app (g.obj x)) =
       E.counitIso.hom.app (E.functor.obj (g.obj x)) := by
     apply (cancel_epi (E.counitIso.inv.app (E.functor.obj (g.obj x)))).1
@@ -366,9 +366,9 @@ private def uliftElementsBasedFunctor
     {C : Type u} [Category.{v} C]
     (U : C ⥤ Type uU) :
     BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π U))
+      (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor
-        (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU}))) where
+        (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU}))) where
   toFunctor := (uliftElementsEquivalence U).functor
   w := rfl
 
@@ -377,8 +377,8 @@ private def uliftElementsInverseBasedFunctor
     (U : C ⥤ Type uU) :
     BasedFunctor
       (BasedCategory.ofFunctor
-        (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})))
-      (BasedCategory.ofFunctor (CategoryOfElements.π U)) where
+        (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})))
+      (BasedCategory.ofFunctor (Functor.Elements.π U)) where
   toFunctor := (uliftElementsEquivalence U).inverse
   w := rfl
 
@@ -386,41 +386,41 @@ private theorem uliftElementsCounitVertical
     {C : Type u} [Category.{v} C]
     (U : C ⥤ Type uU) (x : (U ⋙ uliftFunctor.{uL, uU}).Elements) :
     (BasedCategory.ofFunctor
-      (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
-        (𝟙 ((CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})).obj x))
+      (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
+        (𝟙 ((Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).obj x))
         ((uliftElementsEquivalence U).counitIso.hom.app x) := by
   show (BasedCategory.ofFunctor
-    (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
-      (𝟙 ((CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})).obj x)) (𝟙 x)
+    (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
+      (𝟙 ((Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).obj x)) (𝟙 x)
   exact IsHomLift.id rfl
 
 private theorem uliftElementsUnitVertical
     {C : Type u} [Category.{v} C]
     (U : C ⥤ Type uU) (x : U.Elements) :
-    (BasedCategory.ofFunctor (CategoryOfElements.π U)).p.IsHomLift
-      (𝟙 ((CategoryOfElements.π U).obj x))
+    (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
+      (𝟙 ((Functor.Elements.π U).obj x))
       ((uliftElementsEquivalence U).unitIso.hom.app x) := by
-  show (BasedCategory.ofFunctor (CategoryOfElements.π U)).p.IsHomLift
-    (𝟙 ((CategoryOfElements.π U).obj x)) (𝟙 x)
+  show (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
+    (𝟙 ((Functor.Elements.π U).obj x)) (𝟙 x)
   exact IsHomLift.id rfl
 
 private theorem uliftElementsInverseMapIsHomLift
     {C : Type u} [Category.{v} C]
     (U : C ⥤ Type uU) {a b : (U ⋙ uliftFunctor.{uL, uU}).Elements}
     (m : a ⟶ b) {R S : C} (f : R ⟶ S)
-    (hm : (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})).IsHomLift f m) :
-    (CategoryOfElements.π U).IsHomLift f
+    (hm : (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).IsHomLift f m) :
+    (Functor.Elements.π U).IsHomLift f
       ((uliftElementsEquivalence U).inverse.map m) := by
   let E := uliftElementsEquivalence U
-  let : (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})).IsHomLift f m := hm
-  have hdom : (CategoryOfElements.π U).obj (E.inverse.obj a) = R := by
+  let : (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).IsHomLift f m := hm
+  have hdom : (Functor.Elements.π U).obj (E.inverse.obj a) = R := by
     dsimp [E, uliftElementsEquivalence]
-    exact IsHomLift.domain_eq (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})) f m
-  have hcod : (CategoryOfElements.π U).obj (E.inverse.obj b) = S := by
+    exact IsHomLift.domain_eq (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})) f m
+  have hcod : (Functor.Elements.π U).obj (E.inverse.obj b) = S := by
     dsimp [E, uliftElementsEquivalence]
-    exact IsHomLift.codomain_eq (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})) f m
-  exact IsHomLift.of_fac' (CategoryOfElements.π U) f (E.inverse.map m) hdom hcod
-    (IsHomLift.fac' (CategoryOfElements.π (U ⋙ uliftFunctor.{uL, uU})) f m)
+    exact IsHomLift.codomain_eq (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})) f m
+  exact IsHomLift.of_fac' (Functor.Elements.π U) f (E.inverse.map m) hdom hcod
+    (IsHomLift.fac' (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})) f m)
 
 private def twoFibreProductSwapBased
     {X : Type uX} [Category.{vX} X]
@@ -504,16 +504,16 @@ composite with the inverse of the universe-lift equivalence, up to a vertical is
 private theorem isSmooth_of_natIso_comp_uliftInverse
     {𝓧 : BasedCategory.{vX, uX} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
     {R : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type uU}
-    (K : BasedFunctor 𝓧 (BasedCategory.ofFunctor (CategoryOfElements.π R)))
+    (K : BasedFunctor 𝓧 (BasedCategory.ofFunctor (Functor.Elements.π R)))
     (G : BasedFunctor 𝓧
-      (BasedCategory.ofFunctor (CategoryOfElements.π (R ⋙ uliftFunctor.{uL, uU}))))
+      (BasedCategory.ofFunctor (Functor.Elements.π (R ⋙ uliftFunctor.{uL, uU}))))
     (α : K.toFunctor ≅ (BasedFunctor.comp G (uliftElementsInverseBasedFunctor R)).toFunctor)
-    (hα : ∀ x, (BasedCategory.ofFunctor (CategoryOfElements.π R)).p.IsHomLift
+    (hα : ∀ x, (BasedCategory.ofFunctor (Functor.Elements.π R)).p.IsHomLift
       (𝟙 (𝓧.p.obj x)) (α.hom.app x))
     (hK : IsSmooth K) : IsSmooth G := by
   have h := isSmooth_comp_basedEquivalence_target
-    (𝓨 := BasedCategory.ofFunctor (CategoryOfElements.π R))
-    (𝓩 := BasedCategory.ofFunctor (CategoryOfElements.π (R ⋙ uliftFunctor.{uL, uU})))
+    (𝓨 := BasedCategory.ofFunctor (Functor.Elements.π R))
+    (𝓩 := BasedCategory.ofFunctor (Functor.Elements.π (R ⋙ uliftFunctor.{uL, uU})))
     (uliftElementsEquivalence R) rfl
     (uliftElementsUnitVertical.{_, _, _, uL} R) (uliftElementsCounitVertical R)
     (fun m _ _ f hm => uliftElementsInverseMapIsHomLift R m f hm)
@@ -526,14 +526,14 @@ private theorem isSmooth_of_natIso_comp_uliftInverse
     (fun x => ?_) (by simpa [BasedFunctor.comp, uliftElementsInverseBasedFunctor,
       uliftElementsBasedFunctor] using h)
   have h := uliftElementsCounitVertical R (G.obj x)
-  rwa [show (CategoryOfElements.π (R ⋙ uliftFunctor.{uL, uU})).obj (G.obj x) = 𝓧.p.obj x
+  rwa [show (Functor.Elements.π (R ⋙ uliftFunctor.{uL, uU})).obj (G.obj x) = 𝓧.p.obj x
     from G.w_obj x] at h
 
 variable {F : Type uF} [Category.{vF} F]
 variable (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k)
 variable (U : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type uU)
 variable (f : BasedFunctor
-  (BasedCategory.ofFunctor (CategoryOfElements.π U))
+  (BasedCategory.ofFunctor (Functor.Elements.π U))
   (BasedCategory.ofFunctor p))
 
 /-- A smooth presentation has a smooth associated groupoid in functors.
@@ -552,11 +552,11 @@ theorem isSmooth_presentationGroupoid
     classical
     let P := presentationGroupoid p U f.toFunctor f.w hp
     let : Category (TwoFibreProductOver
-        (CategoryOfElements.π U) (CategoryOfElements.π U) p f.toFunctor f.toFunctor) :=
+        (Functor.Elements.π U) (Functor.Elements.π U) p f.toFunctor f.toFunctor) :=
       TwoFibreProductOver.instCategory
     let Q := twoFibreProductBasedCategory f f
     let snd := twoFibreProductSnd f f
-    let e : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π P.arrows)) Q :=
+    let e : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π P.arrows)) Q :=
       { toFunctor := P.fibreProductEquivalence.functor
         w := P.fibreProductOverBase }
     have hsnd : IsSmooth snd :=
@@ -564,8 +564,8 @@ theorem isSmooth_presentationGroupoid
     let hsrc := isSmooth_comp_equivalence_elements (R := P.arrows) (𝓨 := Q)
       P.fibreProductEquivalence P.fibreProductOverBase snd hsnd
     have hsourceVertical : ∀ x,
-        (BasedCategory.ofFunctor (CategoryOfElements.π U)).p.IsHomLift
-          (𝟙 ((BasedCategory.ofFunctor (CategoryOfElements.π P.arrows)).p.obj x))
+        (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
+          (𝟙 ((BasedCategory.ofFunctor (Functor.Elements.π P.arrows)).p.obj x))
           (P.sourceProjectionIso.hom.app x) := fun x =>
       isHomLift_id_of_map_eq_eqToHom _ _
         ((P.fibreProductEquivalence.functor.obj x).hy.trans
@@ -574,18 +574,18 @@ theorem isSmooth_presentationGroupoid
     have hsource : IsSmooth (elementsBasedFunctor P.source) :=
       isSmooth_of_natIso_comp_uliftInverse (BasedFunctor.comp e snd) _
         P.sourceProjectionIso hsourceVertical hsrc
-    let eswap := twoFibreProductSwapBased (pX := CategoryOfElements.π U)
+    let eswap := twoFibreProductSwapBased (pX := Functor.Elements.π U)
       (pS := p) (F := f.toFunctor)
-    let fst : BasedFunctor Q (BasedCategory.ofFunctor (CategoryOfElements.π U)) :=
+    let fst : BasedFunctor Q (BasedCategory.ofFunctor (Functor.Elements.π U)) :=
       { toFunctor := TwoFibreProductOver.fst
-          (CategoryOfElements.π U) (CategoryOfElements.π U) p f.toFunctor f.toFunctor
+          (Functor.Elements.π U) (Functor.Elements.π U) p f.toFunctor f.toFunctor
         w := TwoFibreProductOver.fst_comp_eq }
     have hfst : IsSmooth fst := isSmooth_comp_basedEquivalence eswap snd hsnd
     let htar := isSmooth_comp_equivalence_elements (R := P.arrows) (𝓨 := Q)
       P.fibreProductEquivalence P.fibreProductOverBase fst hfst
     have htargetVertical : ∀ x,
-        (BasedCategory.ofFunctor (CategoryOfElements.π U)).p.IsHomLift
-          (𝟙 ((BasedCategory.ofFunctor (CategoryOfElements.π P.arrows)).p.obj x))
+        (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
+          (𝟙 ((BasedCategory.ofFunctor (Functor.Elements.π P.arrows)).p.obj x))
           (P.targetProjectionIso.hom.app x) := fun x =>
       isHomLift_id_of_map_eq_eqToHom _ _
         ((P.fibreProductEquivalence.functor.obj x).hx.trans

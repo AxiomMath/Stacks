@@ -73,6 +73,7 @@ theorem completionSubfunctor_ι_whiskerRight_eq {X W : (BigFppfOver B S hS)ᵒ�
       (hB k).symm).trans ((Category.assoc _ _ _).symm.trans
         ((congrArg (· ≫ (sheafifiedULiftMap B S hS k).hom) hA.symm).trans
           (Category.assoc _ _ _))))
+  have : Mono (J.toSheafify (W ⋙ uliftFunctor.{u + 1})) := IsIso.mono_of_iso _
   rw [← cancel_mono (J.toSheafify (W ⋙ uliftFunctor.{u + 1})), key, key]
   exact congrArg (J.toSheafify (completionSubfunctor B S hS X T).toFunctor ≫ ·)
     (congrArg (fun f => f.hom) h)
@@ -82,6 +83,19 @@ end Space
 namespace Artin
 
 attribute [local instance] Space.pointTopology
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ContractionWitnessComparison
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ContractionWitnessComparison
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 namespace ContractionSituation
 
@@ -257,8 +271,8 @@ theorem CompatibilityWitness.exists_hom {V : BigFppfOver B S hS}
         (h2.trans ω.isPullback_xhat'.isoPullback_hom_snd)
   -- `ψ` restricts to the identifications of `V ∖ Z`
   have hjψ : ω.j ≫ ψ.left = ω'.j := by
-    simpa using eq_comp_of_isPullback_id_left ω'.isPullback_j (a := 𝟙 _)
-      (by rw [Category.assoc, hp, ← ω.isPullback_j.w])
+    exact (eq_comp_of_isPullback_id_left ω'.isPullback_j (a := 𝟙 _)
+      (by rw [Category.assoc, hp, ← ω.isPullback_j.w])).trans (Category.id_comp _)
   have hN := Space.hasEtaleLocalProperty_isLocallyNoetherian_of_isLocallyOfFiniteType B S hS
     ω.isAlgebraicSpace_V' hVsp ω.p ω.isProper_p.2.1.1
     (FormalSpace.hasEtaleLocalProperty_isLocallyNoetherian_of_isLocallyNoetherian hVsp hVN)

@@ -67,6 +67,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_GorensteinBaseLocus :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_GorensteinBaseLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_GorensteinBaseLocus B S hS).has_limit _
+
 /-- The locus in the target of a morphism of algebraic spaces over `S` over which the morphism
 is Gorenstein: the points of the target every preimage of which is a Gorenstein point of the
 morphism in the sense of Tag 0E14. -/

@@ -104,7 +104,7 @@ public lemma principalComplexUnit_π (f : A) (C : CochainComplex (ModuleCat.{v} 
     principalComplexUnit A f C ≫
         Pi.π (fun n : ℕ ↦ (principalComplexSystem A f C).obj ⟨n⟩) n =
       CochainComplex.mappingCone.inr (f ^ (n + 1) • 𝟙 C) := by
-  apply Pi.lift_π
+  apply Pi.lift_comp_π
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The compatible cone inclusions are killed by `1 - shift`. -/
@@ -112,7 +112,7 @@ public lemma principalComplexUnit_difference (f : A) (C : CochainComplex (Module
     principalComplexUnit A f C ≫ complexDifference A (principalComplexSystem A f C) = 0 := by
   apply Pi.hom_ext
   intro n
-  rw [Category.assoc, complexDifference, Pi.lift_π, comp_sub, ← Category.assoc,
+  rw [Category.assoc, complexDifference, Pi.lift_comp_π, comp_sub, ← Category.assoc,
     principalComplexUnit_π, principalComplexUnit_π, zero_comp]
   rw [show (principalComplexSystem A f C).map (homOfLE (Nat.le_succ n)).op = _ from
     Functor.ofOpSequence_map_homOfLE_succ _ n]
@@ -541,7 +541,7 @@ private lemma moduleDerivedLimit_isDerivedLimit
     apply Pi.hom_ext
     intro n
     dsimp [d, c]
-    rw [Category.assoc, piComparison_comp_π, Category.assoc, Pi.lift_π,
+    rw [Category.assoc, piComparison_comp_π, Category.assoc, Pi.lift_comp_π,
       comp_sub, piComparison_comp_π, piComparison_comp_π_assoc]
     rw [← Functor.map_comp, complexDifference]
     simp [X]

@@ -644,7 +644,7 @@ private theorem dividedPowerPullbackCone_comparison
       a.toBase_snd.symm
 
 attribute [local implicit_reducible] CategoryTheory.PreZeroHypercover.pullback₁
-  CategoryTheory.Precoverage.ZeroHypercover.pullback₁ CategoryTheory.Limits.PullbackCone.mk
+  CategoryTheory.Precoverage.ZeroHypercover.pullback₁
 
 private noncomputable abbrev dividedPowerConeCover
     {T T' S : DividedPowerScheme.{u}} {f : T ⟶ S} {g : T' ⟶ S}

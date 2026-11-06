@@ -994,6 +994,14 @@ private theorem exists_isImmersion_affineSpaceOver_of_stage (B : BigFppfSite.{u}
   · exact isImmersion_comp B S hS _ _ hi
       (presheaf_prodMap_id B S hS (@_root_.AlgebraicGeometry.IsImmersion.{u}) X b hbi)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site, supplied directly: instance search for
+them times out on Lean v4.35.0. -/
+local instance (priority := high) hasBinaryProducts_presheaf_EmbeddingIntoAffineSpace
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasLimitsOfShape (Discrete WalkingPair) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- **Stacks 088L.**  Let `f : U ⟶ X` be a morphism of algebraic spaces over `S` with `U` an
 affine scheme, `f` locally of finite type and `X` locally separated.  Then `U` admits an
 immersion into affine `n`-space over `X`, over `X`.

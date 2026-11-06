@@ -352,7 +352,8 @@ theorem inverseImageHom_ext {A : Sheaf (SmallEtale.topology B S hS X.1) CommRing
     φ₁ = φ₂ := by
   let t := (smallEtaleRingedToposHom B S hS (E.thickeningImmersion P hU hR)).toToposHom
   apply (t.ringAdjunction.homEquiv _ _).injective
-  rw [← cancel_mono (pushforwardRingIsoRan B S hS (E.thickeningImmersion P hU hR) A).hom]
+  rw [← Iso.cancel_iso_hom_right _ _
+    (pushforwardRingIsoRan B S hS (E.thickeningImmersion P hU hR) A)]
   apply Sheaf.hom_ext
   refine (Functor.IsCoverDense.restrictHomEquivHom
     (G := E.thickenedChartFunctor P hU hR)).symm.injective ?_

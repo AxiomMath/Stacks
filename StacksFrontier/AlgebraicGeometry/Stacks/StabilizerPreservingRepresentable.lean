@@ -102,9 +102,9 @@ theorem eq_id_of_map_eq_id_of_inertiaPullbackComparison_full (pX : X ⥤ C) (pY 
     IsHomLift.of_fac' pX _ a rfl rfl (by simpa using hv)
   have : IsIso a :=
     Functor.isIso_of_fiber_isGroupoid (hX.fiber_isGroupoid (pX.obj x)) a hlift
-  let A : RelativeInertia pX := ⟨x, Iso.refl x, by simp⟩
-  let B : RelativeInertia pX := ⟨x, asIso a, hv⟩
-  have hm : F.map (𝟙 x) ≫ F.map B.auto.hom = F.map A.auto.hom ≫ F.map (𝟙 x) := by
+  let A : RelativeInertia pX := ⟨x, .of (Iso.refl x), by simp⟩
+  let B : RelativeInertia pX := ⟨x, .of (asIso a), hv⟩
+  have hm : F.map (𝟙 x) ≫ F.map B.auto.asIso.hom = F.map A.auto.asIso.hom ≫ F.map (𝟙 x) := by
     simp [A, B, ha]
   have hcomm := inertiaPullbackComparison_reflects_comm pX pY F hF A B (𝟙 x) hm
   simpa [A, B] using hcomm

@@ -584,8 +584,8 @@ private lemma span_range_algebraMap_eq_top (A A' B B' : Type*) [CommRing A] [Com
     Submodule.span A' (Set.range (algebraMap B B')) = ⊤ := by
   rw [Submodule.eq_top_iff']
   intro x
-  refine (Algebra.IsPushout.out (R := A) (S := A') (R' := B) (S' := B')).inductionOn x _
-    (Submodule.zero_mem _) (fun b => Submodule.subset_span ⟨b, rfl⟩)
+  refine (Algebra.IsPushout.out (R := A) (S := A') (R' := B) (S' := B')).inductionOn x
+    (fun b => Submodule.subset_span ⟨b, rfl⟩)
     (fun a y hy => Submodule.smul_mem _ a hy) (fun y z hy hz => Submodule.add_mem _ hy hz)
 
 /-! ### Base change of a differential operator -/

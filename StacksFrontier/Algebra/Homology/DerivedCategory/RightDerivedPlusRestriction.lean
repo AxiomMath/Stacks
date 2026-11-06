@@ -140,7 +140,7 @@ derived functor computed on `D⁺`, read in `D(B)`. -/
 def boundedUnitPlus :
     boundedToDerivedCategory F ⟶
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-  Functor.whiskerRight F.rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι
+  Functor.whiskerRight F.rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι
 
 /-- The comparison `F K ⟶ RF K` from degreewise `F` on a bounded below complex to the unbounded
 right derived functor. -/
@@ -154,7 +154,7 @@ component at `K` of the unit of `RF⁺`. -/
 @[simp]
 theorem boundedUnitPlus_app (K : HomotopyCategory.Plus A) :
     (boundedUnitPlus F).app K =
-      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app K) :=
+      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app K) :=
   rfl
 
 omit [EnoughInjectives A] in
@@ -171,11 +171,11 @@ there. -/
 instance isIso_boundedUnitPlus_app (Z : HomotopyCategory.Plus (InjectiveObject A)) :
     IsIso ((boundedUnitPlus F).app ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj Z)) := by
   rw [boundedUnitPlus_app]
-  have h : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have h : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj Z)) :=
     (HomotopyCategory.Plus.localizerMorphism_derives
         (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)).isIso_of_isRightDerivedFunctor
-      F.rightDerivedFunctorPlusUnit Z
+      F.rightDerivedFunctorPlusUnith Z
   exact @Functor.map_isIso _ _ _ _ _ _ DerivedCategory.Plus.ι _ h
 
 omit [EnoughInjectives A] in
@@ -256,7 +256,7 @@ theorem boundedDerivedIso_hom_app
     (hres : ∀ K : CochainComplex A ℤ, ∃ (I : CochainComplex A ℤ) (f : K ⟶ I),
       I.IsKInjective ∧ QuasiIso f)
     (K : HomotopyCategory.Plus A) :
-    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (boundedDerivedIso F RF α hres).hom.app (DerivedCategory.Plus.Qh.obj K) =
       α.app ((HomotopyCategory.Plus.ι A).obj K) :=
   NatTrans.congr_app (boundedDerivedIso_fac F RF α hres) K

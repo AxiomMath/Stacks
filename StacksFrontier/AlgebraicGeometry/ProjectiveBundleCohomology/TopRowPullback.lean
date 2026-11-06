@@ -43,7 +43,7 @@ public def tensorDualContract :
 
 /-- The contraction on a pure tensor: `(l ⊗ λ) ⊗ a ↦ λ(a) l`. -/
 public theorem tensorDualContract_unit (U : X.Opensᵒᵖ) (l : L.val.obj U)
-    (lam : (dualSheaf A).val.obj U) (a : A.val.obj U) (r : X.ringCatSheaf.val.obj U)
+    (lam : (dualSheaf A).val.obj U) (a : A.val.obj U) (r : X.ringCatSheaf.obj.obj U)
     (hr : (lam.app (op (Over.mk (𝟙 U.unop)))).hom a = r) :
     (tensorDualContract A L).val.app U
         ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) _ A).app U

@@ -404,20 +404,20 @@ private theorem rTensor_injective_of_isZero_tor_of_exact
     ULift.moduleEquiv.symm.toLinearMap.comp
       ((g.restrictScalars R').comp ULift.moduleEquiv.toLinearMap)
   have hf' : Function.Injective f' := fun x y hxy ↦
-    ULift.ext _ _ (hf (congrArg ULift.down hxy))
+    ULift.ext (hf (congrArg ULift.down hxy))
   have hg' : Function.Surjective g' := by
     intro z
     obtain ⟨y, hy⟩ := hg z.down
-    exact ⟨ULift.up y, ULift.ext _ _ hy⟩
+    exact ⟨ULift.up y, ULift.ext hy⟩
   have hex' : Function.Exact f' g' := by
     intro y
     change ULift.up (g y.down) = (0 : C') ↔ ∃ x : A', ULift.up (f x.down) = y
     constructor
     · intro hy
       obtain ⟨x, hx⟩ := (hex y.down).mp (congrArg ULift.down hy)
-      exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+      exact ⟨ULift.up x, ULift.ext hx⟩
     · rintro ⟨x, hx⟩
-      exact ULift.ext _ _ ((hex y.down).mpr ⟨x.down, congrArg ULift.down hx⟩)
+      exact ULift.ext ((hex y.down).mpr ⟨x.down, congrArg ULift.down hx⟩)
   let e : (B' ⧸ LinearMap.range f') ≃ₗ[R'] C' :=
     (Submodule.quotEquivOfEq _ _ (LinearMap.exact_iff.mp hex').symm).trans
       (g'.quotKerEquivOfSurjective hg')

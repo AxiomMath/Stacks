@@ -129,7 +129,6 @@ lemma formallyUnramified_baseChange_iff
   have hgh : ∀ z, g (h z) = z := by
     intro z
     induction z with
-    | zero => simp
     | add a b ha hb => rw [map_add, map_add, ha, hb]
     | tmul x c =>
       show g (h (x ⊗ₜ[R] c)) = x ⊗ₜ[R] c
@@ -145,11 +144,9 @@ lemma formallyUnramified_baseChange_iff
   have hhg : ∀ z, h (g z) = z := by
     intro z
     induction z with
-    | zero => simp
     | add a b ha hb => rw [map_add, map_add, ha, hb]
     | tmul a c =>
       induction a with
-      | zero => simp
       | add a₁ a₂ ha₁ ha₂ =>
         rw [TensorProduct.add_tmul, map_add, map_add, ha₁, ha₂, ← TensorProduct.add_tmul]
       | tmul s b =>
@@ -526,7 +523,6 @@ lemma finiteType_baseChange_map
   rw [eq_top_iff]
   rintro z -
   induction z with
-  | zero => exact AdT.zero_mem
   | add a b ha hb => exact AdT.add_mem ha hb
   | tmul x c => simpa using AdT.mul_mem (hx1 x) (h1c c)
 

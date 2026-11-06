@@ -266,7 +266,7 @@ theorem specEndScalar_injective : Function.Injective (specEndScalar k ℓ) := by
   intro z₁ z₂ hz
   let F := DerivedCategory.singleFunctor (EtaleModules.{u, 0} (ZMod ℓ) (Spec (.of k))) 0
   have h1 := (KummerFlag.unitSheafEndEquiv ℓ).injective (LocallyConstant.ext fun x =>
-    ULift.ext _ _ ((congrArg (fun y => (KummerFlag.unitSheafEndEquiv ℓ _ y).down)
+    ULift.ext ((congrArg (fun y => (KummerFlag.unitSheafEndEquiv ℓ _ y).down)
       (Subsingleton.elim x _)).trans (hz.trans (congrArg (fun y =>
         (KummerFlag.unitSheafEndEquiv ℓ _ y).down) (Subsingleton.elim _ x)))))
   have h2 := congrArg F.map h1

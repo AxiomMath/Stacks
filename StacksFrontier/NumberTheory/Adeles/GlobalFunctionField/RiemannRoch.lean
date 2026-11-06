@@ -613,6 +613,7 @@ end Riemann
 
 section LowerBound
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- With a basis `b` of the integral closure of `k[t]`, the elements `∑ a_{ij} t^j b_i`,
 `j ≤ m - c`, give `ℓ(m · D_∞) ≥ #k ^ ([K : k(t)] · (m - c + 1))`. -/
 public theorem exists_ell_poleDivisor_lower_bound : ∃ c : ℕ, ∀ m : ℕ, c ≤ m →

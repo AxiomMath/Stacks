@@ -113,7 +113,7 @@ theorem homTwistTwistLinear_bijective {M : Type*} [AddCommGroup M] [Module R M]
   refine ⟨fun m m' h ↦ by rw [← key m, ← key m', h], fun Φ ↦ ⟨Φ a₀ b₀, ?_⟩⟩
   exact addMonoidHom_ext_of_generator hA (addMonoidHom_ext_of_generator hB (key _))
 
-variable (hp : ∀ (γ : Γ) a b, p ((A.obj.obj.ρ γ).hom a) ((B.obj.obj.ρ γ).hom b) = p a b)
+variable (hp : ∀ (γ : Γ) a b, p ((A.obj.obj.ρ γ).asHom.hom a) ((B.obj.obj.ρ γ).asHom.hom b) = p a b)
   {a₀ : A.obj.obj.V} {b₀ : B.obj.obj.V} (h1 : p a₀ b₀ = 1)
   (hA : ∀ a, ∃ k : ℤ, a = k • a₀) (hB : ∀ b, ∃ l : ℤ, b = l • b₀)
   (hM : ∀ (M : FiniteTypeContinuousModule.{u, v, w} R Γ) (m : M.obj.obj.obj.V), n • m = 0)
@@ -127,8 +127,9 @@ def homTwistTwistIso (M : FiniteTypeContinuousModule.{u, v, w} R Γ) :
     (LinearEquiv.ofBijective (homTwistTwistLinear R A B p (hM M))
       (homTwistTwistLinear_bijective R (hM M) h1 hA hB))
     (fun γ m ↦ AddMonoidHom.ext fun a ↦ AddMonoidHom.ext fun b ↦ by
-      change (p a b).val • (M.obj.obj.obj.ρ γ).hom m =
-        (M.obj.obj.obj.ρ γ).hom ((p ((A.obj.obj.ρ γ⁻¹).hom a) ((B.obj.obj.ρ γ⁻¹).hom b)).val • m)
+      change (p a b).val • (M.obj.obj.obj.ρ γ).asHom.hom m =
+        (M.obj.obj.obj.ρ γ).asHom.hom
+          ((p ((A.obj.obj.ρ γ⁻¹).asHom.hom a) ((B.obj.obj.ρ γ⁻¹).asHom.hom b)).val • m)
       rw [hp, map_nsmul])
 
 include hp h1 hA hB hM in
@@ -190,10 +191,10 @@ omit [NeZero n] in
 /-- The evaluation pairing is invariant. -/
 lemma homTwistDualCoefficientPairing_ρ (γ : Γ) (a : A.obj.obj.V)
     (φ : A.obj.obj.V →+ ZMod n) :
-    homTwistDualCoefficientPairing A n ((A.obj.obj.ρ γ).hom a)
-      (((homTwistDualCoefficient A n).obj.obj.ρ γ).hom φ) =
+    homTwistDualCoefficientPairing A n ((A.obj.obj.ρ γ).asHom.hom a)
+      (((homTwistDualCoefficient A n).obj.obj.ρ γ).asHom.hom φ) =
       homTwistDualCoefficientPairing A n a φ := by
-  show φ ((A.obj.obj.ρ γ⁻¹).hom ((A.obj.obj.ρ γ).hom a)) = φ a
+  show φ ((A.obj.obj.ρ γ⁻¹).asHom.hom ((A.obj.obj.ρ γ).asHom.hom a)) = φ a
   rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply]
 
 variable [IsAddCyclic A.obj.obj.V] {n} (hA : Nat.card A.obj.obj.V = n)

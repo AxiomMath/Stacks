@@ -160,7 +160,7 @@ theorem laumonFamilyFibre_connectedSpace_not_isProper_dim
       _ = ringKrullDim (MvPolynomial (ULift.{u} (Fin 1)) Ω) :=
           PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _
       _ = ringKrullDim Ω + Nat.card (ULift.{u} (Fin 1)) :=
-          MvPolynomial.ringKrullDim_of_isNoetherianRing
+          MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite
       _ ≤ ((1 : ℕ) : WithBot ℕ∞) := by simp
 
 end Geometry

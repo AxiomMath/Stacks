@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Morphisms.Separated
 public import Mathlib.AlgebraicGeometry.Restrict
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import Mathlib.RingTheory.TensorProduct.Maps
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Schemes.ZariskiAndSeparation.SchemePropertiesPermanence

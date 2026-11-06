@@ -80,8 +80,8 @@ public theorem existsUnique_pushforwardIso
 
 private lemma conjAut_hom_val {C : Type u} [Category.{v₁} C] {D : Type w} [Category.{v} D]
     {p : C ⥤ D} {S : D} {u v : p.Fiber S} (h : u ≅ v) (a : Aut u) :
-    (h.conjAut a).hom.val = h.inv.val ≫ a.hom.val ≫ h.hom.val :=
-  congrArg (fun f : v ⟶ v => f.val) (Iso.conjAut_hom h a)
+    (h.conjAut a).asIso.hom.val = h.inv.val ≫ a.asIso.hom.val ≫ h.hom.val :=
+  congrArg (fun f : v ≅ v => f.hom.val) (Iso.conjAut_apply h a)
 
 private lemma comp_eq_self_iff_conj_comp_eq_self {F : Type u₁} [Category.{v₁} F]
     {X Y X₀ Y₀ : F} (u : X ≅ Y) (v : X₀ ≅ Y₀) (a : X ⟶ X) (ri : X ⟶ X₀) (rj : Y ⟶ Y₀)
@@ -138,7 +138,7 @@ private theorem conjugate_mem_infinitesimal_iff
   rw [mem_infinitesimalAutomorphisms_iff hp g e hpair i hi a,
     mem_infinitesimalAutomorphisms_iff hp g e hpair j hj (h.conjAut a), conjAut_hom_val]
   exact comp_eq_self_iff_conj_comp_eq_self (Functor.Fiber.fiberInclusion.mapIso h)
-    (Functor.Fiber.fiberInclusion.mapIso h₀) a.hom.val ri rj hri
+    (Functor.Fiber.fiberInclusion.mapIso h₀) a.asIso.hom.val ri rj hri
 
 private theorem map_conjAut_infinitesimalAutomorphisms
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
@@ -219,20 +219,20 @@ public theorem existsUnique_infinitesimalAutomorphismAction
       ∀ (a : Aut x₀)
         (b : infinitesimalAutomorphisms hp g e hpair i hi),
         ((ρ a) b).1 =
-          (pushforwardAutomorphism hp g i hi a).conjAut b.1 := by
+          (pushforwardAutomorphism hp g i hi a).asIso.conjAut b.1 := by
   classical
   let S := infinitesimalAutomorphisms hp g e hpair i hi
   let pushed (a : Aut x₀) := pushforwardAutomorphism hp g i hi a
   let pushedHom := pushforwardAutomorphismHom hp g i hi
-  have hsq (a : Aut x₀) : i ≫ (pushed a).hom.val = a.hom.val ≫ i := by
-    show i ≫ pushforwardEndomorphism hp g i hi a = a.hom.val ≫ i
+  have hsq (a : Aut x₀) : i ≫ (pushed a).asIso.hom.val = a.asIso.hom.val ≫ i := by
+    show i ≫ pushforwardEndomorphism hp g i hi a = a.asIso.hom.val ≫ i
     exact (hom_comp_eq_comp_pushforwardEndomorphism hp g i hi a).symm
-  have hmap (a : Aut x₀) : S.map ((pushed a).conjAut : Aut xε →* Aut xε) = S :=
-    map_conjAut_infinitesimalAutomorphisms hp g e hpair a i hi i hi (pushed a) (hsq a)
+  have hmap (a : Aut x₀) : S.map ((pushed a).asIso.conjAut : Aut xε →* Aut xε) = S :=
+    map_conjAut_infinitesimalAutomorphisms hp g e hpair a.asIso i hi i hi (pushed a).asIso (hsq a)
   let actionEquiv (a : Aut x₀) : S ≃* S :=
-    ((pushed a).conjAut.subgroupMap S).trans (MulEquiv.subgroupCongr (hmap a))
+    ((pushed a).asIso.conjAut.subgroupMap S).trans (MulEquiv.subgroupCongr (hmap a))
   have actionEquiv_apply (a : Aut x₀) (b : S) :
-      (actionEquiv a b).1 = (pushed a).conjAut b.1 := by
+      (actionEquiv a b).1 = (pushed a).asIso.conjAut b.1 := by
     simp [actionEquiv]
   let ρ : Aut x₀ →* MulAut S := {
     toFun := actionEquiv
@@ -241,21 +241,22 @@ public theorem existsUnique_infinitesimalAutomorphismAction
       intro b
       apply Subtype.ext
       rw [actionEquiv_apply]
-      show (pushed 1).conjAut b.1 = b.1
+      show (pushed 1).asIso.conjAut b.1 = b.1
       rw [show pushed 1 = (1 : Aut xε) from map_one pushedHom]
       show (Iso.refl xε).conjAut b.1 = b.1
+      ext1
       rw [Iso.conjAut_apply, Iso.refl_symm, Iso.refl_trans]
-      exact Iso.trans_refl b.1
+      exact Iso.trans_refl b.1.asIso
     map_mul' a₁ a₂ := by
       apply MulEquiv.ext
       intro b
       apply Subtype.ext
       rw [MulAut.mul_apply, actionEquiv_apply a₁, actionEquiv_apply a₂]
-      show (pushed (a₁ * a₂)).conjAut b.1 =
-        (pushed a₁).conjAut ((pushed a₂).conjAut b.1)
+      show (pushed (a₁ * a₂)).asIso.conjAut b.1 =
+        (pushed a₁).asIso.conjAut ((pushed a₂).asIso.conjAut b.1)
       rw [show pushed (a₁ * a₂) = pushed a₁ * pushed a₂ from map_mul pushedHom a₁ a₂,
-        Aut.Aut_mul_def]
-      exact Iso.trans_conjAut (pushed a₂) (pushed a₁) b.1 }
+        Aut.mul_asIso]
+      exact Iso.trans_conjAut (pushed a₂).asIso (pushed a₁).asIso b.1 }
   exact ⟨ρ, actionEquiv_apply, fun ρ' hρ' => MonoidHom.ext fun a => MulEquiv.ext fun b =>
     Subtype.ext ((hρ' a b).trans (actionEquiv_apply a b).symm)⟩
 
@@ -277,7 +278,7 @@ public theorem subsingleton_aut_residueField
     (hp : IsPredeformationCategory p)
     (x₀ : p.Fiber (residueFieldObject Λ k)) :
     Subsingleton (Aut x₀) :=
-  let ⟨E⟩ := hp.specialFiber; ⟨fun _ _ => Aut.ext (E.functor.map_injective (Subsingleton.elim _ _))⟩
+  let ⟨E⟩ := hp.specialFiber; ⟨fun _ _ => Aut.ext (Iso.ext (E.functor.map_injective (Subsingleton.elim _ _)))⟩
 
 /-- Every automorphism of a pushforward to the dual numbers is infinitesimal. -/
 @[stacks 06JS "automorphisms_at_a_point"]
@@ -341,18 +342,18 @@ public theorem existsUnique_infinitesimalAutomorphismsEquiv_of_isPredeformationC
         ↥(infinitesimalAutomorphisms hp.cofibered g e hpair iᵧ hiᵧ),
       ∀ (f : x₀ ≅ y₀) (j : xε ≅ yε),
         (iₓ ≫ j.hom.val = f.hom.val ≫ iᵧ) →
-          ∀ a, (φ a).val.hom.val = j.inv.val ≫ a.val.hom.val ≫ j.hom.val := by
+          ∀ a, (φ a).val.asIso.hom.val = j.inv.val ≫ a.val.asIso.hom.val ≫ j.hom.val := by
   obtain ⟨f₀, _, hf₀⟩ := existsUnique_pointIso hp x₀ y₀
   obtain ⟨j₀, hj₀, hj₀_unique⟩ :=
     existsUnique_pushforwardIso hp.cofibered g f₀ iₓ hiₓ iᵧ hiᵧ
   obtain ⟨φ₀, hφ₀, hφ₀_unique⟩ :=
     existsUnique_infinitesimalAutomorphismsEquiv
       hp.cofibered g e hpair f₀ iₓ hiₓ iᵧ hiᵧ
-  have hφ₀j₀ : ∀ a, (φ₀ a).val.hom.val = j₀.inv.val ≫ a.val.hom.val ≫ j₀.hom.val := by
+  have hφ₀j₀ : ∀ a, (φ₀ a).val.asIso.hom.val = j₀.inv.val ≫ a.val.asIso.hom.val ≫ j₀.hom.val := by
     rcases hφ₀ with ⟨jφ, hjφ, hact⟩
     have hjφ_eq : jφ = j₀ := hj₀_unique jφ hjφ
     subst jφ
-    exact fun a => (congrArg (fun x => x.hom.val) (hact a)).trans (conjAut_hom_val _ _)
+    exact fun a => (congrArg (fun x => x.asIso.hom.val) (hact a)).trans (conjAut_hom_val _ _)
   refine ⟨φ₀, ?_, ?_⟩
   · intro f j hcompat a
     obtain rfl := hf₀ f trivial
@@ -362,7 +363,7 @@ public theorem existsUnique_infinitesimalAutomorphismsEquiv_of_isPredeformationC
     apply hφ₀_unique φ
     refine ⟨j₀, hj₀, ?_⟩
     intro a
-    exact Iso.ext (Functor.Fiber.hom_ext ((hφ f₀ j₀ hj₀ a).trans (conjAut_hom_val _ _).symm))
+    exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext ((hφ f₀ j₀ hj₀ a).trans (conjAut_hom_val _ _).symm)))
 
 /-- The canonical identification of infinitesimal automorphism groups attached to
 two points, for chosen pushforwards into a common dual-number fibre. -/
@@ -405,8 +406,8 @@ public theorem canonicalInfinitesimalAutomorphismsEquiv_apply
     (hcompat : iₓ ≫ j.hom.val = f.hom.val ≫ iᵧ)
     (a : ↥(infinitesimalAutomorphisms hp.cofibered g e hpair iₓ hiₓ)) :
     ((canonicalInfinitesimalAutomorphismsEquiv hp g e hpair x₀ y₀ xε yε
-      iₓ hiₓ iᵧ hiᵧ) a).val.hom.val =
-        j.inv.val ≫ a.val.hom.val ≫ j.hom.val :=
+      iₓ hiₓ iᵧ hiᵧ) a).val.asIso.hom.val =
+        j.inv.val ≫ a.val.asIso.hom.val ≫ j.hom.val :=
   (existsUnique_infinitesimalAutomorphismsEquiv_of_isPredeformationCategory
     hp g e hpair x₀ y₀ xε yε iₓ hiₓ iᵧ hiᵧ).choose_spec.1 f j hcompat a
 

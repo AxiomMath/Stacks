@@ -322,8 +322,7 @@ variable {X Y : RingedTopos.{u₄, u₄, u₄}}
   (f : RingedToposSiteHom X Y)
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u₄} RingCat.{u₄})]
-  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u₄} RingCat.{u₄})]
-  [HasSheafify X.J AddCommGrpCat.{u₄}] in
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u₄} RingCat.{u₄})] in
 /-- **The pullback of a function is the function pulled back.** The unit comparison
 `ν : f^*𝒪_D ⟶ 𝒪_C` of `SheafOfModules.pullbackObjUnitToUnit` carries the image of a local section
 `r` of `𝒪_D` under the unit of `f^* ⊣ f_*` to `f^♯ r`.

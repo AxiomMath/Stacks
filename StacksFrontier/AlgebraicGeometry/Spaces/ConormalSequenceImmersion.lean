@@ -281,7 +281,7 @@ theorem conormalSequenceImmersion_exact :
       (by simp [conormalSequenceImmersionSecondMap])
   refine ⟨(ShortComplex.exact_iff_of_iso e).2 hexact, ?_⟩
   rw [conormalSequenceImmersionSecondMap]
-  infer_instance
+  exact epi_comp' (IsIso.epi_of_iso _) (epi_comp' hepi (IsIso.epi_of_iso _))
 
 end Sequence
 

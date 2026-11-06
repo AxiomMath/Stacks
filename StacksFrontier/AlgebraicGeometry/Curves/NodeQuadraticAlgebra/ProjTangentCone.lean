@@ -494,7 +494,7 @@ noncomputable def stableIdealQuotientFibreEquivChart
         HomogeneousLocalization.Away 𝒢
           (initialForm I 1 ⟨y.1, by simp⟩) :=
   (Ideal.quotientEquiv _ _ (RingEquiv.refl _)
-    (by simpa [Ideal.map] using stableIdealQuotientToChart_ker I y u hu hI hinj 𝒢 h𝒢)).trans
+    (by rw [stableIdealQuotientToChart_ker I y u hu hI hinj 𝒢 h𝒢]; exact (Ideal.map_id _).symm)).trans
     ((stableIdealQuotientToChart I y u hu hI hinj 𝒢 h𝒢).quotientKerEquivOfSurjective
       (stableIdealQuotientToChart_surjective I y u hu hI hinj 𝒢 h𝒢))
 

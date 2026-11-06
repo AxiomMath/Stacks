@@ -69,7 +69,7 @@ theorem isZero_rightDerivedPlus_obj (i : ℤ) (hi : i < 0) (X : A) :
     IsZero ((F.rightDerivedPlus i).obj X) :=
   (Functor.isZero_iff _).1
     ((Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).1 i hi) X
+      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).1 i hi) X
 
 /-- **A left exact functor is its own zeroth right derived functor**: `R ⁰ F ≅ F`.
 
@@ -78,16 +78,16 @@ which is invertible by part (3) of [Stacks, Tag 05TD]. -/
 noncomputable def rightDerivedPlusZeroIso [PreservesFiniteLimits F] :
     F.rightDerivedPlus 0 ≅ F :=
   have _happ : ∀ X : A, IsIso ((Functor.whiskerRight (Functor.whiskerLeft
-      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnit)
+      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnith)
         (Plus.homologyFunctor B 0)).app X) := fun X =>
     (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 inferInstance X
+      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance X
   have : IsIso (Functor.whiskerRight (Functor.whiskerLeft
-      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnit)
+      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnith)
         (Plus.homologyFunctor B 0)) := NatIso.isIso_of_isIso_app _
   (unitTargetIso (A := A) F.rightDerivedFunctorPlus).symm ≪≫
     (asIso (Functor.whiskerRight (Functor.whiskerLeft
-      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnit)
+      (HomotopyCategory.Plus.singleFunctor A 0) F.rightDerivedFunctorPlusUnith)
         (Plus.homologyFunctor B 0))).symm ≪≫
     CategoryTheory.Functor.rightDerivedZeroSourceIso F
 

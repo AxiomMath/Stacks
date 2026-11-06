@@ -99,6 +99,16 @@ namespace Stacks.Cohomology.PresheafCoefficients
 
 attribute [local instance] ModuleSheafCohomology.toSheaf_preservesFiniteColimits
 
+/-- Weak sheafification of abelian presheaves on a small site, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the definitions below find it rather than the section variable
+`[HasSheafify J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+abbrev hasWeakSheafifyAddCommGrpCat {C : Type u} [SmallCategory C] (J : GrothendieckTopology C) :
+    HasWeakSheafify J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat
+
 section Corepresentation
 
 variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}

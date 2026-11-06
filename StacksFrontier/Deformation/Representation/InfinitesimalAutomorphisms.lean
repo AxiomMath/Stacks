@@ -528,17 +528,18 @@ noncomputable def RepresentationCategory.autEquivInvariants
     exact epsEndo_zero hfo mm
   let F : Multiplicative ↥((Representation.linHom ρ₀ ρ₀).invariants) →* Aut xε :=
     { toFun := fun x ↦
-        { hom := mkFib (Multiplicative.toAdd x)
-          inv := mkFib (-Multiplicative.toAdd x)
-          hom_inv_id := by rw [hcomp, add_neg_cancel, hzero]
-          inv_hom_id := by rw [hcomp, neg_add_cancel, hzero] }
-      map_one' := Iso.ext hzero
-      map_mul' := fun x y ↦ Iso.ext (by
+        Aut.of
+          { hom := mkFib (Multiplicative.toAdd x)
+            inv := mkFib (-Multiplicative.toAdd x)
+            hom_inv_id := by rw [hcomp, add_neg_cancel, hzero]
+            inv_hom_id := by rw [hcomp, neg_add_cancel, hzero] }
+      map_one' := Aut.ext (Iso.ext hzero)
+      map_mul' := fun x y ↦ Aut.ext <| Iso.ext (by
         change mkFib (Multiplicative.toAdd x + Multiplicative.toAdd y) =
           mkFib (Multiplicative.toAdd y) ≫ mkFib (Multiplicative.toAdd x)
         rw [hcomp, add_comm]) }
   have hFhom : ∀ (x : Multiplicative ↥((Representation.linHom ρ₀ ρ₀).invariants))
-      (mm : xε.1.left.carrier), (F x).hom.1.left.map mm =
+      (mm : xε.1.left.carrier), (F x).asIso.hom.1.left.map mm =
         epsEndo hfo (Multiplicative.toAdd x).1 mm := fun _ _ ↦ rfl
   have hinj : Function.Injective F := by
     intro x y hxy
@@ -546,36 +547,36 @@ noncomputable def RepresentationCategory.autEquivInvariants
     rw [← hFhom x mm, ← hFhom y mm, hxy]
   have hsurj : Function.Surjective F := by
     intro a
-    have := a.hom.2
-    have hub : a.hom.1.left.base = 𝟙 xε.1.left.base := by
+    have := a.asIso.hom.2
+    have hub : a.asIso.hom.1.left.base = 𝟙 xε.1.left.base := by
       have hfac := IsHomLift.fac'
-        (deformationCategoryProjection (Λ := Λ) V ρ₀) (𝟙 Aε) a.hom.1
-      have h2 : (deformationCategoryProjection (Λ := Λ) V ρ₀).map a.hom.1 =
+        (deformationCategoryProjection (Λ := Λ) V ρ₀) (𝟙 Aε) a.asIso.hom.1
+      have h2 : (deformationCategoryProjection (Λ := Λ) V ρ₀).map a.asIso.hom.1 =
           𝟙 ((deformationCategoryProjection (Λ := Λ) V ρ₀).obj xε.1) := by
         simpa using hfac
       exact h2
     let χ : xε.1.left.carrier →ₗ[xε.1.left.base] xε.1.left.carrier :=
-      { toFun := a.hom.1.left.map
-        map_add' := a.hom.1.left.map.map_add
+      { toFun := a.asIso.hom.1.left.map
+        map_add' := a.asIso.hom.1.left.map.map_add
         map_smul' := fun r mm ↦ by
-          change a.hom.1.left.map (r • mm) = r • a.hom.1.left.map mm
-          rw [a.hom.1.left.map_smul, hub]
+          change a.asIso.hom.1.left.map (r • mm) = r • a.asIso.hom.1.left.map mm
+          rw [a.asIso.hom.1.left.map_smul, hub]
           rfl }
     have hχψ : ∀ mm, xε.1.hom.map (χ mm) = xε.1.hom.map mm := fun mm ↦
       congrArg
         (fun q : RepresentationCategory.Hom xε.1.left
-          (RepresentationCategory.specialFiber (Λ := Λ) V ρ₀) ↦ q.map mm) (Over.w a.hom.1)
+          (RepresentationCategory.specialFiber (Λ := Λ) V ρ₀) ↦ q.map mm) (Over.w a.asIso.hom.1)
     obtain ⟨φ, hφ⟩ := exists_epsEndo hfo χ hχψ
     have hφinv : φ ∈ (Representation.linHom ρ₀ ρ₀).invariants := by
       rw [mem_invariants_linHom_iff]
       refine (epsEndo_equivariant_iff hfo xε.1.left.action ρ₀
         xε.1.hom.equivariant φ).mp fun γ mm ↦ ?_
       rw [← hφ, ← hφ]
-      exact a.hom.1.left.equivariant γ mm
-    refine ⟨Multiplicative.ofAdd ⟨φ, hφinv⟩, Iso.ext (Subtype.ext
+      exact a.asIso.hom.1.left.equivariant γ mm
+    refine ⟨Multiplicative.ofAdd ⟨φ, hφinv⟩, Aut.ext <| Iso.ext (Subtype.ext
       (Over.OverMorphism.ext (RepresentationCategory.Hom.ext hub.symm
         (AddMonoidHom.ext fun mm ↦ ?_))))⟩
-    change epsEndo hfo φ mm = a.hom.1.left.map mm
+    change epsEndo hfo φ mm = a.asIso.hom.1.left.map mm
     exact (hφ mm).symm
   exact (MulEquiv.ofBijective F ⟨hinj, hsurj⟩).symm
 

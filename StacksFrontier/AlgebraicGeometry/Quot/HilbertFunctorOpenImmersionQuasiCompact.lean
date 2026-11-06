@@ -65,6 +65,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 local notation "𝒯" => BigFppfOver.toScheme B S hS
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_hilbertFunctorOpenImmersionQuasiCompact
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Étale-local constructibility is stable under complements. -/
 private theorem isEtaleLocallyConstructible_compl {W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {E : Set (points B S hS W)} (hE : IsEtaleLocallyConstructible B S hS W E) :

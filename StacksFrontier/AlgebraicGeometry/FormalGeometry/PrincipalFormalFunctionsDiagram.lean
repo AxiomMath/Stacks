@@ -281,8 +281,8 @@ private lemma pi_mapIso_hom_comp_lift {C : Type*} [Category C] [HasProductsOfSha
         (Pi.lift fun n : ℕ ↦ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) n ≫ t.app ⟨n⟩) =
       Pi.lift fun n : ℕ ↦ Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n ≫ (e.hom ≫ t).app ⟨n⟩ := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Category.assoc, Pi.lift_π, ← Category.assoc, Pi.mapIso_hom_π, Category.assoc, Pi.lift_π,
-    NatTrans.comp_app, Iso.app_hom]
+  rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc, Pi.mapIso_hom_π, Category.assoc,
+    Pi.lift_comp_π, NatTrans.comp_app, Iso.app_hom]
 
 omit [CommRing A] in
 private lemma map_comp_map_inv_of_comp_hom {C D : Type*} [Category C] [Category D] (F : C ⥤ D)
@@ -416,7 +416,7 @@ theorem exists_iso_milnorTriangle_derivedSections
             Pi.π (fun n : ℕ ↦ DerivedCategory.Q.obj (EA.obj ⟨n⟩)) (n + 1) ≫
               DerivedCategory.Q.map (EA.map (homOfLE (Nat.le_succ n)).op) := by
       refine Pi.hom_ext _ _ fun n ↦ ?_
-      simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π, Pi.lift_π,
+      simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π, Pi.lift_comp_π,
         Preadditive.comp_sub, ← Functor.map_comp, piComparison_comp_π_assoc,
         CompletionSequences.complexDifference, Functor.map_sub]
     exact key
@@ -587,7 +587,7 @@ theorem formalFunctionsDiagram_of_triangleComparison
         Pi.π _ n ≫ (HH (p - 1)).map (c.inv.app ⟨n⟩) := Pi.mapIso_inv_π _ n
     have h₂ := comp_comp_inv_of_comp_eq (c.app ⟨n⟩) (hι₃π n)
     have h₃ := map_comp_comp_comp_map (HH (p - 1)) (e6 n) h₂
-    refine (Pi.lift_π _ _).trans (h₃.symm.trans ?_)
+    refine (Pi.lift_comp_π _ _).trans (h₃.symm.trans ?_)
     simp only [Category.assoc, h₁]
     rfl
   have hlow : (bottom.hom ≫ β.inv) ≫ β.hom ≫ columnIn ≫ (HH p).map Φ.inv =
@@ -768,7 +768,7 @@ theorem formalFunctionsDiagram_principalKoszulTower
       let CE := DerivedCategory.Q.objPreimage E
       let eE := DerivedCategory.Q.objObjPreimageIso E
       let koszulTriangle (n : ℕ) := RΓ.mapTriangle.obj (DerivedCategory.Q.mapTriangle.obj
-        (CochainComplex.mappingCone.triangle (smulComplex X (baseSmul X ρ f) CE ^ (n + 1))))
+        (CochainComplex.mappingCone.triangle (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)).asHom))
       let Y := fun n : ℕ ↦ (principalKoszulTower X ρ f E).obj ⟨n⟩
       let limitTriangle := RΓ.mapTriangle.obj (Triangle.mk a (Pi.lift fun n : ℕ ↦
         Pi.π Y n - Pi.π Y (n + 1) ≫
@@ -809,12 +809,14 @@ theorem formalFunctionsDiagram_principalKoszulTower
           (bottom : R1Torsion ≅ R1PreviousCoh),
           (∀ n : ℕ, adj.unit.app K ≫ Φ.inv ≫ RΓ.map a ≫ RΓ.map (Pi.π Y n) =
             RΓ.map (eE.inv ≫ DerivedCategory.Q.map
-              (CochainComplex.mappingCone.inr (smulComplex X (baseSmul X ρ f) CE ^ (n + 1))))) ∧
+              (CochainComplex.mappingCone.inr
+                (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)).asHom))) ∧
           (∀ n : ℕ,
             cokernel.π (PrincipalTorsionTower.powerMultiplication A (H p) (f ^ (n + 1))) ≫
                 termIn.app ⟨n⟩ =
               (HH p).map (RΓ.map (eE.inv ≫ DerivedCategory.Q.map
-                (CochainComplex.mappingCone.inr (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)))))) ∧
+                (CochainComplex.mappingCone.inr
+                  (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)).asHom)))) ∧
           (∀ n : ℕ,
             termOut.app ⟨n⟩ ≫
                 kernel.ι (PrincipalTorsionTower.powerMultiplication A (H (p + 1)) (f ^ (n + 1))) =
@@ -858,7 +860,7 @@ theorem formalFunctionsDiagram_principalKoszulTower
   obtain ⟨φ, ι₂, ι₃, hφ, hι₃, hι₂π, hι₃π, hφ₁, hδ⟩ := hC
   exact formalFunctionsDiagram_of_triangleComparison f K p (principalKoszulTower X ρ f E ⋙ RΓ) c
     (fun n ↦ RΓ.map (eE.inv ≫ DerivedCategory.Q.map
-      (CochainComplex.mappingCone.inr (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)))))
+      (CochainComplex.mappingCone.inr (smulComplex X (baseSmul X ρ f) CE ^ (n + 1)).asHom)))
     (fun n ↦ (hc n).1)
     (fun n q q' hq ↦ (HH 0).homologySequenceδ (koszulTriangle n) q q' hq ≫
       (HH q').map (RΓ.map eE.hom))
@@ -1119,7 +1121,7 @@ The inverse system `Ksys` of [Stacks, Tag 0H3D] — the cones of the iterated mu
 image of `f` on `ℱ` placed in degree zero — is the `f`-power Koszul tower of `ℱ`, viewed as an
 object of `D(𝒪_X)` in cohomological degree zero. -/
 theorem nonempty_iso_Ksys_principalKoszulTower (ℱ : SheafOfModules.{u} (structureSheafRing X)) :
-    Nonempty (Ksys ((baseSmul X ρ f).app ℱ) ≅ principalKoszulTower X ρ f
+    Nonempty (Ksys ((baseSmul X ρ f).asHom.app ℱ) ≅ principalKoszulTower X ρ f
       ((DerivedCategory.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj ℱ)) := by
   obtain ⟨t⟩ := nonempty_iso_principalKoszulComplexTower_of_iso X (baseSmul X ρ f)
     (C := sgl.obj ℱ)
@@ -1132,26 +1134,27 @@ theorem nonempty_iso_Ksys_principalKoszulTower (ℱ : SheafOfModules.{u} (struct
 /-- A derived limit `Ê` of the tower `Ksys` of cones, which is also one of the `f`-power Koszul
 tower of `ℱ` in degree zero, together with its comparisons with `ℱ^` and with that tower. -/
 private theorem exists_isDerivedLimit_ksys_principalKoszulTower
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Fhat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).app ℱ)) Fhat) :
+    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat) :
     ∃ (Ehat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-      (_ : IsDerivedLimit (Ksys ((baseSmul X ρ f).app ℱ)) Ehat)
-      (_ : Ksys ((baseSmul X ρ f).app ℱ) ≅ principalKoszulTower X ρ f
+      (_ : IsDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ)) Ehat)
+      (_ : Ksys ((baseSmul X ρ f).asHom.app ℱ) ≅ principalKoszulTower X ρ f
         ((DerivedCategory.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj ℱ)),
       Nonempty (Ehat ≅ Fhat) ∧ IsDerivedLimit (principalKoszulTower X ρ f
         ((DerivedCategory.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj ℱ))
         Ehat := by
   have _ : HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{u} A)) :=
     Stacks.DerivedProducts.hasProductsOfShape_derivedCategory
-  obtain ⟨Ehat, hEhat⟩ := exists_isDerivedLimit (Ksys ((baseSmul X ρ f).app ℱ))
+  obtain ⟨Ehat, hEhat⟩ := exists_isDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ))
   obtain ⟨eEF⟩ := nonempty_iso_isDerivedLimit_koszulTower_quotientTower X ρ f ℱ hstab
     Ehat Fhat hEhat hFhat
   obtain ⟨t⟩ := nonempty_iso_Ksys_principalKoszulTower X ρ f ℱ
   have _ : HasProduct fun n : ℕ ↦ (principalKoszulTower X ρ f
       ((DerivedCategory.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj ℱ)).obj
         ⟨n⟩ :=
-    hasProduct_of_equiv_of_iso (fun n : ℕ ↦ (Ksys ((baseSmul X ρ f).app ℱ)).obj ⟨n⟩) _
+    hasProduct_of_equiv_of_iso (fun n : ℕ ↦ (Ksys ((baseSmul X ρ f).asHom.app ℱ)).obj ⟨n⟩) _
       (Equiv.refl ℕ) fun n : ℕ ↦ (t.app ⟨n⟩).symm
   exact ⟨Ehat, hEhat, t, ⟨eEF⟩, IsDerivedLimit.of_natIso t hEhat⟩
 
@@ -1175,9 +1178,10 @@ Hᵖ(X, ℱ^) = Hᵖ(RΓ(X, ℱ)^∧), on a ringed space, with derived f-adic co
 Stacks 0BKG by an arbitrary left adjoint to the inclusion of the derived-complete objects; also \
 derived completeness of RΓ(X, ℱ^)"]
 theorem nonempty_iso_derivedSections_quotientTower_derivedCompletion
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Fhat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).app ℱ)) Fhat) :
+    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat) :
     let P : ObjectProperty (DerivedCategory (ModuleCat.{u} A)) :=
       fun L ↦ IsDerivedComplete (Ideal.span {f}) L
     ∀ (completion : DerivedCategory (ModuleCat.{u} A) ⥤ P.FullSubcategory)
@@ -1242,9 +1246,10 @@ left column, the middle column, the bottom isomorphism, the three commutativitie
 identification RΓ(X, ℱ^) = RΓ(X, ℱ)^∧; derived f-adic completion presented as in Stacks 0BKG by \
 an arbitrary left adjoint to the inclusion of the derived-complete objects"]
 theorem exists_formalFunctionsDiagram_quotientTower
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Fhat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).app ℱ)) Fhat)
+    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat)
     (p : ℤ) :
     let P : ObjectProperty (DerivedCategory (ModuleCat.{u} A)) :=
       fun L ↦ IsDerivedComplete (Ideal.span {f}) L
@@ -1257,7 +1262,7 @@ theorem exists_formalFunctionsDiagram_quotientTower
       let K := (derivedSectionsOver X ρ).obj sglF
       let H (q : ℤ) := (HH q).obj K
       let quotTower (q : ℤ) :=
-        (Csys ((baseSmul X ρ f).app ℱ) ⋙ derivedSectionsOver X ρ) ⋙ HH q
+        (Csys ((baseSmul X ρ f).asHom.app ℱ) ⋙ derivedSectionsOver X ρ) ⋙ HH q
       let ordinaryCompletion := limit (CompletionSequences.powerQuotientSystem A (H p) f)
       let limitQuot := limit (quotTower p)
       let tate := CompletionSequences.adicTateModule A (H (p + 1)) f
@@ -1298,7 +1303,7 @@ theorem exists_formalFunctionsDiagram_quotientTower
   obtain ⟨Ehat, hEhat, t, ⟨eEF⟩, hEhat'⟩ :=
     exists_isDerivedLimit_ksys_principalKoszulTower X ρ f ℱ hstab Fhat hFhat
   -- The levelwise comparison of the two towers of cohomology.
-  let tc (q : ℤ) : (Ksys ((baseSmul X ρ f).app ℱ) ⋙ derivedSectionsOver X ρ) ⋙ HH q ≅
+  let tc (q : ℤ) : (Ksys ((baseSmul X ρ f).asHom.app ℱ) ⋙ derivedSectionsOver X ρ) ⋙ HH q ≅
       (principalKoszulTower X ρ f sglF ⋙ derivedSectionsOver X ρ) ⋙ HH q :=
     Functor.isoWhiskerRight (Functor.isoWhiskerRight t (derivedSectionsOver X ρ)) (HH q)
   -- The quotient-tower column, which carries the two identifications of outer terms.

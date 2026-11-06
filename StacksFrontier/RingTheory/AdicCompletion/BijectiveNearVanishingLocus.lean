@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.Algebra.Regular.SMul
 public import Mathlib.RingTheory.AdicCompletion.Exactness
 public import Mathlib.RingTheory.Filtration
+public import Mathlib.RingTheory.Finiteness.Nakayama
 public import Mathlib.RingTheory.Localization.Module
 public import Mathlib.RingTheory.Localization.Submodule
 public import Mathlib.RingTheory.Spectrum.Prime.Topology

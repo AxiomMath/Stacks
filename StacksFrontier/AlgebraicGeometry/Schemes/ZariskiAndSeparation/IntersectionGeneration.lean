@@ -101,7 +101,6 @@ theorem closure_range_union_range_sectionsRestrict_eq_top_of_isSeparated
   clear hx
   obtain ⟨z, rfl⟩ := hsurj x
   induction z with
-  | zero => rw [map_zero]; exact zero_mem _
   | tmul a b =>
     have h : sectionTensorMap X U V (a ⊗ₜ b) =
         sectionsRestrict (inf_le_left : U ⊓ V ≤ U) a *

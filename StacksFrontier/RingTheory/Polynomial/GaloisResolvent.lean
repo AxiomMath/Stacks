@@ -535,9 +535,9 @@ theorem exists_resolventDisc_ne_zero {A : Type*} [CommRing A] [IsDomain A] (f : 
     obtain ⟨i, hi⟩ : ∃ i, π i ≠ π' i := by
       by_contra! h; exact hne (Equiv.ext fun i => (h i).symm)
     refine ⟨fun h0 => ?_, ?_⟩
-    · have := congrArg (MvPolynomial.coeff (Finsupp.single i 1)) h0
-      simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X',
-        MvPolynomial.coeff_zero, Finsupp.single_left_inj one_ne_zero, mul_ite, mul_one, mul_zero,
+    · have := congrArg (fun p : MvPolynomial (Fin m) L => p.coeff (Finsupp.single i 1)) h0
+      simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X,
+        AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finsupp.single_left_inj one_ne_zero, mul_ite, mul_one, mul_zero,
         Finset.sum_ite_eq', Finset.mem_univ, if_true] at this
       exact hi (hbinj (sub_eq_zero.mp this))
     · refine (MvPolynomial.totalDegree_finset_sum _ _).trans (Finset.sup_le fun j _ => ?_)

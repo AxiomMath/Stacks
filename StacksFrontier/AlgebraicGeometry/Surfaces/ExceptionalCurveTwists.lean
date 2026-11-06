@@ -168,7 +168,7 @@ public theorem IsExceptionalCurveOfFirstKind.pullbackPicardClass_negativeTwist_p
     Stacks.Divisors.picardClass_pow, map_neg, map_zsmul, ← hcomp,
     hE.pullbackPicardClass_invertibleSheaf, twistingSheafPicardClass_eq_zsmul k (-1),
     twistingSheafPicardClass_eq_zsmul k (d : ℤ)]
-  simp [smul_neg, neg_neg]
+  rw [neg_one_zsmul, smul_neg, neg_neg]
 
 /-- **The twist an exceptional curve of the first kind cuts out on itself.** For an exceptional
 curve of the first kind `E ⊆ X` with `e : 𝐏¹_k ≅ E`, the restriction of `𝒪_X(-dE)` to `E` pulls

@@ -221,7 +221,7 @@ theorem exists_baseChangeTwist_iso_idealTwist {X X' : Scheme.{u}} (p : X' ⟶ X)
           (Stacks.Divisors.idealSheafOfModules C')) hIM' := by
     refine h1.trans (Eq.trans ?_ h2)
     rw [hx₁, h3, hI, ← hneg, Stacks.Picard.schemePullbackClass_add]
-    abel
+    exact ((add_comm _ _).trans (add_assoc _ _ _)).symm
   exact (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).1 hcls
 
 section BaseChange

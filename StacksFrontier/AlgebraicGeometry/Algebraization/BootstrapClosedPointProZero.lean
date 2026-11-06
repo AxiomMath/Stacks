@@ -198,7 +198,7 @@ def localCohomologyAdicConeIso (J : Ideal A) (hJ : J.FG) (I : Ideal A) (i : ℤ)
     (Cone.postcompose (localCohomologyAdicTowerIso A J hJ I i M).hom).obj
         (localCohomologyAdicCone.{u, u} A (PrimeSpectrum.zeroLocus (J : Set A)) I i M) ≅
       Stacks.Algebraization.localCohomologyAdicQuotientCone A I J hJ M i :=
-  Cones.ext ((localCohomologyWithSupportInModuleFunctorIso A J hJ i).app M) fun n =>
+  Cone.ext ((localCohomologyWithSupportInModuleFunctorIso A J hJ i).app M) fun n =>
     (localCohomologyWithSupportInModuleFunctorIso A J hJ i).hom.naturality
       (Dualizing.adicQuotientProjection A I M n.unop)
 

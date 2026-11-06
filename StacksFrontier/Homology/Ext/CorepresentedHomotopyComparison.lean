@@ -212,7 +212,7 @@ def uliftNatTrans {C : Type*} [Category C] (F : C ⥤ AddCommGrpCat.{v})
     (AddEquiv.ulift.symm.toAddMonoidHom.comp ((φ X).comp AddEquiv.ulift.toAddMonoidHom))
   naturality _ _ f := by
     ext a
-    exact ULift.ext _ _ (hφ f a.down)
+    exact ULift.ext (hφ f a.down)
 
 /-- The natural transformation pushing morphisms out of `Z[0]` in the homotopy category of `A`
 into the derived category `D(A)` by `DerivedCategory.Qh`, given by `qhHomMap` at each complex. -/
@@ -261,9 +261,9 @@ instance isIso_homotopyComparison_app_quotient (L : CochainComplex A ℤ) [L.IsK
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj L)) := by
   have hC : IsIso ((homotopyHomCompQh (A := A) Z n).app L) := by
     refine (ConcreteCategory.isIso_iff_bijective _).mpr ⟨fun x y hxy => ?_, fun z => ?_⟩
-    · exact ULift.ext _ _ ((bijective_qhHomMap Z n L).injective (congrArg ULift.down hxy))
+    · exact ULift.ext ((bijective_qhHomMap Z n L).injective (congrArg ULift.down hxy))
     · obtain ⟨y, hy⟩ := (bijective_qhHomMap Z n L).surjective z.down
-      exact ⟨ULift.up y, ULift.ext _ _ hy⟩
+      exact ⟨ULift.up y, ULift.ext hy⟩
   rw [homotopyComparison_app_quotient]
   infer_instance
 

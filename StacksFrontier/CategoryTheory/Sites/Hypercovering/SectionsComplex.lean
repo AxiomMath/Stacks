@@ -561,7 +561,6 @@ lemma homFreeAbelianSheafComplex_d (J : GrothendieckTopology C)
   rw [AlgebraicTopology.alternatingFaceMapComplex_obj_d]
   simp only [AlgebraicTopology.AlternatingFaceMapComplex.objD, Functor.map_sum,
     Functor.map_zsmul, unop_sum, unop_zsmul]
-  rfl
 
 /-- The degreewise comparison is compatible with the `j`-th face map: this is the Tag 01GX
 commutation, one summand of the alternating sum at a time. -/

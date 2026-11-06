@@ -102,7 +102,6 @@ def tensorHomUncurry (g : M →ₗ[S] (N →ₗ[R] P)) : M ⊗[S] N →ₗ[R] P 
   map_add' := map_add _
   map_smul' r x := by
     induction x with
-    | zero => simp
     | tmul m n => simp [TensorProduct.smul_tmul', IsScalarTower.map_smul]
     | add x y hu hv => simp [hu, hv]
 
@@ -117,7 +116,7 @@ the left through `M ⊗_S N`, the right through `Hom_R(N, P)` — so `S` is the 
 noncomputable def tensorHomAdjEquiv : (M ⊗[S] N →ₗ[R] P) ≃ₗ[S] (M →ₗ[S] (N →ₗ[R] P)) where
   __ := tensorHomCurryL
   invFun := tensorHomUncurry
-  left_inv _ := LinearMap.ext fun x ↦ TensorProduct.induction_on x (by simp) (fun _ _ ↦ rfl) <| by
+  left_inv _ := LinearMap.ext fun x ↦ TensorProduct.inductionOn x (fun _ _ ↦ rfl) <| by
     simp +contextual
   right_inv _ := rfl
 

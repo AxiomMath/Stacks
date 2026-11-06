@@ -55,12 +55,19 @@ theorem bijective_compactSupportSheafCohomology_two_extensionByZero_counit [Fini
   obtain ⟨h, hS⟩ := shortExact_etaleModuleExtensionByZero_directImage (ZMod m) iZ jU hij G
   have hS' := hS.map_of_exact (HomologicalComplex.single (EtaleModules.{u, 0} (ZMod m) Y)
     (ComplexShape.up ℤ) 0)
+  have : IsFinite iZ := (IsClosedImmersion.iff_isFinite_and_mono (f := iZ)).1 ‹_› |>.1
+  have hiZ : LocallyOfFiniteType iZ :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType iZ).mp ‹_›).2
+  have : LocallyOfFiniteType (iZ ≫ fY) := @locallyOfFiniteType_comp _ _ _ iZ fY hiZ ‹_›
+  have : QuasiCompact (iZ ≫ fY) := quasiCompact_comp iZ fY
+  have hZ' : topologicalKrullDim Z ≤ ((0 : ℕ) : WithBot ℕ∞) := by
+    rw [Nat.cast_zero]; exact hZ
   have hvan : ∀ i : ℤ, 0 < i → IsZero ((compactSupportSheafCohomology (ZMod m) fY jY kbar i).obj
       ((etaleModuleDirectImage.{u, 0} (ZMod m) iZ).obj
         ((etaleModuleInverseImage.{u, 0} (ZMod m) iZ).obj G))) := fun i hi =>
     (isZero_compactSupportFrobeniusCohomologyGroup_single_of_topologicalKrullDim_le (iZ ≫ fY)
       (jY.restrictClosed iZ) kbar m ((etaleModuleInverseImage.{u, 0} (ZMod m) iZ).obj G) 0
-      (by exact_mod_cast hZ) i (by lia)).of_iso
+      hZ' i (by simpa using hi)).of_iso
       ((compactSupportSheafCohomologyRestrictClosedIso (ZMod m) fY jY kbar i iZ).app
         ((etaleModuleInverseImage.{u, 0} (ZMod m) iZ).obj G)).symm
   have hge : ∀ X : EtaleModules.{u, 0} (ZMod m) Y, ∃ n : ℤ, CochainComplex.IsStrictlyGE

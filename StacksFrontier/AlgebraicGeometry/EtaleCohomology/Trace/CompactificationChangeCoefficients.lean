@@ -127,9 +127,13 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalGeometricCompactlySupportedCo
         (algebraMap O E) = (F.rationalRingHom f l kbar i E).comp (algebraMap O E) := by
     refine RingHom.ext fun o => ?_
     simp only [RingHom.comp_apply, LAdicSheaf.CoefficientSheaf.rationalRingHom_algebraMap_apply]
-    exact LinearMap.ext fun w => iso_conj_apply _ _ _
+    refine LinearMap.ext fun w => ?_
+    change c (F.rationalIntegralRingHom f j kbar i o (c.symm w)) = _
+    exact iso_conj_apply
+      (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso B ℓ f g kbar
+        F.toLAdicSheaf i) _ _
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso_hom_naturality B ℓ f g kbar
-        (F.act o) i) w
+        (F.act o).asHom i) w
   refine Eq.trans ?_ (LinearMap.congr_fun
     (RingHom.congr_fun (IsLocalization.ringHom_ext (Submonoid.powers (ℓ : O)) hO) e)
     ((LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso B ℓ f g kbar

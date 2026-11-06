@@ -64,19 +64,19 @@ theorem geometricPointStalkMap_comp_etaleStalkSmallEtalePullObjIso_hom
   refine (cancel_epi (etaleStalkSmallEtalePullObjIso B f x A F).inv).1 ?_
   refine Eq.trans ?_ (Iso.inv_hom_id_assoc (etaleStalkSmallEtalePullObjIso B f x A F) _).symm
   refine colimit.hom_ext (fun V ↦ ?_)
-  obtain ⟨⟨V, w⟩⟩ := V
+  obtain ⟨@⟨V, w⟩⟩ := V
   let u := geometricPointFiberBaseChangeEquiv B f x V w
-  let eU : (geometricPointFiber B T.obj T.property x).Elements := ⟨_, u⟩
+  let eU : (geometricPointFiber B T.obj T.property x).Elements := ⟨u⟩
   let eV : (geometricPointFiber B S.obj S.property (x.map (B.inclusion.map f))).Elements :=
-    ⟨V, w⟩
+    ⟨w⟩
   have hg := etaleStalkSmallEtalePullObjIso_germ B f x A F eU eV (𝟙 _)
     (geometricPointFiberBaseChangeEquiv_ha B f x V w)
   have hinv := (Iso.comp_inv_eq (etaleStalkSmallEtalePullObjIso B f x A F)).2
     (hg.symm.trans (Category.assoc _ _ _).symm)
   let eU' : (geometricPointFiber B T.obj T.property x).Elements :=
-    ⟨eU.1, (geometricPointFiberMap B T.obj T.property a).app _ u⟩
+    ⟨(geometricPointFiberMap B T.obj T.property a).app _ u⟩
   let eV' : (geometricPointFiber B S.obj S.property (x.map (B.inclusion.map f))).Elements :=
-    ⟨V, (geometricPointFiberMap B S.obj S.property (a.mapHom (B.inclusion.map f))).app V w⟩
+    ⟨(geometricPointFiberMap B S.obj S.property (a.mapHom (B.inclusion.map f))).app V w⟩
   have hg' := etaleStalkSmallEtalePullObjIso_germ B f x A F eU' eV'
     (𝟙 _) ((Category.assoc _ _ _).trans
       (congrArg (a.hom ≫ ·) (geometricPointFiberBaseChangeEquiv_ha B f x V w)))

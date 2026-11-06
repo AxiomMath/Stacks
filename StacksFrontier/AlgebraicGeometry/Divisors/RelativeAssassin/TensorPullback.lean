@@ -196,8 +196,7 @@ private lemma maximalIdeal_eq_of_maximalIdeal_associated_quotient
   have hTinj : Function.Injective (g.lTensor N) :=
     Module.Flat.lTensor_preserves_injective_linearMap g hginj
   have hgt (t : N ⊗[R] (R ⧸ p)) : (g.lTensor N) t = r • t := by
-    refine TensorProduct.induction_on t ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn t ?_ ?_
     · intro n a
       change n ⊗ₜ[R] (rbar * a) = (r • n) ⊗ₜ[R] a
       rw [TensorProduct.smul_tmul]

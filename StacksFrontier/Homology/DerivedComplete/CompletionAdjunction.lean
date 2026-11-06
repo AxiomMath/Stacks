@@ -374,7 +374,7 @@ private lemma epi_pi_lift_sub
   funext n
   have he (z : ↑(∏ᶜ X)) : e.hom z n = (Pi.π X n) z :=
     congrArg (fun f ↦ (ConcreteCategory.hom f) z) (ModuleCat.piIsoPi_hom_ker_subtype X n)
-  rw [he, he, ← ModuleCat.comp_apply, Pi.lift_π]
+  rw [he, he, ← ModuleCat.comp_apply, Pi.lift_comp_π]
   show (Pi.π X n) (e.inv v) - (τ n) ((Pi.π X (n + 1)) (e.inv v)) = (Pi.π X n) y
   have hv (k : ℕ) : (Pi.π X k) (e.inv v) = v k := by
     rw [← ModuleCat.comp_apply, ModuleCat.piIsoPi_inv_kernel_ι]
@@ -472,7 +472,7 @@ theorem isDerivedComplete_isTriangulated (A : Type u) [CommRing A] (I : Ideal A)
     refine isDerivedCompleteAt_of_isNilpotent (L := (0 : DerivedCategory (ModuleCat.{u} A)))
       ⟨1, ?_⟩
     rw [pow_one]
-    exact (isZero_zero (DerivedCategory (ModuleCat.{u} A))).eq_of_src _ _
+    ext
   have hshift : P.IsStableUnderShift ℤ :=
     ⟨fun n ↦ ⟨fun X hX ↦ isDerivedComplete_shift I hX n⟩⟩
   have hext : P.IsTriangulatedClosed₂ := .mk' fun T hT h₁ h₃ a ha ↦

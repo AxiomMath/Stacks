@@ -113,6 +113,26 @@ universe u
 
 namespace AlgebraicGeometry
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasProducts_presheaf_ProperValuativeLifting {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ProperValuativeLifting {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProperValuativeLifting
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The adic completion of a ring injects into the product of its quotient stages, so its
 cardinality is bounded by that of a countable product of copies of the ring. -/
 theorem mk_adicCompletion_le (R : Type u) [CommRing R] (I : Ideal R) :

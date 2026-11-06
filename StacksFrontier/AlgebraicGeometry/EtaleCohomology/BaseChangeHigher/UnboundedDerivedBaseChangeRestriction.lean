@@ -143,11 +143,9 @@ theorem unboundedFac_of_homotopy
   intro K
   have h2 : τh.app K = (NatTrans.mapHomotopyCategory τ (ComplexShape.up ℤ)).app K := by
     obtain ⟨L, rfl⟩ := HomotopyCategory.quotient_obj_surjective K
-    rw [hτh, mapHomotopyCategoryCompIso_hom_comp_comp_inv_app_quotient_obj,
-      NatTrans.mapHomotopyCategory_app]
+    rw [hτh, mapHomotopyCategoryCompIso_hom_comp_comp_inv_app_quotient_obj]
     rfl
   rw [hfac K, h2]
-  rfl
 
 variable [RF.IsRightDerivedFunctor uF (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
   [RF'.IsRightDerivedFunctor uF' (HomotopyCategory.quasiIso C (ComplexShape.up ℤ))]
@@ -167,7 +165,7 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
     DerivedCategory.Plus.ι.map ((Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso G).hom.app
         (F.rightDerivedFunctorPlus.obj K)) ≫
       DerivedCategory.Plus.ι.map
-        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app K) ≫
+        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app K) ≫
       (F'.boundedDerivedIso RF' uF' hresC).hom.app (G'.rightDerivedFunctorPlus.obj K) ≫
       RF'.map (DerivedCategory.Plus.ι.map
         ((Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso G').inv.app K)) =
@@ -177,7 +175,7 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
     G.mapDerivedCategoryPlus ⋙ DerivedCategory.Plus.ι
   let α : (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙ H₁ ⟶
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ H₁) :=
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit H₁ ≫ (Functor.associator _ _ _).hom
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith H₁ ≫ (Functor.associator _ _ _).hom
   have : (F.rightDerivedFunctorPlus ⋙ H₁).IsRightDerivedFunctor α
       (HomotopyCategory.Plus.quasiIso A) :=
     (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso α
@@ -187,7 +185,7 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
     Functor.whiskerLeft F.rightDerivedFunctorPlus
         (Functor.whiskerRight (Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso G).hom
           DerivedCategory.Plus.ι) ≫
-      Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit))
+      Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith))
         DerivedCategory.Plus.ι ≫
       Functor.whiskerLeft G'.rightDerivedFunctorPlus (F'.boundedDerivedIso RF' uF' hresC).hom ≫
       Functor.whiskerRight
@@ -202,7 +200,7 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
       (HomotopyCategory.Plus.quasiIso A) _ L R ?_
     ext Kh
     let M := F.mapHomotopyCategoryPlus.obj Kh
-    let u := F.rightDerivedFunctorPlusUnit.app Kh
+    let u := F.rightDerivedFunctorPlusUnith.app Kh
     let N := G'.mapHomotopyCategoryPlus.obj Kh
     have n1 : DerivedCategory.Plus.ι.map (G.mapDerivedCategoryPlus.map u) ≫
         DerivedCategory.Plus.ι.map
@@ -218,27 +216,27 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
           ((Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso G).hom.app
             (DerivedCategory.Plus.Qh.obj M)) =
         DerivedCategory.Plus.ι.map (G.mapDerivedCategoryPlusFactorsh.hom.app M) ≫
-          DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnit).hom.app M) := by
+          DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnith).hom.app M) := by
       rw [Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso_hom_app_Qh, ← Functor.map_comp]
       rfl
     have f1 : DerivedCategory.Plus.ι.map (G.rightDerivedFunctorPlus.map u) ≫
         DerivedCategory.Plus.ι.map
-          ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app
+          ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app
             (DerivedCategory.Plus.Qh.obj Kh)) =
-        DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnit).inv.app M) ≫
+        DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnith).inv.app M) ≫
           DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh)) ≫
-          DerivedCategory.Plus.ι.map (F'.rightDerivedFunctorPlusUnit.app N) ≫
+          DerivedCategory.Plus.ι.map (F'.rightDerivedFunctorPlusUnith.app N) ≫
           DerivedCategory.Plus.ι.map
-            (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app Kh)) := by
+            (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app Kh)) := by
       rw [← Functor.map_comp, derived_fac_app, onHomotopy_app]
       rfl
-    have hinv : DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnit).hom.app M) ≫
-        DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnit).inv.app M) = 𝟙 _ := by
+    have hinv : DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnith).hom.app M) ≫
+        DerivedCategory.Plus.ι.map ((asIso G.rightDerivedFunctorPlusUnith).inv.app M) = 𝟙 _ := by
       rw [← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
     have n3 := (F'.boundedDerivedIso RF' uF' hresC).hom.naturality
-      (G'.rightDerivedFunctorPlusUnit.app Kh)
+      (G'.rightDerivedFunctorPlusUnith.app Kh)
     have p1 := Functor.boundedDerivedIso_hom_app F' RF' uF' hresC N
-    have n4 : RF'.map (DerivedCategory.Plus.ι.map (G'.rightDerivedFunctorPlusUnit.app Kh)) ≫
+    have n4 : RF'.map (DerivedCategory.Plus.ι.map (G'.rightDerivedFunctorPlusUnith.app Kh)) ≫
         RF'.map (DerivedCategory.Plus.ι.map
           ((Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso G').inv.app
             (DerivedCategory.Plus.Qh.obj Kh))) =
@@ -255,7 +253,6 @@ theorem ι_map_derived_app_of_unboundedFac (hbc : UnboundedFac F F' G G' τ RF u
           (DerivedCategory.Plus.Qh.obj Kh)) =
         G.mapDerivedCategory.map (uF.app ((HomotopyCategory.Plus.ι A).obj Kh)) := by
       rw [← Functor.map_comp, Functor.boundedDerivedIso_hom_app]
-      rfl
     have key := unbounded_chase n1 n2 f1 hinv n3 p1 n4
       (hbc ((HomotopyCategory.Plus.ι A).obj Kh)) hfG p2
     change (H₁.map u ≫ 𝟙 _) ≫ L.app (DerivedCategory.Plus.Qh.obj Kh) =

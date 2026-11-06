@@ -86,7 +86,7 @@ theorem restrictTop_top (a : Γ(X, ⊤)) : restrictTop a (⊤ : X.Opens) = a := 
 
 /-- **Multiplication of a sheaf of modules by a global function.** -/
 def globalSmul (a : Γ(X, ⊤)) (M : X.Modules) : M ⟶ M :=
-  (Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf (globalRestrictFamily a)).app M
+  (Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf (globalRestrictFamily a)).asHom.app M
 
 /-- On sections over `U`, `globalSmul a M` is multiplication by the restriction of `a` to `U`. -/
 theorem globalSmul_app (a : Γ(X, ⊤)) (M : X.Modules) (U : X.Opens) (x : Γ(M, U)) :
@@ -103,7 +103,7 @@ theorem globalSmul_app_top (a : Γ(X, ⊤)) (M : X.Modules) (x : Γ(M, ⊤)) :
 theorem comp_globalSmul (a : Γ(X, ⊤)) {M N : X.Modules} (φ : M ⟶ N) :
     φ ≫ globalSmul a N = globalSmul a M ≫ φ :=
   (Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf
-    (globalRestrictFamily a)).naturality φ
+    (globalRestrictFamily a)).asHom.naturality φ
 
 /-- Multiplication by `1` is the identity. -/
 theorem globalSmul_one (M : X.Modules) : globalSmul (1 : Γ(X, ⊤)) M = 𝟙 M := by

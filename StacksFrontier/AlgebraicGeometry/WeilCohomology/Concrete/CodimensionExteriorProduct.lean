@@ -111,7 +111,7 @@ theorem isClopenDecomposition_partProdIncl (n : ℕ) :
       Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at h1
     have := (isClopenDecomposition_dimPart sX).eq_of_mem (h1 ▸ opens_ι_apply_mem _ _)
       (opens_ι_apply_mem (dimPart sX d'.down) _)
-    exact hdd' (ULift.ext _ _ (Fin.ext this))
+    exact hdd' (ULift.ext (Fin.ext this))
   iSup_eq_top := by
     refine eq_top_iff.2 fun z _ ↦ ?_
     set z' := (dimPart (prodBase sX sY) n).ι z

@@ -70,6 +70,21 @@ open Stacks.Spaces
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))
 
+/-- Pullbacks of presheaves on a big fppf site over a scheme (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_quasiSeparatedFibreProducts
+    {T : Scheme.{u}} {hT : B.Contains T}
+    {X Y Z : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Binary products of presheaves on a big fppf site over a scheme (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasBinaryProduct_presheaf_quasiSeparatedFibreProducts
+    {T : Scheme.{u}} {hT : B.Contains T} (X Y : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u) :
+    HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The affine test condition of Stacks 0AHR, transported to the big fppf site of the terminal
 scheme: if every fibre product of two affine charts of `X` over `S` is a quasi-compact scheme,
 then every fibre product of two morphisms from affine objects of the site over the terminal

@@ -137,9 +137,18 @@ theorem exists_approximation_of_isPseudoCoherentFrom_representedAffineDerivedSec
   · have := hiso j hj
     rw [hφ j]
     infer_instance
-  · have : Epi (Φ₀.map ((DerivedCategory.homologyFunctor _ m).map α)) := Functor.map_epi _ _
+  · have hα : Epi (Φ₀.map ((DerivedCategory.homologyFunctor _ m).map α)) := Functor.map_epi _ _
+    have hε : IsIso ((DerivedCategory.homologyFunctor _ m).map
+        ((representedAffineDerivedAdjunction B S hS U).counit.app E)) := Functor.map_isIso _ _
     rw [hφ m]
-    infer_instance
+    exact epi_comp'
+      (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((DerivedCategory.homologyFunctor _ m).mapIso
+        (Φ₀.mapDerivedCategoryFactors.app N).symm)))
+      (epi_comp' (epi_comp'
+        (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((Φ₀.mapDerivedCategoryHomologyIso m).app _)))
+        (epi_comp' hα
+          (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv ((Φ₀.mapDerivedCategoryHomologyIso m).app _)))))
+        (@IsIso.epi_of_iso _ _ _ _ _ hε))
 
 end Affine
 

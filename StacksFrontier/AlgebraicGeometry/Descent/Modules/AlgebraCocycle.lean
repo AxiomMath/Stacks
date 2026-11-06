@@ -85,7 +85,6 @@ lemma lTensor_unitTransition_symm (u : A ⊗[R] B) :
       = (TensorProduct.congr (LinearEquiv.refl R A) (algebraTargetEquiv R A B).symm)
           (LinearMap.lTensor A (algebraUnitTransition R A B τ) u) := by
   induction u with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul x b =>
     rw [algebraTargetEquiv_symm_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -100,7 +99,6 @@ lemma lTensor_mk_symm (u : A ⊗[R] B) :
       = (TensorProduct.congr (LinearEquiv.refl R A) (algebraTargetEquiv R A B).symm)
           (LinearMap.lTensor A (TensorProduct.mk R A B 1) u) := by
   induction u with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul x b =>
     rw [algebraTargetEquiv_symm_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,

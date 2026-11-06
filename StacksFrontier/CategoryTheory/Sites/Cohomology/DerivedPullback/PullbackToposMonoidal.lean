@@ -51,12 +51,20 @@ namespace Stacks.Sheaves.DerivedPullback
 
 universe u
 
+/- Since Lean v4.35.0 instance search reaches weak sheafification of abelian presheaves through
+the section variables `[HasSheafify _ AddCommGrpCat]` (via `instHasWeakSheafifyOfHasSheafify`),
+which would make them hypotheses of the declarations below. With that bridge erased here, the
+global instance is found instead, as before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 /-- The identity functor applied to an identity, followed by a morphism and an identity, is that
 morphism. Stated with every object a variable, so that it applies across the two spellings of
 the structure sheaf at which the identities below are written. -/
 private lemma map_id_comp_comp_id {C D : Type*} [Category C] [Category D] (G : C ⥤ D) (X : C)
     {Z : D} (d : G.obj X ⟶ Z) : G.map (𝟙 X) ≫ d ≫ 𝟙 Z = d := by
   simp
+
+section Monoidal
 
 variable {X Y : RingedTopos.{u, u, u}}
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
@@ -104,17 +112,22 @@ private theorem δ_idMonoidalStrictToSheafTensor
       (_root_.SheafOfModules.idMonoidalStrictToSheafTensor X.O).toOplaxMonoidal P Q = 𝟙 _ :=
   rfl
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
-  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
+end Monoidal
+
+/- Since Lean v4.35.0 the proof below, elaborated with the section variables
+`[HasSheafify _ AddCommGrpCat]` merely omitted, picks them up by instance search, so the `omit`
+that kept them out of the statement no longer applies. The theorem is stated in a section that
+never declares them (with the same remaining binders as before), so instance search finds the
+global `Stacks.SheafOfModules.coefficientSheafification`, as the omitted variables did before. -/
+section MonoidalDelta
+
+variable {X Y : RingedTopos.{u, u, u}}
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  (f : RingedToposSiteHom X Y) (hmos : f.u.IsMorphismOfSites Y.J X.J)
+
 /-- **The tensorator of the site-presented pullback is the comparison of Stacks 03EL**: the oplax
 tensorator of `pullbackToposMonoidal` is `pullbackToposTensorMap`, the comparison out of which
 the identification of total tensor complexes behind Stacks 07A4 is built. -/
@@ -152,6 +165,8 @@ theorem pullbackToposMonoidal_δ
     rw [δ_idMonoidalStrictToSheafTensor]
     exact map_id_comp_comp_id _ _ _
   · rfl
+
+end MonoidalDelta
 
 end Stacks.Sheaves.DerivedPullback
 

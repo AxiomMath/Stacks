@@ -332,7 +332,7 @@ theorem mvPolynomialSystemMap_eventually_eq
   let t := pQ.support ∪ qQ.support
   have hcoeffAll : ∀ d : Q →₀ ℕ, gR i (pQ.coeff d) = gR i (qQ.coeff d) := by
     intro d
-    exact congrArg (MvPolynomial.coeff d) hQ
+    exact congrArg (fun p => p.coeff d) hQ
   choose k hk hkeq using fun d : Q →₀ ℕ => hR.exists_eq i (pQ.coeff d) (qQ.coeff d)
     (hcoeffAll d)
   obtain ⟨m, hm⟩ := Finset.exists_le (insert l (t.image k))

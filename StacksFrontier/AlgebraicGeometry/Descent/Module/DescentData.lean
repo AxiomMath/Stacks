@@ -184,7 +184,6 @@ instance sourceTensor_isScalarTower (N : ModuleCat.{w} A) :
     IsScalarTower R (A ⊗[R] A) (restrictModule R A N ⊗[R] A) :=
   IsScalarTower.of_algebraMap_smul (fun r x ↦ by
     induction x with
-    | zero => simp
     | add x y hx hy => simp_all
     | tmul n a =>
       rw [show algebraMap R (A ⊗[R] A) r = algebraMap R A r ⊗ₜ[R] 1 from rfl,
@@ -198,7 +197,6 @@ instance targetTensor_isScalarTower (N : ModuleCat.{w} A) :
     IsScalarTower R (A ⊗[R] A) (A ⊗[R] restrictModule R A N) :=
   IsScalarTower.of_algebraMap_smul (fun r x ↦ by
     induction x with
-    | zero => simp
     | add x y hx hy => simp_all
     | tmul a n =>
       rw [show algebraMap R (A ⊗[R] A) r = algebraMap R A r ⊗ₜ[R] 1 from rfl,

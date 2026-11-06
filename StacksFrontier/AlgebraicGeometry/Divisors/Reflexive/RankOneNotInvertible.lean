@@ -86,6 +86,12 @@ noncomputable abbrev planeRing : CommRingCat.{u} :=
 noncomputable abbrev planeModule : ModuleCat.{u} planeRing.{u} :=
   ModuleCat.of planeRing.{u} (plane planeBase.{u})
 
+/-- The ideal `m` is a module over `planeRing`, through its carrier `adjoinGenerators`
+(instance search no longer finds it through `CommRingCat.of`). -/
+noncomputable instance moduleGeneratorIdeal :
+    Module planeRing.{u} (generatorIdeal planeBase.{u}) :=
+  Submodule.module (generatorIdeal planeBase.{u})
+
 /-- The distinguished maximal ideal `m = (y, x², xy, x³)` of `R`, as an `R`-module. -/
 noncomputable abbrev planeIdealModule : ModuleCat.{u} planeRing.{u} :=
   ModuleCat.of planeRing.{u} (generatorIdeal planeBase.{u})

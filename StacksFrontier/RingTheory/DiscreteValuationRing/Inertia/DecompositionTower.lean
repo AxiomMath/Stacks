@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.InvariantRing
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 
 /-!
 # The decomposition, inertia and wild inertia tower
@@ -185,7 +186,7 @@ private theorem ramificationIdx_eq_card_and_quotientMap_surjective
     intro Q hQ hQm
     obtain ⟨g, hg⟩ := Algebra.IsInvariant.exists_smul_of_under_eq A B G m Q hQm.symm
     exact hg.trans (Ideal.inertia_le_stabilizer m (show g ∈ m.inertia G by rw [hI]; trivial))
-  have : (m.under A).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m
+  have : (m.under A).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m
   let : Field (A ⧸ m.under A) := Ideal.Quotient.field (m.under A)
   let : Field (B ⧸ m) := Ideal.Quotient.field m
   have hf : m.inertiaDeg A = 1 := by
@@ -221,7 +222,7 @@ private theorem ramificationIdx_and_inertiaDeg_eq_one_of_stabilizer
       _ = Nat.card (MulAction.stabilizer G m) := hb.symm
       _ = _ := by rw [one_mul, ht]
   have hc := Nat.eq_of_mul_eq_mul_right
-    (Nat.mul_pos (Ideal.ramificationIdx_pos m C) (Ideal.inertiaDeg_pos m C)) hh
+    (Nat.mul_pos (Ideal.ramificationIdx_pos C m) (Ideal.inertiaDeg_pos m C)) hh
   exact ⟨Nat.eq_one_of_mul_eq_one_right hc, Nat.eq_one_of_mul_eq_one_left hc⟩
 
 section ResidueFields
@@ -402,6 +403,7 @@ private theorem fixedPoints_isDedekindDomain_and_finite
     IsIntegralClosure.finite A K (IntermediateField.fixedField H) _⟩
 
 set_option maxHeartbeats 3200000 in
+set_option synthInstance.maxHeartbeats 400000 in
 -- The tower carries many dependent algebra structures.
 private theorem exists_wildInertia_fixedField_tower
     (A : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
@@ -583,7 +585,7 @@ private theorem exists_wildInertia_fixedField_tower
   have hcoprime : Nat.Coprime (Nat.card (I ⧸ P))
       (ringExpChar (IsLocalRing.ResidueField A)) := by
     rw [Nat.card_congr e.toEquiv, hcard]
-    exact coprime_div_ringChar_factorization _ _ (Ideal.ramificationIdx_pos m A).ne'
+    exact coprime_div_ringChar_factorization _ _ (Ideal.ramificationIdx_pos A m).ne'
   let BD_LI : BD →ₐ[A] LI := jI.comp BD_BI
   let BI_LP : BI →ₐ[A] LP := jP.comp BI_BP
   let BD_LP : BD →ₐ[A] LP := jP.comp BD_BP
@@ -611,6 +613,7 @@ private theorem exists_wildInertia_fixedField_tower
 end DecompositionTower
 
 set_option maxHeartbeats 3200000 in
+set_option synthInstance.maxHeartbeats 400000 in
 -- The tower carries many dependent algebra structures.
 /-- **Stacks Tag 0BU6.** The fixed fields, invariant rings, contracted primes, localized
 rings, and residue fields attached to the wild inertia, inertia, and decomposition groups of

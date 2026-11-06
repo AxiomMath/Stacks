@@ -85,7 +85,7 @@ theorem smallerBaseSheafifiedYonedaIso_hom_app_comp (T : BigFppfOver B V hV) :
         (Over.homMk T.hom rfl : (Over.map g).obj T ⟶ Over.mk g) =
       smallerBaseStr B V S hV hS g ((BigFppfOver.topology B V hV).uliftYoneda.{u + 1}.obj T) := by
     ext W p
-    exact ULift.ext _ _ (Over.OverMorphism.ext (Over.w p.2.down))
+    exact ULift.ext (Over.OverMorphism.ext (Over.w p.2.down))
   have h2 := (Sheaf.uliftYonedaIsoSheafifiedYoneda (BigFppfOver.topology B S hS)).hom.naturality
     (Over.homMk T.hom rfl : (Over.map g).obj T ⟶ Over.mk g)
   have h3 := smallerBaseSheafFunctor_map_comp_str B V S hV hS g

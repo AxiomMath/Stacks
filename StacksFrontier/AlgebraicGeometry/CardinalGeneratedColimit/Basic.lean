@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Subobject
 public import StacksFrontier.AlgebraicGeometry.CoherentFinite.Basic
 public import StacksFrontier.AlgebraicGeometry.GabberColimit.Basic

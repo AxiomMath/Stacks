@@ -108,7 +108,8 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Bb : AlgebraicSpaces B S hS} (Z : ClosedSubspaces B S hS X.1) (b : X ⟶ Bb)
   (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-  (D : ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation'
+    ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
     (structureSharpInverseImage B S hS b).hom)
 
 /-- **The direct image of the transpose of `D`, evaluated at the unit `𝒪_X ⟶ i_*i^{-1}𝒪_X`,

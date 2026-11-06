@@ -73,7 +73,8 @@ theorem topologicalKrullDim_affineSpace_of_finite (k : Type u) [Field k] (n : Ty
           (TopCat.homeoOfIso
             (Scheme.forgetToTop.mapIso (AffineSpace.SpecIso n (.of k)))).isHomeomorph
     _ = ringKrullDim (MvPolynomial n k) := PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _
-    _ = ringKrullDim k + Nat.card n := MvPolynomial.ringKrullDim_of_isNoetherianRing
+    _ = ringKrullDim k + Nat.card n := by
+      rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ENat.card_eq_coe_natCard]; rfl
     _ = (Nat.card n : WithBot ℕ∞) := by simp
 
 /-- **The Krull dimension of affine `r`-space over a field is `r`.** -/

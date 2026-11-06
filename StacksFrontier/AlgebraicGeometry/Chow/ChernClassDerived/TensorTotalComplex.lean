@@ -114,6 +114,7 @@ section Biproduct
 
 variable {T : Scheme.{u}}
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The biproduct of a family indexed by `ι` is an extension of the biproduct of the family
 restricted to `ι ∖ {i}` by its `i`-th member. -/
 theorem shortExact_biproduct_ι {ι : Type} [Finite ι] (f : ι → T.Modules) (i : ι) :

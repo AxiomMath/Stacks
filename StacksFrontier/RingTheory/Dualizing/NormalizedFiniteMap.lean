@@ -106,7 +106,7 @@ theorem exists_residueField_retraction
       (ModuleCat.uliftFunctor.{v} A).obj X_A₀
     exact (ModuleCat.uliftFunctor.{v} A).map (ModuleCat.ofHom r), ?_⟩
   ext x
-  exact ULift.ext _ _ (LinearMap.congr_fun hsplit x.down)
+  exact ULift.ext (LinearMap.congr_fun hsplit x.down)
 
 /-- If `A → B` is a finite local homomorphism of local rings and `RHom_A(κ_A, K)` is `κ_A` in
 degree zero, then there is a nonzero morphism in `D(A)` from `κ_B` in degree zero to `K`. -/

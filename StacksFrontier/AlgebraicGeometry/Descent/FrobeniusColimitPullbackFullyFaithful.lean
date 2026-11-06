@@ -69,6 +69,7 @@ lemma pullbackComm_comp_pullbackComp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (a : X �
   have : IsIso Θ := by
     dsimp only [Θ]
     infer_instance
+  have : Epi Θ := IsIso.epi_of_iso Θ
   have hR : IsCanonical (Θ ≫ RN) := by
     have : Θ ≫ RN = (pullbackCongr hL').hom := by
       simp only [Θ, RN, Category.assoc]

@@ -191,7 +191,7 @@ public theorem isClosed_prodPoint (x : projectiveSpaceOfModule k V)
     (hx : IsClosed ({x} : Set _)) (lam : movingLine k V L) (hlam : IsClosed ({lam} : Set _))
     (y : projectiveSpaceOfModule k V) (hy : IsClosed ({y} : Set _)) :
     IsClosed ({(prodPoint k V L x hx lam hlam y hy).base
-      (IsLocalRing.closedPoint k)} : Set (movingProd k V L)) := by
+                (IsLocalRing.closedPoint k)} : Set (movingProd k V L)) := by
   have hcomp : prodPoint k V L x hx lam hlam y hy ≫ movingProdToSpec k V L = 𝟙 _ := by
     rw [movingProdToSpec, ← Category.assoc, prodPoint_comp_prAmbient, movingAmbientToSpec,
       ← Category.assoc, ambientPoint_comp_ambLine, pointOfClosedPoint_comp]

@@ -334,7 +334,7 @@ private theorem geometricallyUnibranch_iff_unique_minimalPrime_core
         ⟨tensor_includeRight_isIntegral (A := A) (B := A') (C := Ash)⟩
       have hcAsh : (m.comap g).IsMaximal := by
         let : m.IsMaximal := hmmax
-        exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' (R := Ash) (S := T) g
+        exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := Ash) (S := T) g
           (tensor_includeRight_isIntegral (A := A) (B := A') (C := Ash)) m
       have hcA : (m.comap f).comap (algebraMap A A') = IsLocalRing.maximalIdeal A := by
         rw [Ideal.comap_comap]
@@ -348,8 +348,8 @@ private theorem geometricallyUnibranch_iff_unique_minimalPrime_core
         exact ⟨fun hx hxu => hx (hxu.map _),
           fun hx => map_nonunit (algebraMap A Ash) x hx⟩
       have hc : (m.comap f).IsMaximal := by
-        apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) (m.comap f)
-        rw [hcA]
+        apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) (m.comap f)
+        rw [Ideal.under_def, hcA]
         exact IsLocalRing.maximalIdeal.isMaximal A
       have hcm : m.comap f = m'.asIdeal := IsLocalRing.eq_maximalIdeal hc
       let P : PrimeSpectrum T := ⟨m, hmmax.isPrime⟩

@@ -67,7 +67,7 @@ theorem identityEnd_eq_id_of_generate (R : ∀ U : C, Presieve U)
     τ = 𝟙 _ := by
   have hα : ∀ U, J.identityEndRepresenting τ U = 𝟙 U := by
     intro U
-    have hsh := (isSheaf_iff_isSheaf_of_type J _).1 (J.yoneda.obj U).cond
+    have hsh := (isSheaf_iff_isSheaf_of_type J _).1 (J.yoneda.obj U).property
     refine (hsh.isSeparated _ (hR U)).ext fun W f hf => ?_
     obtain ⟨V, f', g, hg, rfl⟩ := hf
     change (f' ≫ g) ≫ J.identityEndRepresenting τ U = (f' ≫ g) ≫ 𝟙 U

@@ -62,8 +62,8 @@ theorem continuousGModuleCounitAddEquiv_rho {G : Type u} [Group G] [TopologicalS
     (v : ((continuousGModuleEquivContinuousGAddCommGrp.{u, u + 1} G).inverse.obj E).obj.obj.V) :
     continuousGModuleCounitAddEquiv E
         ((((continuousGModuleEquivContinuousGAddCommGrp.{u, u + 1} G).inverse.obj E).obj.obj.ρ
-          g).hom v) =
-      ConcreteCategory.hom (E.obj.obj.ρ g) (continuousGModuleCounitAddEquiv E v) :=
+          g).asHom.hom v) =
+      ConcreteCategory.hom (E.obj.obj.ρ g).asHom (continuousGModuleCounitAddEquiv E v) :=
   ConcreteCategory.congr_hom
     (((continuousGModuleEquivContinuousGAddCommGrp.{u, u + 1} G).counitIso.hom.app E).hom.hom.comm
       g) v
@@ -77,7 +77,7 @@ theorem etaleGaloisModuleAddEquivStalk_rho (σ : GeometricPoint.absoluteGaloisGr
     (a : GeometricPoint.Hom sbar sbar) (ha : a.hom = Spec.map (CommRingCat.ofHom τ.toRingHom))
     (w : (etaleGaloisModule.{u, u + 1} B K hK sbar F).obj.obj.V) :
     etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar F
-        (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar F).obj.obj.ρ σ) w) =
+        (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar F).obj.obj.ρ σ).asHom w) =
       ConcreteCategory.hom ((geometricPointStalkMap B (Spec (.of K)) hK a
         AddCommGrpCat.{u + 1}).app F.obj)
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar F w) := by
@@ -175,7 +175,8 @@ theorem sheafEquivFunctorSheafFiberIsoAb_inv_naturality {x y : GeometricPoint S}
   have hr := (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ (sheafEquivFunctorSheafFiberIsoAb B S hS x).inv.app F)
       (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S hS x)).op ⋙
-        F.obj) (neighborhoodFunctor B S hS a).op (op ⟨U, z⟩))).trans
+        F.obj) (neighborhoodFunctor B S hS a).op
+        (op ((geometricPointFiber B S hS y).elementsMk U z)))).trans
     (toPresheafFiber_sheafEquivFunctorSheafFiberIsoAb_inv B S hS x F U _))
   refine hl.trans (Eq.trans ?_ hr.symm)
   congr 2

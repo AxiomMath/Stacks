@@ -78,7 +78,6 @@ noncomputable def etaleArrowPostcomposeAdjunction (hφ : Etale (B.inclusion.map 
   SmallEtale.postcomposeBaseChangeAdjunction E (p.obj y).left.1 (contains_base B E h S hS p y)
     (etaleArrowSmallEtaleObject B E h S hS p φ hφ)
 
-attribute [local implicit_reducible] CategoryTheory.Over.post in
 /-- **The comparison of Stacks 06W2 along an étale arrow, read through the unit of the
 post-composition adjunction, is restriction along an isomorphism.** For every presheaf `G` on
 `𝒳` with values in any category and every `T` étale over the scheme `U` below `x`, the component

@@ -24,6 +24,19 @@ open AlgebraicGeometry.Space
 
 variable {S : Scheme.{u}}
 
+/-- Pullbacks of presheaves on `BigFppfOver C S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_RestrictionCompRealization
+    (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S) :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_RestrictionCompRealization
+    (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
+    {X' Y' Z' : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X' ⟶ Z') (g : Y' ⟶ Z') :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_RestrictionCompRealization C S hS).has_limit _
+
 /-! ### Comparison of the two compositions of a restriction -/
 
 /-- Reading a composite through an identification: if `α ≫ s` is `ya ≫ ι` and `ι ≫ t` is `yb`,

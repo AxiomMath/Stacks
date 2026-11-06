@@ -318,7 +318,7 @@ private theorem nonempty_specializedCoordinateRing_specialFiberEquiv
     (hφ : ∀ i, φ (MvPolynomial.X i) ∈ Ideal.span ({PowerSeries.X} : Set (PowerSeries k))) :
     Nonempty ((specializedCoordinateRing n c f φ ⧸
       Ideal.span ({algebraMap (PowerSeries k) (specializedCoordinateRing n c f φ)
-        PowerSeries.X} : Set (specializedCoordinateRing n c f φ))) ≃ₐ[k]
+                    PowerSeries.X} : Set (specializedCoordinateRing n c f φ))) ≃ₐ[k]
       (MvPolynomial (Fin n) k ⧸ Ideal.span (Set.range f))) := by
   classical
   let B := specializedCoordinateRing n c f φ
@@ -721,7 +721,8 @@ public theorem exists_flat_powerSeries_specialFiber_smooth_genericFiber
     have : IsScalarTower k (PowerSeries k) B := .of_algebraMap_eq fun _ => rfl
     let : Algebra.IsRelativeGlobalCompleteIntersection (PowerSeries k) B :=
       ⟨⟨n + 1, c + 1, Q, hQ⟩⟩
-    let := Algebra.Syntomic.of_isRelativeGlobalCompleteIntersection (PowerSeries k) B
+    let hsyn := Algebra.Syntomic.of_isRelativeGlobalCompleteIntersection (PowerSeries k) B
+    have : Module.Flat (PowerSeries k) B := hsyn.flat
     let : Algebra.Smooth (LaurentSeries k) (LaurentSeries k ⊗[PowerSeries k] B₀) := hsm
     have hsmB := smooth_baseChange_localizationAway
       (R := PowerSeries k) (K := LaurentSeries k) g

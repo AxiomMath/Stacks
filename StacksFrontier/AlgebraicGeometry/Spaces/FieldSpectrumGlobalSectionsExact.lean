@@ -479,16 +479,16 @@ theorem exists_map_separableChartToId_eq {P : (SmallEtale B S hS (yoneda.obj V))
     let T : Sieve Z :=
       { arrows := fun Y g => P.map g.op (P.map p₁.op t) = P.map g.op (P.map p₂.op t)
         downward_closed := fun {Y Y'} g hg f => by
-          rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+          rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
           exact congrArg _ hg }
     refine (hP T (mem_topology_of_forall_separableChart (e := e) T fun L' _ _ _ _ m => ?_)
       ).isSeparatedFor.ext fun Y g hg => hg
     obtain ⟨σ, hσ⟩ := exists_separableChartAut_of_isGalois (m ≫ p₁) (m ≫ p₂)
     show P.map m.op (P.map p₁.op t) = P.map m.op (P.map p₂.op t)
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
       ← op_comp, hσ, show ((m ≫ p₁) ≫ separableChartAut B S hS K V e L σ).op =
         (separableChartAut B S hS K V e L σ).op ≫ (m ≫ p₁).op from rfl,
-      FunctorToTypes.map_comp_apply, ht])
+      Functor.map_comp_apply, ht])
   exact ⟨t₀, ht₀⟩
 
 end Descent

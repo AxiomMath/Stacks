@@ -240,14 +240,14 @@ endomorphism monoid `End 𝒪_V`, whose multiplication is composition in the rev
 def structureModuleEndMulEquiv (V : BigFppfOver B S hS) :
     End (structureModule ((schemeSpaceFunctor B S hS).obj V)) ≃*
       Γ((BigFppfOver.toScheme B S hS).obj V, ⊤) :=
-  { structureModuleEndEquiv V with
-    map_mul' f g := (structureModuleEndEquiv_comp V g f).trans (mul_comm _ _) }
+  { End.homEquiv.trans (structureModuleEndEquiv V) with
+    map_mul' f g := (structureModuleEndEquiv_comp V g.asHom f.asHom).trans (mul_comm _ _) }
 
 /-- `AlgebraicGeometry.Space.structureModuleEndMulEquiv` is
 `AlgebraicGeometry.Space.structureModuleEndEquiv`. -/
 theorem structureModuleEndMulEquiv_apply (V : BigFppfOver B S hS)
     (f : End (structureModule ((schemeSpaceFunctor B S hS).obj V))) :
-    structureModuleEndMulEquiv V f = structureModuleEndEquiv V f :=
+    structureModuleEndMulEquiv V f = structureModuleEndEquiv V f.asHom :=
   rfl
 
 /-- **Automorphisms of the structure module of a scheme are the units of its global regular
@@ -257,8 +257,8 @@ def structureModuleAutEquiv (V : BigFppfOver B S hS) :
     (structureModule ((schemeSpaceFunctor B S hS).obj V) ≅
       structureModule ((schemeSpaceFunctor B S hS).obj V)) ≃
       (Γ((BigFppfOver.toScheme B S hS).obj V, ⊤))ˣ :=
-  (Aut.unitsEndEquivAut _).symm.toEquiv.trans
-    (Units.mapEquiv (structureModuleEndMulEquiv V)).toEquiv
+  Aut.isoEquiv.symm.trans ((Aut.unitsEndEquivAut _).symm.toEquiv.trans
+    (Units.mapEquiv (structureModuleEndMulEquiv V)).toEquiv)
 
 /-- The unit attached to an automorphism `e` of `𝒪_V` is the global function of `e.hom`. -/
 @[simp]

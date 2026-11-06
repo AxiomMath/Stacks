@@ -120,6 +120,7 @@ abbrev representedSchemeRestriction :
       (_root_.AlgebraicGeometry.SmallEtale.topology (associatedBigEtaleSite B)
         ((BigFppfOver.toScheme B S hS).obj T) T.left.property)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Restriction of sheaves of sets from the small étale site of the scheme underlying `T` to the
 small étale site of the algebraic space `h_T` is an equivalence of categories. -/
 instance isEquivalence_representedSchemeRestriction :
@@ -201,6 +202,7 @@ def representedSchemeRestrictionInverseImageIso :
       (Stacks.EtaleCohomology.smallEtaleInverseImageAdjunction.{u, 0}
         ((associatedBigEtaleSite B).inclusion.map g.left)))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- If restriction of global sections along the morphism of schemes underlying `g : Q ⟶ T` is
 bijective for every sheaf of sets on Mathlib's small étale site, then global sections of every
 sheaf of sets on the small étale site of the algebraic space `h_T` are, naturally, those of its
@@ -244,6 +246,7 @@ abbrev quotientSpecOver : BigFppfOver B (Spec (.of A)) hA :=
 abbrev quotientSpecOverHom : quotientSpecOver A I hA ⟶ Over.mk (𝟙 (B.obj hA)) :=
   Over.homMk (quotientSpecOver A I hA).hom (by simp)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Let `(A, I)` be a henselian pair. For every sheaf of sets `ℱ` on the small étale site of the
 algebraic space represented by `Spec A`, the global sections of `ℱ` are, naturally in `ℱ`, the
 global sections of its inverse image on the algebraic space represented by `Spec (A ⧸ I)`. -/

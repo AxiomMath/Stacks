@@ -142,7 +142,7 @@ arrow `u`, the pushforward of an automorphism along `u` is its conjugate. -/
 public theorem pushforwardEndomorphism_eq_conj (hp : IsCofiberedInGroupoids p)
     {R R' : C} {y : p.Fiber R} {y' : p.Fiber R'} (g : R ⟶ R') (u : y.1 ⟶ y'.1)
     (hu : p.IsHomLift g u) (v : y'.1 ⟶ y.1) (hvu : v ≫ u = 𝟙 y'.1) (a : Aut y) :
-    pushforwardEndomorphism hp g u hu a = v ≫ a.hom.val ≫ u := by
+    pushforwardEndomorphism hp g u hu a = v ≫ a.asIso.hom.val ≫ u := by
   rw [hom_comp_eq_comp_pushforwardEndomorphism hp g u hu a, ← Category.assoc, hvu,
     Category.id_comp]
 
@@ -155,11 +155,12 @@ public theorem pushforwardAutomorphism_pushforwardAutomorphism_inv
     pushforwardAutomorphism hp e.hom u.hom hu
         (pushforwardAutomorphism hp e.inv u.inv hui b) = b := by
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   show pushforwardEndomorphism hp e.hom u.hom hu
-    (pushforwardAutomorphism hp e.inv u.inv hui b) = b.hom.val
+    (pushforwardAutomorphism hp e.inv u.inv hui b) = b.asIso.hom.val
   rw [pushforwardEndomorphism_eq_conj hp e.hom u.hom hu u.inv u.inv_hom_id]
-  show u.inv ≫ pushforwardEndomorphism hp e.inv u.inv hui b ≫ u.hom = b.hom.val
+  show u.inv ≫ pushforwardEndomorphism hp e.inv u.inv hui b ≫ u.hom = b.asIso.hom.val
   rw [pushforwardEndomorphism_eq_conj hp e.inv u.inv hui u.hom u.hom_inv_id]
   simp
 
@@ -193,30 +194,35 @@ public theorem fiberObj_coe (φ : BasedFunctor 𝓐 𝓑) {R : C} (x : 𝓐.p.Fi
 @[instance_reducible]
 public noncomputable def mapFiberAut (φ : BasedFunctor 𝓐 𝓑) {R : C} (x : 𝓐.p.Fiber R) :
     Aut x →* Aut (fiberObj φ x) where
-  toFun a :=
-    { hom := ⟨φ.map a.hom.val, isHomLift_basedFunctor_map φ (𝟙 R) a.hom.val a.hom.2⟩
-      inv := ⟨φ.map a.inv.val, isHomLift_basedFunctor_map φ (𝟙 R) a.inv.val a.inv.2⟩
+  toFun a := Aut.of
+    { hom := ⟨φ.map a.asIso.hom.val,
+        isHomLift_basedFunctor_map φ (𝟙 R) a.asIso.hom.val a.asIso.hom.2⟩
+      inv := ⟨φ.map a.asIso.inv.val,
+        isHomLift_basedFunctor_map φ (𝟙 R) a.asIso.inv.val a.asIso.inv.2⟩
       hom_inv_id := Functor.Fiber.hom_ext (by
-        change φ.map a.hom.val ≫ φ.map a.inv.val = 𝟙 (φ.obj x.1)
+        change φ.map a.asIso.hom.val ≫ φ.map a.asIso.inv.val = 𝟙 (φ.obj x.1)
         rw [← φ.toFunctor.map_comp,
-          show a.hom.val ≫ a.inv.val = 𝟙 x.1 from congrArg Subtype.val a.hom_inv_id,
+          show a.asIso.hom.val ≫ a.asIso.inv.val = 𝟙 x.1 from
+            congrArg Subtype.val a.asIso.hom_inv_id,
           φ.toFunctor.map_id])
       inv_hom_id := Functor.Fiber.hom_ext (by
-        change φ.map a.inv.val ≫ φ.map a.hom.val = 𝟙 (φ.obj x.1)
+        change φ.map a.asIso.inv.val ≫ φ.map a.asIso.hom.val = 𝟙 (φ.obj x.1)
         rw [← φ.toFunctor.map_comp,
-          show a.inv.val ≫ a.hom.val = 𝟙 x.1 from congrArg Subtype.val a.inv_hom_id,
+          show a.asIso.inv.val ≫ a.asIso.hom.val = 𝟙 x.1 from
+            congrArg Subtype.val a.asIso.inv_hom_id,
           φ.toFunctor.map_id]) }
-  map_one' := Aut.ext (Functor.Fiber.hom_ext (by
+  map_one' := Aut.ext (Iso.ext <| Functor.Fiber.hom_ext (by
     change φ.map (𝟙 x.1) = 𝟙 (φ.obj x.1)
     exact φ.toFunctor.map_id x.1))
-  map_mul' a b := Aut.ext (Functor.Fiber.hom_ext (by
-    change φ.map (b.hom.val ≫ a.hom.val) = φ.map b.hom.val ≫ φ.map a.hom.val
+  map_mul' a b := Aut.ext (Iso.ext <| Functor.Fiber.hom_ext (by
+    change φ.map (b.asIso.hom.val ≫ a.asIso.hom.val) =
+      φ.map b.asIso.hom.val ≫ φ.map a.asIso.hom.val
     exact φ.toFunctor.map_comp _ _))
 
 /-- The underlying arrow of the image of a fibre automorphism is the image of its underlying
 arrow. -/
 public theorem mapFiberAut_hom_val (φ : BasedFunctor 𝓐 𝓑) {R : C} (x : 𝓐.p.Fiber R)
-    (a : Aut x) : ((mapFiberAut φ x) a).hom.val = φ.map a.hom.val := rfl
+    (a : Aut x) : ((mapFiberAut φ x) a).asIso.hom.val = φ.map a.asIso.hom.val := rfl
 
 /-- **The naturality of pushforward.** A morphism over the base carries the pushforward of an
 automorphism along a lifting arrow to the pushforward along the image arrow. -/
@@ -237,6 +243,7 @@ public theorem mapFiberAut_pushforwardAutomorphism (φ : BasedFunctor 𝓐 𝓑)
   have := pushforwardEndomorphism_isHomLift (x' := fiberObj φ x') (x := fiberObj φ x) hB f
     (φ.map r) hrB ((mapFiberAut φ x') a)
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   show φ.map (pushforwardEndomorphism hA f r hr a) =
     pushforwardEndomorphism (x' := fiberObj φ x') (x := fiberObj φ x) hB f (φ.map r) hrB
@@ -260,7 +267,7 @@ public noncomputable def mapRelativeInfinitesimalAutomorphisms (φ : BasedFuncto
     (mem_relativeInfinitesimalAutomorphisms_iff (x' := fiberObj φ x') (x := fiberObj φ x) hB f
         (φ.map r) (isHomLift_basedFunctor_map φ f r hr) ((mapFiberAut φ x') a.1)).mpr
       (by
-        change φ.map a.1.hom.val ≫ φ.map r = φ.map r
+        change φ.map a.1.asIso.hom.val ≫ φ.map r = φ.map r
         rw [← φ.toFunctor.map_comp,
           (mem_relativeInfinitesimalAutomorphisms_iff hA f r hr a.1).mp a.2])⟩
 
@@ -280,8 +287,8 @@ public theorem mapRelativeInfinitesimalAutomorphisms_hom (φ : BasedFunctor 𝓐
     {R S : C} (f : R ⟶ S) {x' : 𝓐.p.Fiber R} {x : 𝓐.p.Fiber S}
     (r : x'.1 ⟶ x.1) (hr : 𝓐.p.IsHomLift f r)
     (a : relativeInfinitesimalAutomorphisms hA f r hr) :
-    (mapRelativeInfinitesimalAutomorphisms φ hA hB f r hr a).1.hom.val =
-      φ.map a.1.hom.val := rfl
+    (mapRelativeInfinitesimalAutomorphisms φ hA hB f r hr a).1.asIso.hom.val =
+      φ.map a.1.asIso.hom.val := rfl
 
 /-- **Over a thin fibre the relative statement is a statement about automorphism groups.** If
 a morphism over the base is surjective on the automorphisms of the source of a lifting arrow

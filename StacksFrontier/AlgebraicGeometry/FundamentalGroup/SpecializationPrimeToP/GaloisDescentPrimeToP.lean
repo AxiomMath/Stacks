@@ -117,17 +117,17 @@ theorem app_eq_id_of_etaleFundamentalGroupMap_eq_one_of_essImage {X Y : Scheme.{
     {γ : EtaleFundamentalGroup X x} (hγ : etaleFundamentalGroupMap f x γ = 1)
     (A : FiniteEtaleOver X)
     (hA : ∃ B : FiniteEtaleOver Y, Nonempty ((finiteEtaleBaseChange f).obj B ≅ A)) :
-    γ.hom.app A = 𝟙 ((finiteEtaleFiberFunctor x).obj A) := by
+    γ.asIso.hom.app A = 𝟙 ((finiteEtaleFiberFunctor x).obj A) := by
   let W := (Functor.whiskeringLeft (FiniteEtaleOver Y) (FiniteEtaleOver X) (Type u)).obj
     (finiteEtaleBaseChange f)
   have hone : W.mapAut (finiteEtaleFiberFunctor x) γ = 1 :=
     (finiteEtaleFiberProjectionIso f x).conjAut.map_eq_one_iff.mp hγ
-  have hres : ∀ B : FiniteEtaleOver Y, γ.hom.app ((finiteEtaleBaseChange f).obj B) = 𝟙 _ :=
-    fun B ↦ NatTrans.congr_app (congrArg Iso.hom hone) B
+  have hres : ∀ B : FiniteEtaleOver Y, γ.asIso.hom.app ((finiteEtaleBaseChange f).obj B) = 𝟙 _ :=
+    fun B ↦ NatTrans.congr_app (congrArg (fun a => a.asIso.hom) hone) B
   obtain ⟨B, ⟨e⟩⟩ := hA
-  have hnat := γ.hom.naturality e.hom
+  have hnat := γ.asIso.hom.naturality e.hom
   rw [hres B, Category.id_comp] at hnat
-  exact (cancel_epi ((finiteEtaleFiberFunctor x).map e.hom)).mp
+  exact (cancel_epi ((finiteEtaleFiberFunctor x).mapIso e).hom).mp
     (hnat.trans (Category.comp_id _).symm)
 
 /-! ### The descent hypothesis `hlift` from the descent of prime-to-`p` Galois covers -/
@@ -196,7 +196,7 @@ theorem forall_lift_primeToP_of_isSpecializationMap_of_essImage_isGalois {X S : 
           (pullback.fst f _) (pullback.fst f s'.hom)
           (pullback.lift_fst _ _ _).symm).app C).symm ≪≫ e⟩⟩
     rw [← hstab, MulAction.mem_stabilizer_iff]
-    show ConcreteCategory.hom (γ.hom.app Y) y = y
+    show ConcreteCategory.hom (γ.asIso.hom.app Y) y = y
     rw [h2]
     rfl
   exact exists_open_normal_comap_eq_of_ker_le sp hsurj hnorm hopen hker

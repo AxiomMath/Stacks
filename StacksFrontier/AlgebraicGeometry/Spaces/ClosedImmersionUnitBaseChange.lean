@@ -148,7 +148,7 @@ theorem modulePullback_map_kernel_ι_eq_zero_iff (g : Y ⟶ X)
     rw [← Category.assoc, hd, Category.id_comp, Category.comp_id]
   · have hw : L.map (kernel.ι η) ≫ L.map η = 0 :=
       CokernelCofork.condition ((CokernelCofork.ofπ η (kernel.condition η)).map L)
-    exact (cancel_mono (L.map η)).1 (hw.trans (zero_comp).symm)
+    exact (IsIso.mono_of_iso (L.map η)).right_cancellation _ _ (hw.trans zero_comp.symm)
 
 /-- **Vanishing of an inverse image does not see an isomorphism of the source.**  If
 `a = e ≫ b` with `e` an isomorphism of algebraic spaces, then the inverse image of a morphism of

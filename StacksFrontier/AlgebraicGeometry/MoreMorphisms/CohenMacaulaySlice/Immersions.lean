@@ -4,6 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.RegularImmersion.BaseChange
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.RegularIdealSheaf.FlatBaseChange
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.CohenMacaulaySlice.FiberSequence
 public import StacksFrontier.AlgebraicGeometry.RegularIdealSheaf.Immersion
+public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 
 /-!
 # Restricting and base changing the closed subscheme of an ideal sheaf

@@ -83,6 +83,8 @@ lemma pullbackGlobalSection_apply (a : Stacks.Cohomology.SiteModules.GlobalSecti
     (pullbackGlobalSection J Φ O a).1 X =
       (Φ ⋙ sectionsFunctor J X).map (globalSectionHom O a) default := rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- The morphism of a product of global sections `a * b` is the pairing of the morphisms of `a`
 and `b` followed by the multiplication of `O`. -/
 lemma globalSectionHom_mul (a b : Stacks.Cohomology.SiteModules.GlobalSectionRing O) :
@@ -92,6 +94,8 @@ lemma globalSectionHom_mul (a b : Stacks.Cohomology.SiteModules.GlobalSectionRin
   rw [Functor.map_comp_apply, map_lift_apply, sectionsFunctor_map_ringMulHom]
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- The morphism of a sum of global sections `a + b` is the pairing of the morphisms of `a` and
 `b` followed by the addition of `O`. -/
 lemma globalSectionHom_add (a b : Stacks.Cohomology.SiteModules.GlobalSectionRing O) :

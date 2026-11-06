@@ -259,9 +259,9 @@ private lemma map_systemDelta (J : D ⥤ Ab.{v}) [J.Additive] (F : ℕᵒᵖ ⥤
   apply Pi.hom_ext
   intro n
   dsimp only [Functor.comp_obj, Functor.comp_map]
-  simp only [Category.assoc, piComparison_comp_π, Pi.lift_π,
+  simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π,
     Preadditive.comp_sub, piComparison_comp_π_assoc, ← J.map_comp, systemDelta,
-    Pi.lift_π, J.map_sub]
+    Pi.lift_comp_π, J.map_sub]
 
 private lemma exact_of_iso_components
     {C : Type*} [Category* C] [HasZeroMorphisms C]
@@ -564,7 +564,7 @@ private lemma yonedaCoproductIsoProduct_map_difference
   dsimp only [Rlim.delta, Rlim.shift, Rlim.product,
     Functor.comp_obj, Functor.op_obj]
   simp only [Category.assoc, yonedaCoproductIsoProduct_hom_π,
-    Preadditive.comp_sub, Preadditive.sub_comp, Category.comp_id, Pi.lift_π]
+    Preadditive.comp_sub, Preadditive.sub_comp, Category.comp_id, Pi.lift_comp_π]
   rw [← Functor.map_comp, ← op_comp, Sigma.ι_desc]
   simp only [op_sub, Functor.map_sub, op_comp, Functor.map_comp, Functor.comp_map,
     Functor.op_map, Quiver.Hom.unop_op]

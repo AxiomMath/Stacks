@@ -570,13 +570,13 @@ terminal objects of the components of `StructuredArrow X.unop u`. -/
 lemma extensionFunctor_map_app_eq {M M' : PresheafOfModules.{max i t} (u.op ⋙ O)}
     (φ : M ⟶ M') (X : Dᵒᵖ) :
     ((extensionFunctor R).map φ).app X =
-      Limits.Sigma.map (f := summands R M X) (g := summands R M' X)
+      Limits.Sigma.map (f := summands R M' X) (g := summands R M X)
         (fun s => (ModuleCat.restrictScalars (R.sc s).hom).map
           (φ.app (op (R.pt s).right))) := by
   apply Sigma.hom_ext
   intro s
   exact (ι_comp_extensionFunctor_map_app R φ X s).trans
-    (Limits.Sigma.ι_map (f := summands R M X) (g := summands R M' X)
+    (Limits.Sigma.ι_map (f := summands R M' X) (g := summands R M X)
       (fun s => (ModuleCat.restrictScalars (R.sc s).hom).map
         (φ.app (op (R.pt s).right))) s).symm
 
@@ -588,7 +588,7 @@ lemma extensionFunctor_preservesMonos :
   preserves {M M'} φ hφ := by
     apply PresheafOfModules.mono_of_injective
     intro X
-    have hmono : Mono (Limits.Sigma.map (f := summands R M X) (g := summands R M' X)
+    have hmono : Mono (Limits.Sigma.map (f := summands R M' X) (g := summands R M X)
         (fun s => (ModuleCat.restrictScalars (R.sc s).hom).map
           (φ.app (op (R.pt s).right)))) :=
       Stacks.Sites.OverModules.mono_sigmaMap

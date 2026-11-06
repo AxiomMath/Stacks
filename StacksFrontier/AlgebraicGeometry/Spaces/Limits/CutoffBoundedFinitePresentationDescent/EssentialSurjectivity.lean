@@ -102,6 +102,19 @@ private theorem isFinitePresentation_of_isPullback_yoneda
   isFinitePresentation_of_isPullback B S hS (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS W)
     (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS X) hY hZ h hf
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_essentialSurjectivity
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_essentialSurjectivity
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 variable (hZ : B.Contains (⊤_ Scheme.{u}))
@@ -114,6 +127,7 @@ variable (hD : ∀ i, AlgebraicGeometry.IsAlgebraicSpace B S hS (D.obj i))
 
 include hD hAffine hQc hQs
 
+set_option maxHeartbeats 1600000 in
 /-- The étale relation presenting an algebraic space of finite presentation over the
 limit, once it is defined at a stage, becomes an étale equivalence relation at a later
 stage, where it presents a finite-presentation model of the space. -/
@@ -229,7 +243,7 @@ private theorem exists_model_of_stage_relation
   let ca : F.obj cn.pt ⟶ Over.mk pR := F.map cn.fst ≫ εR.inv
   let cb : F.obj cn.pt ⟶ Over.mk pR := F.map cn.snd ≫ εR.inv
   have hcab : ca ≫ tL = cb ≫ sL := by
-    apply (cancel_mono εW.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ εW).mp
     simp only [ca, cb, Category.assoc]
     rw [← hεt, ← hεs, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
       ← F.map_comp, ← F.map_comp, cn.condition]
@@ -359,7 +373,8 @@ private theorem exists_model_of_stage_relation
           (iteratedBaseChangeIso (D.map ejm) (D.map aMono.left) (D.map oo.hom)
             hcomp' Zₙ).hom from by
       rw [iteratedBaseChangeIso_naturality, Iso.inv_hom_id_assoc]]
-    infer_instance
+    exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _
+      (@mono_comp _ _ _ _ _ _ this _ (IsIso.mono_of_iso _))
   -- the descended relation as objects of the site
   have hoAff := ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS (D.map oo.hom)
     (hD oo.left) (hD nn)).out 2 1).mp (hAffine oo.hom)
@@ -496,6 +511,8 @@ private theorem exists_model_of_stage_relation
     apply Over.OverMorphism.ext
     simpa only [Over.comp_left, cfstₒ, csndₒ, Over.homMk_left, hsOl, htOl] using hpoCond
   have hPₒ : IsPullback cfstₒ csndₒ tOO sOO := by
+    haveI : CreatesLimitsOfShape WalkingCospan (Over.forget (D.obj oo.left)) :=
+      Over.createsLimitsOfShapeForgetOfIsConnected
     apply IsPullback.of_map (Over.forget (D.obj oo.left)) hcommₒ
     rw [show ((Over.forget (D.obj oo.left)).map tOO) = yoneda.map tO from htOl.symm,
       show ((Over.forget (D.obj oo.left)).map sOO) = yoneda.map sO from hsOl.symm]
@@ -567,7 +584,8 @@ private theorem exists_model_of_stage_relation
   have hνmono : Mono (εRO.hom.left ≫
       ((Over.pullback (D.map oo.hom)).map ψ).left) := by
     have := mono_left_of_mono _ hmonoO
-    infer_instance
+    have : Mono εRO.hom.left := IsIso.mono_of_iso _
+    exact mono_comp _ _
   have hνfst : εRO.hom.left ≫ ((Over.pullback (D.map oo.hom)).map ψ).left ≫
       pullback.fst Zₙ.hom (D.map oo.hom) = yoneda.map bR ≫ yoneda.map ψ₀ := by
     simp only [Over.pullback_map_left, Rₙ, Over.mk_hom,

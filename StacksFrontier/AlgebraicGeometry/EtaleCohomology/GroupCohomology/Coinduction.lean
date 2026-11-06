@@ -85,25 +85,25 @@ theorem mono_iff_injective {X Y : ContinuousGModule.{v, w} G} (f : X ⟶ Y) :
 
 /-- The action of a product is the composite of the actions. -/
 theorem ρ_mul_apply (X : ContinuousGModule.{v, w} G) (a b : G) (x : X.obj.obj.V) :
-    (X.obj.obj.ρ (a * b)).hom x = (X.obj.obj.ρ a).hom ((X.obj.obj.ρ b).hom x) :=
-  (congrArg (fun e : End X.obj.obj.V ↦ e.hom x) (map_mul X.obj.obj.ρ a b)).trans rfl
+    (X.obj.obj.ρ (a * b)).asHom.hom x = (X.obj.obj.ρ a).asHom.hom ((X.obj.obj.ρ b).asHom.hom x) :=
+  (congrArg (fun e : End X.obj.obj.V ↦ e.asHom.hom x) (map_mul X.obj.obj.ρ a b)).trans rfl
 
 /-- The identity acts trivially. -/
 @[simp]
 theorem ρ_one_apply (X : ContinuousGModule.{v, w} G) (x : X.obj.obj.V) :
-    (X.obj.obj.ρ 1).hom x = x :=
-  (congrArg (fun e : End X.obj.obj.V ↦ e.hom x) (map_one X.obj.obj.ρ)).trans rfl
+    (X.obj.obj.ρ 1).asHom.hom x = x :=
+  (congrArg (fun e : End X.obj.obj.V ↦ e.asHom.hom x) (map_one X.obj.obj.ρ)).trans rfl
 
 /-- Acting by `a⁻¹` undoes acting by `a`. -/
 @[simp]
 theorem ρ_inv_apply_ρ_apply (X : ContinuousGModule.{v, w} G) (a : G) (x : X.obj.obj.V) :
-    (X.obj.obj.ρ a⁻¹).hom ((X.obj.obj.ρ a).hom x) = x := by
+    (X.obj.obj.ρ a⁻¹).asHom.hom ((X.obj.obj.ρ a).asHom.hom x) = x := by
   rw [← ρ_mul_apply, inv_mul_cancel, ρ_one_apply]
 
 /-- Acting by `a` undoes acting by `a⁻¹`. -/
 @[simp]
 theorem ρ_apply_ρ_inv_apply (X : ContinuousGModule.{v, w} G) (a : G) (x : X.obj.obj.V) :
-    (X.obj.obj.ρ a).hom ((X.obj.obj.ρ a⁻¹).hom x) = x := by
+    (X.obj.obj.ρ a).asHom.hom ((X.obj.obj.ρ a⁻¹).asHom.hom x) = x := by
   rw [← ρ_mul_apply, mul_inv_cancel, ρ_one_apply]
 
 /-- Two morphisms of discrete `G`-modules agreeing on elements are equal. -/
@@ -116,7 +116,7 @@ theorem hom_ext {X Y : ContinuousGModule.{v, w} G} {f g : X ⟶ Y}
 
 /-- A morphism of discrete `G`-modules commutes with the action. -/
 theorem hom_comm {X Y : ContinuousGModule.{v, w} G} (f : X ⟶ Y) (g : G) (x : X.obj.obj.V) :
-    f.hom.hom.hom.hom ((X.obj.obj.ρ g).hom x) = (Y.obj.obj.ρ g).hom (f.hom.hom.hom.hom x) :=
+    f.hom.hom.hom.hom ((X.obj.obj.ρ g).asHom.hom x) = (Y.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
   ConcreteCategory.congr_hom (f.hom.hom.comm g) x
 
 /-- A short complex of discrete `G`-modules is short exact when it is so on underlying
@@ -159,7 +159,7 @@ def restriction (φ : G' →* G) (hφ : Continuous φ) :
 /-- An element `g` of `G'` acts on the restriction of `X` as `φ g` acts on `X`. -/
 @[simp]
 lemma restriction_obj_ρ (X : ContinuousGModule.{v, w} G) (g : G') (x : X.obj.obj.V) :
-    (((restriction φ hφ).obj X).obj.obj.ρ g).hom x = (X.obj.obj.ρ (φ g)).hom x := rfl
+    (((restriction φ hφ).obj X).obj.obj.ρ g).asHom.hom x = (X.obj.obj.ρ (φ g)).asHom.hom x := rfl
 
 /-- Restriction does not change the underlying map of a morphism. -/
 @[simp]
@@ -223,7 +223,7 @@ variable [IsTopologicalGroup G] (H : Subgroup G)
 /-- The functions `f : G → N` with `f (h * x) = h • f x` for `h ∈ H` which are invariant under
 right translation by an open subgroup: the underlying group of the coinduced module. -/
 def coinductionCarrier (N : ContinuousGModule.{v, w} H) : AddSubgroup (G → N.obj.obj.V) where
-  carrier := {f | (∀ (h : H) x, f (h * x) = (N.obj.obj.ρ h).hom (f x)) ∧
+  carrier := {f | (∀ (h : H) x, f (h * x) = (N.obj.obj.ρ h).asHom.hom (f x)) ∧
     IsOpen (rightStabilizer f : Set G)}
   zero_mem' := ⟨fun h x ↦ by simp, by
     have : rightStabilizer (0 : G → N.obj.obj.V) = ⊤ := by
@@ -242,7 +242,7 @@ variable {H}
 /-- A function `f` in the coinduced module satisfies `f (h * x) = h • f x` for `h ∈ H`. -/
 lemma coinductionCarrier_apply_mul {N : ContinuousGModule.{v, w} H}
     (f : coinductionCarrier H N) (h : H) (x : G) :
-    (f : G → N.obj.obj.V) (h * x) = (N.obj.obj.ρ h).hom ((f : G → N.obj.obj.V) x) :=
+    (f : G → N.obj.obj.V) (h * x) = (N.obj.obj.ρ h).asHom.hom ((f : G → N.obj.obj.V) x) :=
   f.2.1 h x
 
 /-- The right stabilizer of a function in the coinduced module is open. -/
@@ -352,7 +352,7 @@ def coinduction : ContinuousGModule.{v, max v w} H ⥤ ContinuousGModule.{v, max
 @[simp]
 lemma coinduction_obj_ρ (N : ContinuousGModule.{v, max v w} H) (g : G)
     (f : coinductionCarrier H N) (x : G) :
-    ((((coinduction H).obj N).obj.obj.ρ g).hom f : coinductionCarrier H N).1 x =
+    ((((coinduction H).obj N).obj.obj.ρ g).asHom.hom f : coinductionCarrier H N).1 x =
       (f : G → N.obj.obj.V) (x * g) := rfl
 
 /-- Coinduction of a morphism `φ` sends `f` to the function `x ↦ φ (f x)`. -/
@@ -365,14 +365,14 @@ lemma coinduction_map_apply {N N' : ContinuousGModule.{v, max v w} H} (φ : N �
 variable (G) in
 /-- The stabilizer of an element of a discrete `G`-module, an open subgroup. -/
 def elementStabilizer (M : ContinuousGModule.{v, w} G) (m : M.obj.obj.V) : Subgroup G where
-  carrier := {g | (M.obj.obj.ρ g).hom m = m}
+  carrier := {g | (M.obj.obj.ρ g).asHom.hom m = m}
   one_mem' := by simp
   mul_mem' {a b} ha hb := by
-    change (M.obj.obj.ρ (a * b)).hom m = m
-    rw [ρ_mul_apply, show (M.obj.obj.ρ b).hom m = m from hb, ha]
+    change (M.obj.obj.ρ (a * b)).asHom.hom m = m
+    rw [ρ_mul_apply, show (M.obj.obj.ρ b).asHom.hom m = m from hb, ha]
   inv_mem' {a} ha := by
-    change (M.obj.obj.ρ a⁻¹).hom m = m
-    conv_lhs => rw [← show (M.obj.obj.ρ a).hom m = m from ha]
+    change (M.obj.obj.ρ a⁻¹).asHom.hom m = m
+    conv_lhs => rw [← show (M.obj.obj.ρ a).asHom.hom m = m from ha]
     exact ρ_inv_apply_ρ_apply M a m
 
 /-- The function `x ↦ ψ (x • m)` attached to an `H`-equivariant map `ψ` out of a discrete
@@ -380,14 +380,14 @@ def elementStabilizer (M : ContinuousGModule.{v, w} G) (m : M.obj.obj.V) : Subgr
 def coinductionLift {M : ContinuousGModule.{v, max v w} G} {N : ContinuousGModule.{v, max v w} H}
     (ψ : (restriction H.subtype continuous_subtype_val).obj M ⟶ N) (m : M.obj.obj.V) :
     coinductionCarrier H N :=
-  ⟨fun x ↦ ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom m), fun h x ↦ by
-      change ψ.hom.hom.hom.hom ((M.obj.obj.ρ (h * x)).hom m) = _
+  ⟨fun x ↦ ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom m), fun h x ↦ by
+      change ψ.hom.hom.hom.hom ((M.obj.obj.ρ (h * x)).asHom.hom m) = _
       rw [ρ_mul_apply]
       exact hom_comm ψ h _,
     Subgroup.isOpen_mono (H₁ := elementStabilizer G M m)
       (fun g hg x ↦ by
-        change ψ.hom.hom.hom.hom ((M.obj.obj.ρ (x * g)).hom m) = _
-        rw [ρ_mul_apply, show (M.obj.obj.ρ g).hom m = m from hg])
+        change ψ.hom.hom.hom.hom ((M.obj.obj.ρ (x * g)).asHom.hom m) = _
+        rw [ρ_mul_apply, show (M.obj.obj.ρ g).asHom.hom m = m from hg])
       (isOpen_stabilizer ℤ G M m)⟩
 
 variable (H) in
@@ -399,18 +399,18 @@ def restrictionCoinductionAdjunction :
         { toFun ψ := (gModuleHomEquiv G _ _).symm
             ⟨{ toFun m := coinductionLift ψ m
                map_zero' := Subtype.ext (funext fun x ↦ by
-                 change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom 0) = 0
+                 change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom 0) = 0
                  rw [map_zero]
                  exact LinearMap.map_zero _)
                map_add' a b := Subtype.ext (funext fun x ↦ by
-                 change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom (a + b)) =
-                   ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom a) +
-                     ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom b)
+                 change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom (a + b)) =
+                   ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom a) +
+                     ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom b)
                  rw [map_add]
                  exact LinearMap.map_add _ _ _) },
               fun g m ↦ Subtype.ext (funext fun x ↦ by
-                change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom ((M.obj.obj.ρ g).hom m)) =
-                  ψ.hom.hom.hom.hom ((M.obj.obj.ρ (x * g)).hom m)
+                change ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom ((M.obj.obj.ρ g).asHom.hom m)) =
+                  ψ.hom.hom.hom.hom ((M.obj.obj.ρ (x * g)).asHom.hom m)
                 rw [ρ_mul_apply])⟩
           invFun χ := (gModuleHomEquiv H _ _).symm
             ⟨{ toFun m := (χ.hom.hom.hom.hom m : coinductionCarrier H N).1 1
@@ -425,9 +425,9 @@ def restrictionCoinductionAdjunction :
                  exact (congrArg (fun f : coinductionCarrier H N ↦ f.1 1)
                    (LinearMap.map_add χ.hom.hom.hom.hom a b)).trans rfl },
               fun h m ↦ by
-                change (χ.hom.hom.hom.hom ((M.obj.obj.ρ (h : G)).hom m) :
+                change (χ.hom.hom.hom.hom ((M.obj.obj.ρ (h : G)).asHom.hom m) :
                   coinductionCarrier H N).1 1 =
-                  (N.obj.obj.ρ h).hom ((χ.hom.hom.hom.hom m : coinductionCarrier H N).1 1)
+                  (N.obj.obj.ρ h).asHom.hom ((χ.hom.hom.hom.hom m : coinductionCarrier H N).1 1)
                 rw [hom_comm χ (h : G) m]
                 change (χ.hom.hom.hom.hom m : coinductionCarrier H N).1 (1 * (h : G)) = _
                 have := coinductionCarrier_apply_mul (χ.hom.hom.hom.hom m : coinductionCarrier H N)
@@ -436,7 +436,7 @@ def restrictionCoinductionAdjunction :
                 rw [one_mul]
                 exact this⟩
           left_inv ψ := hom_ext fun m ↦ by
-            change ψ.hom.hom.hom.hom ((M.obj.obj.ρ 1).hom m) = _
+            change ψ.hom.hom.hom.hom ((M.obj.obj.ρ 1).asHom.hom m) = _
             exact congrArg ψ.hom.hom.hom.hom (ρ_one_apply M m)
           right_inv χ := by
             beta_reduce
@@ -444,7 +444,7 @@ def restrictionCoinductionAdjunction :
             intro m
             apply Subtype.ext
             funext x
-            change (χ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom m) : coinductionCarrier H N).1 1 =
+            change (χ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom m) : coinductionCarrier H N).1 1 =
               (χ.hom.hom.hom.hom m : coinductionCarrier H N).1 x
             rw [hom_comm χ x m]
             change (χ.hom.hom.hom.hom m : coinductionCarrier H N).1 (1 * x) =
@@ -459,7 +459,7 @@ lemma restrictionCoinductionAdjunction_homEquiv_apply {M : ContinuousGModule.{v,
     {N : ContinuousGModule.{v, max v w} H}
     (ψ : (restriction H.subtype continuous_subtype_val).obj M ⟶ N) (m : M.obj.obj.V) (x : G) :
     (((restrictionCoinductionAdjunction H).homEquiv M N ψ).hom.hom.hom.hom m :
-      coinductionCarrier H N).1 x = ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).hom m) := by
+      coinductionCarrier H N).1 x = ψ.hom.hom.hom.hom ((M.obj.obj.ρ x).asHom.hom m) := by
   simp only [restrictionCoinductionAdjunction, Adjunction.mkOfHomEquiv_homEquiv]
   rfl
 
@@ -467,7 +467,7 @@ lemma restrictionCoinductionAdjunction_homEquiv_apply {M : ContinuousGModule.{v,
 lemma restrictionCoinductionAdjunction_unit_app_apply (M : ContinuousGModule.{v, max v w} G)
     (m : M.obj.obj.V) (x : G) :
     (((restrictionCoinductionAdjunction H).unit.app M).hom.hom.hom.hom m :
-      coinductionCarrier H _).1 x = (M.obj.obj.ρ x).hom m := by
+      coinductionCarrier H _).1 x = (M.obj.obj.ρ x).asHom.hom m := by
   rw [← Adjunction.homEquiv_id, restrictionCoinductionAdjunction_homEquiv_apply]
   rfl
 
@@ -504,7 +504,7 @@ omit [IsTopologicalGroup G] in
 /-- An element of a discrete `H`-module is fixed by the elements of `H` lying in some open
 neighbourhood of `1` in `G`. -/
 theorem exists_isOpen_forall_ρ_apply_eq (N : ContinuousGModule.{v, w} H) (s : N.obj.obj.V) :
-    ∃ O : Set G, IsOpen O ∧ (1 : G) ∈ O ∧ ∀ h : H, (h : G) ∈ O → (N.obj.obj.ρ h).hom s = s := by
+    ∃ O : Set G, IsOpen O ∧ (1 : G) ∈ O ∧ ∀ h : H, (h : G) ∈ O → (N.obj.obj.ρ h).asHom.hom s = s := by
   obtain ⟨O, hO, hOeq⟩ := isOpen_induced_iff.mp (isOpen_stabilizer ℤ H N s)
   refine ⟨O, hO, ?_, fun h hh ↦ ?_⟩
   · have : (1 : H) ∈ Subtype.val ⁻¹' O := by
@@ -519,9 +519,9 @@ omit [IsTopologicalGroup G] in
 /-- If `a * y * n = b * y * m` with `n, m` in a normal subgroup `T` of `G`, and `s` is fixed by
 the elements of `H` lying in `T`, then `a` and `b` act on `s` in the same way. -/
 theorem ρ_apply_eq_of_mul_eq {N : ContinuousGModule.{v, w} H} {T : Subgroup G} (hT : T.Normal)
-    {s : N.obj.obj.V} (hs : ∀ k : H, (k : G) ∈ T → (N.obj.obj.ρ k).hom s = s) {a b : H}
+    {s : N.obj.obj.V} (hs : ∀ k : H, (k : G) ∈ T → (N.obj.obj.ρ k).asHom.hom s = s) {a b : H}
     {y n m : G} (hn : n ∈ T) (hm : m ∈ T) (he : (a : G) * y * n = b * y * m) :
-    (N.obj.obj.ρ b).hom s = (N.obj.obj.ρ a).hom s := by
+    (N.obj.obj.ρ b).asHom.hom s = (N.obj.obj.ρ a).asHom.hom s := by
   have hmem : ((a⁻¹ * b : H) : G) ∈ T := by
     have key : ((a⁻¹ * b : H) : G) = y * (n * m⁻¹) * y⁻¹ := by
       calc ((a⁻¹ * b : H) : G)
@@ -532,10 +532,10 @@ theorem ρ_apply_eq_of_mul_eq {N : ContinuousGModule.{v, w} H} {T : Subgroup G} 
         _ = y * (n * m⁻¹) * y⁻¹ := by group
     rw [key]
     exact hT.conj_mem _ (T.mul_mem hn (T.inv_mem hm)) _
-  calc (N.obj.obj.ρ b).hom s
-      = (N.obj.obj.ρ (a * (a⁻¹ * b))).hom s := by rw [mul_inv_cancel_left]
-    _ = (N.obj.obj.ρ a).hom ((N.obj.obj.ρ (a⁻¹ * b)).hom s) := ρ_mul_apply N _ _ _
-    _ = (N.obj.obj.ρ a).hom s := by rw [hs _ hmem]
+  calc (N.obj.obj.ρ b).asHom.hom s
+      = (N.obj.obj.ρ (a * (a⁻¹ * b))).asHom.hom s := by rw [mul_inv_cancel_left]
+    _ = (N.obj.obj.ρ a).asHom.hom ((N.obj.obj.ρ (a⁻¹ * b)).asHom.hom s) := ρ_mul_apply N _ _ _
+    _ = (N.obj.obj.ρ a).asHom.hom s := by rw [hs _ hmem]
 
 /-- The double cosets `S x T` of two subgroups of a group admit representatives `q x`, constant on
 each double coset. -/
@@ -572,6 +572,8 @@ theorem surjective_coinduction_map {N N'' : ContinuousGModule.{v, max v w} H} (�
   set π : N.obj.obj.V → N''.obj.obj.V := fun y ↦ φ.hom.hom.hom.hom y
   set lift : N''.obj.obj.V → N.obj.obj.V := Function.surjInv hφ
   have hlift : ∀ s, π (lift s) = s := Function.surjInv_eq hφ
+  have : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.2
+    (connectedComponent_eq_singleton (1 : G) ▸ isClosed_connectedComponent)
   obtain ⟨N₀, hN₀⟩ := ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one
     (isOpen_rightStabilizer f'') (rightStabilizer F).one_mem
   have hfin : (Set.range F).Finite :=
@@ -586,11 +588,11 @@ theorem surjective_coinduction_map {N N'' : ContinuousGModule.{v, max v w} H} (�
   obtain ⟨q, hq, hqeq⟩ := exists_doubleCoset_rep H N₁.toSubgroup
   choose hx nx hnx hxq using hq
   have hwd : ∀ x (h : H), ∀ n ∈ N₁.toSubgroup, x = h * q x * n →
-      (N.obj.obj.ρ (hx x)).hom (lift (F (q x))) = (N.obj.obj.ρ h).hom (lift (F (q x))) :=
+      (N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x))) = (N.obj.obj.ρ h).asHom.hom (lift (F (q x))) :=
     fun x _ _ hn hxe ↦ ρ_apply_eq_of_mul_eq N₁.isNormal'
       (fun k hk ↦ hOfix (F (q x)) k (hN₁O _ hk (q x))) hn (hnx x) (hxe.symm.trans (hxq x))
-  let f : G → N.obj.obj.V := fun x ↦ (N.obj.obj.ρ (hx x)).hom (lift (F (q x)))
-  have hf_mul : ∀ (h : H) x, f (h * x) = (N.obj.obj.ρ h).hom (f x) := by
+  let f : G → N.obj.obj.V := fun x ↦ (N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x)))
+  have hf_mul : ∀ (h : H) x, f (h * x) = (N.obj.obj.ρ h).asHom.hom (f x) := by
     intro h x
     have hqx : q (h * x) = q x := by simpa using hqeq x h 1 N₁.toSubgroup.one_mem
     have := hwd (h * x) (h * hx x) (nx x) (hnx x) (by
@@ -607,9 +609,9 @@ theorem surjective_coinduction_map {N N'' : ContinuousGModule.{v, max v w} H} (�
     simpa only [f, hqx] using this
   refine ⟨⟨f, hf_mul, Subgroup.isOpen_mono (H₁ := N₁.toSubgroup)
     (fun n hn x ↦ hf_right x n hn) N₁.isOpen'⟩, Subtype.ext (funext fun x ↦ ?_)⟩
-  show φ.hom.hom.hom.hom ((N.obj.obj.ρ (hx x)).hom (lift (F (q x)))) = F x
+  show φ.hom.hom.hom.hom ((N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x)))) = F x
   rw [hom_comm φ]
-  show (N''.obj.obj.ρ (hx x)).hom (π (lift (F (q x)))) = F x
+  show (N''.obj.obj.ρ (hx x)).asHom.hom (π (lift (F (q x)))) = F x
   rw [hlift]
   have e1 : F (↑(hx x) * q x * nx x) = F (↑(hx x) * q x) := hN₀ (hN₁N₀ _ (hnx x)) _
   conv_rhs => rw [hxq x]

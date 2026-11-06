@@ -51,23 +51,27 @@ private theorem arrowDiagonal_left_comp_iso {S : Scheme.{u}} (G : GroupoidScheme
     show _ = pullback.diagonal (sourceTarget G).left ≫
       pullback.fst (sourceTarget G).left (sourceTarget G).left
     rw [pullback.diagonal_fst]
-    simpa [Over.forget_map] using congrArg ((Over.forget S).map)
-      (show arrowDiagonal G ≫ pullback.fst (sourceTarget G) (sourceTarget G) =
-        𝟙 G.arrows by
-          show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
-            pullback.fst (sourceTarget G) (sourceTarget G) = _
-          rw [pullback.lift_fst])
+    have h : arrowDiagonal G ≫ pullback.fst (sourceTarget G) (sourceTarget G) =
+        𝟙 G.arrows := by
+      show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
+        pullback.fst (sourceTarget G) (sourceTarget G) = _
+      rw [pullback.lift_fst]
+    have h' := congrArg (fun f => f.left) h
+    simp only [Over.comp_left, Over.id_left] at h'
+    simpa [Over.forget_map] using h'
   · rw [Category.assoc,
       PreservesPullback.iso_hom_snd (Over.forget S) (sourceTarget G) (sourceTarget G)]
     show _ = pullback.diagonal (sourceTarget G).left ≫
       pullback.snd (sourceTarget G).left (sourceTarget G).left
     rw [pullback.diagonal_snd]
-    simpa [Over.forget_map] using congrArg ((Over.forget S).map)
-      (show arrowDiagonal G ≫ pullback.snd (sourceTarget G) (sourceTarget G) =
-        𝟙 G.arrows by
-          show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
-            pullback.snd (sourceTarget G) (sourceTarget G) = _
-          rw [pullback.lift_snd])
+    have h : arrowDiagonal G ≫ pullback.snd (sourceTarget G) (sourceTarget G) =
+        𝟙 G.arrows := by
+      show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
+        pullback.snd (sourceTarget G) (sourceTarget G) = _
+      rw [pullback.lift_snd]
+    have h' := congrArg (fun f => f.left) h
+    simp only [Over.comp_left, Over.id_left] at h'
+    simpa [Over.forget_map] using h'
 
 /-- The identity section of the stabilizer is a section of the stabilizer. -/
 private theorem identityStabilizer_left_comp_hom {S : Scheme.{u}} (G : GroupoidScheme S) :

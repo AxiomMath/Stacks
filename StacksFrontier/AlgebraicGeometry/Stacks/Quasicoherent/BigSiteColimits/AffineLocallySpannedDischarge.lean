@@ -122,7 +122,6 @@ theorem mem_span_image_ker_of_liftBaseChange (bT : PT →ₗ[A] NT) (bW : PW →
         Submodule.span Bc (rP '' (LinearMap.ker bT : Set PT)) := by
     intro u
     induction u with
-    | zero => rw [map_zero, map_zero]; exact zero_mem _
     | tmul c k =>
       rw [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨k.1, k.2, rfl⟩)

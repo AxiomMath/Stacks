@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.UnderlyingMap
+public import Mathlib.AlgebraicGeometry.Properties
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.Openness
 public import StacksFrontier.AlgebraicGeometry.Variety.Defs.Dimension.NonemptyOpen

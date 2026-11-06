@@ -151,7 +151,8 @@ empty coproduct is a zero module, which is coherent, and the binary case is clos
 extensions; the general finite case follows from those two. -/
 instance isCoherent_isClosedUnderFiniteCoproducts :
     (isCoherent.{u, u} B S hS F hF).IsClosedUnderFiniteCoproducts :=
-  ObjectProperty.IsClosedUnderFiniteCoproducts.mk'
+  @ObjectProperty.IsClosedUnderFiniteCoproducts.mk' _ _ _
+    (hasFiniteCoproducts_of_hasFiniteBiproducts _) _ _
 
 /-- **[Stacks, Tag 07UC].** The category `Coh(𝒪_F)` of coherent modules on an algebraic space is
 abelian.

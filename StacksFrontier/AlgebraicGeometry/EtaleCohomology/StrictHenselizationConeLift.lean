@@ -69,8 +69,9 @@ theorem geometricPointToStrictHenselization_comp_strictHenselizationCone_π_app
 /-- Forget the size cutoff on an étale neighborhood. -/
 def etaleNeighborhoodForgetCutoff : (geometricPointFiber B S hS s).Elements ⥤
     (Scheme.pointSmallEtale s.hom).fiber.Elements where
-  obj U := ⟨MorphismProperty.Over.mk _ (B.inclusion.map U.1.obj.hom) U.1.property,
-    Over.homMk U.2.1 U.2.2⟩
+  obj U := Functor.elementsMk _
+    (MorphismProperty.Over.mk _ (B.inclusion.map U.1.obj.hom) U.1.property)
+    (Over.homMk U.2.1 U.2.2)
   map {U V} f := ⟨MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.1)
     (by
       change B.inclusion.map f.1.hom.left ≫ B.inclusion.map V.1.obj.hom =
@@ -82,7 +83,7 @@ def etaleNeighborhoodForgetCutoff : (geometricPointFiber B S hS s).Elements ⥤
 instance faithful_etaleNeighborhoodForgetCutoff :
     (etaleNeighborhoodForgetCutoff B S hS s).Faithful where
   map_injective {U V} f g h := by
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
@@ -96,7 +97,7 @@ instance full_etaleNeighborhoodForgetCutoff :
     · apply ObjectProperty.hom_ext
       exact f.1.w
     · exact Subtype.ext (congrArg (fun k => k.left) f.2)
-    · apply Subtype.ext
+    · apply Functor.Elements.hom_ext
       apply MorphismProperty.Over.Hom.ext
       rfl
 
@@ -121,7 +122,7 @@ theorem exists_etaleNeighborhoodForgetCutoff_refinement
   have hyS : y ≫ (j ≫ U.1.hom) = s.hom := by
     rw [← Category.assoc, hy]
     exact Over.w U.2
-  exact ⟨⟨V, ⟨y, hyS⟩⟩, inferInstanceAs (IsAffine (Spec R)),
+  exact ⟨Functor.elementsMk _ V ⟨y, hyS⟩, inferInstanceAs (IsAffine (Spec R)),
     ⟨⟨MorphismProperty.Over.homMk j rfl (by trivial), Over.OverMorphism.ext hy⟩⟩⟩
 
 /-- Forgetting the size cutoff on étale neighbourhoods is initial: every étale neighbourhood of

@@ -397,10 +397,10 @@ theorem isZero_awayModule_of_forall_globalSectionVal_eq_zero
     (h0 : ∀ U : X.Cᵒᵖ, globalSectionVal h U = 0) : IsZero (awayModule X h) := by
   rw [IsZero.iff_id_eq_zero]
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦ ?_)
-  have hu : IsUnit ((0 : (awaySheaf h).val.obj U)) := by
+  have hu : IsUnit ((0 : (awaySheaf h).obj.obj U)) := by
     have := isUnit_toAwaySheaf h U 1
     rwa [pow_one, h0 U, map_zero] at this
-  have : Subsingleton ((awaySheaf h).val.obj U) :=
+  have : Subsingleton ((awaySheaf h).obj.obj U) :=
     subsingleton_of_zero_eq_one (isUnit_zero_iff.mp hu)
   have : Subsingleton ((awayModule X h).val.obj U) := this
   ext x

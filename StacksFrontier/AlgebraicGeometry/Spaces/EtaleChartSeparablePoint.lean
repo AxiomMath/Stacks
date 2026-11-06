@@ -103,8 +103,6 @@ theorem isSeparable_residueField_of_comp_eq {L l : Type u} [Field L] [Field l] [
 
 namespace Space
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
-
 open Deformation.Artin.SliceTangent
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

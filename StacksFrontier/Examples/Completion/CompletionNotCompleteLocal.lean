@@ -60,14 +60,14 @@ private lemma single_ne_single {α : Type*} {d : ℕ} (hd : d ≠ 0) {j j' : α}
 of them and `0` elsewhere. -/
 private lemma coeff_sum_X_pow {α R : Type*} [CommRing R] [DecidableEq α] (s : Finset α)
     {d : ℕ} (hd : d ≠ 0) (μ : α →₀ ℕ) :
-    ∑ j ∈ s, MvPolynomial.coeff μ ((MvPolynomial.X j : MvPolynomial α R) ^ d) =
+    ∑ j ∈ s, ((MvPolynomial.X j : MvPolynomial α R) ^ d).coeff μ =
       if ∃ j ∈ s, μ = Finsupp.single j d then 1 else 0 := by
   classical
   by_cases h : ∃ j ∈ s, μ = Finsupp.single j d
   · obtain ⟨j, hjs, rfl⟩ := h
     have hzero : ∀ b ∈ s, b ≠ j →
-        MvPolynomial.coeff (Finsupp.single j d)
-          ((MvPolynomial.X b : MvPolynomial α R) ^ d) = 0 := by
+        ((MvPolynomial.X b : MvPolynomial α R) ^ d).coeff
+          (Finsupp.single j d) = 0 := by
       intro b _ hb
       rw [MvPolynomial.coeff_X_pow]
       exact if_neg (single_ne_single hd hb)
@@ -90,7 +90,7 @@ private def homPart (a : ℕ) :
   (MvPolynomial.homogeneousComponent a).comp (MvPowerSeries.truncTotal (a + 1))
 
 private lemma coeff_homPart (a : ℕ) (φ : MvPowerSeries (Fin N) R) (μ : Fin N →₀ ℕ) :
-    MvPolynomial.coeff μ (homPart a φ) =
+    (homPart a φ).coeff μ =
       if Finsupp.degree μ = a then MvPowerSeries.coeff μ φ else 0 := by
   rw [homPart, LinearMap.comp_apply, MvPolynomial.coeff_homogeneousComponent]
   by_cases h : Finsupp.degree μ = a
@@ -124,7 +124,7 @@ private lemma homPart_mul (d : ℕ) (φ ψ : MvPowerSeries (Fin N) R) :
   ext μ
   rw [coeff_homPart, MvPolynomial.coeff_sum]
   have hterm : ∀ a ∈ Finset.range (d + 1),
-      MvPolynomial.coeff μ (homPart a φ * homPart (d - a) ψ) =
+      (homPart a φ * homPart (d - a) ψ).coeff μ =
         ∑ x ∈ Finset.antidiagonal μ,
           (if Finsupp.degree x.1 = a then MvPowerSeries.coeff x.1 φ else 0) *
             (if Finsupp.degree x.2 = d - a then MvPowerSeries.coeff x.2 ψ else 0) := by
@@ -227,7 +227,7 @@ private def blockPoly (M : ℕ) : T.P :=
     (MvPolynomial.X j : T.P) ^ blockDeg i
 
 private lemma coeff_blockPoly (M : ℕ) (ν : ℕ →₀ ℕ) :
-    MvPolynomial.coeff ν (blockPoly T M) =
+    (blockPoly T M).coeff ν =
       ∑ i ∈ Finset.range M,
         if ∃ j ∈ Finset.range (blockNum i), ν = Finsupp.single j (blockDeg i)
           then (1 : T.k) else 0 := by
@@ -238,7 +238,7 @@ private lemma coeff_blockPoly (M : ℕ) (ν : ℕ →₀ ℕ) :
   exact coeff_sum_X_pow _ (blockDeg_ne_zero i) _
 
 private lemma coeff_blockPoly_single {M i j : ℕ} (hi : i < M) (hj : j < blockNum i) :
-    MvPolynomial.coeff (Finsupp.single j (blockDeg i)) (blockPoly T M) = 1 := by
+    (blockPoly T M).coeff (Finsupp.single j (blockDeg i)) = 1 := by
   classical
   have hother : ∀ b ∈ Finset.range M, b ≠ i →
       (if ∃ c ∈ Finset.range (blockNum b),
@@ -253,7 +253,7 @@ private lemma coeff_blockPoly_single {M i j : ℕ} (hi : i < M) (hj : j < blockN
     if_pos ⟨j, Finset.mem_range.mpr hj, rfl⟩]
 
 private lemma coeff_blockPoly_eq_zero {M : ℕ} {ν : ℕ →₀ ℕ} (hν : ν ∉ blockMonomials) :
-    MvPolynomial.coeff ν (blockPoly T M) = 0 := by
+    (blockPoly T M).coeff ν = 0 := by
   classical
   rw [coeff_blockPoly T M]
   refine Finset.sum_eq_zero fun i _ => if_neg ?_
@@ -263,7 +263,7 @@ private lemma coeff_blockPoly_eq_zero {M : ℕ} {ν : ℕ →₀ ℕ} (hν : ν 
 /-- Below degree `M` the sum of the first `M` blocks has the coefficients of the witness. -/
 private lemma coeff_blockPoly_eq_coeff_blockSeries (M : ℕ) {ν : ℕ →₀ ℕ}
     (hν : Finsupp.degree ν < M) :
-    MvPolynomial.coeff ν (blockPoly T M) = MvPowerSeries.coeff ν (blockSeries T) := by
+    (blockPoly T M).coeff ν = MvPowerSeries.coeff ν (blockSeries T) := by
   by_cases h : ν ∈ blockMonomials
   · obtain ⟨i, j, hj, rfl⟩ := h
     have hdeg : Finsupp.degree (Finsupp.single j (blockDeg i)) = blockDeg i :=

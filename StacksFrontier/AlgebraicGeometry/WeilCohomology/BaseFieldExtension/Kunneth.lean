@@ -184,7 +184,7 @@ theorem kunnethAxiom (h : 𝔇'.KunnethAxiom) : 𝔇.KunnethAxiom := by
         (𝔇'.pull (baseChangePointIso (k := k) (k' := k')).hom).toLinearMap ∘ₗ
           (Algebra.linearMap F' (𝔇'.H (point k'))) ∘ₗ
             (TensorProduct.AlgebraTensorModule.rid F F' F').toLinearMap := by
-      refine LinearMap.ext fun t => t.induction_on (by simp) (fun c x => ?_)
+      refine LinearMap.ext fun t => t.inductionOn (fun c x => ?_)
         (fun x y hx hy => by simp only [map_add] at hx hy ⊢; rw [hx, hy])
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.baseChange_tmul,
         Algebra.linearMap_apply, LinearEquiv.coe_coe,
@@ -207,7 +207,7 @@ theorem kunnethAxiom (h : 𝔇'.KunnethAxiom) : 𝔇.KunnethAxiom := by
     have key : (Φ.iso (prod X Y)).toLinearMap ∘ₗ (𝔇.kunnethMap X Y).baseChange F' =
         (𝔇'.pull (baseChangeProdIso X Y).hom).toLinearMap ∘ₗ 𝔇'.kunnethMap X' Y' ∘ₗ
           e.toLinearMap := by
-      refine LinearMap.ext fun x => x.induction_on (by simp) (fun c t => ?_)
+      refine LinearMap.ext fun x => x.inductionOn (fun c t => ?_)
         (fun x y hx hy => by simp only [map_add] at hx hy ⊢; rw [hx, hy])
       induction t using TensorProduct.induction_on with
       | zero => simp

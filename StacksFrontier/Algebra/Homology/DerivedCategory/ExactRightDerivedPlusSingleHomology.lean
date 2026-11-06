@@ -268,7 +268,7 @@ theorem isoRightDerivedPlusSingle_hom_app_comp_exactRightDerivedPlusHomologyIso 
           (DerivedCategory.Plus.ι.obj ((DerivedCategory.Plus.singleFunctor A 0).obj N)) := rfl
   have h₁ := (exactMapDerivedCategoryPlusIso F).inv.naturality
     ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app N)
-  have h₂ : F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
+  have h₂ : F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
       (exactMapDerivedCategoryPlusIso F).inv.app
         (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj N)) =
       F.mapDerivedCategoryPlusFactorsh.inv.app
@@ -290,7 +290,7 @@ theorem isoRightDerivedPlusSingle_hom_app_comp_exactRightDerivedPlusHomologyIso 
   have hU := singleFunctorCompHomologyFunctorIso_inv_comp_derivedHomologyIso F N
   have hι := ι_map_exactMapDerivedCategoryPlusSingle_inv_app F 0 N
   have h : H.map ((Functor.mapSingleFunctorCompQhIso F).inv.app N) ≫
-      H.map (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N)) ≫
+      H.map (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N)) ≫
         H.map (F.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app N)) ≫
           H.map ((exactMapDerivedCategoryPlusIso F).inv.app

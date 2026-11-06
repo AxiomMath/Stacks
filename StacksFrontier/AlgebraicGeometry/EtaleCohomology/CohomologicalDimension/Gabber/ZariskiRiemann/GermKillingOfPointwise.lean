@@ -100,8 +100,12 @@ theorem noetherianSpace_pullback_etale {Ω : Type u} [Field Ω] (x : Spec (.of �
   have : CompactSpace ((𝟭 Scheme).obj V.left) := ‹CompactSpace V.left›
   have : CompactSpace ↥(pullback V.hom (pullback.fst M.f x)) :=
     QuasiCompact.compactSpace_of_compactSpace (pullback.fst V.hom (pullback.fst M.f x))
+  have hP : LocallyOfFiniteType M.f := M.isProper.toLocallyOfFiniteType
+  have hΩ : IsLocallyNoetherian (Spec (.of Ω)) := inferInstance
+  have h₁ : LocallyOfFiniteType (pullback.snd M.f x) :=
+    locallyOfFiniteType_isStableUnderBaseChange.of_isPullback (IsPullback.of_hasPullback M.f x) hP
   have : IsLocallyNoetherian (pullback M.f x) :=
-    LocallyOfFiniteType.isLocallyNoetherian (pullback.snd M.f x)
+    @LocallyOfFiniteType.isLocallyNoetherian _ _ (pullback.snd M.f x) h₁ hΩ
   have : IsLocallyNoetherian (pullback V.hom (pullback.fst M.f x)) :=
     LocallyOfFiniteType.isLocallyNoetherian (pullback.snd V.hom (pullback.fst M.f x))
   have : IsNoetherian (pullback V.hom (pullback.fst M.f x)) := {}

@@ -50,6 +50,17 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_QuasiSeparatedVeryReasonable :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_QuasiSeparatedVeryReasonable
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_QuasiSeparatedVeryReasonable B S hS).has_limit _
+
 /-- A base change of a quasi-separated morphism of algebraic spaces over `S` along a morphism
 from the presheaf represented by an *affine* object of the site is a very reasonable algebraic
 space. -/

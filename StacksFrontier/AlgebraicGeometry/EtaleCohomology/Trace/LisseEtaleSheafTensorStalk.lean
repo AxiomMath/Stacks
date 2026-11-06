@@ -159,7 +159,8 @@ attribute [local instance] Sheaf.monoidalCategory isMonoidal_W_etaleModules
 variable {P Q R : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x)}
   (μ : P.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
   (hμ : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-    μ ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) = (R.obj.obj.obj.ρ g).hom (μ a b))
+    μ ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+      (R.obj.obj.obj.ρ g).asHom.hom (μ a b))
 
 /-- **On stalks, the morphism `ℱ_P ⊗ ℱ_Q ⟶ ℱ_R` attached to `μ` is `μ`**: under the
 identifications `lisseEtaleSheafStalkCounit` of the stalks at `s̄` with `P`, `Q`, `R`, the image of

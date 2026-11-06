@@ -359,7 +359,8 @@ private noncomputable def formalLiftZeroOfSmallestDescent
   let g : B ⟶ AdicTruncation.obj ξ.base 0 := AdicTruncation.map d.inclusion.base 0
   letI : IsIso g := isIso_adicTruncation_map_zero d.inclusion.base
   let α : (restrictedCoyoneda ξ.base).Elements :=
-    ⟨B, quotientProjection ξ.base 0 ≫ artinianToComplete.map (inv g)⟩
+    (restrictedCoyoneda ξ.base).elementsMk B
+      (quotientProjection ξ.base 0 ≫ artinianToComplete.map (inv g))
   have hpow : maximalIdeal B ^ (0 + 1) = (⊥ : Ideal B) := by
     rw [Nat.zero_add, pow_one]
     exact adicTruncation_zero_maximalIdeal_eq_bot d.object.base

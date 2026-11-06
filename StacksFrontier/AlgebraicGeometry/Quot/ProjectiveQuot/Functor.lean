@@ -101,6 +101,9 @@ theorem baseChange_id (T : Scheme.{u}) (K : Subobject (freeModule n r T)) :
     rw [baseChangeQuotientMap, Category.assoc, pullbackProjectiveSpaceOverMapIdIso_naturality,
       ← Category.assoc, freeModulePullbackIso_inv_id, Category.id_comp]
   unfold baseChange
+  have : Mono ((pullbackProjectiveSpaceOverMapIdIso n T).hom.app (quotient K)) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom ((pullbackProjectiveSpaceOverMapIdIso n T).app
+      (quotient K)))
   rw [← kernelSubobject_eq_of_comp_mono _ _ _ e]
   exact kernelSubobject_cokernel_π K
 

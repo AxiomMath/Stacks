@@ -86,7 +86,7 @@ theorem rightDerivedPlusZeroIso_inv_app (X : C) :
   refine (show (Stacks.RightDerivedPlus.rightDerivedPlusZeroIso F).inv.app X =
     (Functor.rightDerivedZeroSourceIso F).inv.app X ≫
       (DerivedCategory.Plus.homologyFunctor D 0).map
-        (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ≫
+        (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ≫
       (Stacks.RightDerivedPlus.unitTargetIso (A := C) F.rightDerivedFunctorPlus).hom.app X
     from by
       unfold Stacks.RightDerivedPlus.rightDerivedPlusZeroIso
@@ -94,7 +94,7 @@ theorem rightDerivedPlusZeroIso_inv_app (X : C) :
         (Category.assoc _ _ _)).trans ?_
   rw [e₁, e₃, show (rightDerivedPlusUnitSingle F).app X =
       (Functor.mapSingleFunctorCompQhIso F).inv.app X ≫
-        F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
+        F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
           F.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X) from rfl,
     mapSingleFunctorCompQhIso_inv_app_eq', assoc,

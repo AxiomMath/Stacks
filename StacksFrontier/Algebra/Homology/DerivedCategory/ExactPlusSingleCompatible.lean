@@ -63,14 +63,10 @@ theorem mapCochainComplexSingleFunctor_comp_inv_app (Y : C₀) :
             ((U₁.mapCochainComplexSingleFunctor 0).inv.app Y) ≫
           (c.hom.mapHomologicalComplex (ComplexShape.up ℤ)).app
             ((CochainComplex.singleFunctor C₀ 0).obj Y) := by
-  ext i
-  by_cases h : i = 0
-  · subst h
-    simpa [Functor.mapCochainComplexSingleFunctor, CochainComplex.singleFunctor,
-      CochainComplex.singleFunctors, HomologicalComplex.single_map_f_self,
-      HomologicalComplex.singleObjXSelf] using (c.hom.naturality _).symm
-  · simp [Functor.mapCochainComplexSingleFunctor, CochainComplex.singleFunctor,
-      CochainComplex.singleFunctors, h]
+  ext
+  simpa [Functor.mapCochainComplexSingleFunctor, CochainComplex.singleFunctor,
+    CochainComplex.singleFunctors, HomologicalComplex.single_map_f_self,
+    HomologicalComplex.singleObjXSelf] using (c.hom.naturality _).symm
 
 end Complexes
 

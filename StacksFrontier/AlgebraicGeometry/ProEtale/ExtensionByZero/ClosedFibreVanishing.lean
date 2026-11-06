@@ -570,7 +570,7 @@ private lemma exists_no_arrow_refinement_of_proetale_cover
     have hfacU' : Acover.f uidx = g₀ ≫ r.left := liftData.fac
     let gToT : Uobj ⟶ T₀ := MorphismProperty.Over.homMk
       (P := @WeaklyEtale) (Q := ⊤) g₀ (by
-        have hrw : r.left ≫ V.hom = T₀.hom := by simpa using r.w
+        have hrw : r.left ≫ V.hom = T₀.hom := r.w.trans (by simp [T₀])
         calc
           g₀ ≫ T₀.hom = g₀ ≫ (r.left ≫ V.hom) :=
             congrArg (fun f => g₀ ≫ f) hrw.symm

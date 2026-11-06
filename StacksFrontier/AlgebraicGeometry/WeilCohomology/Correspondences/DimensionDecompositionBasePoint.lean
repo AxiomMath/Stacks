@@ -592,7 +592,7 @@ theorem sum_includePart_restrictPart [CompactSpace X] (m : ℤ)
       ⟨fun i j hij ↦ by
         simpa only [Scheme.Opens.opensRange_ι] using
           (isClopenDecomposition_dimPart sX).disjoint i.down j.down
-            fun h ↦ hij (ULift.ext _ _ h), by
+            fun h ↦ hij (ULift.ext h), by
         simp only [Scheme.Opens.opensRange_ι]
         exact (ULift.down_surjective.iSup_comp (dimPart sX)).trans
           (isClopenDecomposition_dimPart sX).iSup_eq_top⟩ m _ fun i ↦ ?_
@@ -609,8 +609,7 @@ theorem sum_includePart_restrictPart [CompactSpace X] (m : ℤ)
     · have := subsingleton_chowGroup_part k sX
         (fun h ↦ hi ((Set.Finite.mem_toFinset _).2 h)) m
       exact Subsingleton.elim _ _
-  induction β using TensorProduct.induction_on with
-  | zero => simp
+  induction β using TensorProduct.inductionOn with
   | tmul q α =>
     simp only [restrictPart, includePart, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap]
@@ -913,6 +912,7 @@ theorem corrFromPointEquiv_pushforward_lof_lof_lof (hΔ : Δ.IsoInvariant) (hΔs
   · rw [pushforward_lof_lof_lof_of_ne k Δ sX sY s i h e c a, map_zero,
       comp_lof_lof_lof_of_ne k (𝟙 _) sX sY Δ i s 0 d' d h]
 
+set_option maxHeartbeats 1000000 in
 /-- **Stacks Project, Tag 0FG0 (3), second half**, for smooth schemes `X`, `Y` over `k` of
 arbitrary dimension, `X` proper: pushforward by correspondences corresponds to composition. For
 `c ∈ Corrˢ(X, Y)` and `α ∈ CH^i(X) ⊗ ℚ`, the identification
@@ -928,7 +928,9 @@ theorem corrFromPointEquiv_pushforward (hΔ : Δ.IsoInvariant) (hΔs : Δ.IsSymm
   | lof d e c =>
     induction α using DirectSum.induction_on with
     | zero => simp
-    | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
+    | add x y hx hy =>
+      rw [LinearMap.map_add (pushforward k sX sY Δ s i _), LinearEquiv.map_add, hx, hy,
+        LinearEquiv.map_add, LinearMap.map_add₂]
     | of d' a =>
       exact corrFromPointEquiv_pushforward_lof_lof_lof k Δ sX sY hΔ hΔs i s d e c d' a
 

@@ -136,7 +136,7 @@ lemma toResidue_surjective (hf : f ∈ maximalIdeal A) :
 private theorem comap_eq_maximalIdeal_of_isMaximal
     (M : Ideal (standardTamelyRamifiedAlgebra A f e)) [M.IsMaximal] :
     M.comap (algebraMap A _) = maximalIdeal A :=
-  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M)
+  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) M)
 
 /-- If `f ∈ 𝔪_A`, the root lies in every maximal ideal of `A[x]/(x^e - f)`. -/
 lemma root_mem_of_isMaximal (hf : f ∈ maximalIdeal A)

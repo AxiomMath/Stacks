@@ -118,7 +118,7 @@ theorem exists_affine_local_rep (F : Sheaf (Scheme.smallEtaleTopology X) (Type (
     rw [map_smallEtaleSectionPullback, hk]
     exact hx.symm
   refine ⟨smallEtaleRestrict Y B, ι ≫ p, W, ι ≫ k, s₀, hB, ⟨⟨v, hvB⟩, hv⟩, ?_⟩
-  rw [op_comp, FunctorToTypes.map_comp_apply, op_comp, FunctorToTypes.map_comp_apply, hrel]
+  rw [op_comp, Functor.map_comp_apply, op_comp, Functor.map_comp_apply, hrel]
 
 end LanWitness
 
@@ -451,9 +451,9 @@ theorem IsLimitChartRep.map {t : ((smallEtaleInverseImage.{u, v} π).obj F).obj.
     {b : F.obj.obj (op Q₂)} (hb : IsLimitChartRep D c π hπ F t j₂ ρ₂ b) :
     IsLimitChartRep D c π hπ F t j₁ ρ₁ (F.obj.map r.op b) := by
   unfold IsLimitChartRep at hb ⊢
-  rw [← smallEtaleSectionPullback_map, ← FunctorToTypes.map_comp_apply, ← op_comp,
-    limitBaseChangeLift_stage_naturality D c π hπ h r hr, op_comp, FunctorToTypes.map_comp_apply,
-    hb, ← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [← smallEtaleSectionPullback_map, ← Functor.map_comp_apply, ← op_comp,
+    limitBaseChangeLift_stage_naturality D c π hπ h r hr, op_comp, Functor.map_comp_apply,
+    hb, ← Functor.map_comp_apply, ← op_comp]
   exact congrArg (fun m => ((smallEtaleInverseImage.{u, v} π).obj F).obj.map (Quiver.Hom.op m) t)
     ((isTerminalEtaleMkId c.pt).hom_ext _ _)
 
@@ -626,10 +626,10 @@ theorem exists_isLimitChartRep [IsCofiltered I] (hc : IsLimit c)
   · have : IsIso ((Scheme.Etale.forget c.pt ⋙ Over.forget c.pt).map θ) := hθ
     have : IsIso θ := isIso_of_reflects_iso θ (Scheme.Etale.forget c.pt ⋙ Over.forget c.pt)
     unfold IsLimitChartRep
-    rw [← smallEtaleSectionPullback_map, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← smallEtaleSectionPullback_map, ← Functor.map_comp_apply, ← op_comp]
     have hk' : limitBaseChangeLift D c π hπ j ρ ≫ (smallEtaleBaseChange π).map ψ = inv θ ≫ k := by
       rw [← hk, IsIso.inv_hom_id_assoc]
-    rw [hk', op_comp, FunctorToTypes.map_comp_apply, ← hrel, ← FunctorToTypes.map_comp_apply,
+    rw [hk', op_comp, Functor.map_comp_apply, ← hrel, ← Functor.map_comp_apply,
       ← op_comp]
     exact congrArg (fun m => ((smallEtaleInverseImage.{u, v} π).obj F).obj.map (Quiver.Hom.op m) t)
       ((isTerminalEtaleMkId c.pt).hom_ext _ _)
@@ -835,18 +835,18 @@ theorem exists_limitStagePullback_eq [IsCofiltered I] (hc : IsLimit c)
       rw [pullback.lift_fst_assoc, pullback.lift_snd]
     calc F.obj.map gi.op (x₂ m)
         = F.obj.map (gi ≫ pullback.fst (ρ₁ m) (D.map gb)).op (x₁ m) := by
-          rw [op_comp, FunctorToTypes.map_comp_apply]
+          rw [op_comp, Functor.map_comp_apply]
       _ = F.obj.map (ℓ ≫ pullback.fst _ (D.map (gk mm)) ≫ pullback.fst (ρ₁ m) (ρ₁ m')).op
             (x₁ m) := by rw [e1]
       _ = F.obj.map ℓ.op (F.obj.map (pullback.fst _ (D.map (gk mm))).op
             (F.obj.map (pullback.fst (ρ₁ m) (ρ₁ m')).op (x₁ m))) := by
-          simp only [op_comp, FunctorToTypes.map_comp_apply]
+          simp only [op_comp, Functor.map_comp_apply]
       _ = F.obj.map ℓ.op (F.obj.map (pullback.fst _ (D.map (gk mm))).op
             (F.obj.map (pullback.snd (ρ₁ m) (ρ₁ m')).op (x₁ m'))) := by rw [hk mm]
       _ = F.obj.map (ℓ ≫ pullback.fst _ (D.map (gk mm)) ≫ pullback.snd (ρ₁ m) (ρ₁ m')).op
-            (x₁ m') := by simp only [op_comp, FunctorToTypes.map_comp_apply]
+            (x₁ m') := by simp only [op_comp, Functor.map_comp_apply]
       _ = F.obj.map gj.op (x₂ m') := by
-          rw [← e2, op_comp, FunctorToTypes.map_comp_apply]
+          rw [← e2, op_comp, Functor.map_comp_apply]
   obtain ⟨t₀, ht₀, -⟩ := (Presieve.isSheafFor_arrows_iff F.obj ρ₂).mp hsheaf x₂ hcompat
   refine ⟨b₂, t₀, ?_⟩
   -- the glued section pulls back to `t`
@@ -868,10 +868,10 @@ theorem exists_limitStagePullback_eq [IsCofiltered I] (hc : IsLimit c)
   refine ((((isSheaf_iff_isSheaf_of_type _ _).1
     ((smallEtaleInverseImage.{u, v} π).obj F).property) _ hYcov).isSeparatedFor).ext ?_
   rintro T f ⟨T', r, _, ⟨m⟩, rfl⟩
-  rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
   congr 1
-  rw [limitStagePullback, ← FunctorToTypes.map_comp_apply, ← op_comp,
-    terminal_from_comp_limitStageLift, op_comp, FunctorToTypes.map_comp_apply,
+  rw [limitStagePullback, ← Functor.map_comp_apply, ← op_comp,
+    terminal_from_comp_limitStageLift, op_comp, Functor.map_comp_apply,
     smallEtaleSectionPullback_map, ht₀ m]
   exact hrep₂ m
 

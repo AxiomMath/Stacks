@@ -184,8 +184,8 @@ nonempty. -/
 instance isEmpty_point_pointlessSite :
     IsEmpty ((⊥ : GrothendieckTopology PointlessSite.{u}).Point.{u}) := by
   refine ⟨fun Ψ ↦ ?_⟩
-  obtain ⟨⟨Z, _⟩⟩ := IsCofiltered.nonempty (C := Ψ.fiber.Elements)
-  exact isEmptyElim Z
+  obtain ⟨e⟩ := IsCofiltered.nonempty (C := Ψ.fiber.Elements)
+  exact isEmptyElim e.obj
 
 /-- The ringed topos on the site with no objects: its topos is the trivial topos, with one
 object and one morphism, and its structure sheaf is the unique presheaf of commutative rings

@@ -72,11 +72,11 @@ theorem nonempty_derivedPullback_fromSpec_iso
   let d4 : (tilde.functor A ⋙ Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory ⋙
       (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory ≅
         (tilde.functor A).mapDerivedCategory :=
-    Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+    Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
       Functor.mapDerivedCategoryCongr (Functor.associator _ _ _ ≪≫
         Functor.isoWhiskerLeft _ hU.restrictIsoSpecCompIso ≪≫ Functor.rightUnitor _)
   exact ⟨((derivedRestrictIsoDerivedPullback hU.fromSpec).app K).symm ≪≫
-      ((Functor.mapDerivedCategoryCompIso
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso
         (Scheme.Modules.restrictFunctorComp hU.isoSpec.inv U.ι).symm).app K).symm ≪≫
       (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory.mapIso e' ≪≫ d4.app ω⟩
 
@@ -86,10 +86,10 @@ private theorem nonempty_restrict_iso_of_iso_derivedPullback_fromSpec
     {N : DerivedCategory (Spec Γ(Z, U)).Modules} (e : (derivedPullback hU.fromSpec).obj K ≅ N) :
     Nonempty ((Scheme.Modules.restrictFunctor U.ι).mapDerivedCategory.obj K ≅
       (Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory.obj N) :=
-  let c := Functor.mapDerivedCategoryCompIso hU.restrictIsoSpecInvCompIso ≪≫
+  let c := Functor.mapDerivedCategoryCompIsoOfCompIso hU.restrictIsoSpecInvCompIso ≪≫
     Functor.mapDerivedCategoryId _
   ⟨(c.app _).symm ≪≫ (Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory.mapIso
-    ((Functor.mapDerivedCategoryCompIso
+    ((Functor.mapDerivedCategoryCompIsoOfCompIso
       (Scheme.Modules.restrictFunctorComp hU.isoSpec.inv U.ι).symm).app K ≪≫
       (derivedRestrictIsoDerivedPullback hU.fromSpec).app K ≪≫ e)⟩
 
@@ -102,7 +102,7 @@ theorem nonempty_restrict_iso_of_derivedPullback_fromSpec
       (@Functor.mapDerivedCategory _ _ _ (HasDerivedCategory.standard _) _ _ _ _
         (tilde.functor Γ(Z, U) ⋙ Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ _).obj ω) := by
   let A := Γ(Z, U)
-  let i₃ := (@Functor.mapDerivedCategoryCompIso _ _ _ (HasDerivedCategory.standard _) _ _ _ _
+  let i₃ := (@Functor.mapDerivedCategoryCompIsoOfCompIso _ _ _ (HasDerivedCategory.standard _) _ _ _ _
     _ _ _ _ (tilde.functor A) _ _ _ (Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ _ _ _ _ _
     (Iso.refl _)).app ω
   obtain ⟨i⟩ := nonempty_restrict_iso_of_iso_derivedPullback_fromSpec hU K

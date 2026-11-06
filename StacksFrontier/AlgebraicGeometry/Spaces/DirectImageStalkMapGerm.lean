@@ -72,10 +72,10 @@ theorem spacesComparisonSheafFiberIso_hom_germ {X : AlgebraicSpaces B S hS}
   have : HasColimitsOfShape (geometricFiber B S hS X.1 x).Elementsᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape (etaleSitePoint B S hS X.1 x hX).fiber.Elementsᵒᵖ A)
   have h := Functor.Final.ι_colimitIso_inv (smallToSpacesFiberElements B S hS x).op
-    ((CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ K.obj) (op ⟨V, v⟩)
+    ((Functor.Elements.π (spacesGeometricFiber x)).op ⋙ K.obj) (op (Functor.elementsMk _ V v))
   have e : (spacesComparisonSheafFiberIso B S hS x hX).hom.app K =
       (Functor.Final.colimitIso (smallToSpacesFiberElements B S hS x).op
-        ((CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ K.obj)).inv ≫ 𝟙 _ ≫
+        ((Functor.Elements.π (spacesGeometricFiber x)).op ⋙ K.obj)).inv ≫ 𝟙 _ ≫
         (etaleSitePoint B S hS X.1 x hX).presheafFiber.map
           (𝟙 ((comparisonFunctor B S hS X).op ⋙ K.obj)) ≫ 𝟙 _ := rfl
   have hid : ∀ {a b : A} (g : a ⟶ b), g ≫ 𝟙 b ≫ 𝟙 b ≫ 𝟙 b = g := fun g => by simp
@@ -231,7 +231,7 @@ theorem spacesBaseChangeSheafFiberIso_inv_germ {X Y : AlgebraicSpaces B S hS} (f
   have h1 : Ptgt.toPresheafFiber V (efib.hom.app V e) M.obj =
       Pg.toPresheafFiber V e M.obj ≫
         (CategoryOfElements.presheafColimIsoOfNatIsoOfCoefficients (A := A) efib).hom.app M.obj :=
-    (CategoryOfElements.ι_presheafColimIsoOfNatIsoOfCoefficients_hom efib M.obj (op ⟨V, e⟩)).symm
+    (CategoryOfElements.ι_presheafColimIsoOfNatIsoOfCoefficients_hom efib M.obj (op (Functor.elementsMk _ V e))).symm
   have h2 := GrothendieckTopology.Point.toSheafFiber_sheafFiberComapIso_hom Psrc g hcover M V e
   show Ptgt.toPresheafFiber V (efib.hom.app V e) M.obj ≫
       ((CategoryOfElements.presheafColimIsoOfNatIsoOfCoefficients (A := A) efib).inv.app M.obj ≫

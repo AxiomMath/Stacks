@@ -21,7 +21,7 @@ public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -354,13 +354,13 @@ uniquely (in `K(A)`) through `q(∏ᶜ X)`.
 * Existence: choose chain-map representatives `g_t : K ⟶ X t` of the `f_t`
   (`Quot.exists_rep`), form `g := Pi.lift g_t : K ⟶ ∏ᶜ X` (universal property of `∏ᶜ X` in
   `CochainComplex`), and take `q(g)`.  Then `q(g) ≫ q(Pi.π X t) = q(g ≫ Pi.π X t)
-  = q(g_t) = f_t` since `g ≫ Pi.π X t = g_t` (`Pi.lift_π`).
+  = q(g_t) = f_t` since `g ≫ Pi.π X t = g_t` (`Pi.lift_comp_π`).
 * Uniqueness: if `q(h)` also satisfies `q(h) ≫ q(Pi.π X t) = f_t` for all `t`, then for
   each `t`, `(h - g) ≫ Pi.π X t` is null-homotopic; the kernel lemma
   `product_homotopyZero_of_componentwise` (applied to `h - g`) shows `h - g` is
   null-homotopic, i.e. `q(h) = q(g)`.
 STRATEGY for formal phase: build via `Fan.IsLimit`/`mkFanLimit`, using `Pi.lift` for the
-lift, `Pi.lift_π` + functoriality of `q` for the fac condition, and
+lift, `Pi.lift_comp_π` + functoriality of `q` for the fac condition, and
 `product_homotopyZero_of_componentwise` (on `h - g`, with
 `HomotopyCategory.quotient_map_eq_zero_iff`)
 for uniqueness. -/
@@ -375,7 +375,7 @@ noncomputable def productHomotopyIsLimit {T : Type} (X : T → CochainComplex C 
       ((Quot.exists_rep (s.proj t)).choose : s.pt.as ⟶ X t)))) ?_ ?_
   · intro s t
     change q.map _ ≫ q.map (Pi.π X t) = s.proj t
-    rw [← q.map_comp, Pi.lift_π]
+    rw [← q.map_comp, Pi.lift_comp_π]
     exact (Quot.exists_rep (s.proj t)).choose_spec
   · intro s m hm
     obtain ⟨h₀, hh₀⟩ := Quot.exists_rep m
@@ -392,7 +392,7 @@ noncomputable def productHomotopyIsLimit {T : Type} (X : T → CochainComplex C 
       have e3 : q.map g ≫ q.map (Pi.π X t) = s.proj t := by
         rw [← q.map_comp]
         change q.map (Pi.lift gt ≫ Pi.π X t) = s.proj t
-        rw [Pi.lift_π]
+        rw [Pi.lift_comp_π]
         exact (Quot.exists_rep (s.proj t)).choose_spec
       rw [e2, e3, sub_self]
     have hzero : q.map (h - g) = 0 := (HomotopyCategory.quotient_map_eq_zero_iff _).mpr

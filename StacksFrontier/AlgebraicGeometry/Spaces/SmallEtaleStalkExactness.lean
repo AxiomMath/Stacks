@@ -7,6 +7,7 @@ public import Mathlib.Algebra.Homology.ShortComplex.Exact
 public import Mathlib.CategoryTheory.Limits.Types.ColimitTypeFiltered
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import Mathlib.CategoryTheory.Sites.LeftExact
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 public import Mathlib.RingTheory.Algebraic.Cardinality
 public import Mathlib.SetTheory.Cardinal.ENat
@@ -219,7 +220,7 @@ private noncomputable def neighborhoodSectionsIso {A : Type w} [Category A]
     intro j j' g
     change P.map
       (((neighborhoodFiberElementsEquiv B S hS X x).symm.op.functor.map g).unop.hom).op ≫ 𝟙 _ =
-        𝟙 _ ≫ P.map g.unop.val.op
+        𝟙 _ ≫ P.map g.unop.hom.op
     simp only [Category.comp_id, Category.id_comp]
     congr 1)
 
@@ -278,7 +279,7 @@ private theorem pointStalkIso_naturality {A : Type w} [Category A]
       cases k with
       | op p =>
         cases p with
-        | mk U y => rfl
+        | mk y => rfl
     have hobj : Opposite.op (e.functor.obj k).unop.chart = π.obj k :=
       congrArg Opposite.op hchart
     cases hobj
@@ -286,8 +287,8 @@ private theorem pointStalkIso_naturality {A : Type w} [Category A]
     simp
   apply colimit.hom_ext
   rintro ⟨j⟩
-  let j' := Opposite.op j
-  let k := (e.functor ⋙ e.inverse).obj j'
+  let j' : (geometricFiber B S hS X x).Elementsᵒᵖ := Opposite.op j
+  let k : (geometricFiber B S hS X x).Elementsᵒᵖ := j'
   change colimit.ι dP j' ≫ (HasColimit.isoOfEquivalence e nP).hom ≫ colim.map tN =
     colimit.ι dP j' ≫ colim.map tP ≫ (HasColimit.isoOfEquivalence e nQ).hom
   have hsq := congrArg (fun α => α.app k) hsquare
@@ -299,48 +300,32 @@ private theorem pointStalkIso_naturality {A : Type w} [Category A]
         rw [Category.assoc, Iso.hom_inv_id_app]; exact congrArg _ (Category.comp_id _).symm
       _ = nP.inv.app k ≫ (nP.hom.app k ≫ tP.app k) ≫ nQ.inv.app k := by rw [hs]
       _ = _ := by simp [Category.assoc]
-  have ht := tP.naturality (e.unit.app j')
-  have ht' : dP.map (e.unit.app j') ≫ tP.app k =
-      tP.app j' ≫ dQ.map (e.unit.app j') := ht
   have hIsoP : colimit.ι dP j' ≫ (HasColimit.isoOfEquivalence e nP).hom =
-      dP.map (e.unit.app j') ≫ nP.inv.app k ≫
+      nP.inv.app k ≫
         colimit.ι (SmallEtaleNeighborhood.sections (x := x) P) (e.functor.obj k) :=
     HasColimit.ι_isoOfEquivalence_hom e nP j'
   have hMapP := colimit.ι_map tN (e.functor.obj k)
   have hIsoQ : colimit.ι dQ j' ≫ (HasColimit.isoOfEquivalence e nQ).hom =
-      dQ.map (e.unit.app j') ≫ nQ.inv.app k ≫
+      nQ.inv.app k ≫
         colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) :=
     HasColimit.ι_isoOfEquivalence_hom e nQ j'
   have hMapQ := colimit.ι_map tP j'
   calc
-    _ = dP.map (e.unit.app j') ≫ nP.inv.app k ≫ tN.app (e.functor.obj k) ≫
+    _ = (colimit.ι dP j' ≫ (HasColimit.isoOfEquivalence e nP).hom) ≫ colim.map tN := by
+      simp only [Category.assoc]
+    _ = nP.inv.app k ≫
+        colimit.ι (SmallEtaleNeighborhood.sections (x := x) P) (e.functor.obj k) ≫
+          colim.map tN := by rw [hIsoP, Category.assoc]
+    _ = (nP.inv.app k ≫ tN.app (e.functor.obj k)) ≫
         colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) := by
-      calc
-        _ = (colimit.ι dP j' ≫ (HasColimit.isoOfEquivalence e nP).hom) ≫ colim.map tN := by
-          simp only [Category.assoc]
-        _ = (dP.map (e.unit.app j') ≫ nP.inv.app k ≫
-            colimit.ι (SmallEtaleNeighborhood.sections (x := x) P) (e.functor.obj k)) ≫
-            colim.map tN := by rw [hIsoP]
-        _ = _ := by
-          simpa only [Category.assoc] using
-            congrArg (fun g => dP.map (e.unit.app j') ≫ nP.inv.app k ≫ g) hMapP
-    _ = dP.map (e.unit.app j') ≫ (nP.inv.app k ≫ tN.app (e.functor.obj k)) ≫
+      rw [hMapP, Category.assoc]
+    _ = tP.app k ≫ nQ.inv.app k ≫
         colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) := by
-      simp [Category.assoc]
-    _ = dP.map (e.unit.app j') ≫ (tP.app k ≫ nQ.inv.app k) ≫
-        colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) := by
-      rw [hsq']
-    _ = (dP.map (e.unit.app j') ≫ tP.app k) ≫ nQ.inv.app k ≫
-        colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) := by
-      simp [Category.assoc]
-    _ = (tP.app j' ≫ dQ.map (e.unit.app j')) ≫ nQ.inv.app k ≫
-        colimit.ι (SmallEtaleNeighborhood.sections (x := x) Q) (e.functor.obj k) := by
-      rw [ht']
+      rw [hsq', Category.assoc]
     _ = tP.app j' ≫ colimit.ι dQ j' ≫ (HasColimit.isoOfEquivalence e nQ).hom := by
-      simpa only [Category.assoc] using (congrArg (fun g => tP.app j' ≫ g) hIsoQ).symm
+      rw [hIsoQ]
     _ = _ := by
-      simpa only [Category.assoc] using
-        (congrArg (fun g => g ≫ (HasColimit.isoOfEquivalence e nQ).hom) hMapQ).symm
+      rw [← Category.assoc, ← hMapQ, Category.assoc]
 
 /-- A map of presheaves of sets which is injective on sections over every étale chart is
 injective on every geometric stalk: the stalk is a filtered colimit, so two germs agree only

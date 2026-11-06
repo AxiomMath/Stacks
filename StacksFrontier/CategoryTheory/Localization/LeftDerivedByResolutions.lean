@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Functor.Derived.LeftDerived
 public import Mathlib.CategoryTheory.Functor.Derived.PointwiseLeftDerived
+public import Mathlib.CategoryTheory.GuitartExact.KanExtension
 public import Mathlib.CategoryTheory.Localization.CalculusOfFractions
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives

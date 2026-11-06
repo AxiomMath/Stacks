@@ -95,7 +95,6 @@ theorem isZero_cotangentComplex_of_derivedTensor_self (A : Type u) [CommRing A]
     convert hmul using 1
     funext z
     induction z with
-    | zero => simp
     | tmul a x => simp
     | add y z hy hz => simp only [map_add, hy, hz]
   have hneg : ∀ n : ℕ, (cotangentComplex.{u, u} A B).ExactAt (-(n : ℤ)) := fun n => by

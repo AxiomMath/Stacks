@@ -126,6 +126,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without
+this shortcut). -/
+instance hasPullbacks_presheaf_SeparatedQuasiFiniteDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for `HasLimit (cospan f g)` on presheaves on the big fppf site of `S`. -/
+instance (priority := high) hasPullback_presheaf_SeparatedQuasiFiniteDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Flatness and local finite presentation as packaged properties -/
 
 /-- Being flat (**Stacks 03ML**, part (1)), as a property of morphisms in the category of

@@ -35,13 +35,13 @@ theorem galoisInvariants_and_cocycles_killed_of_inertia {G : Type u} [Group G]
     (M : ContinuousGModule.{u, v} G) (I : Subgroup H) (ψ : G ≃ₜ I)
     (hψ : ∀ g g', ψ (g * g') = ψ g * ψ g') (ρ : H →* GL (Fin r) ℤ_[ℓ]) (n e : ℕ)
     (Θ : M.obj.obj.V ≃+ (Fin r → ZMod (ℓ ^ (n + 1))))
-    (hΘ : ∀ g v, Θ ((M.obj.obj.ρ g).hom v) = (PadicInt.toZModPow (n + 1)).mapMatrix
+    (hΘ : ∀ g v, Θ ((M.obj.obj.ρ g).asHom v) = (PadicInt.toZModPow (n + 1)).mapMatrix
       (ρ (ψ g : H) : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ Θ v)
     (hI : InertiaLevelsKilledBy I ρ e) :
-    (∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).hom v = v) → ℓ ^ e • v = 0) ∧
+    (∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).asHom v = v) → ℓ ^ e • v = 0) ∧
       ∀ γ : G → M.obj.obj.V, IsLocallyConstant γ →
-        (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (γ g₂) + γ g₁) →
-        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).hom x - x = ℓ ^ e • γ g := by
+        (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom (γ g₂) + γ g₁) →
+        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).asHom x - x = ℓ ^ e • γ g := by
   obtain ⟨hinv, hcoc⟩ := hI n
   have hψs : ∀ σ τ : I, ψ.symm (σ * τ) = ψ.symm σ * ψ.symm τ := fun σ τ => by
     apply ψ.injective

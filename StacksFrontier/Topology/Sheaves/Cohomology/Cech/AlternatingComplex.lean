@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.Grp.Limits
 public import Mathlib.Algebra.Homology.HomologicalComplex
 public import Mathlib.CategoryTheory.Limits.Lattice
+public import Mathlib.CategoryTheory.Limits.Preorder
 public import Mathlib.Algebra.Category.Grp.Biproducts
 public import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
 public import StacksFrontier.CategoryTheory.Sites.CechComplex

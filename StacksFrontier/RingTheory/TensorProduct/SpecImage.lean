@@ -162,7 +162,6 @@ private theorem bigEquivAux_one_tmul (T : Type*) [CommRing T] [Algebra k T]
     (bigEquivAux k R T p) ((1 : residueField R p) ⊗ₜ[R] g) = (toResidueTensor k R T p) g := by
   let : Algebra R (T ⊗[k] R) := Algebra.TensorProduct.rightAlgebra
   induction g with
-  | zero => simp
   | tmul t r =>
     simp only [bigEquivAux, innerCommAux, RingEquiv.coe_trans, RingEquiv.coe_mk,
       AlgEquiv.toEquiv_eq_coe, EquivLike.coe_coe, Function.comp_apply,
@@ -229,7 +228,6 @@ theorem baseChangeResidue_injective (hι : Function.Injective ι) (p : PrimeSpec
   have hmap : ∀ x, (Algebra.TensorProduct.map ι (AlgHom.id k (residueField R p))) x
       = (LinearMap.rTensor (residueField R p) ι.toLinearMap) x := fun x ↦ by
     induction x with
-    | zero => simp
     | tmul a b => simp
     | add x y hx hy => simp [hx, hy]
   exact fun x y hxy ↦ hinj (by simpa only [hmap] using hxy)
@@ -248,7 +246,6 @@ theorem toResidueTensor_baseChange (p : PrimeSpectrum R) :
           (toResidueTensor k R S' p) := by
   refine RingHom.ext fun x ↦ ?_
   induction x with
-  | zero => simp
   | tmul s' r =>
     simp [baseChangeIncl, toResidueTensor, Algebra.TensorProduct.map_tmul]
   | add a b ha hb =>

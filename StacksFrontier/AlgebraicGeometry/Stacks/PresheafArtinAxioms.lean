@@ -202,7 +202,7 @@ theorem isLimitPreserving_fibredCategory
       simpa using eq_map_of_isHomLift_fibredCategory B S hS (𝟙 c'.pt) φ
     obtain ⟨k, r, hr⟩ := hcolEq i a b (hs.symm.trans (hst.trans ht))
     have hk : s = F.map (c'.π.app k).op (F.map (D'.map r).op a) := by
-      rw [hs, ← FunctorToTypes.map_comp_apply, ← op_comp, c'.w r]
+      rw [hs, ← Functor.map_comp_apply, ← op_comp, c'.w r]
     let δk := fibredCategoryHomMk B S hS (c'.π.app k) hk
     let dx := fibredCategoryHomMk B S hS (D'.map r) (s := F.map (D'.map r).op a) rfl
     let dy := fibredCategoryHomMk B S hS (D'.map r) (s := F.map (D'.map r).op b) rfl

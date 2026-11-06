@@ -47,6 +47,14 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {A : SimplicialObject.Augmented (AlgebraicSpaces B S hS)}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_FppfHypercoveringDerivedUnitOfSchemes
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 variable [HasDerivedCategory (Sheaf (SpacesEtale.topology B S hS A.right) AddCommGrpCat.{u + 1})]
   [HasDerivedCategory (Sheaf (etaleSimplicialSite A).totalTopology AddCommGrpCat.{u + 1})]
 

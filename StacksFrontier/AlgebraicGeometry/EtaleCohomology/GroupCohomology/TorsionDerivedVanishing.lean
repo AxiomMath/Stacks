@@ -62,13 +62,13 @@ variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 multiplication. -/
 @[instance_reducible]
 def carrierAction (M : ContinuousGModule.{u, v} G) : DistribMulAction G M.obj.obj.V where
-  smul g m := (M.obj.obj.ρ g).hom m
+  smul g m := (M.obj.obj.ρ g).asHom.hom m
   one_smul m := by
-    show (M.obj.obj.ρ 1).hom m = m
+    show (M.obj.obj.ρ 1).asHom.hom m = m
     rw [map_one]
     rfl
   mul_smul g h m := by
-    show (M.obj.obj.ρ (g * h)).hom m = (M.obj.obj.ρ g).hom ((M.obj.obj.ρ h).hom m)
+    show (M.obj.obj.ρ (g * h)).asHom.hom m = (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom m)
     rw [map_mul]
     rfl
   smul_zero g := map_zero _
@@ -77,7 +77,7 @@ def carrierAction (M : ContinuousGModule.{u, v} G) : DistribMulAction G M.obj.ob
 /-- Under `carrierAction M`, `g • m` is the action of `ρ g` on `m`. -/
 lemma carrierAction_smul (M : ContinuousGModule.{u, v} G) (g : G) (m : M.obj.obj.V) :
     letI := carrierAction M
-    g • m = (M.obj.obj.ρ g).hom m := rfl
+    g • m = (M.obj.obj.ρ g).asHom.hom m := rfl
 
 /-- The carrier of a discrete `G`-module has open stabilizers. -/
 theorem hasOpenStabilizers_carrier (M : ContinuousGModule.{u, v} G) :

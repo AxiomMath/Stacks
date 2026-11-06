@@ -169,11 +169,11 @@ public noncomputable def affineDerivedPushforwardIso
       (show (T ⋙ P) ⋙ J ≅ (B ⋙ U) ⋙ J from pushforwardTildeIso R S φ)
   let eD : T.mapDerivedCategory ⋙ P.mapDerivedCategory ≅
       B.mapDerivedCategory ⋙ U.mapDerivedCategory :=
-    Functor.mapDerivedCategoryCompIso e ≪≫
-      (Functor.mapDerivedCategoryCompIso (F := B) (G := U) (H := B ⋙ U) (Iso.refl _)).symm
-  let eS := Functor.mapDerivedCategoryCompIso (F := T) (G := I) (H := tilde.functor S)
+    Functor.mapDerivedCategoryCompIsoOfCompIso e ≪≫
+      (Functor.mapDerivedCategoryCompIsoOfCompIso (F := B) (G := U) (H := B ⋙ U) (Iso.refl _)).symm
+  let eS := Functor.mapDerivedCategoryCompIsoOfCompIso (F := T) (G := I) (H := tilde.functor S)
     (Iso.refl _)
-  let eR := Functor.mapDerivedCategoryCompIso (F := U) (G := J) (H := tilde.functor R)
+  let eR := Functor.mapDerivedCategoryCompIsoOfCompIso (F := U) (G := J) (H := tilde.functor R)
     (Iso.refl _)
   let eP := (affineDerivedPushforward_comparison (Spec.map φ) Rf β).exists.choose
   let eI : I.mapDerivedCategory ⋙ Rf ≅ P.mapDerivedCategory ⋙ J.mapDerivedCategory :=

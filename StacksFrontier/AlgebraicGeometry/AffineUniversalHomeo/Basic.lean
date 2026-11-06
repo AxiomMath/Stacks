@@ -275,7 +275,7 @@ public theorem isSeparableExtension_of_isSeparablyGenerated
     (k K : Type*) [Field k] [Field K] [Algebra k K]
     [Algebra.IsSeparablyGenerated k K] : Algebra.IsSeparableExtension k K := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   constructor
   intro L _
   obtain ⟨t, ht, hsep⟩ :=

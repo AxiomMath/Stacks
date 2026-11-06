@@ -609,10 +609,10 @@ theorem finitePresentation_cokernel_of_presentation_of_lift
         apply (cancel_epi e.inv).1
         simpa [f, Category.assoc] using hk
       have hrel : rel ≫ k = 0 := by
-        rw [← coprod.inl_desc_assoc]
+        rw [← coprod.inl_desc_assoc rel lift k]
         simpa using congrArg (fun q => coprod.inl ≫ q) hk'
       have hliftk : lift ≫ k = 0 := by
-        rw [← coprod.inr_desc_assoc]
+        rw [← coprod.inr_desc_assoc rel lift k]
         simpa using congrArg (fun q => coprod.inr ≫ q) hk'
       let z : F ⟶ Z := hP.desc (CokernelCofork.ofπ k hrel)
       have hz : P.generators.π ≫ z = k := hP.fac _ WalkingParallelPair.one

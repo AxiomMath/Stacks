@@ -61,7 +61,7 @@ theorem mono_etaleAbelianInverseImageDirectImageAdj_unit_of_surjective {X Y : Sc
         (smallEtaleBaseChange f) (Type (u + 1)) Y.smallEtaleTopology
         X.smallEtaleTopology).unit.app ((sheafCompose Y.smallEtaleTopology U).obj F)) :=
       mono_smallEtaleUnit_of_surjective.{0, u} f ((sheafCompose Y.smallEtaleTopology U).obj F)
-    exact mono_comp _ _
+    exact mono_comp' this (@IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _))
   exact (sheafCompose Y.smallEtaleTopology U).mono_of_mono_map (@mono_of_mono _ _ _ _ _ _ _ hcomp)
 
 /-- **A torsion sheaf on a quasi-compact quasi-separated scheme is a filtered colimit of

@@ -250,7 +250,7 @@ theorem moduleSheafFunctor_map_submoduleDerivationHom
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (r : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       r ∈ I.obj U →
@@ -318,7 +318,7 @@ theorem moduleSheafFunctor_map_submoduleDerivationHom_comp
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N N' : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N N' : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (r : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       r ∈ I.obj U →

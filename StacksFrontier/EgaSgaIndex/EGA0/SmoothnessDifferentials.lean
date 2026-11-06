@@ -18,6 +18,7 @@ import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.RingTheory.Etale.Descent
 import Mathlib.RingTheory.Flat.CategoryTheory
+import Mathlib.RingTheory.Ideal.CotangentBaseChange
 import Mathlib.RingTheory.IsAdjoinRoot
 import Mathlib.RingTheory.LaurentSeries
 import Mathlib.RingTheory.LocalRing.LocalSubring

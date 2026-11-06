@@ -80,6 +80,16 @@ variable {C : Type u} [Category.{v} C] {O : Cᵒᵖ ⥤ RingCat.{r}} (bc : BaseC
 
 /-! ### Direct sums of cartesian objects, inside and outside `QC(O)` -/
 
+/-- The inclusion `QC(O) ⥤ D(O)` preserves direct sums, `QC(O)` being closed under them
+(Stacks 0GYW). Supplied explicitly: instance search times out finding it. -/
+private lemma qcι_preservesColimitsOfShape_discrete' (J : Type*)
+    [HasColimitsOfShape (Discrete J) (DMod.{w} O)] :
+    PreservesColimitsOfShape (Discrete J) (QCι.{w} bc) :=
+  preservesColimitOfShape_of_createsColimitsOfShape_and_hasColimitsOfShape _
+
+attribute [local instance] qcι_preservesColimitsOfShape_discrete'
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The direct sum of cartesian objects is their direct sum in `D(O)`.** `QC(O)` is closed under
 direct sums ([Stacks, Tag 0GYW]), so the inclusion preserves them and the comparison morphism from
 the direct sum of the underlying objects to the underlying object of the direct sum is
@@ -106,6 +116,7 @@ alias exists_small_generating_family := exists_qc_generating_family
 
 /-! ### Stacks 0GZ0 -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **[Stacks, Tag 0GZ0] part (2).** Let `C` be a category with the chaotic topology, let `O` be a
 presheaf of commutative rings on `C` and let `bc` be derived base-change data for `O`. Every
 contravariant cohomological functor on `QC(O)` which transforms direct sums into products is
@@ -123,6 +134,7 @@ theorem exists_iso_preadditiveYoneda_of_isHomological_unconditional
   obtain ⟨ι, E, hE, hE'⟩ := exists_small_generating_family.{w} bc hO
   exact exists_iso_preadditiveYoneda_of_isHomological_of_generating.{w} bc E hE hE' H
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **[Stacks, Tag 0GZ0] part (3).** Let `C` be a category with the chaotic topology, let `O` be a
 presheaf of commutative rings on `C` and let `bc` be derived base-change data for `O`. An exact
 functor `F : QC(O) ⥤ D'` of triangulated categories which transforms direct sums into direct sums
@@ -144,6 +156,7 @@ theorem exists_isTriangulated_rightAdjoint
   exact Pretriangulated.exists_isTriangulated_rightAdjoint_of_generating_of_factorsThroughSigma
     F E hE hE'
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **[Stacks, Tag 0GZ0] part (4).** The inclusion `QC(O) ⥤ D(O)` of the cartesian objects has an
 exact right adjoint. The inclusion is exact and transforms direct sums into direct sums, because
 `QC(O)` is a triangulated subcategory closed under direct sums ([Stacks, Tag 0GYW]), so this is the

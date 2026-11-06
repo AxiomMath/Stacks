@@ -129,7 +129,7 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
   have hτinj : Function.Injective τ := by
     rw [RingHom.injective_iff_ker_eq_bot]
     apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
-    rw [RingHom.ker_eq_comap_bot, Ideal.comap_comap, hτρ, ← RingHom.ker_eq_comap_bot]
+    rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap, hτρ, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot ρ).mp hρinj
   let τF : FractionRing B →+* K1 K (algebraMap A A₀ φ) e := IsFractionRing.lift hτinj
   have hτF : ∀ b, τF (algebraMap B (FractionRing B) b) = τ b :=
@@ -218,7 +218,7 @@ theorem exists_ringEquiv_of_ringHom_K1 (hπ : Irreducible (algebraMap A A₀ φ)
   have hβinj : Function.Injective β := by
     rw [RingHom.injective_iff_ker_eq_bot]
     apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
-    rw [RingHom.ker_eq_comap_bot, Ideal.comap_comap]
+    rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap]
     show Ideal.comap (β.comp κ) ⊥ = ⊥
     rw [hβκ, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hRB

@@ -130,7 +130,7 @@ public theorem isSheaf_of_locally_isSheafFor {J K : GrothendieckTopology C} {P :
   have hpbam : ∀ {V : C} (f : V ⟶ U) {u : P.obj (op U)}, x.IsAmalgamation u →
       (x.pullback f).IsAmalgamation (P.map f.op u) := by
     intro V f u hu Z m hm
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     exact hu (m ≫ f) hm
   -- The local amalgamations on the members of `T`.
   have hex : ∀ {V : C} {f : V ⟶ U}, T f →
@@ -145,7 +145,7 @@ public theorem isSheaf_of_locally_isSheafFor {J K : GrothendieckTopology C} {P :
       (x.pullback (a ≫ f)).IsAmalgamation (P.map a.op (tfam f hf)) := by
     intro V W f hf a Z m hm
     have hm' : (R.pullback f) (m ≫ a) := by simpa using hm
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, htfam hf (m ≫ a) hm']
+    rw [← Functor.map_comp_apply, ← op_comp, htfam hf (m ≫ a) hm']
     exact x.congr_arrow (Category.assoc m a f) _ _
   -- Hence the local amalgamations form a compatible family on `T`.
   have hcompat : tfam.Compatible := by
@@ -165,7 +165,7 @@ public theorem isSheaf_of_locally_isSheafFor {J K : GrothendieckTopology C} {P :
     have h1 : tfam (k ≫ h) hk = x (k ≫ h) (R.downward_closed hRh k) :=
       (hpt hk (hpb (k ≫ h))).isSeparatedFor _ _ _ (htfam hk) fun _ m _ =>
         (hx.to_sieveCompatible (k ≫ h) m (R.downward_closed hRh k)).symm
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, hs (k ≫ h) hk, h1]
+    rw [← Functor.map_comp_apply, ← op_comp, hs (k ≫ h) hk, h1]
   refine ⟨s, hsamalg, fun t ht => ?_⟩
   exact (hK T hTmem).isSeparatedFor (fun _ f _ => P.map f.op t) _ _ (fun _ _ _ => rfl)
     fun _ f hf => (hpt hf (hpb f)).isSeparatedFor _ _ _ (hpbam f hsamalg) (hpbam f ht)

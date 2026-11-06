@@ -138,7 +138,7 @@ theorem uliftForPresentationMap_val_app_apply {M N : SheafOfModules.{m} R} (f : 
 theorem uliftForPresentationMap_id (M : SheafOfModules.{m} R) :
     uliftForPresentationMap.{u, v, r, m, t} (𝟙 M) = 𝟙 _ := by
   ext X x
-  exact ULift.ext _ _ rfl
+  exact ULift.ext rfl
 
 /-- `uliftForPresentationMap` sends a composite to the composite of the images. -/
 @[simp]
@@ -146,7 +146,7 @@ theorem uliftForPresentationMap_comp {M N P : SheafOfModules.{m} R} (f : M ⟶ N
     uliftForPresentationMap.{u, v, r, m, t} (f ≫ g) =
       uliftForPresentationMap.{u, v, r, m, t} f ≫ uliftForPresentationMap.{u, v, r, m, t} g := by
   ext X x
-  exact ULift.ext _ _ rfl
+  exact ULift.ext rfl
 
 /-- The action of the universe lift `SheafOfModules.uliftForPresentation` on an isomorphism of
 sheaves of modules. -/

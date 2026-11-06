@@ -46,6 +46,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Quasi-compact open immersions are quasi-affine -/
 
 /-- A quasi-compact open immersion of algebraic spaces over `S` is quasi-affine. -/

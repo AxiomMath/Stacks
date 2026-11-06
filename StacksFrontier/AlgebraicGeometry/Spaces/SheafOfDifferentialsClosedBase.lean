@@ -129,7 +129,7 @@ theorem universalDerivationHom_app_eq_zero_of_isClosedImmersion
 
 /-- `d_{Y/Z}`, read as a `Z'`-derivation. -/
 def universalDerivationOfComp :
-    (sheafOfDifferentials B S hS q).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (sheafOfDifferentials B S hS q).val
       (structureSharpInverseImage B S hS (q ≫ i)).hom where
   d := (universalDerivation B S hS q).d
   d_mul := (universalDerivation B S hS q).d_mul
@@ -138,7 +138,7 @@ def universalDerivationOfComp :
 
 /-- `d_{Y/Z'}`, read as a `Z`-derivation, for a closed immersion `i : Z ⟶ Z'`. -/
 def universalDerivationOfIsClosedImmersion (hi : IsClosedImmersion B S hS i.hom) :
-    (sheafOfDifferentials B S hS (q ≫ i)).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (sheafOfDifferentials B S hS (q ≫ i)).val
       (structureSharpInverseImage B S hS q).hom where
   d := (universalDerivation B S hS (q ≫ i)).d
   d_mul := (universalDerivation B S hS (q ≫ i)).d_mul
@@ -186,21 +186,21 @@ def sheafOfDifferentialsCompClosedImmersionIso :
   inv := sheafOfDifferentialsCompClosedImmersionInv B S hS q i hi
   hom_inv_id := by
     refine (differentialsHomEquiv B S hS (q ≫ i) _).injective ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.postcomp_comp _ _ _) ?_
-    refine Eq.trans ?_ (PresheafOfModules.Derivation'.postcomp_id _).symm
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.postcomp_comp _ _ _) ?_
+    refine Eq.trans ?_ (PresheafOfModulesOfCommRing.Derivation'.postcomp_id _).symm
     rw [postcomp_sheafOfDifferentialsCompClosedImmersionHom]
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U x
-    exact PresheafOfModules.Derivation.congr_d
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d
       (postcomp_sheafOfDifferentialsCompClosedImmersionInv B S hS q i hi) x
   inv_hom_id := by
     refine (differentialsHomEquiv B S hS q _).injective ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.postcomp_comp _ _ _) ?_
-    refine Eq.trans ?_ (PresheafOfModules.Derivation'.postcomp_id _).symm
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.postcomp_comp _ _ _) ?_
+    refine Eq.trans ?_ (PresheafOfModulesOfCommRing.Derivation'.postcomp_id _).symm
     rw [postcomp_sheafOfDifferentialsCompClosedImmersionInv]
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U x
-    exact PresheafOfModules.Derivation.congr_d
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d
       (postcomp_sheafOfDifferentialsCompClosedImmersionHom B S hS q i) x
 
 /-- The identification `Ω_{Y/Z'} ≅ Ω_{Y/Z}` carries `d_{Y/Z'}(t)` to `d_{Y/Z}(t)`, so it is the
@@ -210,7 +210,7 @@ theorem sheafOfDifferentialsCompClosedImmersionIso_hom_d {U : (SmallEtale B S hS
     (((sheafOfDifferentialsCompClosedImmersionIso B S hS q i hi).hom.val.app U).hom)
         ((universalDerivation B S hS (q ≫ i)).d x) =
       (universalDerivation B S hS q).d x :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (postcomp_sheafOfDifferentialsCompClosedImmersionHom B S hS q i) x
 
 end AlgebraicGeometry.Space

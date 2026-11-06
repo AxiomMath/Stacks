@@ -238,7 +238,7 @@ theorem freeAlgebraSheafRestrictionIso_hom_comp_canonicalPresentation
     ((G.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj B)
     ((G.sheafPushforwardContinuous CommRingCat.{w} J₀ J).map a)
   refine Sheaf.hom_ext (sheafify_hom_ext J₀ _ _
-    ((G.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj B).cond ?_)
+    ((G.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj B).property ?_)
   refine Eq.trans ?_ h₂.symm
   show toSheafify J₀ (G.op ⋙ polynomialPresheaf J A (underlyingPresheaf J B)) ≫
       (((G.pushforwardContinuousSheafificationCompatibility CommRingCat.{w} J₀ J).hom.app

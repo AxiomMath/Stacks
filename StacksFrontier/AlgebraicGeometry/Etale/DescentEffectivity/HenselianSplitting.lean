@@ -222,7 +222,7 @@ lemma exists_coprod_isOpenImmersion_isFinite_etale_and_isEmpty_closedFiber
       have hmmax : m.IsMaximal := by simpa using hm
       have : m.IsMaximal := hmmax
       have hmc : (m.comap (algebraMap A B)).IsMaximal :=
-        Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m
+        Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m
       exact Ideal.map_le_iff_le_comap.mpr
         (hIA.trans (Ring.jacobson_le_of_isMaximal (m.comap (algebraMap A B))))
     obtain ⟨m, hm, hp, hJm⟩ := exists_isMaximal_mem_of_isClosed s hsClosed

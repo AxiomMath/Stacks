@@ -175,7 +175,7 @@ theorem map_map_map_eq_of_comp_eq {C : Type*} [Category* C] (F : Cᵒᵖ ⥤ Typ
     (x : a ⟶ b) (y : b ⟶ c) (z : c ⟶ d) (w : a ⟶ d) (h : x ≫ y ≫ z = w)
     (ξ : F.obj (Opposite.op d)) : F.map x.op (F.map y.op (F.map z.op ξ)) = F.map w.op ξ := by
   subst h
-  simp only [op_comp, FunctorToTypes.map_comp_apply]
+  simp only [op_comp, Functor.map_comp_apply]
 
 /-- Restricting along `a` and comparing with the restriction along the inverse of an
 isomorphism `e` is restricting along `e.hom ≫ a`. -/
@@ -185,12 +185,12 @@ theorem map_eq_map_inv_iff {C : Type*} [Category* C] (F : Cᵒᵖ ⥤ Type*) {U 
   subst h
   constructor
   · intro h₁
-    rw [op_comp, FunctorToTypes.map_comp_apply, h₁, ← FunctorToTypes.map_comp_apply, ← op_comp,
-      e.hom_inv_id, op_id, FunctorToTypes.map_id_apply]
+    rw [op_comp, Functor.map_comp_apply, h₁, ← Functor.map_comp_apply, ← op_comp,
+      e.hom_inv_id, op_id, Functor.map_id_apply]
   · intro h₁
-    rw [← h₁, op_comp, FunctorToTypes.map_comp_apply,
-      ← FunctorToTypes.map_comp_apply F e.hom.op e.inv.op, ← op_comp, e.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply]
+    rw [← h₁, op_comp, Functor.map_comp_apply,
+      ← Functor.map_comp_apply F e.hom.op e.inv.op, ← op_comp, e.inv_hom_id, op_id,
+      Functor.map_id_apply]
 
 end CategoryTheory.FunctorToTypes
 
@@ -934,7 +934,7 @@ theorem totalPresheaf_mk_eq_of_map {Z : BigFppfOver B S hS} {y₁ y₂ : Y.1.obj
   subst e
   have hμ' : μ = 𝟙 _ := CostructuredArrow.hom_ext _ _ hμ
   subst hμ'
-  rw [op_id, FunctorToTypes.map_id_apply] at h
+  rw [op_id, Functor.map_id_apply] at h
   rw [h]
 
 /-- **The fppf sheaf condition for a functor on the test schemes**, in terms of the test schemes:
@@ -992,7 +992,7 @@ theorem isFppfSheafOver_of_amalgamation
     intro Z Z' h h' hh hh' m e
     subst e
     show R.map _ (R.map _ _) = R.map _ _
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     have hμ : ∀ (μ : restrictTest T (m ≫ h) ⟶ pointTestScheme Z' (Y.1.map m.op (xf h hh).1)),
         μ.left = 𝟙 Z' → R.map (restrictTestMap T m rfl ≫ ε h hh).op (xf h hh).2 =
           R.map μ.op (R.map (pointTestHom m rfl).op (xf h hh).2) := fun μ hμ => by
@@ -1001,11 +1001,11 @@ theorem isFppfSheafOver_of_amalgamation
           show m ≫ 𝟙 Z = μ.left ≫ m
           rw [hμ]
           exact (Category.comp_id m).trans (Category.id_comp m).symm)
-      rw [e, op_comp, FunctorToTypes.map_comp_apply]
+      rw [e, op_comp, Functor.map_comp_apply]
     have hw : (schemeSpaceFunctor B S hS).map (𝟙 Z') ≫
         (pointTestScheme Z' (Y.1.map m.op (xf h hh).1)).hom = (restrictTest T (m ≫ h)).hom :=
       map_id_comp_pointTestScheme_hom (m ≫ h) y
-        ((FunctorToTypes.map_comp_apply Y.1 h.op m.op y).trans
+        ((Functor.map_comp_apply Y.1 h.op m.op y).trans
           (congrArg (Y.1.map m.op) (hy' h hh)))
     rw [hμ (CostructuredArrow.homMk (𝟙 Z') hw) rfl]
     exact (map_eq_map_of_heq R (hx₁ h hh m).symm (hx₂ h hh m).symm _ _ rfl)
@@ -1014,9 +1014,9 @@ theorem isFppfSheafOver_of_amalgamation
   · -- `⟨y, g⟩` is an amalgamation
     refine (totalPresheaf_map_apply R h.op ⟨y, g⟩).trans
       (totalPresheaf_mk_eq_of_map R (hy' h hh) _ _ (ν h ≫ ε h hh) (Category.id_comp _) ?_)
-    rw [op_comp, FunctorToTypes.map_comp_apply]
+    rw [op_comp, Functor.map_comp_apply]
     show R.map (ν h).op (r h hh) = _
-    rw [← hg h hh, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← hg h hh, ← Functor.map_comp_apply, ← op_comp]
     have e : ν h ≫ restrictTestHom T h = pointTestHom h rfl :=
       CostructuredArrow.hom_ext _ _ (Category.id_comp h)
     rw [e]
@@ -1039,7 +1039,7 @@ theorem isFppfSheafOver_of_amalgamation
       have e : restrictTestHom T h = CostructuredArrow.homMk (𝟙 Z) hν' ≫ pointTestHom h rfl :=
         CostructuredArrow.hom_ext _ _ (Category.id_comp h).symm
       rw [← h₃, e]
-      exact FunctorToTypes.map_comp_apply R _ _ g'
+      exact Functor.map_comp_apply R _ _ g'
     rw [hgu g' hg']
 
 /-- Restricting twice along restrictions of a test scheme is restricting along the composite. -/

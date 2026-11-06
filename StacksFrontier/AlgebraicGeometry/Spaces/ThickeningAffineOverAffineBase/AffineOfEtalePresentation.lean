@@ -43,6 +43,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_affineOfEtalePresentation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_affineOfEtalePresentation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The image of a morphism of the site into `Y` lies in the image of `ψ` as soon as some
 surjective chart composed with it factors through `ψ`. -/
 theorem range_subset_range_of_factor {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -125,6 +136,7 @@ theorem factorThroughEtaleOpenImage_comp :
 
 end Factor
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **An algebraic space presented étale-locally by an affine chart is represented by a
 scheme.** -/
 theorem exists_iso_yoneda_of_etalePresentation {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -188,6 +200,7 @@ theorem exists_iso_yoneda_of_etalePresentation {X : (BigFppfOver B S hS)ᵒᵖ �
   have : IsIso fst := hsq.isIso_fst_of_isIso
   exact ⟨a, ⟨(asIso fst).symm⟩⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A represented algebraic space over an affine base whose base change to a thickening of
 the base is affine is affine.**  This is Stacks 06AD for the representing scheme. -/
 theorem isAffineSpace_of_iso_yoneda_of_isThickening {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

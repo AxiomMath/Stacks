@@ -157,7 +157,7 @@ theorem hasRelativeApproximation_of_changeBigSite {X Y : AlgebraicSpaces B (⊤_
   have hlimL : IsLimit ((ObjectProperty.ι _).mapCone cL) := by
     refine isLimitOfIsLimitChangeBigSite B B' h (⊤_ Scheme.{u}) hZ _ ?_
     refine (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight eL ι') _)
-      ((Arrow.isLimitLeftOfIsLimit R.isLimit).ofIsoLimit (Cones.ext (Iso.refl _) fun j => ?_))
+      ((Arrow.isLimitLeftOfIsLimit R.isLimit).ofIsoLimit (Cone.ext (Iso.refl _) fun j => ?_))
     show (R.π.app j).left = 𝟙 _ ≫ (F.map (πL j)).hom ≫ (eL.hom.app j).hom
     rw [Category.id_comp, hFπL]
     show (R.π.app j).left = ((ObjectProperty.homMk (R.π.app j).left : F.obj X ⟶ G.obj j) ≫
@@ -168,7 +168,7 @@ theorem hasRelativeApproximation_of_changeBigSite {X Y : AlgebraicSpaces B (⊤_
     refine isLimitOfIsLimitChangeBigSite B B' h (⊤_ Scheme.{u}) hZ _ ?_
     refine (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight eM ι') _)
       ((Arrow.isLimitRightOfIsLimit initialIsInitial R.isLimit).ofIsoLimit
-        (Cones.ext (Iso.refl _) fun j => ?_))
+        (Cone.ext (Iso.refl _) fun j => ?_))
     show (R.π.app j).right = 𝟙 _ ≫ (F.map (πM j)).hom ≫ (eM.hom.app j).hom
     rw [Category.id_comp, hFπM]
     show (R.π.app j).right = ((ObjectProperty.homMk (R.π.app j).right : F.obj Y ⟶ H.obj j) ≫

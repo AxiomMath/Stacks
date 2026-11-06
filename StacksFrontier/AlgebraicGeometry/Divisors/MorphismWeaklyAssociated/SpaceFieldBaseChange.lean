@@ -40,6 +40,17 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X X' Y Y' : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Weak association descends along a field extension.** Let `K/k` be a field extension,
 presented by objects `Tk` and `Tk'` of the site with underlying schemes `Spec k` and `Spec K` and
 a morphism `gk : Tk' ⟶ Tk` inducing `Spec K → Spec k`. Let `X` be an algebraic space over

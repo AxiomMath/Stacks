@@ -50,6 +50,7 @@ attribute [local instance] complexesCategory
 
 /-! ### The equalizer of two morphisms from a scheme to an algebraic space -/
 
+set_option synthInstance.maxHeartbeats 100000 in
 omit D in
 /-- **The equalizer of two morphisms from a scheme to an algebraic space is a scheme.**  For
 `a, b : U ⟶ Y` with `U` a scheme of the site and `Y` an algebraic space over `S`, there is a
@@ -80,10 +81,10 @@ theorem exists_mono_equalizer {U : BigFppfOver B S hS} {Y : AlgebraicSpaces B S 
     have h' : yoneda.map g ≫ a.hom = yoneda.map g ≫ b.hom := congrArg (·.hom) h
     have hw : (yoneda.map g ≫ a.hom) ≫ diag Y.1 = yoneda.map g ≫ pair := by
       refine prod.hom_ext ?_ ?_
-      · simp [pair]
-        rfl
-      · simp [pair, h']
-        rfl
+      · simp only [pair, diag, Category.assoc, prod.lift_fst, Category.comp_id]
+        exact congrArg (yoneda.map g ≫ ·) (prod.lift_fst _ _).symm
+      · simp only [pair, diag, Category.assoc, prod.lift_snd, Category.comp_id, h']
+        exact congrArg (yoneda.map g ≫ ·) (prod.lift_snd _ _).symm
     refine ⟨yoneda.preimage (hpb.lift _ _ hw), yoneda.map_injective ?_⟩
     rw [Functor.map_comp, Functor.map_preimage, hpb.lift_snd]
 

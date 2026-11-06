@@ -160,7 +160,7 @@ theorem hasDirectImageSection_centreBundle (hint : interior (Set.range i.base) =
     intro r s hrs
     rw [inverseImageBaseMap_base, inverseImageBaseMap_base, Scheme.Opens.range_ι,
       Scheme.Opens.range_ι]
-    have hne : r.down.1 ≠ s.down.1 := fun h => hrs (ULift.ext _ _ (Subtype.ext h))
+    have hne : r.down.1 ≠ s.down.1 := fun h => hrs (ULift.ext (Subtype.ext h))
     refine Set.disjoint_left.2 fun z hr hs => ?_
     have h := (disjoint_centreRankPiece f i hne).le_bot
       (show z ∈ centreRankPiece f i r.down.1 ⊓ centreRankPiece f i s.down.1 from ⟨hr, hs⟩)

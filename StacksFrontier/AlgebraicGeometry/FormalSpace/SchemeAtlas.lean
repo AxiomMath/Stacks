@@ -154,7 +154,7 @@ private theorem restrictedSchemeSheaf_map_mono
   apply (NatTrans.mono_iff_mono_app _).mpr
   intro T
   apply ConcreteCategory.mono_of_injective
-  exact fun x y h => ULift.ext _ _ ((cancel_mono f).mp (congrArg ULift.down h))
+  exact fun x y h => ULift.ext ((cancel_mono f).mp (congrArg ULift.down h))
 
 private theorem mk_globalSections_le (V : Scheme.{u}) :
     Cardinal.mk Γ(V, ⊤) ≤ 2 ^ V.size := by

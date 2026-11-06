@@ -184,7 +184,7 @@ on elements. -/
 theorem isPairingBy_gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsPairingBy (AlgebraicGeometry.ContinuousGSet.forget G)
       (gsetPresheafFullyFaithful.preimage
         (Functor.OplaxMonoidal.δ gsetPresheaf (internalGModule M).X (internalGModule N).X ≫
@@ -215,7 +215,7 @@ theorem commGrpContinuousGSetEquivalenceInverseIso_hom_hom (M : ContinuousGAddCo
 theorem commGrpPairing_isPairingBy (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsPairingBy (AlgebraicGeometry.ContinuousGSet.forget G) (commGrpPairing M N L P hP)
       (fun a b => (AlgebraicGeometry.ContinuousGSet.forget G).map
         (commGrpContinuousGSetEquivalenceInverseIso L).inv.hom.hom.hom
@@ -251,8 +251,8 @@ theorem finiteGModuleCommGrpCounit_finiteGModulePairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', w} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (w : (finiteGSetForget.{w, w} G).obj
       ((finiteGModuleCommGrp G M).X ⊗ (finiteGModuleCommGrp G N).X)) :
     (finiteGSetForget.{w, w} G).map (finiteGModuleCommGrpCounit L)
@@ -292,8 +292,8 @@ theorem fiberCounit_map_finiteLocallyConstantInternalPairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', max u v} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (z : ω.obj ((isFiniteLocallyConstantSetSheaf.{v, u, u} J).ι.obj
         (e.inverse.obj (finiteGModuleCommGrp G M).X) ⊗
       (isFiniteLocallyConstantSetSheaf.{v, u, u} J).ι.obj

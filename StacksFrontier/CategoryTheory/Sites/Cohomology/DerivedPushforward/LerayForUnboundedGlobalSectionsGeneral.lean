@@ -188,7 +188,9 @@ theorem isIso_homologyMap_globalSections_forget_map
       (coyonedaUnitGlobalSectionsIso (J := Y.J) (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
           (ComplexShape.up ℤ))
     (HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n)) s).1 ?_
-  exact isIso_homologyMap_coyonedaComplexMap _ s n
+  have h := isIso_homologyMap_coyonedaComplexMap
+    (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) s n
+  exact h
 
 /-- **Global sections carry a K-injective resolution of `f_* I` to a quasi-isomorphism** of
 complexes of `Γ(O_D)`-modules. The degreewise statement is

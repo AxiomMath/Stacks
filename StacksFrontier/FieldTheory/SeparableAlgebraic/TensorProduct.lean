@@ -55,7 +55,6 @@ private theorem smul_tmul_sub_tmul_smul (s : S) (a : A) (b : B) :
 private theorem mapOfCompatibleSMul_mapStructure (x : S ⊗[R] S) :
     mapOfCompatibleSMul S R S A B (mapStructure x) = algebraMap S (A ⊗[S] B) (lmul' R x) := by
   induction x with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul s t =>
     rw [map_tmul, IsScalarTower.coe_toAlgHom', IsScalarTower.coe_toAlgHom',

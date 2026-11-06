@@ -38,7 +38,7 @@ open CategoryTheory AlgebraicGeometry
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Under.post
+  CategoryTheory.Functor.Fiber.fiberInclusion
 
 namespace Deformation.Artin
 

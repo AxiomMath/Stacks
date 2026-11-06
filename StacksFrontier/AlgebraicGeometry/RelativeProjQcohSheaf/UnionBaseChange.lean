@@ -97,6 +97,8 @@ theorem compatibleAt_baseChangeUp_iff {P : Quadruple f' (baseAlgebra g A) d}
   refine ⟨fun hc => ?_, fun hc => hc.baseChangeUp g f' A⟩
   obtain ⟨hm, γ, hmul, hone, hψ⟩ := hc
   refine ⟨hm, γ, hmul, hone, fun p q hpq => ?_⟩
+  haveI hiso : IsIso (compComparison f' g (A.piece (p * d))) := isIso_compComparison f' g _
+  haveI : Epi (compComparison f' g (A.piece (p * d))) := IsIso.epi_of_iso _
   exact comp_app_comp_cancel (compComparison f' g (A.piece (p * d))) (P.twisting.app p)
     (Q.twisting.app q) (γ p q hpq).hom
     ((pullbackFunctor (ringedSpaceHom f')).map

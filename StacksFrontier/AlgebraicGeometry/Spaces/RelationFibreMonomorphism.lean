@@ -250,6 +250,7 @@ private theorem exists_mono_quotientSheafDesc (B : BigFppfSite.{u}) (S : Scheme.
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- A scheme property tested after representable base change on the two projections of a
 represented kernel pair holds for the two projections themselves. -/
 private theorem kernelPair_property (P : MorphismProperty Scheme.{u})
@@ -341,6 +342,7 @@ private theorem hasMonomorphicFieldRepresentative_of_mono_comp {x : points B S h
   rw [hfm]
   infer_instance
 
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem hasMonomorphicFieldRepresentative_of_quotient
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
     (hFsh : Presheaf.IsSheaf (BigFppfOver.topology B S hS) F) {x : points B S hS F}
@@ -385,7 +387,6 @@ private theorem hasMonomorphicFieldRepresentative_of_quotient
     ext A a
     show G.map (a ≫ m) = G.map a ≫ q
     rw [G.map_comp, hm]
-    rfl
   refine hasMonomorphicFieldRepresentative_of_mono_comp B S hS F p hpx hk' b' m gpre ?_
   calc yoneda.map m ≫ gpre
       = (yoneda.map m ≫ eU'.hom) ≫ inv w.hom ≫ d.hom := by

@@ -120,10 +120,10 @@ private def coeffA (p : polyRing R) : R := p.coeff (degTwo 0 2) + p.coeff (degTw
 private def coeffB (p : polyRing R) : R := p.coeff (degTwo 1 2) - p.coeff (degTwo 0 3)
 
 private lemma coeffA_add (p q : polyRing R) : coeffA R (p + q) = coeffA R p + coeffA R q := by
-  simp only [coeffA, coeff_add]; ring
+  simp only [coeffA, AddMonoidAlgebra.coeff_add, Finsupp.add_apply]; ring
 
 private lemma coeffB_add (p q : polyRing R) : coeffB R (p + q) = coeffB R p + coeffB R q := by
-  simp only [coeffB, coeff_add]; ring
+  simp only [coeffB, AddMonoidAlgebra.coeff_add, Finsupp.add_apply]; ring
 
 private lemma isHomogeneous_X_mul_X (i j : Fin 6) :
     (X i * X j : polyRing R).IsHomogeneous 2 := by

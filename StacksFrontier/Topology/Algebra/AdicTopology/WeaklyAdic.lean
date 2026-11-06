@@ -771,6 +771,7 @@ private theorem map_closure_pow_le {R S : Type*} [CommRing R] [TopologicalSpace 
     _ = Ideal.closure (L.map φ ^ n) := by rw [Ideal.map_pow]
     _ ≤ Ideal.closure (K ^ n) := closure_mono (Ideal.pow_right_mono hLK n)
 
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The completed tensor product of weakly pre-adic linearly topologized rings
 over a commutative ring is weakly adic. -/
 @[stacks 0GXJ]

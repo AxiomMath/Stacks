@@ -56,9 +56,7 @@ theorem rightAcyclic_cycles_and_preservesLeftHomologyOf_sc_of_isStrictlyGE
     have : IsIso (K.homologyπ a) := by
       show IsIso (K.sc a).homologyπ
       exact ShortComplex.isIso_homologyπ _ hf
-    refine ⟨(NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
-      ((HomotopyCategory.Plus.singleFunctor C 0).mapIso
-        (asIso (K.homologyπ a)).symm)).mp (hH a), ?_⟩
+    refine ⟨G.rightAcyclic.prop_of_iso (asIso (K.homologyπ a)).symm (hH a), ?_⟩
     exact G.preservesLeftHomology_of_zero_f (K.sc a) hf
   | succ n hn ih =>
     have hp : (ComplexShape.up ℤ).prev (n + 1) = n := by simp

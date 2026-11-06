@@ -320,6 +320,15 @@ private theorem isZero_internalHomSheaf_notMem_negSupport
   internalHomSheaf_isZero_of_isZero X
     (of_not_not fun h => hq ((Set.Finite.mem_toFinset _).2 ⟨-q, h, neg_neg q⟩))
 
+section StrictlyPerfectHomDegreeIso
+
+/- Since Mathlib v4.35.0 instance search reaches the `ℤ`-indexed coproducts of sheaves of
+modules through the section variable `HasSheafify X.J AddCommGrpCat` (via
+`instHasWeakSheafifyOfHasSheafify`), which would make that variable a hypothesis of the
+declarations below. With the bridge erased here, the same coproducts are found without it, as
+before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 /-- **Stacks 08JH**, degreewise statement. For `E` bounded, the `n`-th term of the internal Hom
 complex `SheafHom(E, F)` of Stacks 0A8Z is the direct sum, over `q : ℤ`, of the internal Hom
 sheaves `SheafHom(E^{-q}, F^{n-q})`.
@@ -454,6 +463,8 @@ public lemma strictlyPerfectHomDegreeIso_inv_homDegreeProjection_of_ne
         (strictlyPerfectHomDegreeIso X E F hE n).inv ≫ homDegreeProjection X E F n q' = 0 := by
   rw [strictlyPerfectHomDegreeIso_inv_homDegreeProjection_aux]
   exact productCoproductIsoOfFiniteSupport_inv_π_of_ne _ _ _ hqq'
+
+end StrictlyPerfectHomDegreeIso
 
 end AlgebraicGeometry.RingedSite
 

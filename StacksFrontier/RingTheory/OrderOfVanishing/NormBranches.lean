@@ -599,7 +599,7 @@ theorem ringKrullDim_localization_eq_one (hO : ringKrullDim O = 1)
   have : Algebra.IsIntegral O D := Algebra.IsIntegral.of_finite _ _
   have hcomap : m.asIdeal.comap (algebraMap O D) = maximalIdeal O :=
     IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := O) m.asIdeal)
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := O) m.asIdeal)
   rw [IsLocalization.AtPrime.ringKrullDim_eq_height m.asIdeal]
   have hle : (m.asIdeal.height : WithBot ℕ∞) ≤ 1 :=
     le_trans Ideal.height_le_ringKrullDim_of_isPrime
@@ -784,7 +784,8 @@ theorem comap_eq_and_mem_minimalPrimes
     le_antisymm ((Ideal.comap_mono hle₀).trans hle)
       (Q.2.2 ⟨Ideal.IsPrime.comap _, bot_le⟩ ((Ideal.comap_mono hle₀).trans hle))
   rcases hle₀.lt_or_eq with hlt | heq
-  · have := Ideal.IsIntegral.comap_lt_comap (R := O) hlt
+  · have : P₀.comap (algebraMap O D) < P.comap (algebraMap O D) :=
+      Ideal.IsIntegral.comap_lt_comap (R := O) hlt
     rw [hc₀, hQ] at this
     exact absurd this (lt_irrefl _)
   · rw [← heq]
@@ -1242,7 +1243,8 @@ theorem quotientDegree_eq_primeResidueDegree (m : MaximalSpectrum Cₚ) :
   rw [quotientDegree, dite_eq_left hc]
   let := Ideal.Quotient.algebraQuotientOfLEComap hc.ge
   refine Algebra.finrank_eq_of_equiv_equiv (RingEquiv.refl _)
-    (IsLocalization.AtPrime.equivQuotMaximalIdeal m.asIdeal (Localization.AtPrime m.asIdeal)) ?_
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal m.asIdeal
+      (Localization.AtPrime m.asIdeal)).toRingEquiv ?_
   refine RingHom.ext fun x => ?_
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   rfl

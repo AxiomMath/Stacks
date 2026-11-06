@@ -99,6 +99,7 @@ noncomputable def comparisonRingIso :
       rw [Functor.map_comp, Functor.map_comp] at h3
       exact h3.symm))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Stacks 03G1 for sheaves of abelian groups at the universe of the structure sheaf of
 `X_{spaces,étale}`: restriction along the comparison functor is an equivalence. -/
 instance comparisonFunctor_sheafEquivalence_addCommGrp :

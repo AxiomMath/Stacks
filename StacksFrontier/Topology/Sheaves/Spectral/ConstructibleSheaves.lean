@@ -150,7 +150,7 @@ private theorem indexedPointMap_mono {I : Type v} [Fintype I]
   refine ⟨fun {H} a b hab =>
     eq_of_stalkMaps_eq G H a b (pointMap_reflects_stalks G H a b fun y => ?_)⟩
   obtain ⟨i, rfl⟩ := hpoints y
-  simpa only [indexedPointMap, Category.assoc, Pi.lift_π] using congrArg (fun q => q ≫ Pi.π
+  simpa only [indexedPointMap, Category.assoc, Pi.lift_comp_π] using congrArg (fun q => q ≫ Pi.π
     (fun i : I => skyscraperSheaf (X := TopCat.of Y) (points i) (G.presheaf.stalk (points i))) i)
     hab
 

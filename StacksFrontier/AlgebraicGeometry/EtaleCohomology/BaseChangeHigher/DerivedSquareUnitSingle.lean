@@ -89,11 +89,11 @@ the unit of `RQ` at `P(K)` followed by `RQ` applied to the unit of `RP` at `K`. 
 private theorem unit_comp_compTrans_app {C D E : Type u} [Category.{v} C] [Category.{v} D]
     [Category.{v} E] [Abelian C] [Abelian D] [Abelian E] [EnoughInjectives C] [EnoughInjectives D]
     (P : C ⥤ D) (Q : D ⥤ E) [P.Additive] [Q.Additive] (K : HomotopyCategory.Plus C) :
-    (P ⋙ Q).rightDerivedFunctorPlusUnit.app K ≫
+    (P ⋙ Q).rightDerivedFunctorPlusUnith.app K ≫
         (Stacks.DerivedIndexing.rightDerivedPlusCompTrans P Q).app
           (DerivedCategory.Plus.Qh.obj K) =
-      Q.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K) ≫
-        Q.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnit.app K) :=
+      Q.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K) ≫
+        Q.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnith.app K) :=
   (Stacks.DerivedIndexing.rightDerivedPlusCompTrans_fac_app P Q K).trans
     (Stacks.DerivedIndexing.rightDerivedPlusCompUnit_app P Q K)
 
@@ -111,16 +111,15 @@ public theorem mapPlus_eq_mapHomotopyCategoryPlusNatTrans {F G : A₀ ⥤ B₁} 
 /-- **The unit of `RU₂` cancels the comparison `e`, leaving the two units of the target leg.**
 This is `Stacks.Cohomology.BaseChange.onHomotopy_app` with the first factor cancelled; it is the
 one computation the residual identity needs. -/
-public theorem unit_comp_onHomotopy_app (he : e.hom = U₂.rightDerivedFunctorPlusUnit)
+public theorem unit_comp_onHomotopy_app (he : e.hom = U₂.rightDerivedFunctorPlusUnith)
     (K : HomotopyCategory.Plus A₀) :
-    U₂.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K) ≫
+    U₂.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K) ≫
         (onHomotopy P P' U₂ U₀ τ e).app K =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans τ).app K) ≫
-        P'.rightDerivedFunctorPlusUnit.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
-          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnit.app K) := by
+        P'.rightDerivedFunctorPlusUnith.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
+          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnith.app K) := by
   rw [onHomotopy_app, ← Category.assoc, ← he, Iso.hom_inv_id_app, Category.id_comp,
     mapPlus_eq_mapHomotopyCategoryPlusNatTrans]
-  rfl
 
 /-- **The source half of the residual identity.** The derived-functor unit of `R(P ⋙ U₂)`,
 the comparison `R(P ⋙ U₂) ⟶ RP ⋙ RU₂` of [Stacks, Tag 05T2] and the descent
@@ -129,14 +128,14 @@ two units of the target leg: this is
 `Stacks.DerivedIndexing.rightDerivedPlusCompTrans_fac_app`,
 `Stacks.Cohomology.BaseChange.derived_fac_app` and `unit_comp_onHomotopy_app`. -/
 public theorem unit_comp_compTrans_comp_derived_app
-    (he : e.hom = U₂.rightDerivedFunctorPlusUnit) (K : HomotopyCategory.Plus A₀) :
-    (P ⋙ U₂).rightDerivedFunctorPlusUnit.app K ≫
+    (he : e.hom = U₂.rightDerivedFunctorPlusUnith) (K : HomotopyCategory.Plus A₀) :
+    (P ⋙ U₂).rightDerivedFunctorPlusUnith.app K ≫
         (Stacks.DerivedIndexing.rightDerivedPlusCompTrans P U₂).app
             (DerivedCategory.Plus.Qh.obj K) ≫
           (derived P P' U₂ U₀ τ e).app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans τ).app K) ≫
-        P'.rightDerivedFunctorPlusUnit.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
-          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnit.app K) := by
+        P'.rightDerivedFunctorPlusUnith.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
+          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnith.app K) := by
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (CategoryTheory.eq_whisker (unit_comp_compTrans_app P U₂ K) _) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
@@ -149,14 +148,14 @@ the right derived functor of `τ` and the comparison `R(U₀ ⋙ P') ⟶ RU₀ �
 same thing: this is `Stacks.DerivedIndexing.rightDerivedFunctorPlusNatTrans_app` and
 `Stacks.DerivedIndexing.rightDerivedPlusCompTrans_fac_app`. -/
 public theorem unit_comp_natTrans_comp_compTrans_app (K : HomotopyCategory.Plus A₀) :
-    (P ⋙ U₂).rightDerivedFunctorPlusUnit.app K ≫
+    (P ⋙ U₂).rightDerivedFunctorPlusUnith.app K ≫
         (Stacks.DerivedIndexing.rightDerivedFunctorPlusNatTrans τ).app
             (DerivedCategory.Plus.Qh.obj K) ≫
           (Stacks.DerivedIndexing.rightDerivedPlusCompTrans U₀ P').app
             (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans τ).app K) ≫
-        P'.rightDerivedFunctorPlusUnit.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
-          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnit.app K) := by
+        P'.rightDerivedFunctorPlusUnith.app (U₀.mapHomotopyCategoryPlus.obj K) ≫
+          P'.rightDerivedFunctorPlus.map (U₀.rightDerivedFunctorPlusUnith.app K) := by
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans
     (CategoryTheory.eq_whisker
@@ -172,16 +171,16 @@ functors of the two composites, is the right derived functor of `τ`.** The comp
 `R(U₀ ⋙ P') ⟶ RU₀ ⋙ RP'`.
 
 Both sides are transformations out of `R(P ⋙ U₂)`, which is a right derived functor with unit
-`CategoryTheory.Functor.rightDerivedFunctorPlusUnit`, so
+`CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, so
 `CategoryTheory.Functor.rightDerived_ext` reduces the identity to the two halves
 `unit_comp_compTrans_comp_derived_app` and `unit_comp_natTrans_comp_compTrans_app`. -/
 public theorem rightDerivedPlusCompTrans_comp_derived
-    (he : e.hom = U₂.rightDerivedFunctorPlusUnit) :
+    (he : e.hom = U₂.rightDerivedFunctorPlusUnith) :
     Stacks.DerivedIndexing.rightDerivedPlusCompTrans P U₂ ≫ derived P P' U₂ U₀ τ e =
       Stacks.DerivedIndexing.rightDerivedFunctorPlusNatTrans τ ≫
         Stacks.DerivedIndexing.rightDerivedPlusCompTrans U₀ P' := by
   refine Functor.rightDerived_ext (P ⋙ U₂).rightDerivedFunctorPlus
-    (P ⋙ U₂).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A₀) _ _ _
+    (P ⋙ U₂).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A₀) _ _ _
     (NatTrans.ext (funext fun K => ?_))
   exact (unit_comp_compTrans_comp_derived_app P P' U₂ U₀ τ e he K).trans
     (unit_comp_natTrans_comp_compTrans_app P P' U₂ U₀ τ K).symm
@@ -200,7 +199,7 @@ It is the two functorialities of the canonical map
 (`Stacks.DerivedIndexing.rightDerivedPlusUnitSingle_comp_app` twice,
 `Stacks.DerivedIndexing.rightDerivedPlusUnitSingle_natTrans_app` once) together with
 `rightDerivedPlusCompTrans_comp_derived`. -/
-public theorem unitSingle_comp_derived (he : e.hom = U₂.rightDerivedFunctorPlusUnit) (M : A₀) :
+public theorem unitSingle_comp_derived (he : e.hom = U₂.rightDerivedFunctorPlusUnith) (M : A₀) :
     (DerivedCategory.Plus.singleFunctor B₁ 0).map (τ.app M) ≫
         (Stacks.DerivedIndexing.rightDerivedPlusUnitSingle P').app (U₀.obj M) ≫
           P'.rightDerivedFunctorPlus.map

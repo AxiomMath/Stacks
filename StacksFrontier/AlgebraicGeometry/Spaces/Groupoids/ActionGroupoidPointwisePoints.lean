@@ -87,6 +87,19 @@ open scoped MonoidalCategory CategoryTheory.MonObj
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_actionGroupoidPointwisePoints
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_actionGroupoidPointwisePoints
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_actionGroupoidPointwisePoints.has_limit _
+
 namespace AlgebraicGeometry.Space
 
 -- Reading the identity and the composition of the Grothendieck construction of a presheaf of

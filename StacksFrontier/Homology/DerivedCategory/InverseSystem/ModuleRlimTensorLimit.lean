@@ -215,7 +215,7 @@ public theorem isDerivedLimit_map_of_iso
       Pi.π _ (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op) ≫ p n =
       p n - p (n + 1) ≫ U.map (F.map (homOfLE (Nat.le_succ n)).op) := by
     dsimp only [p]
-    rw [← U.map_comp, Pi.lift_π, U.map_sub, U.map_comp]
+    rw [← U.map_comp, Pi.lift_comp_π, U.map_sub, U.map_comp]
   show U.map _ ≫ (p n ≫ e.hom.app ⟨n⟩) = _
   rw [← Category.assoc, hd, Preadditive.sub_comp, Category.assoc]
   have hn := e.hom.naturality (homOfLE (Nat.le_succ n)).op
@@ -724,15 +724,17 @@ private def tensorEvaluationIso (A : Type u) [CommRing A]
     (CommRingCat.of A))
   let T := CochainComplex.DerivedTensor.canonicalDerivedTensorProduct A
   let V := PresheafOfModules.evaluation ((Functor.const ℕᵒᵖ).obj (RingCat.of A)) ⟨n⟩
-  let P := ((complexEvaluationDiagram A).obj M).obj ⟨n⟩
+  let P : CochainComplex (ModuleCat.{u} A) ℤ := ((complexEvaluationDiagram A).obj M).obj ⟨n⟩
   let F := S.tensor.obj (DerivedCategory.Q.obj M) ⋙ V.mapDerivedCategory
   let G := V.mapDerivedCategory ⋙ T.tensor.obj (DerivedCategory.Q.obj P)
   let s : DerivedCategory.Q ⋙ F ≅
-      V.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ TleftCochain P ⋙ DerivedCategory.Q :=
+      V.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ TleftCochain (C := ModuleCat.{u} A) P ⋙
+        DerivedCategory.Q :=
     NatIso.ofComponents (fun N => S.evaluationIso M N n hM)
       (fun f => (S.evaluationIso_naturality_right M _ _ n hM f).symm)
   let t : DerivedCategory.Q ⋙ G ≅
-      V.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ TleftCochain P ⋙ DerivedCategory.Q :=
+      V.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ TleftCochain (C := ModuleCat.{u} A) P ⋙
+        DerivedCategory.Q :=
     (Functor.associator _ _ _).symm ≪≫
     isoWhiskerRight V.mapDerivedCategoryFactors _ ≪≫
     Functor.associator _ _ _ ≪≫

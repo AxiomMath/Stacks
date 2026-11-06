@@ -229,6 +229,8 @@ theorem epi_of_reduction_iso_idealQuotient [IsNoetherianRing A] [IsAdicComplete 
           (SheafOfModules.unit _)).ι ≫ idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘
             (n.unop + 1) φ = cokernel.π (𝒥 n.unop).ι ≫ e.inv := by
         rw [π_comp_idealPowerQuotientMapOfHom, h1]
+      have : Epi (cokernel.π (𝒥 n.unop).ι ≫ e.inv) :=
+        epi_comp' (coequalizer.π_epi (f := (𝒥 n.unop).ι) (g := 0)) (IsIso.epi_of_iso e.inv)
       exact epi_of_epi_fac h2
     refine (cancel_epi (idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) φ)).1 ?_
     show _ ≫ idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) (cokernel.π φ) =

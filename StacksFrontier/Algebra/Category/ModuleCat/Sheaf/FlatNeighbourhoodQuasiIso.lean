@@ -168,7 +168,7 @@ abbrev IsAnnihilatedByPow {O : Sheaf J CommRingCat.{w}}
     ((F.val.obj X).smul
       (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from
         (Finset.univ.prod (fun k ↦ show O.obj.obj X from (i.val.app X) (a k)) :
-          O.obj.obj X))).hom x = 0
+          O.obj.obj X))).asHom x = 0
 
 section
 

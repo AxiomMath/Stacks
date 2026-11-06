@@ -157,12 +157,12 @@ abbrev levelEnvelopeReindex :
 def levelSectionsRestrictionAlgHom :
     letI := crysSectionsAlgebra (wholeSpaceLevelObj hp e n)
     letI := crysSectionsAlgebra (wholeSpaceLevelObj hp e m)
-    ((structureSheaf S).val.obj (op (wholeSpaceLevelObj hp e n)) : Type u) →ₐ[
+    ((structureSheaf S).obj.obj (op (wholeSpaceLevelObj hp e n)) : Type u) →ₐ[
         (Γ(S.S.scheme, ⊤) : Type u)]
-      ((structureSheaf S).val.obj (op (wholeSpaceLevelObj hp e m)) : Type u) :=
+      ((structureSheaf S).obj.obj (op (wholeSpaceLevelObj hp e m)) : Type u) :=
   letI := crysSectionsAlgebra (wholeSpaceLevelObj hp e n)
   letI := crysSectionsAlgebra (wholeSpaceLevelObj hp e m)
-  { ((structureSheaf S).val.map (levelTransition hp e φ).op).hom with
+  { ((structureSheaf S).obj.map (levelTransition hp e φ).op).hom with
     commutes' := fun a ↦ congrArg (fun q ↦ CommRingCat.Hom.hom q a)
       (crysBaseAppLE_fac S (levelTransition hp e φ).hom).symm }
 

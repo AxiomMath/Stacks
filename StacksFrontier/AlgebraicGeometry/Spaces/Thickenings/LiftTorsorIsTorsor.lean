@@ -76,7 +76,7 @@ theorem nonempty_liftsSubfunctor_ofArrows (p : X' ⟶ Bb) (q : Y ⟶ Bb)
     (hq : IsSmooth C S hS q.hom) (U' : SmallEtale C S hS X'.1) :
     ∃ R ∈ SmallEtale.topology C S hS X'.1 U',
       ∀ ⦃V' : SmallEtale C S hS X'.1⦄ ⦃g : V' ⟶ U'⦄, R g →
-        Nonempty ((liftsSubfunctorULift C S hS p q a).val.obj (op V')) := by
+        Nonempty ((liftsSubfunctorULift C S hS p q a).obj.obj (op V')) := by
   obtain ⟨I, V, r, β, hlift, hcov⟩ :=
     exists_isChartLift_ofArrows C S hS p q a hX ha hq U'
   refine ⟨Sieve.ofArrows V r, hcov, ?_⟩

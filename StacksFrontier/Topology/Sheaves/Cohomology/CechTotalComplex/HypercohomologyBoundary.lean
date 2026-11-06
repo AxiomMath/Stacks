@@ -164,7 +164,7 @@ theorem sectionsToDerived_eq_unitD
             (up ℤ)).obj K.obj) ≫
         DerivedCategory.Qh.map (𝟙 _) ≫ 𝟙 _ ≫
         DerivedCategory.Plus.ι.map
-          ((SheafOfModules.evaluation.{u} (ringSheaf O) (op ⊤)).rightDerivedFunctorPlusUnit.app
+          ((SheafOfModules.evaluation.{u} (ringSheaf O) (op ⊤)).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient _).obj K)) ≫
         DerivedCategory.Plus.ι.map
           ((SheafOfModules.evaluation.{u} (ringSheaf O) (op ⊤)).rightDerivedFunctorPlus.map

@@ -215,8 +215,8 @@ def homologyIsoShortComplexD (i : ℤ) :
   C.toCochainComplex.homologyIsoSc' i (i + 1) (i + 1 + 1) (by simp) (by simp) ≪≫
     ShortComplex.homologyMapIso
       (ShortComplex.isoMk (S₁ := C.toCochainComplex.sc' i (i + 1) (i + 1 + 1))
-        (S₂ := C.shortComplexD i) (Iso.refl _) (Iso.refl _) (Iso.refl _) (by simp; rfl)
-        (by simp; rfl))
+        (S₂ := C.shortComplexD i) (Iso.refl _) (Iso.refl _) (Iso.refl _) (by simp)
+        (by simp))
 
 /-! ### The induced map out of the cokernel -/
 

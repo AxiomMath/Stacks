@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Monoidal
+public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.Tensor
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.IntGradedExtension
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.UngradedAlgebras
 public import StacksFrontier.LinearAlgebra.TensorAlgebra.SemilinearMap

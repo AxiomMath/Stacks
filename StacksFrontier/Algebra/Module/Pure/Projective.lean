@@ -265,7 +265,7 @@ public theorem pureProjective_iff_directSum_finitelyPresented_retract
     have hSurjUp : Function.Surjective pUp := by
       intro y
       obtain ⟨x, hx⟩ := hSurj y.down
-      exact ⟨x, ULift.ext _ _ (by simpa [pUp, up] using hx)⟩
+      exact ⟨x, ULift.ext (by simpa [pUp, up] using hx)⟩
     have hKer : LinearMap.ker p = LinearMap.ker pUp := by
       ext x
       show p x = 0 ↔ ULift.up (p x) = ULift.up 0

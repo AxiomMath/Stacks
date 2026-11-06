@@ -171,6 +171,10 @@ theorem spaceInfinitesimalAutomorphismGroupMulEquivDerivations_pushforward
 
 section Linear
 
+-- Lean 4.35: the search for `AddCommMonoid (Additive Inf)` through `CommMonoid Inf` times out
+-- before reaching the `letI` structure below.
+attribute [-instance] Additive.addCommMonoid Additive.addCommGroup
+
 variable (hp : IsPredeformationCategory (spaceDeformationProjection B hΛ hSpec X hX toK))
   (hi : (spaceDeformationProjection B hΛ hSpec X hX toK).IsHomLift g i)
 
@@ -238,8 +242,8 @@ def spaceInfinitesimalAutomorphismLinearEquivDerivations :
     derivationModuleOfRingHom B (Spec (.of Λ)) hΛ (X := spaceOf B hΛ X hX)
       (spaceResidueFieldRingHom B hΛ hSpec X hX toK)
       (spaceStructureMap B hΛ hSpec X hX toK) (spaceStructureModule B hΛ (spaceOf B hΛ X hX))
-  { spaceInfinitesimalAutomorphismAddEquivDerivations B hΛ hSpec X hX toK hpair i hp hi with
-    map_smul' := fun _ _ => AddEquiv.apply_symm_apply _ _ }
+  (spaceInfinitesimalAutomorphismAddEquivDerivations B hΛ hSpec X hX toK hpair i hp
+    hi).toLinearEquiv fun _ _ => AddEquiv.apply_symm_apply _ _
 
 /-- The `k`-linear identification is the first identification of the first display. -/
 theorem spaceInfinitesimalAutomorphismLinearEquivDerivations_apply

@@ -290,7 +290,7 @@ theorem isIso_colimitDesc_iff {D : I ⥤ AddCommGrpCat.{w}} (c : Cocone D) :
   · rintro ⟨h⟩
     have := IsColimit.hom_isIso (colimit.isColimit D) h
       ((colimit.isColimit D).descCoconeMorphism c)
-    exact (Cocones.forget D).map_isIso ((colimit.isColimit D).descCoconeMorphism c)
+    exact (Cocone.forget D).map_isIso ((colimit.isColimit D).descCoconeMorphism c)
 
 /-- A morphism of diagrams and a morphism of vertices compatible with two cocones commute with the
 comparisons from the colimits. -/

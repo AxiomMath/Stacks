@@ -128,11 +128,11 @@ variable {Λ}
 
 /-- **`Q ⊗ S` is a sheaf** for a finitely generated projective module `Q` and a sheaf `S`. -/
 theorem isSheaf_comp_tensorLeft (Q : ModuleCat.{w} Λ) [Module.Finite Λ Q] [Module.Projective Λ Q]
-    (S : Sheaf J (ModuleCat.{w} Λ)) : Presheaf.IsSheaf J (S.val ⋙ tensorLeft Q) := by
+    (S : Sheaf J (ModuleCat.{w} Λ)) : Presheaf.IsSheaf J (S.obj ⋙ tensorLeft Q) := by
   obtain ⟨n, π, hπ⟩ := Module.Finite.exists_fin' Λ Q
   obtain ⟨s, hs⟩ := Module.projective_lifting_property π LinearMap.id hπ
-  exact isSheaf_of_retract J Λ (Functor.whiskerLeft S.val (tensorToHom Λ s))
-    (Functor.whiskerLeft S.val (homToTensor Λ π))
+  exact isSheaf_of_retract J Λ (Functor.whiskerLeft S.obj (tensorToHom Λ s))
+    (Functor.whiskerLeft S.obj (homToTensor Λ π))
     (by rw [← Functor.whiskerLeft_comp, tensorToHom_comp_homToTensor Λ s π hs,
       Functor.whiskerLeft_id'])
     ((sheafCompose J (ihom (ModuleCat.of Λ (Fin n → Λ)))).obj S).property
@@ -141,7 +141,7 @@ theorem isSheaf_comp_tensorLeft (Q : ModuleCat.{w} Λ) [Module.Finite Λ Q] [Mod
 @[simps]
 def tensorProjectiveFunctor (Q : ModuleCat.{w} Λ) [Module.Finite Λ Q] [Module.Projective Λ Q] :
     Sheaf J (ModuleCat.{w} Λ) ⥤ Sheaf J (ModuleCat.{w} Λ) where
-  obj S := ⟨S.val ⋙ tensorLeft Q, isSheaf_comp_tensorLeft J Q S⟩
+  obj S := ⟨S.obj ⋙ tensorLeft Q, isSheaf_comp_tensorLeft J Q S⟩
   map f := ObjectProperty.homMk (Functor.whiskerRight f.hom (tensorLeft Q))
   map_id S := by ext1; simp
   map_comp f g := by ext1; simp
@@ -203,14 +203,14 @@ theorem isKInjective_rowComplex (Q : ModuleCat.{w} Λ) [Module.Finite Λ Q] [Mod
     (sheafCompose J (ihom N)) (Sheaf.composeAndSheafify J (tensorLeft N))
     (Sheaf.adjunction J (ihom.adjunction N)) K
   let ι : tensorProjectiveFunctor J Q ⟶ sheafCompose J (ihom N) :=
-    { app S := ObjectProperty.homMk (Functor.whiskerLeft S.val (tensorToHom Λ s))
+    { app S := ObjectProperty.homMk (Functor.whiskerLeft S.obj (tensorToHom Λ s))
       naturality _ _ f := by ext1; ext U : 2; exact (tensorToHom Λ s).naturality _ }
   let ρ : sheafCompose J (ihom N) ⟶ tensorProjectiveFunctor J Q :=
-    { app S := ObjectProperty.homMk (Functor.whiskerLeft S.val (homToTensor Λ π))
+    { app S := ObjectProperty.homMk (Functor.whiskerLeft S.obj (homToTensor Λ π))
       naturality _ _ f := by ext1; ext U : 2; exact (homToTensor Λ π).naturality _ }
   have hιρ : ι ≫ ρ = 𝟙 _ := by
     ext S : 2; ext1; ext U : 2
-    exact congrArg (fun t => NatTrans.app t (S.val.obj U)) (tensorToHom_comp_homToTensor Λ s π hs)
+    exact congrArg (fun t => NatTrans.app t (S.obj.obj U)) (tensorToHom_comp_homToTensor Λ s π hs)
   have hK := CochainComplex.isKInjective_of_retract
     ⟨(NatTrans.mapHomologicalComplex ι (ComplexShape.up ℤ)).app K,
       (NatTrans.mapHomologicalComplex ρ (ComplexShape.up ℤ)).app K,
@@ -245,10 +245,10 @@ theorem flipObjIsoTensorProjectiveFunctor_naturality_right {Q Q' : ModuleCat.{w}
       ((flipObjIsoTensorProjectiveFunctor J Q).hom.app S) ≫
         ObjectProperty.homMk (X := (tensorProjectiveFunctor J Q).obj S)
           (Y := (tensorProjectiveFunctor J Q').obj S)
-          (Functor.whiskerLeft S.val ((curriedTensor (ModuleCat.{w} Λ)).map g)) :=
+          (Functor.whiskerLeft S.obj ((curriedTensor (ModuleCat.{w} Λ)).map g)) :=
   (sheafificationAdjunction J (ModuleCat.{w} Λ)).counit.naturality
     (X := (tensorProjectiveFunctor J Q).obj S) (Y := (tensorProjectiveFunctor J Q').obj S)
-    (ObjectProperty.homMk (Functor.whiskerLeft S.val ((curriedTensor (ModuleCat.{w} Λ)).map g)))
+    (ObjectProperty.homMk (Functor.whiskerLeft S.obj ((curriedTensor (ModuleCat.{w} Λ)).map g)))
 
 end Sheafify
 

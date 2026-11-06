@@ -174,8 +174,9 @@ variable (hcompat : subspaceInclusion B S hS X' Z ≫ a' = a ≫ subspaceInclusi
 
 /-- Equation (0619) at `X ⟶ Y'`: the `𝒪_T`-derivation of `𝒪_{Y'}` attached to `θ`. -/
 noncomputable def thickeningDerivation :
-    ((modulePushforward B S hS (subspaceInclusion B S hS X' Z ≫ a')).obj
-        (conormalModule B S hS X' Z)).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS (subspaceInclusion B S hS X' Z ≫ a')).obj
+        (conormalModule B S hS X' Z)).val
       (structureSharpInverseImage B S hS p).hom :=
   derivationDirectImageEquiv B S hS (subspaceInclusion B S hS X' Z ≫ a') p
     (conormalModule B S hS X' Z)
@@ -186,9 +187,10 @@ noncomputable def thickeningDerivation :
 `AlgebraicGeometry.Space.thickeningDerivation` moved across the composition comparison of
 direct images of Stacks 03LU. -/
 noncomputable def thickeningConormalDerivation :
-    ((modulePushforward B S hS a').obj
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS a').obj
         ((modulePushforward B S hS (subspaceInclusion B S hS X' Z)).obj
-          (conormalModule B S hS X' Z))).val.Derivation'
+          (conormalModule B S hS X' Z))).val
       (structureSharpInverseImage B S hS p).hom :=
   (thickeningDerivation B S hS Z a' W p a hcompat θ).postcomp
     ((modulePushforwardCompIso B S hS (subspaceInclusion B S hS X' Z) a').inv.app
@@ -196,7 +198,8 @@ noncomputable def thickeningConormalDerivation :
 
 /-- The derivation `D : 𝒪_{Y'} ⟶ (a')_*𝒪_{X'}` of [Stacks Project, Tag 04D0]. -/
 noncomputable def thickeningStructureDerivation :
-    ((modulePushforward B S hS a').obj (structureUnitModule B S hS X')).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS a').obj (structureUnitModule B S hS X')).val
       (structureSharpInverseImage B S hS p).hom :=
   (thickeningConormalDerivation B S hS Z a' W p a hcompat θ).postcomp
     ((modulePushforward B S hS a').map (firstOrderConormalModuleι B S hS Z hZ)).val
@@ -213,7 +216,7 @@ section Generic
 
 variable {Y'' T'' : AlgebraicSpaces B S hS} (q : Y'' ⟶ T'')
   (N : Modules.{u, u} B S hS Y''.1 Y''.2)
-  (D : N.val.Derivation' (structureSharpInverseImage B S hS q).hom)
+  (D : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS q).hom)
 
 /-- **A derivation commutes with restriction**, at a variable module and a variable derivation.
 This is `Derivation.d_map`. -/

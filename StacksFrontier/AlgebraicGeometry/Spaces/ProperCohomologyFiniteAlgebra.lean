@@ -89,7 +89,7 @@ endomorphism `G.map (ρ r)`. -/
 theorem endActionModule_smul {k : Type*} [Ring k] {R : Type*} [Semiring R]
     (G : C ⥤ ModuleCat k) [G.Additive] {X : C} (ρ : R →+* End X) (r : R) (x : G.obj X) :
     letI := G.endActionModule ρ
-    r • x = (G.map (ρ r)).hom x :=
+    r • x = (G.map (ρ r).asHom).hom x :=
   rfl
 
 /-- **Finiteness transported along an equivariant comparison.**  Let `ρ` be an action of `R` on
@@ -99,24 +99,24 @@ with endomorphisms `τ r` of `N` acting as the scalars `κ r`.  If `N` is finite
 `κ`, then `G.obj X` is finite over `R`. -/
 theorem moduleFinite_endActionModule_of_iso {k k' R : Type*} [Ring k] [CommRing k']
     [CommRing R] (G : C ⥤ ModuleCat k) [G.Additive] {X Y : C} (ρ : R →+* End X) (e : X ≅ Y)
-    (σ : R → End Y) (he : ∀ r, ρ r ≫ e.hom = e.hom ≫ σ r) (N : ModuleCat k') (κ : R →+* k')
-    (τ : R → End N) (hτ : ∀ r y, (τ r).hom y = κ r • y)
+    (σ : R → End Y) (he : ∀ r, (ρ r).asHom ≫ e.hom = e.hom ≫ (σ r).asHom) (N : ModuleCat k') (κ : R →+* k')
+    (τ : R → End N) (hτ : ∀ r y, (τ r).asHom.hom y = κ r • y)
     (D : (forget₂ (ModuleCat k') AddCommGrpCat).obj N ≅
       (forget₂ (ModuleCat k) AddCommGrpCat).obj (G.obj Y))
-    (hD : ∀ r, (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r) ≫ D.hom =
-      D.hom ≫ (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (σ r)))
+    (hD : ∀ r, (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r).asHom ≫ D.hom =
+      D.hom ≫ (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (σ r).asHom))
     [Module.Finite R ((ModuleCat.restrictScalars κ).obj N)] :
     letI := G.endActionModule ρ
     Module.Finite R (G.obj X) := by
   let := G.endActionModule ρ
   let I := (forget₂ (ModuleCat k) AddCommGrpCat).mapIso (G.mapIso e) ≪≫ D.symm
-  have hI : ∀ r, (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (ρ r)) ≫ I.hom =
-      I.hom ≫ (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r) := by
+  have hI : ∀ r, (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (ρ r).asHom) ≫ I.hom =
+      I.hom ≫ (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r).asHom := by
     intro r
     have h1 := congrArg (fun φ => (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map φ)) (he r)
     simp only [Functor.map_comp] at h1
-    have h2 : (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (σ r)) ≫ D.inv =
-        D.inv ≫ (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r) := by
+    have h2 : (forget₂ (ModuleCat k) AddCommGrpCat).map (G.map (σ r).asHom) ≫ D.inv =
+        D.inv ≫ (forget₂ (ModuleCat k') AddCommGrpCat).map (τ r).asHom := by
       rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
       exact (hD r).symm
     simp only [I, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom]
@@ -156,12 +156,12 @@ theorem moduleFinite_cohomology_of_isProper_of_action
     (q : W ⟶ V) {X : AlgebraicSpaces B S hS} (p : X ⟶ schemeSpace V)
     (hp : IsProper B S hS p.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) (ρ : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) →+* End F)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     (hfin : ∀ U : SmallEtale B S hS X.1,
       IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U) →
       ∃ g : Finset (F.val.obj (op U)), Submodule.span (chartRing B S hS X.1 X.2 U)
-        {x | ∃ r, ∃ y ∈ g, x = (ρ r).val.app (op U) y} = ⊤)
+        {x | ∃ r, ∃ y ∈ g, x = (ρ r).asHom.val.app (op U) y} = ⊤)
     (i : ℕ) :
     letI := (spaceCohomology B S hS X i).endActionModule ρ
     Module.Finite Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)
@@ -196,9 +196,9 @@ theorem moduleFinite_cohomology_of_isProper_of_action
   let e : F ≅ (modulePushforward B S hS pr).obj F' :=
     asIso (toPushforwardModuleOfAction B S hS pr' pr F ρ hrep) ≪≫
       ((modulePushforwardChartIso B S hS pr hrep).app F').symm
-  have he : ∀ r, ρ r ≫ e.hom = e.hom ≫ (modulePushforward B S hS pr).map (s r) := by
+  have he : ∀ r, (ρ r).asHom ≫ e.hom = e.hom ≫ (modulePushforward B S hS pr).map (s r) := by
     intro r
-    show ρ r ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
+    show (ρ r).asHom ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
         (modulePushforwardChartIso B S hS pr hrep).inv.app F' =
       (toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
         (modulePushforwardChartIso B S hS pr hrep).inv.app F') ≫ _
@@ -223,9 +223,9 @@ theorem moduleFinite_cohomology_of_isProper_of_action
           ((spaceCohomology B S hS X' i).map_id F')))
   -- the comparison of the cohomologies, by Stacks 0D2U
   exact (spaceCohomology B S hS X i).moduleFinite_endActionModule_of_iso ρ e
-    (fun r => (modulePushforward B S hS pr).map (s r))
+    (fun r => End.of ((modulePushforward B S hS pr).map (s r)))
     he ((spaceCohomology B S hS X' i).obj F') (pullbackRingHom B W pr')
-    (fun r => (spaceCohomology B S hS X' i).map (s r))
+    (fun r => End.of ((spaceCohomology B S hS X' i).map (s r)))
     (fun r y => by rw [hmap]; rfl)
     (cohomologyIsoOfIsAffineHom B S hS pr hpr F' hF' i)
     (fun r => cohomologyIsoOfIsAffineHom_hom_naturality B S hS pr hpr (s r) hF' hF' i)
@@ -287,12 +287,12 @@ Then `Hⁱ(X, F)` is a finite `R`-module for every `i`. -/
 theorem moduleFinite_cohomology_of_isProper_of_algebra_of_isAffine [IsNoetherianRing A]
     {X : AlgebraicSpaces B S hS} (f : X ⟶ schemeSpace V) (hf : IsProper B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : F.IsQuasicoherentOnSite) (ρ : R →+* End F)
-    (hρ : ∀ a, ρ (algebraMap A R a) =
+    (hρ : ∀ a, (ρ (algebraMap A R a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V f (α a)) F)
     (hfin : ∀ U : SmallEtale B S hS X.1,
       IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U) →
       ∃ g : Finset (F.val.obj (op U)), Submodule.span (chartRing B S hS X.1 X.2 U)
-        {x | ∃ r, ∃ y ∈ g, x = (ρ r).val.app (op U) y} = ⊤)
+        {x | ∃ r, ∃ y ∈ g, x = (ρ r).asHom.val.app (op U) y} = ⊤)
     (i : ℕ) :
     letI := (spaceCohomology B S hS X i).endActionModule ρ
     Module.Finite R ((spaceCohomology B S hS X i).obj F) := by
@@ -306,14 +306,14 @@ theorem moduleFinite_cohomology_of_isProper_of_algebra_of_isAffine [IsNoetherian
   have : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj
       (specAlgebraObjectOver B S hS A α R)) :=
     inferInstanceAs (IsLocallyNoetherian (Spec (.of R)))
-  have hρ' : ∀ x, (ρ.comp e) (((BigFppfOver.toScheme B S hS).map
-      (specAlgebraMapOver B S hS A α R)).appTop x) =
+  have hρ' : ∀ x, ((ρ.comp e) (((BigFppfOver.toScheme B S hS).map
+      (specAlgebraMapOver B S hS A α R)).appTop x)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V f x) F := by
     intro x
-    show ρ (e ((specAlgebraToAffine B S hS A α R).appTop x)) = _
+    show (ρ (e ((specAlgebraToAffine B S hS A α R).appTop x))).asHom = _
     rw [specAlgebraToAffine_appTop]
-    show ρ ((Scheme.ΓSpecIso (.of R)).hom.hom ((Scheme.ΓSpecIso (.of R)).inv.hom
-      (algebraMap A R (α.symm x)))) = _
+    show (ρ ((Scheme.ΓSpecIso (.of R)).hom.hom ((Scheme.ΓSpecIso (.of R)).inv.hom
+      (algebraMap A R (α.symm x))))).asHom = _
     rw [← CommRingCat.comp_apply, Iso.inv_hom_id, CommRingCat.id_apply, hρ, α.apply_symm_apply]
   have hfin' := moduleFinite_cohomology_of_isProper_of_action B S hS
     (specAlgebraMapOver B S hS A α R) f hf F hF (ρ.comp e) hρ' (fun U hU => by
@@ -374,12 +374,12 @@ theorem moduleFinite_cohomology_of_isProper_of_algebra [IsNoetherianRing A]
     {X : AlgebraicSpaces B (Spec (.of A)) hA} (f : X ⟶ schemeSpace (baseObject A B hA))
     (hf : IsProper B (Spec (.of A)) hA f.hom) (F : Modules.{u, u} B (Spec (.of A)) hA X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) (ρ : R →+* End F)
-    (hρ : ∀ a, ρ (algebraMap A R a) = globalSmul _ (baseRingHom A B hA X.1 X.2 a) F)
+    (hρ : ∀ a, (ρ (algebraMap A R a)).asHom = globalSmul _ (baseRingHom A B hA X.1 X.2 a) F)
     (hfin : ∀ U : SmallEtale B (Spec (.of A)) hA X.1,
       IsAffine ((SmallEtale.toOver B (Spec (.of A)) hA X.1 ⋙
         BigFppfOver.toScheme B (Spec (.of A)) hA).obj U) →
       ∃ g : Finset (F.val.obj (op U)), Submodule.span (chartRing B (Spec (.of A)) hA X.1 X.2 U)
-        {x | ∃ r, ∃ y ∈ g, x = (ρ r).val.app (op U) y} = ⊤)
+        {x | ∃ r, ∃ y ∈ g, x = (ρ r).asHom.val.app (op U) y} = ⊤)
     (i : ℕ) :
     letI := (spaceCohomology B (Spec (.of A)) hA X i).endActionModule ρ
     Module.Finite R ((spaceCohomology B (Spec (.of A)) hA X i).obj F) := by

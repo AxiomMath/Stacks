@@ -58,7 +58,7 @@ theorem exists_distTriang_milnor_of_iso {X X' : ℕ → D} [HasProduct X] [HasPr
     simp [Ψ, hπ]
   · refine Pi.hom_ext _ _ fun n => ?_
     simp only [Triangle.mk_obj₂, Triangle.mk_obj₃, Triangle.mk_mor₂, Category.assoc, Ψ,
-      Pi.lift_π, Preadditive.comp_sub, Preadditive.sub_comp, Pi.lift_π_assoc, ht]
+      Pi.lift_comp_π, Preadditive.comp_sub, Preadditive.sub_comp, Pi.lift_comp_π_assoc, ht]
   · simp only [Triangle.mk_obj₃, Triangle.mk_obj₁, Triangle.mk_mor₃, Category.assoc,
       ← Functor.map_comp, Iso.inv_hom_id, Functor.map_id, Category.comp_id]
 
@@ -81,7 +81,7 @@ private theorem epi_pi_sub_shift_of_epi' {A : Type u} [Ring A] (X : ℕ → Modu
   simp only
   show ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
     ((ModuleCat.piIsoPi X).inv x)) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
@@ -98,7 +98,7 @@ private theorem map_pi_sub_shift_comp_piComparison {C E : Type*} [Category* C] [
         Pi.π (fun n ↦ G.obj (X n)) (n + 1) ≫ G.map (t n) := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
   rw [Category.assoc, piComparison_comp_π, ← G.map_comp]
-  simp only [Pi.lift_π, G.map_sub, G.map_comp, Category.assoc,
+  simp only [Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
     Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π]
 
 /-- The difference map of an epimorphic tower of complexes of modules is an epimorphism,
@@ -148,7 +148,7 @@ theorem exists_distTriang_of_limitCone_of_epi
       { pt := t.pt
         π := NatTrans.ofOpSequence (fun n ↦ t.ι ≫ Pi.π _ n) (fun n ↦ by
           have h := congrArg (fun f ↦ f ≫ Pi.π X n) t.condition
-          simp only [d, Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp] at h
+          simp only [d, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h
           show 𝟙 t.pt ≫ (t.ι ≫ Pi.π _ n) =
             (t.ι ≫ Pi.π _ (n + 1)) ≫ F.map (homOfLE (Nat.le_succ n)).op
           exact (Category.id_comp _).trans
@@ -179,7 +179,7 @@ theorem exists_distTriang_of_limitCone_of_epi
     apply Pi.hom_ext
     intro n
     show (Q.map p ≫ piComparison Q X) ≫ Pi.π _ n = _
-    rw [Category.assoc, piComparison_comp_π, ← Q.map_comp, Pi.lift_π, Pi.lift_π]
+    rw [Category.assoc, piComparison_comp_π, ← Q.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
   refine ⟨e.inv ≫ DerivedCategory.triangleOfSESδ hS,
     isomorphic_distinguished _ (DerivedCategory.triangleOfSES_distinguished hS) _ ?_⟩
   refine Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_

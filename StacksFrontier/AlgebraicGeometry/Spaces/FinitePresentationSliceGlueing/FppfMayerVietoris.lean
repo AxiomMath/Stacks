@@ -45,6 +45,17 @@ namespace Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y) (f' : X' ⟶ Y')
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_fppfMayerVietoris :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_fppfMayerVietoris
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Being locally of finite presentation depends only on the arrow up to isomorphism**, by the
 two invariance statements of the every-étale-chart condition of Stacks 03MJ. -/
 theorem isLocallyOfFinitePresentation_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [IsIso e₁]
@@ -63,6 +74,7 @@ theorem isFinitePresentation_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [Is
     isQuasiCompact_of_arrowIso B S hS f f' e₁ e₂ w hf.2.1,
     isQuasiSeparated_of_arrowIso B S hS f f' e₁ e₂ w hf.2.2⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A cartesian square over a monomorphism `p` transports finite presentation of its left edge
 to the base change along the inclusion of the range of `p`. -/
 theorem isFinitePresentation_pullback_snd_range {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

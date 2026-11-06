@@ -291,8 +291,8 @@ instance small_coefficientSection (U : X.C) : Small.{w} (CoefficientSection' X F
     rw [← Over.comp_left, e.hom_inv_id, Over.id_left]
   set s := F.1.presheaf.map e.inv.left.op t with hs
   have hts : F.1.presheaf.map e.hom.left.op s = t := by
-    rw [hs, ← FunctorToTypes.map_comp_apply, ← op_comp, hcomp, op_id,
-      FunctorToTypes.map_id_apply]
+    rw [hs, ← Functor.map_comp_apply, ← op_comp, hcomp, op_id,
+      Functor.map_id_apply]
   have ha := a.property.1 _ W e.hom s
   have hb := b.property.1 _ W e.hom s
   rw [hts] at ha hb

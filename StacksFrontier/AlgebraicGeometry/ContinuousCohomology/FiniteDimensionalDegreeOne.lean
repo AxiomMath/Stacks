@@ -149,7 +149,7 @@ variable {k : Type u} [Field k] {G : Type v} [Group G] [TopologicalSpace G]
 def cocyclesExtensionAction : Action (ModuleCat.{max u v w} k) G where
   V := ModuleCat.of k (V.obj.obj.V × cocycles₁.{u, v, max u v w} k G V)
   ρ :=
-    { toFun g := ModuleCat.ofHom
+    { toFun g := End.of <| ModuleCat.ofHom
         { toFun p := (rep k G V g p.1 + p.2.1 g, p.2)
           map_add' p q := by
             refine Prod.ext ?_ rfl
@@ -165,12 +165,12 @@ def cocyclesExtensionAction : Action (ModuleCat.{max u v w} k) G where
             rw [map_smul]
             simp only [Submodule.coe_smul, Pi.smul_apply, smul_add] }
       map_one' := by
-        refine ModuleCat.hom_ext (LinearMap.ext fun p => Prod.ext ?_ rfl)
+        refine End.ext <| ModuleCat.hom_ext (LinearMap.ext fun p => Prod.ext ?_ rfl)
         change rep k G V 1 p.1 + p.2.1 1 = p.1
         rw [show rep k G V 1 = LinearMap.id from map_one _, LinearMap.id_apply,
           apply_one_eq_zero_of_mem_cocycles₁ p.2.2, add_zero]
       map_mul' g h := by
-        refine ModuleCat.hom_ext (LinearMap.ext fun p => Prod.ext ?_ rfl)
+        refine End.ext <| ModuleCat.hom_ext (LinearMap.ext fun p => Prod.ext ?_ rfl)
         change rep k G V (g * h) p.1 + p.2.1 (g * h)
           = rep k G V g (rep k G V h p.1 + p.2.1 h) + p.2.1 g
         rw [map_mul, Module.End.mul_eq_comp, LinearMap.comp_apply, p.2.2.1 g h, map_add]
@@ -180,7 +180,8 @@ def cocyclesExtensionAction : Action (ModuleCat.{max u v w} k) G where
 whose middle term carries the action `g · (x, f) = (g · x + f g, f)`. -/
 def cocyclesExtension : Stacks.Injectives.ContinuousModule.{u, v, max u v w} k G :=
   ⟨⟨cocyclesExtensionAction.{u, v, w} V, by
-      rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
+      refine (Action.isContinuous_def _).2 ?_
+      rw [continuous_prod_of_discrete_right]
       rintro ⟨x, f⟩
       exact IsLocallyConstant.continuous
         (((isLocallyConstant_rep k G V x).comp₂ f.2.2 (· + ·)).comp
@@ -189,7 +190,8 @@ def cocyclesExtension : Stacks.Injectives.ContinuousModule.{u, v, max u v w} k G
 /-- The module `Z¹(G, V)` of continuous cocycles with the trivial action of `G`. -/
 def cocyclesTrivial : Stacks.Injectives.ContinuousModule.{u, v, max u v w} k G :=
   ⟨⟨Action.trivial G (ModuleCat.of k (cocycles₁.{u, v, max u v w} k G V)), by
-      rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
+      refine (Action.isContinuous_def _).2 ?_
+      rw [continuous_prod_of_discrete_right]
       exact fun _ => continuous_const⟩, ⟨rfl⟩⟩
 
 /-- The inclusion of `V` as the fibre of `cocyclesExtension` over the zero cocycle. -/
@@ -351,7 +353,7 @@ theorem cocyclesToExt_surjective :
   have hs (x : K.obj.obj.V) : q (s x) = x := by
     show q (x.down • e) = x
     rw [map_smul, he0]
-    exact ULift.ext _ _ (mul_one x.down)
+    exact ULift.ext (mul_one x.down)
   have hqPart (x : E.obj.obj.V) : q (x - s (q x)) = 0 := by
     rw [map_sub, hs, sub_self]
   let vpart : E.obj.obj.V → V.obj.obj.V := fun x =>

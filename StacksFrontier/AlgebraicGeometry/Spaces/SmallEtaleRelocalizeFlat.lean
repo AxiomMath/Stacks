@@ -120,6 +120,9 @@ def ChartDiagram.derelocalizeSE
     rw [← relocalizeChart_comp, ← relocalizeChart_naturality]
     have sU := relocalizeChartDescent_spec B W S hW hS h d.U.obj
     have sV := relocalizeChartDescent_spec B W S hW hS h d.V.obj
+    have : Epi (yoneda.map (relocalizeBaseHom B W S hW hS h
+        (relocalizeChartBase_comp B W S hW hS h d.U.obj))) :=
+      @IsIso.epi_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
     rw [← cancel_epi (yoneda.map (relocalizeBaseHom B W S hW hS h
       (relocalizeChartBase_comp B W S hW hS h d.U.obj))), ← Category.assoc, ← sU, d.comm]
     have hsq : relocalizeBaseHom B W S hW hS h (relocalizeChartBase_comp B W S hW hS h d.U.obj) ≫

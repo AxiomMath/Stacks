@@ -84,7 +84,8 @@ theorem isEffectiveSystem_of_towerConormal
       (Rz : Space.EtaleSquareZeroExtension.Realization
         (towerSolutionSquareZeroExtension ξ hsurj hsq e cR hcR c eLimit hc P')),
       IsIso (Space.conormalMapOfImmersions B S hS
-        (Space.subspaceInclusion B S hS Rz.ambient Rz.closedSubspace)
+        (Space.subspaceInclusion B S hS Rz.ambient
+          (Space.EtaleSquareZeroExtension.Realization.closedSubspace Rz))
         (Space.subspaceInclusion B S hS (schemeSpace c.pt)
           (limitBaseSubspace ξ hsurj hsq e cR hcR c eLimit hc))
         (towerRealizationClosedMap ξ hsurj hsq e cR hcR c eLimit hc Rz) Rz.toBase
@@ -127,7 +128,8 @@ theorem isSquareZeroEffective_cartesianProperFlat_of_towerConormal
       (Rz : Space.EtaleSquareZeroExtension.Realization
         (towerSolutionSquareZeroExtension ξ hsurj hsq e cR hcR c eLimit hc P')),
       IsIso (Space.conormalMapOfImmersions B S hS
-        (Space.subspaceInclusion B S hS Rz.ambient Rz.closedSubspace)
+        (Space.subspaceInclusion B S hS Rz.ambient
+          (Space.EtaleSquareZeroExtension.Realization.closedSubspace Rz))
         (Space.subspaceInclusion B S hS (schemeSpace c.pt)
           (limitBaseSubspace ξ hsurj hsq e cR hcR c eLimit hc))
         (towerRealizationClosedMap ξ hsurj hsq e cR hcR c eLimit hc Rz) Rz.toBase

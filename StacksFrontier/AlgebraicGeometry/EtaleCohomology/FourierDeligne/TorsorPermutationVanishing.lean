@@ -301,7 +301,7 @@ theorem torsorDiff_apply (a : K) (y : Y) :
 variable (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G)
   (ρ : Multiplicative K →* Module.End (ZMod m) M.obj.obj.obj.V) (κ : G →* Multiplicative K)
   (hκ : ∀ (g : G) (y : Y), g • y = τ (Multiplicative.toAdd (κ g)) y)
-  (hM : ∀ (g : G) (v : M.obj.obj.obj.V), (M.obj.obj.obj.ρ g).hom v = ρ (κ g) v)
+  (hM : ∀ (g : G) (v : M.obj.obj.obj.V), (M.obj.obj.obj.ρ g).asHom.hom v = ρ (κ g) v)
   {ι : Type (u + 1)} [Fintype ι] (bM : Module.Basis ι (ZMod m) M.obj.obj.obj.V)
 
 omit [TopologicalSpace G] [IsTopologicalGroup G] [Fintype Y] [Fintype K] in
@@ -332,7 +332,7 @@ def torsorRetractIncl : M ⟶ permModule m ι hY :=
       apply ULift.ext
       funext y i
       change bM.repr (ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ y))
-          ((M.obj.obj.obj.ρ g).hom v)) i =
+          ((M.obj.obj.obj.ρ g).asHom.hom v)) i =
         bM.repr (ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ (g⁻¹ • y))) v) i
       have he : Multiplicative.ofAdd (-torsorDiff τ htr y₀ y) * κ g =
           Multiplicative.ofAdd (-torsorDiff τ htr y₀ (g⁻¹ • y)) := by
@@ -358,7 +358,7 @@ def torsorRetractProj : permModule m ι hY ⟶ M :=
     (fun g φ => by
       change torsorCardInv m hK • ∑ y : Y, ρ (Multiplicative.ofAdd (torsorDiff τ htr y₀ y))
           (∑ i : ι, φ.down (g⁻¹ • y) i • bM i) =
-        (M.obj.obj.obj.ρ g).hom (torsorCardInv m hK • ∑ y : Y,
+        (M.obj.obj.obj.ρ g).asHom.hom (torsorCardInv m hK • ∑ y : Y,
           ρ (Multiplicative.ofAdd (torsorDiff τ htr y₀ y)) (∑ i : ι, φ.down y i • bM i))
       rw [hM, map_smul, map_sum]
       congr 1

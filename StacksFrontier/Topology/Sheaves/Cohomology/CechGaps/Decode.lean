@@ -112,7 +112,7 @@ lemma cechCosimp_δ_comp_π (n : ℕ) (x : Fin (n + 2) → ι) (j : Fin (n + 2))
       = Limits.Pi.π (cechDeg U P n) (x ∘ j.succAbove)
         ≫ P.map (homOfLE (prodOpens_le U x j.succAbove)).op := by
   rw [CosimplicialObject.δ, FormalCoproduct.cosimplicialObjectFunctor_obj_map]
-  refine (Limits.Pi.lift_π _ _).trans ?_
+  refine (Limits.Pi.lift_comp_π _ _).trans ?_
   congr 1
 
 /-- The differential of the Čech complex is the alternating sum of the coface maps. -/

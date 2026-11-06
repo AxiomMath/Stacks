@@ -100,6 +100,17 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_fieldFibreFiniteDecent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_fieldFibreFiniteDecent
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_fieldFibreFiniteDecent B S hS).has_limit _
+
 /-! ### Stacks 0AC7 as a statement about one fibre of the upper horizontal morphism -/
 
 /-- **Stacks 0AC7, read for a fibre of the upper horizontal morphism.** Let `D` be a cartesian

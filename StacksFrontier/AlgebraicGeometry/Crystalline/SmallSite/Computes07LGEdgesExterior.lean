@@ -113,7 +113,7 @@ public theorem computes07LG_of_edges_of_isGradedExterior
         AddCommGrpCat.uliftFunctor.{u + 1, u}.obj
           (((cosimplicialDoubleComplexFunctor.obj (K F hF)).flip.X 0).homology (j : ℤ))))
     (hcolumn0 : ∀ (F : SheafOfModules.{u} (structureSheaf S)) (hF : F.IsQuasicoherentOnSite),
-      IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).val
+      IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).obj
           (wholeSpaceLevelExponent hp) →
         ∀ j : ℕ, Nonempty (AddCommGrpCat.uliftFunctor.{u + 1, u}.obj
             (((alternatingCofaceMapComplex AddCommGrpCat.{u}).obj

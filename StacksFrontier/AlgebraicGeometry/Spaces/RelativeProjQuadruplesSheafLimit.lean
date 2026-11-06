@@ -115,13 +115,13 @@ def equivObj (T : BigFppfOver B S hS) (hT : CompactSpace ((BigFppfOver.toScheme 
   toFun s := s.val T hT (𝟙 T)
   invFun x :=
     { val := fun _ _ w => Φ.map w.op x
-      compat := fun _ _ _ _ h w => by rw [op_comp, FunctorToTypes.map_comp_apply] }
+      compat := fun _ _ _ _ h w => by rw [op_comp, Functor.map_comp_apply] }
   left_inv s := by
     ext W hW w
     exact s.compat T W hT hW w (𝟙 T)
   right_inv x := by
     change Φ.map (𝟙 T).op x = x
-    rw [op_id, FunctorToTypes.map_id_apply]
+    rw [op_id, Functor.map_id_apply]
 
 end SiteQcExtension
 

@@ -7,6 +7,8 @@ public import Mathlib.CategoryTheory.Limits.Preserves.Filtered
 public import Mathlib.CategoryTheory.Limits.Preserves.FunctorCategory
 public import Mathlib.CategoryTheory.Limits.Preserves.Yoneda
 public import Mathlib.CategoryTheory.Limits.Types.Filtered
+public import Mathlib.CategoryTheory.Sites.LeftExact
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.CategoryTheory.Sites.Subsheaf
 public import Mathlib.CategoryTheory.Subfunctor.Basic
 public import Mathlib.Logic.Small.Set

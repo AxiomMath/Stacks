@@ -104,7 +104,7 @@ public theorem pushforward_injective_rightAcyclic
   let : ev.Additive := Stacks.Cohomology.FlasqueAcyclic.evaluation_additive R (op V)
   let : (ev.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso (SheafOfModules R)) :=
-    Functor.HasRightDerivedFunctor.mk' ev.rightDerivedFunctorPlus ev.rightDerivedFunctorPlusUnit
+    Functor.HasRightDerivedFunctor.mk' ev.rightDerivedFunctorPlus ev.rightDerivedFunctorPlusUnith
   exact Stacks.Cohomology.FlasqueAcyclic.rightAcyclic_evaluation_of_isFlasque R P V
     (modulePushforward_underlying_isFlasque f I)
 

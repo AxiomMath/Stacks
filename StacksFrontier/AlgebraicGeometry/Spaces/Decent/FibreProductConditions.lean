@@ -81,6 +81,13 @@ end Bridge
 
 section FibreProduct
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FibreProductConditions
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- **Stacks 0ABZ, decent.** Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of algebraic spaces

@@ -48,6 +48,8 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.GrothendieckTopology Op
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000
+
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 

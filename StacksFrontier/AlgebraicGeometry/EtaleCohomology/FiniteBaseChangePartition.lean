@@ -63,24 +63,25 @@ theorem exists_etale_partition_refining_of_isFinite
       _ = (u₁ i ≫ h₁ i) ≫ a i ≫ f := by rw [← hh₁ i]; simp only [Category.assoc]
       _ = y.hom := by rw [hu₁ i, ← Category.assoc, hw i]; exact (Λ i).2
   let E := (Scheme.pointSmallEtale y.hom).fiber.Elements
-  let N₁ (i : I) : E := ⟨MorphismProperty.Over.mk _ (g₁ i) (hg₁ i), Over.homMk (k₁ i) (hk₁ i)⟩
-  let N₀ : E := ⟨MorphismProperty.Over.mk _ g₀ hg₀, Over.homMk p₀ hp₀⟩
+  let N₁ (i : I) : E := Functor.elementsMk _
+    (MorphismProperty.Over.mk _ (g₁ i) (hg₁ i)) (Over.homMk (k₁ i) (hk₁ i))
+  let N₀ : E := Functor.elementsMk _ (MorphismProperty.Over.mk _ g₀ hg₀) (Over.homMk p₀ hp₀)
   obtain ⟨M, hM⟩ := IsCofiltered.inf_objs_exists (insert N₀ (Finset.univ.image N₁))
   obtain ⟨v₀⟩ := hM (Finset.mem_insert_self _ _)
   have hv₁ (i : I) : Nonempty (M ⟶ N₁ i) :=
     hM (Finset.mem_insert_of_mem (Finset.mem_image_of_mem _ (Finset.mem_univ i)))
   let v₁ (i : I) : M ⟶ N₁ i := Classical.choice (hv₁ i)
-  let T : Scheme.{u} := M.1.left
-  let e : T ⟶ Y := M.1.hom
-  have : Etale e := M.1.prop
-  let q : y.source ⟶ T := M.2.left
-  have hq : q ≫ e = y.hom := Over.w M.2
-  let β₀ : T ⟶ S₀ := v₀.1.left
-  have hβ₀ : β₀ ≫ g₀ = e := v₀.1.w
-  have hqβ₀ : q ≫ β₀ = p₀ := congrArg (fun a ↦ a.left) v₀.2
-  let β₁ (i : I) : T ⟶ V₁ i := (v₁ i).1.left
-  have hβ₁ (i : I) : β₁ i ≫ g₁ i = e := (v₁ i).1.w
-  have hqβ₁ (i : I) : q ≫ β₁ i = k₁ i := congrArg (fun a ↦ a.left) (v₁ i).2
+  let T : Scheme.{u} := M.obj.left
+  let e : T ⟶ Y := M.obj.hom
+  have : Etale e := M.obj.prop
+  let q : y.source ⟶ T := M.val.left
+  have hq : q ≫ e = y.hom := Over.w M.val
+  let β₀ : T ⟶ S₀ := v₀.hom.left
+  have hβ₀ : β₀ ≫ g₀ = e := v₀.hom.w
+  have hqβ₀ : q ≫ β₀ = p₀ := congrArg (fun a ↦ a.left) v₀.map_val
+  let β₁ (i : I) : T ⟶ V₁ i := (v₁ i).hom.left
+  have hβ₁ (i : I) : β₁ i ≫ g₁ i = e := (v₁ i).hom.w
+  have hqβ₁ (i : I) : q ≫ β₁ i = k₁ i := congrArg (fun a ↦ a.left) (v₁ i).map_val
   let ρ₀ : pullback f e ⟶ pullback f g₀ :=
     pullback.map f e f g₀ (𝟙 X) β₀ (𝟙 Y) (by simp) (by simp [hβ₀])
   let ρ₁ (i : I) : pullback f e ⟶ pullback f (g₁ i) :=

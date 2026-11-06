@@ -608,7 +608,7 @@ theorem exists_isLimit_isFinitePresentation_isAffineHom_of_noetherianApproximati
             rfl } }
   have hc0 : IsLimit c0 :=
     isLimitOfReflects (Over.forget _)
-      (IsLimit.ofIsoLimit hc (Cones.ext (ι.app X).symm (fun j => by
+      (IsLimit.ofIsoLimit hc (Cone.ext (ι.app X).symm (fun j => by
         change c.π.app j = ι.inv.app X ≫ (ι.hom.app X ≫ c.π.app j)
         simp)))
   have hσφ (j : R.Iᵒᵖ) : c0.π.app j ≫ φ j = E.functor.map f := by
@@ -630,7 +630,7 @@ theorem exists_isLimit_isFinitePresentation_isAffineHom_of_noetherianApproximati
           Functor.comp_map, ← Category.assoc, ← Functor.map_comp, h] }
   have hp : IsLimit (Cone.mk X p) :=
     IsLimit.ofIsoLimit (isLimitOfPreserves E.inverse hc0)
-      (Cones.ext (E.unitIso.app X).symm (fun j => by simp [p]))
+      (Cone.ext (E.unitIso.app X).symm (fun j => by simp [p]))
   have hD (j : R.Iᵒᵖ) : IsAlgebraicSpace B S hS (D.obj j) :=
     isAlgebraicSpace_smallerBasePresheafEquivalence_inverse B S (⊤_ Scheme.{u}) hS hZ g (Zh.obj j)
       (hP j)

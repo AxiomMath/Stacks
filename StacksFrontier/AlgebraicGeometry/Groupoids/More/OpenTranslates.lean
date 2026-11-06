@@ -386,12 +386,14 @@ public theorem isOpen_image_comp_of_isOpen
       (pullback.fst H1.groupoid.source H1.groupoid.target).left.base (d.left.base w') = r1 :=
     fun w' => by
       have hp := congrArg (fun m => m.base w') (congrArg Over.Hom.left hdFst)
-      simpa [Scheme.Hom.comp_apply, d] using hp.trans (htargetA w')
+      rw [Over.comp_left, Scheme.Hom.comp_apply] at hp
+      exact hp.trans (htargetA w')
   have hdSecond : ∀ w' : H1.groupoid.arrows.left,
       (pullback.snd H1.groupoid.source H1.groupoid.target).left.base (d.left.base w') = w' :=
     fun w' => by
       have hp := congrArg (fun m => m.base w') (congrArg Over.Hom.left hdSnd)
-      simpa [Scheme.Hom.comp_apply, d] using hp
+      rw [Over.comp_left, Scheme.Hom.comp_apply] at hp
+      simpa using hp
   have hVsub : V ⊆ (p ≫ G.comp).left.base ''
       {x | (p ≫ pullback.snd G.source G.target).left.base x ∈ W} := by
     rintro _ ⟨v', ⟨w', hw', rfl⟩, rfl⟩

@@ -402,7 +402,7 @@ def twistMinusOne : (projSpace R n).Modules :=
 presheaf of rings `ℤ`. Its three constituents are the additive maps on sections, the Leibniz
 rule, and naturality in the open set; the relative condition is vacuous beyond `∂ⱼ 1 = 0`. -/
 def pderivDerivation (j : Fin (n + 1)) :
-    (twistMinusOne R n).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (twistMinusOne R n).val
       (AlgebraicGeometry.SheafOfModules.constIntMap (projSpace R n).presheaf) where
   d {W} := pderivApp R n j W.unop
   d_mul {_} a b := pderivApp_mul R n j _ a b

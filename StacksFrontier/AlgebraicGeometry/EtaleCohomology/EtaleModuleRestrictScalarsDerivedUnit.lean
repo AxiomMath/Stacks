@@ -38,11 +38,11 @@ of `Rf_*` at `res_ρ K`, up to the factorizations of the derived actions of `res
 theorem restrictScalars_directImage_unit {X Y : Scheme.{u}} (f : X ⟶ Y)
     (K : HomotopyCategory.Plus (EtaleModules.{u, 0} Λ' X)) :
     (etaleModuleRestrictScalars ρ Y).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K) ≫
       (etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app (DerivedCategory.Plus.Qh.obj K) =
     (etaleModuleRestrictScalars ρ Y).mapDerivedCategoryPlusFactorsh.hom.app
         ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K) ≫
-      (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+      (etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
         ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K) ≫
       (etaleModuleDerivedDirectImage.{u, 0} Λ f).map
         ((etaleModuleRestrictScalars ρ X).mapDerivedCategoryPlusFactorsh.inv.app K) := by
@@ -114,15 +114,15 @@ theorem restrictScalars_directImage_derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hQY := mapDerivedCategoryPlusQIso_inv_app_eq rY (f'.mapCochainComplexPlus.obj N)
   have hQX := mapDerivedCategoryPlusQIso_inv_app_eq rX N
   have hdu' : f'.mapCochainComplexPlusDerivedUnit.app N =
-      qY'.inv ≫ f'.rightDerivedFunctorPlusUnit.app K ≫ f'.rightDerivedFunctorPlus.map qX'.hom :=
+      qY'.inv ≫ f'.rightDerivedFunctorPlusUnith.app K ≫ f'.rightDerivedFunctorPlus.map qX'.hom :=
     rfl
   have hdu : fΛ.mapCochainComplexPlusDerivedUnit.app (rX.mapCochainComplexPlus.obj N) =
-      qY.inv ≫ fΛ.rightDerivedFunctorPlusUnit.app (rX.mapHomotopyCategoryPlus.obj K) ≫
+      qY.inv ≫ fΛ.rightDerivedFunctorPlusUnith.app (rX.mapHomotopyCategoryPlus.obj K) ≫
         fΛ.rightDerivedFunctorPlus.map qX.hom :=
     rfl
   have s1 : rY.mapDerivedCategoryPlus.map qY'.hom ≫
       rY.mapDerivedCategoryPlus.map (f'.mapCochainComplexPlusDerivedUnit.app N) =
-      rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlusUnit.app K) ≫
+      rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlusUnith.app K) ≫
         rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlus.map qX'.hom) := by
     rw [hdu', ← Functor.map_comp, Iso.hom_inv_id_assoc]
     exact rY.mapDerivedCategoryPlus.map_comp _ _
@@ -138,7 +138,7 @@ theorem restrictScalars_directImage_derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y)
         rY.mapDerivedCategoryPlus.map (f'.mapCochainComplexPlusDerivedUnit.app N) ≫
           (etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app
             (DerivedCategory.Plus.Q.obj N) =
-      fΛ.rightDerivedFunctorPlusUnit.app (rX.mapHomotopyCategoryPlus.obj K) ≫
+      fΛ.rightDerivedFunctorPlusUnith.app (rX.mapHomotopyCategoryPlus.obj K) ≫
         fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlusFactorsh.inv.app K) ≫
         fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlus.map qX'.hom) := by
     let a := rY.mapDerivedCategoryPlusFactorsh.inv.app (f'.mapHomotopyCategoryPlus.obj K)
@@ -146,13 +146,13 @@ theorem restrictScalars_directImage_derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y)
     let c := rY.mapDerivedCategoryPlus.map (f'.mapCochainComplexPlusDerivedUnit.app N)
     let d := (etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app
       (DerivedCategory.Plus.Q.obj N)
-    let u' := rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlusUnit.app K)
+    let u' := rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlusUnith.app K)
     let x := rY.mapDerivedCategoryPlus.map (f'.rightDerivedFunctorPlus.map qX'.hom)
     let θK := (etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app
       (DerivedCategory.Plus.Qh.obj K)
     let y := fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlus.map qX'.hom)
     let e := rY.mapDerivedCategoryPlusFactorsh.hom.app (f'.mapHomotopyCategoryPlus.obj K)
-    let v := fΛ.rightDerivedFunctorPlusUnit.app (rX.mapHomotopyCategoryPlus.obj K)
+    let v := fΛ.rightDerivedFunctorPlusUnith.app (rX.mapHomotopyCategoryPlus.obj K)
     let w := fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlusFactorsh.inv.app K)
     have t1 : (a ≫ b) ≫ c ≫ d = a ≫ (b ≫ c) ≫ d :=
       (Category.assoc a b (c ≫ d)).trans (congrArg (a ≫ ·) (Category.assoc b c d).symm)
@@ -167,11 +167,11 @@ theorem restrictScalars_directImage_derivedUnit {X Y : Scheme.{u}} (f : X ⟶ Y)
     have t5 : a ≫ e = 𝟙 _ := Iso.inv_hom_id_app _ _
     exact t1.trans (t2.trans (t3.trans (t4.trans ((congrArg (· ≫ v ≫ w ≫ y) t5).trans
       (Category.id_comp _)))))
-  have R : (fΛ.rightDerivedFunctorPlusUnit.app (rX.mapHomotopyCategoryPlus.obj K) ≫
+  have R : (fΛ.rightDerivedFunctorPlusUnith.app (rX.mapHomotopyCategoryPlus.obj K) ≫
         fΛ.rightDerivedFunctorPlus.map qX.hom) ≫
       fΛ.rightDerivedFunctorPlus.map (qX.inv ≫
           rX.mapDerivedCategoryPlusFactorsh.inv.app K ≫ rX.mapDerivedCategoryPlus.map qX'.hom) =
-      fΛ.rightDerivedFunctorPlusUnit.app (rX.mapHomotopyCategoryPlus.obj K) ≫
+      fΛ.rightDerivedFunctorPlusUnith.app (rX.mapHomotopyCategoryPlus.obj K) ≫
         fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlusFactorsh.inv.app K) ≫
         fΛ.rightDerivedFunctorPlus.map (rX.mapDerivedCategoryPlus.map qX'.hom) := by
     refine (Category.assoc _ _ _).trans (whisker_eq _ ?_)
@@ -205,21 +205,21 @@ theorem unit_comp_compExact_app {A B C : Type*} [Category* A] [Category* B] [Cat
     [HasDerivedCategory C] [EnoughInjectives A] [EnoughInjectives B]
     (T : A ⥤ B) (r : B ⥤ C) [T.Additive] [r.Additive] [PreservesFiniteLimits r]
     [PreservesFiniteColimits r] (K : HomotopyCategory.Plus A) :
-    (T ⋙ r).rightDerivedFunctorPlusUnit.app K ≫
+    (T ⋙ r).rightDerivedFunctorPlusUnith.app K ≫
         (Functor.rightDerivedFunctorPlusComp T r).app (DerivedCategory.Plus.Qh.obj K) ≫
         (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r).hom.app
           (T.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
       r.mapDerivedCategoryPlusFactorsh.inv.app (T.mapHomotopyCategoryPlus.obj K) ≫
-        r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnit.app K) := by
+        r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnith.app K) := by
   have hT := Functor.rightDerivedFunctorPlusComp_fac_app T r K
   have hM := Functor.unit_comp_rightDerivedFunctorPlusIsoMapDerivedCategoryPlus_hom_app r
     (T.mapHomotopyCategoryPlus.obj K)
-  have hMn : r.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app K) ≫
+  have hMn : r.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app K) ≫
       (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r).hom.app
         (T.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
       (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r).hom.app
         (DerivedCategory.Plus.Qh.obj (T.mapHomotopyCategoryPlus.obj K)) ≫
-      r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnit.app K) :=
+      r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnith.app K) :=
     (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r).hom.naturality _
   refine (Category.assoc _ _ _).symm.trans ((eq_whisker hT _).trans ?_)
   refine (Category.assoc _ _ _).trans (Functor.qhMapCompIsoReflInv_comp T r K _ |>.trans ?_)

@@ -146,6 +146,20 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_formalGlueingSpacesEquivalence
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- A pullback of presheaves on the big fppf site, found directly from `HasPullbacks`. -/
+local instance (priority := high) hasPullback_presheaf_formalGlueingSpacesEquivalence
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The six subcategories named by the three clauses of Stacks 0AF4 -/
 
 /-- Algebraic spaces over `X` that are affine over `X`: the source category of clause (1) of

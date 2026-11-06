@@ -127,7 +127,8 @@ theorem ringKrullDim_chartRing (i : σ) :
     ringKrullDim (chartRing K i) = ((Nat.card σ - 1 : ℕ) : WithBot ℕ∞) := by
   rw [← ringKrullDim_eq_of_ringEquiv (chartAlgEquiv (R := K) i).toRingEquiv,
     MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
-    card_subtype_ne]
+    ENat.card_eq_coe_natCard, card_subtype_ne]
+  norm_cast
 
 /-- The standard chart `D₊(Xᵢ)` of projective space is the spectrum of the chart ring. -/
 def chartHomeo (i : σ) :

@@ -192,7 +192,7 @@ private theorem liftedPoints_mem_closedPoints :
 
 /-- The reindexed family of distinguished points is injective. -/
 private theorem liftedPoints_injective : Function.Injective D.liftedPoints :=
-  fun _ _ h ↦ ULift.ext _ _ (D.points_injective h)
+  fun _ _ h ↦ ULift.ext (D.points_injective h)
 
 /-- The inverse image of the set of distinguished points under the canonical morphism from the
 spectrum of the local ring at `s i` is the closed point. -/

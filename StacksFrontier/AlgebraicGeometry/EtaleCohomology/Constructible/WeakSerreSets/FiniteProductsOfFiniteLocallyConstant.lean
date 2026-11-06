@@ -234,11 +234,20 @@ section Closure
 
 variable [∀ U : C, HasWeakSheafify (K.over U) (Type w)]
 
+omit [∀ U : C, HasWeakSheafify (K.over U) (Type w)] in
+/-- Binary products of sheaves of sets on an arbitrary site, with the instance path spelled out
+(the unguided instance search times out). -/
+private lemma hasBinaryProducts_sheaf_type {D : Type*} [Category D] (J : GrothendieckTopology D) :
+    HasBinaryProducts (Sheaf J (Type w)) :=
+  haveI : HasLimitsOfShape (Discrete WalkingPair) (Dᵒᵖ ⥤ Type w) := inferInstance
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type w))
+
 /-- **A binary product of finite locally constant sheaves of sets is finite locally constant.** -/
 lemma isFiniteLocallyConstant_prod (F G : Sheaf K (Type w))
     [IsFiniteLocallyConstant K F] [IsFiniteLocallyConstant K G] :
     IsFiniteLocallyConstant K (F ⨯ G) where
   exists_finite_cover U := by
+    have := hasBinaryProducts_sheaf_type.{w} K
     obtain ⟨I, X, f, hf, h⟩ := exists_cover_isConstantWith_pair K Finite F G
       (fun V => IsFiniteLocallyConstant.exists_finite_cover (J := K) (FD := TypeCat.Fun)
         (CD := fun A : Type w => A) (F := F) V)
@@ -246,6 +255,7 @@ lemma isFiniteLocallyConstant_prod (F G : Sheaf K (Type w))
         (CD := fun A : Type w => A) (F := G) V) U
     refine ⟨I, X, f, hf, fun i => ?_⟩
     obtain ⟨⟨A, (_ : Finite A), ⟨eF⟩⟩, ⟨B, (_ : Finite B), ⟨eG⟩⟩⟩ := h i
+    have := hasBinaryProducts_sheaf_type.{w} (K.over (X i))
     exact ⟨A × B, inferInstance,
       ⟨constantSheafProdIso (K.over (X i)) A B ≪≫ prod.mapIso eF eG ≪≫
         (PreservesLimitPair.iso (K.overPullback (Type w) (X i)) F G).symm⟩⟩

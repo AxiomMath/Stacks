@@ -47,7 +47,7 @@ theorem map_srcIsoSelf_hom_inv (H : Dᵒᵖ ⥤ Type w) {B : D} (s s' : F.obj (o
     (x : H.obj (op (srcObj hsupp s))) :
     H.map (srcIsoSelf hsupp B s').hom.op (H.map (srcIsoSelf hsupp B s).inv.op x) = x := by
   show H.map (srcIsoSelf hsupp B s).hom.op (H.map (srcIsoSelf hsupp B s).inv.op x) = x
-  simp [← FunctorToTypes.map_comp_apply, ← op_comp]
+  simp [← Functor.map_comp_apply, ← op_comp]
 
 omit [∀ (X : Cᵒᵖ), Subsingleton (F.obj X)] in
 /-- Transporting a section of `H` from `B` up to the object chosen above `j.obj B` and back is
@@ -55,7 +55,7 @@ the identity. -/
 theorem map_srcIsoSelf_inv_hom (H : Dᵒᵖ ⥤ Type w) {B : D} (s : F.obj (op (j.obj B)))
     (t : H.obj (op B)) :
     H.map (srcIsoSelf hsupp B s).inv.op (H.map (srcIsoSelf hsupp B s).hom.op t) = t := by
-  simp [← FunctorToTypes.map_comp_apply, ← op_comp]
+  simp [← Functor.map_comp_apply, ← op_comp]
 
 omit [∀ (X : Cᵒᵖ), Subsingleton (F.obj X)] in
 include hsupp in
@@ -91,7 +91,7 @@ noncomputable def restrictExtendIso (H : Dᵒᵖ ⥤ Type w) :
     change H.map (srcIsoSelf hsupp B'.unop (F.map (j.map k.unop).op p.1)).inv.op
         (H.map (srcHom hsupp (j.map k.unop).op p.1).op p.2) =
       H.map k.unop.op (H.map (srcIsoSelf hsupp B.unop p.1).inv.op p.2)
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       srcIsoSelf_inv_comp_srcHom]
 
 /-- The isomorphism carries a section of the extension over `j.obj B` to its component in `H`,

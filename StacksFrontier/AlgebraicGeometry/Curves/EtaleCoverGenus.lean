@@ -64,7 +64,7 @@ variable {X : Scheme.{u}} [ConnectedSpace X] (Z : FiniteEtaleOver X)
 
 /-- The graph `(𝟙, τ) : Z ⟶ Z ×_X Z` of an automorphism `τ` of a finite étale cover. -/
 def finiteEtaleAutGraph (τ : Aut Z) : Z.left ⟶ pullback Z.hom Z.hom :=
-  pullback.lift (𝟙 _) τ.hom.left (by rw [Category.id_comp, MorphismProperty.Over.w])
+  pullback.lift (𝟙 _) τ.asIso.hom.left (by rw [Category.id_comp, MorphismProperty.Over.w])
 
 omit [ConnectedSpace X] in
 /-- The first projection of the graph of an automorphism is the identity. -/
@@ -77,7 +77,7 @@ omit [ConnectedSpace X] in
 /-- The second projection of the graph of an automorphism `τ` is `τ`. -/
 @[reassoc (attr := simp)]
 theorem finiteEtaleAutGraph_snd (τ : Aut Z) :
-    finiteEtaleAutGraph Z τ ≫ pullback.snd Z.hom Z.hom = τ.hom.left :=
+    finiteEtaleAutGraph Z τ ≫ pullback.snd Z.hom Z.hom = τ.asIso.hom.left :=
   pullback.lift_snd _ _ _
 
 /-- The graph of an automorphism of a finite étale cover is a finite morphism. -/
@@ -103,9 +103,9 @@ theorem exists_finiteEtaleAutGraph_apply (w : ↥(pullback Z.hom Z.hom)) :
     ∃ (τ : Aut Z) (z : Z.left), (finiteEtaleAutGraph Z τ).base z = w := by
   obtain ⟨τ, h, hw⟩ := exists_aut_mem_agreeLocus (pullback.fst Z.hom Z.hom)
     (pullback.snd Z.hom Z.hom) pullback.condition w
-  set L := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ.hom.left)
+  set L := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ.asIso.hom.left)
     (pullback.snd Z.hom Z.hom) h
-  have hL := Scheme.Hom.agreeLocus_ι_comp Z.hom (pullback.fst Z.hom Z.hom ≫ τ.hom.left)
+  have hL := Scheme.Hom.agreeLocus_ι_comp Z.hom (pullback.fst Z.hom Z.hom ≫ τ.asIso.hom.left)
     (pullback.snd Z.hom Z.hom) h
   have hfac : L.ι = (L.ι ≫ pullback.fst Z.hom Z.hom) ≫ finiteEtaleAutGraph Z τ := by
     apply pullback.hom_ext
@@ -126,24 +126,24 @@ theorem disjoint_range_finiteEtaleAutGraph :
   intro τ τ' hne
   rw [Set.disjoint_left]
   rintro w ⟨z, rfl⟩ ⟨z', hz'⟩
-  have h1 : ∀ σ : Aut Z, (pullback.fst Z.hom Z.hom ≫ σ.hom.left) ≫ Z.hom =
+  have h1 : ∀ σ : Aut Z, (pullback.fst Z.hom Z.hom ≫ σ.asIso.hom.left) ≫ Z.hom =
       pullback.snd Z.hom Z.hom ≫ Z.hom := fun σ => by
     rw [Category.assoc, MorphismProperty.Over.w, pullback.condition]
   have hmem : ∀ (σ : Aut Z) (y : Z.left), (finiteEtaleAutGraph Z σ).base y ∈
-      Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ σ.hom.left)
+      Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ σ.asIso.hom.left)
         (pullback.snd Z.hom Z.hom) (h1 σ) := fun σ y =>
     Scheme.Hom.mem_agreeLocus_of_comp_eq Z.hom _ _ (h1 σ) (finiteEtaleAutGraph Z σ)
       (by rw [finiteEtaleAutGraph_fst_assoc, finiteEtaleAutGraph_snd]) y
-  set Lτ := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ.hom.left)
+  set Lτ := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ.asIso.hom.left)
     (pullback.snd Z.hom Z.hom) (h1 τ)
-  set Lτ' := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ'.hom.left)
+  set Lτ' := Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ τ'.asIso.hom.left)
     (pullback.snd Z.hom Z.hom) (h1 τ')
   have hwτ' : (finiteEtaleAutGraph Z τ).base z ∈ Lτ' := by rw [← hz']; exact hmem τ' z'
   have : Nonempty (Lτ ⊓ Lτ').toScheme := ⟨⟨_, hmem τ z, hwτ'⟩⟩
   have hc : ∀ (σ : Aut Z) (U : (pullback Z.hom Z.hom).Opens),
-      U ≤ Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ σ.hom.left)
+      U ≤ Scheme.Hom.agreeLocus Z.hom (pullback.fst Z.hom Z.hom ≫ σ.asIso.hom.left)
         (pullback.snd Z.hom Z.hom) (h1 σ) →
-      U.ι ≫ pullback.fst Z.hom Z.hom ≫ σ.hom.left = U.ι ≫ pullback.snd Z.hom Z.hom :=
+      U.ι ≫ pullback.fst Z.hom Z.hom ≫ σ.asIso.hom.left = U.ι ≫ pullback.snd Z.hom Z.hom :=
     fun σ U hU => by
       rw [← Scheme.homOfLE_ι _ hU, Category.assoc, Category.assoc,
         Scheme.Hom.agreeLocus_ι_comp]

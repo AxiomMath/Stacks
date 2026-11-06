@@ -68,7 +68,7 @@ theorem jointlyFaithful_etaleStalkSheafFiber_moduleCat :
   have hφ := e.hom.naturality φ
   have hψ := e.hom.naturality ψ
   dsimp only [Functor.comp_map] at hφ hψ
-  rw [← cancel_mono (e.hom.app G), hφ, hψ, h s]
+  rw [← Iso.cancel_iso_hom_right _ _ (e.app G), Iso.app_hom, hφ, hψ, h s]
 
 section Tensor
 

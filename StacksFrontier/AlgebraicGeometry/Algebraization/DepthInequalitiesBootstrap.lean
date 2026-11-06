@@ -678,7 +678,7 @@ private theorem exists_ringEquiv_adicCompletion_localization
     (AdicCompletion.ofAlgEquiv (J.map (algebraMap R Aq))).toRingEquiv, ?_⟩
   · rw [← he₀]
     exact IsLocalRing.map_ringEquiv_maximalIdeal e₀r.symm
-  · rw [RingEquiv.toRingHom_trans, he₀]
+  · rw [RingEquiv.toRingHom_trans', he₀]
     rfl
 
 /-- **Stacks Project, Tag 0EJ4 (1).** A coherent `I`-adic system on `U` annihilated by a fixed

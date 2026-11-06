@@ -43,6 +43,15 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesHomSheafAlgebraic
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
 /-- The size condition on the affine base changes of the sheaf of glueing-data morphisms over a
 chart `x : h_U ⟶ X`: one cardinal below the cutoff bounds every affine object representing the
 base change of `P` to an affine open of `U`. -/

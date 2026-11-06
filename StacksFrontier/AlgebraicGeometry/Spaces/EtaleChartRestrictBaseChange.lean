@@ -85,6 +85,17 @@ namespace AlgebraicGeometry
 variable (B : BigFppfSite.{u}) (W W' : Scheme.{u}) (hW : B.Contains W) (hW' : B.Contains W')
   (m : B.obj hW' ⟶ B.obj hW)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `W` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_EtaleChartRestrictBaseChange :
+    HasPullbacks ((BigFppfOver B W hW)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_EtaleChartRestrictBaseChange
+    {X Y Z : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The lower-shriek extension of the restriction of a morphism of presheaves along `m`, compared
 with the base change of that morphism over a subsingleton-valued presheaf along the representable
 presheaf of `m`: the comparison isomorphisms on the two corners carry the one morphism to the

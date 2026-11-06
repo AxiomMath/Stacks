@@ -504,7 +504,7 @@ public theorem secIso_signedFaceProjector {e : ℕ} (f : Fin (e + 2) → Γ(X, �
             Pi.π (fun t : CechCochains.OrdIndex (I := Fin (e + 2)) e =>
               restrictedModule f F e t) q
         else 0 :=
-    Pi.lift_π _ q
+    Pi.lift_comp_π _ q
   rw [secIso_apply, hπ, h₁]
   by_cases hq : q = faceIndex e i
   · rw [ite_eq_left hq, ite_eq_left hq, map_zsmul, map_zsmul, secIso_apply]

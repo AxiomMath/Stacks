@@ -127,11 +127,9 @@ noncomputable def tensorAlgEquiv (m : FiniteFreeAlgebra R d) :
       rw [Algebra.TensorProduct.one_def, tensorLinearEquiv_one_tmul, map_one])
     (fun z w => by
       induction z with
-      | zero => simp
       | add z₁ z₂ h₁ h₂ => rw [add_mul, map_add, map_add, h₁, h₂, add_mul]
       | tmul s x =>
         induction w with
-        | zero => simp
         | add w₁ w₂ h₁ h₂ => rw [mul_add, map_add, map_add, h₁, h₂, mul_add]
         | tmul t y =>
           rw [Algebra.TensorProduct.tmul_mul_tmul, tensorLinearEquiv_tmul,

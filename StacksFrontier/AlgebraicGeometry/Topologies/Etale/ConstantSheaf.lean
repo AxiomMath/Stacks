@@ -54,6 +54,16 @@ universe u v
 
 namespace AlgebraicGeometry
 
+/-- Sheafification of presheaves of types in a universe at least that of the objects of a site
+whose morphisms live one universe below. Instance search reaches Mathlib's `Type (max u v)`
+instance first, whose universe unification fails as a hard error, so the general instance is
+supplied directly. -/
+theorem hasSheafify_type_max {C : Type (u + 1)} [Category.{u} C] (J : GrothendieckTopology C) :
+    HasSheafify J (Type (max (u + 1) v)) :=
+  HasSheafify.mk' J _ (plusPlusAdjunction J _)
+
+attribute [local instance high] hasSheafify_type_max
+
 /-! ### Covering data for the étale topology -/
 
 /-- Precomposing an open cover with the projection from the `ULift` of its index type is still an

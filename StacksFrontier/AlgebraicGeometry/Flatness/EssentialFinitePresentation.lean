@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
 public import Mathlib.RingTheory.LocalProperties.Basic
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 public import StacksFrontier.RingTheory.Flat.FibreCriterionNilpotent
 public import StacksFrontier.RingTheory.EssentialFiniteness.Defs
 import StacksCore.Tactic.EgaSgaAttribute

@@ -152,7 +152,7 @@ theorem nonempty_isColimit_extCocone_of_presentation {i : D.I}
         extLeg 𝒜 F ι n A x := by
     intro A x
     rw [extLeg_apply, extLeg_apply, extConj_extConj, Category.id_comp, hleg]
-  refine ⟨IsColimit.ofIsoColimit hc (Cocones.ext (extPostIso.{max u v w} 𝒜.top e n) (fun A => ?_))⟩
+  refine ⟨IsColimit.ofIsoColimit hc (Cocone.ext (extPostIso.{max u v w} 𝒜.top e n) (fun A => ?_))⟩
   ext x
   exact key A.unop x
 

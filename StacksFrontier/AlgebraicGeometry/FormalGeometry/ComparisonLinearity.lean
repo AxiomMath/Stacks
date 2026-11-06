@@ -144,14 +144,14 @@ public theorem opensScalars_res {V W : (complementZeroLocus A a : Scheme).Opens}
 /-- Morphisms of modules commute with scalar multiplication on sections. -/
 public theorem app_comp_smul {X : Scheme.{u}} {M N : X.Modules} (φ : M ⟶ N) {V : X.Opens}
     (r : Γ(X, V)) :
-    φ.app V ≫ N.smul r = M.smul r ≫ φ.app V :=
+    φ.app V ≫ (N.smul r).asHom = (M.smul r).asHom ≫ φ.app V :=
   ModuleCat.smul_naturality (φ.val.app (op V)) r
 
 /-- Multiplication by `r : A` on the sections of a module on `U`, as an endomorphism of the
 underlying presheaf of abelian groups. -/
 public def smulPresheaf (G : (complementZeroLocus A a : Scheme).Modules) (r : A) :
     G.presheaf ⟶ G.presheaf where
-  app V := G.smul (opensScalars A a V.unop r)
+  app V := (G.smul (opensScalars A a V.unop r)).asHom
   naturality V W i := by
     have h := Scheme.Modules.map_comp_smul (M := G) i.unop (opensScalars A a V.unop r)
     rw [opensScalars_res] at h
@@ -172,7 +172,7 @@ public def smulSectionsNearVanishing (r : A) :
 /-- On a neighbourhood `V` of the formal locus, multiplication by `r` is multiplication by the
 image of `r` in `Γ(V, 𝒪_U)`. -/
 public theorem smulSectionsNearVanishing_app (r : A) (V : OpensNearVanishing A I a) :
-    (smulSectionsNearVanishing A I a F r).app V = F.smul (opensScalars A a V.openSet r) :=
+    (smulSectionsNearVanishing A I a F r).app V = (F.smul (opensScalars A a V.openSet r)).asHom :=
   rfl
 
 /-- Multiplication by `1` on the sections near the formal locus is the identity. -/
@@ -199,7 +199,7 @@ public theorem smulSectionsNearVanishing_add (r s : A) :
 
 /-- Multiplication by `r : A` on the inverse system of formal sections. -/
 public def smulFormalSections (r : A) : formalSections A I a F ⟶ formalSections A I a F where
-  app n := ((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a ⊤ r)
+  app n := (((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a ⊤ r)).asHom
   naturality _ _ h :=
     app_comp_smul ((quotientSystemNearVanishing A I a F).map h) (opensScalars A a ⊤ r)
 
@@ -207,7 +207,7 @@ public def smulFormalSections (r : A) : formalSections A I a F ⟶ formalSection
 of `r` in `Γ(U, 𝒪_U)` on the sections of `ℱ / Iⁿ ℱ`. -/
 public theorem smulFormalSections_app (r : A) (n : ℕᵒᵖ) :
     (smulFormalSections A I a F r).app n =
-      ((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a ⊤ r) :=
+      (((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a ⊤ r)).asHom :=
   rfl
 
 /-- Multiplication by `1` on the formal sections is the identity. -/
@@ -233,30 +233,30 @@ public theorem smulFormalSections_add (r s : A) :
 
 /-- Multiplication by `A` on the colimit of the sections near the formal locus. -/
 public def colimSectionsSmul : A →+* End (colimit (sectionsNearVanishing A I a F)) where
-  toFun r := colimMap (smulSectionsNearVanishing A I a F r)
+  toFun r := End.of (colimMap (smulSectionsNearVanishing A I a F r))
   map_one' := by rw [smulSectionsNearVanishing_one, colimMap_id]; rfl
   map_mul' r s := by rw [smulSectionsNearVanishing_mul, colimMap_comp']; rfl
-  map_zero' := by rw [smulSectionsNearVanishing_zero, colimMap_zero]
-  map_add' r s := by rw [smulSectionsNearVanishing_add, colimMap_add]
+  map_zero' := by rw [smulSectionsNearVanishing_zero, colimMap_zero]; rfl
+  map_add' r s := by rw [smulSectionsNearVanishing_add, colimMap_add]; rfl
 
 /-- Multiplication by `r` on the colimit is the map induced by multiplication by `r` on the
 diagram of sections. -/
 public theorem colimSectionsSmul_apply (r : A) :
-    colimSectionsSmul A I a F r = colimMap (smulSectionsNearVanishing A I a F r) :=
+    (colimSectionsSmul A I a F r).asHom = colimMap (smulSectionsNearVanishing A I a F r) :=
   rfl
 
 /-- Multiplication by `A` on the limit of the formal sections. -/
 public def limFormalSectionsSmul : A →+* End (limit (formalSections A I a F)) where
-  toFun r := limMap (smulFormalSections A I a F r)
+  toFun r := End.of (limMap (smulFormalSections A I a F r))
   map_one' := by rw [smulFormalSections_one, limMap_id]; rfl
   map_mul' r s := by rw [smulFormalSections_mul, limMap_comp']; rfl
-  map_zero' := by rw [smulFormalSections_zero, limMap_zero]
-  map_add' r s := by rw [smulFormalSections_add, limMap_add]
+  map_zero' := by rw [smulFormalSections_zero, limMap_zero]; rfl
+  map_add' r s := by rw [smulFormalSections_add, limMap_add]; rfl
 
 /-- Multiplication by `r` on the limit is the map induced by multiplication by `r` on the
 inverse system of formal sections. -/
 public theorem limFormalSectionsSmul_apply (r : A) :
-    limFormalSectionsSmul A I a F r = limMap (smulFormalSections A I a F r) :=
+    (limFormalSectionsSmul A I a F r).asHom = limMap (smulFormalSections A I a F r) :=
   rfl
 
 /-! ### The comparison map is `A`-linear -/
@@ -264,21 +264,21 @@ public theorem limFormalSectionsSmul_apply (r : A) :
 /-- Reduction modulo `Iⁿ` on a neighbourhood commutes with multiplication by `A`. -/
 public theorem projNearVanishing_comp_smul (V : OpensNearVanishing A I a) (n : ℕᵒᵖ) (r : A) :
     projNearVanishing A I a F V n ≫
-        ((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a V.openSet r) =
-      F.smul (opensScalars A a V.openSet r) ≫ projNearVanishing A I a F V n :=
+        (((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a V.openSet r)).asHom =
+      (F.smul (opensScalars A a V.openSet r)).asHom ≫ projNearVanishing A I a F V n :=
   app_comp_smul (adicProj (idealSheafNearVanishing A I a) F n) (opensScalars A a V.openSet r)
 
 /-- Extending a section of `F / Iⁿ F` from a neighbourhood of the formal locus back to all of
 `U` commutes with multiplication by `A`. -/
 public theorem inv_resNearVanishing_comp_smul (V : OpensNearVanishing A I a) (n : ℕᵒᵖ) (r : A) :
     inv (resNearVanishing A I a F V n) ≫ (smulFormalSections A I a F r).app n =
-      ((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a V.openSet r) ≫
+      (((quotientSystemNearVanishing A I a F).obj n).smul (opensScalars A a V.openSet r)).asHom ≫
         inv (resNearVanishing A I a F V n) := by
   have h : (smulFormalSections A I a F r).app n ≫
       resNearVanishing A I a F V n =
       resNearVanishing A I a F V n ≫
-        ((quotientSystemNearVanishing A I a F).obj n).smul
-          (opensScalars A a V.openSet r) := by
+        (((quotientSystemNearVanishing A I a F).obj n).smul
+          (opensScalars A a V.openSet r)).asHom := by
     have hres := Scheme.Modules.map_comp_smul
       (M := (quotientSystemNearVanishing A I a F).obj n)
       (homOfLE (le_top (a := V.openSet))) (opensScalars A a ⊤ r)
@@ -289,8 +289,8 @@ public theorem inv_resNearVanishing_comp_smul (V : OpensNearVanishing A I a) (n 
 /-- The comparison map `colim_V Γ(V, ℱ) ⟶ lim_n Γ(U, ℱ / Iⁿ ℱ)` commutes with the multiplication
 by `A` on both sides induced by `A ⟶ Γ(U, 𝒪_U)`. -/
 public theorem comparisonMap_comp_smul (r : A) :
-    comparisonMap A I a F ≫ limFormalSectionsSmul A I a F r =
-      colimSectionsSmul A I a F r ≫ comparisonMap A I a F := by
+    comparisonMap A I a F ≫ (limFormalSectionsSmul A I a F r).asHom =
+      (colimSectionsSmul A I a F r).asHom ≫ comparisonMap A I a F := by
   refine colimit.hom_ext fun V ↦ ?_
   rw [colimSectionsSmul_apply, limFormalSectionsSmul_apply, ← Category.assoc,
     colimit_ι_comp_comparisonMap, ι_colimMap_assoc, colimit_ι_comp_comparisonMap]

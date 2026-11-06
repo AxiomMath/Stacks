@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Unramified
 import StacksCore.Tactic.EgaSgaAttribute
+import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 
 /-!
 # Constant field extensions of a discrete valuation ring with finite residue field
@@ -150,7 +151,10 @@ theorem exists_maximalIdeal_integralClosure_of_card_pow_le {k₃ : Type*} [Field
   have he : ∀ i, 1 ≤ (m i).ramificationIdx A := by
     intro i
     have := (hmax i).isPrime
-    exact Ideal.ramificationIdx_pos (m i) A
+    have : IsNoetherianRing B := isNoetherian_of_tower A inferInstance
+    have : IsNoetherianRing (Localization.AtPrime (m i)) :=
+      IsLocalization.isNoetherianRing (m i).primeCompl _ inferInstance
+    exact Ideal.ramificationIdx_pos A (m i)
   -- there is at least one maximal ideal
   obtain ⟨M, hM⟩ := Ideal.exists_maximal B
   obtain ⟨i₀, hi₀, -⟩ := (hmaxiff M).1 hM

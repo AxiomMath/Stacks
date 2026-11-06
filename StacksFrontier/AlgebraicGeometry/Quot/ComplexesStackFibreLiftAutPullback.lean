@@ -88,8 +88,8 @@ def FibreLiftAutPullback (hK : DerivedCategory.TStructure.t.minus x₀.E) : Prop
             (fibreLiftRetraction b) (fibreLiftSection_comp_retraction b)
             (isSquareZeroClosedImmersion_fibreLiftSection b) (fibreLiftScheme_left_eq b)
             (fibreLiftSection_conj b) hK
-            (e.symm ≪≫ (coefficientReductionBaseChange.{d, u + 1}
-              (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) f).functor.mapIso α ≪≫ e)).hom =
+            (Aut.of (e.symm ≪≫ (coefficientReductionBaseChange.{d, u + 1}
+              (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) f).functor.mapIso α.asIso ≪≫ e))).hom =
           ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap φ.a.base)).map
             (fibreDataComplexAut (hDer := hDer V) a.1.right.x a.1.hom.a
               (fibreLiftRetraction a) (fibreLiftSection_comp_retraction a)

@@ -27,6 +27,10 @@ open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 
 universe v
 
+-- `hasSheafifyOpensMax` leaves its second universe undetermined and is tried first; the
+-- instances at universe `v` are the ones meant here.
+attribute [-instance] Stacks.Cohomology.SpectralLimit.hasSheafifyOpensMax
+
 namespace Stacks.Cohomology.AbelianSheaf
 
 variable {X Y : TopCat.{v}}

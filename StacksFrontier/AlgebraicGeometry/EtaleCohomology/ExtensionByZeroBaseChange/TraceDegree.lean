@@ -63,7 +63,10 @@ theorem smallEtaleGraph_ofEtaleHom_eq_unit (W : SmallEtale B T'.1 T'.property) :
   apply Over.OverMorphism.ext
   apply pullback.hom_ext <;>
     simp [smallEtaleGraph, smallEtaleBaseChangeLift, smallEtalePostcompose, smallEtaleBaseChange,
-      Over.mapPullbackAdj, Over.pullback]
+      Over.mapPullbackAdj, Over.pullback] <;>
+    first
+    | exact (pullback.lift_fst _ _ _).symm
+    | exact (pullback.lift_snd _ _ _).symm
 
 /-- Composition with `f` carries the graph of `W` to a section of the counit at the composite:
 the triangle identity of the adjunction between composition with `f` and base change. -/

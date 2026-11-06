@@ -340,7 +340,7 @@ theorem infinitesimalAutomorphisms_eq_bot_of_isThin
     (hthin : Quiver.IsThin (p.Fiber Aε)) :
     infinitesimalAutomorphisms hp g e hpair i hi = ⊥ := by
   have := hthin xε xε
-  exact (Subgroup.eq_bot_iff_forall _).2 fun a _ => Iso.ext (Subsingleton.elim _ _)
+  exact (Subgroup.eq_bot_iff_forall _).2 fun a _ => Aut.ext (Iso.ext (Subsingleton.elim _ _))
 
 end Vanishing
 

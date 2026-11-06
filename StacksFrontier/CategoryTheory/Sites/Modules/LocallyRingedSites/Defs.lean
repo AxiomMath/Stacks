@@ -106,14 +106,14 @@ private theorem point_exists_unit_restriction (X : RingedSite.{v, u, u})
   obtain ⟨w, hw⟩ := ha
   obtain ⟨V, y, b, hb⟩ :=
     p.toPresheafFiber_jointly_surjective (P := X.O.obj) (↑w⁻¹)
-  let e₁ : p.fiber.Elements := ⟨U, x⟩
-  let e₂ : p.fiber.Elements := ⟨V, y⟩
+  let e₁ : p.fiber.Elements := p.fiber.elementsMk U x
+  let e₂ : p.fiber.Elements := p.fiber.elementsMk V y
   obtain ⟨e, α, β, _⟩ := IsCofilteredOrEmpty.cone_objs e₁ e₂
-  rcases e with ⟨W, z⟩
-  let f : W ⟶ U := α.val
-  let g : W ⟶ V := β.val
-  have hf : p.fiber.map f z = x := α.property
-  have hg : p.fiber.map g z = y := β.property
+  rcases e with @⟨W, z⟩
+  let f : W ⟶ U := α.hom
+  let g : W ⟶ V := β.hom
+  have hf : p.fiber.map f z = x := α.map_val
+  have hg : p.fiber.map g z = y := β.map_val
   have haW : p.toPresheafFiber W z X.O.obj (X.O.obj.map f.op a) =
       p.toPresheafFiber U x X.O.obj a := by
     rw [← hf]

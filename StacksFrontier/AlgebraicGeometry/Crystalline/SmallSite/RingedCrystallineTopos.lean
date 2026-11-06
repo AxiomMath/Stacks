@@ -108,7 +108,7 @@ def zariskiStructureSheafULift :
       (Presheaf.isSheaf_comp_of_isSheaf (Opens.grothendieckTopology Z.carrier) _
         CategoryTheory.uliftFunctor.{u + 1, u}
         ((Presheaf.isSheaf_iff_isSheaf_comp (Opens.grothendieckTopology Z.carrier) _
-          (CategoryTheory.forget CommRingCat.{u})).mp Z.sheaf.cond))⟩
+          (CategoryTheory.forget CommRingCat.{u})).mp Z.sheaf.property))⟩
 
 /-- **The small Zariski topos of `Z` as a ringed topos**, at the universe `u + 1` of sheaves of
 sets: the opens of `Z` with `𝒪_Z`, its sections raised to `u + 1`. -/

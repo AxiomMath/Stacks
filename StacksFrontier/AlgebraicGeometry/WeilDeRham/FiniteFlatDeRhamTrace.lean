@@ -119,7 +119,7 @@ theorem isIso_deRhamPushforwardToDerived_of_isAffineHom :
     IsIso (deRhamPushforwardToDerived f sX) := by
   let := HasDerivedCategory.standard (AbelianSheaf X.toRingedSpace.carrier)
   let := HasDerivedCategory.standard (AbelianSheaf P.toRingedSpace.carrier)
-  have : IsIso ((abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnit.app
+  have : IsIso ((abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (AbelianSheaf X.toRingedSpace.carrier)).obj
         (AlgebraicGeometry.SheafOfModules.deRhamAbelianComplexPlus (deRhamAlgebras sX)
           (AlgebraicGeometry.SheafOfModules.deRhamDifferential (deRhamAlgebras sX))))) :=

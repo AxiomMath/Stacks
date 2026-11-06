@@ -313,29 +313,29 @@ def coefficientLevelAbelianIso :
   hom := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := AddCommGrpCat.ofHom
         { toFun := fun y => ULift.up ((coefficientLevelAddEquiv β m n).symm y.down)
-          map_zero' := ULift.ext _ _ (map_zero _)
-          map_add' := fun a b => ULift.ext _ _ (map_add _ a.down b.down) }
+          map_zero' := ULift.ext (map_zero _)
+          map_add' := fun a b => ULift.ext (map_add _ a.down b.down) }
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ ((coefficientLevelAddEquiv β m n).symm_apply_eq.2
+        exact ULift.ext ((coefficientLevelAddEquiv β m n).symm_apply_eq.2
           (((coefficientLevelAddEquiv_mulVec β m n (τO g).val _).trans (congrArg _
             ((coefficientLevelAddEquiv β m n).apply_symm_apply y.down))).symm)) }))
   inv := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := AddCommGrpCat.ofHom
         { toFun := fun y => ULift.up (coefficientLevelAddEquiv β m n y.down)
-          map_zero' := ULift.ext _ _ (map_zero _)
-          map_add' := fun a b => ULift.ext _ _ (map_add _ a.down b.down) }
+          map_zero' := ULift.ext (map_zero _)
+          map_add' := fun a b => ULift.ext (map_add _ a.down b.down) }
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ (coefficientLevelAddEquiv_mulVec β m n (τO g).val y.down) }))
+        exact ULift.ext (coefficientLevelAddEquiv_mulVec β m n (τO g).val y.down) }))
   hom_inv_id := by
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ ((coefficientLevelAddEquiv β m n).apply_symm_apply y.down)
+    exact ULift.ext ((coefficientLevelAddEquiv β m n).apply_symm_apply y.down)
   inv_hom_id := by
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ ((coefficientLevelAddEquiv β m n).symm_apply_apply y.down)
+    exact ULift.ext ((coefficientLevelAddEquiv β m n).symm_apply_apply y.down)
 
 omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
     ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
@@ -357,7 +357,7 @@ theorem coefficientLevelAbelianIso_smul (a : ZMod (ℓ ^ n)) :
         (finiteTypeContinuousModuleSMul _ _ a) := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  exact ULift.ext _ _ (symm_apply_comm _ (coefficientLevelAddEquiv_smul β m n a) y.down)
+  exact ULift.ext (symm_apply_comm _ (coefficientLevelAddEquiv_smul β m n a) y.down)
 
 /-- **The lisse sheaf of `(O/ℓⁿ)^m`, with `π₁` acting through `τ` modulo `ℓⁿ`, read as a sheaf
 of `ℤ/ℓⁿ`-modules, is the lisse sheaf of the level module `(ℤ/ℓⁿ)^{mD}` of `Res_β τ`.** -/
@@ -404,7 +404,7 @@ theorem lisseEtaleSheafRestrictScalarsIntegersIso_smul (o : O) :
   refine lisseEtaleSheafRestrictScalarsIso_hom_naturality _ _ _ _ _ _ _ ?_
   apply finiteContinuousAbelianHom_ext
   ext y
-  exact ULift.ext _ _ (symm_apply_comm _ (coefficientLevelAddEquiv_scalar β m n o) y.down)
+  exact ULift.ext (symm_apply_comm _ (coefficientLevelAddEquiv_scalar β m n o) y.down)
 
 end Sheaves
 

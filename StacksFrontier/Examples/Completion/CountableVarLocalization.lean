@@ -95,7 +95,7 @@ private theorem ker_constantCoeff_eq_m (T : CountableVarLocalization) :
     RingHom.ker (MvPolynomial.constantCoeff : T.P →+* T.k) = T.m := by
   ext p
   rw [RingHom.mem_ker]
-  show MvPolynomial.coeff 0 p = 0 ↔ p ∈ MvPolynomial.idealOfVars ℕ T.k
+  show p.coeff 0 = 0 ↔ p ∈ MvPolynomial.idealOfVars ℕ T.k
   rw [← pow_one (MvPolynomial.idealOfVars ℕ T.k), MvPolynomial.mem_pow_idealOfVars_iff' 1 p]
   simp [Finsupp.degree_eq_zero_iff]
 
@@ -250,8 +250,7 @@ theorem finite_coefficients_of_degree (T : CountableVarLocalization)
   classical
   let q := Quotient.out ((T.completionEquiv.val s).val (d + 1))
   refine q.support.finite_toSet.subset fun I hI => MvPolynomial.mem_support_iff.2 ?_
-  show MvPolynomial.coeff I
-    (Quotient.out ((T.completionEquiv.val s).val (d + 1))) ≠ 0
+  show (Quotient.out ((T.completionEquiv.val s).val (d + 1))).coeff I ≠ 0
   rw [← hI.1]
   simpa [series, MvPowerSeries.coeff_toAdicCompletionInv] using hI.2
 
@@ -282,7 +281,7 @@ private lemma coeff_seriesTruncation (T : CountableVarLocalization)
     (hf : ∀ d : ℕ,
       {I : ℕ →₀ ℕ | Finsupp.degree I = d ∧ MvPowerSeries.coeff I f ≠ 0}.Finite)
     (I : ℕ →₀ ℕ) :
-    MvPolynomial.coeff I (seriesTruncation T f n hf) =
+    (seriesTruncation T f n hf).coeff I =
       if Finsupp.degree I < n then MvPowerSeries.coeff I f else 0 := by
   classical
   by_cases hd : Finsupp.degree I < n <;>
@@ -304,7 +303,7 @@ private lemma coeff_eq_of_mk_eq (T : CountableVarLocalization) (N : ℕ) {a b : 
     (h : Ideal.Quotient.mk (T.m ^ N • ⊤ : Ideal T.P) a =
       Ideal.Quotient.mk (T.m ^ N • ⊤ : Ideal T.P) b)
     (I : ℕ →₀ ℕ) (hI : Finsupp.degree I < N) :
-    MvPolynomial.coeff I a = MvPolynomial.coeff I b := by
+    a.coeff I = b.coeff I := by
   have hdif : a - b ∈ T.m ^ N := by
     simpa [smul_eq_mul, Ideal.mul_top] using (Ideal.Quotient.eq (I := T.m ^ N • ⊤)).mp h
   have hz := (MvPolynomial.mem_pow_idealOfVars_iff' N _).mp hdif I hI
@@ -312,15 +311,15 @@ private lemma coeff_eq_of_mk_eq (T : CountableVarLocalization) (N : ℕ) {a b : 
 
 private lemma coeff_out_mk (T : CountableVarLocalization) (n : ℕ) (p : T.P)
     (I : ℕ →₀ ℕ) (hI : Finsupp.degree I < n) :
-    MvPolynomial.coeff I (Quotient.out
-      (Ideal.Quotient.mk (T.m ^ n • ⊤) p)) = MvPolynomial.coeff I p :=
+    (Quotient.out
+      (Ideal.Quotient.mk (T.m ^ n • ⊤) p)).coeff I = p.coeff I :=
   coeff_eq_of_mk_eq T n (Ideal.Quotient.mk_out _) I hI
 
 private lemma coeff_out_transition (T : CountableVarLocalization)
     (x : AdicCompletion T.m T.P) {i j : ℕ} (hij : i ≤ j)
     (I : ℕ →₀ ℕ) (hI : Finsupp.degree I < i) :
-    MvPolynomial.coeff I (Quotient.out (x.val j)) =
-      MvPolynomial.coeff I (Quotient.out (x.val i)) := by
+    (Quotient.out (x.val j)).coeff I =
+      (Quotient.out (x.val i)).coeff I := by
   refine coeff_eq_of_mk_eq T i ?_ I hI
   calc
     _ = AdicCompletion.transitionMap T.m T.P hij
@@ -335,7 +334,7 @@ private lemma coeff_out_transition (T : CountableVarLocalization)
 private lemma coeff_series_eq_coeff_out (T : CountableVarLocalization) (s : T.S) (N : ℕ)
     (I : ℕ →₀ ℕ) (hI : Finsupp.degree I < N) :
     MvPowerSeries.coeff I (T.series s) =
-      MvPolynomial.coeff I (Quotient.out ((T.completionEquiv.val s).val N)) := by
+      (Quotient.out ((T.completionEquiv.val s).val N)).coeff I := by
   simp only [series, MvPowerSeries.coeff_toAdicCompletionInv]
   exact (@coeff_out_transition T (T.completionEquiv.val s) (Finsupp.degree I + 1) N
     (by omega) I (by omega)).symm
@@ -358,13 +357,11 @@ theorem existsUnique_series_of_degreewise_finite (T : CountableVarLocalization)
   let s := (T.completionEquiv.val).symm y
   have hsf : T.series s = f := by
     ext I
-    show MvPolynomial.coeff I
-      (Quotient.out ((T.completionEquiv.val s).val (Finsupp.degree I + 1))) =
+    show (Quotient.out ((T.completionEquiv.val s).val (Finsupp.degree I + 1))).coeff I =
         MvPowerSeries.coeff I f
     rw [show T.completionEquiv.val s = y from RingEquiv.apply_symm_apply _ _]
-    show MvPolynomial.coeff I
-      (Quotient.out (Ideal.Quotient.mk (T.m ^ (Finsupp.degree I + 1) • ⊤)
-        (seriesTruncation T f (Finsupp.degree I + 1) hf))) = _
+    show (Quotient.out (Ideal.Quotient.mk (T.m ^ (Finsupp.degree I + 1) • ⊤)
+        (seriesTruncation T f (Finsupp.degree I + 1) hf))).coeff I = _
     rw [coeff_out_mk T _ _ I (by omega), coeff_seriesTruncation]
     simp
   refine ⟨s, hsf, ?_⟩
@@ -472,7 +469,7 @@ abbrev m' (T : CountableVarLocalization) : Ideal T.S :=
 
 private lemma isUnit_adicCompletion_of_constantCoeff_ne_zero (T : CountableVarLocalization)
     (x : AdicCompletion T.m T.P)
-    (hx : MvPolynomial.coeff 0 (Quotient.out (x.val 1)) ≠ 0) : IsUnit x := by
+    (hx : (Quotient.out (x.val 1)).coeff 0 ≠ 0) : IsUnit x := by
   classical
   have : T.m.IsMaximal := T.m_isMaximal
   have hstage (n : ℕ) : IsUnit (x.val n) := by
@@ -482,7 +479,7 @@ private lemma isUnit_adicCompletion_of_constantCoeff_ne_zero (T : CountableVarLo
           simp
         exact isUnit_of_subsingleton _
     | succ n =>
-        have hcoeff : MvPolynomial.coeff 0 (Quotient.out (x.val (n + 1))) ≠ 0 :=
+        have hcoeff : (Quotient.out (x.val (n + 1))).coeff 0 ≠ 0 :=
           (@coeff_out_transition T x 1 (n + 1) (by omega) 0 (by simp)).symm ▸ hx
         have hnot : Quotient.out (x.val (n + 1)) ∉ T.m := by
           intro hm
@@ -523,8 +520,7 @@ private lemma isUnit_adicCompletion_of_constantCoeff_ne_zero (T : CountableVarLo
 
 private lemma isUnit_completion_of_constantTerm_ne_zero (T : CountableVarLocalization)
     (s : T.S) (hs : T.constantTerm.val s ≠ 0) : IsUnit s := by
-  have hcoeff : MvPolynomial.coeff 0
-      (Quotient.out ((T.completionEquiv.val s).val 1)) ≠ 0 := by
+  have hcoeff : (Quotient.out ((T.completionEquiv.val s).val 1)).coeff 0 ≠ 0 := by
     rwa [T.constantTerm_eq_coeff_zero, coeff_series_eq_coeff_out T s 1 0 (by simp)] at hs
   simpa using (isUnit_adicCompletion_of_constantCoeff_ne_zero T
     (T.completionEquiv.val s) hcoeff).map T.completionEquiv.val.symm
@@ -556,7 +552,7 @@ private lemma coeff_series_eq_coeff_of_mk_eq (T : CountableVarLocalization) (s :
     (I : ℕ →₀ ℕ)
     (h : Ideal.Quotient.mk (T.m ^ (Finsupp.degree I + 1) • ⊤ : Ideal T.P) p =
       (T.completionEquiv.val s).val (Finsupp.degree I + 1)) :
-    MvPowerSeries.coeff I (T.series s) = MvPolynomial.coeff I p := by
+    MvPowerSeries.coeff I (T.series s) = p.coeff I := by
   rw [coeff_series_eq_coeff_out T s (Finsupp.degree I + 1) I (by omega)]
   exact coeff_eq_of_mk_eq T _ (by rw [Ideal.Quotient.mk_out, h]) I (by omega)
 

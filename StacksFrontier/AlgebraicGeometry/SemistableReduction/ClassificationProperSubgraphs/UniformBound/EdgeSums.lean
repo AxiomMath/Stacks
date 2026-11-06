@@ -91,7 +91,7 @@ private lemma sum_edge_A_tail {t : ℕ} (ht : 1 < t) (f : Fin t → ℤ) :
     all_goals omega
   simp_rw [hpoint]
   have hsum := sum_if_fin_val_succ_eq n hn (by dsimp [n]; omega) f
-  convert hsum using 1; congr 1
+  convert hsum using 1
 
 private lemma sum_edge_A_inner {t : ℕ} (n : ℕ) (hn : 0 < n)
     (hnt : n + 1 < t) (f : Fin t → ℤ) :

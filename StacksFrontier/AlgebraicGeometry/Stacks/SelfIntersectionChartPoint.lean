@@ -75,7 +75,7 @@ theorem RingHom.Finite.exists_subfield_range_eq {R L : Type*} [CommRing R] [Fiel
 
 namespace AlgebraicGeometry.Stack
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 

@@ -68,7 +68,6 @@ theorem quotTensorEquivQuotSMul_baseChange (K : Ideal S) (g : X →ₗ[S] Y)
     TensorProduct.quotTensorEquivQuotSMul Y K (LinearMap.baseChange (S ⧸ K) g t) =
       g.reduceModIdeal K (TensorProduct.quotTensorEquivQuotSMul X K t) := by
   induction t with
-  | zero => simp
   | add t t' ht ht' => simp [ht, ht']
   | tmul r x =>
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
@@ -100,11 +99,9 @@ theorem leftComm_baseChange_lTensor (K : Ideal S) (g : X →ₗ[S] Y)
       LinearMap.lTensor W ((LinearMap.baseChange (S ⧸ K) g).restrictScalars S)
         (TensorProduct.leftComm S (S ⧸ K) W X t) := by
   induction t with
-  | zero => simp
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul r t =>
     induction t with
-    | zero => simp
     | add u u' hu hu' => simp only [TensorProduct.tmul_add, map_add, hu, hu']
     | tmul w x => simp [TensorProduct.leftComm_tmul]
 
@@ -179,7 +176,6 @@ theorem exteriorPowerBaseChange_baseChange_map (K : Ideal S) (g : X →ₗ[S] Y)
       rw [← TensorProduct.smul_tmul]
       exact hu (s • r)
   induction t with
-  | zero => simp
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul r x =>
     exact key x (by rw [exteriorPower.ιMulti_span]; exact Submodule.mem_top) r

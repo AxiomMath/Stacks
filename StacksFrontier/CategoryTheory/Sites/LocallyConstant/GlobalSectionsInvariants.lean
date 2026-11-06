@@ -85,7 +85,7 @@ def homTerminalOfSection (hT : IsTerminal T) (H : Sheaf J (Type w)) (s : H.obj.o
      naturality := fun U V f ↦ by
        ext x
        change H.obj.map (hT.from V.unop).op s = H.obj.map f (H.obj.map (hT.from U.unop).op s)
-       rw [← FunctorToTypes.map_comp_apply,
+       rw [← Functor.map_comp_apply,
          show (hT.from U.unop).op ≫ f = (hT.from V.unop).op from
            Quiver.Hom.unop_inj (hT.hom_ext _ _)] }⟩
 
@@ -105,7 +105,7 @@ def sheafSectionsEquivHomTerminal (hT : IsTerminal T) (H : Sheaf J (Type w)) :
   left_inv s := by
     change (homTerminalOfSection J hT H s).hom.app (op T) (pointSheafPt J (op T)) = s
     rw [homTerminalOfSection_app, hT.hom_ext (hT.from T) (𝟙 T), op_id,
-      FunctorToTypes.map_id_apply]
+      Functor.map_id_apply]
   right_inv φ := by
     ext U x
     change (homTerminalOfSection J hT H (φ.hom.app (op T) (pointSheafPt J (op T)))).hom.app U x =
@@ -140,10 +140,7 @@ attribute [local instance] discreteForget₂Type
 def ContinuousGSet.point : ContinuousGSet.{u', w} G := by
   let A : Action (Type w) G :=
     { V := PUnit.{w + 1}
-      ρ :=
-        { toFun := fun _ ↦ 𝟙 _
-          map_one' := rfl
-          map_mul' := fun _ _ ↦ rfl } }
+      ρ := 1 }
   refine ⟨⟨A, ?_⟩, ⟨rfl⟩⟩
   have : DiscreteTopology ((forget₂ (Action (Type w) G) TopCat).obj A) := ⟨rfl⟩
   exact (Action.isContinuous_def A).2 <|

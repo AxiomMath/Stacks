@@ -65,12 +65,12 @@ variable (K : HomologicalComplex AddCommGrpCat.{v} c) (ρ : A →+* End K)
 `A →+* End K`: `a` acts on `K.X i` by the `i`-th component of `ρ a`. -/
 @[instance_reducible]
 def termSMul (i : ι) : SMul A (K.X i) where
-  smul a x := ((ρ a).f i).hom x
+  smul a x := ((ρ a).asHom.f i).hom x
 
 /-- Under `termSMul K ρ i`, `a • x` is the image of `x` under the `i`-th component of `ρ a`. -/
 theorem termSMul_smul (i : ι) (a : A) (x : K.X i) :
     letI := termSMul K ρ i
-    a • x = ((ρ a).f i).hom x :=
+    a • x = ((ρ a).asHom.f i).hom x :=
   rfl
 
 /-- The `A`-module structure on a term of a complex of abelian groups with a ring map
@@ -97,7 +97,7 @@ def termModule (i : ι) : Module A (K.X i) :=
 `ρ a`. -/
 theorem termModule_smul (i : ι) (a : A) (x : K.X i) :
     letI := termModule K ρ i
-    a • x = ((ρ a).f i).hom x :=
+    a • x = ((ρ a).asHom.f i).hom x :=
   rfl
 
 /-- The term `K.X i`, as an `A`-module. -/
@@ -108,7 +108,7 @@ def liftX (i : ι) : ModuleCat.{v} A :=
 variable {K ρ} in
 /-- An additive map between terms commuting with the actions, as a morphism of `A`-modules. -/
 def liftXHom {L : HomologicalComplex AddCommGrpCat.{v} c} {σ : A →+* End L} {i j : ι}
-    (g : K.X i ⟶ L.X j) (hg : ∀ a, (ρ a).f i ≫ g = g ≫ (σ a).f j) :
+    (g : K.X i ⟶ L.X j) (hg : ∀ a, (ρ a).asHom.f i ≫ g = g ≫ (σ a).asHom.f j) :
     liftX K ρ i ⟶ liftX L σ j :=
   letI := termModule K ρ i
   letI := termModule L σ j
@@ -122,7 +122,7 @@ def liftXHom {L : HomologicalComplex AddCommGrpCat.{v} c} {σ : A →+* End L} {
 are those of `K`. -/
 def liftComplex : HomologicalComplex (ModuleCat.{v} A) c where
   X i := liftX K ρ i
-  d i j := liftXHom (K.d i j) fun a ↦ ((ρ a).comm i j)
+  d i j := liftXHom (K.d i j) fun a ↦ ((ρ a).asHom.comm i j)
   shape i j h := by
     ext x
     exact ConcreteCategory.congr_hom (K.shape i j h) x
@@ -134,7 +134,7 @@ variable {K ρ} in
 /-- A morphism of complexes of abelian groups commuting with the two actions, as a morphism of
 complexes of `A`-modules. -/
 def liftHom {L : HomologicalComplex AddCommGrpCat.{v} c} {σ : A →+* End L} (φ : K ⟶ L)
-    (hφ : ∀ a, ρ a ≫ φ = φ ≫ σ a) : liftComplex K ρ ⟶ liftComplex L σ where
+    (hφ : ∀ a, (ρ a).asHom ≫ φ = φ ≫ (σ a).asHom) : liftComplex K ρ ⟶ liftComplex L σ where
   f i := liftXHom (φ.f i) fun a ↦ by
     rw [← HomologicalComplex.comp_f, hφ a, HomologicalComplex.comp_f]
   comm' i j _ := by
@@ -157,25 +157,30 @@ variable {C : Type u} [Category.{v} C] [Preadditive C]
 /-- The ring map `A →+* End (G X)`: `a` acts on `G X` through the image under `G` of the
 component at `X` of the central element `ρ a`. -/
 def endRingHom (X : C) : A →+* End (G.obj X) where
-  toFun a := G.map ((ρ a).app X)
+  toFun a := .of (G.map ((ρ a).app X))
   map_one' := by
+    ext1
     rw [map_one]
     exact G.map_id X
   map_mul' a b := by
+    ext1
     rw [map_mul, CatCenter.mul_app', G.map_comp]
     rfl
   map_zero' := by
+    ext1
     rw [map_zero]
     exact G.map_zero X X
   map_add' a b := by
+    ext1
     rw [map_add, CatCenter.app_add, G.map_add]
+    rfl
 
 /-- `endRingHom G ρ X a` is `G.map ((ρ a).app X)`. -/
-theorem endRingHom_apply (X : C) (a : A) : endRingHom G ρ X a = G.map ((ρ a).app X) := rfl
+theorem endRingHom_apply (X : C) (a : A) : endRingHom G ρ X a = .of (G.map ((ρ a).app X)) := rfl
 
 /-- The action of `a` on `G X` and `G Y` commutes with `G.map f` for every `f : X ⟶ Y`. -/
 theorem endRingHom_comm {X Y : C} (f : X ⟶ Y) (a : A) :
-    endRingHom G ρ X a ≫ G.map f = G.map f ≫ endRingHom G ρ Y a := by
+    (endRingHom G ρ X a).asHom ≫ G.map f = G.map f ≫ (endRingHom G ρ Y a).asHom := by
   rw [endRingHom_apply, endRingHom_apply, ← G.map_comp, ← G.map_comp]
   exact congrArg G.map ((ρ a).naturality f).symm
 

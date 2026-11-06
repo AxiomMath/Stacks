@@ -188,8 +188,8 @@ theorem dense_setOf_exists_powerMatrixAut
                 (Spec (CommRingCat.of K))) i)) :
     Dense {v : ↥(projectiveSpacePowerOver K 1 m ⨯ projectiveSpacePowerOver K 1 m).left |
       ∃ M : Fin m → Matrix.GeneralLinearGroup (Fin 2) K,
-        (prod.lift (x ≫ (projectiveSpacePowerMatrixAut K 1 m M).hom)
-            (y ≫ (projectiveSpacePowerMatrixAut K 1 m M).hom)).left
+        (prod.lift (x ≫ (projectiveSpacePowerMatrixAut K 1 m M).asIso.hom)
+            (y ≫ (projectiveSpacePowerMatrixAut K 1 m M).asIso.hom)).left
           (IsLocalRing.closedPoint K) = v} := by
   have hproper := isProper_projectiveSpacePowerOver_prod K m
   have hirr := irreducibleSpace_projectiveSpacePowerOver_prod K m
@@ -203,8 +203,8 @@ theorem dense_setOf_exists_powerMatrixAut
         projectiveSpacePowerOver K 1 m ⨯ projectiveSpacePowerOver K 1 m,
       w.left (IsLocalRing.closedPoint K) ∉ Z →
       ∃ M : Fin m → Matrix.GeneralLinearGroup (Fin 2) K,
-        prod.lift (x ≫ (projectiveSpacePowerMatrixAut K 1 m M).hom)
-          (y ≫ (projectiveSpacePowerMatrixAut K 1 m M).hom) = w := by
+        prod.lift (x ≫ (projectiveSpacePowerMatrixAut K 1 m M).asIso.hom)
+          (y ≫ (projectiveSpacePowerMatrixAut K 1 m M).asIso.hom) = w := by
     intro w hwZ
     have hlift : prod.lift (w ≫ prod.fst) (w ≫ prod.snd) = w :=
       prod.hom_ext (prod.lift_fst _ _) (prod.lift_snd _ _)

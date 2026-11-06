@@ -57,7 +57,7 @@ def permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
   haveI : Fintype (G ⧸ (H : Subgroup G)) := Fintype.ofFinite _
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom
-        { toFun := fun f => ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).hom (f x)
+        { toFun := fun f => ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f x)
           map_add' := fun f f' => by
             rw [← Finset.sum_add_distrib]
             exact Finset.sum_congr rfl fun x _ => map_add _ _ _
@@ -66,8 +66,8 @@ def permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
             exact Finset.sum_congr rfl fun x _ => map_smul _ _ _ }
       comm := fun g => by
         ext f
-        change ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).hom (f (g⁻¹ • x)) =
-          (N.obj.obj.obj.ρ g).hom (∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).hom (f x))
+        change ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f (g⁻¹ • x)) =
+          (N.obj.obj.obj.ρ g).asHom.hom (∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f x))
         rw [map_sum]
         refine Fintype.sum_equiv (MulAction.toPerm g⁻¹) _ _ fun x => ?_
         have hx : g⁻¹ • x = ((g⁻¹ * x.out : G) : G ⧸ (H : Subgroup G)) := by
@@ -75,15 +75,15 @@ def permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
           rfl
         obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (H : Subgroup G) (g⁻¹ * x.out)
         have hout : (g⁻¹ • x).out = g⁻¹ * x.out * h := by rw [hx]; exact hh
-        change (N.obj.obj.obj.ρ x.out).hom (f (g⁻¹ • x)) =
-          (N.obj.obj.obj.ρ g).hom ((N.obj.obj.obj.ρ (g⁻¹ • x).out).hom (f (g⁻¹ • x)))
+        change (N.obj.obj.obj.ρ x.out).asHom.hom (f (g⁻¹ • x)) =
+          (N.obj.obj.obj.ρ g).asHom.hom ((N.obj.obj.obj.ρ (g⁻¹ • x).out).asHom.hom (f (g⁻¹ • x)))
         rw [hout]
         refine Eq.trans ?_ (finiteTypeContinuousModule_ρ_mul_apply Λ N g _ _)
-        refine Eq.trans ?_ (congrArg (fun k => (N.obj.obj.obj.ρ k).hom (f (g⁻¹ • x)))
+        refine Eq.trans ?_ (congrArg (fun k => (N.obj.obj.obj.ρ k).asHom.hom (f (g⁻¹ • x)))
           (show x.out * h = g * (g⁻¹ * x.out * h) by group))
         refine Eq.trans ?_ (finiteTypeContinuousModule_ρ_mul_apply Λ N x.out h _).symm
-        exact congrArg (fun m => (N.obj.obj.obj.ρ x.out).hom m)
-          (congrArg (fun φ => φ.hom (f (g⁻¹ • x))) (hH h h.2)).symm }))
+        exact congrArg (fun m => (N.obj.obj.obj.ρ x.out).asHom.hom m)
+          (congrArg (fun φ => φ.asHom.hom (f (g⁻¹ • x))) (hH h h.2)).symm }))
 
 /-- `permutationModuleSum` sends `f` to `Σ_x x · f(x)`. -/
 lemma permutationModuleSum_apply (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
@@ -91,7 +91,7 @@ lemma permutationModuleSum_apply (N : FiniteTypeContinuousModule.{0, u + 1, u + 
     (f : G ⧸ (H : Subgroup G) → N.obj.obj.obj.V) :
     haveI : Fintype (G ⧸ (H : Subgroup G)) := Fintype.ofFinite _
     (permutationModuleSum Λ H N hH).hom.hom.hom.hom.hom f =
-      ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).hom (f x) := rfl
+      ∑ x : G ⧸ (H : Subgroup G), (N.obj.obj.obj.ρ x.out).asHom.hom (f x) := rfl
 
 /-- The map `N[G/H] ⟶ N`, `f ↦ Σ_x x · f(x)`, is surjective. -/
 theorem surjective_permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)
@@ -103,12 +103,12 @@ theorem surjective_permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 
   refine ⟨fun x => if x = ((1 : G) : G ⧸ (H : Subgroup G)) then m else 0, ?_⟩
   refine (permutationModuleSum_apply Λ H N hH _).trans ?_
   refine (Finset.sum_eq_single ((1 : G) : G ⧸ (H : Subgroup G))
-    (fun x _ hx => (congrArg (N.obj.obj.obj.ρ x.out).hom (if_neg hx)).trans (map_zero _))
+    (fun x _ hx => (congrArg (N.obj.obj.obj.ρ x.out).asHom.hom (if_neg hx)).trans (map_zero _))
     (fun h => absurd (Finset.mem_univ _) h)).trans ?_
   obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (H : Subgroup G) (1 : G)
-  exact (congrArg (N.obj.obj.obj.ρ ((1 : G) : G ⧸ (H : Subgroup G)).out).hom (if_pos rfl)).trans
-    ((congrArg (fun k => (N.obj.obj.obj.ρ k).hom m) (hh.trans (one_mul _))).trans
-      (congrArg (fun φ => φ.hom m) (hH h h.2)))
+  exact (congrArg (N.obj.obj.obj.ρ ((1 : G) : G ⧸ (H : Subgroup G)).out).asHom.hom (if_pos rfl)).trans
+    ((congrArg (fun k => (N.obj.obj.obj.ρ k).asHom.hom m) (hh.trans (one_mul _))).trans
+      (congrArg (fun φ => φ.asHom.hom m) (hH h h.2)))
 
 /-- The map `N[G/H] ⟶ N`, `f ↦ Σ_x x · f(x)`, is an epimorphism. -/
 theorem epi_permutationModuleSum (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G)

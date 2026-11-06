@@ -383,11 +383,9 @@ private lemma backwardAux_smul (i : ℕ) (w : R' ⊗[R] A) (z : R' ⊗[R] A₂)
     (t : TorChangeOfRings.torObj R i R' A) :
     backwardAux (R := R) (A := A) (A₂ := A₂) (R' := R') i (gmap R A A₂ R' w * z) t =
       backwardAux (R := R) (A := A) (A₂ := A₂) (R' := R') i z (w • t) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero, zero_mul, zero_smul, AddMonoidHom.zero_apply]
+  induction w using TensorProduct.inductionOn with
   | tmul r' a =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [mul_zero, map_zero, AddMonoidHom.zero_apply]
+    induction z using TensorProduct.inductionOn with
     | tmul s' a₂ =>
       rw [gmap_tmul, Algebra.TensorProduct.tmul_mul_tmul, backwardAux_tmul, backwardAux_tmul,
         sTmul_smul, ← mul_smul, ← mul_smul, Algebra.TensorProduct.tmul_mul_tmul,
@@ -422,8 +420,7 @@ private lemma comparisonForward_backward_bTmul (i : ℕ) (z : R' ⊗[R] A₂)
     (t : TorChangeOfRings.torObj R i R' A) :
     comparisonForward (R := R) (A := A) (A₂ := A₂) (R' := R') i
         (comparisonBackward i (bTmul i z t)) = bTmul i z t := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [bTmul_zero_left, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul r' a₂ =>
     rw [comparisonBackward_bTmul, backwardAux_tmul, comparisonForward_sTmul, ← bTmul_smul,
       gmap_tmul, map_one, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -433,7 +430,7 @@ private lemma comparisonForward_backward_bTmul (i : ℕ) (z : R' ⊗[R] A₂)
 private lemma tensor_addMonoidHom_ext {S M N X : Type*} [CommRing S] [AddCommGroup M]
     [Module S M] [AddCommGroup N] [Module S N] [AddCommGroup X] {f g : M ⊗[S] N →+ X}
     (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) : f = g :=
-  AddMonoidHom.ext fun x ↦ TensorProduct.induction_on x (by simp) h
+  AddMonoidHom.ext fun x ↦ TensorProduct.inductionOn x h
     (fun x y hx hy ↦ by simp [hx, hy])
 
 /-- `comparisonBackward` is a left inverse of `comparisonForward`. -/
@@ -526,10 +523,7 @@ theorem isIso_torModuleFlatBaseChange (hflat : (algebraMap A A₂).Flat) (i : �
             R R R' A R' A₂ i (AlgHom.id R R') (IsScalarTower.toAlgHom R A A₂)).hom
           (comparisonForward (R := R) (A := A) (A₂ := A₂) (R' := R') i x) := by
     intro x
-    refine TensorProduct.induction_on x ?_ ?_ ?_
-    · exact (map_zero _).trans ((congrArg _ (map_zero
-        (comparisonForward (R := R) (A := A) (A₂ := A₂) (R' := R') i))).trans
-        (map_zero _)).symm
+    refine TensorProduct.inductionOn x ?_ ?_
     · intro a₂ t
       exact theta_eq_extensionMap_sTmul (R := R) (A := A) (A₂ := A₂) (R' := R') i a₂ t
     · intro x y hx hy

@@ -147,7 +147,7 @@ public def LAdicSheaf.padicLevelMap {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G) (n
 /-- On sections, `padicLevelMap φ n` acts as the level-`n` component of `φ`. -/
 @[simp]
 public theorem LAdicSheaf.padicLevelMap_hom_app_apply {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G)
-    (n : ℕ) (V : (SmallEtale B X.1 X.property)ᵒᵖ) (x : (F.level n).val.obj V) :
+    (n : ℕ) (V : (SmallEtale B X.1 X.property)ᵒᵖ) (x : (F.level n).obj.obj V) :
     ((LAdicSheaf.padicLevelMap φ n).hom.app V).hom x = ((φ.app n).hom.app V).hom x :=
   rfl
 
@@ -329,13 +329,13 @@ public def LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom (F : LAdic
     (i : ℤ) :
     End F →+* Module.End ℤ_[ℓ] (LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F i)
     where
-  toFun φ := (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i).hom
+  toFun φ := (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ.asHom i).hom
   map_one' := by
     change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (𝟙 F) i).hom = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_id]
     rfl
   map_mul' φ ψ := by
-    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (ψ ≫ φ) i).hom = _
+    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (ψ.asHom ≫ φ.asHom) i).hom = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp]
     rfl
   map_zero' := by
@@ -343,7 +343,7 @@ public def LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom (F : LAdic
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_zero]
     rfl
   map_add' φ ψ := by
-    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ + ψ) i).hom = _
+    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ.asHom + ψ.asHom) i).hom = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_add]
     rfl
 

@@ -196,7 +196,7 @@ private lemma obstructionPolynomialFunctional_eq_zero_of_mem_ideal
   · obtain ⟨n, rfl⟩ := heObs
     have hsupport : obstructionExponent n ∈ p.support := by
       rw [MvPolynomial.mem_support_iff]
-      simpa [MvPolynomial.coeff] using he
+      simpa using he
     obtain ⟨s, hs, hle⟩ := hp (obstructionExponent n) hsupport
     exact (no_relation_divides_obstruction n s hs hle).elim
   · simp [heObs]

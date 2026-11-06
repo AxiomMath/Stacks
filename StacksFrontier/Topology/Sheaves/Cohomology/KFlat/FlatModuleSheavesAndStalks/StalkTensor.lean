@@ -160,7 +160,7 @@ theorem ptsInv_legV_compat (M N : OXModule X) (x : X.carrier)
         (rightValue : N.val.obj (Opposite.op (U ⊓ V'))) =>
       leftValue ⊗ₜ[X.presheaf.obj (Opposite.op (U ⊓ V'))] rightValue)
       leftRestriction rightRestriction).trans
-        (PresheafOfModules.Monoidal.tensorObj_map_tmul (R := X.presheaf)
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (R := X.presheaf)
           (M₁ := M.val) (M₂ := N.val) (homOfLE hle).op leftSection rightSection).symm
   exact (ptsInv_legV_apply M N x U hxU m V' hxV'
     ((ConcreteCategory.hom (N.val.presheaf.map (homOfLE hV'V).op)) n)).trans
@@ -273,7 +273,7 @@ theorem ptsInv_legU_compat (M N : OXModule X) (x : X.carrier)
         (rightValue : N.val.obj (Opposite.op (U' ⊓ V))) =>
       leftValue ⊗ₜ[X.presheaf.obj (Opposite.op (U' ⊓ V))] rightValue)
       leftRestriction rightRestriction).trans
-        (PresheafOfModules.Monoidal.tensorObj_map_tmul (R := X.presheaf)
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (R := X.presheaf)
           (M₁ := M.val) (M₂ := N.val) (homOfLE hle).op leftSection rightSection).symm
   exact (ptsInv_gamma_germ M N x U' hxU' restrictedLeft V hxV value).trans
     ((ptsInv_legV_apply M N x U' hxU' restrictedLeft V hxV value).trans
@@ -340,7 +340,7 @@ theorem ptsInv_legV_self (leftModule rightModule : OXModule X) (point : X.carrie
       containsPoint right).trans
     ((congrArg
       (ptsInv_germP leftModule rightModule point (openSet ⊓ openSet) ⟨containsPoint, containsPoint⟩)
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul (R := X.presheaf)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (R := X.presheaf)
         (M₁ := leftModule.val) (M₂ := rightModule.val)
         (homOfLE (inf_le_left : openSet ⊓ openSet ≤ openSet)).op
           left right).symm).trans

@@ -69,6 +69,17 @@ def AmpleSpreadsFromResidueFieldsToOpens : Prop :=
 
 variable {B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_relativeAmpleResidueFieldOpens :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_relativeAmpleResidueFieldOpens
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The open subspace cut out by an open of the scheme.** Ampleness of `L'` over the base change
 of `f'` to an open `V` of `U` is ampleness of `L'` over the open subspace of `h_U` cut out by `V`
 (Stacks 0D33), and that subspace contains every point of `h_U` over `V`. -/

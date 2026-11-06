@@ -292,16 +292,16 @@ theorem hasDualizingModelOn_opensRange {Z : Scheme.{u}} [IsLocallyNoetherian Z]
     (Scheme.Modules.restrictFunctorComp hW.isoSpec.inv W.ι).symm ≪≫
       Scheme.Modules.restrictFunctorCongr hfac ≪≫
       Scheme.Modules.restrictFunctorComp (Spec.map ψ) i
-  let i₁ := ((Functor.mapDerivedCategoryCompIso hW.restrictIsoSpecInvCompIso ≪≫
+  let i₁ := ((Functor.mapDerivedCategoryCompIsoOfCompIso hW.restrictIsoSpecInvCompIso ≪≫
     Functor.mapDerivedCategoryId _).app
       ((Scheme.Modules.restrictFunctor W.ι).mapDerivedCategory.obj L)).symm
-  let i₂ := (Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  let i₂ := (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr Φ ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm).app L
-  let i₄ := (Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm).app L
+  let i₄ := (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr (Stacks.AffineTilde.tildeRestrictIso ψ) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm).app ω
-  let i₅ := (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm).app ω
+  let i₅ := (Functor.mapDerivedCategoryCompIsoOfCompIso
     (Iso.refl (tilde.functor Γ(Z, W) ⋙ Scheme.Modules.restrictFunctor hW.isoSpec.hom))).app ω''
   refine ⟨ω'', hω'', ⟨Stacks.Injectives.isoOfTargetModelIso W.toScheme.Modules
     (Scheme.Modules.restrictFunctor W.ι)
@@ -370,12 +370,12 @@ theorem nonempty_fibreChartModelIso (h : UpperShriekStructureSheafCharts f j) (y
   let d4 : (tilde.functor A ⋙ Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory ⋙
       (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory ≅
         (tilde.functor A).mapDerivedCategory :=
-    Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+    Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
       Functor.mapDerivedCategoryCongr (Functor.associator _ _ _ ≪≫
         Functor.isoWhiskerLeft _ hU.restrictIsoSpecCompIso ≪≫ Functor.rightUnitor _)
   let eA : (derivedPullback iU).obj K ≅ (tilde.functor A).mapDerivedCategory.obj ω :=
     ((derivedRestrictIsoDerivedPullback iU).app K).symm ≪≫
-      ((Functor.mapDerivedCategoryCompIso
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso
         (Scheme.Modules.restrictFunctorComp hU.isoSpec.inv U.ι).symm).app K).symm ≪≫
       (Scheme.Modules.restrictFunctor hU.isoSpec.inv).mapDerivedCategory.mapIso e' ≪≫ d4.app ω
   exact ⟨(derivedRestrictIsoDerivedPullback ι').app _ ≪≫

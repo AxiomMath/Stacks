@@ -62,14 +62,15 @@ def finiteTypeContinuousModuleNormalInvariantsObj
   let A : Action (ModuleCat.{v} Λ) G :=
     { V := ModuleCat.of Λ (normalInvariantsSubmodule Λ N ρ)
       ρ :=
-        { toFun := fun g ↦ ModuleCat.ofHom (normalInvariantsRepresentation Λ N ρ g)
-          map_one' := ModuleCat.hom_ext (map_one (normalInvariantsRepresentation Λ N ρ))
-          map_mul' g h := ModuleCat.hom_ext (map_mul (normalInvariantsRepresentation Λ N ρ) g h) } }
+        { toFun := fun g ↦ End.of (ModuleCat.ofHom (normalInvariantsRepresentation Λ N ρ g))
+          map_one' := End.ext (ModuleCat.hom_ext (map_one (normalInvariantsRepresentation Λ N ρ)))
+          map_mul' g h := End.ext
+            (ModuleCat.hom_ext (map_mul (normalInvariantsRepresentation Λ N ρ) g h)) } }
   letI : HasForget₂ (ModuleCat.{v} Λ) TopCat.{v} :=
     { forget₂ := forget (ModuleCat.{v} Λ) ⋙ TopCat.discrete
       forget_comp := rfl }
   refine ⟨⟨⟨A, ?_⟩, ⟨rfl⟩⟩, ?_⟩
-  · rw [Action.isContinuous_def]
+  · refine (Action.isContinuous_def _).2 ?_
     have hM := (Action.isContinuous_def M.obj.obj.obj).mp M.obj.obj.property
     have : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj A) := ⟨rfl⟩
     have : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj
@@ -112,7 +113,7 @@ theorem normalInvariantsSubmodule_map {P Q : FiniteTypeContinuousModule.{u, v, v
   fun n hn ↦ by
     have h := ConcreteCategory.congr_hom (φ.hom.hom.hom.comm n) m
     simp only [ConcreteCategory.comp_apply] at h
-    change (Q.obj.obj.obj.ρ n).hom (φ.hom.hom.hom.hom m) = _
+    change (Q.obj.obj.obj.ρ n).asHom.hom (φ.hom.hom.hom.hom m) = _
     rw [← h]
     exact congrArg _ (hm n hn)
 

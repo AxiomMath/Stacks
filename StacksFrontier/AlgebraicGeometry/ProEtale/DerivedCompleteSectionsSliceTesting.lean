@@ -168,10 +168,11 @@ private theorem terminalScalarHomOfSize_evaluation
       ((R.over U).obj.map (Over.mkIdTerminal.from V).op f) • x := by
   show ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((Stacks.SheafOfModules.terminalSectionToEnd (R.over U) (Over.mk (𝟙 U))
-        Over.mkIdTerminal f).app M)).hom) x) = _
+        Over.mkIdTerminal f).asHom.app M)).hom) x) = _
   exact Stacks.SheafOfModules.terminalSectionToEnd_apply (R.over U) (Over.mk (𝟙 U))
     Over.mkIdTerminal f M (op V) x
 
+set_option maxHeartbeats 1000000 in
 private theorem overEvaluation_linear_ofSize
     {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{max u v w}) (U : C)
@@ -209,15 +210,14 @@ private theorem overEvaluation_linear_ofSize
     Linear.ofRingMorphism (terminalScalarHomOfSize R U)
   let E := SheafOfModules.evaluation (R.over U) (op V)
   show Functor.Linear A E
-  exact ⟨fun {M N} g a => by
-    ext x
-    show ((E.map (((terminalScalarHomOfSize R U a).app M) ≫ g)).hom x) = _
-    rw [Functor.map_comp]
-    show (E.map g).hom ((E.map ((terminalScalarHomOfSize R U a).app M)).hom x) = _
-    rw [terminalScalarHomOfSize_evaluation R U a M V x]
-    show (E.map g).hom (ρ a • x) =
-      ρ a • (E.map g).hom x
-    exact map_smul _ _ _⟩
+  refine ⟨fun {M N} g a => ?_⟩
+  refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
+  change ((E.map (((terminalScalarHomOfSize R U a).app M) ≫ g)).hom x) = _
+  rw [Functor.map_comp]
+  change (E.map g).hom ((E.map ((terminalScalarHomOfSize R U a).app M)).hom x) = _
+  rw [terminalScalarHomOfSize_evaluation R U a M V x]
+  change (E.map g).hom (ρ a • x) = ρ a • (E.map g).hom x
+  exact map_smul _ _ _
 
 /-! ### The statements at a weakly contractible testing family
 
@@ -252,7 +252,7 @@ private noncomputable def overEvaluationMapDerivedCategoryIsoOfSize
   letI : (F ⋙ G).Additive := inferInstance
   let e : F ⋙ G ≅ SheafOfModules.evaluation.{max u v w} R (op V.left) :=
     overEvaluationIsoOfSize R U V
-  exact CategoryTheory.Functor.mapDerivedCategoryCompIso (Iso.refl (F ⋙ G)) ≪≫
+  exact CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (F ⋙ G)) ≪≫
     @CategoryTheory.Functor.mapDerivedCategoryCongr
       (SheafOfModules.{max u v w} R) _ _ _
       (ModuleCat.{max u v w} ((R.over U).obj.obj (op V))) _ _ _

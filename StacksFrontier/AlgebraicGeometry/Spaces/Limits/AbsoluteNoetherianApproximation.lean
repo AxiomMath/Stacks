@@ -88,7 +88,7 @@ noncomputable def ofIso {X X' : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ T
     PresentedNoetherianApproximation B hZ X' :=
   { A.toNoetherianApproximation with
     π := (Functor.const _).map e.inv ≫ A.π
-    isLimit := A.isLimit.ofIsoLimit (Cones.ext e (fun j => by simp))
+    isLimit := A.isLimit.ofIsoLimit (Cone.ext e (fun j => by simp))
     presentation :=
       { A.presentation with
         limitAtlas := A.presentation.limitAtlas ≫ e.hom

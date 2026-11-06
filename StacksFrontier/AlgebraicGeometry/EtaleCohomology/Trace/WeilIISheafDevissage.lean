@@ -45,6 +45,25 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
+-- instances of `Stacks.Models.RegularModelSituation` whose conclusions (`QuasiCompact ?f`, ...)
+-- match every goal and send instance search into a loop; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
+
+/-- A closed immersion is locally of finite type; stated directly because instance search for it
+times out on the composites below. -/
+local instance (priority := high) locallyOfFiniteType_of_isClosedImmersion_weilIISheafDevissage
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsClosedImmersion f] : LocallyOfFiniteType f :=
+  ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType f).mp
+    ((IsClosedImmersion.iff_isFinite_and_mono (f := f)).mp ‹_›).1).2
+
 variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (S T : B.Scheme) (g : T ⟶ S),
     ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous

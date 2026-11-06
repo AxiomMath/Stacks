@@ -78,13 +78,14 @@ variable [HasSheafify J AddCommGrpCat.{t}] [HasSheafify K AddCommGrpCat.{t}]
 
 /-- Restriction to a dense subsite is an additive functor. -/
 instance restrictionAdditive :
-    (G.sheafPushforwardContinuous AddCommGrpCat.{t} J K).Additive :=
-  Functor.additive_of_preserves_binary_products _
+    (G.sheafPushforwardContinuous AddCommGrpCat.{t} J K).Additive where
+  map_add := rfl
 
 /-- The inverse of restriction to a dense subsite is an additive functor. -/
 instance sheafEquivFunctorAdditive :
     (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{t}).functor.Additive :=
-  Functor.additive_of_preserves_binary_products _
+  @Equivalence.inverse_additive _ _ _ _ _ _
+    (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{t}).symm (restrictionAdditive J K G)
 
 /-- The same statement for the equivalence read backwards, in the syntactic form that instance
 search needs at `Stacks.ExtAdjunction.hComparison_bijective`. -/

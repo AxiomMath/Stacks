@@ -49,7 +49,7 @@ abbrev geometricPoint (c : FrobeniusData base x) : GeometricPoint X :=
 spectrum of the arithmetic Frobenius.** -/
 theorem localElement_app_apply (c : FrobeniusData base x) (A : FiniteEtaleOver X)
     (q : finiteEtaleFiber c.geometricPoint A) :
-    ((c.localElement.app A).hom q).1 =
+    ((c.localElement.asIso.app A).hom q).1 =
       Spec.map (CommRingCat.ofHom (c.frobenius : c.closure →+* c.closure)) ≫ q.1 := by
   have : Finite (X.residueField x.1) := c.finite_residueField
   let _ : Fintype (X.residueField x.1) := Fintype.ofFinite _
@@ -64,7 +64,7 @@ theorem localElement_app_apply (c : FrobeniusData base x) (A : FiniteEtaleOver X
     (FiniteField.frobeniusAlgEquivOfAlgebraic (X.residueField x.1) c.closure) p p.1 hp
   change (finiteEtaleFiberProjection j x₀ A ((((galoisEquivEtaleFundamentalGroup
     (X.residueField x.1) c.closure c.closure)
-    (FiniteField.frobeniusAlgEquivOfAlgebraic (X.residueField x.1) c.closure)).app
+    (FiniteField.frobeniusAlgEquivOfAlgebraic (X.residueField x.1) c.closure)).asIso.app
       ((finiteEtaleBaseChange j).obj A)).hom p)).1 = _
   simp only [finiteEtaleFiberProjection]
   rw [h, Algebra.algebraMap_self, CommRingCat.ofHom_id, Spec.map_id]
@@ -76,17 +76,17 @@ theorem localElement_app_apply (c : FrobeniusData base x) (A : FiniteEtaleOver X
 Frobenius element `c.element` acts trivially on the fibre of `A` at the base point, then the
 local Frobenius element acts trivially on the fibre of `A` at `x̄`. -/
 theorem localElement_app_eq_of_element_app_eq (c : FrobeniusData base x) (A : FiniteEtaleOver X)
-    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.app A).hom z) = z)
-    (q : finiteEtaleFiber c.geometricPoint A) : (c.localElement.app A).hom q = q := by
+    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.asIso.app A).hom z) = z)
+    (q : finiteEtaleFiber c.geometricPoint A) : (c.localElement.asIso.app A).hom q = q := by
   have h2 := h (c.path.hom.app A q)
-  change ((c.path.conjAut c.localElement).app A).hom (c.path.hom.app A q) = _ at h2
+  change ((c.path.conjAut c.localElement).asIso.app A).hom (c.path.hom.app A q) = _ at h2
   rw [Stacks.FundamentalGroup.conjAut_app_apply c.path c.localElement A q] at h2
   simpa using congrArg (c.path.inv.app A) h2
 
 /-- If the Frobenius element acts trivially on the fibre at the base point, every lift
 `q : Spec Ω ⟶ A` of `x̄` is fixed by the arithmetic Frobenius: `Spec φ ≫ q = q`. -/
 theorem specMap_frobenius_comp_eq (c : FrobeniusData base x) (A : FiniteEtaleOver X)
-    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.app A).hom z) = z)
+    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.asIso.app A).hom z) = z)
     (q : finiteEtaleFiber c.geometricPoint A) :
     Spec.map (CommRingCat.ofHom (c.frobenius : c.closure →+* c.closure)) ≫ q.1 = q.1 := by
   rw [← localElement_app_apply c A q, localElement_app_eq_of_element_app_eq c A h q]

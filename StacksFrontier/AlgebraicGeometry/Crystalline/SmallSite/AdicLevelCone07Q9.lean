@@ -138,10 +138,10 @@ theorem ext_levelMap {x x' : AdicCompletion I N}
 def isLimit : IsLimit (cone I N c D ψ hψ hcomp) where
   lift s := AddCommGrpCat.ofHom
     { toFun := fun y ↦ ULift.up (liftFun I N c D ψ hψ hcomp hbij s y)
-      map_zero' := ULift.ext _ _ (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
+      map_zero' := ULift.ext (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
         rw [liftFun_val, levelMap_liftLevel, map_zero]
         exact (map_zero _).symm)
-      map_add' := fun y y' ↦ ULift.ext _ _ (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
+      map_add' := fun y y' ↦ ULift.ext (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
         rw [liftFun_val, levelMap_liftLevel, map_add]
         change _ = levelMap I N c D ψ hψ e ((liftFun I N c D ψ hψ hcomp hbij s y).val (c + e) +
           (liftFun I N c D ψ hψ hcomp hbij s y').val (c + e))
@@ -150,7 +150,7 @@ def isLimit : IsLimit (cone I N c D ψ hψ hcomp) where
     change levelMap I N c D ψ hψ e.unop ((liftFun I N c D ψ hψ hcomp hbij s y).val (c + e.unop))
       = _
     rw [liftFun_val, levelMap_liftLevel]
-  uniq s m hm := AddCommGrpCat.ext fun y ↦ ULift.ext _ _ (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
+  uniq s m hm := AddCommGrpCat.ext fun y ↦ ULift.ext (ext_levelMap I N c D ψ hψ hbij fun e ↦ by
     change _ = levelMap I N c D ψ hψ e ((liftFun I N c D ψ hψ hcomp hbij s y).val (c + e))
     rw [liftFun_val, levelMap_liftLevel]
     exact congrArg (fun g ↦ (ConcreteCategory.hom g : s.pt → _) y) (hm (op e)))

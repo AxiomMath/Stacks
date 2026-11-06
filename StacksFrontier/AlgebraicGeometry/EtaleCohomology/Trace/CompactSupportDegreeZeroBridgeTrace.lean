@@ -156,7 +156,7 @@ theorem cyclotomicContinuousModule_representation_map_eq_one :
   have h := cyclotomicContinuousModule_ρ_eq_one_of_mem_range B X f kbar y n
     (etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y g) ⟨g, rfl⟩
-  exact LinearMap.ext fun z => congrArg (fun φ => ModuleCat.Hom.hom φ z) h
+  exact LinearMap.ext fun z => congrArg (fun φ => φ.asHom.hom z) h
 
 /-- **`Ψ` at `ρ_μ`, read in `μ_n`**: `(ρ_μ)_N = μ_n`
 (`AlgebraicGeometry.cyclotomicNormalCoinvariantsAddHom`) after `Ψ(z)` is the twisted `Ξ` of `z`

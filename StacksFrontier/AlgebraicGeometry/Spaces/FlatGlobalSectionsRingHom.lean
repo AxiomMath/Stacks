@@ -304,6 +304,7 @@ theorem flat_globalSectionsRingHomSite_of_isFlat_of_isAffineSpace {Y Y' : Algebr
     (bijective_globalSectionsChartEval_of_isTerminal B S hS Y'
       (isTerminalEtaleChartOfIso B S hS e')) hsq hring
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **The ring of global regular functions of an affine algebraic space is a flat module over
 that of an affine algebraic space it maps to flatly**, for the module structure induced by the
 ring map of **Stacks 0732**.

@@ -133,7 +133,7 @@ variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
 noncomputable def differentialsHomEquiv (G : SheafOfModules.{u} (underlyingRingSheaf O₂)) :
     (moduleOfDifferentials O₁ O₂ φ ⟶ G) ≃ SheafDerivation O₁ O₂ φ G :=
   (PresheafOfModules.sheafificationHomEquiv (𝟙 (underlyingRingSheaf O₂).obj)
-      (P := PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      (P := PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
       (F := G)).trans
     (presheafDifferentialsEquiv φ.hom G.val)
 
@@ -500,7 +500,7 @@ theorem inverseImageDerivation_d (d : SheafDerivation O₁ O₂ φ M) (U : Cᵒ�
     (inverseImageDerivation J K F φ M d).d
         (((inverseImageRingHom J K F O₂).hom.app U).hom b)
       = ((inverseImageModuleUnit J K F O₂ M).val.app U).hom (d.d b) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (pushforwardInverseImageDerivation_inverseImageDerivation J K F φ M d) b
 
 /-- The hom-equivalence out of the inverse image of the differentials is postcomposition with

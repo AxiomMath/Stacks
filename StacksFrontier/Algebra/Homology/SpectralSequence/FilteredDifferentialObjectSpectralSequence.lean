@@ -379,7 +379,6 @@ private lemma exists_isPageTurn_aux (r : ℤ) (hr : 0 ≤ r) (p : ℤ)
         y ≫ ((X.pageComplex r).cyclesIsoSc' _ _ _ hPi hPk).hom ≫ ShortComplex.cyclesMap Φ.hom ≫
           ((E.page r hr).sc' (p - r, r - 1) (p, 0) (p + r, 1 - r)).iCycles := by
       simp only [y', Category.assoc, e1]
-      rfl
     have s2 : y ≫ ((X.pageComplex r).cyclesIsoSc' _ _ _ hPi hPk).hom ≫
         ShortComplex.cyclesMap Φ.hom ≫
           ((E.page r hr).sc' (p - r, r - 1) (p, 0) (p + r, 1 - r)).iCycles =
@@ -387,7 +386,7 @@ private lemma exists_isPageTurn_aux (r : ℤ) (hr : 0 ≤ r) (p : ℤ)
           ((X.pageComplex r).sc' (p - r) p (p + r)).iCycles ≫ Φ.hom.τ₂ := by rw [e2]
     have s3 : y ≫ ((X.pageComplex r).cyclesIsoSc' _ _ _ hPi hPk).hom ≫
         ((X.pageComplex r).sc' (p - r) p (p + r)).iCycles ≫ Φ.hom.τ₂ =
-        y ≫ (X.pageComplex r).iCycles p ≫ Φ.hom.τ₂ := by rw [reassoc_of% e3]; rfl
+        y ≫ (X.pageComplex r).iCycles p ≫ Φ.hom.τ₂ := by rw [reassoc_of% e3]
     have s4 : y ≫ (X.pageComplex r).iCycles p ≫ Φ.hom.τ₂ =
         x' ≫ cokernel.π _ ≫ (e r p 0 p hr (by omega)).inv := by
       refine (Category.assoc _ _ _).symm.trans ?_

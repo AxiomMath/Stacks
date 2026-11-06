@@ -89,7 +89,7 @@ theorem smul_res_injective_of_subset_nonvanishingLocusOn {Y : Scheme.{u}} (L : Y
     (V : Y.Opens) (hVU : V ≤ U)
     (hV : (V : Set Y) ⊆ Stacks.NonvanishingLocusRestrict.nonvanishingLocusOn L U t) :
     Function.Injective
-      fun g : Γ(Y, V) => (L.smul g).hom (L.presheaf.map (homOfLE hVU).op t) :=
+      fun g : Γ(Y, V) => (L.smul g).asHom.hom (L.presheaf.map (homOfLE hVU).op t) :=
   (Stacks.SheafOfModules.bijective_smul_of_forall_germ_notMem_maximalIdeal_smul_top
     (X := Y.toRingedSpace) L t V hVU (fun y hy hmem => (hV hy).2
       ((Stacks.NonvanishingPullback.mem_maximalSmul_iff L y _).mpr hmem))).injective
@@ -114,14 +114,14 @@ theorem res_eq_res_of_tautologicalSectionOver_eq_smul
     (f : Γ((bundle E).scheme, V))
     (hf : (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
           (tautologicalSectionOver E U mU) =
-        ((tautologicalTwist E (symPieces E)).smul f).hom
+        ((tautologicalTwist E (symPieces E)).smul f).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
             (tautologicalSectionOver E U sU)))
     (g : Γ((bundle E).scheme, tautologicalChart E W (E.val.map (homOfLE hWU).op sU)))
     (hg : (tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W (E.val.map (homOfLE hWU).op sU))).op
           (tautologicalSectionOver E W (E.val.map (homOfLE hWU).op mU)) =
-        ((tautologicalTwist E (symPieces E)).smul g).hom
+        ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W (E.val.map (homOfLE hWU).op sU))).op
             (tautologicalSectionOver E W (E.val.map (homOfLE hWU).op sU)))) :
@@ -176,13 +176,13 @@ theorem res_eq_res_of_tautologicalSectionOver_eq_smul
       (hb : E.val.map (homOfLE hWB).op bB = E.val.map (homOfLE hWU).op sU),
       (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hT).op
             (tautologicalSectionOver E B aB) =
-          ((tautologicalTwist E (symPieces E)).smul c).hom
+          ((tautologicalTwist E (symPieces E)).smul c).asHom.hom
             ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hT).op
               (tautologicalSectionOver E B bB)) →
         (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hPW).op
               (tautologicalSectionOver E W (E.val.map (homOfLE hWU).op mU)) =
           ((tautologicalTwist E (symPieces E)).smul
-              ((bundle E).scheme.presheaf.map (homOfLE hP).op c)).hom
+              ((bundle E).scheme.presheaf.map (homOfLE hP).op c)).asHom.hom
             ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hPW).op
               (tautologicalSectionOver E W (E.val.map (homOfLE hWU).op sU))) := by
     intro B hWB T hT hP c aB bB ha hb hc
@@ -196,7 +196,7 @@ theorem res_eq_res_of_tautologicalSectionOver_eq_smul
       (fun z : Γ(tautologicalTwist E (symPieces E),
           V ⊓ tautologicalChart E W (E.val.map (homOfLE hWU).op sU)) =>
         ((tautologicalTwist E (symPieces E)).smul
-          ((bundle E).scheme.presheaf.map (homOfLE hP).op c)).hom z)
+          ((bundle E).scheme.presheaf.map (homOfLE hP).op c)).asHom.hom z)
       (down B hWB T hT hP bB _ hb)
   refine smul_res_injective_of_subset_nonvanishingLocusOn
     (tautologicalTwist E (symPieces E))

@@ -86,6 +86,21 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_representable :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_representable
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_representable B S hS).has_limit _
+
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_representable
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-! ### Homeomorphy on the points of represented presheaves -/
 
 /-- A morphism of the big fppf site over `S` is a homeomorphism on the points of the represented
@@ -124,9 +139,9 @@ theorem isHomeomorph_map_relativelyRepresentable_snd
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : X ⟶ Y}
     (hf : yoneda.relativelyRepresentable f) {U : BigFppfOver B S hS}
     (g : yoneda.obj U ⟶ Y)
-    (hhomeo : IsHomeomorph (pointsMap B S hS (pullback g f) (pullback.fst g f))) :
+    (hhomeo : IsHomeomorph (pointsMap B S hS (Limits.pullback g f) (pullback.fst g f))) :
     IsHomeomorph ((BigFppfOver.toScheme B S hS).map (hf.snd g)) := by
-  let e : yoneda.obj (hf.pullback g) ≅ pullback g f :=
+  let e : yoneda.obj (hf.pullback g) ≅ Limits.pullback g f :=
     (hf.isPullback g).isoPullback ≪≫ pullbackSymmetry f g
   have he : e.hom ≫ pullback.fst g f = yoneda.map (hf.snd g) := by
     simp only [e, Iso.trans_hom, Category.assoc, pullbackSymmetry_hom_comp_fst,
@@ -212,6 +227,7 @@ theorem universalHomeomorphism_of_presheaf_universalHomeomorphism
       (@AlgebraicGeometry.UniversalHomeomorphism.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf f) :
     UniversalHomeomorphism B S hS f := by
+  unfold Space.UniversalHomeomorphism
   intro Z hZ g
   let T := BigFppfOver.toScheme B S hS
   have hclosedProp : (MorphismProperty.inverseImage
@@ -220,22 +236,22 @@ theorem universalHomeomorphism_of_presheaf_universalHomeomorphism
     MorphismProperty.relative_monotone (F := yoneda)
       (fun _ _ k hk ↦ AlgebraicGeometry.UniversalHomeomorphism.universallyClosed
         (T.map k) hk) _ h
-  have hclosed : IsClosedMap (pointsMap B S hS (pullback g f) (pullback.fst g f)) :=
+  have hclosed : IsClosedMap (pointsMap B S hS (Limits.pullback g f) (pullback.fst g f)) :=
     universallyClosed_of_presheaf_universallyClosed B S hS hX hY hf hclosedProp Z hZ g
   obtain ⟨U, a, haSurj, haEtale⟩ := hZ.exists_atlas
-  have hC : IsAlgebraicSpace B S hS (pullback g f) :=
+  have hC : IsAlgebraicSpace B S hS (Limits.pullback g f) :=
     isAlgebraicSpace_pullback B S hS g f hZ hX hY
   have hU : IsAlgebraicSpace B S hS (yoneda.obj U) := isAlgebraicSpace_yoneda B S hS U
-  have hD : IsAlgebraicSpace B S hS (pullback a (pullback.fst g f)) :=
+  have hD : IsAlgebraicSpace B S hS (Limits.pullback a (pullback.fst g f)) :=
     isAlgebraicSpace_pullback B S hS a (pullback.fst g f) hU hC hZ
   have sqD : IsPullback (pullback.fst a (pullback.fst g f))
       (pullback.snd a (pullback.fst g f)) a (pullback.fst g f) := IsPullback.of_hasPullback _ _
   have hAtlasSurj : Function.Surjective (pointsMap B S hS (yoneda.obj U) a) :=
     (surjective_iff_surjective_pointsMap B S hS Z hZ U a).mp haSurj
-  have hcart : ∀ (c : points B S hS (pullback g f)) (z : points B S hS (yoneda.obj U)),
-      pointsMap B S hS (pullback g f) (pullback.fst g f) c =
+  have hcart : ∀ (c : points B S hS (Limits.pullback g f)) (z : points B S hS (yoneda.obj U)),
+      pointsMap B S hS (Limits.pullback g f) (pullback.fst g f) c =
         pointsMap B S hS (yoneda.obj U) a z →
-      ∃ d : points B S hS (pullback a (pullback.fst g f)),
+      ∃ d : points B S hS (Limits.pullback a (pullback.fst g f)),
         pointsMap B S hS _ (pullback.snd a (pullback.fst g f)) d = c ∧
           pointsMap B S hS _ (pullback.fst a (pullback.fst g f)) d = z := by
     intro c z hcz
@@ -258,34 +274,34 @@ theorem universalHomeomorphism_of_presheaf_universalHomeomorphism
     exact hUH.universally_isHomeomorph _ _ _ IsPullback.of_id_snd
   let eAssoc := pullbackRightPullbackFstIso g f a
   let eRep := (hf.isPullback (a ≫ g)).isoPullback ≪≫ pullbackSymmetry f (a ≫ g)
-  let e : pullback a (pullback.fst g f) ≅ yoneda.obj (hf.pullback (a ≫ g)) :=
+  let e : Limits.pullback a (pullback.fst g f) ≅ yoneda.obj (hf.pullback (a ≫ g)) :=
     eAssoc ≪≫ eRep.symm
   have he : e.hom ≫ yoneda.map (hf.snd (a ≫ g)) = pullback.fst a (pullback.fst g f) := by
     simp only [e, eRep, eAssoc, Iso.trans_hom, Iso.symm_hom, Iso.trans_inv, Category.assoc,
       pullbackSymmetry_inv_comp_snd, IsPullback.isoPullback_inv_snd]
     exact pullbackRightPullbackFstIso_hom_fst g f a
   have hrHomeo : IsHomeomorph
-      (pointsMap B S hS (pullback a (pullback.fst g f))
+      (pointsMap B S hS (Limits.pullback a (pullback.fst g f))
         (pullback.fst a (pullback.fst g f))) := by
     rw [← he]
     exact isHomeomorph_pointsMap_iso_hom_comp B S hS e hQhomeo
   have hcomm : pointsMap B S hS (yoneda.obj U) a ∘
-      pointsMap B S hS (pullback a (pullback.fst g f))
+      pointsMap B S hS (Limits.pullback a (pullback.fst g f))
         (pullback.fst a (pullback.fst g f)) =
-      pointsMap B S hS (pullback g f) (pullback.fst g f) ∘
-        pointsMap B S hS (pullback a (pullback.fst g f))
+      pointsMap B S hS (Limits.pullback g f) (pullback.fst g f) ∘
+        pointsMap B S hS (Limits.pullback a (pullback.fst g f))
           (pullback.snd a (pullback.fst g f)) := by
     rw [← pointsMap_comp, ← pointsMap_comp, sqD.w]
   have hsurj : Function.Surjective
-      (pointsMap B S hS (pullback g f) (pullback.fst g f)) := by
+      (pointsMap B S hS (Limits.pullback g f) (pullback.fst g f)) := by
     have hcompSurj := hAtlasSurj.comp hrHomeo.bijective.2
     rw [hcomm] at hcompSurj
     exact hcompSurj.of_comp
   have hinj : Function.Injective
-      (pointsMap B S hS (pullback g f) (pullback.fst g f)) := by
+      (pointsMap B S hS (Limits.pullback g f) (pullback.fst g f)) := by
     intro c₁ c₂ hc
     obtain ⟨w, hw⟩ :=
-      hAtlasSurj (pointsMap B S hS (pullback g f) (pullback.fst g f) c₁)
+      hAtlasSurj (pointsMap B S hS (Limits.pullback g f) (pullback.fst g f) c₁)
     obtain ⟨d₁, hd₁c, hd₁w⟩ := hcart c₁ w hw.symm
     obtain ⟨d₂, hd₂c, hd₂w⟩ := hcart c₂ w (hc ▸ hw.symm)
     have hd : d₁ = d₂ := hrHomeo.bijective.1 (hd₁w.trans hd₂w.symm)

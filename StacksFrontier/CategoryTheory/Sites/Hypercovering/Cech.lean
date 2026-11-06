@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.CategoryTheory.Sites.Hypercovering.CechOfCovering
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 
 /-!
 # Čech hypercoverings
@@ -438,13 +439,13 @@ noncomputable def isLimitWidePullbackConePowerObj {X : C} (A : FormalCoproduct.{
       Over.mk t.base ⟶ (A.obj ∘ i) a)).left) (fun t ↦ ?_) (fun t a ↦ ?_) (fun t m hb ha ↦ ?_)
   · exact Over.w (Pi.lift fun a ↦ (Over.homMk (t.π a) (t.condition a) :
       Over.mk t.base ⟶ (A.obj ∘ i) a))
-  · exact congrArg Over.Hom.left (Pi.lift_π
+  · exact congrArg Over.Hom.left (Pi.lift_comp_π
       (fun a ↦ (Over.homMk (t.π a) (t.condition a) : Over.mk t.base ⟶ (A.obj ∘ i) a)) a)
   · refine congrArg Over.Hom.left (Pi.hom_ext
       (Over.homMk m hb : Over.mk t.base ⟶ ∏ᶜ (A.obj ∘ i))
       (Pi.lift fun a ↦ (Over.homMk (t.π a) (t.condition a) :
         Over.mk t.base ⟶ (A.obj ∘ i) a)) fun a ↦ ?_)
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     exact Over.OverMorphism.ext (ha a)
 
 add_to_stacks 01G6 "the terms: the degree-`n` term is the `(n + 1)`-fold power"

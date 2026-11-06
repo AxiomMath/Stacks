@@ -147,8 +147,8 @@ theorem moduleFinite_modulePushforward_val_obj_of_isProper (f : X ⟶ Y)
     (isIso_chartOpensTopHom B S hS X T')).op
   let φ : ((smallBaseChangeModulePushforward B S hS f hf).obj M).val.obj (op A) →ₗ[R₂] Yt :=
     { toFun := fun x => ULift.up (M.val.map (chartOpensTopHom B S hS X T').op x)
-      map_add' := fun x y => ULift.ext _ _ (map_add _ x y)
-      map_smul' := fun a x => ULift.ext _ _ (PresheafOfModules.map_smul _ _ _ _) }
+      map_add' := fun x y => congrArg ULift.up (map_add _ x y)
+      map_smul' := fun a x => congrArg ULift.up (PresheafOfModules.map_smul _ _ _ _) }
   exact (Module.Finite.equiv (LinearEquiv.ofBijective φ
     (Equiv.ulift.symm.bijective.comp ι.addCommGroupIsoToAddEquiv.bijective)).symm :
     Module.Finite R₂ (((smallBaseChangeModulePushforward B S hS f hf).obj M).val.obj (op A)))

@@ -664,7 +664,7 @@ private lemma chain_eq' :
 /-- The underived comparison at a pair of generators is invertible, being the comparison of
 `Stacks.CategoryHomology.colimExternalTensorComparison`. -/
 private instance isIso_underivedMate : IsIso (underivedMate C₁ C₂ R U V P Q) :=
-  isIso_colimExternalTensorComparison (Presheaf.freeYoneda U P) (Presheaf.freeYoneda V Q)
+  isIso_colimExternalTensorComparison.{u, u, u} (Presheaf.freeYoneda U P) (Presheaf.freeYoneda V Q)
 
 /-- **Stacks 08QB at a pair of generators**: the canonical comparison is invertible at a pair of
 free diagrams with projective coefficients placed in degree zero. -/

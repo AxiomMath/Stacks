@@ -92,6 +92,13 @@ open Stacks.Topos.AbelianPushforward
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {A : SimplicialObject.Augmented (AlgebraicSpaces B S hS)}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_FppfHypercoveringSmallEtale
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 variable (A) in
 /-- The inverse of the equivalence `Ab(X_spaces,étale) ≌ Ab(X_étale)` of Stacks 03G1, restriction
 along the comparison functor, is additive. -/

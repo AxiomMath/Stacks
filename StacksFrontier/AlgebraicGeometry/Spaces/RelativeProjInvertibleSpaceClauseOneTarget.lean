@@ -139,6 +139,8 @@ theorem eq_pullbackCongr_comp_pullbackId_of_comp {X : Scheme.{u}} (m : X ⟶ X) 
   replace U := (congrArg (_ ≫ ·) (Category.comp_id _)).symm.trans U
   have E2 : (Scheme.Modules.pullback (𝟙 X)).map P =
       (Scheme.Modules.pullback (𝟙 X)).map ((Scheme.Modules.pullbackId X).hom.app Z) := by
+    have : Epi ((Scheme.Modules.pullbackComp (𝟙 X) (𝟙 X)).inv.app Z) :=
+      @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv ((Scheme.Modules.pullbackComp (𝟙 X) (𝟙 X)).app Z))
     refine (cancel_epi ((Scheme.Modules.pullbackComp (𝟙 X) (𝟙 X)).inv.app Z)).1 ?_
     rw [← E1, U]
     simp [Scheme.Modules.pullbackCongr]
@@ -147,7 +149,8 @@ theorem eq_pullbackCongr_comp_pullbackId_of_comp {X : Scheme.{u}} (m : X ⟶ X) 
     ((Scheme.Modules.pullbackId X).hom.app Z)
   simp only [Functor.id_map] at N1 N2
   rw [E2] at N1
-  have := (cancel_epi ((Scheme.Modules.pullbackId X).hom.app _)).1 (N1.symm.trans N2)
+  have := (Iso.cancel_iso_hom_left ((Scheme.Modules.pullbackId X).app _) _ _).1
+    (N1.symm.trans N2)
   simpa [Scheme.Modules.pullbackCongr] using this
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

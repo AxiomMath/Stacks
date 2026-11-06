@@ -145,7 +145,7 @@ theorem exists_isFiniteType_le_of_le_comap {T : Scheme.{u}} [CompactSpace T] [Co
     intro U
     have h1 : J.ideal U ≤ ⨆ s : ι, (s.1.comap φ).ideal U := by
       simpa only [hc, Scheme.IdealSheafData.ideal_iSup, iSup_apply] using hJK U
-    obtain ⟨t, ht⟩ := CompleteLattice.IsCompactElement.exists_finset_of_le_iSup _
+    obtain ⟨t, ht⟩ := IsCompactElement.exists_finset_of_le_iSup
       ((Submodule.fg_iff_compact _).mp (hJ U)) _ h1
     refine ⟨t, ht.trans (iSup₂_le fun s hs => ?_)⟩
     exact Scheme.IdealSheafData.comap_mono φ (Finset.le_sup (f := fun s : ι => s.1) hs) U

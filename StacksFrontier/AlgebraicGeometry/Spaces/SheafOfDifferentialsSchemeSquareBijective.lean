@@ -165,14 +165,14 @@ The invertibility hypothesis is an explicit argument rather than an instance: at
 instantiation instance resolution does not find a term of this type even when one is in
 context. -/
 theorem bijective_postcomp (f : M ⟶ N) (hf : IsIso f) (φ : S ⟶ F.op ⋙ R) :
-    Function.Bijective (fun d : M.Derivation φ ↦ d.postcomp f) := by
+    Function.Bijective (fun d : PresheafOfModulesOfCommRing.Derivation M φ ↦ d.postcomp f) := by
   let := hf
-  have hleft : ∀ d : M.Derivation φ, (d.postcomp f).postcomp (inv f) = d := fun d ↦
+  have hleft : ∀ d : PresheafOfModulesOfCommRing.Derivation M φ, (d.postcomp f).postcomp (inv f) = d := fun d ↦
     congrArg d.postcomp (IsIso.hom_inv_id f)
-  have hright : ∀ e : N.Derivation φ, (e.postcomp (inv f)).postcomp f = e := fun e ↦
+  have hright : ∀ e : PresheafOfModulesOfCommRing.Derivation N φ, (e.postcomp (inv f)).postcomp f = e := fun e ↦
     congrArg e.postcomp (IsIso.inv_hom_id f)
   exact ⟨fun d₁ d₂ h ↦ (hleft d₁).symm.trans
-      ((congrArg (fun d : N.Derivation φ ↦ d.postcomp (inv f)) h).trans (hleft d₂)),
+      ((congrArg (fun d : PresheafOfModulesOfCommRing.Derivation N φ ↦ d.postcomp (inv f)) h).trans (hleft d₂)),
     fun e ↦ ⟨e.postcomp (inv f), hright e⟩⟩
 
 end PresheafOfModules.Derivation
@@ -356,10 +356,11 @@ end Composition
 `SheafOfModules.isIso_val`. -/
 theorem bijective_postcomp_representedSquareComparison {V : BigFppfOver B S hS} (r : U ⟶ V)
     (C : Modules.{u, u} B S hS (schemeSpace U').1 (schemeSpace U').2) :
-    Function.Bijective (fun D : ((_root_.AlgebraicGeometry.SmallEtale.restrictModule
+    Function.Bijective (fun D : PresheafOfModulesOfCommRing.Derivation'
+        ((_root_.AlgebraicGeometry.SmallEtale.restrictModule
             (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U)
             U.left.property).obj ((representedModuleRestriction B S hS U).obj
-          ((modulePushforward B S hS (schemeSpaceMap k)).obj C))).val.Derivation'
+          ((modulePushforward B S hS (schemeSpaceMap k)).obj C))).val
         (inverseImageStructureMap (_root_.AlgebraicGeometry.SmallEtale.schemeHom
           (associatedBigEtaleSite B) r.left)).hom ↦
       D.postcomp (representedSquareComparison B S hS k

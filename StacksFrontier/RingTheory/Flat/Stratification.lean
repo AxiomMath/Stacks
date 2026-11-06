@@ -872,7 +872,6 @@ private theorem Algebra.TensorProduct.map_id_map_toAlgHom_comm
       Algebra.TensorProduct.map φ (AlgHom.id R A')
         (Algebra.TensorProduct.map (AlgHom.id R C) g z) := by
   induction z with
-  | zero => simp
   | add z y hz hy => simp only [map_add, hz, hy]
   | tmul c a => simp
 

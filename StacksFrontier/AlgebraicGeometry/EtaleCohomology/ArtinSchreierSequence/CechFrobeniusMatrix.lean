@@ -54,7 +54,7 @@ theorem additiveSmul_comp_multMap (V : X.Opens) (a : Γ(S, ⊤))
     additiveSmul.{u, 0} S a ≫ multMap f V c =
       multMap f V ((pullback.fst (pullback.snd (𝟙 S) f) V.ι ≫ pullback.fst (𝟙 S) f).appTop.hom a *
         c) := by
-  refine sheaf_hom_ext_apply fun T b => ULift.ext _ _ ?_
+  refine sheaf_hom_ext_apply fun T b => ULift.ext ?_
   exact (multFun_smul f V a c T.unop.hom b.down).symm
 
 section Cochain
@@ -107,12 +107,12 @@ include hp hS in
 def frobMatrixMap : freeAdditiveSheaf S r ⟶ freeAdditiveSheaf S r :=
   ⟨{ app T := AddCommGrpCat.ofHom
        { toFun := fun b => ULift.up (frobMatrixFun S a p T.unop b.down)
-         map_zero' := ULift.ext _ _ (funext fun j => by
+         map_zero' := ULift.ext (funext fun j => by
            change ∑ i, etaleFunction T.unop (a i j) * (0 : Γ(T.unop.left, ⊤)) ^ p = 0
            exact Finset.sum_eq_zero fun i _ => by rw [zero_pow hp.ne_zero, mul_zero])
-         map_add' := fun b b' => ULift.ext _ _ (frobMatrixFun_add S hp hS a T.unop b.down b'.down) }
+         map_add' := fun b b' => ULift.ext (frobMatrixFun_add S hp hS a T.unop b.down b'.down) }
      naturality T₁ T₂ g := by
-       refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext _ _ (funext fun j => ?_))
+       refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext (funext fun j => ?_))
        change ∑ i, etaleFunction T₂.unop (a i j) * (g.unop.left.appTop.hom (b.down i)) ^ p =
          g.unop.left.appTop.hom (∑ i, etaleFunction T₁.unop (a i j) * b.down i ^ p)
        rw [map_sum]
@@ -124,7 +124,7 @@ theorem frobMatrixMap_comp_proj (j : Fin r) :
     frobMatrixMap S hp hS a ≫ freeAdditiveProj S r j =
       ∑ i, freeAdditiveProj S r i ≫ frobeniusMap.{u, 0} S hp hS ≫
         additiveSmul.{u, 0} S (a i j) := by
-  refine sheaf_hom_ext_apply fun T b => ULift.ext _ _ ?_
+  refine sheaf_hom_ext_apply fun T b => ULift.ext ?_
   refine Eq.trans ?_ (congrArg ULift.down (sheafHom_sum_app _ _ T b)).symm
   refine Eq.trans ?_ (ulift_down_sum (M := ↑((T.unop.left).presheaf.obj (op ⊤))) _ _).symm
   show ∑ i, etaleFunction T.unop (a i j) * b.down i ^ p =

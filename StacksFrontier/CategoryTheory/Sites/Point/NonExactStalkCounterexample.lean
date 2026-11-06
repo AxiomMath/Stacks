@@ -180,7 +180,7 @@ abbrev Nbhd := u.Elements
 /-- The diagram `(𝒞_u)ᵒᵖ → 𝒞ᵒᵖ → Set` underlying the stalk of a presheaf `ℱ`. -/
 @[implicit_reducible]
 def stalkDiagram (ℱ : Presheaf) : Nbhdᵒᵖ ⥤ Type :=
-  (CategoryOfElements.π u).op ⋙ ℱ
+  (Functor.Elements.π u).op ⋙ ℱ
 
 /-- Definition 5: the site-theoretic stalk functor `PSh(𝒞) ⥤ Set` at the point
 `p = u`, namely `ℱ ↦ colim_{(V,x) ∈ (𝒞_u)ᵒᵖ} ℱ(V)`, with the induced map on
@@ -188,7 +188,7 @@ morphisms (Stacks Tag 04EH). -/
 @[implicit_reducible]
 noncomputable def stalkFunctor : Presheaf ⥤ Type where
   obj ℱ := colimit (stalkDiagram ℱ)
-  map φ := colimMap (Functor.whiskerLeft (CategoryOfElements.π u).op φ)
+  map φ := colimMap (Functor.whiskerLeft (Functor.Elements.π u).op φ)
   map_id ℱ := colimit.hom_ext fun j => by simp [stalkDiagram]
   map_comp φ ψ := colimit.hom_ext fun j => by simp [stalkDiagram]
 
@@ -198,7 +198,7 @@ theorem stalkFunctor_obj (ℱ : Presheaf) :
 
 /-- The stalk functor acts on morphisms by the induced map of colimits. -/
 theorem stalkFunctor_map {ℱ 𝒢 : Presheaf} (φ : ℱ ⟶ 𝒢) :
-    stalkFunctor.map φ = colimMap (Functor.whiskerLeft (CategoryOfElements.π u).op φ) := rfl
+    stalkFunctor.map φ = colimMap (Functor.whiskerLeft (Functor.Elements.π u).op φ) := rfl
 
 /-! ### Definition 4: the pushout functor `(A, B, r) ↦ B ⨿_A B`. -/
 
@@ -284,9 +284,9 @@ theorem pushoutFunctor_map_apply {ℱ 𝒢 : Presheaf} (φ : ℱ ⟶ 𝒢) (q : 
 /-- An `Nbhd`-morphism whose underlying `Obj`-morphism is the identity induces the
 identity on the stalk diagram. -/
 theorem stalkCocone_nbhd_map_id (ℱ : Presheaf) {p : Nbhd} (g : p ⟶ p)
-    (hval : g.val = 𝟙 p.1) :
+    (hval : g.hom = 𝟙 p.obj) :
     (stalkDiagram ℱ).map (Opposite.op g) = 𝟙 ((stalkDiagram ℱ).obj (Opposite.op p)) := by
-  have hg : g = 𝟙 p := CategoryOfElements.ext u g (𝟙 p) (by rw [hval, CategoryOfElements.id_val])
+  have hg : g = 𝟙 p := Functor.Elements.hom_ext (by rw [hval, Functor.Elements.id_hom])
   rw [hg]
   exact (stalkDiagram ℱ).map_id _
 
@@ -304,18 +304,19 @@ noncomputable def stalkCocone (ℱ : Presheaf) : Cocone (stalkDiagram ℱ) where
   pt := PushoutObj ℱ
   ι := by
     refine NatTrans.mk (fun j => ?_) ?_
-    · obtain ⟨⟨V, x⟩⟩ := j
+    · obtain ⟨@⟨V, x⟩⟩ := j
       match V, x with
       | X, _ => exact TypeCat.ofHom (fun a => PushoutObj.inl ℱ (restr ℱ a))
       | U, false => exact TypeCat.ofHom (fun b => PushoutObj.inl ℱ b)
       | U, true => exact TypeCat.ofHom (fun b => PushoutObj.inr ℱ b)
-    · rintro ⟨⟨V, x⟩⟩ ⟨⟨V', x'⟩⟩ ⟨(_|_|_), hα⟩
+    · rintro ⟨@⟨V, x⟩⟩ ⟨@⟨V', x'⟩⟩ ⟨(_|_|_), hα⟩
       · cases x; cases x'
-        rw [stalkCocone_nbhd_map_id ℱ (p := ⟨X, PUnit.unit⟩) ⟨Hom.idX, hα⟩ stalkCocone_idX_eq]
+        rw [stalkCocone_nbhd_map_id ℱ (p := u.elementsMk X PUnit.unit) ⟨Hom.idX, hα⟩
+          stalkCocone_idX_eq]
         ext a; rfl
       · have hxx : x' = x := hα
         subst hxx
-        rw [stalkCocone_nbhd_map_id ℱ (p := ⟨U, x'⟩) ⟨Hom.idU, hα⟩ stalkCocone_idU_eq]
+        rw [stalkCocone_nbhd_map_id ℱ (p := u.elementsMk U x') ⟨Hom.idU, hα⟩ stalkCocone_idU_eq]
         ext a; rfl
       · cases x
         cases x' with
@@ -323,7 +324,7 @@ noncomputable def stalkCocone (ℱ : Presheaf) : Cocone (stalkDiagram ℱ) where
           ext a
           dsimp only [TypeCat.Fun.toFun_apply, types_comp_apply, TypeCat.hom_ofHom,
             TypeCat.Fun.coe_mk, Functor.const_obj_map, types_id_apply, stalkDiagram,
-            Functor.comp_map, Functor.op_map, CategoryOfElements.π_map, Quiver.Hom.unop_op, restr]
+            Functor.comp_map, Functor.op_map, Functor.Elements.π_map, Quiver.Hom.unop_op, restr]
           rfl
         | true =>
           ext a
@@ -347,7 +348,7 @@ theorem stalkCocone_ι_app_U_true (ℱ : Presheaf) (b : ℱ.obj (Opposite.op U))
 
 private def nbhdFArrow (b : Bool) :
     (u.elementsMk U b) ⟶ (u.elementsMk X PUnit.unit) :=
-  CategoryOfElements.homMk _ _ Hom.f rfl
+  Functor.Elements.homMk Hom.f rfl
 
 private theorem stalkCocone_desc_aux (ℱ : Presheaf) (s : Cocone (stalkDiagram ℱ))
     (b : Bool) (a : ℱ.obj (Opposite.op X)) :
@@ -384,7 +385,7 @@ what computes the stalk of `ℱ` at `p = u` as `B ⨿_A B`, and hence the conten
 noncomputable def stalkCoconeIsColimit (ℱ : Presheaf) : IsColimit (stalkCocone ℱ) where
   desc s := TypeCat.ofHom (stalkCocone_descFun ℱ s)
   fac s j := by
-    obtain ⟨⟨V, x⟩⟩ := j
+    obtain ⟨@⟨V, x⟩⟩ := j
     ext a
     match V, x with
     | X, _ =>
@@ -423,21 +424,18 @@ theorem stalkObjIso_naturality {ℱ 𝒢 : Presheaf} (φ : ℱ ⟶ 𝒢) :
   intro j
   rw [stalkFunctor_map, ι_colimMap_assoc, stalkObjIso, stalkObjIso,
     colimit.isoColimitCocone_ι_hom, colimit.isoColimitCocone_ι_hom_assoc]
-  obtain ⟨⟨V, x⟩⟩ := j
+  obtain ⟨@⟨V, x⟩⟩ := j
   ext a
   dsimp only [Functor.comp_obj, Functor.op_obj, Functor.whiskerLeft_app, TypeCat.Fun.toFun_apply,
-    types_comp_apply, CategoryOfElements.π_obj]
+    types_comp_apply, Functor.Elements.π_obj]
   rw [pushoutFunctor_map_apply]
   match V, x with
   | X, x =>
       rw [stalkCocone_ι_app_X, stalkCocone_ι_app_X, PushoutObj.map_inl, restr_naturality]
-      rfl
   | U, false =>
       rw [stalkCocone_ι_app_U_false, stalkCocone_ι_app_U_false, PushoutObj.map_inl]
-      rfl
   | U, true =>
       rw [stalkCocone_ι_app_U_true, stalkCocone_ι_app_U_true, PushoutObj.map_inr]
-      rfl
 
 /-- **Statement 1.** For the site `𝒞` and the functor `u`, the site-theoretic
 stalk functor of Definition 5 is naturally isomorphic to the pushout functor

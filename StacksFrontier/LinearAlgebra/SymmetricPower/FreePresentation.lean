@@ -7,6 +7,7 @@ public import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 public import Mathlib.LinearAlgebra.TensorProduct.Basis
 public import Mathlib.RingTheory.GradedAlgebra.RingHom
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
+import Mathlib.RingTheory.Finiteness.Subalgebra
 import Mathlib.RingTheory.TensorProduct.Finite
 public import StacksFrontier.LinearAlgebra.SymmetricPower.Presentation
 public import StacksFrontier.RingTheory.MvPolynomial.HomogeneousBasis

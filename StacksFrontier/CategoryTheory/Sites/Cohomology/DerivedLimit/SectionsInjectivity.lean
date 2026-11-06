@@ -97,6 +97,7 @@ attribute [local instance] HasDerivedCategory.standard
 private theorem presheaf_exact_products
     {C : Type u} [Category.{v} C] (O : Cᵒᵖ ⥤ RingCat.{w}) :
     HasExactLimitsOfShape (Discrete ℕ) (PresheafOfModules.{w} O) :=
+  have : HasProducts.{w} (Cᵒᵖ ⥤ AddCommGrpCat.{w}) := fun _ => functorCategoryHasLimitsOfShape
   HasExactLimitsOfShape.domain_of_functor (Discrete ℕ) (PresheafOfModules.toPresheaf O)
 
 /-- Cohomology of a derived presheaf of modules commutes with countable products. -/

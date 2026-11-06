@@ -97,6 +97,7 @@ instance :
   (ModuleCat.extendRestrictScalarsAdj
     (representedAffineGlobalStalkRingHom B S hS U x)).left_adjoint_additive
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The degreewise geometric stalk of the degreewise associated module is degreewise extension
 of scalars along `A ⟶ 𝒪_{x̄}`. -/
 def representedAffineComplexStalkIso :

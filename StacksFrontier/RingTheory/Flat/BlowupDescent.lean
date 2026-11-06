@@ -178,11 +178,11 @@ theorem exists_stage_map_eq (a : ∀ i j, i ≤ j → Ar i →+* Ar j) (ρ : ∀
     ∃ (j : ι) (_ : i₀ ≤ j) (q : MvPolynomial (Fin n) (Ar j)), MvPolynomial.map (ρ j) q = p := by
   classical
   choose g y hg using hρs
-  obtain ⟨j, hj⟩ := (insert i₀ (p.support.image fun d ↦ g (MvPolynomial.coeff d p))).exists_le
-  have key : ∀ d, ∃ q : Ar j, d ∈ p.support → ρ j q = MvPolynomial.coeff d p := by
+  obtain ⟨j, hj⟩ := (insert i₀ (p.support.image fun d ↦ g (p.coeff d))).exists_le
+  have key : ∀ d, ∃ q : Ar j, d ∈ p.support → ρ j q = p.coeff d := by
     intro d
     by_cases hd : d ∈ p.support
-    · exact ⟨a (g (MvPolynomial.coeff d p)) j
+    · exact ⟨a (g (p.coeff d)) j
         (hj _ (Finset.mem_insert_of_mem (Finset.mem_image_of_mem _ hd))) (y _),
           fun _ ↦ (hρ _ _ _ _).trans (hg _)⟩
     · exact ⟨0, fun h ↦ absurd h hd⟩

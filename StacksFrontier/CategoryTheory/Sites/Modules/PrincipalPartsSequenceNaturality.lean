@@ -392,10 +392,10 @@ noncomputable def crossSymbolDerivation
     (F' : _root_.SheafOfModules.{max u v w m} (Stacks.SheafOfModules.Tensor.ringSheaf O₂'))
     (uF : F ⟶ (_root_.SheafOfModules.restrictScalars.{max u v w m}
       (underlyingRingSheafMapOfSite β)).obj F') :
-    (internalHomSheafOfModules F
+    PresheafOfModulesOfCommRing.Derivation' (internalHomSheafOfModules F
         ((_root_.SheafOfModules.restrictScalars.{max u v w m}
           (underlyingRingSheafMapOfSite β)).obj
-          (principalPartsOne.{v, u, w, m} φ' F'))).val.Derivation' φ.hom :=
+          (principalPartsOne.{v, u, w, m} φ' F'))).val φ.hom :=
   internalHomDerivation φ.hom F.val
     ((_root_.SheafOfModules.restrictScalars.{max u v w m}
       (underlyingRingSheafMapOfSite β)).obj (principalPartsOne.{v, u, w, m} φ' F')).val
@@ -463,7 +463,7 @@ theorem mapDifferentials_universalDerivation
     (((mapDifferentials.{v, u, w, m} φ φ' α β hsq).val.app X)).hom
         ((universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).d b) =
       (universalDerivationOfSite.{v, u, w, m} O₁' O₂' φ').d (β.hom.app X b) :=
-  (_root_.PresheafOfModules.Derivation.congr_d
+  (PresheafOfModulesOfCommRing.Derivation.congr_d
     (functorialDifferentials.{v, u, w, m} φ φ' α β hsq).fac b).trans
     ((functorialDifferentials.{v, u, w, m} φ φ' α β hsq).inducedDerivation_apply X b)
 

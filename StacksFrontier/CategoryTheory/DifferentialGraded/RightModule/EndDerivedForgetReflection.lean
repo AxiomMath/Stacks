@@ -291,7 +291,7 @@ theorem isRightDerivedValueAt_of_mapCocone (F : D ⥤ D') (W : MorphismProperty 
   have : IsIso (U.map (hc'.isColimit.desc c)) := by rw [hmap]; infer_instance
   have : IsIso (hc'.isColimit.desc c) := isIso_of_reflects_iso (hc'.isColimit.desc c) U
   exact Limits.IsColimit.ofIsoColimit hc'.isColimit
-    (Limits.Cocones.ext (asIso (hc'.isColimit.desc c)) hφ)
+    (Limits.Cocone.ext (asIso (hc'.isColimit.desc c)) hφ)
 
 /-- **A conservative functor reflects right-derived values whenever the right derived functor is
 everywhere defined.** This is `CategoryTheory.Functor.isRightDerivedValueAt_of_mapCocone` in the
@@ -389,7 +389,7 @@ theorem isRightDerivable_derivedHomReflectorSource_of_reflects
     (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) DerivedCategory.Qh
     (derivedHomReflectorFunctor A K ⋙ derivedHomReflectorForget A K)
     (derivedHomReflectorForgetUnit A K β) h X).isColimit
-    (Limits.Cocones.ext (Iso.refl _) fun s => ?_)
+    (Limits.Cocone.ext (Iso.refl _) fun s => ?_)
   simp [Functor.derivedUnitCocone_ι_app, derivedHomReflectorForgetUnit]
 
 end CochainComplex

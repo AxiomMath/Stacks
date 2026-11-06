@@ -295,21 +295,21 @@ noncomputable def geometricFiber (x : GeometricPoint B S hS F) :
 neighbourhood of that point. -/
 noncomputable def neighborhoodToFiberElements (x : GeometricPoint B S hS F) :
     SmallEtaleNeighborhood x ⥤ (geometricFiber B S hS F x).Elements where
-  obj U := ⟨U.chart, ⟨U.point, U.point_comp⟩⟩
-  map {U V} f := ⟨f.hom, Subtype.ext f.point_comp⟩
+  obj U := (geometricFiber B S hS F x).elementsMk U.chart ⟨U.point, U.point_comp⟩
+  map {U V} f := Functor.Elements.homMk f.hom (Subtype.ext f.point_comp)
   map_id U := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
   map_comp f g := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
 
 /-- The inverse correspondence, from elements of the geometric fibre to small étale
 neighbourhoods. -/
 noncomputable def fiberElementsToNeighborhood (x : GeometricPoint B S hS F) :
     (geometricFiber B S hS F x).Elements ⥤ SmallEtaleNeighborhood x where
-  obj U := ⟨U.1, U.2.1, U.2.2⟩
-  map {U V} f := ⟨f.val, congrArg Subtype.val f.property⟩
+  obj U := ⟨U.obj, U.val.1, U.val.2⟩
+  map {U V} f := ⟨f.hom, congrArg Subtype.val f.map_val⟩
   map_id U := by
     apply SmallEtaleNeighborhood.Hom.ext
     rfl
@@ -329,18 +329,18 @@ noncomputable def neighborhoodFiberElementsEquiv (x : GeometricPoint B S hS F) :
     rfl)
   counitIso := NatIso.ofComponents (fun U => Iso.refl U) (by
     intro U V f
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl)
   functor_unitIso_comp := by
     intro U
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
 
 /-- The colimit over the category of elements of the geometric fibre is the set-valued stalk
 over the small étale neighbourhoods. -/
 noncomputable def fiberColimitEquiv (x : GeometricPoint B S hS F)
     (P : (SmallEtale B S hS F)ᵒᵖ ⥤ Type (u + 1)) :
-    ((CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃
+    ((Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃
       stalkSet x P where
   toFun := Quot.map
     (fun a => ⟨Opposite.op ((fiberElementsToNeighborhood B S hS F x).obj a.1.unop), a.2⟩)

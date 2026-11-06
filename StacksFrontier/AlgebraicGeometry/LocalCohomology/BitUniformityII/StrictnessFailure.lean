@@ -234,7 +234,7 @@ public theorem prod_X_pow_eq_monomial (s : Finset (Fin r)) (k : ℕ) :
 of whose entries are smaller than `n`. -/
 public theorem coeff_eq_zero_of_mem_span_X_pow (n : ℕ) (g : MvPolynomial (Fin r) ℤ)
     (hg : g ∈ Ideal.span (Set.range fun i : Fin r => (X i : MvPolynomial (Fin r) ℤ) ^ n))
-    (d : Fin r →₀ ℕ) (hd : ∀ i, d i < n) : coeff d g = 0 := by
+    (d : Fin r →₀ ℕ) (hd : ∀ i, d i < n) : g.coeff d = 0 := by
   obtain ⟨c, hc⟩ := Ideal.mem_span_range_iff_exists_fun.1 hg
   rw [← hc, coeff_sum]
   refine Finset.sum_eq_zero fun i _ => ?_

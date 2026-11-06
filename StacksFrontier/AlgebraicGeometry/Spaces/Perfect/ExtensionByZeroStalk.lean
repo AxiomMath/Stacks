@@ -91,6 +91,12 @@ abbrev Modules :=
 
 variable {B S hS X}
 
+/-- The spaces-étale site of `X` is locally small at its own morphism universe. Instance search
+for this times out before reaching `locallySmall_self`, so it is stated directly. -/
+local instance (priority := high) locallySmall_spacesEtaleRingedSite_extensionByZeroStalk :
+    LocallySmall.{u + 1} (spacesEtaleRingedSite B S hS X).C :=
+  locallySmall_self _
+
 /-- The point of the spaces-étale site of `X` determined by a geometric point of `X`, with its
 fibre functor raised to the universe of the module sections. -/
 abbrev sitePoint (x : GeometricPoint B S hS X.1) :

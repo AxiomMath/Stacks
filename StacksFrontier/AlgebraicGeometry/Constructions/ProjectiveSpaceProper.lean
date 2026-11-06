@@ -65,7 +65,7 @@ theorem isProper_terminalFrom_projectiveSpaceAtUniverse (n : ℕ) :
       have hp0 : p.val.totalDegree = 0 :=
         (MvPolynomial.totalDegree_zero_iff_isHomogeneous (σ := Fin (n + 1))).2
           p.property
-      exact ⟨MvPolynomial.coeff 0 p.val,
+      exact ⟨p.val.coeff 0,
         Subtype.ext ((MvPolynomial.totalDegree_eq_zero_iff_eq_C (p := p.val)).mp hp0).symm⟩⟩
   let : IsScalarTower R A₀ A :=
     IsScalarTower.of_algebraMap_eq (R := R) (S := A₀) (A := A) fun _ ↦ rfl

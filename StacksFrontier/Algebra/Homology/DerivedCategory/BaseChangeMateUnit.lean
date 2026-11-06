@@ -83,24 +83,24 @@ theorem rightDerivedFunctorPlus_unit_app_Qh (K : HomotopyCategory.Plus A) :
     letI := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
     adj.rightDerivedFunctorPlus.unit.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.app K) ≫
-        R.rightDerivedFunctorPlusUnit.app (L.mapHomotopyCategoryPlus.obj K) ≫
-          R.rightDerivedFunctorPlus.map (L.rightDerivedFunctorPlusUnit.app K) := by
+        R.rightDerivedFunctorPlusUnith.app (L.mapHomotopyCategoryPlus.obj K) ≫
+          R.rightDerivedFunctorPlus.map (L.rightDerivedFunctorPlusUnith.app K) := by
   have := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have hαR : (L.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlus)
+        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso A) :=
     Functor.isLeftDerivedFunctor_of_inverts _ _
       ((Functor.associator _ _ _).symm ≪≫
-        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnit).symm _)
+        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnith).symm _)
   have h := adj.mapHomotopyCategoryPlus.derivedη_fac_app
-    (HomotopyCategory.Plus.quasiIso A) (asIso L.rightDerivedFunctorPlusUnit).inv
-    R.rightDerivedFunctorPlusUnit K
+    (HomotopyCategory.Plus.quasiIso A) (asIso L.rightDerivedFunctorPlusUnith).inv
+    R.rightDerivedFunctorPlusUnith K
   have e : adj.rightDerivedFunctorPlus.unit = adj.mapHomotopyCategoryPlus.derivedη
-    (HomotopyCategory.Plus.quasiIso A) (asIso L.rightDerivedFunctorPlusUnit).inv
-    R.rightDerivedFunctorPlusUnit := rfl
+    (HomotopyCategory.Plus.quasiIso A) (asIso L.rightDerivedFunctorPlusUnith).inv
+    R.rightDerivedFunctorPlusUnith := rfl
   rw [e, ← cancel_mono (R.rightDerivedFunctorPlus.map
-    ((asIso L.rightDerivedFunctorPlusUnit).inv.app K)), h, Category.assoc, Category.assoc,
+    ((asIso L.rightDerivedFunctorPlusUnith).inv.app K)), h, Category.assoc, Category.assoc,
     ← Functor.map_comp]
   simp
 
@@ -172,7 +172,7 @@ def derivedSquareLeftIso :
     (Functor.rightDerivedFunctorPlusCompIsoOfExact Lg Le (Lg ⋙ Le) (Iso.refl _)).symm
 
 /-- The unit of right derivation of the exact `f^*` is invertible. -/
-instance isIso_rightDerivedFunctorPlusUnit_exactPullback : IsIso Lf.rightDerivedFunctorPlusUnit :=
+instance isIso_rightDerivedFunctorPlusUnit_exactPullback : IsIso Lf.rightDerivedFunctorPlusUnith :=
   exactUnit_isIso Lf
 
 /-- The derived base change map `Rg_* ⋙ Rf^* ⟶ Re^* ⋙ Rh_*`: the descent, by
@@ -180,7 +180,7 @@ instance isIso_rightDerivedFunctorPlusUnit_exactPullback : IsIso Lf.rightDerived
 abbrev derivedMate :
     Pg.rightDerivedFunctorPlus ⋙ Lf.rightDerivedFunctorPlus ⟶
       Le.rightDerivedFunctorPlus ⋙ Ph.rightDerivedFunctorPlus :=
-  derived Pg Ph Lf Le (mate adjf adje Pg Ph σ) (asIso Lf.rightDerivedFunctorPlusUnit)
+  derived Pg Ph Lf Le (mate adjf adje Pg Ph σ) (asIso Lf.rightDerivedFunctorPlusUnith)
 
 omit [EnoughInjectives 𝒴] [Pg.Additive] [Ph.Additive]
   [PreservesFiniteLimits Lg] [PreservesFiniteColimits Lg] [PreservesFiniteLimits Lf]
@@ -189,14 +189,14 @@ omit [EnoughInjectives 𝒴] [Pg.Additive] [Ph.Additive]
 the degreewise comparison of the composite left adjoints, read through the units of right
 derivation. -/
 theorem derivedSquareLeftIso_fac (K : HomotopyCategory.Plus 𝒮) :
-    Lh.rightDerivedFunctorPlusUnit.app (Lf.mapHomotopyCategoryPlus.obj K) ≫
-      Lh.rightDerivedFunctorPlus.map (Lf.rightDerivedFunctorPlusUnit.app K) ≫
+    Lh.rightDerivedFunctorPlusUnith.app (Lf.mapHomotopyCategoryPlus.obj K) ≫
+      Lh.rightDerivedFunctorPlus.map (Lf.rightDerivedFunctorPlusUnith.app K) ≫
         (derivedSquareLeftIso adjg adjf adje adjh σ).hom.app (DerivedCategory.Plus.Qh.obj K) =
     DerivedCategory.Plus.Qh.map
         ((Functor.mapHomotopyCategoryPlusCompIso (squareLeftIso adjg adjf adje adjh σ)).hom.app K ≫
           (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (Lg ⋙ Le))).inv.app K) ≫
-      Le.rightDerivedFunctorPlusUnit.app (Lg.mapHomotopyCategoryPlus.obj K) ≫
-        Le.rightDerivedFunctorPlus.map (Lg.rightDerivedFunctorPlusUnit.app K) := by
+      Le.rightDerivedFunctorPlusUnith.app (Lg.mapHomotopyCategoryPlus.obj K) ≫
+        Le.rightDerivedFunctorPlus.map (Lg.rightDerivedFunctorPlusUnith.app K) := by
   have h1 := Functor.rightDerivedFunctorPlusCompIsoOfExact_fac Lf Lh (Lg ⋙ Le)
     (squareLeftIso adjg adjf adje adjh σ) K
   have h2 := Functor.rightDerivedFunctorPlusCompIsoOfExact_fac Lg Le (Lg ⋙ Le) (Iso.refl _) K
@@ -217,44 +217,44 @@ theorem map_derivedUnit_comp_derivedMate_app_Qh (K : HomotopyCategory.Plus 𝒮)
         (Lf.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
       Ph.rightDerivedFunctorPlus.map
         ((derivedSquareLeftIso adjg adjf adje adjh σ).hom.app (DerivedCategory.Plus.Qh.obj K)) := by
-  have hnat := (derivedMate adjf adje σ).naturality (Lg.rightDerivedFunctorPlusUnit.app K)
+  have hnat := (derivedMate adjf adje σ).naturality (Lg.rightDerivedFunctorPlusUnith.app K)
   simp only [Functor.comp_map, Functor.comp_obj] at hnat
   have hfac := congrArg (fun t => t.app (Lg.mapHomotopyCategoryPlus.obj K))
-    (derived_fac Pg Ph Lf Le (mate adjf adje Pg Ph σ) (asIso Lf.rightDerivedFunctorPlusUnit))
+    (derived_fac Pg Ph Lf Le (mate adjf adje Pg Ph σ) (asIso Lf.rightDerivedFunctorPlusUnith))
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.whiskerLeft_app, Category.id_comp] at hfac
   rw [Adjunction.rightDerivedFunctorPlus_unit_app_Qh adjg K, Functor.map_comp, Functor.map_comp,
     Category.assoc, Category.assoc, hnat, reassoc_of% hfac]
   simp only [onHomotopy, NatTrans.comp_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.whiskerLeft_app, Functor.associator_inv_app, Category.id_comp, Category.assoc]
-  have h5 := (asIso Lf.rightDerivedFunctorPlusUnit).inv.naturality
+  have h5 := (asIso Lf.rightDerivedFunctorPlusUnith).inv.naturality
     (adjg.mapHomotopyCategoryPlus.unit.app K)
   simp only [Functor.comp_map, Functor.comp_obj] at h5
-  rw [reassoc_of% h5, ← cancel_epi ((asIso Lf.rightDerivedFunctorPlusUnit).hom.app K),
+  rw [reassoc_of% h5, ← cancel_epi ((asIso Lf.rightDerivedFunctorPlusUnith).hom.app K),
     Iso.hom_inv_id_app_assoc]
-  have h6 := adjh.rightDerivedFunctorPlus.unit.naturality (Lf.rightDerivedFunctorPlusUnit.app K)
+  have h6 := adjh.rightDerivedFunctorPlus.unit.naturality (Lf.rightDerivedFunctorPlusUnith.app K)
   simp only [Functor.id_map, Functor.comp_map, Functor.comp_obj, Functor.id_obj] at h6
   simp only [asIso_hom]
   rw [reassoc_of% h6, Adjunction.rightDerivedFunctorPlus_unit_app_Qh adjh
     (Lf.mapHomotopyCategoryPlus.obj K)]
   have hR : Ph.rightDerivedFunctorPlus.map
-        (Lh.rightDerivedFunctorPlusUnit.app (Lf.mapHomotopyCategoryPlus.obj K)) ≫
+        (Lh.rightDerivedFunctorPlusUnith.app (Lf.mapHomotopyCategoryPlus.obj K)) ≫
       Ph.rightDerivedFunctorPlus.map
-        (Lh.rightDerivedFunctorPlus.map (Lf.rightDerivedFunctorPlusUnit.app K)) ≫
+        (Lh.rightDerivedFunctorPlus.map (Lf.rightDerivedFunctorPlusUnith.app K)) ≫
       Ph.rightDerivedFunctorPlus.map
         ((derivedSquareLeftIso adjg adjf adje adjh σ).hom.app (DerivedCategory.Plus.Qh.obj K)) =
       Ph.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
         ((Functor.mapHomotopyCategoryPlusCompIso (squareLeftIso adjg adjf adje adjh σ)).hom.app K ≫
           (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (Lg ⋙ Le))).inv.app K)) ≫
       Ph.rightDerivedFunctorPlus.map
-        (Le.rightDerivedFunctorPlusUnit.app (Lg.mapHomotopyCategoryPlus.obj K)) ≫
+        (Le.rightDerivedFunctorPlusUnith.app (Lg.mapHomotopyCategoryPlus.obj K)) ≫
       Ph.rightDerivedFunctorPlus.map
-        (Le.rightDerivedFunctorPlus.map (Lg.rightDerivedFunctorPlusUnit.app K)) := by
+        (Le.rightDerivedFunctorPlus.map (Lg.rightDerivedFunctorPlusUnith.app K)) := by
     simp only [← Functor.map_comp]
     rw [derivedSquareLeftIso_fac]
   simp only [Category.assoc]
   rw [hR]
-  have h9 := Ph.rightDerivedFunctorPlusUnit.naturality
+  have h9 := Ph.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusCompIso (squareLeftIso adjg adjf adje adjh σ)).hom.app K ≫
       (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (Lg ⋙ Le))).inv.app K)
   simp only [Functor.comp_map, Functor.comp_obj] at h9

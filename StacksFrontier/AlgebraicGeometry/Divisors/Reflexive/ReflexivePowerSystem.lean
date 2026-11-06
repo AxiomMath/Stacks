@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Functor.OfSequence
 public import StacksFrontier.AlgebraicGeometry.Divisors.Reflexive.ReflexivePowerTransitionMulSection
 
 /-!

@@ -162,6 +162,7 @@ variable (C : ChowSituation.{u}) {X : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFin
 attribute [local instance] isFiniteLocallyFreeOfRank_one_of_isInvertible
   isFiniteLocallyFreeOfRank_tensorObj_mul
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The constant-rank step of Stacks 0F9D, in the ring of graded cap families.** Let `(S, δ)`
 be the situation of Stacks 02QL, let `X` be locally of finite type over `S` and let `ℰ₁` and `ℰ₂`
 be finite locally free `𝒪_X`-modules of constant ranks `r` and `s`. Then for every `p ≥ 0`
@@ -237,7 +238,7 @@ theorem powerSumChernElem_tensorObj (E₁ E₂ : X.Modules) (r s : ℕ)
             (powerSumChernElem C T.sP ((Scheme.Modules.pullback T.π).obj E₁) r q.1 *
               powerSumChernElem C T.sP ((Scheme.Modules.pullback T.π).obj E₂) s q.2) := by
     have h := congrArg (Subring.subtype (chernSubring C T.sP)) hup
-    rw [map_sum] at h
+    rw [map_sum (Subring.subtype (chernSubring C T.sP))] at h
     simp only [map_mul, map_natCast] at h
     exact h
   -- Stacks 02U8 for the total Chern classes, hence for `P_p`.
@@ -328,6 +329,7 @@ theorem coeff_totalRationalChernCharacter (F : X.Modules) (r : ℕ)
       = rationalChernCharacter C sX F r p :=
   PowerSeries.coeff_mk p _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0F9D in the commutative subring.** `Stacks.Chow.powerSumChernElem_tensorObj` read
 back inside `Stacks.Chow.chernSubring`, where the identity was proved before being pushed into
 the ambient ring: the inclusion of the subring is injective, so the two statements are
@@ -456,6 +458,7 @@ theorem powerSumChernElem_eq_add_of_shortExact (S : ShortComplex X.Modules)
       powerSumChernElem_eq_powerSumFamily_of_pos C sX S.X₃ r₂ hp,
       GenuineChern.powerSumFamily_chernFamily_eq_add_of_shortExact C sX S exact_S r₁ r₂ p]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The additivity in the commutative subring.**
 `Stacks.Chow.powerSumChernElem_eq_add_of_shortExact`
 read back inside `Stacks.Chow.chernSubring`, where dividing by `p!` is possible: the inclusion of

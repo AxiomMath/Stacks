@@ -85,11 +85,11 @@ theorem nonempty_rightDerivedFunctorPlus_obj_iso_of_injective {A B : Type*} [Cat
     Nonempty (DerivedCategory.Plus.ι.obj (F.rightDerivedFunctorPlus.obj
       (DerivedCategory.Plus.Q.obj I)) ≅
         DerivedCategory.Q.obj ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj I.obj)) := by
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient _).obj I)) := inferInstance
   have : IsIso (F.mapHomologicalComplexDerivedUnit I.property) :=
     inferInstanceAs (IsIso ((F.mapHomologicalComplexQhIso I.property).inv ≫
-      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient _).obj I))))
   exact ⟨DerivedCategory.Plus.ι.mapIso (F.rightDerivedFunctorPlus.mapIso
       ((DerivedCategory.Plus.quotientCompQhIso _).app I).symm) ≪≫

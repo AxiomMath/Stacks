@@ -103,7 +103,7 @@ theorem injective_etaleFundamentalGroupMap_of_essSurj {X Y : Scheme.{u}} [Connec
   have _ : W.Faithful :=
     Functor.faithful_whiskeringLeft_obj_of_essSurj (Type u) (finiteEtaleBaseChange f)
   have hmap : Function.Injective (W.mapAut (finiteEtaleFiberFunctor x)) := fun a b hab =>
-    Iso.ext (W.map_injective (congrArg Iso.hom hab))
+    Aut.ext (Iso.ext (W.map_injective (congrArg (fun e => e.asIso.hom) hab)))
   exact (finiteEtaleFiberProjectionIso f x).conjAut.injective.comp hmap
 
 /-! ### Injectivity of a specialization map -/

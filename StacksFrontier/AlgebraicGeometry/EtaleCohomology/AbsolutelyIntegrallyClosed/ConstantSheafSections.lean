@@ -47,9 +47,9 @@ variable (B : BigEtaleSite.{u}) (Y : Scheme.{u}) (hY : B.Contains Y) (M : AddCom
 /-- The constant abelian presheaf on the size-bounded small étale site of `Y` is the restriction
 of the constant abelian sheaf on the one-universe model of the small étale site of `Y`. -/
 def boundedIsoRestriction :
-    ((constantSheaf (SmallEtale.topology B Y hY) AddCommGrpCat.{u + 1}).obj M).val ≅
+    ((constantSheaf (SmallEtale.topology B Y hY) AddCommGrpCat.{u + 1}).obj M).obj ≅
       (SmallEtale.toEtaleSite B Y hY ⋙ AsSmall.up).op ⋙
-        ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).val :=
+        ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).obj :=
   (sheafToPresheaf (SmallEtale.topology B Y hY) AddCommGrpCat.{u + 1}).mapIso
       ((equivCommuteConstant' (SmallEtale.topology B Y hY) AddCommGrpCat.{u + 1}
         Y.smallEtaleTopology (SmallEtale.toEtaleSite B Y hY)
@@ -73,7 +73,7 @@ of Stacks 021B. -/
 def boundedIsoLocallyConstant :
     (SmallEtale.toScheme B Y hY).op ⋙ locallyConstantMapsAb.{u, u + 1} (ToType M) ≅
       (SmallEtale.toEtaleSite B Y hY ⋙ AsSmall.up).op ⋙
-        ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).val :=
+        ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).obj :=
   (constantSheafIsoLocallyConstantMapsAb_smallEtale_presheaf.{u, u + 1} B Y hY
     (ToType M)).symm ≪≫ boundedIsoRestriction B Y hY M
 
@@ -85,7 +85,7 @@ section Opens
 maps on it**, on the one-universe model of the small étale site. -/
 def opensIsoLocallyConstant (U : Y.Opens) :
     AddCommGrpCat.of (LocallyConstant (U : Set Y) (ToType M)) ≅
-      ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).val.obj
+      ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).obj.obj
         (op ((MayerVietoris.opensToSite Y).obj U)) :=
   (boundedIsoLocallyConstant B Y hY M).app
     (op ((SmallEtale.opensToSmallEtale B Y hY).obj U))
@@ -96,7 +96,7 @@ inclusion `U ≤ V` gives the section attached to the composite of that map with
 `U` into `V`. -/
 theorem opensIsoLocallyConstant_naturality {U V : Y.Opens} (hUV : U ≤ V)
     (z : LocallyConstant (V : Set Y) (ToType M)) :
-    ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).val.map
+    ((constantSheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}).obj M).obj.map
         ((MayerVietoris.opensToSite Y).map (homOfLE hUV)).op
         ((opensIsoLocallyConstant B Y hY M V).hom z) =
       (opensIsoLocallyConstant B Y hY M U).hom

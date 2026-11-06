@@ -212,8 +212,8 @@ lemma smul_restrict_eq {Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f] (W : Y
     (r : Γ(Y, W)) : ((M.restrict f).smul r) = M.smul ((f.appIso W).inv r) := by
   have h := Scheme.Modules.smul_restrictAppIso_hom f M W r
   rw [Scheme.Modules.restrictAppIso] at h
-  simp only [Iso.refl_hom] at h
-  exact h
+  simp only [Iso.refl_hom, Category.comp_id, Category.id_comp] at h
+  exact End.ext h
 
 /-- A submodule of `M.restrict V.ι` is stable under the action of the sections of `𝒪_X`. -/
 lemma smul_mem_restrict {V : X.Opens} (N : SheafOfModules.Submodule (M.restrict V.ι))
@@ -224,7 +224,7 @@ lemma smul_mem_restrict {V : X.Opens} (N : SheafOfModules.Submodule (M.restrict 
     rw [smul_restrict_eq]
     congr 1
     exact congr($((V.ι.appIso W).hom_inv_id) r)
-  have h3 : ((M.restrict V.ι).smul ((V.ι.appIso W).hom r)).hom x = r • x := by
+  have h3 : ((M.restrict V.ι).smul ((V.ι.appIso W).hom r)).asHom x = r • x := by
     rw [h2]; rfl
   rw [← h3]
   exact h1

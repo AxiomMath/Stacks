@@ -137,7 +137,7 @@ theorem exists_isColimit_finite_of_torsion {p : ℕ} (M : AddCommGrpCat.{w})
       refine ⟨⟨AddSubgroup.zmultiples (@id (M : Type w) a), ?_⟩,
         ⟨@id (M : Type w) a, AddSubgroup.mem_zmultiples _⟩, rfl⟩
       obtain ⟨n, hn, -, hna⟩ := hM a
-      exact (isOfFinAddOrder_iff_nsmul_eq_zero.2 ⟨n, hn, hna⟩).finite_zmultiples.to_subtype
+      exact (isOfFinAddOrder_iff_nsmul_eq_zero.2 ⟨n, hn, hna⟩).finite_zmultiples
     · intro K K' x y h
       obtain ⟨L, hKL, hK'L⟩ := exists_ge_ge K K'
       exact ⟨L, homOfLE hKL, homOfLE hK'L, Subtype.ext h⟩

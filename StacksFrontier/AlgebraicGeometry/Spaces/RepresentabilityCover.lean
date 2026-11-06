@@ -311,9 +311,9 @@ theorem exists_charts_sheafify_iSup {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     obtain ⟨v, hv⟩ : ∃ v : (X i).toFunctor.obj (op W'), v.1 = F.map h.op s.1 :=
       ⟨⟨F.map h.op s.1, hi⟩, rfl⟩
     obtain ⟨t, ht⟩ : ∃ t : (yoneda.obj (T i)).obj (op W'), (w i).hom.app (op W') t = v :=
-      ⟨(w i).inv.app (op W') v, by rw [← FunctorToTypes.comp, Iso.inv_hom_id]; rfl⟩
+      ⟨(w i).inv.app (op W') v, by simp⟩
     refine ⟨(Sigma.ι (fun j => yoneda.obj (T j)) i).app (op W') t, Subtype.ext ?_⟩
-    rw [← FunctorToTypes.comp, Sigma.ι_desc]
+    rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
     have h2 : (((f i).app (op W') t).1 : F.obj (op W')) =
         ((w i).hom ≫ (X i).ι).app (op W') t := by
       rw [← hfL i]

@@ -344,7 +344,7 @@ private theorem hom_ext_baseChangeSection (ψ : A ⟶ As) (hpo : IsPushout φ ρ
           (baseChangeSection B hX hA hS hAs φ ρ φs ψ hpo.w) =
         β.app (op (BigFppfOver.specOver B hS hAs φs))
           (baseChangeSection B hX hA hS hAs φ ρ φs ψ hpo.w)) : α = β := by
-  rw [← cancel_epi (BigFppfOver.relocalizeRestrictSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).inv]
+  rw [← (BigFppfOver.relocalizeRestrictSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).cancel_iso_inv_left]
   apply yonedaEquiv.injective
   show α.app (op (BigFppfOver.specOver B hS hAs φs))
       ((BigFppfOver.relocalizeRestrictSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).inv.app

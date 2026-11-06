@@ -284,7 +284,7 @@ def hilbertFunctorIso
     (fun T => Equiv.toIso ((hilbertLocusEquiv hr hp T.unop).trans Equiv.ulift.symm))
     (fun {T T'} g => by
       ext K
-      refine ULift.ext _ _ ((cancel_mono (hilbertLocusHom.{u} n r hr P)).1 ?_)
+      refine ULift.ext ((cancel_mono (hilbertLocusHom.{u} n r hr P)).1 ?_)
       change toHilbertLocus hr hp (baseChange_mem_hilbertFamilies g.unop K.2) ≫ _ =
         (g.unop ≫ toHilbertLocus hr hp K.2) ≫ _
       rw [toHilbertLocus_comp, Category.assoc, toHilbertLocus_comp, comp_toGrassmannian])

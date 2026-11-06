@@ -58,7 +58,7 @@ def finiteTypeContinuousModuleHomMk
     {P Q : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G}
     (f : P.obj.obj.obj.V →ₗ[ZMod m] Q.obj.obj.obj.V)
     (hf : ∀ (g : G) (x : P.obj.obj.obj.V),
-      f ((P.obj.obj.obj.ρ g).hom x) = (Q.obj.obj.obj.ρ g).hom (f x)) : P ⟶ Q :=
+      f ((P.obj.obj.obj.ρ g).asHom.hom x) = (Q.obj.obj.obj.ρ g).asHom.hom (f x)) : P ⟶ Q :=
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom f
       comm := fun g => by
@@ -196,32 +196,32 @@ private theorem inv_mul_mem_stabilizer_of_smul_eq {H X : Type*} [Group H] [MulAc
 private theorem rho_mul_apply {H : Type (u + 1)} [Group H] [TopologicalSpace H] {n : ℕ}
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod n) H) (b c : H)
     (x : M.obj.obj.obj.V) :
-    (M.obj.obj.obj.ρ (b * c)).hom x = (M.obj.obj.obj.ρ b).hom ((M.obj.obj.obj.ρ c).hom x) :=
-  congrArg (fun f => f.hom x) (map_mul M.obj.obj.obj.ρ b c)
+    (M.obj.obj.obj.ρ (b * c)).asHom.hom x = (M.obj.obj.obj.ρ b).asHom.hom ((M.obj.obj.obj.ρ c).asHom.hom x) :=
+  congrArg (fun f => f.asHom.hom x) (map_mul M.obj.obj.obj.ρ b c)
 
 /-- Right multiplication by an element fixing `x` does not change `ρ a x`. -/
 private theorem rho_mul_apply_of_fixed {H : Type (u + 1)} [Group H] [TopologicalSpace H] {n : ℕ}
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod n) H) {a s : H}
-    {x : M.obj.obj.obj.V} (hx : (M.obj.obj.obj.ρ s).hom x = x) :
-    (M.obj.obj.obj.ρ (a * s)).hom x = (M.obj.obj.obj.ρ a).hom x := by
+    {x : M.obj.obj.obj.V} (hx : (M.obj.obj.obj.ρ s).asHom.hom x = x) :
+    (M.obj.obj.obj.ρ (a * s)).asHom.hom x = (M.obj.obj.obj.ρ a).asHom.hom x := by
   rw [rho_mul_apply, hx]
 
 variable {A} (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G) {y₀ : Y}
   {rep : Y → G} (hrep : ∀ y, rep y • y₀ = y) {v : A → M.obj.obj.obj.V}
-  (hv : ∀ s ∈ MulAction.stabilizer G y₀, ∀ a, (M.obj.obj.obj.ρ s).hom (v a) = v a)
+  (hv : ∀ s ∈ MulAction.stabilizer G y₀, ∀ a, (M.obj.obj.obj.ρ s).asHom.hom (v a) = v a)
 
 omit [IsTopologicalGroup G] [NeZero m] in
 include hrep hv in
 /-- The evaluation map is equivariant. -/
 theorem permEval_equivariant (g : G) (φ : ULift.{u + 1} (Y → A → ZMod m)) :
-    ∑ y : Y, ∑ a : A, φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ (rep y)).hom (v a) =
-      (M.obj.obj.obj.ρ g).hom
-        (∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).hom (v a)) := by
+    ∑ y : Y, ∑ a : A, φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (v a) =
+      (M.obj.obj.obj.ρ g).asHom.hom
+        (∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (v a)) := by
   simp only [map_sum, map_smul]
   refine Fintype.sum_equiv (MulAction.toPerm g⁻¹) _ _ fun y => ?_
   refine Finset.sum_congr rfl fun a _ => ?_
-  show _ = φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ g).hom
-    ((M.obj.obj.obj.ρ (rep (g⁻¹ • y))).hom (v a))
+  show _ = φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ g).asHom.hom
+    ((M.obj.obj.obj.ρ (rep (g⁻¹ • y))).asHom.hom (v a))
   congr 1
   have hs := inv_mul_mem_stabilizer_of_smul_eq (a := g * rep (g⁻¹ • y)) (b := rep y) (y₀ := y₀)
     (by rw [mul_smul, hrep, hrep, smul_inv_smul])
@@ -233,7 +233,7 @@ fixed by the stabilizer of `y₀`, where `rep y` carries `y₀` to `y`. On the b
 `(y₀, a)` it is `v a`. -/
 def permEval : permModule m A hY ⟶ M :=
   finiteTypeContinuousModuleHomMk m
-    { toFun := fun φ => ∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).hom (v a)
+    { toFun := fun φ => ∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (v a)
       map_add' := fun φ ψ => by
         change ∑ y : Y, ∑ a : A, (φ.down y a + ψ.down y a) • _ = _
         simp only [add_smul, Finset.sum_add_distrib]
@@ -245,7 +245,7 @@ def permEval : permModule m A hY ⟶ M :=
 /-- The evaluation map sends `φ` to `∑_y ∑_a φ(y)(a) · rep(y) (v a)`. -/
 theorem permEval_apply (φ : ULift.{u + 1} (Y → A → ZMod m)) :
     (permEval m hY M hrep hv).hom.hom.hom.hom.hom φ =
-      ∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).hom (v a) :=
+      ∑ y : Y, ∑ a : A, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (v a) :=
   rfl
 
 end Maps
@@ -311,11 +311,11 @@ def finiteTypeContinuousModuleIsoMk
     {P Q : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G}
     (f : P.obj.obj.obj.V ≃ₗ[ZMod m] Q.obj.obj.obj.V)
     (hf : ∀ (g : G) (x : P.obj.obj.obj.V),
-      f ((P.obj.obj.obj.ρ g).hom x) = (Q.obj.obj.obj.ρ g).hom (f x)) : P ≅ Q where
+      f ((P.obj.obj.obj.ρ g).asHom.hom x) = (Q.obj.obj.obj.ρ g).asHom.hom (f x)) : P ≅ Q where
   hom := finiteTypeContinuousModuleHomMk m f.toLinearMap hf
   inv := finiteTypeContinuousModuleHomMk m f.symm.toLinearMap fun g y =>
     f.injective ((f.apply_symm_apply _).trans
-      ((congrArg (Q.obj.obj.obj.ρ g).hom (f.apply_symm_apply y)).symm.trans
+      ((congrArg (Q.obj.obj.obj.ρ g).asHom.hom (f.apply_symm_apply y)).symm.trans
         (hf g (f.symm y)).symm))
   hom_inv_id := finiteTypeContinuousModule_hom_ext m fun x => f.symm_apply_apply x
   inv_hom_id := finiteTypeContinuousModule_hom_ext m fun x => f.apply_symm_apply x
@@ -361,7 +361,7 @@ variable (T : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G ⥤ Module
   (hY : ∀ y : Y, IsOpen (MulAction.stabilizer G y : Set G)) {y₀ : Y}
   (htrans : ∀ y, ∃ g : G, g • y₀ = y) (hN : (MulAction.stabilizer G y₀).Normal)
   (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G)
-  (hM : ∀ s ∈ MulAction.stabilizer G y₀, ∀ x, (M.obj.obj.obj.ρ s).hom x = x)
+  (hM : ∀ s ∈ MulAction.stabilizer G y₀, ∀ x, (M.obj.obj.obj.ρ s).asHom.hom x = x)
 
 omit [CompactSpace G] in
 include hT htrans hN hM in
@@ -387,7 +387,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
   let ψf : M.obj.obj.obj.V → (P ⟶ M) := fun b =>
     permEval m hY M hrep (v := fun _ => b) (fun s hs _ => hM s hs b)
   have hψf : ∀ b φ, (ψf b).hom.hom.hom.hom.hom φ =
-      ∑ y : Y, ∑ a : PUnit.{u + 2}, φ.down y a • (M.obj.obj.obj.ρ (rep y)).hom b := fun _ _ => rfl
+      ∑ y : Y, ∑ a : PUnit.{u + 2}, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom b := fun _ _ => rfl
   let ψ : M.obj.obj.obj.V →+ (P ⟶ M) :=
     { toFun := ψf
       map_zero' := finiteTypeContinuousModule_hom_ext m fun φ => by
@@ -414,7 +414,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     show (ψf b).hom.hom.hom.hom.hom ((R g).hom.hom.hom.hom.hom φ) =
       (ψf (σ g⁻¹ b)).hom.hom.hom.hom.hom φ
     rw [hψf, hψf, ← (hτ g).sum_comp (fun y => ∑ a : PUnit.{u + 2},
-      φ.down y a • (M.obj.obj.obj.ρ (rep y)).hom (σ g⁻¹ b))]
+      φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (σ g⁻¹ b))]
     refine Finset.sum_congr rfl fun y _ => Finset.sum_congr rfl fun a _ => ?_
     show φ.down (τ g y) a • _ = φ.down (τ g y) a • _
     congr 1
@@ -422,7 +422,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     have ht : t ∈ MulAction.stabilizer G y₀ :=
       inv_mul_mem_stabilizer_of_smul_eq (by rw [mul_smul, hrep])
     have ht' : g * t * g⁻¹ ∈ MulAction.stabilizer G y₀ := hN.conj_mem t ht g
-    show _ = (M.obj.obj.obj.ρ (rep (τ g y))).hom ((M.obj.obj.obj.ρ g⁻¹).hom b)
+    show _ = (M.obj.obj.obj.ρ (rep (τ g y))).asHom.hom ((M.obj.obj.obj.ρ g⁻¹).asHom.hom b)
     rw [← rho_mul_apply, show rep (τ g y) * g⁻¹ = rep y * (g * t * g⁻¹) by rw [ht_def]; group,
       rho_mul_apply_of_fixed M (hM _ ht' b)]
   let ε : P ⟶ trivialContinuousModule m :=
@@ -469,7 +469,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     intro b
     refine ⟨⟨fun y a => if y = y₀ ∧ a = b then 1 else 0⟩, ?_⟩
     show ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if y = y₀ ∧ a = b then (1 : ZMod m) else 0) •
-      (M.obj.obj.obj.ρ (rep y)).hom a = b
+      (M.obj.obj.obj.ρ (rep y)).asHom.hom a = b
     rw [Finset.sum_eq_single y₀ (fun y _ hy => Finset.sum_eq_zero fun a _ => by
         rw [if_neg (fun h => hy h.1), zero_smul]) (fun h => absurd (Finset.mem_univ _) h),
       Finset.sum_eq_single b (fun a _ ha => by rw [if_neg (fun h => ha h.2), zero_smul])
@@ -508,7 +508,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     rw [Finset.sum_ite_eq Finset.univ a, if_pos (Finset.mem_univ _)]
   have hιΨ : ∀ b, ι b ≫ Ψ = ψ b := fun b => finiteTypeContinuousModule_hom_ext m fun φ => by
     show ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if a = b then φ.down y PUnit.unit else 0) •
-      (M.obj.obj.obj.ρ (rep y)).hom a = (ψf b).hom.hom.hom.hom.hom φ
+      (M.obj.obj.obj.ρ (rep y)).asHom.hom a = (ψf b).hom.hom.hom.hom.hom φ
     rw [hψf]
     refine Finset.sum_congr rfl fun y _ => ?_
     simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]

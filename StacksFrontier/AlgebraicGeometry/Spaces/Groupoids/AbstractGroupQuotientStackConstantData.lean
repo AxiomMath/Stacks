@@ -98,6 +98,24 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   {G : Type (max (u + 1) v)} [Group G] [Small.{u} G]
   (hG : 𝒞.Contains (constantGroupScheme G S).X.left)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_absGrpQuotConstData :
+    HasPullbacks ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_absGrpQuotConstData
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasLimitsOfShapeDiscrete_presheaf_absGrpQuotConstData
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### Points of the constant group scheme as locally constant maps -/
 
 /-- The scheme underlying an object of the big fppf site of `S`. -/
@@ -229,7 +247,7 @@ variable (ρ₀ : G →* Aut X₀)
 def actFamily {V : BigFppfOver 𝒞 S hS}
     (gp : (constantGroupPointsOnSite 𝒞 S hS G hG).obj (op V)) (x : X₀.obj (op V)) :
     Presieve.FamilyOfElements X₀ (constSieve hG gp).arrows :=
-  fun W f hf => (ρ₀ hf.choose).hom.app (op W) (X₀.map f.op x)
+  fun W f hf => (ρ₀ hf.choose).asIso.hom.app (op W) (X₀.map f.op x)
 
 include hX₀ in
 /-- The family `actFamily` of sections of a sheaf is compatible. -/
@@ -263,7 +281,7 @@ constant with value `g` is the action of `g`. -/
 theorem actGlue_spec {V W : BigFppfOver 𝒞 S hS}
     (gp : (constantGroupPointsOnSite 𝒞 S hS G hG).obj (op V)) (x : X₀.obj (op V))
     (f : W ⟶ V) (g : G) (hg : ∀ w : sch W, ptFun hG gp (schMap f w) = g) :
-    X₀.map f.op (actGlue hG hX₀ ρ₀ gp x) = (ρ₀ g).hom.app (op W) (X₀.map f.op x) := by
+    X₀.map f.op (actGlue hG hX₀ ρ₀ gp x) = (ρ₀ g).asIso.hom.app (op W) (X₀.map f.op x) := by
   have hf : constSieve hG gp f := ⟨g, hg⟩
   rw [actGlue, Presieve.IsSheafFor.valid_glue _ _ _ hf]
   rcases isEmpty_or_nonempty (sch W) with hW | ⟨⟨w⟩⟩
@@ -308,7 +326,7 @@ theorem actGlue_mul {V : BigFppfOver 𝒞 S hS}
 theorem actGlue_of_const {V : BigFppfOver 𝒞 S hS}
     (gp : (constantGroupPointsOnSite 𝒞 S hS G hG).obj (op V)) (x : X₀.obj (op V)) (g : G)
     (hg : ∀ w : sch V, ptFun hG gp w = g) :
-    actGlue hG hX₀ ρ₀ gp x = (ρ₀ g).hom.app (op V) x := by
+    actGlue hG hX₀ ρ₀ gp x = (ρ₀ g).asIso.hom.app (op V) x := by
   simpa only [op_id, Functor.map_id_apply] using
     actGlue_spec hG hX₀ ρ₀ gp x (𝟙 V) g (fun w => by rw [schMap_id, hg])
 

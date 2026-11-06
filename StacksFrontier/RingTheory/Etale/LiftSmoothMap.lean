@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Finiteness.Projective
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
 public import Mathlib.RingTheory.TensorProduct.Quotient
 public import StacksFrontier.RingTheory.Etale.Basic
 public import StacksFrontier.RingTheory.Etale.LiftIdempotentsAndModules

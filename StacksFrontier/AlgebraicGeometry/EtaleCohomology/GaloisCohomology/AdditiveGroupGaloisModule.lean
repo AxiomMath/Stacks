@@ -117,7 +117,7 @@ theorem additiveStalkToSepClosure_abelianEtaleStalkGerm (U : SmallEtale B (Spec 
     (t : ((additiveSheafRestriction B K hK).obj.obj (op U) : _)) :
     ConcreteCategory.hom (additiveStalkToSepClosure B K hK sbar)
         (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-          (additiveSheafRestriction B K hK) ⟨U, p⟩ t) =
+          (additiveSheafRestriction B K hK) ⟨p⟩ t) =
       ConcreteCategory.hom (additiveSectionEval B K hK sbar U p) t :=
   ConcreteCategory.congr_hom
     (toPresheafFiber_comp_additiveStalkToSepClosure B K hK sbar U p) t
@@ -144,17 +144,17 @@ theorem additiveStalkToSepClosure_rho_abelianEtaleStalkGerm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (additiveSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (additiveSheafRestriction B K hK)).obj.obj.ρ σ)
+              (additiveSheafRestriction B K hK)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
                 (additiveSheafRestriction B K hK)).symm
               (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-                (additiveSheafRestriction B K hK) ⟨U, p⟩ t)))) =
+                (additiveSheafRestriction B K hK) ⟨p⟩ t)))) =
       ConcreteCategory.hom (sepClosureAddSmul K sbar σ)
         (ConcreteCategory.hom (additiveStalkToSepClosure B K hK sbar)
           (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-            (additiveSheafRestriction B K hK) ⟨U, p⟩ t)) := by
+            (additiveSheafRestriction B K hK) ⟨p⟩ t)) := by
   rw [etaleGaloisModuleAddEquivStalk_rho_abelianEtaleStalkGerm.{u, u + 1} B K hK sbar
-      (additiveSheafRestriction B K hK) σ ⟨U, p⟩ t,
+      (additiveSheafRestriction B K hK) σ ⟨p⟩ t,
     additiveStalkToSepClosure_abelianEtaleStalkGerm,
     additiveStalkToSepClosure_abelianEtaleStalkGerm,
     additiveSectionEval_galoisFiberAction]
@@ -171,7 +171,7 @@ theorem additiveStalkToSepClosure_rho_symm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (additiveSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (additiveSheafRestriction B K hK)).obj.obj.ρ σ)
+              (additiveSheafRestriction B K hK)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
               (additiveSheafRestriction B K hK)).symm y))) =
       ConcreteCategory.hom (sepClosureAddSmul K sbar σ)
@@ -190,7 +190,7 @@ theorem additiveStalkToSepClosure_etaleGaloisModule_rho
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (additiveSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-            (additiveSheafRestriction B K hK)).obj.obj.ρ σ) x)) =
+            (additiveSheafRestriction B K hK)).obj.obj.ρ σ).asHom x)) =
       ConcreteCategory.hom (sepClosureAddSmul K sbar σ)
         (ConcreteCategory.hom (additiveStalkToSepClosure B K hK sbar)
           (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
@@ -204,8 +204,8 @@ theorem additiveStalkToSepClosure_etaleGaloisModule_rho
 hypothesis `CategoryTheory.Action.mkIso` asks for. -/
 theorem additiveGaloisModuleIsoSepClosure_comm
     (σ : GeometricPoint.absoluteGaloisGroup sbar) :
-    (etaleGaloisModule.{u, u + 1} B K hK sbar
-          (additiveSheafRestriction B K hK)).obj.obj.ρ σ ≫
+    ((etaleGaloisModule.{u, u + 1} B K hK sbar
+          (additiveSheafRestriction B K hK)).obj.obj.ρ σ).asHom ≫
         (additiveGaloisModuleIsoSepClosure B K hK sbar).hom =
       (additiveGaloisModuleIsoSepClosure B K hK sbar).hom ≫ sepClosureAddSmul K sbar σ :=
   AddCommGrpCat.hom_ext (AddMonoidHom.ext

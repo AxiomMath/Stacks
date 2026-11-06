@@ -191,15 +191,19 @@ def degreeZeroCocycle (a : A.A) : A.Cocycle 0 :=
 `D(A, d)` of left multiplication by `a`. -/
 def regularEndAlgHom :
     A.A →ₐ[R] End ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) where
-  toFun a := (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
-    (regularMulLeft A (degreeZeroCocycle A hA a))
+  toFun a := End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
+    (regularMulLeft A (degreeZeroCocycle A hA a)))
   map_one' := by
+    ext1
+    dsimp only [End.one_asHom]
     rw [show regularMulLeft A (degreeZeroCocycle A hA 1) = 𝟙 _ from
       Hom.ext (LinearMap.ext fun x => by
         rw [regularMulLeft_toFun_apply]
         exact one_mul x)]
-    exact CategoryTheory.Functor.map_id _ _
+    exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_id _
   map_mul' a b := by
+    ext1
+    dsimp only [End.mul_asHom]
     rw [show regularMulLeft A (degreeZeroCocycle A hA (a * b)) =
         regularMulLeft A (degreeZeroCocycle A hA b) ≫
           regularMulLeft A (degreeZeroCocycle A hA a) from
@@ -207,16 +211,20 @@ def regularEndAlgHom :
         rw [regularMulLeft_toFun_apply, Hom.comp_toFun_apply, regularMulLeft_toFun_apply,
           regularMulLeft_toFun_apply]
         exact mul_assoc a b x)]
-    exact Functor.map_comp _ _ _
+    exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_comp _ _
   map_zero' := by
+    ext1
+    change _ = (0 : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶ ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)))
     rw [show regularMulLeft A (degreeZeroCocycle A hA 0) = 0 from
       Hom.ext (LinearMap.ext fun x => by
         rw [regularMulLeft_toFun_apply]
         change (0 : A.A) * x = (0 : regularModule A ⟶ regularModule A).toFun x
         rw [zero_mul]
         rfl)]
-    exact Functor.map_zero _ _ _
+    exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_zero _ _
   map_add' a b := by
+    ext1
+    change _ = (_ : ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) ⟶ ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A))) + _
     rw [show regularMulLeft A (degreeZeroCocycle A hA (a + b)) =
         regularMulLeft A (degreeZeroCocycle A hA a) +
           regularMulLeft A (degreeZeroCocycle A hA b) from
@@ -224,7 +232,7 @@ def regularEndAlgHom :
         rw [regularMulLeft_toFun_apply, Hom.hom_add_toFun, LinearMap.add_apply,
           regularMulLeft_toFun_apply, regularMulLeft_toFun_apply]
         exact add_mul a b x)]
-    exact Functor.map_add _
+    exact (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map_add
   commutes' r := by
     have he : regularMulLeft A (degreeZeroCocycle A hA (algebraMap R A.A r)) = r • 𝟙 _ :=
       Hom.ext (LinearMap.ext fun x => by
@@ -232,7 +240,8 @@ def regularEndAlgHom :
         change algebraMap R A.A r * x = _
         rw [← Algebra.smul_def]
         rfl)
-    change _ = r • 𝟙 _
+    ext1
+    change _ = r • 𝟙 ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A))
     rw [he, Functor.map_smul, CategoryTheory.Functor.map_id]
 
 /-- The bijection `A ≃ End_{D(A, d)}(A)` for an algebra concentrated in degree zero: the
@@ -241,15 +250,15 @@ identification `H^0(A) ≃ A` of `DifferentialGradedAlgebra.cohomologyZeroEquiv`
 identification `A[0] = A`. -/
 def regularEndEquiv :
     A.A ≃ End ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).obj (regularModule A)) :=
-  ((A.cohomologyZeroEquiv hA).symm.trans (cohomologyEquivDerivedHom A 0)).trans
+  (((A.cohomologyZeroEquiv hA).symm.trans (cohomologyEquivDerivedHom A 0)).trans
     ((Iso.refl _).homCongr
       ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).mapIso
-        ((shiftZeroIso A).app (regularModule A))))
+        ((shiftZeroIso A).app (regularModule A))))).trans End.homEquiv.symm
 
 /-- The bijection `A ≃ End_{D(A, d)}(A)` is left multiplication. -/
 theorem regularEndEquiv_apply (a : A.A) :
-    regularEndEquiv A hA a = (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
-      (regularMulLeft A (degreeZeroCocycle A hA a)) := by
+    regularEndEquiv A hA a = End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
+      (regularMulLeft A (degreeZeroCocycle A hA a))) := by
   simp only [regularEndEquiv, Equiv.trans_apply, regularMulLeft, Functor.map_comp]
   rfl
 

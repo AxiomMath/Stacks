@@ -218,6 +218,7 @@ noncomputable def GradedModule.coprodDirectSumHom :
       (A.toPresheafGradedAlgebra.toTotalSheaf J) M.ungradedSheaf M.toUngradedSheaf
       (GradedModule.structureHom_comp_toTotalSheaf (A := A) (J := J))
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The `R`-module underlying the total module of a graded module concentrated in nonnegative
 degrees is the coproduct of its homogeneous pieces.** -/
 noncomputable def GradedModule.coprodIsoUngradedSheaf

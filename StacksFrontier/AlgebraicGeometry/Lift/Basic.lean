@@ -117,8 +117,8 @@ theorem exists_affineOpen_hom_blowUp {Y : Scheme.{u}} (I : X.IdealSheafData) (f 
     rwa [halg]
   have hIB' : (I.ideal U).map
         (algebraMap (X.presheaf.obj (op (U : X.Opens))) Γ(Y, (V : Y.Opens))) =
-      Ideal.span {algebraMap (X.presheaf.obj (op (U : X.Opens))) Γ(Y, (V : Y.Opens))
-        ((⟨a, haJ⟩ : I.ideal U) : X.presheaf.obj (op (U : X.Opens)))} := by
+      Ideal.span {(algebraMap (X.presheaf.obj (op (U : X.Opens))) Γ(Y, (V : Y.Opens))
+        ((⟨a, haJ⟩ : I.ideal U) : X.presheaf.obj (op (U : X.Opens))))} := by
     rwa [halg, ← Stacks.IdealSheaf.ideal_comap_appLE I f U V hVU]
   refine ⟨V, V.2.isoSpec.hom ≫
     Stacks.AlgebraicGeometry.AffineBlowupLift.toBlowUp I U ⟨a, haJ⟩ _ hnzd' hIB', hyV, ?_⟩

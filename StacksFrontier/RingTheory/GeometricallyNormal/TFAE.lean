@@ -153,7 +153,6 @@ theorem TensorProduct.exists_algebraMap_eq_toIntegralClosure {D Q S : Type*} [Co
     ∃ y : S,
       algebraMap S (S ⊗[D] Q) y = (TensorProduct.toIntegralClosure D S Q z : S ⊗[D] Q) := by
   induction z with
-  | zero => exact ⟨0, by simp⟩
   | tmul s c =>
       obtain ⟨d, hd⟩ : ∃ d : D, algebraMap D Q d = (c : Q) := by
         have hc : (c : Q) ∈ (⊥ : Subalgebra D Q) := h ▸ c.2
@@ -329,7 +328,6 @@ theorem isNormalRing_tensorProduct_of_forall_fg_intermediateField
     (fun i => inclIntermediateFieldRange (A := A) i.1)
     (fun _ _ h => inclIntermediateFieldRange_mono h) (fun x => ?_) (fun i => ?_)
   · induction x with
-    | zero => exact ⟨Classical.arbitrary _, zero_mem _⟩
     | tmul l a =>
         refine ⟨⟨IntermediateField.adjoin k {l},
           IntermediateField.fg_adjoin_of_finite (Set.finite_singleton l)⟩,
@@ -414,7 +412,7 @@ private theorem isNormalRing_tensorProduct_of_isSeparablyGenerated (F : Type u) 
     [Field F] [Field K] [Algebra F K] [Algebra.IsSeparablyGenerated F K] (T : Type w) [CommRing T]
     [Algebra F T] (h : IsNormalRing T) : IsNormalRing (K ⊗[F] T) := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := F) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := F) (K := K)
   have := hsep
   have e : FractionRing (MvPolynomial (s : Type v) F) ≃ₐ[F] IntermediateField.adjoin F s :=
     hs.1.aevalEquivField.trans (IntermediateField.equivOfEq (by rw [Subtype.range_coe]))

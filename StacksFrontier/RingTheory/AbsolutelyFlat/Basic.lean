@@ -3,6 +3,7 @@ module
 public import Mathlib.RingTheory.Etale.Weakly
 public import Mathlib.RingTheory.Flat.Localization
 public import Mathlib.RingTheory.Ideal.Pure
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.RingTheory.KrullDimension.Basic
 public import Mathlib.RingTheory.KrullDimension.Zero
 public import Mathlib.RingTheory.LocalProperties.Reduced

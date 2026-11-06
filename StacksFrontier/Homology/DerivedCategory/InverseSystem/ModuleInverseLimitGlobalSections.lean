@@ -442,7 +442,7 @@ private lemma epi_underlying_delta
     congr 1
     rw [map_lift_piComparison]
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [Category.assoc, Pi.lift_π, G.map_comp, piComparison_comp_π_assoc]
+    simp only [Category.assoc, Pi.lift_comp_π, G.map_comp, piComparison_comp_π_assoc]
   have he : Epi (c ≫ d) := by
     rw [← hcomp]
     infer_instance
@@ -816,7 +816,9 @@ public theorem derivedInverseLimitIsoDerivedGlobalSections (A : ℕᵒᵖ ⥤ Ri
       infer_instance
     · have := mapHomotopyCategory_iso_app (ComplexShape.up ℤ) θ
         ((HomotopyCategory.quotient _ _).obj N)
-      dsimp [b]
+      have hγ' : IsIso (γ.app ((S.mapHomotopyCategory _).obj
+          ((HomotopyCategory.quotient _ _).obj N))) := hγ
+      dsimp [b] at hγ' this ⊢
       infer_instance
   have : (HomotopyCategory.quasiIso
       (SheafOfModules.{v} (inverseSystemRingSheaf A))

@@ -78,7 +78,7 @@ attribute [local instance 10000] HasDerivedCategory.standard
 def restrictCompIso {X X' Y : Scheme.{u}} (g' : Y ⟶ X') (h : X' ⟶ X) (g : Y ⟶ X)
     [IsOpenImmersion g'] [IsOpenImmersion h] [IsOpenImmersion g] (hfac : g' ≫ h = g) :
     derivedRestrict h ⋙ derivedRestrict g' ≅ derivedRestrict g :=
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
     ((Scheme.Modules.restrictFunctorComp g' h).symm ≪≫ Scheme.Modules.restrictFunctorCongr hfac)
 
 /-- **The preimage of a set under an open immersion is quasi-compact as soon as the part of the

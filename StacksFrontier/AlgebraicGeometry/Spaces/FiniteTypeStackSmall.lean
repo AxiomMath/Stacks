@@ -2,6 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import Mathlib.AlgebraicGeometry.Sites.SmallAffineZariski
+public import Mathlib.CategoryTheory.Comma.LocallySmall
 public import Mathlib.CategoryTheory.ObjectProperty.ColimitsCardinalClosure
 public import Mathlib.CategoryTheory.ObjectProperty.Comma
 public import Mathlib.CategoryTheory.Sites.ConcreteSheafification

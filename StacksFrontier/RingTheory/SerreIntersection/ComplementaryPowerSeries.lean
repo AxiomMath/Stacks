@@ -95,7 +95,7 @@ theorem splitCoeff_rename_inl_mul (r : MvPowerSeries σ K) (g : MvPowerSeries (�
       have := congrArg (fun f => f (Sum.inl x)) hq
       simp only [Finsupp.add_apply, Finsupp.sumElim_inl] at this
       rw [← this, ← hc]
-      simp [Finsupp.mapDomain_apply Sum.inl_injective]
+      simp [Finsupp.mapDomain_apply_of_injective Sum.inl_injective]
     · have hq1 : q.1 = Finsupp.sumElim c 0 := by
         rw [← hc, ← embDomain_inl_eq_sumElim, Finsupp.embDomain_eq_mapDomain]
       refine Prod.ext hq1.symm ?_

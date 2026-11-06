@@ -72,7 +72,7 @@ open scoped IsMulCommutative
 noncomputable def smulRetraction
     (hmem : ∀ (X : Cᵒᵖ) (x : M.val.obj X), f.val X • x ∈ N.obj X) :
     M ⟶ N.toSheafOfModules :=
-  N.factorThru ((globalSectionToEnd.{v, u, w, w} R f).app M) hmem
+  N.factorThru ((globalSectionToEnd.{v, u, w, w} R f).asHom.app M) hmem
 
 /-- The corestriction of multiplication by `f` has the same values as multiplication by `f`. -/
 @[simp] theorem smulRetraction_val_app_val
@@ -85,7 +85,7 @@ noncomputable def smulRetraction
 multiplication by `f`. -/
 @[reassoc (attr := simp)]
 theorem smulRetraction_ι (hmem : ∀ (X : Cᵒᵖ) (x : M.val.obj X), f.val X • x ∈ N.obj X) :
-    smulRetraction R N f hmem ≫ N.ι = (globalSectionToEnd.{v, u, w, w} R f).app M :=
+    smulRetraction R N f hmem ≫ N.ι = (globalSectionToEnd.{v, u, w, w} R f).asHom.app M :=
   N.factorThru_ι _ hmem
 
 /-- **A submodule into which multiplication by `f` maps and on which it is the identity is a

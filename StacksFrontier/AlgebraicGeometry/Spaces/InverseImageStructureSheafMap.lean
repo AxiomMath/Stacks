@@ -148,7 +148,8 @@ theorem inverseImageStructureSheafMapOfEq_comp {u' : W ⟶ Y} {u'' : W ⟶ Z} (u
       inverseImageStructureSheafMapOfEq B S hS u (h ≫ g)
         (by rw [← Category.assoc, e₁, e₂]) := by
   subst e₁ e₂
-  simpa [inverseImageStructureSheafMapOfEq] using inverseImageStructureSheafMap_comp B S hS u h g
+  simp only [inverseImageStructureSheafMapOfEq, eqToHom_refl, Category.id_comp]
+  exact inverseImageStructureSheafMap_comp B S hS u h g
 
 /-- **The inverse image along `u` of the map `(h ≫ g)⁻¹𝒪_Z ⟶ h⁻¹𝒪_Y` is the map along `g` on
 `u ≫ h`**, read through the composition law `u⁻¹h⁻¹ ≅ (u ≫ h)⁻¹` of Stacks 03G8. -/

@@ -111,13 +111,13 @@ public abbrev lineBundleKernel : P.obj.1.total.Modules :=
 /-- The pairing `G ⊗ L ⟶ G ⊗_{O_X} L`, the map of the sectionwise tensor product to its
 sheafification. -/
 public abbrev lineBundlePairing :
-    PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.val) (ringKernel hT P t).val
+    PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.obj) (ringKernel hT P t).val
         P.obj.1.lineBundle.val ⟶
       ((lineBundleKernel hT P t).val :
-        PresheafOfModules.{u} (P.obj.1.total.sheaf.val ⋙ forget₂ CommRingCat.{u} RingCat.{u})) :=
+        PresheafOfModules.{u} (P.obj.1.total.sheaf.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u})) :=
   (PresheafOfModules.sheafificationAdjunction
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf P.obj.1.total.sheaf).obj)).unit.app
-      (PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.val) (ringKernel hT P t).val
+      (PresheafOfModules.tensorObj (O := P.obj.1.total.sheaf.obj) (ringKernel hT P t).val
         P.obj.1.lineBundle.val) ≫
     PresheafOfModules.homMk (𝟙 _) (fun _ _ _ => rfl)
 

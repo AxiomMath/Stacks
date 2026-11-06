@@ -82,6 +82,13 @@ private theorem hasProperty_of_space_hom (P : MorphismProperty (AlgebraicSpaces 
       (ObjectProperty.homMk φ :
         (⟨Y, hY⟩ : AlgebraicSpaces B S hS) ⟶ ⟨Z, hZ⟩)).flip hφ
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_effectiveOneMemberCovering
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (f : ∀ i, X i ⟶ T) (hT : IsAlgebraicSpace B S hS T)
     (hX : ∀ i, IsAlgebraicSpace B S hS (X i))
 

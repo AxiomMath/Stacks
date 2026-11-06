@@ -160,6 +160,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
         exact hxmem Q hQ hφQ
       by_contra hne
       have hlt := Ideal.IsIntegral.comap_lt_comap (R := A) (lt_of_le_of_ne hle' (Ne.symm hne))
+      simp only [Ideal.under_def] at hlt
       rw [hcomap, ← Ideal.under_def, ← hQo.over] at hlt
       exact lt_irrefl _ hlt
     · rintro rfl
@@ -276,7 +277,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
   have hψBinj : Function.Injective ψB := by
     rw [RingHom.injective_iff_ker_eq_bot]
     apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
-    rw [RingHom.ker_eq_comap_bot, Ideal.comap_comap, ← RingHom.ker_eq_comap_bot]
+    rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hRinj
   let ψL : L →+* L'' := IsFractionRing.lift hψBinj
   let : Algebra K L'' := ((algebraMap K'' L'').comp (algebraMap K K'')).toAlgebra

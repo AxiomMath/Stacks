@@ -610,7 +610,7 @@ private lemma eq_zero_of_isIso_smul_of_isDerivedComplete
     have := hiso; infer_instance
   let u := inv (f • 𝟙 X)
   let x : X ⟶ ∏ᶜ fun _ : ℕ => K :=
-    Pi.lift fun n => (show X ⟶ X from (show End X from u) ^ n) ≫ h
+    Pi.lift fun n => (End.of u ^ n).asHom ≫ h
   have hx : x ≫ d = 0 := by
     apply Pi.hom_ext
     intro n
@@ -619,7 +619,9 @@ private lemma eq_zero_of_isIso_smul_of_isDerivedComplete
     erw [limit.lift_π, limit.lift_π_assoc]
     dsimp
     have hc : (f • 𝟙 X) ≫ h = h ≫ (f • 𝟙 K) := by simp
-    rw [pow_succ', End.mul_def, Category.assoc, Category.assoc, ← hc, ← Category.assoc u]
+    rw [pow_succ', End.mul_asHom]
+    dsimp only
+    rw [Category.assoc, Category.assoc, ← hc, ← Category.assoc u]
     simp only [u, IsIso.inv_hom_id, Category.id_comp]
     exact sub_self _
   have h0 : x = 0 := zero_of_comp_mono d hx

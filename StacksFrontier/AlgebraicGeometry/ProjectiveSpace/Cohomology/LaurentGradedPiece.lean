@@ -451,7 +451,7 @@ theorem twistSections_le_span_laurentFrac (R : Type u) [CommRing R] (n : ℕ) (d
       omega
   -- expand `x` as a sum of monomials
   have hxsum : LocalizedModule.mk x (chartPow R n s N) =
-      ∑ m ∈ x.support, MvPolynomial.coeff m x • laurentFrac R n s (g m) := by
+      ∑ m ∈ x.support, x.coeff m • laurentFrac R n s (g m) := by
     conv_lhs => rw [MvPolynomial.as_sum x]
     rw [← LocalizedModule.sum_mk]
     refine Finset.sum_congr rfl fun m hm => ?_
@@ -501,17 +501,17 @@ theorem linearIndependent_laurentFrac (R : Type u) [CommRing R] (n : ℕ) (d : �
         add_comm (shiftExp n s k) (numExp s (e : Fin (n + 1) → ℤ) N)]
     rw [hmul, hk]
   have hsingle : ∀ e ∈ t, e ≠ e₀ →
-      MvPolynomial.coeff (numExp s (e₀ : Fin (n + 1) → ℤ) N + shiftExp n s k)
-        (MvPolynomial.monomial (numExp s (e : Fin (n + 1) → ℤ) N + shiftExp n s k) (c e)) = 0 := by
+      (MvPolynomial.monomial (numExp s (e : Fin (n + 1) → ℤ) N + shiftExp n s k) (c e)).coeff
+        (numExp s (e₀ : Fin (n + 1) → ℤ) N + shiftExp n s k) = 0 := by
     intro e he hne
     have hne' : ¬ (numExp s (e : Fin (n + 1) → ℤ) N + shiftExp n s k =
         numExp s (e₀ : Fin (n + 1) → ℤ) N + shiftExp n s k) := fun hEq =>
       hne (Subtype.ext (numExp_injective (hout e he) (hin e he) (hout e₀ he₀) (hin e₀ he₀)
         (add_right_cancel hEq)))
     rw [MvPolynomial.coeff_monomial, ite_eq_right hne']
-  have hcoeff := congrArg (MvPolynomial.coeff
+  have hcoeff := congrArg (fun p : MvPolynomial (Fin (n + 1)) R => p.coeff
     (numExp s (e₀ : Fin (n + 1) → ℤ) N + shiftExp n s k)) hk'
-  rw [MvPolynomial.coeff_sum, MvPolynomial.coeff_zero,
+  rw [MvPolynomial.coeff_sum, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
     Finset.sum_eq_single_of_mem e₀ he₀ hsingle] at hcoeff
   simpa using hcoeff
 

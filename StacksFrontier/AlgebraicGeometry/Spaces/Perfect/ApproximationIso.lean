@@ -310,6 +310,17 @@ theorem approximationHolds_of_iso (Z : Set (points B S hS X.1))
 
 /-! ### Open subspaces -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance hasPullbacks_presheaf_approximationIso :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_approximationIso
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The preimage of an open subspace along an isomorphism of algebraic spaces is isomorphic to it,
 hence affine when it is. -/
 theorem isAffineSpace_preimage {G : Subfunctor X.1} (hG : IsAffineSpace B S hS G.toFunctor) :

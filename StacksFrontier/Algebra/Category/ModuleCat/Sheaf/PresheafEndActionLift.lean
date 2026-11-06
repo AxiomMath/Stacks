@@ -68,7 +68,7 @@ public def presheafLiftMap {F₁ F₂ : Sheaf J (ModuleCat.{w} Λ)} (φ : F₁ �
   ofEndActionMap Λ _ _
     (G.map ((sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map φ))
     fun a => by
-      change G.map (sheafScalarEnd Λ J F₁ a) ≫ _ = _ ≫ G.map (sheafScalarEnd Λ J F₂ a)
+      change G.map (sheafScalarEnd Λ J F₁ a).asHom ≫ _ = _ ≫ G.map (sheafScalarEnd Λ J F₂ a).asHom
       rw [← G.map_comp, ← G.map_comp, sheafScalarEnd_naturality]
 
 @[simp]
@@ -107,7 +107,7 @@ public lemma presheafLift_obj_comp_forget₂ (F : Sheaf J (ModuleCat.{w} Λ)) :
 multiplication by that scalar, evaluated on the object. -/
 public lemma presheafLift_obj_smul (F : Sheaf J (ModuleCat.{w} Λ)) (U : K) (a : Λ) :
     (((presheafLift Λ J G).obj F).obj U).smul a =
-      (G.map (sheafScalarEnd Λ J F a)).app U :=
+      .of ((G.map (sheafScalarEnd Λ J F a).asHom).app U) :=
   rfl
 
 @[simp]

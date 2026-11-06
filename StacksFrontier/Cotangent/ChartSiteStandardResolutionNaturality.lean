@@ -116,15 +116,15 @@ private theorem cotangentToChart_differential_map {U V : X.Opens} {m n : Simplex
     (op (resolutionChart Λ X structureMap V m))).hom.toAlgebra
   change _ = (zariskiPresheaf.{u, u + 1} Λ X structureMap).map f.op 1 ⊗ₜ[resolutionChartRing Λ X
       structureMap V m]
-    (ULift.up ((PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    (ULift.up ((PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (basePresheafMap.{u, u + 1} Λ X structureMap)).map f.op
         (CommRingCat.KaehlerDifferential.d (resolutionToChartHom Λ X structureMap U n p))) :
       ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap V m))
   rw [map_one]
   refine congrArg (fun m' => 1 ⊗ₜ[resolutionChartRing Λ X structureMap V m] ULift.up m') ?_
   refine Eq.trans ?_
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d _ _ _).symm
-  exact congrArg CommRingCat.KaehlerDifferential.d (ULift.ext _ _ hq)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d _ _ _).symm
+  exact congrArg CommRingCat.KaehlerDifferential.d (ULift.ext hq)
 
 /-- The ring map `𝒪_X(U) → ULift 𝒪_X(V)` along which the restriction maps of both sides of the
 comparison over `V ⊆ U` are semilinear. -/
@@ -343,7 +343,7 @@ theorem bijective_cotangentChartComponentLinearMap (V : X.Opens) (n : ℕ) :
   refine Function.bijective_iff_has_inverse.mpr ⟨fun y => ULift.up
     ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ (sectionCotangentAlgebra Λ X structureMap V)
       n).inv (chartToCotangent Λ X structureMap V ⦋n⦌ y)), fun x => ?_, fun y => ?_⟩
-  · refine ULift.ext _ _ ?_
+  · refine ULift.ext ?_
     show (CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).inv
       (chartToCotangent Λ X structureMap V ⦋n⦌ (cotangentToChart Λ X structureMap V ⦋n⦌
         ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).hom x.down))) = x.down

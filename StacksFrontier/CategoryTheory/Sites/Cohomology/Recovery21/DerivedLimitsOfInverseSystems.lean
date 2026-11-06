@@ -310,11 +310,11 @@ private lemma isDerivedLimit_of_natIso {D : Type*} [Category D] [HasZeroObject D
         Pi.π (fun n : ℕ => G.obj ⟨n⟩) j ≫ (e.app ⟨j⟩).inv :=
       Pi.mapIso_inv_π (fun n : ℕ => e.app ⟨n⟩) j
     dsimp only [Triangle.mk_mor₂, Iso.symm_hom]
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub]
     rw [ha n]
     simp only [← Category.assoc]
     rw [ha (n + 1)]
-    simp only [Pi.lift_π, Preadditive.sub_comp, Category.assoc]
+    simp only [Pi.lift_comp_π, Preadditive.sub_comp, Category.assoc]
     congr 1
     simpa only [← Category.assoc, Iso.app_inv] using
       congrArg (fun f => Pi.π (fun n : ℕ => G.obj ⟨n⟩) (n + 1) ≫ f)

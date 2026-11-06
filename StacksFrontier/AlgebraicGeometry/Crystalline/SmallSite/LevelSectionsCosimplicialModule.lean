@@ -151,7 +151,7 @@ It is not injective — the level is a quotient of `D(n)` — and that is the po
 scalars along it is what makes sections over the level into `D(n)`-modules. -/
 def levelSectionsScalars (n : SimplexCategory) (e : ℕ) :
     ((wholeSpaceEnvelopeRing hp).obj n : Type u) →+*
-      ((structureSheaf S).val.obj
+      ((structureSheaf S).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op n)).obj e)) : Type u) :=
   (wholeSpaceEnvelopeRingLevelEquiv hp n.len e).symm.toRingHom.comp (Ideal.Quotient.mk _)
 
@@ -198,7 +198,7 @@ level identification, read on the scalars, and it is what makes the restriction 
 of `𝒪_{X/S}`-modules semilinear over `D(*)`. -/
 theorem levelSectionsScalars_restriction {n m : SimplexCategory} (φ : n ⟶ m) (e : ℕ)
     (r : ((wholeSpaceEnvelopeRing hp).obj n : Type u)) :
-    ((structureSheaf S).val.map (((wholeSpaceSystem S hp).map φ.op).app e).op).hom
+    ((structureSheaf S).obj.map (((wholeSpaceSystem S hp).map φ.op).app e).op).hom
         (levelSectionsScalars hp n e r) =
       levelSectionsScalars hp m e (((wholeSpaceEnvelopeRing hp).map φ).hom r) := by
   refine (wholeSpaceEnvelopeRingLevelEquiv hp m.len e).injective ?_

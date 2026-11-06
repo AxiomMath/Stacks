@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.Algebra.Category.Ring.FilteredColimits
+public import Mathlib.CategoryTheory.Adjunction.Limits
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 public import StacksFrontier.RingTheory.Henselian.Pair.Henselization.Construction
 import all StacksFrontier.RingTheory.Henselian.Pair.Henselization.Construction
 

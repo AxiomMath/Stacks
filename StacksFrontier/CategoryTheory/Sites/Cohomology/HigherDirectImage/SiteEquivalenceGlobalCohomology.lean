@@ -144,7 +144,9 @@ def sheafCohomologyIsoOfIsEquivalence (p : ℕ) :
       Sheaf.functorH.{max u w, w, v', u} K p :=
   haveI : (G.sheafPushforwardContinuous AddCommGrpCat.{w} J
       K).asEquivalence.symm.functor.Additive :=
-    Functor.additive_of_preserves_binary_products _
+    haveI : (G.sheafPushforwardContinuous AddCommGrpCat.{w} J K).asEquivalence.functor.Additive :=
+      { map_add := by intro X Y f g; ext U; exact rfl }
+    CategoryTheory.Equivalence.inverse_additive _
   haveI : (G.sheafPushforwardContinuous AddCommGrpCat.{w} J K).PreservesInjectiveObjects :=
     Functor.preservesInjectiveObjects_of_adjunction_of_preservesMonomorphisms
       (G.sheafPushforwardContinuous AddCommGrpCat.{w} J K).asEquivalence.symm.toAdjunction

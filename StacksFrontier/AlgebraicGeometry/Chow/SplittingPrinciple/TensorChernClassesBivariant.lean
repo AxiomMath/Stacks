@@ -93,6 +93,7 @@ theorem chernClassSub_tensorObj_two_source (E F : X.Modules) (r s : ℕ)
   push_cast
   ring
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The first identity of Stacks 0FA6 on graded cap families**: on every scheme locally of
 finite type over the base, `c₁(ℰ ⊗ ℱ) = r c₁(ℱ) + s c₁(ℰ)` for the total Chern classes of
 Stacks 02U6 in the ring of graded cap families. -/
@@ -107,6 +108,7 @@ theorem homComponent_chernFamily_tensorObj_one (E F : X.Modules) (r s : ℕ)
     coe_chernClassSub] using
     congrArg (Subring.subtype (chernSubring C sX)) (chernClassSub_tensorObj_one C sX E F r s)
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The second identity of Stacks 0FA6 on graded cap families**: on every scheme locally of
 finite type over the base,
 `c₂(ℰ ⊗ ℱ) = r c₂(ℱ) + s c₂(ℰ) + C(r,2) c₁(ℱ)² + (rs − 1) c₁(ℱ) c₁(ℰ) + C(s,2) c₁(ℰ)²` for the

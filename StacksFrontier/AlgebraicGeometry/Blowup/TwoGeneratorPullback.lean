@@ -192,7 +192,7 @@ theorem tensorExceptionalHom_mem (d : ℕ) {q : MvPolynomial (Fin 2) (centerRing
       Stacks.ProjBaseChange.grading (modificationSubmoduleGrading A f₁ f₂)
         (centerRing A f₁ f₂) d := by
   have hsum : tensorExceptionalHom A f₁ f₂ q = ∑ m ∈ q.support,
-      tensorExceptionalHom A f₁ f₂ (MvPolynomial.monomial m (MvPolynomial.coeff m q)) := by
+      tensorExceptionalHom A f₁ f₂ (MvPolynomial.monomial m (q.coeff m)) := by
     rw [← map_sum, ← MvPolynomial.as_sum]
   rw [hsum]
   refine Submodule.sum_mem _ fun m hm ↦ ?_

@@ -79,6 +79,29 @@ theorem module_coproduct_injective {R : Type u} [Ring R] {ι : Type v} [Decidabl
 
 variable {C : Type u'} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{w}}
 
+/-- Coproducts of presheaves of modules, supplied directly: instance search for them times out. -/
+local instance hasColimitsOfShape_discrete_presheafOfModules (ι : Type u) :
+    HasColimitsOfShape (Discrete ι) (PresheafOfModules.{u} R.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+/-- Coproducts of sheaves of modules, supplied directly: instance search for them times out. -/
+local instance hasColimitsOfShape_discrete_sheafOfModules [HasWeakSheafify J AddCommGrpCat.{u}]
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] (ι : Type u) :
+    HasColimitsOfShape (Discrete ι) (_root_.SheafOfModules.{u} R) :=
+  @_root_.SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    _ _ _ R _ _ _ _ (hasColimitsOfShape_discrete_presheafOfModules ι)
+
+/-- Coproducts of families of presheaves of modules, supplied directly. -/
+local instance hasCoproduct_presheafOfModules {ι : Type u}
+    (F : ι → PresheafOfModules.{u} R.obj) : HasCoproduct F :=
+  (hasColimitsOfShape_discrete_presheafOfModules ι).has_colimit _
+
+/-- Coproducts of families of sheaves of modules, supplied directly. -/
+local instance hasCoproduct_sheafOfModules [HasWeakSheafify J AddCommGrpCat.{u}]
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] {ι : Type u}
+    (F : ι → _root_.SheafOfModules.{u} R) : HasCoproduct F :=
+  (hasColimitsOfShape_discrete_sheafOfModules ι).has_colimit _
+
 /-- **The comparison from the sectionwise direct sum to the direct sum of sheaves of modules is
 locally surjective.**  Sheafification preserves coproducts, so it inverts the comparison, and the
 morphisms it inverts are the locally bijective ones. -/

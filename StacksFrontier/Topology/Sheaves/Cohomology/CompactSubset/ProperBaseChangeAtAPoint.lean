@@ -536,7 +536,7 @@ def stalkPlusComparison :
   have := Stacks.Cohomology.BaseChange.exactUnit_isIso
     (AlgebraicGeometry.SheafOfModules.stalkFunctor (structureSheafRing Y) y)
   asIso (AlgebraicGeometry.SheafOfModules.stalkFunctor (structureSheafRing Y)
-    y).rightDerivedFunctorPlusUnit
+    y).rightDerivedFunctorPlusUnith
 
 /-- **Restriction to the fibre is computed degreewise on bounded below derived categories.**
 Module pullback along the inclusion of a subspace with the restricted structure sheaf is exact,
@@ -552,7 +552,7 @@ def fiberPullbackPlusComparison :
   have := preservesFiniteColimits_modulePullback (Stacks.Topology.fiberι f y)
   have := Stacks.Cohomology.BaseChange.exactUnit_isIso
     (modulePullback (Stacks.Topology.fiberι f y))
-  asIso (modulePullback (Stacks.Topology.fiberι f y)).rightDerivedFunctorPlusUnit
+  asIso (modulePullback (Stacks.Topology.fiberι f y)).rightDerivedFunctorPlusUnith
 
 /-- **The base-change morphism of [Stacks, Tag 02N7] for the fibre square**: the descent of
 `fiberRestrictionMap` to bounded below derived categories: the unique morphism whose composite
@@ -617,20 +617,35 @@ theorem isIso_baseChangeDerived
     (τ : F ⋙ G ⟶ G' ⋙ F') (hτ : ∀ M : A, Injective M → IsIso (τ.app M))
     (e : G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ G.rightDerivedFunctorPlus)
-    [IsIso G'.rightDerivedFunctorPlusUnit]
+    [IsIso G'.rightDerivedFunctorPlusUnith]
     (hacyclic : ∀ M : A, Injective M → F'.rightAcyclic (G'.obj M)) :
     IsIso (Stacks.Cohomology.BaseChange.derived F F' G G' τ e) := by
   have hK (K : HomotopyCategory.Plus A) (hinj : ∀ n, Injective (K.obj.as.X n)) :
       IsIso ((Stacks.Cohomology.BaseChange.onHomotopy F F' G G' τ e).app K) := by
     have : IsIso ((Stacks.Cohomology.BaseChange.mapPlus τ).app K) :=
       isIso_mapPlus_app_of_components _ _ τ (fun n => hτ _ (hinj n))
-    have : IsIso (F'.rightDerivedFunctorPlusUnit.app
-        (G'.mapHomotopyCategoryPlus.obj K)) :=
+    have htot : IsIso (((F'.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).app
+          (G'.mapHomotopyCategoryPlus.obj K)) :=
       Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic F'
         (G'.mapHomotopyCategoryPlus.obj K).obj.as
         ((HomotopyCategory.plus_quotient_obj_iff _).1
           (G'.mapHomotopyCategoryPlus.obj K).property)
         (fun n => hacyclic (K.obj.as.X n) (hinj n))
+    have : IsIso (F'.rightDerivedFunctorPlusUnith.app
+        (G'.mapHomotopyCategoryPlus.obj K)) := by
+      rw [← Functor.rightDerived_fac_app _
+        ((F'.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+        (HomotopyCategory.Plus.quasiIso C) F'.rightDerivedFunctorPlus
+        F'.rightDerivedFunctorPlusUnith]
+      have : IsIso (Functor.rightDerivedDesc _
+          ((F'.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+            DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+          (HomotopyCategory.Plus.quasiIso C) F'.rightDerivedFunctorPlus
+            F'.rightDerivedFunctorPlusUnith) :=
+        (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+      infer_instance
     dsimp only [Stacks.Cohomology.BaseChange.onHomotopy, NatTrans.comp_app,
       Functor.whiskerLeft_app, Functor.whiskerRight_app]
     infer_instance
@@ -741,7 +756,7 @@ theorem isIso_properBaseChangeMap
     (Stacks.subsetInclusion X.carrier ((ConcreteCategory.hom f.hom.base) ⁻¹' ({y} : Set Y)))
   have he' := preservesFiniteColimits_modulePullback (Stacks.Topology.fiberι f y)
   have hunit :
-      IsIso (modulePullback (Stacks.Topology.fiberι f y)).rightDerivedFunctorPlusUnit :=
+      IsIso (modulePullback (Stacks.Topology.fiberι f y)).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso
       (modulePullback (Stacks.Topology.fiberι f y))
   exact isIso_baseChangeDerived (modulePushforward f) (fiberSections f y)

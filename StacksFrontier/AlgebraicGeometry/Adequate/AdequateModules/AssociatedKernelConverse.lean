@@ -298,7 +298,7 @@ monomorphism because both factors are. -/
 public theorem mono_of_associatedKernelPresentation
     {F : SheafOfModules.{u} B.structureSheaf} (p : AssociatedKernelPresentation B F) :
     Mono (p.iso.hom ≫ kernel.ι p.hom) :=
-  mono_comp _ _
+  @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ (by infer_instance)
 
 include hA in
 /-- **An adequate `𝒪`-module on a chosen big site over an affine base admits a monomorphism into

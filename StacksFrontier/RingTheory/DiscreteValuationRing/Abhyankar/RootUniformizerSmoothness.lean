@@ -376,7 +376,7 @@ theorem isLocalHom_localizationAtPrime_of_isIntegral
   rw [IsScalarTower.algebraMap_eq A C D, ← Ideal.comap_comap]
   show ((IsLocalRing.maximalIdeal D).under C).comap (algebraMap A C) = _
   rw [IsLocalization.AtPrime.under_maximalIdeal D p]
-  exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal p)
+  exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) p)
 
 theorem maximalIdeal_ne_bot_of_isIntegral
     (A C : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]

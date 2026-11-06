@@ -262,7 +262,7 @@ theorem subsingleton_sections_rightDerived_one_of_isZero {X' X : Scheme.{u}} (g 
 module over itself. -/
 def unitSmul (X : Scheme.{u}) (r : Γ(X, ⊤)) :
     SheafOfModules.unit X.ringCatSheaf ⟶ SheafOfModules.unit X.ringCatSheaf :=
-  (Stacks.SheafOfModules.terminalSectionToEnd X.ringCatSheaf ⊤ isTerminalTop r).app _
+  (Stacks.SheafOfModules.terminalSectionToEnd X.ringCatSheaf ⊤ isTerminalTop r).asHom.app _
 
 /-- Taking global sections is linear over the global functions, for the linear structure on
 sheaves of modules given by multiplication by global functions. -/

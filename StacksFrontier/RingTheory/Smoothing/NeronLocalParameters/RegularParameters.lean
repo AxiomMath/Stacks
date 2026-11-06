@@ -202,13 +202,13 @@ private lemma uniformizer_quotient_atPrime_isRegularLocalRing
     (hsm : Algebra.SmoothAt S.R S.A S.maximalIdealPreimage) :
     IsRegularLocalRing
       ((Localization.AtPrime S.maximalIdealPreimage) ⧸
-        Ideal.span ({algebraMap S.R
-          (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) := by
+        Ideal.span ({(algebraMap S.R
+          (Localization.AtPrime S.maximalIdealPreimage)) π} : Set _)) := by
   have h := closedFibre_atPrime_isRegularLocalRing_of_smoothAt S hsm
   have hJ : Ideal.map (algebraMap S.R (Localization.AtPrime S.maximalIdealPreimage))
       (IsLocalRing.maximalIdeal S.R) =
-      Ideal.span ({algebraMap S.R
-        (Localization.AtPrime S.maximalIdealPreimage) π} : Set _) := by
+      Ideal.span ({(algebraMap S.R
+        (Localization.AtPrime S.maximalIdealPreimage)) π} : Set _) := by
     rw [hπ, Ideal.map_span]
     simp
   rwa [hJ] at h

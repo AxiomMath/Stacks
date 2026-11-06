@@ -63,7 +63,7 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 /-- The *vertical automorphisms* of an object `x` of a category over `C`: the automorphisms of
 `x` whose image in `C` is the identity.  Together with `x` these are the objects of the inertia
 `CategoryTheory.RelativeInertia`. -/
-abbrev Functor.VerticalAut (p : D ⥤ C) (x : D) := {α : Aut x // p.map α.hom = 𝟙 (p.obj x)}
+abbrev Functor.VerticalAut (p : D ⥤ C) (x : D) := {α : Aut x // p.map α.asIso.hom = 𝟙 (p.obj x)}
 
 /-- A *coordinatisation of the vertical automorphisms of `p : D ⥤ C` by a presheaf of sets `P`
 on `C`*: a bijection of the vertical automorphisms of every object `x` with the elements of
@@ -75,7 +75,7 @@ structure Functor.VerticalAutCoordinates (p : D ⥤ C) (P : Cᵒᵖ ⥤ Type v�
   /-- A morphism of `D` commutes with two vertical automorphisms exactly when the coordinate of
   the one at its target restricts to the coordinate of the one at its source. -/
   comm {x y : D} (f : x ⟶ y) (a : p.VerticalAut x) (b : p.VerticalAut y) :
-    f ≫ b.1.hom = a.1.hom ≫ f ↔ P.map (p.map f).op (equiv y b) = equiv x a
+    f ≫ b.1.asIso.hom = a.1.asIso.hom ≫ f ↔ P.map (p.map f).op (equiv y b) = equiv x a
 
 namespace PresheafOfCategories
 

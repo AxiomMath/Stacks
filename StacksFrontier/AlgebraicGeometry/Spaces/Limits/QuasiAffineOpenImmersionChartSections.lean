@@ -37,6 +37,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_QuasiAffineOpenImmersionChartSections :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_QuasiAffineOpenImmersionChartSections
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A quasi-compact algebraic space has an affine surjective étale chart in its small étale site. -/
 private theorem exists_smallEtale_affine_surjective_etale {X : AlgebraicSpaces B S hS}
     (hXqc : IsQuasiCompactSpace B S hS X.1) :

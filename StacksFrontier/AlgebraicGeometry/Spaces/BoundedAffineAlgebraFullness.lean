@@ -157,7 +157,7 @@ theorem sheafHom_eq_of_affineChart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   refine Sheaf.hom_ext (NatTrans.ext (funext fun Vop => ?_))
   obtain ⟨V⟩ := Vop
   refine ConcreteCategory.hom_ext _ _ fun r => ?_
-  refine eq_of_openChart_restriction_eq_commRingCat B S hS F C.obj C.cond V fun O hO => ?_
+  refine eq_of_openChart_restriction_eq_commRingCat B S hS F C.obj C.property V fun O hO => ?_
   have hψ := ConcreteCategory.congr_hom
     (ψ.hom.naturality (openChartInclusion B S hS F V O).op) r
   have hφ := ConcreteCategory.congr_hom
@@ -203,8 +203,8 @@ private theorem affineChartLiftSieve_mem (hY : yoneda.relativelyRepresentable Y.
   have hcone : (yoneda.map (e₁ ≫ e₂) ≫ yonedaEquiv.symm y) ≫ Y.hom.hom =
       yoneda.map (e₁ ≫ g) ≫ W.1.hom := by
     rw [Category.assoc, yonedaEquiv_symm_naturality_right,
-      yonedaEquiv_symm_naturality_left, op_comp, FunctorToTypes.map_comp_apply, heq,
-      ← FunctorToTypes.map_comp_apply, ← op_comp,
+      yonedaEquiv_symm_naturality_left, op_comp, Functor.map_comp_apply, heq,
+      ← Functor.map_comp_apply, ← op_comp,
       ← yonedaEquiv_symm_naturality_left, Equiv.symm_apply_apply]
   exact ⟨⟨W, hY.lift _ (e₁ ≫ g) hcone⟩, hW, hY.lift_fst _ _ hcone⟩
 
@@ -379,7 +379,7 @@ theorem exists_overHom_of_algebraHom (Z : AffineOver B S hS X)
         yonedaEquiv_symm_naturality_left h Y.left.1 y]
     have hmem : (affineChartLiftSieve B S hS hY y).arrows (h' ≫ h) := ⟨⟨V, c⟩, hV, hcomp⟩
     rw [hpt T' (Y.left.1.map h.op y) T'' h' hh' V hV (m₀ V hV) (hm₀ V hV) c hc,
-      ← FunctorToTypes.map_comp_apply, ← op_comp,
+      ← Functor.map_comp_apply, ← op_comp,
       hpt T y T'' (h' ≫ h) hmem V hV (m₀ V hV) (hm₀ V hV) c hcomp]
   obtain ⟨d, hd⟩ : ∃ d : Y.left.1 ⟶ Z.obj.left.1,
       ∀ (T : BigFppfOver B S hS) (y : Y.left.1.obj (op T)), d.app (op T) y = pt T y :=
@@ -409,7 +409,7 @@ theorem exists_overHom_of_algebraHom (Z : AffineOver B S hS X)
       ⟨⟨V, 𝟙 _⟩, hV, hc⟩
     have hres := hpt (hY.pullback V.1.hom) (yonedaEquiv (hY.fst V.1.hom))
       (hY.pullback V.1.hom) (𝟙 _) hmem V hV m hm (𝟙 _) hc
-    rw [op_id, FunctorToTypes.map_id_apply, yoneda.map_id, Category.id_comp] at hres
+    rw [op_id, Functor.map_id_apply, yoneda.map_id, Category.id_comp] at hres
     rw [yonedaEquiv_comp, hd, hres]
   refine ⟨d, ?_, hchart⟩
   refine hom_ext_of_affineChartBaseChange B S hS Y hY X.property.isSheaf ?_

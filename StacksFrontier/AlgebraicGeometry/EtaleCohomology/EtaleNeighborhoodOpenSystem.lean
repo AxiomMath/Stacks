@@ -83,7 +83,7 @@ theorem exists_etaleNeighborhood_range_subset (W : (geometricPointFiber B S hS s
     show y ≫ (j ≫ B.inclusion.map W.1.obj.hom) = s.hom
     rw [← Category.assoc, hy]
     exact W.2.2
-  refine ⟨⟨V, ⟨y, hyS⟩⟩, ?_, ⟨⟨ObjectProperty.homMk
+  refine ⟨(geometricPointFiber B S hS s).elementsMk V ⟨y, hyS⟩, ?_, ⟨⟨ObjectProperty.homMk
     (Over.homMk (ObjectProperty.homMk j) ?_), ?_⟩⟩⟩
   · rintro _ ⟨z, rfl⟩
     exact hjU ⟨z, rfl⟩

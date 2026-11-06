@@ -53,7 +53,7 @@ theorem isGalois_of_stabilizer_conj_mem (Z : C) [IsConnected Z] (z : F.obj Z)
     have h1 := hstab _ _ hyy h⁻¹
     simp only [mul_inv_cancel_right] at h1
     rw [← hs y, ← hs y', h1]
-  have hlift : ∀ h : Aut F, ∃ σ : Aut Z, ∀ y : F.obj Z, F.map σ.hom y = φ h y := by
+  have hlift : ∀ h : Aut F, ∃ σ : Aut Z, ∀ y : F.obj Z, F.map σ.asIso.hom y = φ h y := by
     intro h
     let m : (functorToAction F).obj Z ⟶ (functorToAction F).obj Z :=
       { hom := FintypeCat.homMk (φ h)
@@ -65,15 +65,15 @@ theorem isGalois_of_stabilizer_conj_mem (Z : C) [IsConnected Z] (z : F.obj Z)
     have : IsIso (F.map f) := (ConcreteCategory.isIso_iff_bijective _).2
       (Finite.injective_iff_bijective.1 fun a b hab => hφinj h (by rwa [hfy, hfy] at hab))
     have : IsIso f := isIso_of_reflects_iso f F
-    exact ⟨asIso f, hfy⟩
+    exact ⟨.of (asIso f), hfy⟩
   choose σ hσ using hlift
   rw [isGalois_iff_pretransitive F Z]
   refine ⟨fun a b => ?_⟩
   set τ : Aut Z := σ ((s a)⁻¹ * s b)
   refine ⟨τ, ?_⟩
-  show F.map τ.hom a = b
-  calc F.map τ.hom a = F.map τ.hom (s a • z) := by rw [hs]
-    _ = s a • F.map τ.hom z := (congrArg (fun t => t z) ((s a).hom.naturality τ.hom)).symm
+  show F.map τ.asIso.hom a = b
+  calc F.map τ.asIso.hom a = F.map τ.asIso.hom (s a • z) := by rw [hs]
+    _ = s a • F.map τ.asIso.hom z := (congrArg (fun t => t z) ((s a).asIso.hom.naturality τ.asIso.hom)).symm
     _ = b := by rw [hσ, hφz, ← mul_smul, mul_inv_cancel_left, hs]
 
 end CategoryTheory.PreGaloisCategory

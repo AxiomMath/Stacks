@@ -51,6 +51,17 @@ namespace AlgebraicGeometry
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_CurvesLciOpen :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_CurvesLciOpen
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The open locus of local complete intersection in the base of a family of curves.** For a
 family of curves `G` there is an open subspace `W` of its base such that a family of curves `F`
 mapping to `G` has a local complete intersection structure morphism exactly when the morphism of

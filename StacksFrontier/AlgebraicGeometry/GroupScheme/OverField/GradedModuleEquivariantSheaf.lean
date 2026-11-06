@@ -206,7 +206,6 @@ variable {S : Scheme.{u}} (Y : Over S) (G X : Over Y.left) [GrpObj G] [ModObj G 
 
 section
 
-attribute [local implicit_reducible] Over.Hom
 
 /-- Applying a descent morphism to the two arrows of a composable pair in succession, and
 applying it to their composite, agree on a section which it scales by a global function of the
@@ -269,7 +268,6 @@ theorem identityAction_apply_of_eigensection {F : X.left.Modules}
 
 section
 
-attribute [local implicit_reducible] Over.Hom
 
 /-- The cocycle law holds for a descent morphism which scales a generating family of sections
 by global functions of the scheme of arrows which are multiplicative on composable pairs. -/

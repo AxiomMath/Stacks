@@ -86,7 +86,7 @@ noncomputable def IsGeometricallyUnibranch
         have hg : IsLocalHom g := by
           apply ((IsLocalRing.local_hom_TFAE g).out 5 1).mp
           exact (maximal_ideal_unique Ared).unique
-            (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal A')) inferInstance
+            (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (maximalIdeal A')) inferInstance
         exact RingHom.isLocalHom_comp _ _
       (ResidueField.map f).IsPurelyInseparable
 

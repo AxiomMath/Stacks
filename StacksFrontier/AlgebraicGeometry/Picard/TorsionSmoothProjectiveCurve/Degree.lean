@@ -134,7 +134,7 @@ def torsionByOfSchemeDegreeZeroAddEquiv {m : ℤ} (hm : m ≠ 0) :
     AddSubgroup.torsionBy (ofScheme X) m ≃+
       AddSubgroup.torsionBy (ofSchemeDegreeZero k f hdim) m where
   toFun x := ⟨⟨x.1, torsionBy_le_ofSchemeDegreeZero k f hdim hm x.2⟩,
-    Subtype.ext (by simp)⟩
+    Subtype.ext x.2⟩
   invFun y := ⟨y.1.1, by
     change m • y.1.1 = 0
     exact congrArg Subtype.val (y.2 : m • y.1 = 0)⟩

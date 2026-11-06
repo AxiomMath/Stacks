@@ -57,6 +57,13 @@ universe u
 
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site of the integers (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_CurveDeformationsSchemes
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- A morphism of the underlying schemes of two objects of the big fppf site of the integers is
 a morphism of the site: every scheme lies over the terminal scheme `Spec ℤ` in a unique way. -/
 def integerSiteHom {U V : BigFppfOver B integerBase hZ}

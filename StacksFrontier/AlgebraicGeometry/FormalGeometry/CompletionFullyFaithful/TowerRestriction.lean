@@ -213,6 +213,8 @@ public theorem pullbackComp_coherence {A B C D : Scheme.{u}} (f : A ⟶ B) (q : 
   have h2 := congrArg
     (fun t => (Scheme.Modules.pullbackComp f (q ≫ j)).hom.app F ≫ t) hassoc
   simp only [← Category.assoc, Iso.hom_inv_id_app, Category.id_comp] at h2
+  have : Mono ((Scheme.Modules.pullbackComp (f ≫ q) j).hom.app F) :=
+    inferInstanceAs (Mono ((Scheme.Modules.pullbackComp (f ≫ q) j).app F).hom)
   rw [pullbackCongr_self_hom_app (f := f ≫ q), Category.comp_id,
     ← cancel_mono ((Scheme.Modules.pullbackComp (f ≫ q) j).hom.app F), h2]
   simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]

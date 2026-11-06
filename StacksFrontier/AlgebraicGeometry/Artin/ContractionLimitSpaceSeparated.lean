@@ -41,6 +41,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ContractionLimitSpaceSeparated :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ContractionLimitSpaceSeparated
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A quotient by an étale equivalence relation closed in `N ×_V N` is separated over `V`.** -/
 theorem isSeparated_of_isClosedImmersion_lift_kernelPair {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : IsAlgebraicSpace B S hS Y) {V N R : BigFppfOver B S hS} (pY : Y ⟶ yoneda.obj V)
@@ -69,8 +80,8 @@ theorem isSeparated_of_isClosedImmersion_lift_kernelPair {Y : (BigFppfOver B S h
     · simp only [Iso.symm_hom, Iso.refl_hom, Category.comp_id]
       rw [← Category.assoc, IsPullback.isoPullback_inv_fst]
     · simp only [Iso.symm_hom]
-      rw [← cancel_mono hY'.isoPullback.hom, Category.assoc, Iso.inv_hom_id, Category.comp_id,
-        Category.assoc]
+      rw [← Iso.cancel_iso_hom_right _ _ hY'.isoPullback, Category.assoc, Iso.inv_hom_id,
+        Category.comp_id, Category.assoc]
       apply pullback.hom_ext
       · rw [pullback.lift_fst, Category.comp_id, Category.assoc, Category.assoc,
           IsPullback.isoPullback_hom_fst, ← Functor.map_comp, pullback.lift_fst,

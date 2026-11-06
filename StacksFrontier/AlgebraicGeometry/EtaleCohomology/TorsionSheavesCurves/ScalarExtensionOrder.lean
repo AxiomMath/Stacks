@@ -228,7 +228,7 @@ theorem map_maximalIdeal_stalk_pullback_scalarExtensionFst {U : Scheme.{u}} (q :
       maximalIdeal ((pullback q (scalarExtensionFst k k' g)).presheaf.stalk w) := by
   have hres' := surjective_residue_comp_stalkMap q _ hres
   have hxb : IsClosed ({(scalarExtensionFst k k' g).base
-      ((pullback.snd q (scalarExtensionFst k k' g)).base w)} : Set X) := by
+                          ((pullback.snd q (scalarExtensionFst k k' g)).base w)} : Set X) := by
     have : (scalarExtensionFst k k' g).base ((pullback.snd q (scalarExtensionFst k k' g)).base w) =
         q.base ((pullback.fst q (scalarExtensionFst k k' g)).base w) :=
       congrArg (fun φ : pullback q (scalarExtensionFst k k' g) ⟶ X => φ.base w)

@@ -242,10 +242,10 @@ private theorem unit_comp_app_eq (dc : (T ⋙ Av).rightDerivedFunctorPlus ⟶
       T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
     (β : (T ⋙ Av).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
-    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnit ≫
+    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh dc = β)
     (X : HomotopyCategory.Plus C₁) :
-    (T ⋙ Av).rightDerivedFunctorPlusUnit.app X ≫ dc.app (DerivedCategory.Plus.Qh.obj X) =
+    (T ⋙ Av).rightDerivedFunctorPlusUnith.app X ≫ dc.app (DerivedCategory.Plus.Qh.obj X) =
       β.app X :=
   congrArg (fun γ => γ.app X) hdc
 
@@ -259,12 +259,12 @@ theorem rightDerivedComparison_app_singleFunctor_obj
       T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
     (β : (T ⋙ Av).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
-    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnit ≫
+    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh dc = β)
     {M : C₁} (I : InjectiveResolution M) :
     dc.app ((DerivedCategory.Plus.singleFunctor C₁ 0).obj M) =
       (T ⋙ Av).rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
-        (asIso ((T ⋙ Av).rightDerivedFunctorPlusUnit.app
+        (asIso ((T ⋙ Av).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)))).inv ≫
           β.app ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) ≫
             (T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus).map
@@ -273,7 +273,7 @@ theorem rightDerivedComparison_app_singleFunctor_obj
     (resolutionCochainPlus I))
   have key : dc.app (DerivedCategory.Plus.Qh.obj
         ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) =
-      (asIso ((T ⋙ Av).rightDerivedFunctorPlusUnit.app
+      (asIso ((T ⋙ Av).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)))).inv ≫
         β.app ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) :=
     (Iso.eq_inv_comp _).2 hfac
@@ -297,10 +297,10 @@ theorem rightDerivedFunctorPlusUnit_comp_app_singleFunctor_obj
       T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
     (β : (T ⋙ Av).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus ⋙ Av.rightDerivedFunctorPlus)
-    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnit ≫
+    (hdc : (T ⋙ Av).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh dc = β)
     {M : C₁} (I : InjectiveResolution M) :
-    (T ⋙ Av).rightDerivedFunctorPlusUnit.app
+    (T ⋙ Av).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) ≫
         (T ⋙ Av).rightDerivedFunctorPlus.map (resolutionDerivedIso I).inv ≫
           dc.app ((DerivedCategory.Plus.singleFunctor C₁ 0).obj M) =
@@ -592,7 +592,7 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 theorem derivedComposition_app_singleFunctor_obj (M : SheafOfModules.{u} (structureSheafRing X))
     (I : InjectiveResolution M) :
     (SheafOfModules.toSheaf (structureSheafRing X) ⋙
-            abelianPushforward f).rightDerivedFunctorPlusUnit.app
+            abelianPushforward f).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} (structureSheafRing X))).obj
             (resolutionCochainPlus I)) ≫
         (SheafOfModules.toSheaf (structureSheafRing X) ⋙

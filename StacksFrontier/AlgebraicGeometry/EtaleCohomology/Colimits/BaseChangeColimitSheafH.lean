@@ -163,7 +163,7 @@ theorem isIso_colimitDesc_cohomologyCocone [Nonempty I] [IsDirected I (· ≤ ·
   let c' := (cohomologyCocone T X Z F cY p hp n).whisker e.functor
   let iso : stageExtCocone.{u, u} (baseChange T X Z) cY B hD hY hcY d p hp' (constZ d.pt) F n ≅
       (Cocone.precompose α.hom).obj c' :=
-    Cocones.ext (extPullbackConstIso p _ n).toAddCommGrpIso (fun j => by
+    Cocone.ext (extPullbackConstIso p _ n).toAddCommGrpIso (fun j => by
       ext y
       exact (extPullbackConstIso_naturality (coneProj E j.unop) (stageProj E d j.unop) p
         (hp' j.unop) _ n y))

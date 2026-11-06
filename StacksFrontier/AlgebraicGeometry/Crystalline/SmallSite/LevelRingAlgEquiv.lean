@@ -94,7 +94,7 @@ theorem levelEnvelopeAlgebra_algebraMap (n : ℕ) (a : Γ(S.S.scheme, ⊤)) :
 @[instance_reducible]
 def crysSectionsAlgebra (A : CrystallineThickening S) :
     Algebra (Γ(S.S.scheme, ⊤) : Type u)
-      ((structureSheaf S).val.obj (op A) : Type u) :=
+      ((structureSheaf S).obj.obj (op A) : Type u) :=
   (crysBaseAppLE S A.obj).hom.toAlgebra
 
 /-- **The level identification is an isomorphism of `Γ(S, ⊤)`-algebras.**
@@ -113,7 +113,7 @@ def wholeSpaceEnvelopeRingLevelAlgEquiv (n e : ℕ) :
     letI := levelEnvelopeAlgebra hp n
     letI := crysSectionsAlgebra
       (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e)
-    ((structureSheaf S).val.obj
+    ((structureSheaf S).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e)) : Type u) ≃ₐ[
         (Γ(S.S.scheme, ⊤) : Type u)]
       (((wholeSpaceEnvelopeRing hp).obj (SimplexCategory.mk n) : Type u) ⧸

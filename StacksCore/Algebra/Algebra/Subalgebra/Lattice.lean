@@ -28,7 +28,7 @@ lemma Subalgebra.isMulCommutative_adjoin_insert_of_mem_centralizer {L : Subalgeb
     (ha : a ∈ Subalgebra.centralizer k (L : Set A)) [IsMulCommutative L] :
     IsMulCommutative (Algebra.adjoin k (insert a (L : Set A))) :=
   Algebra.isMulCommutative_adjoin k <| by
-    rintro x (rfl | hx) y (rfl | hy)
+    rintro x (rfl | hx) y (rfl | hy) -
     · rfl
     · exact ((Subalgebra.mem_centralizer_iff k).1 ha y hy).symm
     · exact (Subalgebra.mem_centralizer_iff k).1 ha x hx

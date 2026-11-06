@@ -257,6 +257,7 @@ theorem epi_thickeningConormalSecondMap
       (universalThickeningInclusion B S hS hZ) (h' ≫ p)) :=
     epi_pullbackDifferentialsMap_of_isLocallySurjective B S hS
       (universalThickeningInclusion B S hS hZ) (h' ≫ p) hsharp
+  set_option synthInstance.maxHeartbeats 200000 in
   exact epi_comp _ _
 
 /-! ### The composite is zero, and exactness at the middle term -/

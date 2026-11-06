@@ -116,6 +116,23 @@ universe u
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_presheaf_MapsToAlgebraicSpace
+    {J : Type*} [Category* J] [HasLimitsOfShape J (Type u)] :
+    HasLimitsOfShape J ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_MapsToAlgebraicSpace :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_MapsToAlgebraicSpace
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An algebraic space over `S`, regarded as a sheaf of sets one universe up. The formal
 spectrum is built as a colimit in that universe, so this is the target in which maps out of
 a formal spectrum are compared with maps out of an ordinary spectrum. -/
@@ -1652,7 +1669,7 @@ private lemma algebraicSpace_map_ext_of_quotientStages
       (specOver hRS p)).1 hrestrict
     exact Over.OverMorphism.ext (ObjectProperty.hom_ext _ (congrArg (fun v => v.left) he))
   exact (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).injective
-    (ULift.ext _ _ (eq_of_map_eq_of_comp_eq_id π₂ t htp hπ))
+    (ULift.ext (eq_of_map_eq_of_comp_eq_id π₂ t htp hπ))
 
 attribute [-instance] CategoryTheory.catToReflQuiver in
 private lemma exists_finite_separable_point_of_etale_surjective
@@ -2719,7 +2736,7 @@ private lemma adic_restriction_surjective
         ULift.up y :=
       (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).apply_symm_apply _
     rw [hfy]
-    exact ULift.ext _ _ hy
+    exact ULift.ext hy
   refine ⟨f, ?_⟩
   apply adic_formalSpectrumMap_left_cancellable hR hA hRS hAS p hX
   rwa [← Category.assoc, formalSpectrumToSpec_naturality_adic hR hA hRS hAS p

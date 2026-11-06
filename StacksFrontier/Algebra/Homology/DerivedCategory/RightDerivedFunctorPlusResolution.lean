@@ -19,8 +19,6 @@ termwise to the resolution.
 
 ## Main definitions
 
-* `DerivedCategory.Plus.quotientCompQhIso`: the localization functor on bounded-below cochain
-  complexes factors through the bounded-below homotopy category.
 * `DerivedCategory.Plus.singleFunctorIsoCompQh`: the single functor into the bounded-below
   derived category factors through the bounded-below homotopy category.
 * `CategoryTheory.Functor.mapSinglePlusIso` and
@@ -89,16 +87,6 @@ universe v v' v'' w w' w'' u u' u''
 namespace DerivedCategory.Plus
 
 variable (A : Type u) [Category.{v} A] [Abelian A] [HasDerivedCategory.{w} A]
-
-/-- **The localization functor on bounded-below cochain complexes factors through the
-bounded-below homotopy category.** This is the bounded-below form of
-`DerivedCategory.quotientCompQhIso`. -/
-noncomputable def quotientCompQhIso :
-    HomotopyCategory.Plus.quotient A ⋙ Qh ≅ Q :=
-  Functor.fullyFaithfulCancelRight Plus.ι
-    (Functor.isoWhiskerLeft (HomotopyCategory.Plus.quotient A) (QhCompιIsoιCompQh A) ≪≫
-      Functor.isoWhiskerRight (HomotopyCategory.Plus.quotientCompιIso A) DerivedCategory.Qh ≪≫
-      Functor.isoWhiskerLeft (CochainComplex.Plus.ι A) (DerivedCategory.quotientCompQhIso A))
 
 /-- **The single functor into the bounded-below derived category factors through the
 bounded-below homotopy category.** This is the bounded-below form of
@@ -442,6 +430,41 @@ lemma mapHomologicalComplexQhIso_comp {C : Type u''} [Category.{v''} C] [Abelian
 
 variable [EnoughInjectives A]
 
+/-- The unit `rightDerivedFunctorPlusUnith` and the unit of the total right derived functor are
+units of two right derived functors of the same functor, so they are invertible at the same
+objects. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_iff (T : A ⥤ B) [T.Additive]
+    [(T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
+      (HomotopyCategory.Plus.quasiIso A)]
+    (X : HomotopyCategory.Plus A) :
+    IsIso (T.rightDerivedFunctorPlusUnith.app X) ↔
+      IsIso (((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app X) := by
+  let e := rightDerivedUnique T.rightDerivedFunctorPlus
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    T.rightDerivedFunctorPlusUnith
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A)
+  have h := rightDerivedNatTrans_app T.rightDerivedFunctorPlus
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    T.rightDerivedFunctorPlusUnith
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A) (𝟙 _) X
+  rw [NatTrans.id_app, Category.id_comp] at h
+  have : IsIso ((rightDerivedNatTrans T.rightDerivedFunctorPlus
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    T.rightDerivedFunctorPlusUnith
+    ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A) (𝟙 _)).app (DerivedCategory.Plus.Qh.obj X)) :=
+    inferInstanceAs (IsIso (e.hom.app _))
+  rw [← h, isIso_comp_right_iff]
+
 /-- **The comparison of the image of `T(K)` in the derived category with the value at `K` of
 the bounded-below right derived functor of `T`**, for a bounded-below complex `K`: the
 comparison of the two readings of `T(K)` followed by the unit of the right derived functor.
@@ -454,7 +477,7 @@ noncomputable def mapHomologicalComplexDerivedUnit (T : A ⥤ B) [T.Additive]
         (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩))) :=
   (T.mapHomologicalComplexQhIso hK).inv ≫
     DerivedCategory.Plus.ι.map
-      (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩))
+      (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩))
 
 /-- **The comparison with the right derived functor is natural in the bounded-below
 complex.** -/
@@ -466,7 +489,7 @@ lemma mapHomologicalComplexDerivedUnit_naturality (T : A ⥤ B) [T.Additive]
       T.mapHomologicalComplexDerivedUnit hK ≫
         DerivedCategory.Plus.ι.map (T.rightDerivedFunctorPlus.map
           (DerivedCategory.Plus.Qh.map (HomotopyCategory.Plus.quotientHomMk hK hL g))) := by
-  have hunit := T.rightDerivedFunctorPlusUnit.naturality
+  have hunit := T.rightDerivedFunctorPlusUnith.naturality
     (HomotopyCategory.Plus.quotientHomMk hK hL g)
   dsimp only [Functor.comp_map] at hunit
   have hiso : DerivedCategory.Q.map ((T.mapHomologicalComplex (ComplexShape.up ℤ)).map g) ≫
@@ -493,9 +516,8 @@ lemma rightAcyclic_of_injective (T : A ⥤ B) [T.Additive]
     · exact Injective.of_iso
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).symm inferInstance
     · exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 X j hj).injective
-  show IsIso (T.rightDerivedFunctorPlusUnit.app
-    ((HomotopyCategory.Plus.singleFunctor A 0).obj X))
-  infer_instance
+  exact (T.isIso_rightDerivedFunctorPlusUnith_app_iff
+    ((HomotopyCategory.Plus.singleFunctor A 0).obj X)).1 inferInstance
 
 /-- **A quasi-isomorphism of bounded-below complexes of right acyclic objects stays a
 quasi-isomorphism after applying an additive functor termwise.** Both ends are computed by the
@@ -511,10 +533,12 @@ lemma quasiIso_mapHomologicalComplex_of_rightAcyclic (T : A ⥤ B) [T.Additive]
   let Kq := (HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩
   let Lq := (HomotopyCategory.Plus.quotient A).obj ⟨L, hL⟩
   let ψq : Kq ⟶ Lq := HomotopyCategory.Plus.quotientHomMk hK hL φ
-  have : IsIso (T.rightDerivedFunctorPlusUnit.app Kq) :=
-    T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K hK hKac
-  have : IsIso (T.rightDerivedFunctorPlusUnit.app Lq) :=
-    T.isIso_totalRightDerivedUnit_app_of_rightAcyclic L hL hLac
+  have : IsIso (T.rightDerivedFunctorPlusUnith.app Kq) :=
+    (T.isIso_rightDerivedFunctorPlusUnith_app_iff Kq).2
+      (T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K hK hKac)
+  have : IsIso (T.rightDerivedFunctorPlusUnith.app Lq) :=
+    (T.isIso_rightDerivedFunctorPlusUnith_app_iff Lq).2
+      (T.isIso_totalRightDerivedUnit_app_of_rightAcyclic L hL hLac)
   have hQ : IsIso (DerivedCategory.Plus.Qh.map ψq) :=
     Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A) _
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 (by
@@ -522,11 +546,11 @@ lemma quasiIso_mapHomologicalComplex_of_rightAcyclic (T : A ⥤ B) [T.Additive]
         infer_instance))
   have hmap : IsIso ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map ψq) := by
     have hcomp : IsIso (((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map ψq) ≫
-        T.rightDerivedFunctorPlusUnit.app Lq) := by
-      rw [T.rightDerivedFunctorPlusUnit.naturality ψq]
+        T.rightDerivedFunctorPlusUnith.app Lq) := by
+      rw [T.rightDerivedFunctorPlusUnith.naturality ψq]
       dsimp only [Functor.comp_map]
       infer_instance
-    exact IsIso.of_isIso_comp_right _ (T.rightDerivedFunctorPlusUnit.app Lq)
+    exact IsIso.of_isIso_comp_right _ (T.rightDerivedFunctorPlusUnith.app Lq)
   refine (DerivedCategory.isIso_Q_map_iff_quasiIso B _).1 ?_
   refine (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso B) _).1 ?_
   exact (DerivedCategory.Plus.ι (C := B)).map_isIso
@@ -544,7 +568,7 @@ noncomputable def rightDerivedFunctorPlusInjectiveResolutionIso (T : A ⥤ B) [T
       DerivedCategory.Q.obj ((T.mapHomologicalComplex (ComplexShape.up ℤ)).obj I.cocomplex) :=
   DerivedCategory.Plus.ι.mapIso
       (T.rightDerivedFunctorPlus.mapIso (CochainComplex.InjectiveResolution.qhIso X I)) ≪≫
-    (DerivedCategory.Plus.ι.mapIso (asIso (T.rightDerivedFunctorPlusUnit.app
+    (DerivedCategory.Plus.ι.mapIso (asIso (T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩)))).symm ≪≫
     T.mapHomologicalComplexQhIso I.boundedBelow
 

@@ -149,12 +149,12 @@ functor is — and the corepresentation of evaluation at `V` of a presheaf of ab
 free abelian presheaf on `yoneda.obj V`. Each of the three is additive. -/
 def sectionsCorepEquiv (V : D) (F : Sheaf J AddCommGrpCat.{u}) :
     (corep J w V ⟶ F) ≃+
-      ToType (((w.sheafPushforwardCocontinuous AddCommGrpCat.{u} J K).obj F).val.obj (op V)) :=
+      ToType (((w.sheafPushforwardCocontinuous AddCommGrpCat.{u} J K).obj F).obj.obj (op V)) :=
   ((sheafificationAdjunction J AddCommGrpCat.{u}).homAddEquiv
       (w.op ⋙ yoneda.obj V ⋙ AddCommGrpCat.free) F).trans
     (((w.op.ranAdjunction AddCommGrpCat.{u}).homAddEquiv
-        (yoneda.obj V ⋙ AddCommGrpCat.free) F.val).trans
-      (freeEvaluationHomAddEquiv V (w.op.ran.obj F.val)))
+        (yoneda.obj V ⋙ AddCommGrpCat.free) F.obj).trans
+      (freeEvaluationHomAddEquiv V (w.op.ran.obj F.obj)))
 
 /-- **Sections over `V` of the direct image along a cocontinuous functor are corepresented by
 `corep`**, naturally in the sheaf. -/
@@ -167,11 +167,11 @@ def corepRepresentation (V : D) :
   intro F G β
   ext element
   change (corep J w V ⟶ F) at element
-  change freeEvaluationHomAddEquiv V (w.op.ran.obj G.val)
+  change freeEvaluationHomAddEquiv V (w.op.ran.obj G.obj)
       ((w.op.ranAdjunction AddCommGrpCat.{u}).homEquiv _ _
         ((sheafificationAdjunction J AddCommGrpCat.{u}).homEquiv _ G (element ≫ β))) =
     (((w.sheafPushforwardCocontinuous AddCommGrpCat.{u} J K).map β).hom.app (op V))
-      (freeEvaluationHomAddEquiv V (w.op.ran.obj F.val)
+      (freeEvaluationHomAddEquiv V (w.op.ran.obj F.obj)
         ((w.op.ranAdjunction AddCommGrpCat.{u}).homEquiv _ _
           ((sheafificationAdjunction J AddCommGrpCat.{u}).homEquiv _ F element)))
   rw [Adjunction.homEquiv_naturality_right, Adjunction.homEquiv_naturality_right]

@@ -177,7 +177,7 @@ theorem isIso_meromorphicSectionGenericPointComparisonPi
         Pi.π (fun η : CodimensionZeroPoints B S hS X.1 =>
           SheafOfModules.uliftObj.{_, _, _, _, u + 1}
             (P.genericPointMeromorphicModule η.2 F)) ξ =
-          P.meromorphicSectionGenericPointComparison ξ.2 F := Pi.lift_π _ ξ
+          P.meromorphicSectionGenericPointComparison ξ.2 F := Pi.lift_comp_π _ ξ
     have h2 : (P.meromorphicSectionGenericPointComparisonPi F).val ≫
         (Pi.π (fun η : CodimensionZeroPoints B S hS X.1 =>
           SheafOfModules.uliftObj.{_, _, _, _, u + 1}
@@ -219,9 +219,9 @@ theorem isIso_meromorphicSectionGenericPointComparisonPi
     rw [hrw]
     have hb := P.bijective_pi_genericPointMeromorphicComparison_app hwa hfin F hF W hW
     refine ⟨fun z z' h => ?_, fun v => ?_⟩
-    · exact ULift.ext _ _ (hb.injective (funext fun ξ => congrArg ULift.down (congrFun h ξ)))
+    · exact ULift.ext (hb.injective (funext fun ξ => congrArg ULift.down (congrFun h ξ)))
     · obtain ⟨y, hy⟩ := hb.surjective fun ξ => (v ξ).down
-      exact ⟨ULift.up y, funext fun ξ => ULift.ext _ _ (congrFun hy ξ)⟩
+      exact ⟨ULift.up y, funext fun ξ => ULift.ext (congrFun hy ξ)⟩
   have hdense := SmallEtale.isCoverDense_affineEtaleInclusion B S hS X.1 X.2
   have : PresheafOfModules.IsLocallyInjective (meromorphicRingedSite B S hS X.1 X.2).J
       (eta ≫ (P.meromorphicSectionGenericPointComparisonPi F).val) :=

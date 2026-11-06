@@ -165,7 +165,7 @@ def coherentDerivedToModulesIso [IsLocallyNoetherian X] :
     (coherentToQuasicoherent X).mapDerivedCategory ⋙
         (SheafOfModules.isQuasicoherent X.ringCatSheaf).ι.mapDerivedCategory ≅
       (coherentInModules X).ι.mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _)
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)
 
 /-- A complex of coherent `𝒪_X`-modules has coherent cohomology sheaves: the inclusion
 `Coh(𝒪_X) ⥤ Mod(𝒪_X)` is exact, so it commutes with cohomology. -/

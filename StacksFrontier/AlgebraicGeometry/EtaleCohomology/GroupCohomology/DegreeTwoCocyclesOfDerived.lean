@@ -101,8 +101,8 @@ theorem epi_map_g_of_isZero_continuousGroupCohomology_one
 theorem exists_invariant_lift_of_isZero_continuousGroupCohomology_one
     {S : ShortComplex (ContinuousGModule.{u, max u v} G)} (hS : S.ShortExact)
     (h : IsZero (continuousGroupCohomology.{u, v} G 1 S.X₁))
-    (y : S.X₃.obj.obj.V) (hy : ∀ g : G, (S.X₃.obj.obj.ρ g).hom y = y) :
-    ∃ x : S.X₂.obj.obj.V, (∀ g : G, (S.X₂.obj.obj.ρ g).hom x = x) ∧ homAdd S.g x = y := by
+    (y : S.X₃.obj.obj.V) (hy : ∀ g : G, (S.X₃.obj.obj.ρ g).asHom.hom y = y) :
+    ∃ x : S.X₂.obj.obj.V, (∀ g : G, (S.X₂.obj.obj.ρ g).asHom.hom x = x) ∧ homAdd S.g x = y := by
   have := epi_map_g_of_isZero_continuousGroupCohomology_one hS h
   obtain ⟨x, hx⟩ := (AddCommGrpCat.epi_iff_surjective _).1 this ⟨y, fun g ↦ hy g⟩
   exact ⟨x.1, fun g ↦ x.2 g, congrArg Subtype.val hx⟩
@@ -113,15 +113,17 @@ variable [CompactSpace G] [TotallyDisconnectedSpace G]
 `G → M`, `m ↦ (x ↦ x • m)`, and its cokernel, as a short exact sequence. -/
 abbrev coinducedSeq (N : ContinuousGModule.{u, max u v} G) :
     ShortComplex (ContinuousGModule.{u, max u v} G) :=
-  ShortComplex.mk (orbitMap N (AddMonoidHom.id _)) (cokernel.π (orbitMap N (AddMonoidHom.id _)))
-    (cokernel.condition _)
+  ShortComplex.mk (orbitMap N (AddMonoidHom.id N.obj.obj.V))
+    (cokernel.π (orbitMap N (AddMonoidHom.id N.obj.obj.V)))
+    (cokernel.condition (orbitMap N (AddMonoidHom.id N.obj.obj.V)))
 
 /-- The sequence `coinducedSeq N` is short exact. -/
 lemma shortExact_coinducedSeq (N : ContinuousGModule.{u, max u v} G) :
     (coinducedSeq N).ShortExact := by
   have := mono_orbitMap N (AddMonoidHom.id _) Function.injective_id
   exact ShortComplex.ShortExact.mk'
-    (ShortComplex.exact_of_g_is_cokernel _ (cokernelIsCokernel _)) inferInstance inferInstance
+    (ShortComplex.exact_of_g_is_cokernel _
+      (cokernelIsCokernel (orbitMap N (AddMonoidHom.id N.obj.obj.V)))) inferInstance inferInstance
 
 /-- The module of locally constant functions has no `1`-cocycles but coboundaries, for the
 action of its underlying discrete `G`-module. -/

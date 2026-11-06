@@ -210,9 +210,9 @@ narrower. NOT proved here: the other degrees of part (1), for which see
 isZero_continuousGroupCohomology_units, and part (2)"]
 theorem isMulCoboundary₂_of_brauerGroup_eq_one (hBr : ∀ y : BrauerGroup K, y = 1)
     (f : Gal(Ω/K) × Gal(Ω/K) → Ωˣ) (hloc : IsLocallyConstant f) (hf : IsMulCocycle₂ f) :
-    IsMulCoboundary₂ f :=
-  isMulCoboundary₂_of_forall_finiteGalois
-    (fun _ F hF ↦ isMulCoboundary₂_of_brauer (fun y _ ↦ hBr y) F hF) f hloc hf
+    IsMulCoboundary₂ f := by
+  refine isMulCoboundary₂_of_forall_finiteGalois (fun L F hF ↦ ?_) f hloc hf
+  exact isMulCoboundary₂_of_brauer (K := K) (L := L) (fun y _ ↦ hBr y) F hF
 
 /-- **Stacks Project, Tag 03R8, part (1).** Let `K` be a field with `Br(K) = 0` and let `Ω/K` be
 a Galois extension. Then

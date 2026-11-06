@@ -170,7 +170,7 @@ theorem restrictionObjectsObj_eq
 
 /-- Composing the identification of arrow spaces with a morphism transported along the equality of
 arrow presheaves is the realization isomorphism followed by that morphism. -/
-private theorem restrictionArrowsSpaceIso_hom_comp_eqToHom_symm_comp
+theorem restrictionArrowsSpaceIso_hom_comp_eqToHom_symm_comp
     (Rs : GroupoidInAlgebraicSpaces.Restriction (G.realization C hS hU hR hP)
       (realizationMap G C hS hU hR hP hX p)) {Z}
     (F : (GroupoidInAlgebraicSpaces.restrictionArrows (G.realization C hS hU hR hP)

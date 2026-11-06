@@ -157,6 +157,17 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_fieldFibreZeroDimensionalDecent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_fieldFibreZeroDimensionalDecent
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_fieldFibreZeroDimensionalDecent B S hS).has_limit _
+
 /-! ### Krull dimension zero forces a point -/
 
 /-- A topological space of Krull dimension zero is nonempty: `topologicalKrullDim` takes values

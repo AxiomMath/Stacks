@@ -48,7 +48,8 @@ theorem MvPolynomial.ker_map_quotientMk_le_nilradical {A : Type*} [CommRing A] {
   rw [mem_nilradical, MvPolynomial.isNilpotent_iff]
   intro i
   refine mem_nilradical.mp (hI (Ideal.Quotient.eq_zero_iff_mem.mp ?_))
-  rw [← MvPolynomial.coeff_map, RingHom.mem_ker.mp hp, MvPolynomial.coeff_zero]
+  rw [← MvPolynomial.coeff_map, RingHom.mem_ker.mp hp, AddMonoidAlgebra.coeff_zero,
+    Finsupp.zero_apply]
 
 /-- **Reducing the coefficients of a quotient of a polynomial ring.** -/
 def MvPolynomial.quotientMapQuotientMk {A : Type*} [CommRing A] {σ : Type*} (I : Ideal A)

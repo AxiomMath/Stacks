@@ -1158,6 +1158,18 @@ end General
 
 section Concrete
 
+/-- Weak sheafification of `Λ`-modules over the slices of a small étale site, at the coefficient
+universe of the site, with every universe fixed: instance search for it otherwise meets the
+unsolved constraint `u + 1 =?= max (u + 1) ?w` and overflows the stack while elaborating
+the public statements below. -/
+public theorem SmallEtale.hasWeakSheafify_over_moduleCat_site (B : BigEtaleSite.{u})
+    (Λ : Type (u + 1)) [CommRing Λ] (X : B.Scheme) (V : SmallEtale B X.obj X.property) :
+    HasWeakSheafify ((SmallEtale.topology B X.obj X.property).over V) (ModuleCat.{u + 1} Λ) :=
+  (Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE.{u + 1, u, u + 1, u + 1}
+    ((SmallEtale.topology B X.obj X.property).over V) Λ).isRightAdjoint
+
+attribute [local instance high] SmallEtale.hasWeakSheafify_over_moduleCat_site
+
 attribute [local instance] SmallEtale.isRightAdjointPushforward_type
   SmallEtale.isRightAdjointPushforward_addCommGrpCat
   SmallEtale.isRightAdjointPushforward_moduleCat_site

@@ -231,7 +231,7 @@ identification `Γ(Spec A, ⊤) ≅ A`. -/
 @[ega "IV 16.5.2"]
 noncomputable def globalSectionsDerivation {R A : CommRingCat.{u}} (φ : R ⟶ A)
     (F : SheafOfModules.{v} (SheafOfModules.underlyingRingSheaf (Spec A).sheaf))
-    (D : F.val.Derivation (Spec.map φ).c) :
+    (D : PresheafOfModulesOfCommRing.Derivation F.val (Spec.map φ).c) :
     ((ModuleCat.restrictScalars (Scheme.ΓSpecIso A).inv.hom).obj
       (F.val.obj (op ⊤))).Derivation φ :=
   ModuleCat.Derivation.mk
@@ -246,12 +246,12 @@ noncomputable def globalSectionsDerivation {R A : CommRingCat.{u}} (φ : R ⟶ A
       let f := (Scheme.ΓSpecIso A).inv.hom
       have ha : a • (show (ModuleCat.restrictScalars f).obj M from
           D.d ((Scheme.ΓSpecIso A).inv b)) =
-          (M.smul ((Scheme.ΓSpecIso A).inv a)).hom
+          (M.smul ((Scheme.ΓSpecIso A).inv a)).asHom.hom
             (D.d ((Scheme.ΓSpecIso A).inv b)) :=
         ModuleCat.restrictScalars.smul_def' f a _
       have hb : b • (show (ModuleCat.restrictScalars f).obj M from
           D.d ((Scheme.ΓSpecIso A).inv a)) =
-          (M.smul ((Scheme.ΓSpecIso A).inv b)).hom
+          (M.smul ((Scheme.ΓSpecIso A).inv b)).asHom.hom
             (D.d ((Scheme.ΓSpecIso A).inv a)) :=
         ModuleCat.restrictScalars.smul_def' f b _
       rw [map_mul, ha, hb]
@@ -569,7 +569,7 @@ private theorem affineSectionAddHom_mul {R A : CommRingCat.{u}}
 private theorem existingDerivation_basic {R A : CommRingCat.{u}}
     (φ : R ⟶ A)
     (F : SheafOfModules.{v} (SheafOfModules.underlyingRingSheaf (Spec A).sheaf))
-    (D : F.val.Derivation (Spec.map φ).c) (a : A)
+    (D : PresheafOfModulesOfCommRing.Derivation F.val (Spec.map φ).c) (a : A)
     (x : (Spec A).presheaf.obj (.op (PrimeSpectrum.basicOpen a))) :
     D.d x = (basicOpenDerivation φ F (globalSectionsDerivation φ F D) a).d x := by
   let S := (Spec A).presheaf.obj (.op (PrimeSpectrum.basicOpen a))
@@ -710,7 +710,7 @@ theorem globalSectionsDerivation_bijective {R A : CommRingCat.{u}} (φ : R ⟶ A
     Function.Bijective (globalSectionsDerivation φ F) := by
   refine ⟨globalSectionsDerivation_injective φ F, ?_⟩
   intro d
-  let D : F.val.Derivation (Spec.map φ).c := {
+  let D : PresheafOfModulesOfCommRing.Derivation F.val (Spec.map φ).c := {
     d := affineSectionAddHom φ F d _
     d_mul := fun {U} x y => affineSectionAddHom_mul φ F d U.unop x y
     d_map := affineSectionAddHom_natural φ F d

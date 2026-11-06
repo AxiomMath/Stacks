@@ -358,6 +358,7 @@ theorem isPowAnnihilated_of_mem_idealPowerMultiple (a j k : ℕ)
 
 /-! ### Surjectivity in `Coh(F, 𝓘)` -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The transition map of a coherent adic system is surjective. -/
 theorem epi_map_le_succ {E : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF}
     (hE : IsCoherentAdicSystem B S hS F hF 𝓘 E) (n : ℕ) :

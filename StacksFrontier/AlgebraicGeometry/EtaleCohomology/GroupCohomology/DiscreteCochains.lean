@@ -3,6 +3,8 @@ module
 public import Mathlib.RepresentationTheory.Homological.GroupCohomology.LowDegree
 public import Mathlib.Topology.Algebra.ClopenNhdofOne
 public import Mathlib.Topology.LocallyConstant.Basic
+import Mathlib.Topology.Separation.Connected
+import Mathlib.Topology.Separation.Regular
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -60,6 +62,7 @@ subgroup.** -/
 theorem exists_openSubgroup_forall_mul_right_eq [CompactSpace H] [TotallyDisconnectedSpace H]
     {B : Type v} {f : H → B} (hf : IsLocallyConstant f) :
     ∃ N : OpenSubgroup H, ∀ x n : H, n ∈ N → f (x * n) = f x := by
+  have : T2Space H := IsTopologicalGroup.t2Space_iff_one_closed.mpr isClosed_singleton
   have key : ∀ x : H, ∃ N : OpenNormalSubgroup H, ∀ n ∈ N, f (x * n) = f x := by
     intro x
     have hopen : IsOpen ((fun u : H ↦ x * u) ⁻¹' (f ⁻¹' {f x})) :=

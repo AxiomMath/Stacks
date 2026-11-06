@@ -169,7 +169,6 @@ theorem surjective_of_surjective {f : M →ₗ[R] N} (f' : M' →ₗ[S] N') {σ 
     (hf : Function.Surjective f) : Function.Surjective f' := by
   intro y
   induction y using hν.inductionOn with
-  | zero => exact ⟨0, map_zero _⟩
   | tmul n =>
       obtain ⟨m, rfl⟩ := hf n
       refine ⟨σ m, ?_⟩
@@ -234,14 +233,12 @@ theorem eq_zero_of_forall_tmul_eq_zero {w : W} (h : ∀ z : Z, z ⊗ₜ[R] w = 0
       ((TensorProduct.mk R (Module.Dual R Z ⊗[R] Z) W).flip w)
   have hT : ∀ u, T u = 0 := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => simp [T]
+    induction u using TensorProduct.inductionOn with
     | tmul φ z => simp [T, h z]
     | add a b ha hb => rw [map_add, ha, hb, add_zero]
   have hc : ∀ u, (leftCancelEquiv W e) (T u) = e u • w := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => simp [T]
+    induction u using TensorProduct.inductionOn with
     | tmul φ z => simp [T, leftCancelEquiv]
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, add_smul]
   obtain ⟨u, hu⟩ := e.surjective 1

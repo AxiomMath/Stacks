@@ -102,6 +102,13 @@ theorem relativelyRepresentable_of_isFiniteLocallyFreeOfRank {X Y : AlgebraicSpa
     yoneda.relativelyRepresentable f.hom :=
   relativelyRepresentable_of_isFiniteLocallyFree B S hS f hf.1
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS` (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FiniteLocallyFreeCondition2
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Stacks 03ZW, condition (2) -/
 
 variable {X Y : AlgebraicSpaces B S hS}

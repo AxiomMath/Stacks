@@ -162,7 +162,31 @@ def completionModificationFunctorFullyFaithful {X : (BigFppfOver B S hS)ᵒᵖ �
 
 /-! ### Base change along an étale chart -/
 
+/-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
+search for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_CompletionModificationFunctor :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+/-- The pullback of two morphisms of fppf sheaves in `Type (u + 1)`. -/
+local instance (priority := high) hasLimit_cospan_sheaf_CompletionModificationFunctor
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section BaseChange
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CompletionModificationFunctor :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_CompletionModificationFunctor
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 variable {X X₁ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hXsp : IsAlgebraicSpace B S hS X)
   (hX : Space.IsLocallyNoetherian B S hS X) {T : Set (Space.points B S hS X)} (hT : IsClosed T)

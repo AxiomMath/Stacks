@@ -61,8 +61,8 @@ theorem basisReduction_eq_zero_iff {M : Type*} [AddCommGroup M] [Module ℤ_[p] 
       exact ⟨c, by rw [← hc, mul_comm]⟩
     choose c hc using hi
     refine ⟨b.repr.symm (Finsupp.ofSupportFinite c ?_), b.repr.injective (Finsupp.ext fun i => ?_)⟩
-    · refine (b.repr x).finite_support.subset fun i hi => ?_
-      rw [Function.mem_support, hc]
+    · refine (b.repr x).support.finite_toSet.subset fun i hi => ?_
+      rw [Finset.mem_coe, Finsupp.mem_support_iff, hc]
       exact mul_ne_zero (pow_ne_zero _ (by exact_mod_cast (Fact.out : p.Prime).ne_zero)) hi
     · rw [map_smul, LinearEquiv.apply_symm_apply, Finsupp.smul_apply, Finsupp.ofSupportFinite_coe,
         hc, smul_eq_mul]

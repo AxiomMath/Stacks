@@ -82,7 +82,7 @@ lemma presheafFiberIsoOfFiberIso_hom_toPresheafFiber (Psi : Point.{u} J) {G : C 
   show (Functor.Final.colimitIso (elementsEquivOfIso e).functor.op
       ((CategoryOfElements.π G).op ⋙ P)).hom
     (colimit.ι ((elementsEquivOfIso e).functor.op ⋙ (CategoryOfElements.π G).op ⋙ P)
-      (op ⟨V, t⟩) s) = _
+      (op (Psi.fiber.elementsMk V t)) s) = _
   rw [Functor.Final.colimitIso_hom]
   exact congrFun (congrArg (fun φ => (ConcreteCategory.hom φ : _ → _))
     (colimit.ι_pre ((CategoryOfElements.π G).op ⋙ P) (elementsEquivOfIso e).functor.op

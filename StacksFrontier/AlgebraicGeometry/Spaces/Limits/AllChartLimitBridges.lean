@@ -46,6 +46,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_AllChartLimitBridges
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_AllChartLimitBridges
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_AllChartLimitBridges B S hS).has_limit _
+
 /-- A function on a member of a cofiltered system of affine schemes which vanishes on the limit
 already vanishes on a later member. -/
 theorem exists_map_appTop_eq_zero_of_isLimit {J : Type u} [Category.{u} J] [IsCofiltered J]
@@ -126,7 +139,7 @@ theorem nonempty_limitBridge_of_forall_appTop_eq_zero (C : AffineChartSystem B S
     rw [hg, map_zero]
   have : IsIso ι := IsClosedImmersion.isIso_of_injective_of_isAffine (f := ι) hinj
   exact ⟨{ L with
-    schemeIsLimit := he.ofIsoLimit (Cones.ext (asIso ι).symm fun j => by
+    schemeIsLimit := he.ofIsoLimit (Cone.ext (asIso ι).symm fun j => by
       rw [Iso.symm_hom, asIso_inv, Functor.mapCone_π_app, hπ, IsIso.inv_hom_id_assoc]) }⟩
 
 end AffineChartSystem

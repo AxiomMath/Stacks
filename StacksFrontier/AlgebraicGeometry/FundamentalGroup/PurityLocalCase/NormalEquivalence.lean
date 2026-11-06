@@ -6,6 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtalePrope
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.GlobalSectionsCriterion
 public import StacksFrontier.AlgebraicGeometry.Properties.NormalCoproduct
 import StacksFrontier.RingTheory.Depth.RingEquiv
+import Mathlib.RingTheory.IntegralClosure.GoingDown
 
 /-!
 # Finite etale covers of the punctured spectrum of a normal local ring
@@ -524,7 +525,7 @@ private lemma finiteNormalTorsionFree_closed_stalk_depth_ge_two
     (PrimeSpectrum.isClosed_singleton_iff_isMaximal y).mp hy
   let m := IsLocalRing.maximalIdeal A
   have hmmax : (y.asIdeal.comap (algebraMap A B)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal y.asIdeal
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) y.asIdeal
   have hunder : y.asIdeal.comap (algebraMap A B) = m := IsLocalRing.eq_maximalIdeal hmmax
   have : y.asIdeal.LiesOver m := ⟨hunder.symm⟩
   have : Algebra.HasGoingDown A B := hasGoingDown_of_torsionFree A B

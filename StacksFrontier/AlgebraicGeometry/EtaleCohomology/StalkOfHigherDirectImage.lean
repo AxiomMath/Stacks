@@ -268,7 +268,7 @@ variable (B : BigEtaleSite.{u}) {S T : Scheme.{u}} (hS : B.Contains S) (g : T �
 /-- The directed system of affine étale neighbourhoods of `s`, as schemes over `S`. -/
 abbrev etaleNeighborhoodDirectedOverDiagram :
     (affineEtaleNeighborhoodDirectedIndex B S hS s)ᵒᵖ ⥤ Over S :=
-  affineEtaleNeighborhoodDirectedSystem B S hS s ⋙ CategoryOfElements.π _ ⋙
+  affineEtaleNeighborhoodDirectedSystem B S hS s ⋙ Functor.Elements.π _ ⋙
     MorphismProperty.Over.forget _ _ S
 
 /-- The strict henselization as a cone over `S` on the directed system of affine étale
@@ -286,7 +286,7 @@ def strictHenselizationDirectedOverCone : Cone (etaleNeighborhoodDirectedOverDia
 étale schemes over `T`. -/
 abbrev strictHenselizationBaseChangeDirectedSystem :
     (affineEtaleNeighborhoodDirectedIndex B S hS s)ᵒᵖ ⥤ T.Etale :=
-  affineEtaleNeighborhoodDirectedSystem B S hS s ⋙ CategoryOfElements.π _ ⋙
+  affineEtaleNeighborhoodDirectedSystem B S hS s ⋙ Functor.Elements.π _ ⋙
     Stacks.EtaleCohomology.smallEtaleBaseChange g
 
 /-- The inverse system of schemes `T ×_S V`, for `V` in the directed system of affine étale
@@ -381,7 +381,7 @@ def strictHenselizationBaseChangeDirectedConeIsLimit :
   refine (IsLimit.equivOfNatIsoOfIso (strictHenselizationBaseChangeDirectedDiagramIso B hS g s)
     ((Over.pullback g ⋙ Over.forget T).mapCone (strictHenselizationDirectedOverCone B hS s))
     (strictHenselizationBaseChangeDirectedCone B hS g s)
-    (Cones.ext (pullbackSymmetry (strictHenselizationToBase B S hS s) g) fun a => ?_)).1
+    (Cone.ext (pullbackSymmetry (strictHenselizationToBase B S hS s) g) fun a => ?_)).1
     (isLimitOfPreserves (Over.pullback g ⋙ Over.forget T)
       (isLimitOfReflects (Over.forget S) hc))
   refine ((Category.comp_id _).trans ?_)
@@ -612,13 +612,14 @@ theorem isIso_pushforwardStalkToStrictHenselizationSectionsAb_app :
     intro x hx
     obtain ⟨U, u, σ, rfl⟩ := (Scheme.pointSmallEtale s.hom).toPresheafFiber_jointly_surjective
       (P := ((smallEtalePushforwardAb g).obj F).obj) x
-    obtain ⟨a, ⟨k⟩⟩ := exists_etaleNeighborhoodDirectedSystem_hom B S hS s ⟨U, u⟩
-    have hk := (Scheme.pointSmallEtale s.hom).toPresheafFiber_w_apply k.1
+    obtain ⟨a, ⟨k⟩⟩ := exists_etaleNeighborhoodDirectedSystem_hom B S hS s
+      ((Scheme.pointSmallEtale s.hom).fiber.elementsMk U u)
+    have hk := (Scheme.pointSmallEtale s.hom).toPresheafFiber_w_apply k.hom
       (etaleNeighborhoodDirectedPoint B S hS s a)
       ((smallEtalePushforwardAb g).obj F).obj σ
-    rw [k.2] at hk
+    rw [k.map_val] at hk
     rw [← hk] at hx ⊢
-    set σa := ((smallEtalePushforwardAb g).obj F).obj.map k.1.op σ
+    set σa := ((smallEtalePushforwardAb g).obj F).obj.map k.hom.op σ
     have hx1 : ΓN.hom (P _) = 0 := (congrArg ΓN.hom hx).trans (map_zero _)
     have hx2 := (equiv₀_etaleCohomologyPullback_strictHenselizationStageClass B hS g s F a
       σa).trans ((pushforwardStalkToStrictHenselizationSectionsAb_germ B hS g s F a σa).symm.trans

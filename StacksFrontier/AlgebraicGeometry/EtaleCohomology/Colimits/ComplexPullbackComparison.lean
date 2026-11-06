@@ -65,15 +65,15 @@ def smallEtaleComplexPullbackComparison {X Y : Scheme.{u}} (f : X ⟶ Y)
     (G : CochainComplex (Sheaf (smallEtaleTopology X) Ab.{u + 1}) ℤ) [G.IsStrictlyGE a]
     (ι : ((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj F ⟶ G) :
     (derivedPullbackAb f).obj (plusDerivedObj a F) ⟶ plusDerivedObj a G :=
-  letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
-  letI : IsIso ((smallEtalePullbackAb f).rightDerivedFunctorPlusUnit.app
+  letI : IsIso ((smallEtalePullbackAb f).rightDerivedFunctorPlusUnith.app
       (CochainComplex.plusHomotopyObj a F)) :=
     NatIso.isIso_app_of_isIso _ _
   let ι' : (smallEtalePullbackAb f).mapHomotopyCategoryPlus.obj
       (CochainComplex.plusHomotopyObj a F) ⟶ CochainComplex.plusHomotopyObj a G :=
     ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map ι)
-  inv ((smallEtalePullbackAb f).rightDerivedFunctorPlusUnit.app
+  inv ((smallEtalePullbackAb f).rightDerivedFunctorPlusUnith.app
       (CochainComplex.plusHomotopyObj a F)) ≫ DerivedCategory.Plus.Qh.map ι'
 
 /-- The comparison `smallEtaleComplexPullbackComparison`, with the inverse of the unit written as
@@ -82,10 +82,10 @@ theorem smallEtaleComplexPullbackComparison_eq {X Y : Scheme.{u}} (f : X ⟶ Y)
     (F : CochainComplex (Sheaf (smallEtaleTopology Y) Ab.{u + 1}) ℤ) [F.IsStrictlyGE a]
     (G : CochainComplex (Sheaf (smallEtaleTopology X) Ab.{u + 1}) ℤ) [G.IsStrictlyGE a]
     (ι : ((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj F ⟶ G) :
-    letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+    letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
       (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
     smallEtaleComplexPullbackComparison a f F G ι =
-      (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit).inv.app
+      (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith).inv.app
           (CochainComplex.plusHomotopyObj a F) ≫
         DerivedCategory.Plus.Qh.map
           (ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map ι) :
@@ -114,16 +114,16 @@ theorem smallEtaleComplexPullbackComparison_paste {X₀ X₁ X₂ : Scheme.{u}} 
       (smallEtaleDerivedPullbackAbPlusComp' f₁ f₂ f hf).inv.app (plusDerivedObj a F₀) ≫
         (derivedPullbackAb f₂).map (smallEtaleComplexPullbackComparison a f₁ F₀ F₁ ι₁) ≫
           smallEtaleComplexPullbackComparison a f₂ F₁ F₂ ι₂ := by
-  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
-  let : IsIso (smallEtalePullbackAb f₁).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb f₁).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f₁).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
-  let : IsIso (smallEtalePullbackAb f₂).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb f₂).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f₂).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have key := Functor.rightDerivedFunctorPlusCompIsoOfExact_inv_app (smallEtalePullbackAb f₁)
     (smallEtalePullbackAb f₂) (smallEtalePullbackAb f) (smallEtalePullbackAbComp' f₂ f₁ f hf)
     (CochainComplex.plusHomotopyObj a F₀)
-  have hnat := (asIso (smallEtalePullbackAb f₂).rightDerivedFunctorPlusUnit).inv.naturality
+  have hnat := (asIso (smallEtalePullbackAb f₂).rightDerivedFunctorPlusUnith).inv.naturality
     (ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map ι₁) :
       (smallEtalePullbackAb f₁).mapHomotopyCategoryPlus.obj (CochainComplex.plusHomotopyObj a F₀) ⟶
         CochainComplex.plusHomotopyObj a F₁)
@@ -176,7 +176,7 @@ theorem derivedBaseChangeHomologyMap_smallEtaleComplexPullbackComparison_homolog
     (hs : ∀ n, (smallEtalePullbackAb e).map (σ n).s ≫ ψ.τ₂.f n = ψ.τ₃.f n ≫ (σ' n).s)
     (hr : ∀ n, (smallEtalePullbackAb e).map (σ n).r ≫ ψ.τ₁.f n = ψ.τ₂.f n ≫ (σ' n).r)
     (n₀ n₁ : ℤ) (hn : n₀ + 1 = n₁) :
-    letI : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnit :=
+    letI : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnith :=
       (smallEtalePullbackAb e).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
     derivedBaseChangeHomologyMap f' g h e w n₀ (plusDerivedObj a 𝒮.X₃) (plusDerivedObj a 𝒮'.X₃)
         (smallEtaleComplexPullbackComparison a e 𝒮.X₃ 𝒮'.X₃ ψ.τ₃) ≫
@@ -191,7 +191,7 @@ theorem derivedBaseChangeHomologyMap_smallEtaleComplexPullbackComparison_homolog
                 (CochainComplex.trianglehPlusOfDegreewiseSplit a 𝒮 σ))) n₀ n₁ hn) ≫
         derivedBaseChangeHomologyMap f' g h e w n₁ (plusDerivedObj a 𝒮.X₁)
           (plusDerivedObj a 𝒮'.X₁) (smallEtaleComplexPullbackComparison a e 𝒮.X₁ 𝒮'.X₁ ψ.τ₁) := by
-  let : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb e).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have key := derivedBaseChangeHomologyMap_homologySequenceδ f' g h e w _ _
     (CochainComplex.rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom (smallEtalePullbackAb e) a

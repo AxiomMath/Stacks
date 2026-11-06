@@ -107,8 +107,8 @@ private lemma closedPoints_eq_comap_preimage
   rw [Set.mem_preimage, mem_closedPoints_iff,
     PrimeSpectrum.isClosed_singleton_iff_isMaximal, mem_closedPoints_iff,
     PrimeSpectrum.isClosed_singleton_iff_isMaximal]
-  exact ⟨fun _ => Ideal.isMaximal_comap_of_isIntegral_of_isMaximal y.asIdeal,
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap y.asIdeal⟩
+  exact ⟨fun _ => Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) y.asIdeal,
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) y.asIdeal⟩
 
 /-- In a w-local spectrum the ideal of the closed points cuts out exactly the closed points. -/
 private lemma zeroLocus_vanishingIdeal_closedPoints (A : Type u) [CommRing A]
@@ -287,7 +287,7 @@ private lemma wLocalSpace_primeSpectrum_of_finite
     have hfmax (y : PrimeSpectrum B) [y.asIdeal.IsMaximal] :
         IsClosed ({f y} : Set (PrimeSpectrum A)) := by
       rw [PrimeSpectrum.isClosed_singleton_iff_isMaximal]
-      exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal y.asIdeal
+      exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) y.asIdeal
     have hcd : f c = f d := WLocalSpace.eq_of_specializes (hfmax c) (hfmax d)
       (hxc.map (PrimeSpectrum.continuous_comap _)) (hxd.map (PrimeSpectrum.continuous_comap _))
     set m : Ideal A := (f c).asIdeal
@@ -334,7 +334,7 @@ private lemma strictlyHenselianLocalRing_localization_of_finite
     StrictlyHenselianLocalRing (Localization.AtPrime q) := by
   have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
   set m : Ideal A := q.comap (algebraMap A B)
-  have : m.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q
+  have : m.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q
   have : q.LiesOver m := ⟨rfl⟩
   let R := Localization.AtPrime m
   let M := Algebra.algebraMapSubmonoid B m.primeCompl

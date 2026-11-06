@@ -564,7 +564,8 @@ private lemma schemeTheoreticImageSubfunctor_yoneda_eq_top_of_isSchemeTheoretica
   have : IsIso j := (isIso_iff_of_reflects_iso j (BigFppfOver.toScheme B S hS)).mp
     (IsClosedImmersion.isIso_iff_ker_eq_bot.mpr hle)
   rw [heq]
-  exact Subfunctor.range_eq_top (yoneda.map j)
+  have : IsIso (yoneda.map j) := Functor.map_isIso _ _
+  exact @Subfunctor.range_eq_top _ _ _ _ (yoneda.map j) (IsIso.epi_of_iso _)
 
 /-- **The scheme-theoretic image of a morphism of the site is everything exactly when the
 morphism is scheme-theoretically dominant.** The scheme-theoretic image of the morphism of
@@ -595,7 +596,7 @@ lemma schemeTheoreticImageSubfunctor_preimage_eq_top_iff
     schemeTheoreticImageSubfunctor B S hS (U.preimage φ).ι = ⊤ ↔
       IsSchemeTheoreticallyDominant ((BigFppfOver.toScheme B S hS).map (hU.rep.snd φ)) := by
   have hepi : Subfunctor.range (preimageIso B S hS U hU.rep φ).hom = ⊤ :=
-    Subfunctor.range_eq_top _
+    @Subfunctor.range_eq_top _ _ _ _ _ (IsIso.epi_of_iso _)
   have hrange : Subfunctor.range ((U.preimage φ).ι) =
       Subfunctor.range (yoneda.map (hU.rep.snd φ)) := by
     rw [← preimageIso_hom_ι B S hS U hU.rep φ, Subfunctor.range_comp, hepi,

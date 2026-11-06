@@ -165,7 +165,7 @@ def cohomologyZeroEquiv : cohomologyZero p ≃+ crystallineSectionRing (situatio
 /-- The structure sheaf of `CRIS(X/S)` as a sheaf of sets. -/
 theorem isSheaf_crystallineStructureSheaf_forget :
     Presheaf.IsSheaf (topology (situation p))
-      ((crystallineStructureSheaf (situation p)).val ⋙ CategoryTheory.forget RingCat.{0}) :=
+      ((crystallineStructureSheaf (situation p)).obj ⋙ CategoryTheory.forget RingCat.{0}) :=
   Presheaf.isSheaf_comp_of_isSheaf _ _ _ (crystallineStructureSheaf (situation p)).property
 
 /-- Restriction of a compatible family on `CRIS(X/S)` to `Cris(X/S)`. -/

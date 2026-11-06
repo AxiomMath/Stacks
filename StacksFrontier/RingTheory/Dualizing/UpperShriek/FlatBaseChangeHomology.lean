@@ -188,12 +188,9 @@ theorem derivedHom_map_smul_id (a : A)
     dsimp only [Functor.comp_map] at hn
     rw [h1, ← hn, Functor.mapHomotopyCategory_map, h2]
     simp only [Functor.map_smul, CategoryTheory.Functor.map_id, Linear.comp_smul]
-    have h3 : ∀ X : HomotopyCategory (ModuleCat.{max v uA uB} B) (.up ℤ),
-        DerivedCategory.Qh.map (f a • 𝟙 X) = f a • 𝟙 (DerivedCategory.Qh.obj X) := fun X =>
-      functor_map_smul_id _ _ _
-    refine (congrArg (fun t => t ≫ (derivedHomComparison.{uA, uB, v} f).app _) (h3 _)).trans ?_
-    simp only [Linear.smul_comp, Category.id_comp]
-    exact congrArg (fun t => f a • t) (Category.comp_id _).symm
+    rw [Linear.smul_comp]
+    congr 1
+    erw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
   exact congrArg (fun γ : I ⟶ I => γ.app Y) key
 
 /-- Derived restriction of scalars carries multiplication by `f a` to multiplication by `a`. -/

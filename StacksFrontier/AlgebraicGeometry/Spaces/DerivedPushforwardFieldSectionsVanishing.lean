@@ -67,7 +67,7 @@ theorem subsingleton_unit_hom_homology_derivedModulePushforward_of_isZero (K : T
       (SheafOfModules.uliftForPresentation.{u + 1, u, u, u, u + 1} M)) := by
     refine IsZero.of_iso ?_ ((rightDerivedGlobalSectionsUliftIso.{u + 1} R n).app M).symm
     exact @ModuleCat.isZero_of_subsingleton _ _ _
-      ⟨fun a b => ULift.ext a b ((ModuleCat.subsingleton_of_isZero hM).elim _ _)⟩
+      ⟨fun a b => ULift.ext ((ModuleCat.subsingleton_of_isZero hM).elim _ _)⟩
   let ψ := RingHom.id (Scheme.Γ.obj (op ((BigFppfOver.toScheme B S hS).obj V)))
   have hL := ((ModuleCat.restrictScalars
       ((globalSectionsRingHom B S hS X.1 X.2 f.hom).comp ψ)).map_isZero hU).of_iso

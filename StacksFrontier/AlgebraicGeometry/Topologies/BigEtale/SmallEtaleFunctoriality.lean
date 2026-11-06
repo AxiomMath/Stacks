@@ -178,7 +178,10 @@ public theorem smallEtalePostcomposeBaseChangeAdjunction_unit_app {T' T : B.Sche
   simp only [NatTrans.id_app]
   apply Over.OverMorphism.ext
   apply pullback.hom_ext <;>
-    simp [smallEtaleBaseChangeLift, smallEtalePostcompose, smallEtaleBaseChange]
+    simp [smallEtaleBaseChangeLift, smallEtalePostcompose, smallEtaleBaseChange] <;>
+    first
+      | exact (pullback.lift_fst _ _ _).symm
+      | exact (pullback.lift_snd _ _ _).symm
 
 /-- The adjunction of direct images on sheaves induced by the adjunction between composition
 with an étale morphism and base change along it. -/

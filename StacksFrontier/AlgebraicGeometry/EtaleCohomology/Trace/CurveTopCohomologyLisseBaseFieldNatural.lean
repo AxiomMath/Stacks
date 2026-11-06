@@ -89,7 +89,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_twi
           ((etaleModuleInverseImage.{u, 0} (ZMod m)
             (fieldBaseChangeProj (Over.mk (𝟙 (Spec (.of k)))) kbar)).map
             ((constantSheaf (Spec (.of k)).smallEtaleTopology (ModuleCat.{u + 1} (ZMod m))).map
-              (Q.obj.obj.obj.ρ φ))) ≫
+              (Q.obj.obj.obj.ρ φ).asHom)) ≫
         (etaleModuleDirectImage.{u, 0} (ZMod m)
           (geometricFrobeniusBaseChange (Over.mk (𝟙 (Spec (.of k)))) kbar p q hcard)).map u₀)
     (hu₀ : ∀ g : Q ⟶ Q,
@@ -105,7 +105,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_twi
         ((lisseEtaleSheaf B U x (ZMod m)).obj Q) ≃+ Q.obj.obj.obj.V,
       (∀ t, θ (((compactSupportSheafFrobenius (ZMod m) f j kbar p q hcard 2).app
           ((lisseEtaleSheaf B U x (ZMod m)).obj Q)).hom t) =
-        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).hom (θ t)) ∧
+        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).asHom.hom (θ t)) ∧
       ∀ (g : Q ⟶ Q) t, θ (((compactSupportSheafCohomology (ZMod m) f j kbar 2).map
           ((lisseEtaleSheaf B U x (ZMod m)).map g)).hom t) = g.hom.hom.hom.hom.hom (θ t) := by
   have : Finite Q.obj.obj.obj.V := (moduleCat_isFG_iff_finite (ZMod m) _).1 Q.property
@@ -142,7 +142,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_twi
       q hcard C ((etaleModuleInverseImage.{u, 0} (ZMod m) C.q).obj F₀)
   obtain ⟨e₄, he₄, hn₄⟩ :=
     exists_addEquiv_compactSupportSheafCohomology_two_inverseImage_of_twist_natural C.q kbar m p q
-      hcard hm F₀ Q.obj.obj.obj.V (Q.obj.obj.obj.ρ φ) u₀ h₀
+      hcard hm F₀ Q.obj.obj.obj.V (Q.obj.obj.obj.ρ φ).asHom u₀ h₀
   let ι := α₂ ≪≫ α₁
   let e₁ : T.obj ((lisseEtaleSheaf B U x (ZMod m)).obj Q) ≃+
       T.obj ((etaleModuleRestriction.{u, 0} (ZMod m) C.j).obj

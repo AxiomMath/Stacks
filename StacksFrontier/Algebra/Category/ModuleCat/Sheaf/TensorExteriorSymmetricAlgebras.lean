@@ -138,6 +138,13 @@ noncomputable def tensorPower (F : SheafOfModules.{w} (toRingCat J Osharp)) :
 
 variable (F : SheafOfModules.{w} (toRingCat J Osharp))
 
+/-- Countable coproducts of sheaves of modules, stated directly: instance search for
+`HasColimit (Discrete.functor _)` in `SheafOfModules` times out under Lean v4.35.0. -/
+local instance : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+  haveI := PresheafOfModules.hasColimitsOfShape (toRingCat J Osharp).obj (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (toRingCat J Osharp) (Discrete ℕ)
+
 /-- The zeroth tensor power is the structure sheaf. -/
 theorem tensorPower_zero : tensorPower J F 0 = SheafOfModules.unit (toRingCat J Osharp) := rfl
 

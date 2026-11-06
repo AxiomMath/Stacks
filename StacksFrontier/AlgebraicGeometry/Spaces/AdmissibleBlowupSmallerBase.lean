@@ -202,7 +202,7 @@ theorem preimage_range_comp_isIso_presheaf (q : A ⟶ A') (k : A' ⟶ A'') [IsIs
     exact h.1
   ext x
   simp only [Subfunctor.preimage_obj, Subfunctor.range_obj, Set.mem_preimage, Set.mem_range,
-    FunctorToTypes.comp]
+    NatTrans.comp_app_apply]
   exact ⟨fun ⟨y, hy⟩ => ⟨y, hk hy⟩, fun ⟨y, hy⟩ => ⟨y, by rw [hy]⟩⟩
 
 end RangeIso
@@ -404,6 +404,8 @@ theorem exists_map_eq_of_comp_viewStructureMap
   obtain ⟨α, hα⟩ := (smallerBasePresheafEquivalence B T S hT hS g).functor.map_surjective
     (Over.homMk ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X ≫ k ≫
       (smallerBasePresheafForgetIso B T S hT hS g).inv.app Y) hw)
+  haveI : Epi ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X) :=
+    @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((smallerBasePresheafForgetIso B T S hT hS g).app X))
   refine ⟨α, (cancel_epi ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X)).1 ?_⟩
   have hnat := (smallerBasePresheafForgetIso B T S hT hS g).hom.naturality α
   have hleft : (((smallerBasePresheafEquivalence B T S hT hS g).functor ⋙

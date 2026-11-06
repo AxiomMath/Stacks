@@ -69,6 +69,7 @@ theorem relativelyRepresentable_toBase_of_subsingleton :
   exact (MorphismProperty.cancel_left_of_respectsIso _ e.inv _).2
     (Space.relativelyRepresentable_yoneda_map B integerBase hZ q)
 
+set_option synthInstance.maxHeartbeats 400000 in
 include hY hAff hNoeth in
 /-- **The chart of the total space over the identity chart of the base is a Noetherian scheme of
 dimension at most one.** Its structure map to the total space is an isomorphism, so it is

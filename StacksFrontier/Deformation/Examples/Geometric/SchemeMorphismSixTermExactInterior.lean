@@ -72,9 +72,9 @@ public theorem transportAut_inducedInfinitesimalFun (hq : IsCofiberedInGroupoids
     {V : Under ((Φ ⋙ q).obj x₀)} (ι : dualNumbersUnder (p := Φ ⋙ q) (x := x₀) ⟶ V)
     (a : localizedAutomorphismFunctorTangent P) :
     (Q.transportAut ι (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq
-        a)).1).hom.val =
+        a)).1).asIso.hom.val =
       comparisonPushforward Φ P Q V ≫
-        Φ.map (P.transportAut ι (localizedTangentEquivKernel P a).1).hom.val ≫
+        Φ.map (P.transportAut ι (localizedTangentEquivKernel P a).1).asIso.hom.val ≫
           comparisonPushforwardInv Φ P Q hq V := by
   have h : (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq a)).1 =
       inducedAutomorphismHom Φ P Q hq _ (localizedTangentEquivKernel P a).1 :=
@@ -147,8 +147,8 @@ public theorem transportAut_ofComp_inducedInfinitesimalFun {V : Under ((Φ ⋙ q
     (ι : dualNumbersUnder (p := Φ ⋙ q) (x := x₀) ⟶ V)
     (a : localizedAutomorphismFunctorTangent P) :
     ((P.ofComp Φ hq).transportAut ι (localizedTangentEquivKernel (P.ofComp Φ hq)
-        (inducedInfinitesimalFun Φ P (P.ofComp Φ hq) hq a)).1).hom.val =
-      Φ.map (P.transportAut ι (localizedTangentEquivKernel P a).1).hom.val := by
+        (inducedInfinitesimalFun Φ P (P.ofComp Φ hq) hq a)).1).asIso.hom.val =
+      Φ.map (P.transportAut ι (localizedTangentEquivKernel P a).1).asIso.hom.val := by
   rw [transportAut_inducedInfinitesimalFun, comparisonPushforward_ofComp,
     comparisonPushforwardInv_ofComp, Category.id_comp, Category.comp_id]
 
@@ -171,7 +171,8 @@ public def fiberAutCongr {𝒳 : Type u₁} [Category.{v₁} 𝒳] {𝒮 : Type 
 @[simp]
 public theorem fiberAutCongr_hom_val {𝒳 : Type u₁} [Category.{v₁} 𝒳] {𝒮 : Type u₂}
     [Category.{v₂} 𝒮] {p : 𝒳 ⥤ 𝒮} (a : 𝒳) {S S' : 𝒮} (h : p.obj a = S) (h' : p.obj a = S')
-    (g : @Aut (p.Fiber S) _ ⟨a, h⟩) : (fiberAutCongr a h h' g).hom.val = g.hom.val := by
+    (g : @Aut (p.Fiber S) _ ⟨a, h⟩) :
+    (fiberAutCongr a h h' g).asIso.hom.val = g.asIso.hom.val := by
   subst h h'
   rfl
 
@@ -350,7 +351,7 @@ theorem localizedTangentEquivSelfMapsCross_infinitesimalPair_fst
         (isDeformationCategory_schemeMorphismDeformationCategoryProjection f pX pY hf).satisfiesRS
         (schemeMorphismTrivialPushforwards f pX pY hf) (schemeMorphismSourcePushforwards f pX pY hf)
         (schemeMorphismTargetPushforwards f pX pY hf) x).1).1 =
-      (schemeMorphismInfinitesimalAutCross f pX pY hf x).hom.val.left.source :=
+      (schemeMorphismInfinitesimalAutCross f pX pY hf x).asIso.hom.val.left.source :=
   congrArg SchemeDeformationCategory.Hom.map
     (transportAut_ofComp_inducedInfinitesimalFun
       (q := schemeDeformationCategoryProjection (Λ := Λ) (k := k) (Over.mk pX))
@@ -381,7 +382,7 @@ theorem localizedTangentEquivSelfMapsCross_infinitesimalPair_snd
         (isDeformationCategory_schemeMorphismDeformationCategoryProjection f pX pY hf).satisfiesRS
         (schemeMorphismTrivialPushforwards f pX pY hf) (schemeMorphismSourcePushforwards f pX pY hf)
         (schemeMorphismTargetPushforwards f pX pY hf) x).2).1 =
-      (schemeMorphismInfinitesimalAutCross f pX pY hf x).hom.val.left.target :=
+      (schemeMorphismInfinitesimalAutCross f pX pY hf x).asIso.hom.val.left.target :=
   congrArg SchemeDeformationCategory.Hom.map
     (transportAut_ofComp_inducedInfinitesimalFun
       (q := schemeDeformationCategoryProjection (Λ := Λ) (k := k) (Over.mk pY))
@@ -436,7 +437,7 @@ theorem exists_schemeMorphismInfinitesimalPair'_eq_iff
   · rintro ⟨x, rfl⟩
     rw [localizedTangentEquivSelfMapsCross_infinitesimalPair_fst,
       localizedTangentEquivSelfMapsCross_infinitesimalPair_snd]
-    exact (schemeMorphismInfinitesimalAutCross f pX pY hf x).hom.val.left.source_pullback.w
+    exact (schemeMorphismInfinitesimalAutCross f pX pY hf x).asIso.hom.val.left.source_pullback.w
   · intro hcomm
     set α := localizedTangentEquivSelfMapsCross
         (schemeDeformationCategoryProjection_isPredeformationCategory (Λ := Λ) (k := k) (Over.mk
@@ -455,10 +456,10 @@ theorem exists_schemeMorphismInfinitesimalPair'_eq_iff
         ((schemeMorphismDeformationCategoryProjection f pX pY hf).obj
           (schemeMorphismTrivialObject f pX pY hf)) (FGModuleCat.of k (ULift.{u} k)))) :=
       fiberAutCongr N rfl ((schemeMorphismTrivialPushforwards f pX pY hf).obj _).2 (E.symm pr)
-    have hy : y.hom.val.left.source = α.1 ∧ y.hom.val.left.target = β.1 := by
+    have hy : y.asIso.hom.val.left.source = α.1 ∧ y.asIso.hom.val.left.target = β.1 := by
       have h := congrArg Subtype.val (E.apply_symm_apply pr)
       rw [morphismFiberAutEquivSelfMapPairs_apply] at h
-      have hv : y.hom.val = (E.symm pr).hom.val := fiberAutCongr_hom_val _ _ _ _
+      have hv : y.asIso.hom.val = (E.symm pr).asIso.hom.val := fiberAutCongr_hom_val _ _ _ _
       exact ⟨(congrArg (fun g => g.left.source) hv).trans (congrArg Prod.fst h),
         (congrArg (fun g => g.left.target) hv).trans (congrArg Prod.snd h)⟩
     have hmem : (schemeMorphismTrivialPushforwards f pX pY hf).transportAut

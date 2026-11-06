@@ -96,7 +96,7 @@ def descFiniteContinuousAbelian
         refine apply_eq_of_apply_eq_finiteContinuousAbelian a b hex g hg ?_
         have hb' := ConcreteCategory.congr_hom (b.hom.hom.hom.comm h) (Function.surjInv hb y)
         refine Eq.trans ?_ hb'.symm
-        change _ = (A.obj.obj.obj.ρ h).hom (b.hom.hom.hom.hom.hom (Function.surjInv hb y))
+        change _ = (A.obj.obj.obj.ρ h).asHom.hom (b.hom.hom.hom.hom.hom (Function.surjInv hb y))
         rw [Function.surjInv_eq hb, Function.surjInv_eq hb]
         rfl }))
 

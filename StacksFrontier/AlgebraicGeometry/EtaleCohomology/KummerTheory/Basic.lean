@@ -134,21 +134,21 @@ public def IsScalarTranslate {S : Scheme.{u}} {n : ℕ}
     (φ ψ : PairIso P Q) : Prop :=
   ψ.sheafIso.hom =
     (terminalSectionToEnd (ringSheaf S) ⊤
-      Limits.isTerminalTop a.1.val).app P.sheaf ≫ φ.sheafIso.hom
+      Limits.isTerminalTop a.1.val).asHom.app P.sheaf ≫ φ.sheafIso.hom
 
 /-- Multiplication by a global section of the structure sheaf, as an endomorphism of a sheaf of
 modules. -/
 public noncomputable def scalarEnd (S : Scheme.{u})
     (s : Scheme.Γ.obj (Opposite.op S))
-    (M : SheafOfModules (ringSheaf S)) : End M :=
+    (M : SheafOfModules (ringSheaf S)) : M ⟶ M :=
   (terminalSectionToEnd (ringSheaf S) ⊤
-    Limits.isTerminalTop s).app M
+    Limits.isTerminalTop s).asHom.app M
 
 /-- Multiplication by a global section commutes with every morphism of sheaves of modules. -/
 private theorem scalarEnd_comp_comm (S : Scheme.{u}) (s : Scheme.Γ.obj (Opposite.op S))
     {M N : SheafOfModules (ringSheaf S)} (e : M ⟶ N) :
     e ≫ scalarEnd S s N = scalarEnd S s M ≫ e :=
-  (terminalSectionToEnd (ringSheaf S) ⊤ Limits.isTerminalTop s).naturality e
+  (terminalSectionToEnd (ringSheaf S) ⊤ Limits.isTerminalTop s).asHom.naturality e
 
 private theorem scalarEnd_mul (S : Scheme.{u}) (s t : Scheme.Γ.obj (Opposite.op S))
     (M : SheafOfModules (ringSheaf S)) :
@@ -188,7 +188,7 @@ public noncomputable def scalarIso (S : Scheme.{u}) (a : (Scheme.Γ.obj (Opposit
 private theorem scalarEnd_one (S : Scheme.{u}) (M : SheafOfModules (ringSheaf S)) :
     scalarEnd S 1 M = 𝟙 M := by
   show (terminalSectionToEnd (ringSheaf S) ⊤
-    Limits.isTerminalTop 1).app M = 𝟙 M
+    Limits.isTerminalTop 1).asHom.app M = 𝟙 M
   ext U x
   show ((ringSheaf S).obj.map
     (Limits.isTerminalTop.from U.unop).op).hom 1 • x = x
@@ -214,7 +214,7 @@ private theorem unitEnd_eq_scalar (S : Scheme.{u})
   show (SheafOfModules.unitHomEquiv
     (SheafOfModules.unit (ringSheaf S)) g).val U =
     ((((terminalSectionToEnd (ringSheaf S) ⊤
-      Limits.isTerminalTop (scalarOfUnitEnd S g)).app
+      Limits.isTerminalTop (scalarOfUnitEnd S g)).asHom.app
       (SheafOfModules.unit (ringSheaf S))).val.app U).hom
       (1 : (ringSheaf S).obj.obj U))
   rw [← (SheafOfModules.unitHomEquiv
@@ -279,14 +279,10 @@ private theorem tensorLeft_map_scalar_unit (S : Scheme.{u})
     infer_instance
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf S.presheaf (ringSheafCond S)).obj)
-        := by
-    show MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf S.presheaf))
-    infer_instance
-  let : MonoidalCategory (PresheafOfModules.{u} (ringSheaf S).obj) := by
-    show MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf S.presheaf))
-    infer_instance
+        :=
+    PresheafOfModulesOfCommRing.monoidalCategory (R := S.presheaf)
+  let : MonoidalCategory (PresheafOfModules.{u} (ringSheaf S).obj) :=
+    PresheafOfModulesOfCommRing.monoidalCategory (R := S.presheaf)
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf S.presheaf)) :=
         inferInstance
@@ -331,6 +327,10 @@ private theorem tensorLeft_map_scalar_unit (S : Scheme.{u})
   let : Module ↑((S.presheaf ⋙ forget₂ CommRingCat RingCat).obj U)
       (((F ⋙ SheafOfModules.forget (ringSheaf S)).obj N).obj U) :=
     ((F.obj N).val.obj U).isModule
+  let : Module ↑(S.presheaf.obj U) (L.val.obj U) :=
+    inferInstanceAs (Module ↑((ringSheaf S).obj.obj U) (L.val.obj U))
+  let : Module ↑(S.presheaf.obj U) (N.val.obj U) :=
+    inferInstanceAs (Module ↑((ringSheaf S).obj.obj U) (N.val.obj U))
   let tmap := ((tensorLeft L.val).map
     ((SheafOfModules.forget (ringSheaf S)).map (scalarEnd S s (N)))).app U
   let iota := (a.ι.app (N)).app U
@@ -406,20 +406,16 @@ private theorem tensorProductIso_scalar_first (S : Scheme.{u})
               ((ringSheafCond S))⟩).obj (M)).obj (N))) := by
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf S.presheaf (ringSheafCond S)).obj)
-        := by
-    show MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf S.presheaf))
-    infer_instance
-  let : MonoidalCategory (PresheafOfModules.{u} (ringSheaf S).obj) := by
-    show MonoidalCategory (PresheafOfModules.{u}
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf S.presheaf))
-    infer_instance
+        :=
+    PresheafOfModulesOfCommRing.monoidalCategory (R := S.presheaf)
+  let : MonoidalCategory (PresheafOfModules.{u} (ringSheaf S).obj) :=
+    PresheafOfModulesOfCommRing.monoidalCategory (R := S.presheaf)
   let : SymmetricCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf S.presheaf (ringSheafCond S)).obj)
         :=
-    PresheafOfModules.symmetricCategory (R := S.presheaf)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := S.presheaf)
   let : SymmetricCategory (PresheafOfModules.{u} (ringSheaf S).obj) :=
-    PresheafOfModules.symmetricCategory (R := S.presheaf)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := S.presheaf)
   let β := tensorProductBraiding S.presheaf (ringSheafCond S) M N
   let e := tensorProductIso S.presheaf (ringSheafCond S)
     (scalarIso S a M) (Iso.refl N)

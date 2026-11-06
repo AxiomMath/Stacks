@@ -166,20 +166,20 @@ private theorem descendMvPolynomial {F E ι : Type*} [Field F] [Field E] [Algebr
     ∃ q : MvPolynomial ι F, MvPolynomial.map (algebraMap F E) q = p := by
   classical
   have hfixed (m : ι →₀ ℕ) :
-      MvPolynomial.coeff m p ∈ Set.range (algebraMap F E) :=
+      p.coeff m ∈ Set.range (algebraMap F E) :=
     (IsGalois.mem_range_algebraMap_iff_fixed (F := F) (E := E) _).2
       (fun g => by
-        show g.toRingEquiv.toRingHom (MvPolynomial.coeff m p) = _
+        show g.toRingEquiv.toRingHom (p.coeff m) = _
         simpa only [MvPolynomial.coeff_map] using
-          congrArg (MvPolynomial.coeff m) (hp g))
+          congrArg (fun r => r.coeff m) (hp g))
   let c : (ι →₀ ℕ) → F := fun m => Classical.choose (hfixed m)
-  have hc (m : ι →₀ ℕ) : algebraMap F E (c m) = MvPolynomial.coeff m p :=
+  have hc (m : ι →₀ ℕ) : algebraMap F E (c m) = p.coeff m :=
     Classical.choose_spec (hfixed m)
   refine ⟨∑ m ∈ p.support, MvPolynomial.monomial m (c m), ?_⟩
   calc
     MvPolynomial.map (algebraMap F E) (∑ m ∈ p.support, MvPolynomial.monomial m (c m))
       = ∑ m ∈ p.support, MvPolynomial.monomial m (algebraMap F E (c m)) := by simp
-    _ = ∑ m ∈ p.support, MvPolynomial.monomial m (MvPolynomial.coeff m p) := by
+    _ = ∑ m ∈ p.support, MvPolynomial.monomial m (p.coeff m) := by
       simp_rw [hc]
     _ = p := MvPolynomial.support_sum_monomial_coeff p
 

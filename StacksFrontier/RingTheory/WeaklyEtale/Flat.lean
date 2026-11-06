@@ -109,7 +109,6 @@ lemma actNAlg_commute_actPAlg (x y : B) :
   simp only [actNAlg, actPAlg, AlgHom.coe_mk, RingHom.coe_mk, MonoidHom.coe_mk,
     OneHom.coe_mk, Module.End.mul_apply]
   induction t with
-  | zero => simp
   | tmul n p => simp [LinearMap.rTensor_tmul, LinearMap.lTensor_tmul, Algebra.lsmul_coe]
   | add s t hs ht => simp [hs, ht]
 
@@ -201,11 +200,9 @@ lemma qmap_actAlg (r : B ⊗[A] B) (x : N ⊗[A] P) :
       = (letI := alg; (algebraMap (B ⊗[A] B) B r) • qmap A B N P x) := by
   let := alg
   induction r with
-  | zero => simp
   | add r₁ r₂ h₁ h₂ => simp [map_add, h₁, h₂, add_smul]
   | tmul b₁ b₂ =>
     induction x with
-    | zero => simp
     | add x₁ x₂ hx₁ hx₂ => simp [map_add, hx₁, hx₂, smul_add]
     | tmul n p =>
       rw [actAlg_tmul, qmap_tmul, qmap_tmul, hμ]
@@ -313,7 +310,6 @@ lemma phiAdd_psiAdd (y : N ⊗[B] P) :
       phiAdd A B alg hμ N P (psiAdd A B alg hμ N P y)) = y := by
   let := alg; let := moduleBB A B N P
   induction y with
-  | zero => simp
   | add y₁ y₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂]
   | tmul n p =>
     rw [psiAdd_tmul A B alg hμ N P n p, phiAdd_tmul A B alg hμ N P (n ⊗ₜ[A] p) 1,
@@ -326,12 +322,10 @@ lemma psiAdd_phiAdd (z : (letI := alg; letI := moduleBB A B N P; (N ⊗[A] P) �
       psiAdd A B alg hμ N P (phiAdd A B alg hμ N P z)) = z := by
   let := alg; let := moduleBB A B N P
   induction z with
-  | zero => simp
   | add z₁ z₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂]
   | tmul x b =>
     rw [phiAdd_tmul A B alg hμ N P x b]
     induction x with
-    | zero => simp
     | add x₁ x₂ hx₁ hx₂ =>
       rw [map_add, smul_add, map_add, hx₁, hx₂, ← TensorProduct.add_tmul]
     | tmul n p =>
@@ -363,11 +357,9 @@ noncomputable def lTensorBB :
       change LinearMap.lTensor N (f.restrictScalars A) (actAlg A B N N' r x)
         = actAlg A B N N'' r (LinearMap.lTensor N (f.restrictScalars A) x)
       induction r with
-      | zero => simp
       | add r₁ r₂ h₁ h₂ => simp only [map_add, LinearMap.add_apply, h₁, h₂]
       | tmul b₁ b₂ =>
         induction x with
-        | zero => simp
         | add x₁ x₂ hx₁ hx₂ => simp only [map_add, hx₁, hx₂]
         | tmul n n' =>
           rw [actAlg_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -410,7 +402,6 @@ theorem lTensor_injective_of_injective (hf : Function.Injective f) :
             ((LinearMap.rTensor B (lTensorBB A B N N' N'' f)) (psiAdd A B alg hμ N N' y)) := by
     intro y
     induction y with
-    | zero => simp
     | add y₁ y₂ h₁ h₂ => rw [map_add, map_add, map_add, map_add, h₁, h₂]
     | tmul n n' =>
       rw [LinearMap.lTensor_tmul, psiAdd_tmul A B alg hμ N N' n n',

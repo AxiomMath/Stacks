@@ -44,13 +44,13 @@ variable {C : Scheme.{u}}
 
 /-- The morphism underlying `Ψ ^ (k + 1)` in `Aut C` is that of `Ψ ^ k` followed by `Ψ`. -/
 theorem aut_pow_succ_hom (Ψ : C ≅ C) (k : ℕ) :
-    ((show Aut C from Ψ) ^ (k + 1)).hom = ((show Aut C from Ψ) ^ k).hom ≫ Ψ.hom := by
-  rw [pow_succ', Aut.Aut_mul_def]
+    (Aut.of Ψ ^ (k + 1)).asIso.hom = (Aut.of Ψ ^ k).asIso.hom ≫ Ψ.hom := by
+  rw [pow_succ', Aut.mul_asIso]
   rfl
 
 /-- On underlying points, `Ψ ^ k` in `Aut C` acts as the `k`-th iterate of `Ψ`. -/
 theorem aut_pow_hom_base (Ψ : C ≅ C) (k : ℕ) (x : C) :
-    ((show Aut C from Ψ) ^ k).hom.base x = Ψ.hom.base^[k] x := by
+    (Aut.of Ψ ^ k).asIso.hom.base x = Ψ.hom.base^[k] x := by
   induction k with
   | zero => rfl
   | succ k ih =>
@@ -67,13 +67,13 @@ theorem iterate_closedPointPerm_val (Ψ : C ≅ C) (k : ℕ) (x : ClosedPoint C)
 
 /-- `Ψ ^ k` permutes the closed points by `σ ^ k`. -/
 theorem closedPointPerm_aut_pow (Ψ : C ≅ C) (k : ℕ) :
-    closedPointPerm ((show Aut C from Ψ) ^ k) = closedPointPerm Ψ ^ k :=
+    closedPointPerm (Aut.of Ψ ^ k).asIso = closedPointPerm Ψ ^ k :=
   Equiv.ext fun x => Subtype.ext ((aut_pow_hom_base Ψ k x.1).trans (by
     rw [Equiv.Perm.coe_pow, iterate_closedPointPerm_val]))
 
 /-- `(Ψ ^ k)^*` is the `k`-th iterate of `Ψ^*` on `Pic`. -/
 theorem schemePullbackClassHom_aut_pow (Ψ : C ≅ C) (k : ℕ) (c : Stacks.Picard.ofScheme C) :
-    Stacks.Picard.schemePullbackClassHom ((show Aut C from Ψ) ^ k).hom c =
+    Stacks.Picard.schemePullbackClassHom (Aut.of Ψ ^ k).asIso.hom c =
       (Stacks.Picard.schemePullbackClassHom Ψ.hom)^[k] c := by
   induction k generalizing c with
   | zero => exact Stacks.Picard.schemePullbackClass_id C c
@@ -88,7 +88,7 @@ variable {Ω : Type u} [Field Ω] (g : C ⟶ Spec (.of Ω)) (p : ℕ) [hp : Fact
 include hΨ in
 /-- **`Ψ ^ k` is `q ^ k`-semilinear.** -/
 theorem aut_pow_hom_comp (k : ℕ) :
-    ((show Aut C from Ψ) ^ k).hom ≫ g =
+    (Aut.of Ψ ^ k).asIso.hom ≫ g =
       g ≫ Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (n * k))) := by
   induction k with
   | zero =>
@@ -116,7 +116,7 @@ include hn hΨ in
 /-- **The closed points fixed by `Ψ ^ k`, `k ≥ 1`, form a finite set.** -/
 theorem finite_setOf_iterate_closedPointPerm {k : ℕ} (hk : 0 < k) :
     {y : ClosedPoint C | (closedPointPerm Ψ)^[k] y = y}.Finite := by
-  refine ((finite_setOf_isClosed_fixed g p (n * k) (Nat.mul_pos hn hk) ((show Aut C from Ψ) ^ k)
+  refine ((finite_setOf_isClosed_fixed g p (n * k) (Nat.mul_pos hn hk) (Aut.of Ψ ^ k).asIso
     (aut_pow_hom_comp g p n Ψ hΨ k)).preimage Subtype.val_injective.injOn).subset fun y hy => ?_
   refine ⟨y.2, ?_⟩
   rw [aut_pow_hom_base, ← iterate_closedPointPerm_val]

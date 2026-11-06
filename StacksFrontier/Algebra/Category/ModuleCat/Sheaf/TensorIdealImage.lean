@@ -149,7 +149,7 @@ theorem sheafTensorRight_map_comp_unitIso_unit_tmul
   let Sh := PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
   let G := RestrictedRingModule φ
-  let unitor := (PresheafOfModules.monoidalCategoryStruct (R := O.obj)).leftUnitor G.val
+  let unitor := (PresheafOfModulesOfCommRing.monoidalCategoryStruct (R := O.obj)).leftUnitor G.val
   have h1 : (Sh.map (P.map f.val)).val.app X
       ((adj.unit.app (P.obj F.val)).app X (x ⊗ₜ[O.obj.obj X] g)) =
       (adj.unit.app (P.obj (_root_.SheafOfModules.unit

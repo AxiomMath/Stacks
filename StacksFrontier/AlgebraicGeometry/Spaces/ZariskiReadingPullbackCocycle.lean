@@ -220,8 +220,8 @@ theorem conjugateEquiv_schemePullbackCompOfEq_inv :
       (Scheme.Modules.pullbackPushforwardAdjunction k) (schemePullbackCompOfEq f g k h).inv =
       (schemePushforwardCompOfEq f g k h).hom := by
   subst h
-  simpa [schemePullbackCompOfEq, schemePushforwardCompOfEq] using
-    Scheme.Modules.conjugateEquiv_pullbackComp_inv f g
+  simp only [schemePullbackCompOfEq, schemePushforwardCompOfEq, eqToIso_refl, Iso.trans_refl]
+  exact Scheme.Modules.conjugateEquiv_pullbackComp_inv f g
 
 end SchemeOfEq
 

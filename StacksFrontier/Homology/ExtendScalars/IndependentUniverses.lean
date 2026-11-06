@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import Mathlib.Algebra.Homology.Additive
 public import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
 public import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import Mathlib.RingTheory.RingHom.FaithfullyFlat
 

@@ -491,22 +491,20 @@ public def discreteActionToFiniteContAction
   · exact {
       V := FintypeCat.of X.obj.obj.V
       ρ := {
-        toFun := fun g => FintypeCat.homMk (X.obj.obj.ρ g)
+        toFun := fun g => End.of (FintypeCat.homMk ((X.obj.obj.ρ g).asHom ·))
         map_one' := by
-          apply FintypeCat.hom_ext
-          intro x
-          change X.obj.obj.ρ 1 x = x
-          exact congrArg (fun f : End X.obj.obj.V => f x) X.obj.obj.ρ.map_one
+          ext x
+          change (X.obj.obj.ρ 1).asHom x = x
+          simp
         map_mul' := by
           intro g h
-          apply FintypeCat.hom_ext
-          intro x
-          change X.obj.obj.ρ (g * h) x =
-            X.obj.obj.ρ g (X.obj.obj.ρ h x)
+          ext x
+          change (X.obj.obj.ρ (g * h)).asHom x =
+            (X.obj.obj.ρ g).asHom ((X.obj.obj.ρ h).asHom x)
           simp } }
   · let : HasForget₂ (Type u) TopCat :=
       { forget₂ := TopCat.discrete, forget_comp := rfl }
-    rw [Action.isContinuous_def]
+    refine (Action.isContinuous_def _).mpr ?_
     exact (Action.isContinuous_def X.obj.obj).mp X.obj.property
 
 /-- Morphisms in `Over S` are the same as morphisms of the underlying schemes commuting with
@@ -544,14 +542,12 @@ public def finiteContinuousGSetFunctor
     exact discreteActionToFiniteContAction X.obj
   map {X Y} f := by
     let f₀ := f.hom.hom.hom
-    refine ⟨Action.Hom.mk (FintypeCat.homMk f₀.hom) ?_⟩
+    refine ⟨Action.Hom.mk (FintypeCat.homMk (f₀.hom ·)) ?_⟩
     intro g
     apply FintypeCat.hom_ext
     intro x
-    change ConcreteCategory.hom f₀.hom
-        (ConcreteCategory.hom (X.obj.obj.obj.ρ g) x) =
-      ConcreteCategory.hom (Y.obj.obj.obj.ρ g)
-        (ConcreteCategory.hom f₀.hom x)
+    change f₀.hom ((X.obj.obj.obj.ρ g).asHom x) =
+      (Y.obj.obj.obj.ρ g).asHom (f₀.hom x)
     exact ConcreteCategory.congr_hom (f₀.comm g) x
   map_id X := by
     apply ObjectProperty.hom_ext

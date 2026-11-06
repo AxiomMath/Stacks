@@ -129,6 +129,21 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 universe u v w
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidTarget
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_groupoidTarget
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidTarget B S hS).has_limit _
+
 namespace Deformation.GroupoidInFunctors
 
 variable {C : Type u} [Category.{v} C]
@@ -735,11 +750,13 @@ theorem targetPair_toBase : (targetPair fp).toBase = arrowMap fp ≫ G.target :=
 
 /-- The source morphism of the finite part read out of the pair. -/
 theorem sourceHom_eq :
-    fp.sourceHom = fp.pair.subspace.ι ≫ pullback.fst fp.pair.toBase.hom G.source.hom := rfl
+    fp.sourceHom = fp.pair.subspace.ι ≫ pullback.fst fp.pair.toBase.hom G.source.hom := by
+  rw [FinitePart.sourceHom]
 
 /-- The morphism on arrows of the canonical morphism of groupoids read out of the pair. -/
 theorem arrowHom_eq :
-    fp.arrowHom = fp.pair.subspace.ι ≫ pullback.snd fp.pair.toBase.hom G.source.hom := rfl
+    fp.arrowHom = fp.pair.subspace.ι ≫ pullback.snd fp.pair.toBase.hom G.source.hom := by
+  rw [FinitePart.arrowHom]
 
 /-- **Stacks 04RT, clause (3).** The tautological arrow over `Z_univ` lies in the tautological
 pair: at every scheme-valued point `(u, Z, z)` of `Z_univ`, the arrow `z` lies in the collection
@@ -783,7 +800,7 @@ theorem containsArrow_sourcePair :
           simpa only [Category.assoc] using
             congrArg (fun k => k ≫ fp.pair.subspace.ι ≫
               pullback.snd fp.pair.toBase.hom G.source.hom) h₂
-      _ = g ≫ (arrowMap fp).hom := rfl
+      _ = g ≫ (arrowMap fp).hom := by rw [← arrowHom_eq]; rfl
 
 /-- **Stacks 04RT, containment of the unit in the translated collection, over `Z_univ`.** -/
 theorem containsUnit_targetPair :

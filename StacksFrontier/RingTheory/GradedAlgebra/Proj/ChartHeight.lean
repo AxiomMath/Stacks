@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
+public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 public import StacksFrontier.RingTheory.GradedAlgebra.Proj.LaurentAway
 

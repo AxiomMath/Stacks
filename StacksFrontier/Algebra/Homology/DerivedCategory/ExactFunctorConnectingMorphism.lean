@@ -431,7 +431,7 @@ theorem natTransCommShift_exactMapDerivedCategoryPlusIso :
     NatTrans.CommShift (exactMapDerivedCategoryPlusIso E).hom ℤ := by
   refine NatTrans.commShift_of_whiskerLeft Plus.Qh _ ?_
   have h : Functor.whiskerLeft Plus.Qh (exactMapDerivedCategoryPlusIso E).hom =
-      E.mapDerivedCategoryPlusFactorsh.hom ≫ E.rightDerivedFunctorPlusUnit := by
+      E.mapDerivedCategoryPlusFactorsh.hom ≫ E.rightDerivedFunctorPlusUnith := by
     refine NatTrans.ext (funext fun K => ?_)
     exact exactMapDerivedCategoryPlusIso_hom_app_Qh E K
   rw [h]

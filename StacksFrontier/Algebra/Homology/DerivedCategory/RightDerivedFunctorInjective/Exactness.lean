@@ -2,6 +2,7 @@ module
 
 import Mathlib.Algebra.Homology.DerivedCategory.FullyFaithful
 public import Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
+import all Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 import Mathlib.Algebra.Homology.DerivedCategory.SingleTriangle
 import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
 import Mathlib.Algebra.Order.Ring.Star
@@ -12,7 +13,7 @@ import Mathlib.CategoryTheory.Functor.Derived.RightDerivedTriangulated
 import Mathlib.CategoryTheory.Limits.Types.Filtered
 import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.ENatToNat
 public import StacksFrontier.Algebra.Homology.DerivedCategory.AcyclicObjects
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic
@@ -141,7 +142,7 @@ which is *data*: hence the hypotheses `[RF.CommShift ℤ]` and `[NatTrans.CommSh
 latter tying that datum to the shift-commutation of the functor being derived. Exactness is
 stated for an arbitrary right derived functor of `K⁺(F) ⋙ Q⁺_ℬ` along `Q⁺_𝒜`, since no step of
 the argument uses more; the source's `RF` is the instantiation at `F.rightDerivedFunctorPlus` and
-`F.rightDerivedFunctorPlusUnit`, and the induced exact functor `K⁺(𝒜) ⥤ D⁺(ℬ)` of part (2) is
+`F.rightDerivedFunctorPlusUnith`, and the induced exact functor `K⁺(𝒜) ⥤ D⁺(ℬ)` of part (2) is
 `DerivedCategory.Plus.Qh ⋙ RF`.
 
 The vanishing of `R ⁱ F (I)` is stated for `i ≠ 0` rather than the source's `i > 0`, and for an
@@ -339,7 +340,7 @@ categories, where `𝒜` has enough injectives. Then any right derived functor
 quasi-isomorphisms, with unit `α`, is an exact functor of triangulated categories.
 
 The source's `RF` is the case `RF := F.rightDerivedFunctorPlus` and
-`α := F.rightDerivedFunctorPlusUnit`, with the commutation with the shift induced by the
+`α := F.rightDerivedFunctorPlusUnith`, with the commutation with the shift induced by the
 universal property. The induced exact functor `K⁺(𝒜) ⥤ D⁺(ℬ)` of part (2) is then
 `DerivedCategory.Plus.Qh ⋙ RF`. -/
 @[stacks 0159 "part (1)", sga "4 XVII 1.2.2" "(ii), special case"]
@@ -447,7 +448,7 @@ public theorem isZero_rightDerivedPlus_obj_injective {A B : Type*} [Category* A]
     (F : A ⥤ B) [F.Additive] [EnoughInjectives A] (i : ℤ) (hi : i ≠ 0) (I : A) [Injective I] :
     IsZero ((F.rightDerivedPlus i).obj I) :=
   isZero_homologyFunctor_obj_obj_singleFunctor_obj F F.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit i 0 hi I
+    F.rightDerivedFunctorPlusUnith i 0 hi I
 
 -- `hasPointwiseRightDerivedFunctorAt_of_injective` above applies to an arbitrary functor out of
 -- `K⁺(𝒜)` at an arbitrary object, so instance search reaches for it before the instance that
@@ -872,7 +873,7 @@ private noncomputable def rightDerivedPlusObjIso (A : C) (i : ℤ) :
 /-- Part (1) of [Stacks, Tag 015C]. -/
 private lemma rightAcyclic_iff (A : C) :
     F.rightAcyclic A ↔
-      (IsIso ((Plus.homologyFunctor D 0).map (F.rightDerivedFunctorPlusUnit.app
+      (IsIso ((Plus.homologyFunctor D 0).map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor C 0).obj A))) ∧
         ∀ i > 0, IsZero ((F.rightDerivedPlus i).obj A)) := by
   have hsrc := isZero_homologyFunctor_obj_map_singleFunctor_obj F A
@@ -881,19 +882,19 @@ private lemma rightAcyclic_iff (A : C) :
         ((HomotopyCategory.Plus.singleFunctor C 0).obj A))) := fun i hi =>
     IsZero.of_iso (((Functor.isZero_iff _).1
       ((isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).1 i hi) A))
+        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).1 i hi) A))
       (rightDerivedPlusObjIso F A i).symm
   constructor
   · intro h
-    have h' : IsIso (F.rightDerivedFunctorPlusUnit.app
+    have h' : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj A)) := h
     refine ⟨inferInstance, fun i hi => ?_⟩
     exact IsZero.of_iso (IsZero.of_iso (hsrc i hi.ne')
-      (asIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnit.app
+      (asIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C 0).obj A)))).symm)
       (rightDerivedPlusObjIso F A i)
   · rintro ⟨h₀, hpos⟩
-    show IsIso (F.rightDerivedFunctorPlusUnit.app
+    show IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj A))
     rw [Plus.isIso_iff]
     intro i
@@ -911,7 +912,7 @@ private lemma rightAcyclic_iff_of_preservesFiniteLimits (A : C)
   rw [rightAcyclic_iff F A]
   exact and_iff_right
     ((isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 hF A)
+      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 hF A)
 
 end
 
@@ -930,7 +931,7 @@ public theorem rightAcyclic_iff_isIso_and_isZero_rightDerivedPlus
     [EnoughInjectives C] (A : C) :
     (F.rightAcyclic A ↔
         (IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
-            (F.rightDerivedFunctorPlusUnit.app
+            (F.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.singleFunctor C 0).obj A))) ∧
           ∀ i > 0, IsZero ((F.rightDerivedPlus i).obj A))) ∧
       (PreservesFiniteLimits F →

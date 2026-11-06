@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.FieldTheory.IsAlgClosed.Classification
+public import Mathlib.RingTheory.Algebraic.Cardinality
+public import Mathlib.Algebra.MonoidAlgebra.Cardinal
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.Analysis.Complex.Cardinality
 public import Mathlib.Topology.Sequences

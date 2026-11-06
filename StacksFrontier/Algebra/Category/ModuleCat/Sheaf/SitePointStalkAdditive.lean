@@ -97,10 +97,7 @@ instance additive_comp {C₁ C₂ C₃ : Type*} [Category C₁] [Category C₂] 
 /-- The stalk of a presheaf of modules at a point of a site is an additive functor. -/
 instance additive_presheafModuleFiber (Φ : J.Point.{w}) (R : Cᵒᵖ ⥤ RingCat.{w}) :
     (presheafModuleFiber Φ R).Additive :=
-  inferInstanceAs (PresheafOfModules.pushforward.{w}
-      (F := CategoryOfElements.π Φ.fiber) (R := R) (𝟙 _) ⋙
-    PresheafOfModules.colimitFunctor
-      (Φ.isColimitPresheafFiberCocone (A := RingCat.{w}) R)).Additive
+  @additive_comp _ _ _ _ _ _ _ _ _ _ _ (additive_pushforward_pi Φ R) (additive_colimitFunctor Φ R)
 
 /-- The stalk of a sheaf of modules at a point of a site is an additive functor. -/
 instance additive_sheafModuleFiber (Φ : J.Point.{w}) (R : Sheaf J RingCat.{w}) :

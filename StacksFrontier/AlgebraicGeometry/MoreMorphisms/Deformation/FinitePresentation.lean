@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.Deformation.Reduction
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningMorphism.AffineChart
 public import StacksFrontier.RingTheory.Flat.ShortExact

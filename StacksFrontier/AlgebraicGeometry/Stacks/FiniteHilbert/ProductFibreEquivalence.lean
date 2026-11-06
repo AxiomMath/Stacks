@@ -437,7 +437,7 @@ noncomputable def fibreMap {T T' : Over P.U.left} (f : T ⟶ T')
 
 /-! ### The comparison 1-morphism -/
 
-attribute [local implicit_reducible] fibreObjectIso fibreMap CategoryTheory.asIso
+attribute [local implicit_reducible] fibreObjectIso fibreMap
 
 /-- The 2-fibre product of the 1-morphism `ℋ_d(𝒳/𝒴) ⟶ ℋ_d(𝒳) × 𝒴` of Equation 05WD with the
 2-Yoneda universal family of the object `(P, y)` of the product — the fibre of Stacks 05YH. -/

@@ -48,13 +48,13 @@ private theorem transportAut_comp_of_conj {X : Type*} [Category X] (Φ : X ⥤ F
     (A : Aut (P.obj U)) (β : Aut (Q.obj U'))
     {D : (P.obj V).1 ⟶ Φ.obj (Q.obj V').1} {Dd : (P.obj U).1 ⟶ Φ.obj (Q.obj U').1}
     (hD : P.map ψ ≫ D = Dd ≫ Φ.map (Q.map ψ')) (hl : pF.IsHomLift (𝟙 V.right) D)
-    (hl' : pF.IsHomLift (𝟙 V.right) (Φ.map (Q.transportAut ψ' β).hom.val))
-    (hc : A.hom.val ≫ Dd = Dd ≫ Φ.map β.hom.val) :
-    (P.transportAut ψ A).hom.val ≫ D = D ≫ Φ.map (Q.transportAut ψ' β).hom.val := by
+    (hl' : pF.IsHomLift (𝟙 V.right) (Φ.map (Q.transportAut ψ' β).asIso.hom.val))
+    (hc : A.asIso.hom.val ≫ Dd = Dd ≫ Φ.map β.asIso.hom.val) :
+    (P.transportAut ψ A).asIso.hom.val ≫ D = D ≫ Φ.map (Q.transportAut ψ' β).asIso.hom.val := by
   refine conj_of_map P ψ (P.map_transportHom ψ A) hD hc ?_ ?_ ?_
   · exact (Φ.map_comp _ _).symm.trans
       ((congrArg Φ.map (Q.map_transportHom ψ' β)).trans (Φ.map_comp _ _))
-  · have := (P.transportAut ψ A).hom.2
+  · have := (P.transportAut ψ A).asIso.hom.2
     infer_instance
   · infer_instance
 
@@ -77,20 +77,20 @@ public theorem transportAut_comp_boundaryCompareFst (f : H ⥤ F) {y₀ : H}
     (hl₃ : pF.IsHomLift (𝟙 (squareZeroUnder.{u, v, w} (f ⋙ pF) y₀ M).right) H₃.hom)
     (A : Aut (PF.obj (squareZeroUnder.{u, v, w} (f ⋙ pF) y₀ M)))
     (β : Aut (QH.obj (squareZeroUnder.{u, v, w} (f ⋙ pF) y₀ M)))
-    (hc : A.hom.val ≫ H₃.hom = H₃.hom ≫ f.map β.hom.val) :
+    (hc : A.asIso.hom.val ≫ H₃.hom = H₃.hom ≫ f.map β.asIso.hom.val) :
     (PF.transportAut
-            (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom A).hom.val ≫
+            (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom A).asIso.hom.val ≫
         (boundaryCompareFst.{u, v, w} f QH PF hcofF M).hom =
       (boundaryCompareFst.{u, v, w} f QH PF hcofF M).hom ≫
         f.map (QH.transportAut
-          (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom β).hom.val :=
+          (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom β).asIso.hom.val :=
   transportAut_comp_of_conj f QH PF
     (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom
     (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom A β
     (map_cross_comp_boundaryCompareFst.{u, v, w} f QH PF hcofF M H₃ hi₃ hl₃)
     (isHomLift_boundaryCompareFst.{u, v, w} f QH PF hcofF M).1
     (isHomLift_map_of_comp f _ _ (QH.transportAut
-      (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom β).hom.2) hc
+      (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj y₀) M).hom β).asIso.hom.2) hc
 
 /-- **The transport of the comparison `c'` across the two normalizations of the square-zero
 extension.** Tag 06JV (2)'s comparison `Hε` between the chosen pushforwards of `f(y₀)` and of
@@ -233,15 +233,15 @@ public theorem transportAut_comp_boundaryCompareSnd (f : H ⥤ F) (g : G ⥤ F)
     (hl₄ : pF.IsHomLift (𝟙 (squareZeroUnder.{u, v, w} (g ⋙ pF) w₀.y M).right) H₄.hom)
     (A : Aut (PF.obj (squareZeroUnder.{u, v, w} (f ⋙ pF) w₀.x M)))
     (γ : Aut (QG.obj (squareZeroUnder.{u, v, w} (g ⋙ pF) w₀.y M)))
-    (hc : A.hom.val ≫ Hε.inv ≫ H₄.hom = (Hε.inv ≫ H₄.hom) ≫ g.map γ.hom.val) :
+    (hc : A.asIso.hom.val ≫ Hε.inv ≫ H₄.hom = (Hε.inv ≫ H₄.hom) ≫ g.map γ.asIso.hom.val) :
     (PF.transportAut
-            (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x) M).hom A).hom.val ≫
+            (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x) M).hom A).asIso.hom.val ≫
         (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
           (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF hcofF M).hom =
       (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
           (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF hcofF M).hom ≫
         g.map (QG.transportAut
-          (squareZeroCrossUnderIso.{u, v, w} ((g ⋙ pF).obj w₀.y) M).hom γ).hom.val := by
+          (squareZeroCrossUnderIso.{u, v, w} ((g ⋙ pF).obj w₀.y) M).hom γ).asIso.hom.val := by
   have hthird := map_cross_comp_boundaryCompareSnd.{u, v, w} f g QG PF PF' hcofF M Hε hiε hlε
   have hb := map_cross_comp_boundaryCompareFst.{u, v, w} g QG PF' hcofF M H₄ hi₄ hl₄
   have hD : PF.map (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x) M).hom ≫
@@ -257,7 +257,7 @@ public theorem transportAut_comp_boundaryCompareSnd (f : H ⥤ F) (g : G ⥤ F)
     (isHomLift_boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
       (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF hcofF M).1
     (isHomLift_map_of_comp g _ _ (QG.transportAut
-      (squareZeroCrossUnderIso.{u, v, w} ((g ⋙ pF).obj w₀.y) M).hom γ).hom.2) hc
+      (squareZeroCrossUnderIso.{u, v, w} ((g ⋙ pF).obj w₀.y) M).hom γ).asIso.hom.2) hc
 
 end CrossConj
 
@@ -309,16 +309,16 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
           hF.predeformation.cofibered M α, rfl⟩ = 0 ↔
       ∃ (β : Aut (QH.obj (squareZeroCrossUnder.{u, v, w} ((f ⋙ pF).obj w₀.x) M)))
         (γ : Aut (QG.obj (squareZeroCrossUnder.{u, v, w} ((g ⋙ pF).obj w₀.y) M))),
-        f.map β.hom.val ≫
+        f.map β.asIso.hom.val ≫
             (boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                 (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                 hF.predeformation.cofibered M).hom =
           (boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-            α.hom.val ≫
+            α.asIso.hom.val ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                 (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
-                hF.predeformation.cofibered M).hom ≫ g.map γ.hom.val := by
+                hF.predeformation.cofibered M).hom ≫ g.map γ.asIso.hom.val := by
   have hzero := tangentClassAt_pushforward_eq_zero.{u, v, w} (productBased.{u, v, w} pF f g)
     (isDeformationCategory_productBased.{u, v, w} pF f g hH hG hF) w₀ PW M
   have hiso := tangentClassAt_eq_iff.{u, v, w} (productBased.{u, v, w} pF f g)
@@ -350,7 +350,7 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
       ((f.map ai ≫
           (PW.obj (squareZeroCrossUnder.{u, v, w} w₀.base M)).1.iso.hom =
         ((boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-            α.hom.val ≫
+            α.asIso.hom.val ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                 (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                 hF.predeformation.cofibered M).hom) ≫
@@ -361,7 +361,7 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
               (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
               hF.predeformation.cofibered M).hom =
         (boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-          α.hom.val ≫
+          α.asIso.hom.val ≫
             (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
               (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
               hF.predeformation.cofibered M).hom ≫ g.map γv)) := by
@@ -378,14 +378,14 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
       rw [f.map_comp, Category.assoc, hkey]
       simp only [Category.assoc]
     have eR : ((boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-            α.hom.val ≫
+            α.asIso.hom.val ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                 (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                 hF.predeformation.cofibered M).hom) ≫
           g.map (γv ≫
             (crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered).hom) =
         ((boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-            α.hom.val ≫
+            α.asIso.hom.val ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                 (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                 hF.predeformation.cofibered M).hom ≫ g.map γv) ≫
@@ -412,7 +412,7 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
               (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) eB.hom ∧
             f.map eA.hom ≫ (PW.obj (squareZeroCrossUnder.{u, v, w} w₀.base M)).1.iso.hom =
               ((boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered M).inv ≫
-                  α.hom.val ≫
+                  α.asIso.hom.val ≫
                     (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                       (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                       hF.predeformation.cofibered M).hom) ≫ g.map eB.hom :=
@@ -442,35 +442,35 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
         eA.hom eB.hom
         (by rw [Category.assoc, Iso.inv_hom_id, Category.comp_id])
         (by rw [Category.assoc, Iso.inv_hom_id, Category.comp_id])).mp hw0
-    exact ⟨fiberIsoOfVertical _ _
-        (eA ≪≫ (crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered).symm) hβv,
-      fiberIsoOfVertical _ _
-        (eB ≪≫ (crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered).symm) hγv,
+    exact ⟨.of (fiberIsoOfVertical _ _
+        (eA ≪≫ (crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered).symm) hβv),
+      .of (fiberIsoOfVertical _ _
+        (eB ≪≫ (crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered).symm) hγv),
       hsq'⟩
   · rintro ⟨β, γ, hsq⟩
     have hβv : (f ⋙ pF).IsHomLift
         (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M))
-        (β.hom.val ≫
+        (β.asIso.hom.val ≫
           (crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered).hom) := by
       have h1 : (f ⋙ pF).IsHomLift
-          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) β.hom.val := β.hom.2
+          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) β.asIso.hom.val := β.asIso.hom.2
       have h2 := isHomLift_crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered
       exact @IsHomLift.comp_of_lift_id _ _ _ _ (f ⋙ pF) _ _ _ _ _ _ h1 h2
     have hγv : (g ⋙ pF).IsHomLift
         (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M))
-        (γ.hom.val ≫
+        (γ.asIso.hom.val ≫
           (crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered).hom) := by
       have h1 : (g ⋙ pF).IsHomLift
-          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) γ.hom.val := γ.hom.2
+          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) γ.asIso.hom.val := γ.asIso.hom.2
       have h2 := isHomLift_crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered
       exact @IsHomLift.comp_of_lift_id _ _ _ _ (g ⋙ pF) _ _ _ _ _ _ h1 h2
     refine ⟨fiberIsoOfVertical _ _
       (TwoFibreProductOver.isoMkVertical
-        (Functor.Fiber.fiberInclusion.mapIso β ≪≫
+        (Functor.Fiber.fiberInclusion.mapIso β.asIso ≪≫
           crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered)
-        (Functor.Fiber.fiberInclusion.mapIso γ ≪≫
+        (Functor.Fiber.fiberInclusion.mapIso γ.asIso ≪≫
           crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered)
-        hβv hγv ((hsqiff β.hom.val γ.hom.val _ _ rfl rfl).mpr hsq))
+        hβv hγv ((hsqiff β.asIso.hom.val γ.asIso.hom.val _ _ rfl rfl).mpr hsq))
       (TwoFibreProductOver.structureFunctor_isHomLift _ _ hβv)⟩
 
 end BoundaryZero

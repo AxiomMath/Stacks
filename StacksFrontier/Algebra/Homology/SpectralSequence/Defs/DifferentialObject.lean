@@ -91,7 +91,7 @@ noncomputable def shortExactSequenceOfEndo : ShortExactSequence 𝒜 where
 noncomputable def exactCoupleOfEndo : ExactCouple 𝒜 where
   A := A.homology
   E := (A.quotientByEndo α).homology
-  α := homologyMap α
+  α := End.of (homologyMap α)
   f := (A.shortExactSequenceOfEndo α).δ
   g := homologyMap (A.toQuotientByEndo α)
   α_g := (A.shortExactSequenceOfEndo α).homologyMap₁_comp_homologyMap₂

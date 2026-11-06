@@ -97,6 +97,13 @@ theorem exists_lift_chartLimit {T : AlgebraicSpaces B S hS}
     ObjectProperty.hom_ext _ ((L.isPullback_stage m).lift_fst _ _ _),
     ObjectProperty.hom_ext _ ((L.isPullback_stage m).lift_snd _ _ _)⟩
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleEssSurjCocycle
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Triple
 
 /-- The triple product `U_m ×_{X_m} U_m ×_{X_m} U_m` of the chart of a stage. -/

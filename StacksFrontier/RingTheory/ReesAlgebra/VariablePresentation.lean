@@ -199,7 +199,7 @@ private theorem reesMonomial_sub_reesMonomial_mem (hv : Function.Injective v) (d
       obtain ⟨β, hb, hdb⟩ := exists_eq_add_single hi
       obtain ⟨β', hb', hdb'⟩ := exists_eq_add_single hj
       have hev := congrArg (fun f : σ →₀ ℕ ↦ f (v j)) h
-      simp only [Finsupp.add_apply, Finsupp.mapDomain_apply hv] at hev
+      simp only [Finsupp.add_apply, Finsupp.mapDomain_apply_of_injective hv] at hev
       have huj : u (v j) ≠ 0 := by omega
       obtain ⟨w, hw, -⟩ := exists_eq_add_single huj
       have hgen : (C (X (v i)) * X j - C (X (v j)) * X i :

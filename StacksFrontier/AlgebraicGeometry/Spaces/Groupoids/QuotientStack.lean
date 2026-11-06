@@ -124,7 +124,7 @@ theorem isFiberedInGroupoids_uliftHom
   unique_lift φ ψ f hf := by
     obtain ⟨χ, ⟨hχ, hcomp⟩, huniq⟩ := hp.unique_lift φ.down ψ.down f hf
     exact ⟨⟨χ⟩, ⟨hχ, congrArg ULift.up hcomp⟩,
-      fun γ hγ => ULift.ext _ _ (huniq γ.down ⟨hγ.1, congrArg ULift.down hγ.2⟩)⟩
+      fun γ hγ => ULift.ext (huniq γ.down ⟨hγ.1, congrArg ULift.down hγ.2⟩)⟩
 
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}

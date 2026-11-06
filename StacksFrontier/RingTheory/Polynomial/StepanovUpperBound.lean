@@ -44,11 +44,11 @@ theorem constantCoeff_branchEval {a b : K} {β : PowerSeries K}
 
 /-- The twisted derivative `G ↦ u * G'` as a `K`-linear map. -/
 noncomputable def twistedDerivative (u : PowerSeries K) : PowerSeries K →ₗ[K] PowerSeries K :=
-  LinearMap.mulLeft K u ∘ₗ (PowerSeries.derivative K).toLinearMap
+  LinearMap.mulLeft K u ∘ₗ (PowerSeries.derivative (R := K)).toLinearMap
 
 /-- The `j`-th iterate of `G ↦ u * G'` is the `j`-th power of `twistedDerivative u`. -/
 theorem iterate_twistedDerivative (u : PowerSeries K) (j : ℕ) (G : PowerSeries K) :
-    (fun G => u * PowerSeries.derivative K G)^[j] G = (twistedDerivative u ^ j) G := by
+    (fun G => u * PowerSeries.derivative (R := K) G)^[j] G = (twistedDerivative u ^ j) G := by
   rw [Module.End.pow_apply]; rfl
 
 variable (p : ℕ) [Fact p.Prime] [CharP K p] [PerfectRing K p]
@@ -118,7 +118,7 @@ theorem le_order_branchEval_sum_mul_pow {Ψ : K[X][Y]} {a₀ b₀ : K} {β : Pow
     · intro h0
       rw [CharP.cast_eq_zero_iff K p] at h0
       exact absurd (Nat.le_of_dvd ht h0) (by omega)
-    · have hit : (fun G => ι₀ (derivative Ψ) * PowerSeries.derivative K G)^[j] G =
+    · have hit : (fun G => ι₀ (derivative Ψ) * PowerSeries.derivative (R := K) G)^[j] G =
           ∑ i, γ i • ι₀ ((curveDeriv Ψ)^[j] (v i)) := by
         rw [iterate_twistedDerivative, map_sum]
         refine Finset.sum_congr rfl fun i _ => ?_

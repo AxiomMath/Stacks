@@ -165,8 +165,8 @@ instance : (toTwoFibreProduct (A := A) hT).Full where
           (A.map (Over.homMk (PolarizedFamily.Hom.baseMap h.a) hφ :
             Over.mk X.toBase ⟶ Over.mk Y.toBase).op Y.point) := by
       refine hfib.trans ?_
-      refine (FunctorToTypes.map_comp_apply A _ _ _).symm.trans
-        (Eq.trans ?_ (FunctorToTypes.map_comp_apply A _ _ _))
+      refine (Functor.map_comp_apply A _ _ _).symm.trans
+        (Eq.trans ?_ (Functor.map_comp_apply A _ _ _))
       change A.map ((h.b.base ≫ eqToHom (sliceProjection_obj_polarized hT Y)).op) Y.point =
         A.map ((eqToHom (sliceProjection_obj_polarized hT X) ≫
           (Over.homMk (PolarizedFamily.Hom.baseMap h.a) hφ :

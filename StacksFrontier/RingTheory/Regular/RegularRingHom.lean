@@ -642,12 +642,11 @@ private theorem isRegularRing_of_flat_of_fibers
     (Localization.localRingHom p q (algebraMap R S) rfl).toAlgebra
   have hAM : algebraMap (Localization.AtPrime p) (Localization.AtPrime q) =
       Localization.localRingHom p q (algebraMap R S) rfl := rfl
-  have hLOA : Localization.AtPrime.IsLiesOverAlgebra p q := ⟨hAM⟩
   have hST : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q) :=
     IsScalarTower.of_algebraMap_eq (fun _ ↦ by
       rw [hAM, Localization.localRingHom_to_map, ← IsScalarTower.algebraMap_apply])
   have hFlat : Module.Flat (Localization.AtPrime p) (Localization.AtPrime q) :=
-    instFlatAtPrimeOfIsLiesOverAlgebra p q
+    inferInstance
   have hLocalHom : IsLocalHom
       (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
     rw [hAM]

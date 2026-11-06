@@ -121,6 +121,10 @@ theorem exists_coordinateProjection_ne_univ_of_not_forall_finite (m : ℕ)
       (projectiveLinePower K B hK (Fin m))
       (isAlgebraicSpace_projectiveLinePowerFin K B hK m) C hCclosed hCirr.2)
     ⟨lx, hlx⟩ hy M
+  letI : DecidablePred fun i : Fin m =>
+      x ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i =
+        y ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i :=
+    fun _ => Classical.propDecidable _
   refine ⟨Finset.univ.filter fun i =>
       x ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i =
         y ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i, ?_, ?_⟩

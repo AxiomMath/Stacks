@@ -69,13 +69,27 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] Stacks.Cohomology.SiteModules.site_hasExt_addCommGrp
 
+/-- The direct image along a morphism of the canonical big étale site containing `X`, for
+sheaves of abelian groups, is a right adjoint. Stated pointwise so that instance search finds it
+for the quantified instance argument of `AlgebraicGeometry.IsConstructibleAbelianSheaf`, which
+it does not find from Mathlib's general instance directly. -/
+instance isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing (X : Scheme.{u})
+    (S T : (BigEtaleSite.containing X).Scheme) (f : T ⟶ S) :
+    (Functor.sheafPushforwardContinuous
+      (AlgebraicGeometry.smallEtaleBaseChange (BigEtaleSite.containing X) f)
+      AddCommGrpCat.{max (u + 1) r}
+      (AlgebraicGeometry.SmallEtale.topology (BigEtaleSite.containing X) S.obj S.property)
+      (AlgebraicGeometry.SmallEtale.topology (BigEtaleSite.containing X) T.obj
+        T.property)).IsRightAdjoint :=
+  inferInstance
+
 /-- **Constructible abelian sheaves** (Tag 03RW part (2)) on Mathlib's small étale site: the
 transport of the sheaf to the small étale site of Tag 021B of the canonical big étale site
 `AlgebraicGeometry.BigEtaleSite.containing X` is constructible in the sense of
 `AlgebraicGeometry.IsConstructibleAbelianSheaf`. -/
 abbrev IsConstructibleSmallEtaleAbelianSheaf {X : Scheme.{u}}
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) r}) : Prop :=
-  IsConstructibleAbelianSheaf (BigEtaleSite.containing X)
+  IsConstructibleAbelianSheaf.{u, max (u + 1) r} (BigEtaleSite.containing X)
     ((BigEtaleSite.containing X).obj X (BigEtaleSite.contains_containing X))
     ((SmallEtale.sheafEquiv (BigEtaleSite.containing X) X (BigEtaleSite.contains_containing X)
       AddCommGrpCat.{max (u + 1) r}).inverse.obj F)

@@ -170,7 +170,6 @@ lemma liftBaseChange_comp_lTensor {M M' MW M'W : Type*} [AddCommGroup M] [Module
     (rM' : M' →ₗ[A] M'W) (hsq : ∀ m, rM' (f m) = fW (rM m)) (x : B ⊗[A] M) :
     rM'.liftBaseChange B (LinearMap.lTensor B f x) = fW (rM.liftBaseChange B x) := by
   induction x with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | tmul b m =>
     rw [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul,
       map_smul, hsq m]
@@ -287,7 +286,6 @@ lemma mapRange_finsuppBaseChange {B₂ : Type*} [CommRing B₂] [Algebra A B₂]
       Module.Descent.finsuppBaseChange A B₂ I
         (LinearMap.rTensor (I →₀ A) σ.toLinearMap y) := by
   induction y with
-  | zero => rw [map_zero, map_zero, map_zero]; exact Finsupp.mapRange_zero
   | tmul b p =>
     refine Finsupp.ext fun i ↦ ?_
     rw [Finsupp.mapRange_apply, Module.Descent.finsuppBaseChange_tmul_apply,

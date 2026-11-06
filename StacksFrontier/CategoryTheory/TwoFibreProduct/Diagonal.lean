@@ -164,9 +164,8 @@ is canonically equivalent to `C₁ ×_S C₂`. -/
 @[stacks 02XE]
 theorem isEquivalence_prodDiagFunctor (G₁ : C₁ ⥤ S) (G₂ : C₂ ⥤ S) :
     (prodDiagFunctor G₁ G₂).IsEquivalence :=
-  (Equivalence.mk'' (prodDiagFunctor G₁ G₂) (prodDiagInverse G₁ G₂)
-    (prodDiagUnitIso G₁ G₂) (prodDiagCounitIso G₁ G₂)
-    (prodDiagTriangle G₁ G₂)).isEquivalence_functor
+  (Equivalence.mk (prodDiagFunctor G₁ G₂) (prodDiagInverse G₁ G₂)
+    (prodDiagUnitIso G₁ G₂) (prodDiagCounitIso G₁ G₂)).isEquivalence_functor
 
 /-- **Stacks 02XE.** The canonical equivalence of categories
 `CategoricalPullback (G₁.prod G₂) (Functor.diag S) ≌ CategoricalPullback G₁ G₂`, induced by

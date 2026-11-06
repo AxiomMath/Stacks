@@ -63,7 +63,7 @@ theorem isProfiniteTop_galoisGroup :
 /-- The Galois action on `Stacks.GaloisCohomology.unitsContinuousGModule` is the action on the
 units, written additively. -/
 @[simp] theorem unitsContinuousGModule_ρ_hom (g : Gal(Ω/K)) (a : Additive Ωˣ) :
-    (((unitsContinuousGModule K Ω).obj.obj.ρ g).hom a : Additive Ωˣ) =
+    (((unitsContinuousGModule K Ω).obj.obj.ρ g).asHom.hom a : Additive Ωˣ) =
       Additive.ofMul (g • a.toMul) := rfl
 
 /-- **Hilbert's theorem 90 for an infinite Galois extension, written additively.** Every locally
@@ -99,9 +99,11 @@ theorem exists_isLocallyConstant_sub_eq_of_isCocycle₂_additive_units
     have h1 := congrArg (fun z : Additive Ωˣ ↦ z.toMul) (hdcoc g h j)
     simp only [toMul_add, toMul_ofMul] at h1
     exact h1
+  have H : ∀ (L : FiniteGaloisIntermediateField K Ω) (F : Gal(↥L/K) × Gal(↥L/K) → Lˣ),
+      IsMulCocycle₂ F → IsMulCoboundary₂ F := fun _ F hF ↦
+    isMulCoboundary₂_of_brauer (fun y _ ↦ hBr y) F hF
   obtain ⟨x, hxloc, hx⟩ :=
-    exists_isLocallyConstant_isMulCoboundary₂_of_forall_finiteGalois
-      (fun _ F hF ↦ isMulCoboundary₂_of_brauer (fun y _ ↦ hBr y) F hF) f hfloc hfcoc
+    exists_isLocallyConstant_isMulCoboundary₂_of_forall_finiteGalois H f hfloc hfcoc
   refine ⟨fun g ↦ Additive.ofMul (x g), hxloc.comp Additive.ofMul,
     fun g₁ g₂ ↦ ?_⟩
   have h2 := congrArg (fun u : Ωˣ ↦ Additive.ofMul u) (hx g₁ g₂)

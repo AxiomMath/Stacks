@@ -98,11 +98,13 @@ theorem pullbackComp_square_coherence {T P' P Y X : Scheme.{u}} (a : T ⟶ P') (
   have A1 := pullbackComp_hom_app_assoc_eq a b c M
   have A2 := pullbackComp_hom_app_assoc_eq a p g M
   have B := pullbackComp_hom_app_eqToHom a w.symm M
-  rw [← cancel_epi ((Scheme.Modules.pullbackComp a p).hom.app ((Scheme.Modules.pullback g).obj M)),
+  rw [← Iso.cancel_iso_hom_left
+      ((Scheme.Modules.pullbackComp a p).app ((Scheme.Modules.pullback g).obj M)), Iso.app_hom,
     reassoc_of% A2, Iso.hom_inv_id_app_assoc]
   simp only [pullbackCongr_hom_app]
-  rw [← cancel_mono ((Scheme.Modules.pullbackComp a b).hom.app ((Scheme.Modules.pullback c).obj M)
-    ≫ (Scheme.Modules.pullbackComp (a ≫ b) c).hom.app M)]
+  rw [← Iso.cancel_iso_hom_right _ _
+      ((Scheme.Modules.pullbackComp a b).app ((Scheme.Modules.pullback c).obj M) ≪≫
+        (Scheme.Modules.pullbackComp (a ≫ b) c).app M), Iso.trans_hom, Iso.app_hom, Iso.app_hom]
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app, Category.comp_id]
   rw [A1]
   simp only [← Functor.map_comp_assoc, Iso.inv_hom_id_app, Category.comp_id]
@@ -163,11 +165,11 @@ theorem pullbackId_inv_map_pullbackComp_id {T X : Scheme.{u}} (f : T ⟶ X) {F :
     simpa using key
   conv_lhs => rw [← Category.comp_id hF.hom]
   congr 1
-  rw [← cancel_epi ((Scheme.Modules.pullbackId T).hom.app ((Scheme.Modules.pullback f).obj F)),
-    Iso.hom_inv_id_app_assoc]
-  refine (Category.comp_id _).trans ?_
-  rw [← cancel_epi ((Scheme.Modules.pullbackComp (𝟙 T) f).inv.app F), Iso.inv_hom_id_app_assoc,
-    key2]
+  have key3 : (Scheme.Modules.pullbackId T).hom.app ((Scheme.Modules.pullback f).obj F) =
+      (Scheme.Modules.pullbackComp (𝟙 T) f).hom.app F ≫ eqToHom (by simp) := by
+    rw [← key2, Iso.hom_inv_id_app_assoc]
+  rw [← key3, Iso.inv_hom_id_app]
+  rfl
 
 namespace TautologicalDatum
 

@@ -85,6 +85,7 @@ instance isIso_finiteEtaleFiberPrecomp [ConnectedSpace S] :
     FintypeCat.incl
   let e : finiteEtaleFiberFintypeFunctor S x ⟶ finiteEtaleFiberFintypeFunctor S x :=
     (fullyFaithfulWhiskeringRightFintypeIncl S).preimage (finiteEtaleFiberPrecomp h hh ≫ t.hom)
+  haveI : IsIso e := FibreFunctor.end_isIso _ (End.of e)
   have he : IsIso (L.map e) := inferInstance
   have he' : L.map e = finiteEtaleFiberPrecomp h hh ≫ t.hom :=
     (fullyFaithfulWhiskeringRightFintypeIncl S).map_preimage _
@@ -240,7 +241,7 @@ theorem geometricQuotientGaloisEquiv_spec
     letI := connectedSpace_of_isCurve B X f
     letI := connectedSpace_fieldBaseChange f kbar
     ((((etaleFundamentalGroupMap f (y.map (fieldBaseChangeObjProj B X f kbar
-        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom)) γ).app Y).hom p).1 =
+        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom)) γ).asIso.app Y).hom p).1 =
       geometricPointToSpec B X f kbar y ≫
         Spec.map (CommRingCat.ofHom
           (geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ)).toAlgHom.toRingHom) ≫
@@ -281,7 +282,7 @@ theorem geometricQuotientGaloisEquiv_spec
     have hx := separableClosureRestrictMulEquiv_apply_coe k kbar (r.symm τ) x
     rwa [MulEquiv.apply_symm_apply] at hx
   rw [hσ]
-  refine (congrArg (fun q : Aut (finiteEtaleFiberFunctor _) ↦ ((q.app Y).hom p).1) hQ).trans ?_
+  refine (congrArg (fun q : Aut (finiteEtaleFiberFunctor _) ↦ ((q.asIso.app Y).hom p).1) hQ).trans ?_
   dsimp only
   rw [hp₀]
   refine (congrArg Subtype.val

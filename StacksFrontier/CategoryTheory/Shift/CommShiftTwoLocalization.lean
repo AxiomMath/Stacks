@@ -447,7 +447,7 @@ standard setup. -/
 lemma map_int_ε_app (H : D ⥤ D') [H.Additive] (p q : ℤ) (X : D) :
     H.map (((CommShift₂Setup.int (D := D)).ε p q).val.app X) =
       ((CommShift₂Setup.int (D := D')).ε p q).val.app (H.obj X) := by
-  simp [Units.smul_def]
+  simp [Units.smul_def, Functor.map_zsmul]
 
 end CategoryTheory.Functor.CommShift₂
 

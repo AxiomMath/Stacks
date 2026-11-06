@@ -121,7 +121,7 @@ theorem locallyFinite_supp_idealPowSmul [IsLocallyNoetherian X] (F : X.Modules)
     X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
   obtain ⟨t, ht⟩ := exists_forall_notMem_supp_idealPowSmul F Z hZ ⟨V, hV⟩
   refine ⟨(V : Set X), V.2.mem_nhds hxV, ?_⟩
-  refine Set.Finite.subset (Set.Finite.preimage (Set.injOn_of_injective fun _ _ h ↦ ULift.ext _ _ h)
+  refine Set.Finite.subset (Set.Finite.preimage (Set.injOn_of_injective fun _ _ h ↦ ULift.ext h)
     (Set.finite_Iio t)) ?_
   rintro p ⟨y, hy, hyU⟩
   by_contra hlt

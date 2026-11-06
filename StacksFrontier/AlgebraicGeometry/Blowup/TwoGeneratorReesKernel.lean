@@ -51,17 +51,17 @@ degree `n`. -/
 private theorem exists_isHomogeneous_eq_C_mul_X_pow_add_X_mul {n : ℕ}
     {p : MvPolynomial (Fin 2) A} (hp : p.IsHomogeneous (n + 1)) :
     ∃ q : MvPolynomial (Fin 2) A, q.IsHomogeneous n ∧
-      p = C (coeff (Finsupp.single 1 (n + 1)) p) * X 1 ^ (n + 1) + X 0 * q := by
+      p = C (p.coeff (Finsupp.single 1 (n + 1))) * X 1 ^ (n + 1) + X 0 * q := by
   classical
-  set r := p - C (coeff (Finsupp.single (1 : Fin 2) (n + 1)) p) * X 1 ^ (n + 1) with hr
+  set r := p - C (p.coeff (Finsupp.single (1 : Fin 2) (n + 1))) * X 1 ^ (n + 1) with hr
   have hp' : r.IsHomogeneous (n + 1) := hp.sub (isHomogeneous_C_mul_X_pow _ _ _)
-  have hcoeff : coeff (Finsupp.single (1 : Fin 2) (n + 1)) r = 0 := by
+  have hcoeff : r.coeff (Finsupp.single (1 : Fin 2) (n + 1)) = 0 := by
     rw [hr, coeff_sub, C_mul_X_pow_eq_monomial, coeff_monomial, if_pos rfl, sub_self]
   have hmod : r.modMonomial (Finsupp.single 0 1) = 0 := by
     ext d
     by_cases hle : Finsupp.single (0 : Fin 2) 1 ≤ d
-    · rw [coeff_modMonomial_of_le _ hle, coeff_zero]
-    · rw [coeff_modMonomial_of_not_le _ hle, coeff_zero]
+    · rw [coeff_modMonomial_of_le _ hle, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+    · rw [coeff_modMonomial_of_not_le _ hle, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
       have hd0 : d 0 = 0 := by
         by_contra hne
         exact hle (Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hne))
@@ -126,7 +126,7 @@ theorem mem_relationIdeal_of_isHomogeneous_of_eval_eq_zero
   rw [relationIdeal]
   induction n generalizing p with
   | zero =>
-      have h0 : p = C (coeff 0 p) := by
+      have h0 : p = C (p.coeff 0) := by
         rw [← homogeneousComponent_zero p, homogeneousComponent_eq_self hp]
       rw [h0] at heval ⊢
       rw [eval_C] at heval
@@ -134,11 +134,11 @@ theorem mem_relationIdeal_of_isHomogeneous_of_eval_eq_zero
       exact Submodule.zero_mem _
   | succ n ih =>
       obtain ⟨q, hq, hpq⟩ := exists_isHomogeneous_eq_C_mul_X_pow_add_X_mul A hp
-      have hev : coeff (Finsupp.single (1 : Fin 2) (n + 1)) p * f₂ ^ (n + 1) +
+      have hev : p.coeff (Finsupp.single (1 : Fin 2) (n + 1)) * f₂ ^ (n + 1) +
           f₁ * eval (centerGens A f₁ f₂) q = 0 := by
         rw [hpq] at heval
         simpa using heval
-      have hmem : coeff (Finsupp.single (1 : Fin 2) (n + 1)) p * f₂ ^ (n + 1) ∈
+      have hmem : p.coeff (Finsupp.single (1 : Fin 2) (n + 1)) * f₂ ^ (n + 1) ∈
           Ideal.span ({f₁} : Set A) :=
         Ideal.mem_span_singleton.mpr
           ⟨-(eval (centerGens A f₁ f₂) q), by linear_combination hev⟩

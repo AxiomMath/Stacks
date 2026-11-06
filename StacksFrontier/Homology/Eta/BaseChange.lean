@@ -454,7 +454,6 @@ theorem bchEquiv_comp (f : A)
   simp only [LinearMap.coe_comp, Function.comp_apply, LocalizedModule.mkLinearMap_apply,
     LinearMap.coe_restrictScalars, LinearEquiv.coe_coe]
   induction x with
-  | zero => simp
   | tmul b m => rw [LinearMap.baseChange_tmul]; exact bchEquiv_mk (B := B) f φ b m
   | add x y hx hy =>
       rw [show LocalizedModule.mk (x + y) (1 : Submonoid.powers f)

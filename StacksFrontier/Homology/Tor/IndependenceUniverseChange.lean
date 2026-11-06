@@ -170,10 +170,10 @@ private def moduleIsoRaise {R A : Type uR} {R' A' : Type (max uR uA)}
     { toFun := fun a => ULift.up (eA.symm a)
       invFun := fun a => eA a.down
       left_inv := fun a => by simp
-      right_inv := fun a => by refine ULift.ext _ _ ?_; simp
-      map_add' := fun a a' => ULift.ext _ _ (map_add eA.symm a a')
+      right_inv := fun a => by refine ULift.ext ?_; simp
+      map_add' := fun a a' => ULift.ext (map_add eA.symm a a')
       map_smul' := fun r' a => by
-        refine ULift.ext _ _ ?_
+        refine ULift.ext ?_
         change eA.symm (r' • a) = eR.symm r' • eA.symm a
         rw [Algebra.smul_def, Algebra.smul_def, map_mul]
         refine congrArg (· * eA.symm a) ?_

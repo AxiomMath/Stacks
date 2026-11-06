@@ -325,7 +325,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
         exact congrArg (eW.inv ≫ ·) (congrArg (𝕋).map (Category.id_comp _).symm) }
   have hp₀ : IsLimit (Cone.mk (Uop : Scheme.{u}) p₀) :=
     ((Functor.Initial.isLimitWhiskerEquiv Φ _).symm hlimY).ofIsoLimit
-      (Cones.ext eW (fun a => by
+      (Cone.ext eW (fun a => by
         show (𝕋).map (πY.app (Φ.obj a)) = eW.hom ≫ eW.inv ≫ (𝕋).map (πY.app (Φ.obj a))
         rw [Iso.hom_inv_id_assoc]))
   -- Stacks 07RN: the system extends to a system approximating `V`
@@ -418,7 +418,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
         exact FA.ambientCone.naturality (ι₀.map e)) }
   have hlimV : IsLimit ((𝕋).mapCone (Cone.mk V πV)) :=
     ((Functor.Initial.isLimitWhiskerEquiv ι₀ _).symm FA.ambientCone_isLimit).ofIsoLimit
-      (Cones.ext (Iso.refl _) (fun k => (Category.id_comp _).symm))
+      (Cone.ext (Iso.refl _) (fun k => (Category.id_comp _).symm))
   let πY' : (Functor.const Kᵒᵖ).obj W ⟶ ρ ⋙ Ys :=
     { app := fun k => πY.app (ρ.obj k)
       naturality := fun k l e => πY.naturality (ρ.map e) }

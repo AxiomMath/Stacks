@@ -81,8 +81,8 @@ theorem tilde_baseChange_comp_complex (w : Spec.map c ≫ Spec.map a = Spec.map 
   ext n : 1
   have key := AlgebraicGeometry.tilde_baseChange_comp w (P.X n) (M.X n) (N.X n) (π.f n) (ψ₀.f n)
     (κ₀.f n) (hκ n)
-  rw [← cancel_epi ((pullbackTildeIso R R' b).inv.app (P.X n))]
-  simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
+  rw [← Iso.cancel_iso_inv_left ((pullbackTildeIso R R' b).app (P.X n))]
+  simp only [Iso.app_inv, HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
     NatTrans.mapHomologicalComplex_app_f,
     AlgebraicGeometry.StandardModel.tildePullbackComplexIso_hom_app_f, Functor.map_comp,
     Category.assoc, Iso.inv_hom_id_app_assoc]

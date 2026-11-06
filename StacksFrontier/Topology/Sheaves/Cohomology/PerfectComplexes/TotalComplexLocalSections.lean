@@ -42,8 +42,8 @@ instance hasMapBifunctor_curriedTensor (K L : CochainComplex (Mod R) ℤ) :
 /-- A sheaf of rings on a space, as a ringed space. -/
 def ringedSpaceOf : RingedSpace.{u, u} where
   carrier := T
-  presheaf := R.val
-  IsSheaf := R.cond
+  presheaf := R.obj
+  IsSheaf := R.property
 
 /-- The pure tensor `a ⊗ b` of two sections over the same open, as a section of the tensor
 product of sheaves of modules. -/

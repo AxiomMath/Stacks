@@ -123,6 +123,24 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_IntegralGenericallyFiniteTfae :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- A pullback of presheaves on the big fppf site, found from the shape instance. -/
+local instance (priority := high) hasPullback_presheaf_IntegralGenericallyFiniteTfae
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_IntegralGenericallyFiniteTfae (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-! ### Morphisms of the site from morphisms of schemes over `S` -/
 
 /-- A morphism of schemes between the schemes of two objects of the big fppf site over `S`

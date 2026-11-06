@@ -59,7 +59,6 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] Deformation.Artin.baseOver
 attribute [local implicit_reducible] Deformation.Artin.truncationOver
 

@@ -225,7 +225,7 @@ theorem universalDerivationHom_comp_sharpIsoInv (p : X ⟶ Y) (q : X ⟶ Y')
           (sharpIsoInv B S hS p q e he) =
       universalDerivationHom B S hS p :=
   CategoryTheory.Sheaf.hom_ext_sections fun _ x ↦
-    PresheafOfModules.Derivation.congr_d (postcomp_sharpIsoInv B S hS p q e he) x
+    PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_sharpIsoInv B S hS p q e he) x
 
 end Postcomposition
 

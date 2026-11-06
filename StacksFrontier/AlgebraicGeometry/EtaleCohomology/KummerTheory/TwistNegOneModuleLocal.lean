@@ -71,7 +71,7 @@ theorem bijective_twistNegOneModuleEvalRoot :
       left_inv := fun f => ModuleCat.hom_ext <| LinearMap.ext fun ⟨a⟩ => by
         change a • f.hom ⟨1⟩ = f.hom ⟨a⟩
         rw [← map_smul]
-        exact congrArg f.hom (ULift.ext _ _ (mul_one a))
+        exact congrArg f.hom (ULift.ext (mul_one a))
       right_inv := fun s => one_smul _ s }
   have h' : ∀ (t : ToType ((sliceConstantPresheaf W N).obj (op (Over.mk (𝟙 W))))),
       (sliceRootSheafHom.{u, v} W κ hζ).hom.app (op (Over.mk (𝟙 W)))

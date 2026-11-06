@@ -220,7 +220,6 @@ theorem baseChangeS_bijective (s : Finset (Fin r)) :
       Φ (lN' n) = LocalizedModule.mkLinearMap (cechSub (gfun f S) s) (TensorProduct R S M) n := by
     intro n
     induction n with
-    | zero => simp
     | tmul c m => rw [hlN', LinearMap.baseChange_tmul, hΦdef, baseChangeS_tmul_mk]
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add]
   have hA : (Ψ.restrictScalars R) ∘ₗ (baseChangeR f M S s) =
@@ -373,7 +372,6 @@ theorem termBaseChangeS_comp_termBaseChangeSInv (p : ℕ) :
     ⟨(baseChangeSEquiv f M S s.1).symm y, (baseChangeSEquiv f M S s.1).apply_symm_apply y⟩
   rw [termBaseChangeSInv_lof, (baseChangeSEquiv f M S s.1).symm_apply_apply]
   induction z with
-  | zero => simp
   | tmul c x =>
       rw [LinearMap.baseChange_tmul, baseChangeSEquiv_apply, baseChangeS_tmul,
         TensorProduct.tmul_eq_smul_one_tmul, map_smul, termBaseChangeS_one_tmul_lof, map_smul]

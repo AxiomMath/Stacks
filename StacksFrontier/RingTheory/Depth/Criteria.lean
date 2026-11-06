@@ -4,6 +4,7 @@ module
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.Basic
 public import StacksFrontier.RingTheory.Depth.Defs.Defs
+import Mathlib.RingTheory.Regular.Category
 import Mathlib.RingTheory.Regular.Flat
 import Mathlib.Tactic.Monotonicity.Lemmas
 import StacksFrontier.RingTheory.Depth.Dimension

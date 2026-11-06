@@ -70,6 +70,13 @@ namespace AlgebraicGeometry
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_SeparatedDescentConvention
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The convention passes to products with a fixed object.** If the limit of the underlying
 schemes of a cofiltered diagram `V` of affine objects of the site lies in the site, so does the
 limit of the products `Z × V j`. -/

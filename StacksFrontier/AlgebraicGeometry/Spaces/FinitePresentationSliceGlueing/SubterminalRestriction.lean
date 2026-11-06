@@ -196,6 +196,18 @@ namespace CategoryTheory
 
 variable {C : Type u} [Category.{v} C]
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves of types on `C` (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_subterminalRestriction :
+    HasPullbacks (Cᵒᵖ ⥤ Type v) := inferInstance
+
+/-- Pullbacks of presheaves of types on `C`, computed objectwise (instance search times out
+without this shortcut). -/
+instance (priority := high) hasPullback_presheaf_subterminalRestriction
+    {F : WalkingCospan ⥤ Cᵒᵖ ⥤ Type v} : HasLimit F :=
+  functorCategoryHasLimit F
+
 /-! ### Subterminal objects -/
 
 /-- An object admitting a monomorphism to a terminal object is subterminal: any two morphisms

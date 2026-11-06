@@ -424,8 +424,8 @@ theorem surjective_ringOfIntegersSpecMap : Surjective (ringOfIntegersSpecMap K L
   rw [surjective_iff]
   intro (p : PrimeSpectrum (𝓞 K))
   obtain ⟨Q, -, hQ, hQp⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := 𝓞 L) p.asIdeal ⊥
-    (by rw [Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective (𝓞 K) (𝓞 L))]
-        exact bot_le)
+    ((Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective (𝓞 K) (𝓞 L))).le.trans
+      bot_le)
   exact ⟨⟨Q, hQ⟩, PrimeSpectrum.ext hQp⟩
 
 /-- The restriction of a surjective morphism over an open of its target is surjective. -/

@@ -182,7 +182,7 @@ def ordIndexEquiv (p : ℕ) :
   toFun σ := ⟨cechTupleIndices ULift.down σ.1, card_cechTupleIndices_ordIndex σ⟩
   invFun t := ⟨fun k => ULift.up (t.1.orderEmbOfFin t.2 k), fun a b hab => by
     simpa using (t.1.orderEmbOfFin t.2).strictMono hab⟩
-  left_inv σ := Subtype.ext <| funext fun k => ULift.ext _ _ <|
+  left_inv σ := Subtype.ext <| funext fun k => ULift.ext <|
     congrFun (Finset.orderEmbOfFin_unique (s := cechTupleIndices ULift.down σ.1)
       (card_cechTupleIndices_ordIndex σ) (f := fun k => (σ.1 k).down)
       (fun x => (mem_cechTupleIndices ULift.down σ.1 _).2 ⟨x, rfl⟩)

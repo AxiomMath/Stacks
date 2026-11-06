@@ -134,6 +134,17 @@ private theorem isGorensteinLocalRing_stalk_of_map_eq {Z W : Scheme.{u}} (q : Z 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_GorensteinFlatSource :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_GorensteinFlatSource
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_GorensteinFlatSource B S hS).has_limit _
+
 /-- An étale-local property of an algebraic space holds on every étale scheme chart. -/
 private theorem property_of_etale_chart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {P : ObjectProperty Scheme.{u}} [P.IsLocal Scheme.etalePrecoverage]

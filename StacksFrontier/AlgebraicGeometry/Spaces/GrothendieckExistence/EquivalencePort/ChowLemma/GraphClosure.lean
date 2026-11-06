@@ -123,6 +123,7 @@ theorem C1573.isPullback_toSchemeTheoreticImage_of_isOpenImmersion
   have hT : schemeTheoreticImageSubfunctor B S hS (e.inv ≫ s) =
       schemeTheoreticImageSubfunctor B S hS s :=
     schemeTheoreticImageSubfunctor_congr_range' B S hS _ _ hX (by
+      have : Epi e.inv := IsIso.epi_of_iso e.inv
       rw [Subfunctor.range_comp, Subfunctor.range_eq_top e.inv, Subfunctor.image_top])
   rw [hT] at hiso
   set T := schemeTheoreticImageSubfunctor B S hS s with hTdef
@@ -383,6 +384,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
     have hX2 : IsAlgebraicSpace B S hS (yoneda.obj VZ) := isAlgebraicSpace_yoneda B S hS VZ
     rw [schemeTheoreticImageSubfunctor_congr_range' B S hS (pullback.snd s β) (yoneda.map h) hX2
       (by
+        have : Epi hsq_h.isoPullback.hom := IsIso.epi_of_iso hsq_h.isoPullback.hom
         rw [← hsq_h.isoPullback_hom_snd, Subfunctor.range_comp,
           Subfunctor.range_eq_top hsq_h.isoPullback.hom, Subfunctor.image_top]),
       schemeTheoreticImageSubfunctor_yoneda_map_eq_range h k hker]

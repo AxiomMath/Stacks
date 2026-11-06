@@ -156,7 +156,8 @@ theorem C1573.exists_appTop_eq_of_isThickeningHom_chart
     yoneda.map_injective (by rw [Functor.map_comp, Functor.map_preimage, hR'.lift_snd])
   -- Site-level forms of the squares over the base change of the double overlap.
   have hP₁site : IsPullback r₁ ρ₀ j q₁ := IsPullback.of_map_of_faithful yoneda hP₁
-  have hw₂ : r₂ ≫ j = ρ₀ ≫ q₂ := yoneda.map_injective (by simpa using hP₂.w)
+  have hw₂ : r₂ ≫ j = ρ₀ ≫ q₂ :=
+    yoneda.map_injective (by simpa only [Functor.map_comp] using hP₂.w)
   -- The base change of the triple overlap.
   set e₁₂ := pullback.fst r₁ r₂
   set e₀₁ := pullback.snd r₁ r₂
@@ -180,7 +181,7 @@ theorem C1573.exists_appTop_eq_of_isThickeningHom_chart
   have hR₂T : IsPullback (e₁₂ ≫ r₂) e₀₁ k (r₁ ≫ k) := by
     have h := hL.paste_horiz (IsPullback.of_map_of_faithful yoneda hRT).flip
     rwa [show r₂ ≫ k = r₁ ≫ k from
-      yoneda.map_injective (by simpa using hRT.w.symm)] at h
+      yoneda.map_injective (by simpa only [Functor.map_comp] using hRT.w.symm)] at h
   -- The scheme-level statement.
   exact exists_appTop_eq_of_isNilpotent_ker (F.map j) (F.map q₁) (F.map q₂) (F.map ρ₀)
     (F.map r₁) (F.map r₂) (hP₁site.flip.map F) (by rw [← F.map_comp, ← F.map_comp, hw₂])

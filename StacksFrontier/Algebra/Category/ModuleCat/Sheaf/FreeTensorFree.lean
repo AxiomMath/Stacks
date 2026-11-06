@@ -114,6 +114,20 @@ noncomputable def freeTensorFreeIso (I K : Type w) :
         CategoryTheory.Sheaf.toRingCat J Osharp) I)).obj (_root_.SheafOfModules.free (R :=
         CategoryTheory.Sheaf.toRingCat J Osharp) K) ≅
       _root_.SheafOfModules.free (R := CategoryTheory.Sheaf.toRingCat J Osharp) (I × K) :=
+  haveI : HasColimitsOfShape (Discrete I)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  haveI : HasColimitsOfShape (Discrete I)
+      (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)) :=
+    _root_.SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      _ _
+  haveI : ∀ X : Type w, HasColimitsOfShape (Discrete X)
+      (PresheafOfModules.{w} (Stacks.commRingSheafToRingSheaf Osharp).obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
+  haveI : HasColimitsOfShape (Discrete I)
+      (_root_.SheafOfModules.{w} (Stacks.commRingSheafToRingSheaf Osharp)) :=
+    _root_.SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      _ _
   haveI := Stacks.preservesColimitsOfSize_sheafTensorRight.{v, u, w, w} Osharp
     (_root_.SheafOfModules.free (R := Stacks.commRingSheafToRingSheaf Osharp) K)
   PreservesCoproduct.iso

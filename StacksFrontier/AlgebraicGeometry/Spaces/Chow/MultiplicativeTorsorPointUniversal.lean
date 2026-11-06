@@ -501,7 +501,7 @@ theorem torsorHom_eq_of_chartEval (t t' : representedAlgebraicSpace D.site D.bas
   have hpt : yonedaEquiv t.hom = yonedaEquiv t'.hom := by
     refine hsep.ext ?_
     rintro Y g ⟨Z', p', q', ⟨z⟩, rfl⟩
-    rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, hf z t, hf z t']
+    rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hf z t, hf z t']
     congr 1
     have := hP z
     unfold torsorPointAt at this

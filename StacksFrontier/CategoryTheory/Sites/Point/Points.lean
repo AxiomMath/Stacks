@@ -159,9 +159,9 @@ private lemma pi_element_ext {I : Type w} {f : I → Type w} {x y : (∏ᶜ f : 
 private lemma isIso_pi_π_of_unique {I : Type w} [Unique I] (E : Type w) :
     IsIso (Pi.π (fun _ : I ↦ E) default) := by
   refine ⟨⟨Pi.lift (fun _ ↦ 𝟙 E), Pi.hom_ext _ _ fun i ↦ ?_, ?_⟩⟩
-  · rw [Category.assoc, Pi.lift_π, Category.comp_id, Category.id_comp,
+  · rw [Category.assoc, Pi.lift_comp_π, Category.comp_id, Category.id_comp,
       Subsingleton.elim i (default : I)]
-  · rw [Pi.lift_π]
+  · rw [Pi.lift_comp_π]
 
 /-! ### The punctual object of a full subcategory of sets -/
 
@@ -230,7 +230,7 @@ initial object. -/
 private noncomputable def elementsInitial : IsInitial (ι.elementsMk pt (default : ι.obj pt)) := by
   refine
     IsInitial.ofUniqueHom (fun V ↦ ⟨ptHom ι pt V.2, map_ptHom ι pt V.2 default⟩) (fun V m ↦ ?_)
-  refine CategoryOfElements.ext _ _ _ ?_
+  refine Functor.Elements.hom_ext ?_
   dsimp only
   refine ι.map_injective (ConcreteCategory.hom_ext _ _ fun z ↦ ?_)
   rw [map_ptHom, Subsingleton.elim z (default : ι.obj pt)]
@@ -256,8 +256,8 @@ private lemma exists_cospan_of_map_eq {Y₁ Y₂ Z : C} (g₁ : Y₁ ⟶ Z) (g�
   let α₁ : Φ.fiber.elementsMk Y₁ a₁ ⟶ Φ.fiber.elementsMk Z (Φ.fiber.map g₁ a₁) := ⟨g₁, rfl⟩
   let α₂ : Φ.fiber.elementsMk Y₂ a₂ ⟶ Φ.fiber.elementsMk Z (Φ.fiber.map g₁ a₁) := ⟨g₂, ha.symm⟩
   obtain ⟨z, q₁, q₂, fac⟩ := IsCofiltered.cospan α₁ α₂
-  rw [Subtype.ext_iff] at fac
-  exact ⟨z.1, z.2, q₁.1, q₂.1, fac, CategoryOfElements.map_snd q₁, CategoryOfElements.map_snd q₂⟩
+  replace fac := congrArg Functor.Elements.Hom.hom fac
+  exact ⟨z.1, z.2, q₁.1, q₂.1, fac, q₁.map_val, q₂.map_val⟩
 
 omit hιfull hιfaith in
 /-- `hu` read on elements: it takes `ι (u g)` to `Φ.fiber g`. -/

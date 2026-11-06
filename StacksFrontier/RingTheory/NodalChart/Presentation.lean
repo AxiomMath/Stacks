@@ -4,6 +4,7 @@ public import StacksFrontier.RingTheory.NodalChart.Basic
 public import StacksFrontier.RingTheory.KrullDimension.FiniteTypeOverField
 public import StacksFrontier.RingTheory.Syntomic.RelativeGlobalCompleteIntersection
 public import Mathlib.RingTheory.KrullDimension.Polynomial
+public import Mathlib.RingTheory.KrullDimension.Field
 
 /-!
 # The nodal chart ring is a relative global complete intersection

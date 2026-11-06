@@ -260,7 +260,7 @@ theorem not_exists_sq_mul_dvd_coeffDeriv :
     exact WithBot.coe_ne_bot hbot
   have hc0 : c ≠ 0 := by
     rintro rfl
-    rw [hc, map_zero, mul_zero] at hcoeff
+    rw [hc, show (LaurentPolynomial.C (0 : ℚ) : Coeff) = 0 from map_zero _, mul_zero] at hcoeff
     exact hT hcoeff.symm
   -- Clear denominators: `α = f / tⁿ` for a polynomial `f`, and the identity becomes an identity
   -- of polynomials in which a square equals an odd power of `X`.

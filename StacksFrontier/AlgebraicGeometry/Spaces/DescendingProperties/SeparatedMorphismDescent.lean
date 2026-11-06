@@ -56,6 +56,10 @@ open CategoryTheory CategoryTheory.Limits Cardinal Opposite
 
 universe u
 
+-- The pullback shortcuts of `SeparatedDescent`, so pullbacks here are built as there.
+attribute [local instance high] AlgebraicGeometry.Space.hasPullbacks_presheaf_separatedDescent
+  AlgebraicGeometry.Space.hasPullback_presheaf_separatedDescent
+
 /-- An upper set of a directed preorder is directed. -/
 instance isDirected_subtype_le {α : Type*} [Preorder α] [IsDirected α (· ≤ ·)] (a : α) :
     IsDirected {x : α // a ≤ x} (· ≤ ·) := by

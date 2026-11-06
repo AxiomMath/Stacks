@@ -74,8 +74,8 @@ theorem MvPolynomial.comap_map_span_X_image {σ A B : Type*} [CommRing A] [CommR
   · intro x hx
     rw [Ideal.mem_comap, mem_ideal_span_X_image] at hx
     let y : MvPolynomial σ A :=
-      ∑ m ∈ x.support.filter (fun m => ∀ i ∈ s, m i = 0), monomial m (coeff m x)
-    have hy : ∀ m, coeff m y = if (∀ i ∈ s, m i = 0) then coeff m x else 0 := by
+      ∑ m ∈ x.support.filter (fun m => ∀ i ∈ s, m i = 0), monomial m (x.coeff m)
+    have hy : ∀ m, y.coeff m = if (∀ i ∈ s, m i = 0) then x.coeff m else 0 := by
       intro m
       simp only [y, coeff_sum, coeff_monomial]
       rw [Finset.sum_ite_eq']
@@ -128,7 +128,7 @@ private lemma exists_mul_mem_range_finset {A K : Type*} [CommRing A] [Field K] (
 /-- If `u` times each coefficient of a polynomial over `B` lies in the range of `ρ : A → B`, then
 `C u * P` is the image of a polynomial over `A`. -/
 private lemma exists_map_eq_C_mul {A B σ : Type*} [CommRing A] [CommRing B] (ρ : A →+* B) (u : B)
-    (P : MvPolynomial σ B) (h : ∀ m, coeff m P ≠ 0 → u * coeff m P ∈ ρ.range) :
+    (P : MvPolynomial σ B) (h : ∀ m, P.coeff m ≠ 0 → u * P.coeff m ∈ ρ.range) :
     ∃ Q : MvPolynomial σ A, map ρ Q = C u * P := by
   classical
   change C u * P ∈ Set.range (map ρ : MvPolynomial σ A →+* _)
@@ -136,7 +136,7 @@ private lemma exists_map_eq_C_mul {A B σ : Type*} [CommRing A] [CommRing B] (ρ
   intro c hc
   obtain ⟨m, -, rfl⟩ := mem_coeffs_iff.mp hc
   rw [coeff_C_mul]
-  by_cases h0 : coeff m P = 0
+  by_cases h0 : P.coeff m = 0
   · exact ⟨0, by simp [h0]⟩
   · exact h m h0
 

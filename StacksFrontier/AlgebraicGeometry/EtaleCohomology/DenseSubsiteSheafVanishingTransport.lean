@@ -92,7 +92,8 @@ public theorem subsingleton_H_of_subsingleton_H_restriction_of_isDenseSubsite
       ((G.sheafPushforwardContinuous AddCommGrpCat.{a} J K).obj F) q)) :
     Subsingleton (Sheaf.H.{w'} F q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
-  have : E.functor.Additive := Functor.additive_of_preserves_binary_products _
+  have : E.symm.functor.Additive := ⟨by intro X Y f g; ext U; exact rfl⟩
+  have : E.functor.Additive := Equivalence.inverse_additive E.symm
   exact Stacks.CohomologyVanishing.subsingleton_ext_of_iso_source
     ((equivCommuteConstant J AddCommGrpCat.{a} K G hTC hTD).app
       (AddCommGrpCat.of (ULift.{a} ℤ))) q

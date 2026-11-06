@@ -253,7 +253,7 @@ public theorem flat_etaleStalk_coeffLevelStacksSheaf (k : ℕ) (s : GeometricPoi
   · exact (congrArg (coeffLevelVecEquiv ℓ b m k)
         (coeffLevelStalkIso_smul b B X x σ hρ t k c v)).trans
       (coeffLevelVecEquiv_mulVec ℓ b m k c _)
-  · exact hb.1 (ULift.ext _ _ ((coeffLevelVecEquiv ℓ b m k).injective h))
+  · exact hb.1 (ULift.ext ((coeffLevelVecEquiv ℓ b m k).injective h))
   · obtain ⟨v, hv⟩ := hb.2 (ULift.up ((coeffLevelVecEquiv ℓ b m k).symm w))
     refine ⟨v, ?_⟩
     show coeffLevelVecEquiv ℓ b m k ((coeffLevelStalkIso b B X x σ hρ t k).hom v).down = w

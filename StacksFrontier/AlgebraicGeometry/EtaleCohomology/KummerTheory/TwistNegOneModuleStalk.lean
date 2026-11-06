@@ -65,8 +65,8 @@ theorem exists_fiber_cone {U U' : X.Etale} (u : Φ.fiber.obj U) (u' : Φ.fiber.o
     ∃ (W : X.Etale) (w : Φ.fiber.obj W) (g : W ⟶ U) (g' : W ⟶ U'),
       Φ.fiber.map g w = u ∧ Φ.fiber.map g' w = u' := by
   obtain ⟨W, f, f', -⟩ := @IsCofilteredOrEmpty.cone_objs Φ.fiber.Elements _ _
-    (⟨U, u⟩ : Φ.fiber.Elements) (⟨U', u'⟩ : Φ.fiber.Elements)
-  exact ⟨W.1, W.2, f.1, f'.1, f.2, f'.2⟩
+    (Φ.fiber.elementsMk U u) (Φ.fiber.elementsMk U' u')
+  exact ⟨W.obj, W.val, f.hom, f'.hom, f.map_val, f'.map_val⟩
 
 omit [LocallySmall.{w} X.Etale] in
 /-- The germ of a section at the image of a point is the germ of its restriction. -/

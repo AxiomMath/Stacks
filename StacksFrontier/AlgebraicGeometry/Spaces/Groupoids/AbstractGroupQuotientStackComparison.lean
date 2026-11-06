@@ -567,7 +567,7 @@ def IsCompatibleAction (D : ConstantGroupData hB G Gabs)
     (hx : X.hom.app (op V) x = yonedaEquiv β),
     smulSection G.obj.X X (D.constSection V β g) x
         ((D.constSection_over V β g).trans hx.symm) =
-      ((ρ g).hom.app (op V) (ULift.up x)).down
+      ((ρ g).asIso.hom.app (op V) (ULift.up x)).down
 
 namespace TorsorWithMap
 
@@ -616,11 +616,11 @@ def toAbstractQuotient (D : ConstantGroupData hB G Gabs)
     AbstractGroupQuotientStack.{max u t} 𝒞 S hS Gabs (X.left ⋙ uliftFunctor.{t}) ρ :=
   AbstractGroupQuotientStack.ofTotal (ρ := ρ) (A.toTorsorObj.toConstantTorsor.{t} D)
     (fun V p => ULift.up (A.map.app V (TorsorObj.totalSectionVal.{t} D A.toTorsorObj p)))
-    (fun {V V'} h p => ULift.ext _ _
+    (fun {V V'} h p => ULift.ext
       (NatTrans.naturality_apply A.map h (TorsorObj.totalSectionVal.{t} D A.toTorsorObj p)))
     (fun V g p => by
       obtain ⟨V, rfl⟩ : ∃ V₀, op V₀ = V := ⟨V.unop, rfl⟩
-      refine ULift.ext _ _ ?_
+      refine ULift.ext ?_
       have hfst : (pullback.fst G.obj.X.hom A.toTorsorObj.b).app (op V)
             (((D.equiv A.toTorsorObj.U A.toTorsorObj.b).equiv (op (Over.mk p.1))
               (constantSheafOfGroupsUnit (BigFppfOver.topology 𝒞 S hS) Gabs (op V) g)).1) =
@@ -664,7 +664,7 @@ def toAbstractQuotientHom (D : ConstantGroupData hB G Gabs)
     A.toAbstractQuotient D hρ ⟶ C.toAbstractQuotient D hρ :=
   AbstractGroupQuotientStack.homOfTorsorHom
     (TorsorObj.toConstantTorsorHom.{t} D m.toHom)
-    (fun V _ => ULift.ext _ _
+    (fun V _ => ULift.ext
       (ConcreteCategory.congr_hom (NatTrans.congr_app m.comp_map V) _))
 
 end TorsorWithMap

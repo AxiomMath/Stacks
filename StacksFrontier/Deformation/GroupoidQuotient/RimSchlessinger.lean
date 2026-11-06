@@ -57,49 +57,46 @@ private theorem liftSourceArrow
     (hf : Function.Surjective f.hom) (x : G.objects.obj B) (a : G.arrows.obj A)
     (ha : G.source.app A a = G.objects.map f x) :
     ∃ a' : G.arrows.obj B, G.arrows.map f a' = a ∧ G.source.app B a' = x := by
-  let _ : Category.{v} G.objects.Elements := categoryOfElements G.objects
-  let _ : Category.{v} G.arrows.Elements := categoryOfElements G.arrows
-  let pU := CategoryOfElements.π G.objects
-  let pR := CategoryOfElements.π G.arrows
+  let pU := Functor.Elements.π G.objects
+  let pR := Functor.Elements.π G.arrows
   let φ := elementsBasedFunctor G.source
-  let xU : G.objects.Elements := ⟨B, x⟩
-  let xR : G.arrows.Elements := ⟨A, a⟩
-  let y : G.objects.Elements := ⟨A, G.source.app A a⟩
+  let xU : G.objects.Elements := G.objects.elementsMk B x
+  let xR : G.arrows.Elements := G.arrows.elementsMk A a
+  let y : G.objects.Elements := G.objects.elementsMk A (G.source.app A a)
   let g : xU ⟶ φ.toFunctor.obj xR :=
-    CategoryOfElements.homMk xU y f (by
+    Functor.Elements.homMk (x := xU) (y := y) f (by
       show G.objects.map f x = G.source.app A a; exact ha.symm)
   have hg : (BasedCategory.ofFunctor pU).p.IsHomLift f g := by
     show pU.IsHomLift (pU.map g) g
-    simpa [pU, CategoryOfElements.π] using (IsHomLift.map (p := pU) g)
+    simpa [pU, Functor.Elements.π] using (IsHomLift.map (p := pU) g)
   obtain ⟨x', h, c, hh, hc, _⟩ := hG.1 f hf xU xR g hg
-  rcases x' with ⟨B', a'⟩
+  rcases x' with @⟨B', a'⟩
   let _ : pR.IsHomLift f h := hh
   have hB : B' = B := IsHomLift.domain_eq (p := pR) f h
   cases hB
   let _ : pU.IsHomLift (𝟙 B) c := hc
-  have hcbase : c.val = 𝟙 B := by
+  have hcbase : c.hom = 𝟙 B := by
     have hfac := IsHomLift.fac (p := pU) (𝟙 B) c
     change 𝟙 B = pU.map c at hfac
-    simpa [pU, CategoryOfElements.π] using hfac.symm
-  have hbase : h.val = f := by
+    simpa [pU, Functor.Elements.π] using hfac.symm
+  have hbase : h.hom = f := by
     have hfac := IsHomLift.fac (p := pR) f h
     change f = pR.map h at hfac
-    simpa [pR, CategoryOfElements.π] using hfac.symm
+    simpa [pR, Functor.Elements.π] using hfac.symm
   have hsource : G.source.app B a' = x := by
-    have hcprop := c.property
-    change G.objects.map c.val (G.source.app B a') = x at hcprop
+    have hcprop := c.map_val
+    change G.objects.map c.hom (G.source.app B a') = x at hcprop
     rw [hcbase] at hcprop
     exact (G.objects.map_id_apply B (G.source.app B a')).symm.trans hcprop
   refine ⟨a', ?_, hsource⟩
-  rw [← hbase, h.property]
+  rw [← hbase, h.map_val]
 
 /-- Under (RS) for the category of elements of `F`, a compatible pair of elements comes from a
 unique element of `F` at the pullback. -/
 private theorem elementsPullback_existsUnique
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type u₁)
-    (hF : @SatisfiesRS Λ k _ _ _ F.Elements (categoryOfElements F)
-      (CategoryOfElements.π F))
+    (hF : SatisfiesRS (Functor.Elements.π F))
     {A₁ A₂ A : ArtinianLocalAlgCat.{u, v, w} Λ k}
     (f₁ : A₁ ⟶ A) (f₂ : A₂ ⟶ A)
     (hf₂ : Function.Surjective f₂.hom)
@@ -107,45 +104,43 @@ private theorem elementsPullback_existsUnique
     (x₁ : F.obj A₁) (x₂ : F.obj A₂) (x : F.obj A)
     (hx₁ : F.map f₁ x₁ = x) (hx₂ : F.map f₂ x₂ = x) :
     ∃! z : F.obj c.pt, F.map c.fst z = x₁ ∧ F.map c.snd z = x₂ := by
-  let _ : Category.{v} F.Elements := categoryOfElements F
-  let p := CategoryOfElements.π F
-  let X₁ : F.Elements := ⟨A₁, x₁⟩
-  let X₂ : F.Elements := ⟨A₂, x₂⟩
-  let X : F.Elements := ⟨A, x⟩
-  let q₁ : X₁ ⟶ X := CategoryOfElements.homMk X₁ X f₁ hx₁
-  let q₂ : X₂ ⟶ X := CategoryOfElements.homMk X₂ X f₂ hx₂
+  let p := Functor.Elements.π F
+  let X₁ : F.Elements := F.elementsMk A₁ x₁
+  let X₂ : F.Elements := F.elementsMk A₂ x₂
+  let X : F.Elements := F.elementsMk A x
+  let q₁ : X₁ ⟶ X := Functor.Elements.homMk (x := X₁) (y := X) f₁ hx₁
+  let q₂ : X₂ ⟶ X := Functor.Elements.homMk (x := X₂) (y := X) f₂ hx₂
   have hf₂' : Function.Surjective (p.map q₂).hom := hf₂
   obtain ⟨cE, hE⟩ := hF.2 q₁ q₂ hf₂'
   rcases hE with ⟨⟨hlimE⟩, ⟨hlimB⟩⟩
   let cB : PullbackCone f₁ f₂ := cE.map p
   let e : cB.pt ≅ c.pt := hlimB.conePointUniqueUpToIso hc
   have he₁ : e.hom ≫ c.fst = cB.fst := by
-    simpa [cB, p, CategoryOfElements.π] using
-      (IsLimit.conePointUniqueUpToIso_hom_comp hlimB hc WalkingCospan.left)
+    exact IsLimit.conePointUniqueUpToIso_hom_comp hlimB hc WalkingCospan.left
   have he₂ : e.hom ≫ c.snd = cB.snd := by
-    simpa [cB, p, CategoryOfElements.π] using
-      (IsLimit.conePointUniqueUpToIso_hom_comp hlimB hc WalkingCospan.right)
+    exact IsLimit.conePointUniqueUpToIso_hom_comp hlimB hc WalkingCospan.right
   have hinv : ∀ z : F.obj c.pt, F.map c.fst z = x₁ → F.map c.snd z = x₂ →
-      F.map e.inv z = cE.pt.2 := by
+      F.map e.inv z = cE.pt.val := by
     intro z hz₁ hz₂
-    let Z : F.Elements := ⟨c.pt, z⟩
-    let s : PullbackCone q₁ q₂ := PullbackCone.mk (CategoryOfElements.homMk Z X₁ c.fst hz₁)
-      (CategoryOfElements.homMk Z X₂ c.snd hz₂) (CategoryOfElements.ext F _ _ c.condition)
+    let Z : F.Elements := F.elementsMk c.pt z
+    let s : PullbackCone q₁ q₂ :=
+      PullbackCone.mk (Functor.Elements.homMk (x := Z) (y := X₁) c.fst hz₁)
+      (Functor.Elements.homMk (x := Z) (y := X₂) c.snd hz₂) (Functor.Elements.hom_ext c.condition)
     let m : Z ⟶ cE.pt := hlimE.lift s
-    have hbase : m.val = e.inv := by
+    have hbase : m.hom = e.inv := by
       apply PullbackCone.IsLimit.hom_ext hlimB
-      · exact (congrArg (fun q : Z ⟶ X₁ => q.val) (hlimE.fac s WalkingCospan.left)).trans
+      · exact (congrArg (fun q : Z ⟶ X₁ => q.hom) (hlimE.fac s WalkingCospan.left)).trans
           (by rw [Iso.eq_inv_comp]; exact he₁)
-      · exact (congrArg (fun q : Z ⟶ X₂ => q.val) (hlimE.fac s WalkingCospan.right)).trans
+      · exact (congrArg (fun q : Z ⟶ X₂ => q.hom) (hlimE.fac s WalkingCospan.right)).trans
           (by rw [Iso.eq_inv_comp]; exact he₂)
-    have hp := CategoryOfElements.map_snd m
-    change F.map m.val z = cE.pt.2 at hp
+    have hp := m.map_val
+    change F.map m.hom z = cE.pt.val at hp
     rwa [hbase] at hp
-  refine ⟨F.map e.hom cE.pt.2, ⟨?_, ?_⟩, fun z hz => ?_⟩
+  refine ⟨F.map e.hom cE.pt.val, ⟨?_, ?_⟩, fun z hz => ?_⟩
   · exact (F.map_comp_apply _ _ _).symm.trans
-      ((congrArg (fun g => F.map g cE.pt.2) he₁).trans (CategoryOfElements.map_snd cE.fst))
+      ((congrArg (fun g => F.map g cE.pt.val) he₁).trans (cE.fst.map_val))
   · exact (F.map_comp_apply _ _ _).symm.trans
-      ((congrArg (fun g => F.map g cE.pt.2) he₂).trans (CategoryOfElements.map_snd cE.snd))
+      ((congrArg (fun g => F.map g cE.pt.val) he₂).trans (cE.snd.map_val))
   · rw [← hinv z hz.1 hz.2]
     simp [← F.map_comp_apply]
 
@@ -156,11 +151,9 @@ public theorem quotient_satisfiesRS
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (G : GroupoidInFunctors (ArtinianLocalAlgCat.{u, v, w} Λ k))
     (hG : GroupoidInFunctors.IsSmooth G)
-    (hU : SatisfiesRS (CategoryOfElements.π G.objects))
-    (hR : SatisfiesRS (CategoryOfElements.π G.arrows)) :
+    (hU : SatisfiesRS (Functor.Elements.π G.objects))
+    (hR : SatisfiesRS (Functor.Elements.π G.arrows)) :
     SatisfiesRS (Grothendieck.forget (evaluationFunctor G)) := by
-  let _ : Category.{v} G.objects.Elements := categoryOfElements G.objects
-  let _ : Category.{v} G.arrows.Elements := categoryOfElements G.arrows
   let _ (A : ArtinianLocalAlgCat.{u, v, w} Λ k) :
       Groupoid (G.objects.obj A) := G.evaluationGroupoid A
   refine ⟨quotientProjection_cofibered G, ?_⟩
@@ -182,30 +175,30 @@ public theorem quotient_satisfiesRS
   have htarget₂' : G.objects.map f₂.base (G.target.app A₂ a₂') =
       G.objects.map f₁.base x₁ := by
     rw [← G.target.naturality_apply f₂.base a₂', ha₂', hdt]
-  let U₁ : G.objects.Elements := ⟨A₁, x₁⟩
-  let U₂ : G.objects.Elements := ⟨A₂, G.target.app A₂ a₂'⟩
-  let U : G.objects.Elements := ⟨A, G.objects.map f₁.base x₁⟩
-  let q₁ : U₁ ⟶ U := CategoryOfElements.homMk U₁ U f₁.base rfl
-  let q₂ : U₂ ⟶ U := CategoryOfElements.homMk U₂ U f₂.base htarget₂'
-  have hf₂' : Function.Surjective ((CategoryOfElements.π G.objects).map q₂).hom := by
+  let U₁ : G.objects.Elements := G.objects.elementsMk A₁ x₁
+  let U₂ : G.objects.Elements := G.objects.elementsMk A₂ (G.target.app A₂ a₂')
+  let U : G.objects.Elements := G.objects.elementsMk A (G.objects.map f₁.base x₁)
+  let q₁ : U₁ ⟶ U := Functor.Elements.homMk (x := U₁) (y := U) f₁.base rfl
+  let q₂ : U₂ ⟶ U := Functor.Elements.homMk (x := U₂) (y := U) f₂.base htarget₂'
+  have hf₂' : Function.Surjective ((Functor.Elements.π G.objects).map q₂).hom := by
     show Function.Surjective f₂.base.hom
     exact hf₂
   obtain ⟨cU, hcU⟩ := hU.2 q₁ q₂ hf₂'
   rcases hcU with ⟨⟨hlimU⟩, ⟨hlimBaseU⟩⟩
-  let P := cU.pt.1
-  let zP := cU.pt.2
+  let P := cU.pt.obj
+  let zP := cU.pt.val
   let Y : Grothendieck (evaluationFunctor G) := ⟨P, zP⟩
   let v₁ := cU.fst
   let v₂ := cU.snd
-  have hv₁ : G.objects.map v₁.val zP = x₁ := v₁.property
-  have hv₂ : G.objects.map v₂.val zP = G.target.app A₂ a₂' := v₂.property
+  have hv₁ : G.objects.map v₁.hom zP = x₁ := v₁.map_val
+  have hv₂ : G.objects.map v₂.hom zP = G.target.app A₂ a₂' := v₂.map_val
   let β₂ : x₂ ⟶ G.target.app A₂ a₂' :=
     (G.evaluationArrowEquiv A₂ x₂ (G.target.app A₂ a₂')).symm
       ⟨a₂', hsource₂', rfl⟩
   let m₁ : Y ⟶ ⟨A₁, x₁⟩ :=
-    { base := v₁.val, fiber := eqToHom hv₁ }
+    { base := v₁.hom, fiber := eqToHom hv₁ }
   let m₂ : Y ⟶ ⟨A₂, x₂⟩ :=
-    { base := v₂.val, fiber := eqToHom hv₂ ≫ Groupoid.inv β₂ }
+    { base := v₂.hom, fiber := eqToHom hv₂ ≫ Groupoid.inv β₂ }
   have hβmap : (evaluationMap G f₂.base).map β₂ ≫
       eqToHom htarget₂' = δ := by
     have ht := htarget₂'
@@ -244,8 +237,8 @@ public theorem quotient_satisfiesRS
   have hδcomp : Groupoid.inv δ ≫ f₂.fiber = f₁.fiber := by
     dsimp [δ]
     simp [Category.assoc]
-  have hbase : v₁.val ≫ f₁.base = v₂.val ≫ f₂.base := by
-    have h := congrArg (fun q : cU.pt ⟶ U => q.val) cU.condition
+  have hbase : v₁.hom ≫ f₁.base = v₂.hom ≫ f₂.base := by
+    have h := congrArg (fun q : cU.pt ⟶ U => q.hom) cU.condition
     simpa [q₁, q₂, v₁, v₂] using h
   have hright : eqToHom htarget₂'.symm ≫
         ((evaluationFunctor G).map f₂.base).toFunctor.map (Groupoid.inv β₂) ≫
@@ -262,11 +255,11 @@ public theorem quotient_satisfiesRS
     rw [hright]
   let c : PullbackCone f₁ f₂ := PullbackCone.mk m₁ m₂ hcomm
   have hcbase : c.map (Grothendieck.forget (evaluationFunctor G)) ≅
-      cU.map (CategoryOfElements.π G.objects) := by
+      cU.map (Functor.Elements.π G.objects) := by
     refine PullbackCone.ext (Iso.refl _) ?_ ?_
-    · show v₁.val = 𝟙 P ≫ v₁.val
+    · show v₁.hom = 𝟙 P ≫ v₁.hom
       rw [Category.id_comp]
-    · show v₂.val = 𝟙 P ≫ v₂.val
+    · show v₂.hom = 𝟙 P ≫ v₂.hom
       rw [Category.id_comp]
   have hcbaseLim : IsLimit
       (c.map (Grothendieck.forget (evaluationFunctor G))) :=
@@ -402,13 +395,13 @@ public theorem quotient_satisfiesRS
     let cBase : PullbackCone f₁.base f₂.base :=
       c.map (Grothendieck.forget (evaluationFunctor G))
     let w := PullbackCone.IsLimit.lift hcbaseLim s.fst.base s.snd.base hbaseEq
-    have hw₁ : w ≫ v₁.val = s.fst.base := by
+    have hw₁ : w ≫ v₁.hom = s.fst.base := by
       have hh := PullbackCone.IsLimit.lift_fst hcbaseLim s.fst.base s.snd.base hbaseEq
-      change w ≫ v₁.val = s.fst.base at hh
+      change w ≫ v₁.hom = s.fst.base at hh
       exact hh
-    have hw₂ : w ≫ v₂.val = s.snd.base := by
+    have hw₂ : w ≫ v₂.hom = s.snd.base := by
       have hh := PullbackCone.IsLimit.lift_snd hcbaseLim s.fst.base s.snd.base hbaseEq
-      change w ≫ v₂.val = s.snd.base at hh
+      change w ≫ v₂.hom = s.snd.base at hh
       exact hh
     let aCommon := G.arrows.map f₁.base a₁B
     obtain ⟨bP, hb₁, hb₂⟩ := (elementsPullback_existsUnique G.arrows hR
@@ -434,16 +427,16 @@ public theorem quotient_satisfiesRS
     have hcomp : ∀ {A' : ArtinianLocalAlgCat.{u, v, w} Λ k} (g : P ⟶ A') (h : B ⟶ A'),
         w ≫ g = h → G.objects.map g (G.objects.map w z) = G.objects.map h z := fun g h e =>
       (G.objects.map_comp_apply w g z).symm.trans (by rw [e])
-    have hsource₁P := (hnat G.source v₁.val _ hb₁).trans hsource₁
-    have hsource₂P := (hnat G.source v₂.val _ hb₂).trans hsource₂
-    have hsource₁w := hcomp v₁.val _ hw₁
-    have hsource₂w := hcomp v₂.val _ hw₂
+    have hsource₁P := (hnat G.source v₁.hom _ hb₁).trans hsource₁
+    have hsource₂P := (hnat G.source v₂.hom _ hb₂).trans hsource₂
+    have hsource₁w := hcomp v₁.hom _ hw₁
+    have hsource₂w := hcomp v₂.hom _ hw₂
     have hsourceP : G.source.app P bP = G.objects.map w z :=
       (elementsPullback_existsUnique G.objects hU f₁.base f₂.base hf₂ cBase hcbaseLim
         (G.objects.map s.fst.base z) (G.objects.map s.snd.base z) srcC
         hcommon₁.symm hcommon₂.symm).unique ⟨hsource₁P, hsource₂P⟩ ⟨hsource₁w, hsource₂w⟩
-    have htarget₁P := (hnat G.target v₁.val _ hb₁).trans htarget₁
-    have htarget₂P := (hnat G.target v₂.val _ hb₂).trans htarget₂
+    have htarget₁P := (hnat G.target v₁.hom _ hb₁).trans htarget₁
+    have htarget₂P := (hnat G.target v₂.hom _ hb₂).trans htarget₂
     have htargetP : G.target.app P bP = zP :=
       (elementsPullback_existsUnique G.objects hU f₁.base f₂.base hf₂ cBase hcbaseLim
         x₁ (G.target.app A₂ a₂') (G.objects.map f₁.base x₁) rfl htarget₂').unique
@@ -461,8 +454,8 @@ public theorem quotient_satisfiesRS
         ((evaluationMap_map_arrow G v b).trans ?_)
       exact (congrArg (G.arrows.map v) (congrArg Subtype.val
         (Equiv.apply_symm_apply (G.evaluationArrowEquiv P (G.objects.map w z) zP) _))).trans hθ
-    have hfiber₁' := hfib v₁.val _ _ s.fst.fiber hsource₁w hv₁ hb₁
-    have hfiber₂' := hfib v₂.val _ _ θ₂ hsource₂w hv₂ hb₂
+    have hfiber₁' := hfib v₁.hom _ _ s.fst.fiber hsource₁w hv₁ hb₁
+    have hfiber₂' := hfib v₂.hom _ _ θ₂ hsource₂w hv₂ hb₂
     let t : s.pt ⟶ c.pt := ⟨w, b⟩
     refine ⟨t, ?_, ?_⟩
     · apply Grothendieck.ext _ _ hw₁

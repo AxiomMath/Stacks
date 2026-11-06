@@ -238,7 +238,9 @@ theorem subsingleton_ext_of_cechCohomology_isZero
               (∏ᶜ fun a ↦ Over.mk (E.1.f (i a))).left
             show Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
               ((sheafToPresheaf J (AddCommGrpCat.{max a u v w})).map S.g).app (op (W i)))
-            exact epi_piMapAux _ _ _ fun i ↦ hsurj (W i) (hm.2.2 m i)
+            exact @epi_piMapAux.{max a u v w, w} _ _ _
+              (fun _ ↦ AddCommGrpCat.hasLimitsOfSize.{w, max a u v w, w}.has_limits_of_shape _) _
+              fun i ↦ hsurj (W i) (hm.2.2 m i)
           let Eval := Fcech ⋙ HomologicalComplex.eval _ _ m
           let : PreservesFiniteLimits Eval := by dsimp [Eval]; infer_instance
           let : Mono ((S.map Eval).f) := Functor.map_mono Eval S.f

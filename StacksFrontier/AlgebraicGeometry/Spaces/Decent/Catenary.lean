@@ -88,6 +88,13 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_DecentCatenary
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism to an object of the site all of whose points lie over an open subobject factors
 through that subobject. -/
 private theorem exists_comp_eq_of_range_subset

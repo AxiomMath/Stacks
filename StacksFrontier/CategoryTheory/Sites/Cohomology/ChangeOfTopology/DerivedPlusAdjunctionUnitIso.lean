@@ -97,18 +97,28 @@ private theorem isIso_derivedPlusAdjunction_unit_app_qh_obj (adj : L ⊣ R)
       ((Functor.associator _ _ _).symm ≪≫ Functor.isoWhiskerRight
         L.mapDerivedCategoryPlusFactorsh R.rightDerivedFunctorPlus)
   have hη := adj.mapHomotopyCategoryPlus.derivedη_fac_app (HomotopyCategory.Plus.quasiIso A)
-    L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlusUnit M
+    L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlusUnith M
   have h₁ : IsIso (adj.mapHomotopyCategoryPlus.unit.app M) :=
     isIso_mapHomotopyCategoryPlus_unit_app adj M hu
-  have h₂ : IsIso (R.rightDerivedFunctorPlusUnit.app (L.mapHomotopyCategoryPlus.obj M)) :=
+  have h₂ : IsIso (R.rightDerivedFunctorPlusUnith.app (L.mapHomotopyCategoryPlus.obj M)) :=
     Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic R _ hac
   have : IsIso ((derivedPlusAdjunction adj).unit.app (DerivedCategory.Plus.Qh.obj M) ≫
       R.rightDerivedFunctorPlus.map (L.mapDerivedCategoryPlusFactorsh.hom.app M)) := by
-    show IsIso ((adj.mapHomotopyCategoryPlus.derivedη (HomotopyCategory.Plus.quasiIso A)
-      L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlusUnit).app
-        (DerivedCategory.Plus.Qh.obj M) ≫
-      R.rightDerivedFunctorPlus.map (L.mapDerivedCategoryPlusFactorsh.hom.app M))
-    rw [hη]
+    have hu' : (derivedPlusAdjunction adj).unit =
+        adj.mapHomotopyCategoryPlus.derivedη (HomotopyCategory.Plus.quasiIso A)
+          L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlusUnith := by
+      have : (R.rightDerivedFunctorPlus ⋙ L.mapDerivedCategoryPlus).IsRightDerivedFunctor
+          (Functor.whiskerRight R.rightDerivedFunctorPlusUnith L.mapDerivedCategoryPlus ≫
+            (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso B) := by
+        apply (HomotopyCategory.Plus.localizerMorphism_derives
+          ((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
+            L.mapDerivedCategoryPlus)).isRightDerivedFunctor_of_isIso
+        intro K
+        dsimp
+        infer_instance
+      dsimp only [derivedPlusAdjunction]
+      exact Adjunction.derived_unit ..
+    rw [hu', hη]
     infer_instance
   exact IsIso.of_isIso_comp_right _
     (R.rightDerivedFunctorPlus.map (L.mapDerivedCategoryPlusFactorsh.hom.app M))
@@ -157,9 +167,9 @@ theorem isIso_derivedPlusAdjunction_counit_app_of_fullyFaithful [R.Full] [R.Fait
   let M := (InjectiveObject.ι B).mapCochainComplexPlus.obj I
   let N := (HomotopyCategory.Plus.quotient B).obj M
   have : ∀ i : ℤ, Injective (N.obj.as.X i) := fun _ => inferInstance
-  have : IsIso (R.rightDerivedFunctorPlusUnit.app N) := inferInstance
+  have : IsIso (R.rightDerivedFunctorPlusUnith.app N) := inferInstance
   have : (R.rightDerivedFunctorPlus ⋙ L.mapDerivedCategoryPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight R.rightDerivedFunctorPlusUnit L.mapDerivedCategoryPlus ≫
+      (Functor.whiskerRight R.rightDerivedFunctorPlusUnith L.mapDerivedCategoryPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso B) := by
     apply (HomotopyCategory.Plus.localizerMorphism_derives
       ((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
@@ -169,16 +179,31 @@ theorem isIso_derivedPlusAdjunction_counit_app_of_fullyFaithful [R.Full] [R.Fait
     infer_instance
   have hfac := adj.mapHomotopyCategoryPlus.derivedε_fac_app
     (HomotopyCategory.Plus.quasiIso B) L.mapDerivedCategoryPlusFactorsh.hom
-    R.rightDerivedFunctorPlusUnit N
-  change L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N) ≫
-    (derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N) = _ at hfac
+    R.rightDerivedFunctorPlusUnith N
+  have hc' : (derivedPlusAdjunction adj).counit =
+      adj.mapHomotopyCategoryPlus.derivedε (HomotopyCategory.Plus.quasiIso B)
+        L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlusUnith := by
+    have : L.mapDerivedCategoryPlus.IsLeftDerivedFunctor
+        L.mapDerivedCategoryPlusFactorsh.hom (HomotopyCategory.Plus.quasiIso A) :=
+      Functor.isLeftDerivedFunctor_of_inverts (HomotopyCategory.Plus.quasiIso A) _
+        L.mapDerivedCategoryPlusFactorsh
+    have : (L.mapDerivedCategoryPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
+        ((Functor.associator _ _ _).inv ≫ Functor.whiskerRight
+          L.mapDerivedCategoryPlusFactorsh.hom R.rightDerivedFunctorPlus)
+        (HomotopyCategory.Plus.quasiIso A) :=
+      Functor.isLeftDerivedFunctor_of_inverts (HomotopyCategory.Plus.quasiIso A) _
+        ((Functor.associator _ _ _).symm ≪≫ Functor.isoWhiskerRight
+          L.mapDerivedCategoryPlusFactorsh R.rightDerivedFunctorPlus)
+    dsimp only [derivedPlusAdjunction]
+    exact Adjunction.derived_counit ..
+  rw [← hc'] at hfac
   have : IsIso ((derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N)) := by
-    have : IsIso (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N) ≫
+    have : IsIso (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnith.app N) ≫
         (derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N)) := by
       rw [hfac]
       infer_instance
     exact IsIso.of_isIso_comp_left
-      (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N)) _
+      (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnith.app N)) _
   exact (NatTrans.isIso_app_iff_of_iso _ ((ObjectProperty.isoMk _
     ((DerivedCategory.quotientCompQhIso B).app M.obj) :
       DerivedCategory.Plus.Qh.obj N ≅ DerivedCategory.Plus.Q.obj M) ≪≫ eY)).1 inferInstance

@@ -121,8 +121,8 @@ abbrev memberAbRestriction :
 presheaves, composition with `.memberFunctor`. -/
 theorem memberAbRestriction_obj_val
     (Q : Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}) :
-    ((memberAbRestriction B S hS Yi f hf).obj Q).val =
-      (memberFunctor B S hS Yi f hf).op ⋙ Q.val :=
+    ((memberAbRestriction B S hS Yi f hf).obj Q).obj =
+      (memberFunctor B S hS Yi f hf).op ⋙ Q.obj :=
   rfl
 
 /-- **The sheaves of abelian groups on the small étale site of `X` are the sheaves of abelian

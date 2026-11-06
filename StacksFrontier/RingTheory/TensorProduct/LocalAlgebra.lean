@@ -172,7 +172,7 @@ integral algebra map, and the fibre ring `D / (m_B · D)` has a unique prime ide
 then `D` is a local ring.
 
 Proof: every maximal ideal `I` of `D` contracts along the integral map to a maximal
-ideal of `B` (`Ideal.isMaximal_comap_of_isIntegral_of_isMaximal`), hence to `m_B`
+ideal of `B` (`Ideal.isMaximal_under_of_isIntegral_of_isMaximal`), hence to `m_B`
 (B local), so `I ⊇ m_B·D = J`. The quotient map `q : D → D/J` then sends each
 maximal `I` to a maximal — in particular prime — ideal of the fibre, which by the
 unique-prime hypothesis is the SAME ideal `P`; since `I ⊇ ker q = J` we recover
@@ -197,7 +197,7 @@ lemma isLocalRing_of_integral_fibre_unique_prime
   have : Nontrivial D := (Ideal.Quotient.mk J).domain_nontrivial
   have hcontract : ∀ I : Ideal D, I.IsMaximal → J ≤ I := by
     intro I hI
-    rw [hJ, ← IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal I)]
+    rw [hJ, ← IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal I)]
     exact Ideal.map_comap_le
   set q : D →+* (D ⧸ J) := Ideal.Quotient.mk J
   have hqsurj : Function.Surjective q := Ideal.Quotient.mk_surjective
@@ -373,7 +373,8 @@ lemma existsUnique_isPrime_fibre
         refine le_antisymm (nilradical_le_prime _) ?_
         rw [nilradical_eq_sInf]
         refine le_sInf fun P (hP : P.IsPrime) => (IsLocalRing.eq_maximalIdeal ?_).ge
-        refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := ResidueField A) P ?_
+        refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := ResidueField A) P ?_
+        rw [Ideal.under]
         rw [(Ideal.comap (algebraMap (ResidueField A) ((ResidueField A) ⊗[A] C)) P).eq_bot_of_prime]
         exact Ideal.bot_isMaximal
       rw [hnil, IsLocalRing.eq_maximalIdeal (RingHom.ker_isMaximal_of_surjective
@@ -467,7 +468,8 @@ private lemma mc_pow_mem {A C : Type*} [CommRing A] [CommRing C] [IsLocalRing A]
     refine le_antisymm (nilradical_le_prime _) ?_
     rw [nilradical_eq_sInf]
     refine le_sInf fun P (hP : P.IsPrime) => (IsLocalRing.eq_maximalIdeal ?_).ge
-    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) P ?_
+    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) P ?_
+    rw [Ideal.under]
     have hmle : maximalIdeal A ≤ Ideal.comap (algebraMap A (C ⧸ N)) P := fun a ha => by
       rw [Ideal.mem_comap, hmAN a ha]
       exact P.zero_mem
@@ -513,7 +515,7 @@ theorem isLocalRing_tensorProduct_of_isIntegral
   have hB : IsLocalHom (algebraMap B (TensorProduct A B C)) :=
     ((IsLocalRing.local_hom_TFAE (algebraMap B (TensorProduct A B C))).out 1 5).mpr
       (IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal (TensorProduct A B C))))
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (maximalIdeal (TensorProduct A B C))))
   refine ⟨hloc, hB, ?_⟩
   set D := TensorProduct A B C
   set ir : C →+* D := (Algebra.TensorProduct.includeRight : C →ₐ[A] D).toRingHom with hir

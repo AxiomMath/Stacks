@@ -169,7 +169,7 @@ variable (hrep : yoneda.relativelyRepresentable f.hom)
 /-- The underlying morphism of the big fppf site of a morphism of étale charts into a
 base-changed chart, with its target retyped as the chosen representing object of the fibre
 product. -/
-def baseChangeLeft (c : SmallEtale B S hS X.1) (V : SmallEtale B S hS Y.1)
+noncomputable def baseChangeLeft (c : SmallEtale B S hS X.1) (V : SmallEtale B S hS Y.1)
     (m : c ⟶ (smallBaseChange B S hS f hrep).obj V) :
     c.1.left ⟶ hrep.pullback V.1.hom := m.hom.left
 

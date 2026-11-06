@@ -55,6 +55,11 @@ def sheafHConstantEquivOfIsDenseSubsite
     Sheaf.H.{w} ((constantSheaf J AddCommGrpCat.{a}).obj M) q ≃
       Sheaf.H.{w'} ((constantSheaf K AddCommGrpCat.{a}).obj M) q :=
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : HasLimitsOfShape (Discrete WalkingPair) (Cᵒᵖ ⥤ AddCommGrpCat.{a}) := inferInstance
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{a}) := inferInstance
+  have : PreservesLimitsOfSize.{0, 0} E.functor := E.symm.toAdjunction.rightAdjoint_preservesLimits
+  have : E.functor.IsLeftAdjoint := E.isLeftAdjoint_functor
+  have : E.functor.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have : E.functor.Additive := Functor.additive_of_preserves_binary_products _
   (Stacks.CohomologyVanishing.extEquivOfEquivalence E _ _ q).trans
     (extCongr ((equivCommuteConstant J AddCommGrpCat.{a} K G hTC hTD).app _)

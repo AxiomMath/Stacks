@@ -794,7 +794,7 @@ public theorem finite_residueField_of_quasiFiniteAt
     (hdim : ringKrullDim A ≤ 1) :
     Module.Finite (ResidueField A) (ResidueField B) := by
   let _ := Localization.AtPrime.algebraOfLiesOver (q.under A) q
-  have _ : Localization.AtPrime.IsLiesOverAlgebra (q.under A) q := ⟨rfl⟩
+  have _ : Localization.AtPrime.IsLiesOverAlgebra (q.under A) q := inferInstance
   exact finite_residueField_of_finite_residueField_liesOver (q.under A) q hdim
 
 end IsLocalRing

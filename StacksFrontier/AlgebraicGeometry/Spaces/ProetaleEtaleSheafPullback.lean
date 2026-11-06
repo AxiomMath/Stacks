@@ -514,7 +514,7 @@ private lemma bigEtaleInverseImage_openEq (S : Scheme.{u})
     show IsTerminal (ULift.{max (u + 1) v} (X.unop ⟶ Over.mk (𝟙 S)))
     refine (Types.isTerminalEquivUnique _).symm ?_
     exact { default := ⟨Over.homMk X.unop.hom (by simp)⟩
-            uniq := fun x => ULift.ext _ _ (Over.mkIdTerminal.hom_ext _ _) }
+            uniq := fun x => ULift.ext (Over.mkIdTerminal.hom_ext _ _) }
   let e := hT.uniqueUpToIso hY
   let s' : T ⟶ F := FF.preimage (e.hom ≫ J.uliftYonedaEquiv.{max (u + 1) v}.symm s)
   let t' : T ⟶ F := FF.preimage (e.hom ≫ J.uliftYonedaEquiv.{max (u + 1) v}.symm t)

@@ -190,8 +190,9 @@ theorem forgetComparisonIso_hom_app (Y : DerivedCategory.Plus (ModuleCat.{u} R))
       NatTrans.comp_app, Functor.associator_inv_app, Functor.whiskerRight_app,
       Functor.associator_hom_app, Functor.whiskerLeft_app, Category.id_comp, ObjectProperty.ι_map,
       Category.assoc]
-    exact comp_id_aux _ _ _ _ (CategoryTheory.Functor.map_id _ _) rfl
-      (CategoryTheory.Functor.map_id _ _)
+    rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id, Category.comp_id,
+      Category.id_comp]
+    rfl
   exact NatTrans.congr_app h Y
 
 end Forget
@@ -207,11 +208,7 @@ read in the unbounded derived category, is the identification `Q ≅ quotient �
 theorem ι_map_plusQuotientCompQhIso_hom_app (K : CochainComplex.Plus A) :
     DerivedCategory.Plus.ι.map ((DerivedCategory.Plus.quotientCompQhIso A).hom.app K) =
       (DerivedCategory.quotientCompQhIso A).hom.app K.obj := by
-  refine (Stacks.Cohomology.HigherDirectImagePresheaf.map_fullyFaithfulCancelRight_hom_app
-    DerivedCategory.Plus.ι _ K).trans ?_
-  simp only [HomotopyCategory.Plus.quotientCompιIso, ObjectProperty.liftCompιIso,
-    DerivedCategory.Plus.QhCompιIsoιCompQh, Iso.trans_hom, NatTrans.comp_app]
-  exact comp_id_aux' _ _ _ rfl (CategoryTheory.Functor.map_id _ _)
+  simp [DerivedCategory.Plus.quotientCompQhIso]
 
 /-- **The unit of the derived functor of an exact functor, followed by the comparison with the
 functor it induces**, read in the unbounded derived category, is the factorization of the induced

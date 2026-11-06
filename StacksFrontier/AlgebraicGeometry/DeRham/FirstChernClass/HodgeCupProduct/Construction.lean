@@ -344,6 +344,7 @@ lemma gradedPieceShiftIso_hom_f (k : ℕ) :
     HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq, eqToIso.hom, eqToIso.inv,
     Category.assoc]
   repeat (first | exact ⟨_, rfl⟩ | apply exists_eqToHom_comp)
+  all_goals omega
 
 /-- **The multiplications of the graded pieces and of the sheaves of forms in degree zero agree
 through the shifts.** The multiplication `Tot(Ω^a[-a] ⊗ Ω^b[-b]) ⟶ Ω^{a + b}[-(a + b)]`, extended

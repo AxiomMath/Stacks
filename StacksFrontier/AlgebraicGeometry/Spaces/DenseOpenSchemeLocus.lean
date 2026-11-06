@@ -124,6 +124,7 @@ attribute [local instance] pointTopology
 
 /-! ### Cancelling a monomorphism out of quasi-compactness -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- If `f ≫ m` is a quasi-compact morphism of algebraic spaces over `S` in the sense of
 Tag 03HE and `m` is a monomorphism, then `f` is quasi-compact. -/
 theorem isQuasiCompact_of_comp_mono {F Y X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

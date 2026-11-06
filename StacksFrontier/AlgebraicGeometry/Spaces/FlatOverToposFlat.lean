@@ -107,20 +107,21 @@ theorem moduleStalkRestrictScalarsAddEquiv_smul
     exact ConcreteCategory.congr_hom (commRingSheafFiberIso Φ O').hom_inv_id (ψ (ρ r))
   let Mc := PresheafOfModules.ModuleColimit
     (Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O).obj)
-    (colimit.isColimit ((PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber)
+    (colimit.isColimit ((PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber)
       (𝟙 _)).obj ((SheafOfModules.forget (commRingSheafToRingSheaf O)).obj
         ((SheafOfModules.restrictScalars
           ((sheafCompose J (forget₂ CommRingCat.{w} RingCat.{w})).map g)).obj M))).presheaf)
   let Mc' := PresheafOfModules.ModuleColimit
     (Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O').obj)
-    (colimit.isColimit ((PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber)
+    (colimit.isColimit ((PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber)
       (𝟙 _)).obj ((SheafOfModules.forget (commRingSheafToRingSheaf O')).obj M)).presheaf)
   rw [← hx]
   show ((ρ r • (PresheafOfModules.ModuleColimit.ιM x : Mc)) : Mc) =
     ((ρ' (φ r) • (PresheafOfModules.ModuleColimit.ιM x : Mc')) : Mc')
-  rw [hρ, ← ha, hψapp, PresheafOfModules.ModuleColimit.smul_eq]
+  rw [hρ, ← ha, hψapp]
+  erw [PresheafOfModules.ModuleColimit.smul_eq]
   exact (PresheafOfModules.ModuleColimit.smul_eq
-    (M := (PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj
+    (M := (PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj
       ((SheafOfModules.forget (commRingSheafToRingSheaf O')).obj M)) _ _ _ _).symm
 
 end RestrictScalarsStalk

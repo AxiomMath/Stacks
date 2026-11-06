@@ -6,6 +6,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.HasExt
 public import Mathlib.CategoryTheory.Comma.StructuredArrow.Small
 public import Mathlib.CategoryTheory.Limits.EssentiallySmall
 public import Mathlib.CategoryTheory.Sites.Equivalence
+public import Mathlib.CategoryTheory.Sites.Limits
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChangeOfTopology.BigSiteSheafCohomology
 
 /-!
@@ -307,6 +308,9 @@ def extFunctorObjFreeYonedaIso (U : C) (p : ℕ) :
   have : (G.sheafPushforwardContinuous Ab.{a} J K).IsRightAdjoint :=
     (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous G Ab.{a} J K).isRightAdjoint
   have : (G.sheafPushforwardContinuous Ab.{a} J K).Additive :=
+    have : HasLimitsOfShape (Discrete WalkingPair) (Dᵒᵖ ⥤ Ab.{a}) := inferInstance
+    have : HasBinaryProducts (Sheaf K Ab.{a}) :=
+      hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf K Ab.{a})
     Functor.additive_of_preserves_binary_products _
   have : PreservesFiniteColimits (G.sheafPushforwardContinuous Ab.{a} J K) :=
     preservesFiniteColimits_sheafPushforwardContinuous J K G Ab.{a}

@@ -76,7 +76,7 @@ private abbrev trivialRep (X : AddCommGrpCat.{u}) : FreydRep.{u} :=
   SingleObj.functor (FreeMonoid.lift (trivialEnd X))
 
 private noncomputable def shear : End (AddCommGrpCat.of Zbig ⊞ AddCommGrpCat.of Zbig) :=
-  biprod.snd ≫ biprod.inl
+  .of (biprod.snd ≫ biprod.inl)
 
 private noncomputable def ordinalEnd (α : Ordinal.{u}) :
     Ordinal.{u} → End (AddCommGrpCat.of Zbig ⊞ AddCommGrpCat.of Zbig) :=
@@ -93,21 +93,21 @@ private noncomputable def project : AddCommGrpHom (AddCommGrpCat.of Zbig ⊞ Add
 
 private lemma end_map_mul {M : Type*} [Monoid M] {D : Type v}
     [Category.{w, v} D] {Y : D} (f : M →* End Y) (x y : M) :
-    f (x * y) = f y ≫ f x := by
-  simpa only [CategoryTheory.End.mul_def] using (map_mul f x y)
+    (f (x * y)).asHom = (f y).asHom ≫ (f x).asHom := by
+  rw [map_mul, End.mul_asHom]
 
 /-- The action of a generator on the extension is the shear or zero. -/
 private lemma extensionRep_map_of (α β : Ordinal.{u}) :
     (extensionRep α).map (X := SingleObj.star _) (Y := SingleObj.star _)
-      (FreeMonoid.of β) = if β = α then shear else 0 := by
-  classical
-  simp [extensionRep, SingleObj.functor, ordinalEnd, FreeMonoid.lift_apply]
+      (FreeMonoid.of β) = if β = α then shear.asHom else 0 := by
+  change (ordinalEnd α β).asHom = _
+  unfold ordinalEnd
+  split_ifs <;> rfl
 
 /-- Every generator acts by zero on the trivial representation. -/
 private lemma trivialRep_map_of (β : Ordinal.{u}) :
     (trivialRep (AddCommGrpCat.of Zbig)).map (X := SingleObj.star _) (Y := SingleObj.star _)
-      (FreeMonoid.of β) = 0 := by
-  simp [trivialRep, SingleObj.functor, trivialEnd, FreeMonoid.lift_apply]
+      (FreeMonoid.of β) = 0 :=
   rfl
 
 private lemma include_natural_generator (α β : Ordinal.{u}) :
@@ -117,7 +117,7 @@ private lemma include_natural_generator (α β : Ordinal.{u}) :
         (FreeMonoid.of β) := by
   rw [extensionRep_map_of, trivialRep_map_of]
   split_ifs
-  · change (0 : AddCommGrpHom _ _) ≫ inclusionHom = inclusionHom ≫ shear
+  · change (0 : AddCommGrpHom _ _) ≫ inclusionHom = inclusionHom ≫ shear.asHom
     simp [inclusionHom, shear]
   · change (0 : AddCommGrpHom _ _) ≫ inclusionHom = inclusionHom ≫ 0
     simp
@@ -129,16 +129,16 @@ private lemma project_natural_generator (α β : Ordinal.{u}) :
         (Y := SingleObj.star _) (FreeMonoid.of β) := by
   rw [extensionRep_map_of, trivialRep_map_of]
   split_ifs
-  · change shear ≫ project = project ≫ (0 : AddCommGrpHom _ _)
+  · change shear.asHom ≫ project = project ≫ (0 : AddCommGrpHom _ _)
     simp [project, shear]
   · change (0 : AddCommGrpHom _ _) ≫ project = project ≫ 0
     simp
 
 private lemma natural_lift {X Y : AddCommGrpCat.{u}}
     (f : Ordinal.{u} → End X) (g : Ordinal.{u} → End Y) (i : AddCommGrpHom X Y)
-    (h : ∀ β, (FreeMonoid.lift f) (FreeMonoid.of β) ≫ i =
-      i ≫ (FreeMonoid.lift g) (FreeMonoid.of β)) :
-    ∀ a, (FreeMonoid.lift f) a ≫ i = i ≫ (FreeMonoid.lift g) a := by
+    (h : ∀ β, ((FreeMonoid.lift f) (FreeMonoid.of β)).asHom ≫ i =
+      i ≫ ((FreeMonoid.lift g) (FreeMonoid.of β)).asHom) :
+    ∀ a, ((FreeMonoid.lift f) a).asHom ≫ i = i ≫ ((FreeMonoid.lift g) a).asHom := by
   intro a
   induction a using FreeMonoid.inductionOn with
   | one => simp
@@ -229,17 +229,17 @@ private lemma no_iso_extensions_of_ne {α β : Ordinal.{u}} (h : α ≠ β)
       (AddCommGrpCat.of Zbig ⊞ AddCommGrpCat.of Zbig) :=
     φ.hom.app (SingleObj.star (FreeMonoid (Ordinal.{u})))
   have hincApp : inclusionHom ≫ ψ = inclusionHom := NatTrans.congr_app hinc _
-  have hnatApp : shear ≫ ψ = ψ ≫ 0 := by
+  have hnatApp : shear.asHom ≫ ψ = ψ ≫ 0 := by
     have hnat := φ.hom.naturality (X := SingleObj.star _) (Y := SingleObj.star _)
       (FreeMonoid.of α)
     simp only [extensionRep_map_of, ↓reduceIte, h] at hnat
     exact hnat
-  have hcross : inclusionHom = biprod.inr ≫ shear := by
+  have hcross : inclusionHom = biprod.inr ≫ shear.asHom := by
     simp [inclusionHom, shear]
   refine inclusionHom_ne_zero ?_
   calc
     inclusionHom = inclusionHom ≫ ψ := hincApp.symm
-    _ = (biprod.inr ≫ shear) ≫ ψ := by rw [hcross]
+    _ = (biprod.inr ≫ shear.asHom) ≫ ψ := by rw [hcross]
     _ = biprod.inr ≫ (ψ ≫ 0) := by rw [Category.assoc, hnatApp]
     _ = 0 := by simp
 

@@ -123,7 +123,7 @@ theorem fibreRingMap_comp {m n : SimplexCategory} (α : n ⟶ m) :
           (fibreInclusionMap C α) RingCat.{w} J
           (projectionTopology C J)).app (projectionRing C J O) =
       fibreRingMap C J O n :=
-  Sheaf.hom_ext (NatTrans.ext (funext fun X => O.val.map_id X))
+  Sheaf.hom_ext (NatTrans.ext (funext fun X => O.obj.map_id X))
 
 /-- **The structure map of the fibrewise reading** at `α : m ⟶ n` in `Δᵒᵖ`: Mathlib's
 `SheafOfModules.pushforwardNatTrans` applied to the natural transformation `i_{n} ⟶ i_{m}` of

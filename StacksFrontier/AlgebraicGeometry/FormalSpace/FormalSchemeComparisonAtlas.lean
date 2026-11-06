@@ -327,7 +327,7 @@ theorem mono_openFormalSubschemePresheafHom :
     Mono (openFormalSubschemePresheafHom B S hS X V hV) := by
   refine (NatTrans.mono_iff_mono_app _).2 fun W => ?_
   refine (mono_iff_injective _).2 fun b₁ b₂ h => ?_
-  exact ULift.ext _ _ (eq_of_comp_openFormalSubschemeHom X V hV (congrArg ULift.down h))
+  exact ULift.ext (eq_of_comp_openFormalSubschemeHom X V hV (congrArg ULift.down h))
 
 /-- The morphism of presheaves that Yoneda's lemma attaches to a point `g` of `𝔛` over `T`
 sends a morphism `a : W ⟶ T` to the point `a ≫ g`. -/

@@ -223,7 +223,6 @@ private theorem basis_over_eqLocus_of_groupoid_bases
     have hci : v i ∈ C := hinv a i
     convert (Submodule.span C (Set.range x)).smul_mem ⟨v i, hci⟩
       (Submodule.subset_span (Set.mem_range_self i)) using 1
-    rfl
   exact ⟨Module.Basis.mk hli hsp, Module.Basis.mk_apply hli hsp⟩
 
 /-- A basis transported across a pushout square of commutative rings. -/

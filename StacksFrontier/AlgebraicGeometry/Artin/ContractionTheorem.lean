@@ -90,7 +90,7 @@ theorem exists_solution_of_isAlgebraicSpaceULift {F' : (BigFppfOver B S hS)ᵒ�
     obtain ⟨hcol⟩ := hl I D c' hc haff hpt
     have h₁ : IsColimit ((X ⋙ uliftFunctor.{u + 1}).mapCocone c'.op) :=
       (IsColimit.precomposeHomEquiv (Functor.isoWhiskerLeft D.op eX).symm _)
-        (IsColimit.ofIsoColimit hcol (Cocones.ext (eX.app _).symm (fun j => by
+        (IsColimit.ofIsoColimit hcol (Cocone.ext (eX.app _).symm (fun j => by
           simp only [Functor.mapCocone_ι_app, Iso.symm_hom, Iso.app_inv,
             Cocone.precompose_obj_ι, NatTrans.comp_app, Functor.isoWhiskerLeft_inv,
             Functor.whiskerLeft_app]

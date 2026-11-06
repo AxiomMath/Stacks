@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.SheafOfModules
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
+public import Mathlib.CategoryTheory.Preadditive.Injective.LiftingProperties
 public import StacksFrontier.CategoryTheory.Preadditive.Injective.Basic
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.Abelian
 import StacksCore.Tactic.StacksAttribute
@@ -83,7 +84,7 @@ private noncomputable def embeddingArrowFunctor (C : Type u) [Category.{v} C]
           Arrow.mk_right] using d.i.naturality (z.map f))
       map_id X := ?_
       map_comp f g := ?_ }
-  all_goals apply Arrow.hom_ext <;> (simp; rfl)
+  all_goals apply Arrow.hom_ext <;> (simp <;> rfl)
 
 /-- In an abelian category whose monomorphisms factor functorially through their right
 lifting property, the injective embeddings can be chosen functorially: factor `A ⟶ 0`

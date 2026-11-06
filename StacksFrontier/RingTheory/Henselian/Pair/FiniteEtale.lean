@@ -76,7 +76,7 @@ private lemma map_le_jacobson_of_isIntegral {A B : Type*} [CommRing A] [CommRing
   rw [Ideal.map_le_iff_le_comap]
   apply hI.trans
   rw [Ideal.jacobson]
-  exact sInf_le ⟨bot_le, Ideal.isMaximal_comap_of_isIntegral_of_isMaximal J⟩
+  exact sInf_le ⟨bot_le, Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) J⟩
 
 private lemma algHom_ext_of_quotient
     {A : Type u} [CommRing A] {I : Ideal A} (hI : I ≤ (⊥ : Ideal A).jacobson)

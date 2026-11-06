@@ -72,7 +72,6 @@ theorem piRight_lTensor_pi_apply {N : Type u} [AddCommGroup N] [Module A N]
     TensorProduct.piRight A B B M (LinearMap.lTensor B (LinearMap.pi f) w) a =
       LinearMap.lTensor B (f a) w := by
   induction w with
-  | zero => simp
   | tmul b m => simp
   | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
 
@@ -82,7 +81,6 @@ theorem lTensor_comp_proj_apply {P : Type u} [AddCommGroup P] [Module A P] (a : 
     LinearMap.lTensor B (g ∘ₗ (LinearMap.proj a : (∀ b, M b) →ₗ[A] M a)) z =
       LinearMap.lTensor B g (TensorProduct.piRight A B B M z a) := by
   induction z with
-  | zero => simp
   | tmul b m => simp
   | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
 
@@ -117,7 +115,6 @@ theorem eq_zero_of_forall_lid_rTensor_eq_zero {A B M : Type u} [CommRing A] [Add
   have key (w : B ⊗[A] M) :
       e w i = TensorProduct.lid A M (LinearMap.rTensor M (b.coord i) w) := by
     induction w with
-    | zero => simp
     | tmul x m =>
       simp [e, TensorProduct.finsuppScalarLeft_apply_tmul_apply, Module.Basis.coord_apply]
     | add x y hx hy => simp only [map_add, Finsupp.add_apply, hx, hy]
@@ -320,7 +317,6 @@ theorem sectionsBaseChangeEquivOf_symm_smul (U : X.Opens) (r : Γ(X, U))
   obtain ⟨z, rfl⟩ := (sectionsBaseChangeEquivOf H F hbij U).surjective y
   rw [LinearEquiv.symm_apply_apply]
   induction z with
-  | zero => simp only [map_zero, smul_zero]
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, sectionsBaseChangeEquivOf_tmul, sectionsBaseChangeEquivOf_tmul]
     show (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
@@ -375,7 +371,6 @@ def traceSectionsOf (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ
       rw [sectionsBaseChangeEquivOf_symm_smul H F hbij]
       induction (sectionsBaseChangeEquivOf H F hbij U).symm
           (Stacks.Tag0CKW.pushforwardSection y) with
-      | zero => simp only [map_zero, smul_zero]
       | tmul b x =>
         simp only [LinearMap.lTensor_tmul, LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
         change (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • (r • x) =
@@ -417,7 +412,6 @@ def traceOf (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ(S, ⊤)
     rw [sectionsBaseChangeEquivOf_symm_res H F hbij]
     induction (sectionsBaseChangeEquivOf H F hbij U).symm
         (Stacks.Tag0CKW.pushforwardSection y) with
-    | zero => simp only [map_zero]
     | tmul b x =>
       simp only [LinearMap.lTensor_tmul, LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
       exact ((baseResHom iX F (leOfHom i)).map_smul (f b) x).symm
@@ -443,7 +437,7 @@ the trace of `f` is multiplication by `f(b)`. -/
 theorem twistedUnit_comp_traceOf (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ(S, ⊤))
     (b : Γ(T, ⊤)) :
     Stacks.Tag0CKW.twistedUnit k p F b ≫ traceOf H F hbij f =
-      (Scheme.smulEnd X ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b))).app F := by
+      (Scheme.smulEnd X ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b))).asHom.app F := by
   let := baseAlgebra q
   ext U x
   let := baseModule iX F U

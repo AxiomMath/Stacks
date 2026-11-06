@@ -62,6 +62,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_properKernelPairReduction :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_properKernelPairReduction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An isomorphism of presheaves on the big fppf site of `S` is a finite morphism: its base change
 along a morphism from an affine object of the site is that object, with the identity as
 projection. -/
@@ -155,14 +166,14 @@ theorem isSurjective_π_of_isProper (D : KernelPairCoequalizer B S hS g)
 
 /-! ### Clause (4) -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The quotient morphism identifies the two projections of the presheaf fibre product
 `Y ×_X Y`. -/
 theorem pullback_fst_π_eq_pullback_snd_π (D : KernelPairCoequalizer B S hS g) :
     pullback.fst g.hom g.hom ≫ D.π.hom = pullback.snd g.hom g.hom ≫ D.π.hom := by
   have sq := AlgebraicSpaces.isPullback_hom B S hS (IsPullback.of_hasPullback g g)
-  rw [← cancel_epi sq.isoPullback.hom, ← Category.assoc, sq.isoPullback_hom_fst,
-    ← Category.assoc, sq.isoPullback_hom_snd]
-  exact congrArg (fun k => k.hom) D.equalizes
+  rw [← sq.isoPullback_inv_fst, ← sq.isoPullback_inv_snd, Category.assoc, Category.assoc]
+  exact congrArg (sq.isoPullback.inv ≫ ·) (congrArg (fun k => k.hom) D.equalizes)
 
 /-- A morphism `m` between fibre products compatible with the projections is a base change of
 `f` when the outer rectangle is a pullback. -/

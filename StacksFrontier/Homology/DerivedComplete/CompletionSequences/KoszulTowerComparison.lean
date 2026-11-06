@@ -119,7 +119,7 @@ private lemma powerDifference_shift {A : Type u} [CommRing A]
         piComparison (shiftFunctor _ n) (fun _ : ℕ ↦ X) := by
   apply Pi.hom_ext
   intro m
-  simp only [powerDifference, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  simp only [powerDifference, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, ← Functor.map_comp, Functor.map_sub,
     Linear.comp_smul, Category.comp_id, Functor.map_smul]
 
@@ -274,6 +274,7 @@ private lemma coefficientDifferential_empty (f : A)
     Int.coe_negOnePow, smul_smul, ModuleCat.hom_add, ModuleCat.hom_comp,
     ConcreteCategory.hom_ofHom, ModuleCat.hom_smul, LinearMap.add_apply, LinearMap.coe_comp,
     LinearMap.coe_mk, AddHom.coe_mk, Function.comp_apply, Function.eval]
+  rw [LinearMap.map_add, LinearMap.map_smul]
   congr 1
   · show (C.d (t + 0) (t + 1 + 0) ≫ eqToHom _) (x ∅) =
       (C.d (t + 0) (t + 1)) (x ∅)

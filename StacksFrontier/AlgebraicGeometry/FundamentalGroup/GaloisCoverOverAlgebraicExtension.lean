@@ -135,7 +135,7 @@ theorem exists_finiteEtaleGaloisCover_model_of_isAlgebraic [Algebra.IsAlgebraic 
         (algebraMap K (Algebra.adjoin K (s : Set Kbar))))) f) G)
       (P : Z.obj.left ⟶ V.obj.left),
       IsPullback P Z.obj.hom V.obj.hom (AdjoinFinset.bcProj K Kbar f (Opposite.op s)) ∧
-        ∀ g : Gᵐᵒᵖ, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left := by
+        ∀ g : Gᵐᵒᵖ, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left := by
   have : ∀ i, CompactSpace ((AdjoinFinset.bcDiagram K Kbar f).obj i) :=
     compactSpace_bcDiagram_obj K Kbar f
   have : ∀ i, QuasiSeparatedSpace ((AdjoinFinset.bcDiagram K Kbar f).obj i) :=
@@ -166,7 +166,7 @@ theorem exists_finiteEtaleGaloisCover_model_of_isAlgClosure [IsAlgClosure K Kbar
         (algebraMap K (Algebra.adjoin K (s : Set Kbar))))) f) G)
       (P : Z.obj.left ⟶ V.obj.left),
       IsPullback P Z.obj.hom V.obj.hom (AdjoinFinset.bcProj K Kbar f (Opposite.op s)) ∧
-        ∀ g : Gᵐᵒᵖ, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left :=
+        ∀ g : Gᵐᵒᵖ, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left :=
   have : Algebra.IsAlgebraic K Kbar := IsAlgClosure.isAlgebraic
   exists_finiteEtaleGaloisCover_model_of_isAlgebraic K Kbar f G Z
 
@@ -200,8 +200,8 @@ theorem exists_finiteEtaleGaloisCover_model_of_isGalois [Algebra.IsAlgebraic K K
   obtain ⟨e, -⟩ := GaloisCoverLimits.exists_equivariant_iso_of_isPullback
     (AdjoinFinset.bcProj K Kbar f (Opposite.op s)) V.obj
     (FiniteEtaleGaloisCover.ofIsGalois A).obj P hP
-    (fun g : (Aut A)ᵐᵒᵖ ↦ (V.action g).hom)
-    (fun g : (Aut A)ᵐᵒᵖ ↦ ((FiniteEtaleGaloisCover.ofIsGalois A).action g).hom) hact
+    (fun g : (Aut A)ᵐᵒᵖ ↦ (V.action g).asIso.hom)
+    (fun g : (Aut A)ᵐᵒᵖ ↦ ((FiniteEtaleGaloisCover.ofIsGalois A).action g).asIso.hom) hact
   exact ⟨s, V, ⟨e⟩⟩
 
 end AlgebraicExtensionLimit

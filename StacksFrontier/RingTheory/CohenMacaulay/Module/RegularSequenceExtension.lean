@@ -2,6 +2,7 @@ module
 
 public import Mathlib.RingTheory.KrullDimension.Module
 import Mathlib.RingTheory.KrullDimension.Regular
+import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Polynomial.Basic

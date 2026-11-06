@@ -637,6 +637,14 @@ theorem coherent_tfae (F : X.Modules) :
 /-- **On a locally Noetherian scheme the structure sheaf is coherent.** -/
 @[stacks 01XZ "the structure sheaf is coherent"]
 theorem structureSheaf_isCoherent : (SheafOfModules.unit X.ringCatSheaf).IsCoherent :=
+  have : HasWeakSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u} := inferInstance
+  have : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} := inferInstance
+  have : ∀ Y : X.Opens, HasSheafify ((Opens.grothendieckTopology X).over Y) AddCommGrpCat.{u} :=
+    inferInstance
+  have : ∀ Y : X.Opens,
+      ((Opens.grothendieckTopology X).over Y).WEqualsLocallyBijective AddCommGrpCat.{u} :=
+    inferInstance
+  have : HasBinaryProducts X.Opens := inferInstance
   isCoherent_of_isQuasicoherent_isFiniteType (SheafOfModules.unit X.ringCatSheaf)
 
 /-- **A finite locally free module on a locally Noetherian scheme is coherent.** -/

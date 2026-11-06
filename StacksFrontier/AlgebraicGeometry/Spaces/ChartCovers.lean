@@ -44,6 +44,13 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_chartCovers
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Restricting along a composite of chart morphisms, on the represented presheaves. -/
 theorem yoneda_map_comp_left {T T' T'' : SmallEtale B S hS X} (h : T'' ⟶ T') (g : T' ⟶ T) :
     yoneda.map (h ≫ g).hom.left = yoneda.map h.hom.left ≫ yoneda.map g.hom.left :=

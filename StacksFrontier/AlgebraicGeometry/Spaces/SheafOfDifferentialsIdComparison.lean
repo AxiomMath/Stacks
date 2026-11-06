@@ -76,6 +76,8 @@ theorem moduleSheafFunctor_map_pushforwardModulesIsoIdSmallEtale_hom_app
         ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).obj M) :=
   rfl
 
+-- The kernel's check of the defeq of the underlying sheaves of sets exceeds the default.
+set_option maxHeartbeats 1000000 in
 /-- The identification of `AlgebraicGeometry.Space.pushforwardModules_eq_modulePushforward` at an
 identity is the identity on underlying sheaves of sets. -/
 theorem moduleSheafFunctor_map_eqToHom_pushforwardModules_eq_id_app

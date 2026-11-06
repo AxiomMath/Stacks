@@ -72,7 +72,7 @@ theorem isPullback_diag_of_factors_iff (F : Cᵒᵖ ⥤ Type (max w v)) {a b : C
   have hl : ∀ {G : Cᵒᵖ ⥤ Type (max w v)} (g₁ g₂ : G ⟶ F) (U : Cᵒᵖ) (x : G.obj U),
       (prod.fst : F ⨯ F ⟶ F).app U ((prod.lift g₁ g₂).app U x) = g₁.app U x ∧
       (prod.snd : F ⨯ F ⟶ F).app U ((prod.lift g₁ g₂).app U x) = g₂.app U x := fun g₁ g₂ U x =>
-    ⟨by rw [← FunctorToTypes.comp, prod.lift_fst], by rw [← FunctorToTypes.comp, prod.lift_snd]⟩
+    ⟨by rw [← NatTrans.comp_app_apply, prod.lift_fst], by rw [← NatTrans.comp_app_apply, prod.lift_snd]⟩
   apply isPullback_of_isPullback_app
   intro U
   rw [Types.isPullback_iff]

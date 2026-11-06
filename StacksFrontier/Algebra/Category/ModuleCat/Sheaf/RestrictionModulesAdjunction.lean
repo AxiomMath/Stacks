@@ -81,6 +81,21 @@ section Operations
 
 variable (M : SheafOfModules.{w} O)
 
+omit [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w})]
+  [J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [K.HasSheafCompose (forget AddCommGrpCat.{w})] in
+/-- Binary products of sheaves of sets on `D`, supplied directly: instance search for
+`HasLimit (pair _ _)` on the concrete sheaves below times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitPairSheafK (X Y : Sheaf K (Type w)) :
+    HasLimit (pair X Y) := inferInstance
+
+omit [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w})]
+  [J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [K.HasSheafCompose (forget AddCommGrpCat.{w})] in
+/-- Binary products of sheaves of sets on `C`, as for `hasLimitPairSheafK`. -/
+local instance (priority := high) hasLimitPairSheafJ (X Y : Sheaf J (Type w)) :
+    HasLimit (pair X Y) := inferInstance
+
 omit [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w})] in
 /-- Restriction along `G` carries the addition of a module to the addition of its restriction,
 the two products being compared by the product comparison of `G^s`. -/

@@ -178,7 +178,7 @@ theorem hom_ext_of_locally (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) 
   | mk z =>
     have h := congrArg yonedaEquiv (hO z)
     rw [← yonedaEquiv_naturality, ← yonedaEquiv_naturality] at h
-    rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, h]
+    rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h]
 
 /-- The lifts at two stages are related by the transition morphism. -/
 theorem lift_comp_r {i i' : I} (h : i ≤ i') {Y : BigFppfOver B S hS} (a b : Y ⟶ V)

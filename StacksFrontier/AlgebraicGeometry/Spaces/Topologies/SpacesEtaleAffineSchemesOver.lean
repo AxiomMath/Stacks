@@ -211,13 +211,13 @@ theorem baseChangeIsSheaf (V₀ : T.Schemes)
     (toSmallSlice W).op_comp_isSheaf _ _ Q
   have hQ' : Presheaf.IsSheaf (topology W) ((IsEtaleAffineSchemeOver W).ι.op ⋙
       ((AffineSchemesOver.toSlice T W.obj).op ⋙ Pab.obj)) := hQ
+  let eb0 := (sheafToPresheaf _ _).mapIso ((SheafOfModules.toSheaf _).mapIso
+      ((Stacks.DenseSubsiteBaseChange.associatedSheafRestrictionIso
+        (AffineSchemesOver.baseChangeIsSheaf V₀ hV₀ e)).app M))
   let eb : (AffineSchemesOver.toSlice T W.obj).op ⋙ Pab.obj ≅
       ((Stacks.TerminalBaseChange.baseChangePresheaf.{u + 1}
           (AffineSchemesOver.ringPresheaf (T := T) (V := W.obj))
-          (AffineSchemesOver.isTerminalOfIso V₀ hV₀ e)).obj M).presheaf :=
-    (sheafToPresheaf _ _).mapIso ((SheafOfModules.toSheaf _).mapIso
-      ((Stacks.DenseSubsiteBaseChange.associatedSheafRestrictionIso
-        (AffineSchemesOver.baseChangeIsSheaf V₀ hV₀ e)).app M))
+          (AffineSchemesOver.isTerminalOfIso V₀ hV₀ e)).obj M).presheaf := eb0
   rw [baseChangePresheaf_presheaf_eq]
   exact (Presheaf.isSheaf_of_iso_iff (Functor.isoWhiskerLeft (IsEtaleAffineSchemeOver W).ι.op eb)).1
     hQ'

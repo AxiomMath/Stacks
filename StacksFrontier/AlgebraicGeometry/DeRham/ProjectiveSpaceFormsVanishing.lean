@@ -67,7 +67,7 @@ theorem isZero_relativeDifferentialForms_of_lt {A : Type u} [CommRing A] (m : �
       (Scheme.Modules.isExteriorAlgebra_exteriorAlgebra _) p x).toEquiv ?_
   exact @exteriorPower.subsingleton_of_span_eq_top_of_card_lt
     (projStalk A (m + 1) x) _ _ _ (moduleStalkProjDifferentials A (m + 1) x)
-    {j : Fin (m + 1 + 1) // j ≠ i} _ _
+    {j : Fin (m + 1 + 1) // j ≠ i} _
     (fun j => chartDiffGerm A (m + 1) x i hxi j.1)
     (span_range_chartDiffGerm_eq_top A (m + 1) x i hxi hxi) p hcard
 

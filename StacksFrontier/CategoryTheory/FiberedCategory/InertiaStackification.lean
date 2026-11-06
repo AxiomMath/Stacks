@@ -117,13 +117,13 @@ variable {𝒴 : Type u₄} [Category.{v} 𝒴] {p : 𝒴 ⥤ 𝒞}
 
 /-- An automorphism of an object of the absolute inertia lies over an identity. -/
 private lemma isHomLift_auto {A : RelativeInertia p} {R : 𝒞} (hA : p.obj A.obj = R) :
-    p.IsHomLift (𝟙 R) A.auto.hom :=
-  IsHomLift.of_fac' p _ A.auto.hom hA hA (by rw [A.cond]; simp)
+    p.IsHomLift (𝟙 R) A.auto.asIso.hom :=
+  IsHomLift.of_fac' p _ A.auto.asIso.hom hA hA (by rw [A.cond]; simp)
 
 /-- The inverse of the automorphism of an object of the absolute inertia lies over an identity. -/
 private lemma isHomLift_auto_inv {A : RelativeInertia p} {R : 𝒞} (hA : p.obj A.obj = R) :
-    p.IsHomLift (𝟙 R) A.auto.inv :=
-  IsHomLift.of_fac' p _ A.auto.inv hA hA (by rw [A.cond_inv]; simp)
+    p.IsHomLift (𝟙 R) A.auto.asIso.inv :=
+  IsHomLift.of_fac' p _ A.auto.asIso.inv hA hA (by rw [A.cond_inv]; simp)
 
 /-- An endomorphism lying over an identity is sent to an identity by the structure functor. -/
 private lemma map_eq_id_of_isHomLift_id (R : 𝒞) {a : 𝒴} (φ : a ⟶ a) [p.IsHomLift (𝟙 R) φ] :
@@ -155,10 +155,10 @@ private lemma isStronglyCartesian_of_hom {A B : RelativeInertia p} {R T : 𝒞} 
     Functor.IsStronglyCartesian.map_isHomLift p f ψ.hom rfl χ.hom
   have hχ₀fac : χ₀ ≫ ψ.hom = χ.hom :=
     Functor.IsStronglyCartesian.fac p f ψ.hom rfl χ.hom
-  have hcomm : χ₀ ≫ A.auto.hom = Z.auto.hom ≫ χ₀ := by
-    have h₁ : p.IsHomLift g (χ₀ ≫ A.auto.hom) := inferInstance
-    have h₂ : p.IsHomLift g (Z.auto.hom ≫ χ₀) := by
-      simpa using (inferInstance : p.IsHomLift (𝟙 (p.obj Z.obj) ≫ g) (Z.auto.hom ≫ χ₀))
+  have hcomm : χ₀ ≫ A.auto.asIso.hom = Z.auto.asIso.hom ≫ χ₀ := by
+    have h₁ : p.IsHomLift g (χ₀ ≫ A.auto.asIso.hom) := inferInstance
+    have h₂ : p.IsHomLift g (Z.auto.asIso.hom ≫ χ₀) := by
+      simpa using (inferInstance : p.IsHomLift (𝟙 (p.obj Z.obj) ≫ g) (Z.auto.asIso.hom ≫ χ₀))
     refine Functor.IsStronglyCartesian.ext p f ψ.hom g ?_
     rw [Category.assoc, ← ψ.comm, ← Category.assoc, hχ₀fac, Category.assoc, hχ₀fac]
     exact χ.comm
@@ -176,7 +176,7 @@ absolute inertia carries an automorphism compatible with `B`'s, induced by the u
 of the lift. -/
 private lemma exists_auto_of_isStronglyCartesian (B : RelativeInertia p) {R T : 𝒞} (f : R ⟶ T)
     {x : 𝒴} (φ : x ⟶ B.obj) (hφ : p.IsStronglyCartesian f φ) :
-    ∃ β : x ≅ x, p.IsHomLift (𝟙 R) β.hom ∧ β.hom ≫ φ = φ ≫ B.auto.hom := by
+    ∃ β : x ≅ x, p.IsHomLift (𝟙 R) β.hom ∧ β.hom ≫ φ = φ ≫ B.auto.asIso.hom := by
   have := hφ
   have hBT : p.obj B.obj = T := IsHomLift.codomain_eq p f φ
   have := isHomLift_auto hBT
@@ -193,10 +193,10 @@ private lemma exists_auto_of_isStronglyCartesian (B : RelativeInertia p) {R T : 
     refine Functor.IsStronglyCartesian.ext p f φ (𝟙 R) ?_
     rw [Category.assoc, hb, ← Category.assoc, ha, Category.assoc, hcd, Category.comp_id,
       Category.id_comp]
-  obtain ⟨αh, hαhlift, hαhfac⟩ := hmk B.auto.hom inferInstance
-  obtain ⟨αi, hαilift, hαifac⟩ := hmk B.auto.inv inferInstance
-  exact ⟨⟨αh, αi, hinv _ _ _ _ hαhfac hαifac B.auto.hom_inv_id,
-    hinv _ _ _ _ hαifac hαhfac B.auto.inv_hom_id⟩, hαhlift, hαhfac⟩
+  obtain ⟨αh, hαhlift, hαhfac⟩ := hmk B.auto.asIso.hom inferInstance
+  obtain ⟨αi, hαilift, hαifac⟩ := hmk B.auto.asIso.inv inferInstance
+  exact ⟨⟨αh, αi, hinv _ _ _ _ hαhfac hαifac B.auto.asIso.hom_inv_id,
+    hinv _ _ _ _ hαifac hαhfac B.auto.asIso.inv_hom_id⟩, hαhlift, hαhfac⟩
 
 /-- The object of the absolute inertia produced by `exists_auto_of_isStronglyCartesian`, together
 with the morphism of the inertia the cartesian lift becomes. -/
@@ -205,7 +205,7 @@ private lemma exists_lift_of_isStronglyCartesian (B : RelativeInertia p) {R T : 
     ∃ (A : RelativeInertia p) (ψ : A ⟶ B), p.IsStronglyCartesian f ψ.hom := by
   obtain ⟨β, hβlift, hβfac⟩ := exists_auto_of_isStronglyCartesian B f φ hφ
   have := hβlift
-  exact ⟨⟨x, β, map_eq_id_of_isHomLift_id (p := p) R β.hom⟩, ⟨φ, hβfac.symm⟩, hφ⟩
+  exact ⟨⟨x, Aut.of β, map_eq_id_of_isHomLift_id (p := p) R β.hom⟩, ⟨φ, hβfac.symm⟩, hφ⟩
 
 /-- Conversely, a strongly cartesian morphism of the absolute inertia has strongly cartesian
 underlying morphism. Two strongly cartesian lifts of one and the same morphism at one and the same
@@ -274,12 +274,12 @@ private abbrev fiberπ (U : 𝒞) : (RelativeInertia.toBase p).Fiber U ⥤ p.Fib
 of the underlying object in the fibre of `p` over `U`. -/
 private def autoHom {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
     (fiberπ (p := p) U).obj A ⟶ (fiberπ (p := p) U).obj A :=
-  ⟨A.1.auto.hom, isHomLift_auto (p := p) A.2⟩
+  ⟨A.1.auto.asIso.hom, isHomLift_auto (p := p) A.2⟩
 
 /-- The automorphism of `A`, read as an endomorphism of `A` in the fibre of the inertia over
 `U`. -/
 private def fiberAuto {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) : A ⟶ A :=
-  ⟨⟨A.1.auto.hom, rfl⟩,
+  ⟨⟨A.1.auto.asIso.hom, rfl⟩,
     (RelativeInertia.isHomLift_π_comp_iff (p := p) (𝟙 U) _).mpr (isHomLift_auto (p := p) A.2)⟩
 
 /-- The automorphism of `A`, read as an automorphism of the underlying object in the fibre of `p`
@@ -287,9 +287,9 @@ over `U`. -/
 private def autoIso {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
     (fiberπ (p := p) U).obj A ≅ (fiberπ (p := p) U).obj A where
   hom := autoHom (p := p) A
-  inv := ⟨A.1.auto.inv, isHomLift_auto_inv (p := p) A.2⟩
-  hom_inv_id := Functor.Fiber.hom_ext A.1.auto.hom_inv_id
-  inv_hom_id := Functor.Fiber.hom_ext A.1.auto.inv_hom_id
+  inv := ⟨A.1.auto.asIso.inv, isHomLift_auto_inv (p := p) A.2⟩
+  hom_inv_id := Functor.Fiber.hom_ext A.1.auto.asIso.hom_inv_id
+  inv_hom_id := Functor.Fiber.hom_ext A.1.auto.asIso.inv_hom_id
 
 @[simp]
 private lemma autoIso_hom {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
@@ -297,12 +297,12 @@ private lemma autoIso_hom {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
 
 @[simp]
 private lemma fiberInclusion_map_autoHom {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
-    Functor.Fiber.fiberInclusion.map (autoHom (p := p) A) = A.1.auto.hom := rfl
+    Functor.Fiber.fiberInclusion.map (autoHom (p := p) A) = A.1.auto.asIso.hom := rfl
 
 omit [p.IsFibered] in
 @[simp]
 private lemma fiberInclusion_map_fiberAuto {U : 𝒞} (A : (RelativeInertia.toBase p).Fiber U) :
-    (Functor.Fiber.fiberInclusion.map (fiberAuto (p := p) A)).hom = A.1.auto.hom := rfl
+    (Functor.Fiber.fiberInclusion.map (fiberAuto (p := p) A)).hom = A.1.auto.asIso.hom := rfl
 
 variable [(RelativeInertia.toBase p).IsFibered]
 
@@ -317,8 +317,8 @@ private lemma mapPullbackFiberIso_fiberAuto {U : 𝒞} (A : (RelativeInertia.toB
       Functor.pullbackFiberHom (autoHom (p := p) A) f := by
   refine Functor.pullbackFiberHom_uniq (autoHom (p := p) A) f _ ?_
   have hcomm :
-      (Functor.IsPreFibered.pullbackMap A.2 f).hom ≫ A.1.auto.hom =
-        (Functor.pullbackFiber (RelativeInertia.toBase p) A f).1.auto.hom ≫
+      (Functor.IsPreFibered.pullbackMap A.2 f).hom ≫ A.1.auto.asIso.hom =
+        (Functor.pullbackFiber (RelativeInertia.toBase p) A f).1.auto.asIso.hom ≫
           (Functor.IsPreFibered.pullbackMap A.2 f).hom :=
     (Functor.IsPreFibered.pullbackMap A.2 f).comm
   simp only [Functor.map_comp, Category.assoc, fiberInclusion_map_autoHom,
@@ -431,8 +431,8 @@ private lemma exists_conj_of_comm {U : 𝒞} (A B : (RelativeInertia.toBase p).F
     rw [← Category.assoc s, ← hs]
     simp
   have hcomm : Functor.Fiber.fiberInclusion.map t ≫
-        (Functor.pullbackFiber (RelativeInertia.toBase p) B f).1.auto.hom =
-      (Functor.pullbackFiber (RelativeInertia.toBase p) A f).1.auto.hom ≫
+        (Functor.pullbackFiber (RelativeInertia.toBase p) B f).1.auto.asIso.hom =
+      (Functor.pullbackFiber (RelativeInertia.toBase p) A f).1.auto.asIso.hom ≫
         Functor.Fiber.fiberInclusion.map t := by
     have h := congrArg Functor.Fiber.fiberInclusion.map hconj
     rw [Functor.map_comp, Functor.map_comp] at h
@@ -774,7 +774,7 @@ private lemma hasEffectiveDescent_toBase {J : GrothendieckTopology 𝒞}
         Functor.Fiber.fiberInclusion.map (Functor.fiberIsoOfCartesian
             (z := Functor.pullbackFiber p y₀ f) f
             (Functor.IsPreFibered.pullbackMap y₀.2 f) (ζ f hf) inferInstance (hζcart f hf)).hom ≫
-          (D.obj f hf).1.auto.hom ≫ ζ f hf := by
+          (D.obj f hf).1.auto.asIso.hom ≫ ζ f hf := by
     intro V f hf
     simp only [hθdef, Iso.trans_hom, Iso.symm_hom, CategoryTheory.Functor.map_comp,
       Category.assoc, autoIso_hom, fiberInclusion_map_autoHom]
@@ -799,7 +799,7 @@ private lemma hasEffectiveDescent_toBase {J : GrothendieckTopology 𝒞}
           Functor.Fiber.fiberInclusion.map (Functor.fiberIsoOfCartesian
               (z := Functor.pullbackFiber p y₀ f) f
             (Functor.IsPreFibered.pullbackMap y₀.2 f) (ζ f hf) inferInstance (hζcart f hf)).hom) ≫
-          (D.obj f hf).1.auto.hom ≫ ζ f hf := by
+          (D.obj f hf).1.auto.asIso.hom ≫ ζ f hf := by
       simp only [CategoryTheory.Functor.map_comp, Category.assoc,
         Functor.pullbackFiberCompIso'_hom_fac, Functor.pullbackFiberHom_fac_assoc]
       rw [hθfac f hf]
@@ -851,12 +851,12 @@ private lemma hasEffectiveDescent_toBase {J : GrothendieckTopology 𝒞}
     set Ψ := D.iso hf hb' γ (𝟙 W) (by rw [Category.id_comp]; exact hb) with hΨ
     set mI := Functor.Fiber.fiberInclusion.map Ψ.hom ≫
       Functor.IsPreFibered.pullbackMap (D.obj b hb').2 (𝟙 W) with hmI
-    have hmcomm : (RelativeInertia.π p).map mI ≫ (D.obj b hb').1.auto.hom =
-        (Functor.pullbackFiber (RelativeInertia.toBase p) (D.obj f hf) γ).1.auto.hom ≫
+    have hmcomm : (RelativeInertia.π p).map mI ≫ (D.obj b hb').1.auto.asIso.hom =
+        (Functor.pullbackFiber (RelativeInertia.toBase p) (D.obj f hf) γ).1.auto.asIso.hom ≫
           (RelativeInertia.π p).map mI := mI.comm
     have hncomm : (RelativeInertia.π p).map
-          (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ) ≫ (D.obj f hf).1.auto.hom =
-        (Functor.pullbackFiber (RelativeInertia.toBase p) (D.obj f hf) γ).1.auto.hom ≫
+          (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ) ≫ (D.obj f hf).1.auto.asIso.hom =
+        (Functor.pullbackFiber (RelativeInertia.toBase p) (D.obj f hf) γ).1.auto.asIso.hom ≫
           (RelativeInertia.π p).map (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ) :=
       (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ).comm
     have hmlift : p.IsHomLift (𝟙 W) ((RelativeInertia.π p).map mI) := by
@@ -896,15 +896,15 @@ private lemma hasEffectiveDescent_toBase {J : GrothendieckTopology 𝒞}
     rw [← hsm, ← hs]
     simp only [Category.assoc]
     rw [← Category.assoc ((RelativeInertia.π p).map
-        (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ)) (D.obj f hf).1.auto.hom (ζ f hf),
+        (Functor.IsPreFibered.pullbackMap (D.obj f hf).2 γ)) (D.obj f hf).1.auto.asIso.hom (ζ f hf),
       hncomm, Category.assoc, ← hmζ,
-      ← Category.assoc ((RelativeInertia.π p).map mI) (D.obj b hb').1.auto.hom (ζ b hb'),
+      ← Category.assoc ((RelativeInertia.π p).map mI) (D.obj b hb').1.auto.asIso.hom (ζ b hb'),
       hmcomm, Category.assoc]
   obtain ⟨α, hα⟩ := Functor.exists_fiberIso_of_locally p (hmor U) hR θ hθcompat
   -- the descended object of the inertia
   have hcomm : ∀ ⦃V : 𝒞⦄ (f : V ⟶ U) (hf : R.arrows f),
       ζ f hf ≫ Functor.Fiber.fiberInclusion.map α.hom =
-        (D.obj f hf).1.auto.hom ≫ ζ f hf := by
+        (D.obj f hf).1.auto.asIso.hom ≫ ζ f hf := by
     intro V f hf
     have h1 := Functor.pullbackFiberHom_fac α.hom f
     rw [hα f hf, hθfac f hf] at h1
@@ -1302,7 +1302,7 @@ private lemma exists_covering_functoriality (hG : p.IsFibredOneMorphism p' G)
         map_eq_id_of_isHomLift_id (p := p) W'
           (Functor.Fiber.fiberInclusion.map (Functor.morRestrict p ŷ ŷ k a₁))⟩,
       ⟨G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀, ?_⟩, ?_⟩
-    · show (G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀) ≫ A'.auto.hom =
+    · show (G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀) ≫ A'.auto.asIso.hom =
         G.map (Functor.Fiber.fiberInclusion.map (Functor.morRestrict p ŷ ŷ k a₁)) ≫
           G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀
       rw [← Category.assoc, hrel, Category.assoc, Category.assoc, hβfac]

@@ -163,9 +163,9 @@ endomorphism of `𝒪_U` given by `x`. -/
 theorem repTheta_spec {T U : BigFppfOver B S hS} (t : T ⟶ U)
     (x : (structureSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.obj
       (op (idChart B S hS U))) :
-    (repRho T (repTheta t x) : ringedToposUnit (representedAlgebraicSpace B S hS T) ⟶ _) =
+    (repRho T (repTheta t x)).asHom =
       (pbUnitIso (representedSpaceMap B S hS t)).inv ≫
-        (pb (representedSpaceMap B S hS t)).map (repRho U x : _ ⟶ _) ≫
+        (pb (representedSpaceMap B S hS t)).map (repRho U x).asHom ≫
           (pbUnitIso (representedSpaceMap B S hS t)).hom :=
   map_baseChangeRingHom.{u} (ρ := repRho U) (repRho T) (bijective_repRho T)
     (modulePullback B S hS (representedSpaceMap B S hS t))

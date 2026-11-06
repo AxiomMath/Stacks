@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Adjunction.Additive
 public import Mathlib.CategoryTheory.Triangulated.Adjunction
 public import Mathlib.CategoryTheory.Triangulated.Functor
 public import StacksCore.Tactic.StacksAttribute

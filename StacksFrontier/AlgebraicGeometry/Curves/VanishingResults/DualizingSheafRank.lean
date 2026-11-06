@@ -114,7 +114,7 @@ theorem tensorLeftFunctor_map_baseScalar (A M : X.Modules) (c : k) :
     let r : (X.presheaf ⋙ forget₂ CommRingCat RingCat).obj U :=
       baseRingToSections k (Over.mk f) U c
     exact (congrArg ((adj.unit.app ((tensorLeft Av).obj Mv)).app U).hom
-      (TensorProduct.tmul_smul r x y)).trans
+      (TensorProduct.tmul_smul (show X.presheaf.obj U from r) x y)).trans
         (((adj.unit.app ((tensorLeft Av).obj Mv)).app U).hom.map_smul r (x ⊗ₜ y))
   exact (adj.homEquiv ((tensorLeft Av).obj Mv) _).injective <| (adj.homEquiv_unit _ _ _).trans
     (((adj.unit.naturality ((tensorLeft Av).map m)).symm.trans key).trans

@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Abelian
 public import Mathlib.AlgebraicTopology.SimplexCategory.Basic
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Basic
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.Topology.Category.TopCat.Basic

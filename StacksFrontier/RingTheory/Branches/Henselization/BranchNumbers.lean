@@ -273,7 +273,7 @@ theorem numberOfBranches_characterizations
         IsLocalRing.maximalIdeal A = m'.asIdeal.comap (algebraMap A A') := fun m' => by
       symm
       exact IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m'.asIdeal)
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m'.asIdeal)
     refine ⟨hcontract, ?_⟩
     obtain ⟨e, he⟩ := IsLocalRing.IsHenselization.exists_residueFieldEquiv
       (R := A) (L := ksep) (Rh := Ash)
@@ -327,7 +327,7 @@ theorem numberOfBranches_characterizations
       let q := m.asIdeal.comap
         (Algebra.TensorProduct.includeRight : Ash →ₐ[A] Tsh).toRingHom
       have hq : q.IsMaximal :=
-        Ideal.isMaximal_comap_of_isIntegral_of_isMaximal
+        Ideal.isMaximal_under_of_isIntegral_of_isMaximal
           (R := Ash) (S := Tsh) m.asIdeal
       have hqeq : q = IsLocalRing.maximalIdeal Ash := IsLocalRing.eq_maximalIdeal hq
       have hpcomap : p.comap (algebraMap A _) = IsLocalRing.maximalIdeal A := by
@@ -335,8 +335,8 @@ theorem numberOfBranches_characterizations
         ext x
         simp [p, q, Tsh]
       let : p.IsPrime := m.isMaximal.isPrime.comap _
-      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) p
-      rw [hpcomap]
+      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) p
+      rw [Ideal.under, hpcomap]
       exact IsLocalRing.maximalIdeal.isMaximal A
     let maxEquivFiber : MaximalSpectrum Tsh ≃
         Σ m' : MaximalSpectrum A',

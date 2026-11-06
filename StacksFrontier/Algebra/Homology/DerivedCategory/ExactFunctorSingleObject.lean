@@ -55,13 +55,13 @@ variable [EnoughInjectives A] [PreservesFiniteLimits F] [PreservesFiniteColimits
 def rightDerivedFunctorPlusObjSingleIso (X : A) :
     F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X) ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (F.obj X) :=
-  haveI : IsIso F.rightDerivedFunctorPlusUnit :=
+  haveI : IsIso F.rightDerivedFunctorPlusUnith :=
     isIso_rightDerivedFunctorPlusUnit_of_preservesHomology F
-  haveI : IsIso (F.rightDerivedFunctorPlusUnit.app
+  haveI : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) :=
-    NatIso.isIso_app_of_isIso F.rightDerivedFunctorPlusUnit _
+    NatIso.isIso_app_of_isIso F.rightDerivedFunctorPlusUnith _
   F.rightDerivedFunctorPlus.mapIso ((singleFunctorPlusIsoCompQh (A := A) 0).app X) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj X))).symm ≪≫
     DerivedCategory.Plus.Qh.mapIso (F.mapHomotopyCategoryPlusObjSingleIso 0 X) ≪≫
     ((singleFunctorPlusIsoCompQh (A := B) 0).app (F.obj X)).symm

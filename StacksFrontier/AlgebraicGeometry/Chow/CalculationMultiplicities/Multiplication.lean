@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.GroupWithZero.Action.Regular
 public import Mathlib.RingTheory.QuotSMulTop
 public import StacksCore.Algebra.Homology.HomologicalComplexAbelian
 public import StacksCore.Tactic.StacksAttribute

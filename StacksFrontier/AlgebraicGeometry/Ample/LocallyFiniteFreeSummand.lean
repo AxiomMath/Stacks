@@ -679,6 +679,7 @@ lemma tensorRightUnitor_inv_apply
   exact (congrArg (fun z => ((tensorRightUnitor X L).inv.val.app (Opposite.op W)).hom z)
     hq).symm.trans (inv_app_hom_apply (tensorRightUnitor X L) (Opposite.op W) q)
 
+set_option maxHeartbeats 2000000 in
 /-- Associativity of the tensor product of sheaves of modules, in the form needed here:
 `(L ⊗ M) ⊗ N ≅ L ⊗ (M ⊗ N)`. -/
 noncomputable def tensorAssoc
@@ -713,6 +714,7 @@ noncomputable def tensorAssoc
       (C := PresheafOfModules.{u} (ringSheaf X).obj) L.val M.val N.val) ≪≫
     @asIso _ _ _ _ (S.map (L.val ◁ η (M.val ⊗ N.val))) h2
 
+set_option maxHeartbeats 2000000 in
 /-- The associativity isomorphism sends `(l ⊗ m) ⊗ n` to `l ⊗ (m ⊗ n)`. -/
 lemma tensorAssoc_hom_pure
     (X : RingedSpace.{u, w})
@@ -887,12 +889,17 @@ noncomputable def tensorTwistAutomorphism
   (tensorRightUnitor X L).symm ≪≫ T.mapIso e.symm ≪≫
     tensorSwapFirstTwo X L N ≪≫ T.mapIso e ≪≫ tensorRightUnitor X L
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Pairing with a fixed section `nW` of `N` over `W`, as a map of modules of sections. Stated
 at the global module objects so that all instance synthesis happens here. -/
 private noncomputable def tmulRight
     (X : RingedSpace.{u, w}) (L N : _root_.SheafOfModules.{u} (ringSheaf X))
     (W : Opens X) (nW : N.val.obj (Opposite.op W)) :
     L.val.obj (Opposite.op W) ⟶ (L.val ⊗ N.val).obj (Opposite.op W) :=
+  letI : Module ((ringSheaf X).obj.obj (Opposite.op W))
+      (TensorProduct (X.presheaf.obj (Opposite.op W)) (L.val.obj (Opposite.op W))
+        (N.val.obj (Opposite.op W))) :=
+    inferInstanceAs (Module (X.presheaf.obj (Opposite.op W)) _)
   ModuleCat.ofHom
     ((TensorProduct.mk (X.presheaf.obj (Opposite.op W))
       (L.val.obj (Opposite.op W)) (N.val.obj (Opposite.op W))).flip nW)
@@ -930,7 +937,7 @@ private noncomputable def evalOver
           rw [Functor.map_comp]
           rfl
         _ = _ := by congr 1
-    have hτ := PresheafOfModules.Monoidal.tensorObj_map_tmul h mv nV
+    have hτ := PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul h mv nV
     have ha := PresheafOfModules.naturality_apply (a.ι.app N) h
       (mv ⊗ₜ[X.presheaf.obj (Opposite.op v)] nV)
     have hψ := PresheafOfModules.naturality_apply ψ h
@@ -1047,7 +1054,7 @@ theorem tensorTwistAutomorphism_hom_app_apply
     (map_sum ((L.val ⊗ N.val).map j).hom
         (fun i => s i ⊗ₜ[X.presheaf.obj (Opposite.op U)] t i) Finset.univ).trans
       (Finset.sum_congr rfl fun i _ =>
-        PresheafOfModules.Monoidal.tensorObj_map_tmul j (s i) (t i))
+        PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul j (s i) (t i))
   have hunit : (((_root_.SheafOfModules.unit (ringSheaf X)).val.map j).hom
       (1 : (ringSheaf X).obj.obj (Opposite.op U))) =
       (1 : (ringSheaf X).obj.obj (Opposite.op W)) :=
@@ -1140,6 +1147,7 @@ theorem tensorTwistAutomorphism_hom_app_apply
             (Opposite.op W)).hom z) e5).trans e6)))
   exact htwist
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The composite of `overToFree` with `freeToOver` is the restriction of the twist
 automorphism of `L`: this is the computation that makes `freeToOver` a split epimorphism. -/
 private lemma overToFree_comp_freeToOver

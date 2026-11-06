@@ -615,7 +615,7 @@ theorem isSmooth_involutionQuotient (hchar : (2 : k) ≠ 0) (B : BigFppfSite.{u}
       (@Smooth.{u} : MorphismProperty Scheme.{u})
       (terminal.from (involutionQuotient k B hS).obj) :=
     ⟨U, V, qmap, eV.hom, h, hqEtale, presheafEtale_of_isIso B (Spec (.of k)) hS eV, hqSurj,
-      Subsingleton.elim _ _, hscheme⟩
+      terminalIsTerminal.hom_ext _ _, hscheme⟩
   exact ((Space.isSmooth_tfae B (Spec (.of k)) hS hX hY
     (terminal.from (involutionQuotient k B hS).obj)).out 1 8).mpr hsurjChart
 

@@ -65,6 +65,14 @@ universe w v u
 
 namespace Stacks.Sheaves.PolynomialSystem
 
+/-- The binary product of the underlying sheaf of sets of a sheaf of commutative rings with
+itself, supplied directly: under Lean v4.35.0 instance search for it times out in this file. -/
+local instance (priority := high) hasBinaryProduct_underlyingRingSheaf {C : Type u}
+    [Category.{v} C] {J : GrothendieckTopology C} [J.HasSheafCompose (forget CommRingCat.{w})]
+    (O : Sheaf J CommRingCat.{w}) :
+    HasBinaryProduct (Stacks.underlyingRingSheaf J O) (Stacks.underlyingRingSheaf J O) :=
+  (inferInstance : HasBinaryProducts (Sheaf J (Type w))).has_limit _
+
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget CommRingCat.{w})]
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]

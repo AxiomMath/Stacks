@@ -65,7 +65,7 @@ theorem satisfiesRS_fibredCategory_of_satisfiesRSFunctor (h : SatisfiesRSFunctor
     exact eq_of_fiber_hom φ
   have hcomp : ∀ t : F.obj (op Y'), F.map j.op (F.map j'.op t) = F.map i.op (F.map i'.op t) := by
     intro t
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       w]
   have : G.Faithful := ⟨fun {_ _} _ _ _ => Subsingleton.elim _ _⟩
   have : G.Full := by
@@ -157,7 +157,7 @@ private theorem descentHom_fibredCategory_of_isColimit {I : Type u} [Category.{u
   have hs' : F.map (D.map s').op a = F.map (D.map s').op b := hs
   let a' := F.map (D.map s').op a
   have hka : F.map (c.π.app k).op a' = t := by
-    rw [ht, ← FunctorToTypes.map_comp_apply, ← op_comp, c.w s']
+    rw [ht, ← Functor.map_comp_apply, ← op_comp, c.w s']
   obtain ⟨dx, hdx⟩ := Stack.presheafFiberHom B S hS F (D.map s')
     (fibredCategoryFiberMk a') (fibredCategoryFiberMk a) rfl
   obtain ⟨dy, hdy⟩ := Stack.presheafFiberHom B S hS F (D.map s')

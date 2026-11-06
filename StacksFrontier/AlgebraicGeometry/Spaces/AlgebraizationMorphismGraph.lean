@@ -136,7 +136,9 @@ theorem fibreTransition_comp_eq_of_succ
   | base =>
     have : fibreTransition V I fX (le_refl m) = 𝟙 _ :=
       fibreSpace_hom_ext V I fX
-        (by simpa using hom_fibreTransition_comp_hom_fibreInclusion V I fX (le_refl m))
+        (by
+          rw [ObjectProperty.FullSubcategory.id_hom, Category.id_comp]
+          exact hom_fibreTransition_comp_hom_fibreInclusion V I fX (le_refl m))
     rw [this, Category.id_comp]
   | succ n hmn ih =>
     rw [← fibreTransition_trans V I fX hmn (Nat.le_succ n), Category.assoc, hc, ih]

@@ -441,7 +441,7 @@ theorem exists_pushforwardTransition_apply_eq {i₀ : Iᵒᵖ}
     change Gl.obj.map ε.inv.op (Gl.obj.map ε.hom.op _) =
       Gl.obj.map ε.inv.op (Gl.obj.map ε.hom.op _) at h3
     rwa [presheaf_map_map_apply_types, presheaf_map_map_apply_types, Iso.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply, FunctorToTypes.map_id_apply] at h3
+      Functor.map_id_apply, Functor.map_id_apply] at h3
   have : CompactSpace ((smallEtaleBaseChange (D.map (b ≫ a))).obj V₀).left :=
     compactSpace_smallEtaleBaseChange_obj (D.map (b ≫ a)) V₀ inferInstance
   obtain ⟨m, e, he⟩ :=

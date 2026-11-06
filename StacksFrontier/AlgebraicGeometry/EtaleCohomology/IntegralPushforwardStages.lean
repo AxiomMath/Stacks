@@ -76,13 +76,14 @@ def smallEtaleRestrictionNeighborhoods {K : Type u} [Field K] [IsAlgClosed K]
     (hz : x ≫ B.inclusion.map k = z) :
     (geometricPointFiber B T'.1 T'.property ⟨K, x⟩).Elements ⥤
       (geometricPointFiber B T.1 T.property ⟨K, z⟩).Elements where
-  obj A := ⟨(smallEtalePostcompose B T.1 T.property (SmallEtale.ofEtaleHom B k)).obj A.1,
+  obj A := Functor.elementsMk _
+    ((smallEtalePostcompose B T.1 T.property (SmallEtale.ofEtaleHom B k)).obj A.1)
     ⟨A.2.1, by
       calc _ = A.2.1 ≫ (B.inclusion.map A.1.obj.hom ≫ B.inclusion.map k) := by
             simp [smallEtalePostcompose]
         _ = z := by
             rw [← Category.assoc]
-            exact (congrArg (· ≫ B.inclusion.map k) A.2.2).trans hz⟩⟩
+            exact (congrArg (· ≫ B.inclusion.map k) A.2.2).trans hz⟩
   map {A A'} φ := ⟨(smallEtalePostcompose B T.1 T.property (SmallEtale.ofEtaleHom B k)).map φ.1, by
     apply Subtype.ext
     change A.2.1 ≫ (SmallEtale.toScheme B T.1 T.property).map
@@ -168,7 +169,7 @@ theorem nonempty_etaleStalk_pushforward_of_isEmpty_lifts {X Y : B.Scheme} (k : X
     exact hO hp
   obtain ⟨s⟩ := nonempty_sections_of_isEmpty B X.1 X.property F _ hempty
   exact ⟨colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property z)).op ⋙
-    ((B.smallPushforward k _).obj F).obj) (op ⟨W, w⟩) s⟩
+    ((B.smallPushforward k _).obj F).obj) (op (Functor.elementsMk _ W w)) s⟩
 
 end Empty
 
@@ -277,7 +278,7 @@ theorem exists_stage_neighborhood (x : GeometricPoint X.1)
   have hw : w ≫ ai = x.hom ≫ pi := by
     simp only [w, Category.assoc, pullback.condition, reassoc_of% he, reassoc_of% hb]
   let W : (geometricPointFiber B (P.diagram.obj i).1 (P.diagram.obj i).property
-      (x.map (B.inclusion.map (P.proj.app i)))).Elements := ⟨Wi, ⟨w, hw⟩⟩
+      (x.map (B.inclusion.map (P.proj.app i)))).Elements := Functor.elementsMk _ Wi ⟨w, hw⟩
   have hpb : IsPullback (B.inclusion.map (pullback.fst Wi.obj.hom (P.proj.app i)))
       (B.inclusion.map (pullback.snd Wi.obj.hom (P.proj.app i))) ai pi :=
     isPullback_smallEtaleBaseChange_inclusion B (P.proj.app i) Wi

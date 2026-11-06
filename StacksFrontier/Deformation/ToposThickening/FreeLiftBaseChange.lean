@@ -209,9 +209,6 @@ lemma freeLiftBaseChangeReduction_d {fR : R' →+* R} (hfR : Function.Surjective
   let : Algebra R S := b.toAlgebra
   intro x
   induction x with
-  | zero =>
-      rw [map_zero, map_zero]
-      exact (((ModuleCat.extendScalars b).map (P.d i j)).hom.map_zero).symm
   | tmul s' y =>
       rw [LinearMap.baseChange_tmul, freeLiftBaseChangeReduction_tmul,
         freeLiftBaseChangeReduction_tmul, L.reduction_d]

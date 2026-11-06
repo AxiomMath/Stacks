@@ -148,6 +148,17 @@ namespace AlgebraicGeometry.Space
 
 open GroupoidInAlgebraicSpaces
 
+local instance (priority := high) hasPullbacks_presheaf_etaleLocalizationStabilizerContainment
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_etaleLocalizationStabilizerContainment
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_etaleLocalizationStabilizerContainment.has_limit _
+
 section Generic
 
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}

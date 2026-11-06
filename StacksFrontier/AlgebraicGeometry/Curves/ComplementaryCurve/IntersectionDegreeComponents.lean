@@ -166,7 +166,7 @@ theorem Ideal.sup_inf_right_of_sup_sup_eq_top {R : Type*} [CommRing R] {A B J : 
   refine le_antisymm (le_inf (sup_le_sup_right inf_le_left _)
     (sup_le_sup_right inf_le_right _)) ?_
   have hco : A ⊔ J ⊔ (B ⊔ J) = ⊤ := by rwa [← sup_sup_distrib_right]
-  rw [Ideal.inf_eq_mul_of_isCoprime (Ideal.isCoprime_iff_sup_eq.mpr hco), Ideal.mul_le]
+  rw [← Ideal.mul_eq_inf_of_coprime hco, Ideal.mul_le]
   intro r hr s hs
   obtain ⟨a, ha, j, hj, rfl⟩ := Submodule.mem_sup.mp hr
   obtain ⟨b, hb, l, hl, rfl⟩ := Submodule.mem_sup.mp hs

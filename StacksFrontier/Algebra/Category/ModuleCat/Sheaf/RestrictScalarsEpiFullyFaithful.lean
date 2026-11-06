@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.FreeRing
+public import Mathlib.GroupTheory.FreeAbelianGroup
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
 public import Mathlib.Algebra.Ring.Shrink
 public import Mathlib.CategoryTheory.Sites.SheafHom
@@ -181,8 +182,8 @@ of a presheaf of `R`-modules `M`. The component at an object `W` of the slice si
 multiplication by the restriction of the section to `W`. -/
 noncomputable def sliceSMul (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) :
     R.obj X →+* End ((Over.forget X.unop).op ⋙ M.presheaf) where
-  toFun s :=
-    { app := fun W ↦ (M.obj (op W.unop.left)).smul (R.map W.unop.hom.op s)
+  toFun s := End.of
+    { app := fun W ↦ ((M.obj (op W.unop.left)).smul (R.map W.unop.hom.op s)).asHom
       naturality := fun W W' φ ↦ by
         have hc : W.unop.hom.op ≫ (Over.forget X.unop).op.map φ = W'.unop.hom.op :=
           Quiver.Hom.unop_inj (Over.w φ.unop)
@@ -193,44 +194,46 @@ noncomputable def sliceSMul (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) :
           (R.map W.unop.hom.op s)
         rw [h] at key
         exact key.symm }
-  map_one' := NatTrans.ext (funext fun W ↦
-    map_one ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom))
-  map_mul' s t := NatTrans.ext (funext fun W ↦
-    map_mul ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom) s t)
-  map_zero' := NatTrans.ext (funext fun W ↦
-    map_zero ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom))
-  map_add' s t := NatTrans.ext (funext fun W ↦
-    map_add ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom) s t)
+  map_one' := End.ext <| NatTrans.ext (funext fun W ↦
+    congrArg End.asHom (map_one ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom)))
+  map_mul' s t := End.ext <| NatTrans.ext (funext fun W ↦
+    congrArg End.asHom (map_mul ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom) s t))
+  map_zero' := End.ext <| NatTrans.ext (funext fun W ↦
+    congrArg End.asHom (map_zero ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom)))
+  map_add' s t := End.ext <| NatTrans.ext (funext fun W ↦
+    congrArg End.asHom (map_add ((M.obj (op W.unop.left)).smul.comp (R.map W.unop.hom.op).hom) s t))
 
 /-- The slice action `Stacks.NoncommChangeOfRings.Silver.sliceSMul`, read as a morphism rather
 than as an element of the endomorphism ring. -/
 noncomputable def sliceSMulHom (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) (s : R.obj X) :
     ((Over.forget X.unop).op ⋙ M.presheaf) ⟶ ((Over.forget X.unop).op ⋙ M.presheaf) :=
-  sliceSMul M X s
+  (sliceSMul M X s).asHom
 
 /-- The component of `sliceSMulHom M X s` at `W` is multiplication by the restriction of `s`
 to `W`. -/
 theorem sliceSMulHom_app (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) (s : R.obj X)
     (W : (Over X.unop)ᵒᵖ) :
-    (sliceSMulHom M X s).app W = (M.obj (op W.unop.left)).smul (R.map W.unop.hom.op s) := rfl
+    (sliceSMulHom M X s).app W = ((M.obj (op W.unop.left)).smul (R.map W.unop.hom.op s)).asHom :=
+  rfl
 
 /-- `sliceSMulHom M X 1` is the identity. -/
 theorem sliceSMulHom_one (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) :
-    sliceSMulHom M X 1 = 𝟙 _ := map_one (sliceSMul M X)
+    sliceSMulHom M X 1 = 𝟙 _ := congrArg End.asHom (map_one (sliceSMul M X))
 
 /-- `sliceSMulHom M X 0` is zero. -/
 theorem sliceSMulHom_zero (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) :
-    sliceSMulHom M X 0 = 0 := map_zero _
+    sliceSMulHom M X 0 = 0 := congrArg End.asHom (map_zero (sliceSMul M X))
 
 /-- `sliceSMulHom M X` is additive. -/
 theorem sliceSMulHom_add (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) (s t : R.obj X) :
-    sliceSMulHom M X (s + t) = sliceSMulHom M X s + sliceSMulHom M X t := map_add _ s t
+    sliceSMulHom M X (s + t) = sliceSMulHom M X s + sliceSMulHom M X t :=
+  congrArg End.asHom (map_add (sliceSMul M X) s t)
 
 /-- `sliceSMulHom M X` sends a product `s * t` to the composite of the actions of `t` and
 of `s`. -/
 theorem sliceSMulHom_mul (M : PresheafOfModules.{v} R) (X : Cᵒᵖ) (s t : R.obj X) :
     sliceSMulHom M X (s * t) = sliceSMulHom M X t ≫ sliceSMulHom M X s :=
-  map_mul (sliceSMul M X) s t
+  congrArg End.asHom (map_mul (sliceSMul M X) s t)
 
 /-- A difference `a ≫ b - b ≫ c` of two composites with a common term `b` is unchanged when
 `a` and `c` are replaced by equal morphisms. -/
@@ -286,7 +289,7 @@ post-composition and the other pre-composition. -/
 instance instSMulCommClassPresheafHomObj :
     SMulCommClass (R.obj X) (R.obj X)ᵐᵒᵖ
       ((presheafHom M₁.presheaf M₂.presheaf).obj X) :=
-  ⟨fun a b η ↦ Category.assoc (sliceSMul M₁ X b.unop) η (sliceSMul M₂ X a)⟩
+  ⟨fun a b η ↦ Category.assoc (sliceSMul M₁ X b.unop).asHom η (sliceSMul M₂ X a).asHom⟩
 
 end HomBimodule
 
@@ -324,7 +327,7 @@ theorem map_smul_presheafHomObj {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : R.obj X)
     (presheafHom M₁.presheaf M₂.presheaf).map f (s • η) =
       R.map f s • (presheafHom M₁.presheaf M₂.presheaf).map f η :=
   NatTrans.ext (funext fun W ↦ congrArg
-    (fun r ↦ η.app ((Over.map f.unop).op.obj W) ≫ (M₂.obj (op W.unop.left)).smul r)
+    (fun r ↦ η.app ((Over.map f.unop).op.obj W) ≫ ((M₂.obj (op W.unop.left)).smul r).asHom)
     (map_hom_op f s W))
 
 /-- The restriction maps of the internal hom are semilinear for the right action. -/
@@ -333,7 +336,7 @@ theorem map_op_smul_presheafHomObj {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : R.obj X)
     (presheafHom M₁.presheaf M₂.presheaf).map f (MulOpposite.op s • η) =
       MulOpposite.op (R.map f s) • (presheafHom M₁.presheaf M₂.presheaf).map f η :=
   NatTrans.ext (funext fun W ↦ congrArg
-    (fun r ↦ (M₁.obj (op W.unop.left)).smul r ≫ η.app ((Over.map f.unop).op.obj W))
+    (fun r ↦ ((M₁.obj (op W.unop.left)).smul r).asHom ≫ η.app ((Over.map f.unop).op.obj W))
     (map_hom_op f s W))
 
 end HomRestriction
@@ -441,8 +444,8 @@ theorem map_derivSection {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : R.obj X) :
     (presheafHom M₁.presheaf M₂.presheaf).map f (derivSection M₁ M₂ ψ X s) =
       derivSection M₁ M₂ ψ Y (R.map f s) :=
   NatTrans.ext (funext fun W ↦ sub_comp_congr
-    (congrArg (M₁.obj (op W.unop.left)).smul (map_hom_op f s W))
-    (congrArg (M₂.obj (op W.unop.left)).smul (map_hom_op f s W)))
+    (congrArg (fun r ↦ ((M₁.obj (op W.unop.left)).smul r).asHom) (map_hom_op f s W))
+    (congrArg (fun r ↦ ((M₂.obj (op W.unop.left)).smul r).asHom) (map_hom_op f s W)))
 
 /-- If the obstruction vanishes at a section `s`, then `ψ` commutes with multiplication by `s`
 on the sections over `X`. -/

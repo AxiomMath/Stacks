@@ -182,7 +182,7 @@ private lemma not_isUnit_map_genericPolynomial
   intro hu
   obtain ⟨a, _, ha⟩ := isUnit_iff_eq_C_of_isReduced.mp hu
   have hx (d : s) (hd : d.val ≠ 0) : x (i, d) = 0 := by
-    have he := congrArg (coeff d.val) ha
+    have he := congrArg (·.coeff d.val) ha
     simpa [coeff_map, coeff_genericPolynomial, coeff_C_of_ne_zero hd] using he
   have hz : eval₂Hom φ x (nonconstantCertificate R s i j) = 0 := by
     unfold nonconstantCertificate
@@ -230,7 +230,7 @@ private lemma not_forall_eval_factorizationIdeal
   have hFC : F.comp C = c := by ext a; simp [F]
   have hE : (P.map C - genericPolynomial A s (0 : Fin 4) * genericPolynomial A s 1).map F = 0 := by
     ext d
-    rw [coeff_map, coeff_zero]
+    rw [coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     exact hx _ (Ideal.subset_span (Or.inl ⟨d, rfl⟩))
   have hfac : P.map c =
       (genericPolynomial A s (0 : Fin 4)).map F * (genericPolynomial A s 1).map F := by
@@ -282,8 +282,8 @@ private lemma exists_factorizationIdeal_le_ker
   unfold factorizationIdeal
   apply Ideal.span_le.mpr
   rintro a (⟨d, rfl⟩ | rfl | rfl)
-  · simpa only [SetLike.mem_coe, RingHom.mem_ker, coeff_map, coeff_zero] using
-      congrArg (coeff d) hE
+  · simpa only [SetLike.mem_coe, RingHom.mem_ker, coeff_map, AddMonoidAlgebra.coeff_zero,
+      Finsupp.zero_apply] using congrArg (·.coeff d) hE
   · simpa only [SetLike.mem_coe, RingHom.mem_ker, map_sub, map_one, sub_eq_zero] using hU
   · simpa only [SetLike.mem_coe, RingHom.mem_ker, map_sub, map_one, sub_eq_zero] using hV
 
@@ -333,7 +333,7 @@ theorem exists_away_irreducible_map
   rw [map_mul] at hψ
   obtain ⟨hψf, hψd⟩ := mul_ne_zero_iff.mp hψ
   have hcoeff : (P.map ψ).coeff d ≠ 0 := by simpa only [coeff_map] using hψd
-  have hzero : P.map ψ ≠ 0 := fun h => hcoeff (by rw [h, coeff_zero])
+  have hzero : P.map ψ ≠ 0 := fun h => hcoeff (by rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
   refine ⟨not_isUnit_of_coeff_ne_zero hd hcoeff, fun q r hqr => ?_⟩
   obtain ⟨hq, hr⟩ := mul_ne_zero_iff.mp (hqr ▸ hzero : q * r ≠ 0)
   have hdegree : q.totalDegree + r.totalDegree ≤ P.totalDegree := by

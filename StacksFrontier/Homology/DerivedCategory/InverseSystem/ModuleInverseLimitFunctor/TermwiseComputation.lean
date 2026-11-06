@@ -90,7 +90,7 @@ private theorem inverseLimitToProduct_pi (rings : ℕᵒᵖ ⥤ RingCat.{u})
       Pi.π (fun index : ℕ =>
         (ModuleInverseLimit.moduleDiagram rings system).obj (Opposite.op index)) index =
       limit.π (ModuleInverseLimit.moduleDiagram rings system) (Opposite.op index) :=
-  Pi.lift_π (fun index : ℕ =>
+  Pi.lift_comp_π (fun index : ℕ =>
     limit.π (ModuleInverseLimit.moduleDiagram rings system) (Opposite.op index)) index
 
 private theorem inverseLimitToProduct_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
@@ -101,7 +101,7 @@ private theorem inverseLimitToProduct_naturality (rings : ℕᵒᵖ ⥤ RingCat.
         ModuleInverseLimit.inverseLimitToProduct rings target := by
   apply Pi.hom_ext
   intro index
-  simp only [ModuleInverseLimit.productMap, Category.assoc, Pi.lift_π,
+  simp only [ModuleInverseLimit.productMap, Category.assoc, Pi.lift_comp_π,
     inverseLimitToProduct_pi_assoc, inverseLimitToProduct_pi, ModuleInverseLimit.inverseLimit_map_π]
 
 private theorem shift_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
@@ -110,7 +110,7 @@ private theorem shift_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
       ModuleInverseLimit.productMap rings morphism ≫ shift rings target := by
   apply Pi.hom_ext
   intro index
-  simp only [shift, ModuleInverseLimit.productMap, Category.assoc, Pi.lift_π_assoc, Pi.lift_π]
+  simp only [shift, ModuleInverseLimit.productMap, Category.assoc, Pi.lift_comp_π_assoc, Pi.lift_comp_π]
   rw [(ModuleInverseLimit.moduleDiagramMap rings morphism).naturality]
 
 private theorem delta_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
@@ -127,7 +127,7 @@ private theorem inverseLimitToProduct_delta (rings : ℕᵒᵖ ⥤ RingCat.{u})
       ModuleInverseLimit.inverseLimitToProduct rings system := by
     apply Pi.hom_ext
     intro index
-    simp only [shift, Category.assoc, Pi.lift_π,
+    simp only [shift, Category.assoc, Pi.lift_comp_π,
       inverseLimitToProduct_pi_assoc, inverseLimitToProduct_pi]
     exact limit.w (ModuleInverseLimit.moduleDiagram rings system) (homOfLE (Nat.le_succ index)).op
   simp only [delta, Preadditive.comp_sub, Category.comp_id, fixed, sub_self]
@@ -162,7 +162,7 @@ private def kernelCone (rings : ℕᵒᵖ ⥤ RingCat.{u})
     calc
       _ = (arrow ≫ shift rings system) ≫
           Pi.π (fun index : ℕ => diagram.obj (Opposite.op index)) index := by
-        simp only [coordinate, shift, diagram, Category.assoc, Pi.lift_π]
+        simp only [coordinate, shift, diagram, Category.assoc, Pi.lift_comp_π]
       _ = coordinate index := by rw [← fixed]
   have comparable (lower upper : ℕ) (ordered : lower ≤ upper) :
       coordinate upper ≫ diagram.map (homOfLE ordered).op = coordinate lower := by

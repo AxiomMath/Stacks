@@ -72,8 +72,9 @@ equivalences with the scalar law supplied by hand.
 Each of the three steps crosses two spellings of one object that are equal by `rfl` but not at
 reducible transparency — the sections of a morphism of sheaves of modules written with
 `AlgebraicGeometry.Scheme.Modules.Hom.app` against the same thing written with `.val.app`, and
-the Kähler differential of a derivation written with `PresheafOfModules.Derivation'.app` against
-`PresheafOfModules.Derivation.d`. A term-level `congrArg` crosses them; a `rw` cannot, its
+the Kähler differential of a derivation written with
+`PresheafOfModulesOfCommRing.Derivation'.app` against
+`PresheafOfModulesOfCommRing.Derivation.d`. A term-level `congrArg` crosses them; a `rw` cannot, its
 motive being elaborated at reducible transparency. Every proof here is therefore a chain of
 `congrArg` rather than a `rw`.
 
@@ -231,7 +232,7 @@ theorem Situation.app_cotangentSheafIso_inv_universalD (D : Situation.{u})
         (Stacks.Smooth.universalD D.laurentToBase W b) =
       ((AlgebraicGeometry.Scheme.Hom.universalRelativeDerivation D.laurentToBase).app
         (op W)).d b :=
-  congrArg (fun d => PresheafOfModules.Derivation.d d b)
+  congrArg (fun d => PresheafOfModulesOfCommRing.Derivation.d d b)
     (AlgebraicGeometry.Scheme.Hom.universalDerivation_postcomp_cotangentSheafIso_inv
       D.laurentToBase)
 

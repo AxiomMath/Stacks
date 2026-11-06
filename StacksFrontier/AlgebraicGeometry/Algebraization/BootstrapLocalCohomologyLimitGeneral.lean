@@ -275,7 +275,7 @@ theorem nonempty_isLimit_localCohomologyAdicCone_of_isAlgebraizationIdeal {I a :
         (Functor.isoWhiskerRight (Stacks.Algebraization.idealPowerQuotientTowerIso I M) Φ').symm ≪≫
           Functor.isoWhiskerLeft (idealPowerQuotientTower.{u, u} I M) (β (i - 1))
   obtain ⟨hlimp⟩ := hp.nonempty_isLimit_mapCone_homology i hML'
-  let c := (Cones.postcompose eT.hom).obj (Φ.mapCone (idealPowerQuotientCone.{u, u} I M))
+  let c := (Cone.postcompose eT.hom).obj (Φ.mapCone (idealPowerQuotientCone.{u, u} I M))
   have hc : ∀ n : ℕ, c.π.app (op n) = H.map un ≫ H.map (p n) := by
     intro n
     have h3 : H.map un ≫ H.map (p n) = H.map (G.map (S.map
@@ -286,7 +286,7 @@ theorem nonempty_isLimit_localCohomologyAdicCone_of_isAlgebraizationIdeal {I a :
     rw [Φ.map_id, Category.comp_id]
     rfl
   let ec : (H.mapCone hp.cone) ≅ c :=
-    Cones.ext (asIso (H.map un)).symm (fun n => by
+    Cone.ext (asIso (H.map un)).symm (fun n => by
       induction n using Opposite.rec with
       | op n =>
         show H.map (p n) = inv (H.map un) ≫ c.π.app (op n)

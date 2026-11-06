@@ -82,10 +82,10 @@ def degreeZeroGrpFunctor : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ GrpCat.{u
   map {T T'} g := GrpCat.ofHom (degreeZeroMap B hX hk f σ hσ g.unop).toMultiplicative
   map_id T := by
     ext x
-    exact Subtype.ext (FunctorToTypes.map_id_apply (picardFunctor B hX hk f) _)
+    exact Subtype.ext ((picardFunctor B hX hk f).map_id_apply _ _)
   map_comp g g' := by
     ext x
-    exact Subtype.ext (FunctorToTypes.map_comp_apply (picardFunctor B hX hk f) g g' _)
+    exact Subtype.ext ((picardFunctor B hX hk f).map_comp_apply g g' _)
 
 /-- The underlying presheaf of sets of the degree-zero group presheaf is the degree-zero
 subfunctor. -/

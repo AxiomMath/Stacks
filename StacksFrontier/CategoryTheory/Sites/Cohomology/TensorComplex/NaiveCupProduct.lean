@@ -82,6 +82,23 @@ abbrev pushforwardComplex :
       CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ :=
   f.pushforwardTopos.mapHomologicalComplex (ComplexShape.up ℤ)
 
+section ComplexAdjunction
+
+/- Since Mathlib v4.35.0 instance search can reach the section variable
+`HasSheafify X.J AddCommGrpCat` through `instHasWeakSheafifyOfHasSheafify`, which would make
+that variable a hypothesis of `complexAdjunction`. With the bridge erased here, the global
+instances are found instead, as before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
+/-- Weak sheafification of abelian presheaves, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`, made a local instance of high priority so
+that `complexAdjunction` finds it rather than the section variable. -/
+private abbrev hasWeakSheafifyAddCommGrpCatNaiveCup (X : RingedTopos.{u, u, u}) :
+    HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatNaiveCup
+
 /-- The adjunction `f^* ⊣ f_*` on cochain complexes of modules, induced degreewise by the
 adjunction of Stacks 03D7.  Its unit and counit are those of Stacks 03D7 in each degree. -/
 def complexAdjunction : pullbackComplex f ⊣ pushforwardComplex f :=
@@ -98,6 +115,8 @@ lemma complexAdjunction_counit_app_f
     (n : ℤ) :
     ((complexAdjunction f).counit.app K).f n =
       f.pullbackPushforwardAdjunctionTopos.counit.app (K.X n) := rfl
+
+end ComplexAdjunction
 
 /-! ## The naive cup product -/
 

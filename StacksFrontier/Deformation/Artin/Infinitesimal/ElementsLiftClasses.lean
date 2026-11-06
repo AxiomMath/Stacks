@@ -39,7 +39,7 @@ namespace Deformation.Artin
 universe u
 
 attribute [local implicit_reducible] Bicategory.InducedBicategory CategoryTheory.Functor.Fiber
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Under.post fibredCategory
+  CategoryTheory.Functor.Fiber.fiberInclusion fibredCategory
   CategoryTheory.BasedCategory.ofFunctor
   CategoryTheory.Pseudofunctor.CoGrothendieck.forget
 
@@ -108,7 +108,7 @@ theorem elemSecAt_hom {o o' : (fibredCategory B S hS F).val.obj} {T T' : BigFppf
   have hu : u.base = eqToHom h ≫ t ≫ eqToHom h'.symm :=
     IsHomLift.fac' (fibredCategory B S hS F).val.p t u
   unfold elemSecAt
-  rw [elem_fiber_eq F u, hu, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
+  rw [elem_fiber_eq F u, hu, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
     ← op_comp, ← op_comp]
   congr 2
   simp
@@ -162,7 +162,7 @@ theorem elemLiftSec_eq_of_hom {ℓ ℓ' : ElemLiftFib F e₀ a} (χ : ℓ ⟶ �
   have h := elemSecAt_hom F (𝟙 T₁) χ.1.right
     (underFiber_right_obj _ (elemObj_p_obj F T₀ e₀) a ℓ)
     (underFiber_right_obj _ (elemObj_p_obj F T₀ e₀) a ℓ')
-  rw [op_id, FunctorToTypes.map_id_apply] at h
+  rw [op_id, Functor.map_id_apply] at h
   exact h
 
 /-- Every lift is related to the lift named by its section. -/

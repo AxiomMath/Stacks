@@ -322,7 +322,7 @@ variable {F : Modules.{u, u} B S hS X.1 X.2}
 /-- A derivation of `𝒪_X` with values in an `𝒪_X`-module, read as a morphism of the underlying
 sheaves of sets.  This is `AlgebraicGeometry.Space.universalDerivationHom` for an arbitrary
 derivation. -/
-noncomputable def derivationSetHom (D : F.val.Derivation' ψ) :
+noncomputable def derivationSetHom (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ) :
     structureSetSheaf B S hS X ⟶
       moduleSheaf.{u, u, u + 1} (structureRingSheaf B S hS X) F :=
   unaryOpHom (fun _ a ↦ D.d a) (fun g a ↦ (D.d_map g a).symm)
@@ -335,7 +335,7 @@ noncomputable def zeroSetHom (F : Modules.{u, u} B S hS X.1 X.2) :
     (fun g _ ↦ (F.val.map g).hom.map_zero)
 
 /-- On sections, the morphism of sheaves of sets attached to a derivation is the derivation. -/
-theorem sectionsFunctor_map_derivationSetHom (D : F.val.Derivation' ψ)
+theorem sectionsFunctor_map_derivationSetHom (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
     {W : (SmallEtale B S hS X.1)ᵒᵖ} (a : (structureRingSheaf B S hS X).obj.obj W) :
     (sectionsFunctor (SmallEtale.topology B S hS X.1) W).map (derivationSetHom B S hS D) a =
       D.d a := rfl
@@ -353,7 +353,7 @@ A `Y`-derivation is a derivation relative to `f♯ : f^{-1}𝒪_Y ⟶ 𝒪_X`, s
 `f♯`, and the chartwise pullbacks lie in that image for the purpose of
 `AlgebraicGeometry.Space.structureSharpInverseImageSet_comp_eq_iff_chartPullback`. -/
 theorem derivation_d_chartPullback_eq_zero (f : X ⟶ Y)
-    (D : F.val.Derivation' (structureSharpInverseImage B S hS f).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom)
     (V : SmallEtale B S hS Y.1)
     (j : StructuredArrow (op (chartBaseChange B S hS f V)) (comparisonFunctor B S hS X).op)
     (g : (structureSetSheaf B S hS Y).obj.obj (op V)) :
@@ -370,12 +370,12 @@ the base that `AlgebraicGeometry.Space.sheafOfDifferentials` takes its different
 The underlying additive map is unchanged: only the vanishing condition differs between the two
 notions, and `AlgebraicGeometry.Space.structureSharpInverseImageSet_comp_eq_iff_chartPullback`
 turns the chartwise vanishing into the vanishing on the image of `f♯`. -/
-noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y) (D : F.val.Derivation' ψ)
+noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y) (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
     (h : ∀ (V : SmallEtale B S hS Y.1)
       (j : StructuredArrow (op (chartBaseChange B S hS f V)) (comparisonFunctor B S hS X).op)
       (g : (structureSetSheaf B S hS Y).obj.obj (op V)),
       D.d (chartPullback B S hS f V j g) = 0) :
-    F.val.Derivation' (structureSharpInverseImage B S hS f).hom where
+    PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom where
   d := D.d
   d_mul := D.d_mul
   d_map := D.d_map
@@ -387,7 +387,7 @@ noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y) (D : F.val.Derivatio
 /-- The derivation of `AlgebraicGeometry.Space.Derivation'.ofChartPullback` has the same
 underlying additive map as the one it is built from. -/
 @[simp]
-theorem Derivation'.ofChartPullback_d (f : X ⟶ Y) (D : F.val.Derivation' ψ)
+theorem Derivation'.ofChartPullback_d (f : X ⟶ Y) (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
     (h : ∀ (V : SmallEtale B S hS Y.1)
       (j : StructuredArrow (op (chartBaseChange B S hS f V)) (comparisonFunctor B S hS X).op)
       (g : (structureSetSheaf B S hS Y).obj.obj (op V)),

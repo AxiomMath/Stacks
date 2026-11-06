@@ -80,8 +80,6 @@ theorem mateEquiv_symm_paste_app (adjc : cI ⊣ cS) (adjb : bI ⊣ bS) (adja : a
     refine TwoSquare.ext _ _ fun d => ?_
     simp [δ, TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
       TwoSquare.whiskerRight, mateEquiv]
-    simp only [← Functor.map_comp, μ'.inv.naturality]
-    rfl
   have hpaste : mateEquiv adjc adja (β₁ ≫ₕ β₂) = γ₁ ≫ᵥ γ₂ := by
     rw [mateEquiv_vcomp adjc adjb adja]
     simp only [β₁, β₂, Equiv.apply_symm_apply]

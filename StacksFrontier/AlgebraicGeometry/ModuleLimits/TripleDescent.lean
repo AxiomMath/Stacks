@@ -385,6 +385,14 @@ theorem exists_stage_compatibleTriple_single
       ((canNatIso (cm.π.app k) (Dm.map ε) (cm.π.app j) (cm.w ε)).app Emj)) _
   -- Pre-compose with the stage square at `k` and post-compose with the modification-side
   -- crossing and the canonical identification, all isomorphisms.
+  have hmono : Mono ((Scheme.Modules.pullback (ce.π.app k)).map
+      (sqIso (τm.app k) (Dm.map ε) (De.map ε) (τm.app j) (τm.naturality ε).symm Emj).hom ≫
+    canHom (ce.π.app k) (De.map ε) (ce.π.app j) (ce.w ε)
+      ((Scheme.Modules.pullback (τm.app j)).obj Emj)) :=
+    inferInstanceAs (Mono (((Scheme.Modules.pullback (ce.π.app k)).mapIso
+      (sqIso (τm.app k) (Dm.map ε) (De.map ε) (τm.app j) (τm.naturality ε).symm Emj) ≪≫
+      (canNatIso (ce.π.app k) (De.map ε) (ce.π.app j) (ce.w ε)).app
+        ((Scheme.Modules.pullback (τm.app j)).obj Emj)).hom))
   rw [← cancel_epi (sqIso uc (cc.π.app k) (ce.π.app k) (τc.app k) (hwc k).symm
       ((Scheme.Modules.pullback (Dc.map ε)).obj Ecj)).hom,
     ← cancel_mono ((Scheme.Modules.pullback (ce.π.app k)).map

@@ -261,6 +261,19 @@ def realizationFinitePart [AlgebraicGeometry.IsSeparated G.source.left]
 
 /-! ### Restated private helpers -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleLocalizationSplittingExistence
+    (B : BigFppfSite.{u}) (T : Scheme.{u}) (hT : B.Contains T) :
+    HasPullbacks ((BigFppfOver B T hT)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_EtaleLocalizationSplittingExistence
+    {B : BigFppfSite.{u}} {T : Scheme.{u}} {hT : B.Contains T}
+    {X Y Z : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 attribute [local instance] AlgebraicGeometry.schemeSizeBelow_isClosedUnderIsomorphisms
   AlgebraicGeometry.schemeSizeBelow_isClosedUnderLimitsOfShape_walkingCospan
   AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes
@@ -632,7 +645,7 @@ theorem mono_fibreOpenPresheafMap : Mono (fibreOpenPresheafMap G C hS hU hR u hK
     (BigFppfOver.toScheme C S hS).mono_of_mono_map h₁
   have h₃ : Mono (yoneda.map (fibreOpenSiteMap G C hS hU hR u hK W)) :=
     Functor.map_mono yoneda _
-  exact mono_comp _ _
+  exact @mono_comp _ _ _ _ _ _ h₃ _ (IsIso.mono_of_iso _)
 
 /-- That morphism is an open immersion of algebraic spaces, being the Yoneda image of a
 morphism of the site whose underlying morphism of schemes is an open immersion, followed by an

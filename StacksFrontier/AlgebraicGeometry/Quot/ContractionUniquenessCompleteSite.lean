@@ -565,6 +565,7 @@ theorem schemeTheoreticImageSubfunctor_eq_top_of_closedFibre_of_isAdicComplete (
   have h₁ : schemeTheoreticImageSubfunctor B S hS (yoneda.map γ₁) = ⊤ :=
     (schemeTheoreticImageSubfunctor_yoneda_eq_top_iff B S hS γ₁).2 hdom
   have h₂ : schemeTheoreticImageSubfunctor B S hS (eX.inv ≫ yoneda.map γ₁) = ⊤ := by
+    have : Epi eX.inv := IsIso.epi_of_iso _
     rw [schemeTheoreticImageSubfunctor_congr_range B S hS _ (yoneda.map γ₁)
       (isAlgebraicSpace_yoneda B S hS Q₁) (by
         rw [Subfunctor.range_comp, Subfunctor.range_eq_top eX.inv, Subfunctor.image_top])]

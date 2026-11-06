@@ -399,6 +399,7 @@ theorem map_ideal_ofIdealTop_map_eq :
 
 variable {𝔠} {b : C} (hb : b ∈ 𝔠)
 
+set_option maxHeartbeats 400000 in
 /-- **The exceptional divisor on the chart `D₊(b⁽¹⁾)`**: the ideal of `Y = V(𝔠 𝒪_X)` on the
 standard open `D₊(b⁽¹⁾)` of the blowup is the image of `𝔠` in the chart ring
 `C[𝔠/b] = (⨁ₙ 𝔠ⁿ)₍b⁽¹⁾₎`, read in `Γ(X, D₊(b⁽¹⁾))` through Mathlib's `awayToSection`. -/
@@ -891,7 +892,7 @@ theorem bijective_cdivMod_iff (q : ℕ) :
     exact ⟨fun h => by rw [h, map_zero]; rfl, fun h => hτ.1 (h.trans (map_zero τ).symm)⟩
   constructor
   · rintro ⟨hinj, hsurj⟩
-    refine ⟨(injective_iff_map_eq_zero (degreeSectionAddHom' q)).2 fun y hy => ?_, fun t => ?_⟩
+    refine ⟨(injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).2 fun y hy => ?_, fun t => ?_⟩
     · obtain ⟨x, rfl⟩ := hρs y
       rw [hρ0]
       have h1 : cdivMod 𝔠 0 q (Submodule.Quotient.mk x) = 0 := by
@@ -911,7 +912,7 @@ theorem bijective_cdivMod_iff (q : ℕ) :
     · induction z using Submodule.Quotient.induction_on with
       | H x =>
         rw [cdivMod_mk', thickeningSectionsMod_eq_zero_iff, hT0] at hz
-        have h1 : ρ x = 0 := (injective_iff_map_eq_zero (degreeSectionAddHom' q)).1 hinj _ hz
+        have h1 : ρ x = 0 := (injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).1 hinj _ hz
         rw [Submodule.Quotient.mk_eq_zero]
         simpa [powSub] using (hρ0 x).1 h1
     · obtain ⟨u, rfl⟩ := surjective_blowupΓmodToH0 𝔠 (thickeningTwist 𝔠 1 q) w

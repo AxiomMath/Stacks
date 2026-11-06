@@ -70,12 +70,19 @@ theorem exists_affineOpen_lift (P : SmallEtale B S hS Y.1)
     (fun O => chartOpenRestrictionHom B S hS Y.1 P O.1)
     (generate_ofArrows_affineOpens_mem_topology P) τ
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Some affine étale chart of `Y` has a point in the inverse-image stalk.** The functor
 `F ↦ (g⁻¹F)_x̄` carries the terminal sheaf to a point, which lifts along the covering of the
 terminal sheaf by an atlas of `Y`, and then to an affine open of the atlas. -/
 theorem exists_affine_invStalk :
     ∃ (V₀ : SmallEtale B S hS Y.1) (_ : IsAffine (chartSch V₀)),
       Nonempty ((invStalk g x).obj ((SmallEtale.topology B S hS Y.1).yoneda.obj V₀)) := by
+  haveI : HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Y.1) (Type u)) := inferInstance
+  haveI hlim : PreservesFiniteLimits (invStalk g x) := by
+    have := g.toToposHom.preservesFiniteLimits
+    exact comp_preservesFiniteLimits _ _
+  haveI : PreservesFiniteProducts (invStalk g x) :=
+    ⟨fun n => PreservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
   obtain ⟨T, a, hsurj, hetale⟩ := Y.2.exists_atlas
   set Va : SmallEtale B S hS Y.1 := ⟨CostructuredArrow.mk a, hetale⟩
   have hsub : ∀ W : SmallEtale B S hS Y.1,
@@ -98,7 +105,7 @@ theorem exists_affine_invStalk :
           Sieve.le_generate _ _ _ (Presieve.singleton.mk), z', hz'⟩
       · obtain ⟨_, h, _, ⟨⟩, -⟩ := hi
         exact ⟨PUnit.unit, h ≫ SmallEtale.prodSnd B S hS _ W Va, (hsub W').elim _ _⟩)
-    (default : (invStalk g x).obj (⊤_ Sheaf (SmallEtale.topology B S hS Y.1) (Type u)))
+    (Functor.uniqueTerminalObj (P := invStalk g x)).default
   obtain ⟨O, τ', -⟩ := exists_affineOpen_lift g x Va σ
   exact ⟨chartOpenRestriction B S hS Y.1 Va O.1, O.2, ⟨τ'⟩⟩
 

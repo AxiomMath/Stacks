@@ -516,7 +516,7 @@ instance : (representedNeighborhoodFunctor B S hS T xb).Initial := by
   apply Functor.initial_of_exists_of_isCofiltered
   · intro W
     let N := chartOpenNeighborhood B S hS (yonedaIdentityNeighborhood T xb) W.1 W.2
-    refine ⟨⟨N.chart, ⟨N.point, N.point_comp⟩⟩, ⟨homOfLE ?_⟩⟩
+    refine ⟨Functor.elementsMk _ N.chart ⟨N.point, N.point_comp⟩, ⟨homOfLE ?_⟩⟩
     exact leOfHom ((representedImageOpenAdjunction B S hS T).counit.app W.1)
   · intro W e s s'
     exact ⟨e, 𝟙 e, Subsingleton.elim _ _⟩
@@ -547,7 +547,7 @@ theorem toPresheafFiber_representedImagePresheafFiberIso_hom
         ((representedImageOpenFunctor B S hS T).obj U) _
         (chartPoint_yonedaIdentityNeighborhood_mem B S hS T xb U s) :=
   Functor.Final.ι_colimitIso_hom (representedNeighborhoodFunctor B S hS T xb).op
-    ((OpenNhds.inclusion _).op ⋙ P) (op ⟨U, s⟩)
+    ((OpenNhds.inclusion _).op ⋙ P) (op (Functor.elementsMk _ U s))
 
 /-- **The stalk of `ε⁻¹` at a geometric point (Stacks 05V1).**  For a sheaf of commutative
 rings `N` on `X₀`, lifted to the universe of the étale site, the stalk of `ε⁻¹N` at the universe
@@ -1312,7 +1312,7 @@ theorem representedBaseMap_stalk_isHenselization :
       ((BigFppfOver.toScheme B S hS).obj T₂).presheaf (e₀ z).down
     have hz : e₀ z = ULift.up (TopCat.Presheaf.germ
         (X := ((BigFppfOver.toScheme B S hS).obj T₂).toTopCat)
-        ((BigFppfOver.toScheme B S hS).obj T₂).presheaf V _ hy b) := ULift.ext _ _ hb.symm
+        ((BigFppfOver.toScheme B S hS).obj T₂).presheaf V _ hy b) := ULift.ext hb.symm
     have hz' : z = representedBaseMapSourceGerm B S hS h xb V hy b :=
       (e₀.symm_apply_apply z).symm.trans (e₀.symm_apply_eq.mpr
         (hz.trans (representedBaseMapSourceStalkEquiv_germ B S hS h xb V hy b).symm))

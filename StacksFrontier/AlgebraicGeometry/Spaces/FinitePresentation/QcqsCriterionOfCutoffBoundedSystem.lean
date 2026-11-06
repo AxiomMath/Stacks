@@ -310,7 +310,7 @@ theorem exists_stage_eq_of_relativelyLimitPreserving_of_isCutoffBoundedSystem
   obtain ⟨e, he⟩ : ∃ e : c.pt ≅ limit D, ∀ m : I, e.hom ≫ limit.π D m = c.π.app m :=
     ⟨hc.conePointUniqueUpToIso (limit.isLimit D), fun m => by simp⟩
   have hx' : limit.π D i₀ ≫ x₁ = limit.π D i₀ ≫ x₂ := by
-    rw [← cancel_epi e.hom, ← Category.assoc, ← Category.assoc, he i₀]
+    rw [← Iso.cancel_iso_hom_left e, ← Category.assoc, ← Category.assoc, he i₀]
     exact hx
   exact colimInj_limit_of_baseChangeSizeBounded B S hS hZ hf hX.isSheaf D hSize hν hHomSize hB
     hD hqc hqs hAffine i₀ x₁ x₂ hx' j g hg

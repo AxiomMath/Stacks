@@ -49,11 +49,12 @@ abbrev freeTorsor : EtaleModules.{u, 0} (ZMod ℓ) X :=
 
 /-- The endomorphism `s = Λ[τ] - 1` of the free sheaf on the torsor. -/
 def shift : End (freeTorsor (i := i) (ε := ε) (w := w)) :=
-  (etaleModuleFree (ZMod ℓ) X).map (translation hS) - 𝟙 _
+  Functor.mapEnd (torsor i ε w) (etaleModuleFree (ZMod ℓ) X) (translation hS) - 1
 
 /-- In the endomorphism ring of a sheaf of `ℤ/ℓ`-modules, `ℓ = 0`. -/
 theorem natCast_self_eq_zero (M : EtaleModules.{u, 0} (ZMod ℓ) X) : ((ℓ : ℕ) : End M) = 0 := by
-  rw [← nsmul_one, End.one_def]
+  rw [← nsmul_one]
+  apply End.ext
   apply Sheaf.hom_ext
   ext U x
   show (ℓ : ℕ) • x = 0
@@ -63,13 +64,12 @@ theorem natCast_self_eq_zero (M : EtaleModules.{u, 0} (ZMod ℓ) X) : ((ℓ : �
 theorem shift_pow_self : shift hS ^ ℓ = 0 := by
   have hp : ℓ.Prime := Fact.out
   set x : End (freeTorsor (i := i) (ε := ε) (w := w)) :=
-    (etaleModuleFree (ZMod ℓ) X).map (translation hS)
+    Functor.mapEnd (torsor i ε w) (etaleModuleFree (ZMod ℓ) X) (translation hS)
   have hx : x ^ ℓ = 1 := by
-    show ((Functor.mapEnd (torsor i ε w) (etaleModuleFree (ZMod ℓ) X)) (translation hS)) ^ ℓ = 1
     rw [← map_pow, translation_pow_self]
     exact (Functor.mapEnd (torsor i ε w) (etaleModuleFree (ZMod ℓ) X)).map_one
   have h := (Commute.one_right x).neg_right.add_pow_prime_eq' hp
-  rw [shift, sub_eq_add_neg, End.one_def.symm, h, hx, natCast_self_eq_zero, zero_mul, add_zero]
+  rw [shift, sub_eq_add_neg, h, hx, natCast_self_eq_zero, zero_mul, add_zero]
   rcases hp.eq_two_or_odd' with rfl | hodd
   · rw [neg_one_sq, ← two_mul]
     exact_mod_cast natCast_self_eq_zero _
@@ -82,7 +82,7 @@ variable (Φ : X.smallEtaleTopology.Point.{u + 1})
 /-- The action of the translation on the fibre of the torsor. -/
 abbrev fiberShift : (Φ.presheafFiber (A := Type (u + 1))).obj (torsor i ε w).obj →
     (Φ.presheafFiber (A := Type (u + 1))).obj (torsor i ε w).obj :=
-  (Φ.presheafFiber (A := Type (u + 1))).map (translation hS).hom
+  (Φ.presheafFiber (A := Type (u + 1))).map (translation hS).asHom.hom
 
 /-- `τ^ℓ = 1` on the fibre of the torsor. -/
 theorem fiberShift_iterate_self :
@@ -160,13 +160,13 @@ def fiberFreeTorsorIso :
 
 /-- On the fibre, `s` is `σ_* - 1` for the translation `σ` of the fibre of the torsor. -/
 theorem sheafFiber_map_shift_comp :
-    (Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS) ≫
+    (Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS).asHom ≫
         (fiberFreeTorsorIso (i := i) (ε := ε) (w := w) Φ).hom =
       (fiberFreeTorsorIso Φ).hom ≫
         ((ModuleCat.freeSplit.{u + 1, 0} (ZMod ℓ)).map (TypeCat.ofHom (fiberShift hS Φ)) -
           𝟙 _) := by
-  have h := (Φ.freeSheafFiberIso (ZMod ℓ)).hom.naturality (translation hS)
-  rw [shift, Functor.map_sub, CategoryTheory.Functor.map_id, Preadditive.sub_comp, Category.id_comp,
+  have h := (Φ.freeSheafFiberIso (ZMod ℓ)).hom.naturality (translation hS).asHom
+  rw [shift, End.sub_asHom, Functor.mapEnd_apply_asHom, End.one_asHom, Functor.map_sub, CategoryTheory.Functor.map_id, Preadditive.sub_comp, Category.id_comp,
     Preadditive.comp_sub, Category.comp_id]
   congr 1
 
@@ -212,13 +212,13 @@ theorem finiteDimensional_sheafFiber_freeTorsor :
 translation. -/
 theorem finrank_ker_sheafFiber_map_shift :
     Module.finrank (ZMod ℓ) (LinearMap.ker
-      ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS)).hom) = 1 := by
+      ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS).asHom).hom) = 1 := by
   have := finite_fiber_torsor hS Φ
   have hne := nonempty_presheafFiber_torsor hS Φ
   let e := (fiberFreeTorsorIso (i := i) (ε := ε) (w := w) Φ).toLinearEquiv
   let g := ((ModuleCat.freeSplit.{u + 1, 0} (ZMod ℓ)).map (TypeCat.ofHom (fiberShift hS Φ)) -
     𝟙 _).hom
-  have hsq : ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS)).hom =
+  have hsq : ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS).asHom).hom =
       e.symm.toLinearMap ∘ₗ g ∘ₗ e.toLinearMap := by
     ext x
     apply e.injective
@@ -227,7 +227,7 @@ theorem finrank_ker_sheafFiber_map_shift :
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.coe_coe,
       LinearEquiv.apply_symm_apply]
     exact h
-  have hker : LinearMap.ker ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS)).hom =
+  have hker : LinearMap.ker ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (shift hS).asHom).hom =
       (LinearMap.ker g).map e.symm.toLinearMap := by
     rw [hsq, LinearMap.ker_comp, LinearEquiv.ker, Submodule.comap_bot, LinearMap.ker_comp,
       Submodule.comap_equiv_eq_map_symm]

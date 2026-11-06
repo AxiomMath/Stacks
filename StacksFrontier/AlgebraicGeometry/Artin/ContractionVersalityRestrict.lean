@@ -44,9 +44,9 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 def restrictElement (x : (contractionFunctor c).Elementsᵒᵖ)
     (O : x.unop.1.unop.obj.left.obj.Opens) : (contractionFunctor c).Elementsᵒᵖ :=
   haveI : IsLocallyNoetherian x.unop.1.unop.obj.left.obj := x.unop.1.unop.property
-  op ⟨op ⟨BigFppfOver.openSubObj B S hS x.unop.1.unop.obj O,
-      inferInstanceAs (IsLocallyNoetherian (O : Scheme.{u}))⟩,
-    mapTriple c (BigFppfOver.openSubHom B S hS x.unop.1.unop.obj O) x.unop.2⟩
+  op ((contractionFunctor c).elementsMk (op ⟨BigFppfOver.openSubObj B S hS x.unop.1.unop.obj O,
+      inferInstanceAs (IsLocallyNoetherian (O : Scheme.{u}))⟩)
+    (mapTriple c (BigFppfOver.openSubHom B S hS x.unop.1.unop.obj O) x.unop.2))
 
 /-- The arrow `ξ|_O ⟶ ξ` of the category over schemes attached to `F`. -/
 def restrictElementHom (x : (contractionFunctor c).Elementsᵒᵖ)
@@ -60,7 +60,7 @@ private theorem eq_of_comp_restrictElementHom_eq (x : (contractionFunctor c).Ele
     {f g : y ⟶ restrictElement c x O}
     (h : f ≫ restrictElementHom c x O = g ≫ restrictElementHom c x O) : f = g := by
   apply Quiver.Hom.unop_inj
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   apply Quiver.Hom.unop_inj
   apply ObjectProperty.hom_ext
   apply BigFppfOver.eq_of_comp_openSubHom_eq O
@@ -79,7 +79,7 @@ private theorem exists_comp_restrictElementHom_eq (x : (contractionFunctor c).El
   refine ⟨Quiver.Hom.op
     ⟨(ObjectProperty.homMk φ₁ : y.unop.1.unop ⟶ (restrictElement c x O).unop.1.unop).op, hy₁⟩, ?_⟩
   apply Quiver.Hom.unop_inj
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   apply Quiver.Hom.unop_inj
   apply ObjectProperty.hom_ext
   exact hφ₁
@@ -138,7 +138,7 @@ theorem liftsAtResiduePoint_restrictElement_iff {Λ k : Type u} [CommRing Λ] [F
               (BigFppfOver.openSubObj B S hS x.unop.1.unop.obj O)).left) ≫ j =
             κ ≫ ((Over.post B.inclusion).map
               (BigFppfOver.openSubHom B S hS x.unop.1.unop.obj O)).left := by
-        rw [← ha']
+        refine Eq.trans ?_ ha'
         simp only [Deformation.Artin.schemeMap, Category.assoc]
         congr 2
         show ((Over.post B.inclusion).map φ₁ ≫ (Over.post B.inclusion).map ι₁).left =

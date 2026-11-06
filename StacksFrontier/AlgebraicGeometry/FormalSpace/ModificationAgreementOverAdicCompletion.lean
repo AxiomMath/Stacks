@@ -59,6 +59,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_modificationAgreement
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Over `Spec Â`, the closed subset of `X' ×_V Spec Â` lying over `T` meets every nonempty
 closed subset: its image in `Spec Â` is closed and contains a closed point, which lies over
 `V(I)` since `I Â` is contained in the Jacobson radical of `Â`. -/
@@ -162,7 +169,7 @@ theorem completion_comp_pullback_fst_eq_snd_of_adicCompletionObj
         (op Zo) y) := by
     have := congrArg (fun α => α.app (op Zo) y)
       (pullback.condition (f := yoneda.map (adicCompletionObjHom B S hS V I)) (g := f))
-    simp only [FunctorToTypes.comp] at this
+    simp only [NatTrans.comp_app_apply] at this
     exact this
   have hs : (⟨ULift.up ((pullback.fst (yoneda.map (adicCompletionObjHom B S hS V I)) f).app
         (op Zo) y ≫ adicCompletionObjHom B S hS V I), hz⟩ :

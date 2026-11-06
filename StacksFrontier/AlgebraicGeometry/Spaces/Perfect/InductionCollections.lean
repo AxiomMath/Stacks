@@ -66,6 +66,46 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_inductionCollections
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_inductionCollections
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products indexed by `Type` of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasProducts_presheaf_inductionCollections
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite products of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+private instance hasFiniteProducts_presheaf_inductionCollections
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasFiniteProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+private instance hasBinaryProducts_presheaf_inductionCollections
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasBinaryProduct_presheaf_inductionCollections
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
 
 private noncomputable def relocalizedYonedaRepresentableBy'
     (B : BigFppfSite.{u}) (S S' : Scheme.{u})
@@ -360,6 +400,7 @@ private lemma affineDiagonal_of_mono
           _ = lift s ≫ yoneda.map q := by rw [hpb.lift_snd]
   exact ⟨P, p', q, IsPullback.of_isLimit hlim⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A quasi-compact algebraic space with affine absolute diagonal. -/
 @[stacks 08GR "affine_diagonal_objects"]
 public abbrev IsQuasiCompactWithAffineDiagonal
@@ -370,6 +411,7 @@ public abbrev IsQuasiCompactWithAffineDiagonal
     IsAffineHom B (⊤_ Scheme.{u}) hZ
       (diag (viewOverIntegers B S hS hZ Y))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The base algebraic space belongs to the collection. -/
 @[stacks 08GR "affine_diagonal_objects"]
 public theorem isQuasiCompactWithAffineDiagonal_base

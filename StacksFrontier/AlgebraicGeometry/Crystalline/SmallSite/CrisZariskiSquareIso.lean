@@ -197,7 +197,7 @@ dominating pairs over `V`. -/
 def dominationLeg (G : Sheaf (smallTopology S) E) (V : S'.X.Opens)
     (i : StructuredArrow (op (fX ⁻¹ᵁ V)) (forgetToOpens S).op) :
     limit (dominationDiagram S S' fS fX hf E G V) ⟶ G.obj.obj i.right :=
-  G.cond.amalgamate (dominationCover S S' fS fX hf V i)
+  G.property.amalgamate (dominationCover S S' fS fX hf V i)
     (fun I ↦ dominationPi S S' fS fX hf E G V I.hf)
     (fun {I₁ I₂} r ↦ by
       have hZ : ∃ B : CrystallineThickening S',
@@ -215,7 +215,7 @@ theorem dominationLeg_comp_map (G : Sheaf (smallTopology S) E)
     (I : (dominationCover S S' fS fX hf V i).Arrow) :
     dominationLeg S S' fS fX hf E G V i ≫ G.obj.map I.f.op =
       dominationPi S S' fS fX hf E G V I.hf :=
-  G.cond.amalgamate_map _ _ _ I
+  G.property.amalgamate_map _ _ _ I
 
 /-- The morphism from the limit over the dominating pairs over `V` to the limit over the objects of
 `Cris(X'/S)` lying over `f^{-1}V` whose legs are the amalgamations `dominationLeg`. -/
@@ -230,7 +230,7 @@ def dominationInv (G : Sheaf (smallTopology S) E) (V : S'.X.Opens) :
             dsimp only [Functor.const_obj_obj, Functor.const_obj_map, Functor.comp_map,
               StructuredArrow.proj_map]
             rw [Category.id_comp]
-            refine (G.cond.hom_ext (dominationCover S S' fS fX hf V j) _ _ fun I ↦ ?_).symm
+            refine (G.property.hom_ext (dominationCover S S' fS fX hf V j) _ _ fun I ↦ ?_).symm
             have h1 : dominationLeg S S' fS fX hf E G V i ≫ G.obj.map (ψ.right ≫ I.f.op) =
                 dominationPi S S' fS fX hf E G V I.hf :=
               dominationLeg_comp_map S S' fS fX hf E G V i
@@ -255,7 +255,7 @@ instance isIso_limit_pre_dominationProj (G : Sheaf (smallTopology S) E)
   refine ⟨dominationInv S S' fS fX hf E G V, limit.hom_ext fun i ↦ ?_,
     limit.hom_ext fun d ↦ ?_⟩
   · rw [Category.assoc, dominationInv_comp_π, Category.id_comp]
-    refine G.cond.hom_ext (dominationCover S S' fS fX hf V i) _ _ fun I ↦ ?_
+    refine G.property.hom_ext (dominationCover S S' fS fX hf V i) _ _ fun I ↦ ?_
     have hA : limit.pre (StructuredArrow.proj (op (fX ⁻¹ᵁ V)) (forgetToOpens S).op ⋙ G.obj)
           (dominationProj S S' fS fX hf V) ≫
             dominationPi S S' fS fX hf E G V I.hf =
@@ -273,7 +273,7 @@ instance isIso_limit_pre_dominationProj (G : Sheaf (smallTopology S) E)
           (dominationChoice S S' fS fX hf V I.hf)) I.f.op (Subsingleton.elim _ _))
     rw [Category.assoc, dominationLeg_comp_map, hA, hB]
   · rw [Category.assoc, limit.pre_π, dominationInv_comp_π, Category.id_comp]
-    refine G.cond.hom_ext (dominationCover S S' fS fX hf V
+    refine G.property.hom_ext (dominationCover S S' fS fX hf V
       ((dominationProj S S' fS fX hf V).obj d)) _ _ fun I ↦ ?_
     have hA : limit.π (dominationDiagram S S' fS fX hf E G V) d ≫ G.obj.map I.f.op =
         limit.π (dominationDiagram S S' fS fX hf E G V)
@@ -411,7 +411,7 @@ def crisZariskiCellCoeff :
         (TopologicalSpace.Opens.map fX.base).sheafPushforwardContinuous E
           (opensTopology S') (opensTopology S) ⟶
       crisDirectImageCoeff S S' fS fX hf E ⋙ zariskiDirectImageCoeff S' E where
-  app G := Sheaf.Hom.mk ((crisZariskiCellPreCoeff S S' fS fX hf E).app G)
+  app G := ObjectProperty.homMk ((crisZariskiCellPreCoeff S S' fS fX hf E).app G)
   naturality _ _ ψ :=
     (sheafToPresheaf (opensTopology S') E).map_injective
       ((crisZariskiCellPreCoeff S S' fS fX hf E).naturality ψ)

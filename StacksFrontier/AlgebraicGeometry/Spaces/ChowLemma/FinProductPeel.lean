@@ -77,7 +77,7 @@ def piTail {n : ℕ} (A : Fin (n + 1) → C) [HasProduct A]
 theorem piTail_comp_π {n : ℕ} (A : Fin (n + 1) → C) [HasProduct A]
     [HasProduct fun i : Fin n ↦ A i.succ] (i : Fin n) :
     piTail A ≫ Pi.π (fun i : Fin n ↦ A i.succ) i = Pi.π A i.succ :=
-  Pi.lift_π _ i
+  Pi.lift_comp_π _ i
 
 /-- **A `Fin (n + 1)`-fold product is the binary product of its zeroth factor with the
 `Fin n`-fold product of the remaining factors.** The two legs are the zeroth projection and
@@ -90,10 +90,10 @@ def isLimitBinaryFanPiSucc {n : ℕ} (A : Fin (n + 1) → C) [HasProduct A]
       (fun i ↦ s.snd ≫ Pi.π (fun i : Fin n ↦ A i.succ) i) j)
     (fun s ↦ by simp) (fun s ↦ ?_) (fun s m h₁ h₂ ↦ ?_)
   · refine Pi.hom_ext _ _ fun i ↦ ?_
-    rw [Category.assoc, piTail_comp_π, Pi.lift_π]
+    rw [Category.assoc, piTail_comp_π, Pi.lift_comp_π]
     exact Fin.cases_succ _
   · refine Pi.hom_ext _ _ fun j ↦ ?_
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     induction j using Fin.cases with
     | zero => simpa using h₁
     | succ i => rw [Fin.cases_succ, ← piTail_comp_π A i, ← Category.assoc, h₂]

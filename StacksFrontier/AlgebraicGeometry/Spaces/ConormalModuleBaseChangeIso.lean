@@ -92,8 +92,8 @@ namespace MorphismOfTopoi
 /-- The global section of a direct image obtained from a global section of the sheaf, by the
 direct image of that section and the unique global section of the direct image of the terminal
 sheaf, is carried back to it by `MorphismOfTopoi.pushforwardTerminalHomEquiv`. -/
-theorem pushforwardTerminalHomEquiv_terminal_comp {C : Type*} [Category C]
-    {J : GrothendieckTopology C} {D : Type*} [Category D] {K : GrothendieckTopology D}
+theorem pushforwardTerminalHomEquiv_terminal_comp {C : Type*} [Category* C]
+    {J : GrothendieckTopology C} {D : Type*} [Category* D] {K : GrothendieckTopology D}
     (gt : MorphismOfTopoi (Sheaf J (Type u)) (Sheaf K (Type u))) (E : Sheaf J (Type u))
     (s : ⊤_ (Sheaf J (Type u)) ⟶ E) :
     gt.pushforwardTerminalHomEquiv E

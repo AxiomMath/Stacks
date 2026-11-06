@@ -167,10 +167,23 @@ def isColimit_of_mono_of_forall_mem_range (hsm : AlgebraicStacks.IsSmooth B S hS
   have := isGrothendieckAbelian_fppfModules B S hS 𝒳
   have := preservesColimitsOfSize_moduleRestriction B S hS 𝒳
   let R := FlatFppf.moduleRestriction B S hS 𝒳
+  have : HasLimitsOfShape WalkingParallelPair (Stack.fppfModules B S hS 𝒳) := inferInstance
+  have : HasLimitsOfShape WalkingParallelPair (J ⥤ Stack.fppfModules B S hS 𝒳) :=
+    functorCategoryHasLimitsOfShape
   have hK : IsZero (R.obj (kernel (hc'.desc (Cocone.mk _ α')))) := by
     refine IsZero.of_iso ?_ (R.mapIso (kernelDescIsoColimitKernel hc' α'))
     refine IsZero.of_iso ?_ (preservesColimitIso R (kernel α'))
     refine isZero_colimit_of_forall_isZero fun j => ?_
+    have : PreservesLimitsOfShape WalkingParallelPair
+        ((evaluation J (Stack.fppfModules B S hS 𝒳)).obj j) :=
+      evaluation_preservesLimitsOfShape j
+    have : ((evaluation J (Stack.fppfModules B S hS 𝒳)).obj j).PreservesZeroMorphisms :=
+      Functor.preservesZeroMorphisms_evaluation_obj j
+    have : HasKernel α' := HasLimitsOfShape.has_limit _
+    have : HasKernel (((evaluation J (Stack.fppfModules B S hS 𝒳)).obj j).map α') :=
+      HasLimitsOfShape.has_limit _
+    have : PreservesLimit (parallelPair α' 0) ((evaluation J (Stack.fppfModules B S hS 𝒳)).obj j) :=
+      inferInstance
     refine IsZero.of_iso ?_ (R.mapIso (PreservesKernel.iso ((evaluation J _).obj j) α'))
     exact isZero_moduleRestriction_of_subsingleton _ fun x hx =>
       subsingleton_kernel_of_mono (α.app j) hx

@@ -411,6 +411,7 @@ private noncomputable def pairCoordinates
       Pi.π (fun _ : Fin 1 => projectiveLineFunctor k B hk) 0)
     ((base_isTerminal k B hk).hom_ext _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The coordinates of `AlgebraicGeometry.Space.pairCoordinates` are the prescribed ones. -/
 private theorem pairCoordinates_proj
     (a b : projectiveLineOverBase k B hk ⟶ projectiveLineOverBase k B hk) (j : Fin 2) :
@@ -595,6 +596,7 @@ end FiniteFibres
 
 /-! ### No complete rational curves -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Let `k` be a field and `G` a separated group algebraic space locally of finite type over
 `k`. Every morphism from the projective line over `k` to `G` over `Spec k` is constant: it
 factors through a section of the structure morphism of `G`.
@@ -705,9 +707,11 @@ theorem morphism_projectiveLine_eq_constant
         Pi.π (fun _ : Fin 1 => projectiveLineFunctor k B hk) i
       simp
     have hdj : d ≫ projectiveLinePowerCoordinate k B hk 2 j = 𝟙 L := by
-      simpa [d] using pairCoordinates_proj k B hk (𝟙 L) (𝟙 L) j
+      have h := pairCoordinates_proj k B hk (𝟙 L) (𝟙 L) j
+      rw [ite_self] at h
+      exact h
     have hdjleft : d.left ≫ (projectiveLinePowerCoordinate k B hk 2 j).left = 𝟙 L.left := by
-      simpa using congrArg Over.Hom.left hdj
+      rw [← Over.comp_left, hdj, Over.id_left]
     have hu : (d.left ≫ coordinateProjection k B hk 2 I) ≫
         Pi.lift (fun _ : Fin 1 =>
           Pi.π (fun _ : I => projectiveLineFunctor k B hk) ⟨j, hj⟩) = 𝟙 _ :=

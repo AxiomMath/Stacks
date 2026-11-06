@@ -129,18 +129,18 @@ theorem mem_characterSections_twistSelfSection :
       characterSections W act χ (characterTwist W act χ J).obj := by
   intro g
   have hnat := NatTrans.naturality_apply
-    (toSheafify J (characterTwistPresheaf W act χ)) ((act g).hom).op
+    (toSheafify J (characterTwistPresheaf W act χ)) ((act g).asIso.hom).op
     (twistedGenerator W act χ (𝟙 W))
-  have hgen : (characterTwistPresheaf W act χ).map ((act g).hom).op
+  have hgen : (characterTwistPresheaf W act χ).map ((act g).asIso.hom).op
       (twistedGenerator W act χ (𝟙 W)) = (χ g : ℤ) • twistedGenerator W act χ (𝟙 W) := by
     rw [characterTwistPresheaf_map_twistedGenerator, Category.comp_id]
     have hid := twistedGenerator_act W act χ (𝟙 W) g
     rwa [Category.id_comp] at hid
-  have h2 : (characterTwist W act χ J).obj.map ((act g).hom).op
+  have h2 : (characterTwist W act χ J).obj.map ((act g).asIso.hom).op
         ((toSheafify J (characterTwistPresheaf W act χ)).app (op W)
           (twistedGenerator W act χ (𝟙 W))) =
       (toSheafify J (characterTwistPresheaf W act χ)).app (op W)
-        ((characterTwistPresheaf W act χ).map ((act g).hom).op
+        ((characterTwistPresheaf W act χ).map ((act g).asIso.hom).op
           (twistedGenerator W act χ (𝟙 W))) := hnat.symm
   rw [twistSelfSection, h2, hgen, map_zsmul]
   rfl
@@ -298,7 +298,7 @@ theorem isLocallyInjective_twistTensorUnit :
   · rw [hne, Presheaf.equalizerSieve_self_eq_top]
     exact J.top_mem _
   refine J.superset_covering bot_le ?_
-  have hmne : n₁.down - n₂.down ≠ 0 := sub_ne_zero.mpr fun hm => hne (ULift.ext _ _ hm)
+  have hmne : n₁.down - n₂.down ≠ 0 := sub_ne_zero.mpr fun hm => hne (ULift.ext hm)
   have hrestrict : ∀ {V₁ : C} (f : V₁ ⟶ V.unop),
       (h.twistTensorUnit χ hT).app (op V₁) n₁ =
         (h.twistTensorUnit χ hT).app (op V₁) n₂ := by

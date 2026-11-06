@@ -78,7 +78,6 @@ lemma isIdealIndependent_map_of_flat
     apply LinearMap.ext
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul b a =>
         change L a • b = LB (E (b ⊗ₜ[A] a))
@@ -100,7 +99,6 @@ lemma isIdealIndependent_map_of_flat
         Ideal.span (Set.range (fun j ↦ φ (f j))) := by
     intro u
     induction u with
-    | zero => simp
     | tmul b x =>
         simpa [E, Algebra.smul_def, ← φ.algebraMap_toAlgebra, mul_comm] using
           Ideal.mul_mem_left _ b

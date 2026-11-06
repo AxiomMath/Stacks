@@ -86,7 +86,7 @@ theorem mateEquiv_restrictionTwoSquare_restrictionSquareMate [w.GuitartExact] :
     NatTrans.comp_app, restrictionTwoSquare_app_hom_app_restrictionSquareMate,
     Functor.sheafPushforwardContinuous_map_hom_app,
     Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit,
-    TwoSquare.natTrans_op, Functor.RightExtension.mk_hom, Functor.RightExtension.mk_left,
+    Functor.RightExtension.mk_hom, Functor.RightExtension.mk_left,
     Functor.op_obj, Functor.associator_inv_app, Functor.whiskerRight_app, NatTrans.op_app,
     Functor.associator_hom_app, Functor.whiskerLeft_app, Category.id_comp]
   rfl

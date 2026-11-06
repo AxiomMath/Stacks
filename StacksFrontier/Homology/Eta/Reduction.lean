@@ -2387,7 +2387,7 @@ def commonUniverseHomologyIso (M : CochainComplex (ModuleCat.{v} A) ℤ) (n : �
 /-- Universe lifting preserves regularity of scalar multiplication. -/
 lemma commonUniverseModules_regular (N : ModuleCat.{v} A) (f : A) (h : IsSMulRegular N f) :
     IsSMulRegular (commonUniverseModules.obj N) (ULift.up f) :=
-  fun _ _ hxy => ULift.ext _ _ (h (congrArg ULift.down hxy))
+  fun _ _ hxy => ULift.ext (h (congrArg ULift.down hxy))
 
 /-- The original torsion-free cohomology hypothesis transfers to the lifted complex. -/
 lemma commonUniverseHomology_regular (M : CochainComplex (ModuleCat.{v} A) ℤ) (f : A) (n : ℤ)
@@ -2400,8 +2400,8 @@ lemma commonUniverseHomology_regular (M : CochainComplex (ModuleCat.{v} A) ℤ) 
 lemma ulift_mem_nonZeroDivisors (f : A) (hf : f ∈ nonZeroDivisors A) :
     ULift.up f ∈ nonZeroDivisors (ULift.{v} A) := by
   rw [mem_nonZeroDivisors_iff] at hf ⊢
-  exact ⟨fun x hx => ULift.ext _ _ (hf.1 x.down (congrArg ULift.down hx)),
-    fun x hx => ULift.ext _ _ (hf.2 x.down (congrArg ULift.down hx))⟩
+  exact ⟨fun x hx => ULift.ext (hf.1 x.down (congrArg ULift.down hx)),
+    fun x hx => ULift.ext (hf.2 x.down (congrArg ULift.down hx))⟩
 
 private lemma epi_cyclesMap_iff_epi_homologyMap
     {R : Type u} [Ring R]

@@ -346,7 +346,7 @@ conormal maps induced by a morphism of polynomial presentations is locally injec
 `Stacks.SheafOfModules.vanishingSieve_presentationConormal_mem`. -/
 theorem isLocallyInjective_presentationKernelMap :
     Presheaf.IsLocallyInjective J
-      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf B).val).map
+      ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf B).obj).map
         (kernelMapOfFac.{v, u, w, z} J A B (freeAlgebraSheaf J A E₁) (freeAlgebraSheaf J A E₂)
           (freeAlgebraSheafCoefficientMap J A E₁) (freeAlgebraSheafCoefficientMap J A E₂)
           (presentation J A B a E₁ α₁) (presentation J A B a E₂ α₂)

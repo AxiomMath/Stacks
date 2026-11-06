@@ -94,7 +94,7 @@ homomorphism of sheaves of rings vanishes: every section of the target is locall
 a section of the source, the derivation kills those, and a section of a sheaf vanishing locally
 vanishes. -/
 theorem derivation_d_eq_zero {M : PresheafOfModules.{z} (R ⋙ forget₂ CommRingCat RingCat)}
-    (hM : Presheaf.IsSheaf J M.presheaf) (d : M.Derivation' φ)
+    (hM : Presheaf.IsSheaf J M.presheaf) (d : PresheafOfModulesOfCommRing.Derivation' M φ)
     {U : Cᵒᵖ} (b : ToType (R.obj U)) : d.d b = 0 :=
   hM.isSeparated U.unop _ (Presheaf.imageSieve_mem J φ b) (d.d b) 0 fun V g hg => by
     have h1 : (ConcreteCategory.hom (M.map g.op)) (d.d b) = 0 := by
@@ -105,8 +105,8 @@ theorem derivation_d_eq_zero {M : PresheafOfModules.{z} (R ⋙ forget₂ CommRin
 /-- Along a locally surjective homomorphism of sheaves of rings there is exactly one relative
 derivation with values in a sheaf of modules, the zero one. -/
 theorem derivation_eq {M : PresheafOfModules.{z} (R ⋙ forget₂ CommRingCat RingCat)}
-    (hM : Presheaf.IsSheaf J M.presheaf) (d d' : M.Derivation' φ) : d = d' := by
-  refine PresheafOfModules.Derivation.ext ?_
+    (hM : Presheaf.IsSheaf J M.presheaf) (d d' : PresheafOfModulesOfCommRing.Derivation' M φ) : d = d' := by
+  refine PresheafOfModulesOfCommRing.Derivation.ext ?_
   funext U
   ext b
   rw [derivation_d_eq_zero φ hM d b, derivation_d_eq_zero φ hM d' b]

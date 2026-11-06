@@ -74,6 +74,7 @@ theorem thickeningConormalPairSequence_exact_of_isIso_of_formallyUnramified (g :
         thickeningConormalFirstMap B S hS hZ g he = 0,
       (ShortComplex.mk _ _ hc).Exact ∧ Epi (thickeningConormalFirstMap B S hS hZ g he) := by
   have : IsIso (thickeningSheafOfDifferentialsMap B S hS hZ g) := he
+  have : Mono (thickeningSheafOfDifferentialsMap B S hS hZ g) := IsIso.mono_of_iso _
   have key := thickeningConormalFirstMap_comp_thickeningSheafOfDifferentialsMap B S hS hZ g he
   have hc : universalThickeningConormalMap B S hS g f hZ hW hsq ≫
       thickeningConormalFirstMap B S hS hZ g he = 0 := by
@@ -83,7 +84,8 @@ theorem thickeningConormalPairSequence_exact_of_isIso_of_formallyUnramified (g :
     epi_thickeningConormalFirstMap_of_isIso_of_formallyUnramified B S hS g hZ he hj⟩
   have hsc : ShortComplex.mk _ _ hc ≅ ShortComplex.mk _ _ hzero067 :=
     ShortComplex.isoMk (Iso.refl _) (Iso.refl _)
-      (asIso (thickeningSheafOfDifferentialsMap B S hS hZ g)) (by simp) (by simpa using key.symm)
+      (asIso (thickeningSheafOfDifferentialsMap B S hS hZ g)) (by simp) (by
+        simpa only [Iso.refl_hom, asIso_hom, Category.id_comp, Category.comp_id] using key.symm)
   exact (ShortComplex.exact_iff_of_iso hsc).mpr h067V
 
 end AlgebraicGeometry.Space

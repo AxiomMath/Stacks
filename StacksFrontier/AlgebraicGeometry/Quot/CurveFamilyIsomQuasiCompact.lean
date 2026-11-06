@@ -70,6 +70,17 @@ theorem exists_hom_baseMap_eq_of_comp {F F₁ F₂ : CurveFamily B hZ} (α : F�
       α δ f hf
   exact ⟨χ, hχ⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_CurveFamilyIsomQuasiCompact :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_CurveFamilyIsomQuasiCompact
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0DSQ, the quasi-compactness of `Isom_U(Y, X)`, reduced to affine bases.** Let `F`
 and `G` be families of curves over a common base `U` with `Isom_U(F, G)` an algebraic space. If
 `Isom_T(F', G')` is a quasi-compact algebraic space for all families of curves `F'` and `G'` over
@@ -102,7 +113,8 @@ theorem isQuasiCompact_isomFunctorProjection_of_affine (F G : CurveFamily B hZ)
         yoneda.map (eqToHom h))
       (isomFunctorProjection F G (G.toBase.hom ≫ yoneda.map (eqToHom hb))) (yoneda.map g₀) :=
     hpb.of_iso (Iso.refl _) (Iso.refl _) (yoneda.mapIso (eqToIso h)) (Iso.refl _)
-      (by simp) (by simp) (by simp) (by simp [hφ]; rfl)
+      (by simp) (by simp) (by simp)
+      (by rw [hφ, Functor.map_comp, Iso.refl_hom]; erw [Category.comp_id])
   have haff : IsAffine ((BigFppfOver.toScheme B integerBase hZ).obj F'.base) := by
     rw [h]
     exact hZaff

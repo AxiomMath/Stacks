@@ -38,7 +38,7 @@ theorem exists_le_of_le_iSup_of_directed {X : Scheme.{u}} [CompactSpace X]
   classical
   have hloc : ∀ U : X.affineOpens, ∃ i, K.ideal U ≤ (J i).ideal U := by
     intro U
-    have hc := (CompleteLattice.isCompactElement_iff_le_of_directed_sSup_le
+    have hc := (isCompactElement_iff_le_of_directed_sSup_le
       (α := Ideal Γ(X, U.1)) (K.ideal U)).mp
       ((Submodule.fg_iff_compact _).mp (hK U))
     obtain ⟨_, ⟨i, rfl⟩, hi⟩ := hc (Set.range fun i => (J i).ideal U) (Set.range_nonempty _)

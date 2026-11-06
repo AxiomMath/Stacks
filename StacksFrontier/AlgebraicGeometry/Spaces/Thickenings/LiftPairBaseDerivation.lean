@@ -333,8 +333,8 @@ discharged: the only hypotheses are that `G ⊂ X'` is a first-order thickening,
 morphisms agree on its closed subspace and that they are morphisms over `Bb`. -/
 def liftPairDerivationSecondOfCompEq (q : Y' ⟶ Bb)
     (hZ : IsFirstOrderThickening B S hS X' G) (hq : a' ≫ q = b' ≫ q) :
-    (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom :=
+    PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom :=
   liftPairDerivationSecond B S hS hG a' b' h q hZ
     (liftPairBaseMap_comp_liftPairSecondSharp B S hS hG a' b' h q hq)
 

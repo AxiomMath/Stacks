@@ -71,7 +71,7 @@ theorem kernelPair_points_mem_range_diagonal_or_open
       Subfunctor.isPullback_preimage f D
     have : IsIso (D.fromPreimage f) := hD
     have hl : hE.lift sD a₁ h₁ = hE.lift sD a₂ h₂ := by
-      refine (cancel_mono (D.fromPreimage f)).1 ?_
+      refine (@cancel_mono _ _ _ _ _ (D.fromPreimage f) (IsIso.mono_of_iso _) _ _).1 ?_
       rw [hE.lift_fst, hE.lift_fst]
     have ha : a₁ = a₂ := by rw [← hE.lift_snd sD a₁ h₁, hl, hE.lift_snd]
     have hdiag : sR = a₁ ≫ pullback.diagonal f := by

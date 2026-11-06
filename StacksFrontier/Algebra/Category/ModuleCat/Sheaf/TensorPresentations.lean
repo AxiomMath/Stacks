@@ -111,13 +111,13 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 sheaf, given by the objectwise tensor product over `𝒪`. -/
 noncomputable local instance monoidalPresheafModulesOnSite :
     MonoidalCategory (PresheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪).obj) :=
-  PresheafOfModules.monoidalCategory (R := 𝒪)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := 𝒪)
 
 /-- The symmetric monoidal structure on presheaves of modules over the underlying presheaf of the
 structure sheaf, given by the objectwise tensor product over `𝒪` and its braiding. -/
 noncomputable local instance symmetricPresheafModulesOnSite :
     SymmetricCategory (PresheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪).obj) :=
-  PresheafOfModules.symmetricCategory (R := 𝒪)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := 𝒪)
 
 private noncomputable def tensorSheafSwapOnSite
     (F G : SheafOfModules.{w} (TensorSheafification.structureSheaf 𝒪 h𝒪)) :
@@ -269,9 +269,9 @@ noncomputable def tensorSheafSwap
     (F G : SheafOfModules.{u} (Tensor.ringSheaf X.sheaf)) :
     ((sheafTensor X.sheaf).obj F).obj G ≅ ((sheafTensor X.sheaf).obj G).obj F :=
   letI : MonoidalCategory (PresheafOfModules.{u} (Tensor.ringSheaf X.sheaf).obj) :=
-    PresheafOfModules.monoidalCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   letI : SymmetricCategory (PresheafOfModules.{u} (Tensor.ringSheaf X.sheaf).obj) :=
-    PresheafOfModules.symmetricCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
   (PresheafOfModules.sheafification (R := Tensor.ringSheaf X.sheaf)
     (𝟙 (Tensor.ringSheaf X.sheaf).obj)).mapIso (β_ F.val G.val)
 

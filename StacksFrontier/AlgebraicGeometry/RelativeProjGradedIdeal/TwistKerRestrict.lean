@@ -139,7 +139,6 @@ theorem bijective_liftBaseChange_app_pullbackSection :
   have key : ∀ t, ν.liftBaseChange Γ(Y, V) t = ε (hπ.equiv t) := by
     intro t
     induction t with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul b y =>
         rw [LinearMap.liftBaseChange_tmul, IsBaseChange.equiv_tmul, map_smul, hν]

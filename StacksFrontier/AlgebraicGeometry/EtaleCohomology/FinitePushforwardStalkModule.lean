@@ -134,29 +134,29 @@ is a section of `G` over `U ×_Y X`, and goes to its germ at `U ×_Y X` pointed 
 public def finitePushforwardStalkLiftCocone
     (G : Sheaf (SmallEtale.topology B X.1 X.property) (ModuleCat.{u + 1} R))
     (x : GeometricLifts B f y) :
-    Cocone ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+    Cocone ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
         (SmallEtale.topology B Y.1 Y.property)
         (SmallEtale.topology B X.1 X.property)).obj G).obj) where
   pt := etaleStalk B X.1 X.property (geometricPointLift (B.inclusion.map f) y x) G.obj
   ι :=
-    { app := fun U => colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    { app := fun U => colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
           (op (liftedEtaleNeighborhood B f y x U.unop))
       naturality := by
         intro U V g
-        let h := CategoryOfElements.homMk (liftedEtaleNeighborhood B f y x V.unop)
-          (liftedEtaleNeighborhood B f y x U.unop) ((smallEtaleBaseChange B f).map g.unop.1)
+        let h := Functor.Elements.homMk (x := liftedEtaleNeighborhood B f y x V.unop)
+          (y := liftedEtaleNeighborhood B f y x U.unop) ((smallEtaleBaseChange B f).map g.unop.hom)
           (liftedEtaleNeighborhood_map B f y g.unop x)
         change G.obj.map (((smallEtaleBaseChange B f).map g.unop.1).op) ≫
-            colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+            colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
               (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
               (op (liftedEtaleNeighborhood B f y x V.unop)) =
-          colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+          colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
             (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
             (op (liftedEtaleNeighborhood B f y x U.unop)) ≫ 𝟙 _
         rw [Category.comp_id]
-        exact colimit.w ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+        exact colimit.w ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj) h.op }
 
 /-- **The component at a lift of the stalk of a direct image**, for sheaves of `R`-modules:
@@ -176,12 +176,12 @@ public def finitePushforwardStalkLiftHom
 public theorem ι_finitePushforwardStalkLiftHom
     (G : Sheaf (SmallEtale.topology B X.1 X.property) (ModuleCat.{u + 1} R))
     (x : GeometricLifts B f y) (U : (geometricPointFiber B Y.1 Y.property y).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
         (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
           (SmallEtale.topology B Y.1 Y.property)
           (SmallEtale.topology B X.1 X.property)).obj G).obj) U ≫
         finitePushforwardStalkLiftHom B f y R G x =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
         (op (liftedEtaleNeighborhood B f y x U.unop)) :=
   colimit.ι_desc (finitePushforwardStalkLiftCocone B f y R G x) U
@@ -204,10 +204,10 @@ public def etaleStalkForgetModuleIso (S : Scheme.{u}) (hS : B.Contains S) (s : G
     (forget (ModuleCat.{u + 1} R)).obj (etaleStalk B S hS s G.obj) ≅
       etaleStalk B S hS s (moduleSheafUnderlyingTypeSheaf B R S hS G).obj :=
   preservesColimitIso (forget (ModuleCat.{u + 1} R))
-      ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) ≪≫
-    (colimit.isColimit (((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) ⋙
+      ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) ≪≫
+    (colimit.isColimit (((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) ⋙
       forget (ModuleCat.{u + 1} R))).coconePointUniqueUpToIso
-      (colimit.isColimit ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.isColimit ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (moduleSheafUnderlyingTypeSheaf B R S hS G).obj))
 
 /-- The comparison of `AlgebraicGeometry.etaleStalkForgetModuleIso` on germs. -/
@@ -215,9 +215,9 @@ public theorem forget_map_ι_etaleStalkForgetModuleIso_hom (S : Scheme.{u}) (hS 
     (s : GeometricPoint S) (G : Sheaf (SmallEtale.topology B S hS) (ModuleCat.{u + 1} R))
     (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
     (forget (ModuleCat.{u + 1} R)).map
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) U) ≫
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ G.obj) U) ≫
       (etaleStalkForgetModuleIso B R S hS s G).hom =
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (moduleSheafUnderlyingTypeSheaf B R S hS G).obj) U := by
   show _ ≫ (preservesColimitIso _ _).hom ≫ (IsColimit.coconePointUniqueUpToIso _ _).hom = _
   rw [ι_preservesColimitIso_hom_assoc]
@@ -239,10 +239,10 @@ public theorem finitePushforwardStalkLiftHom_forget
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj G)).hom z) := by
-  let D := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+  let D := (Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
     (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
       (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj G).obj
-  let E := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let E := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj
   obtain ⟨U, t, rfl⟩ := Types.jointly_surjective_of_isColimit
     (isColimitOfPreserves (forget (ModuleCat.{u + 1} R)) (colimit.isColimit D)) z
@@ -325,7 +325,7 @@ public theorem liftedEtaleNeighborhood_neighborhoodFunctor_comap (x : GeometricL
         (liftedEtaleNeighborhood B f y₂ x U) := by
   let := hasPullbacks_bigEtaleSite B
   let := preservesPullbacks_bigEtaleSiteInclusion B
-  refine congrArg (Sigma.mk _) (Subtype.ext ?_)
+  refine congrArg (Functor.elementsMk _ _) (Subtype.ext ?_)
   let hpb := (IsPullback.of_hasPullback
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion
   have w₂ := elements_comp_eq_lift_comp B f y₂ U x
@@ -358,29 +358,29 @@ public theorem geometricPointStalkMap_comp_finitePushforwardStalkLiftHom
   have hY : (geometricPointStalkMap B Y.1 Y.property θ (ModuleCat.{u + 1} R)).app
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
         (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj G).obj =
-      colimit.pre ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y₁)).op ⋙
+      colimit.pre ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y₁)).op ⋙
         (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
           (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj G).obj)
         (neighborhoodFunctor B Y.1 Y.property θ).op := rfl
   have hX : (geometricPointStalkMap B X.1 X.property (GeometricLifts.liftHom B f θ x)
       (ModuleCat.{u + 1} R)).app G.obj =
-      colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y₁ (GeometricLifts.comap B f θ x)))).op ⋙ G.obj)
         (neighborhoodFunctor B X.1 X.property (GeometricLifts.liftHom B f θ x)).op := rfl
   rw [hY, hX]
   apply colimit.hom_ext
   intro U
-  refine (colimit.ι_pre_assoc ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y₁)).op ⋙
+  refine (colimit.ι_pre_assoc ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y₁)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
         (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj G).obj)
       (neighborhoodFunctor B Y.1 Y.property θ).op U _).trans ?_
   refine (ι_finitePushforwardStalkLiftHom B f y₁ R G (GeometricLifts.comap B f θ x) _).trans ?_
   refine Eq.trans ?_ ((ι_finitePushforwardStalkLiftHom_assoc B f y₂ R G x U _).trans
-    (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y₁ (GeometricLifts.comap B f θ x)))).op ⋙ G.obj)
       (neighborhoodFunctor B X.1 X.property (GeometricLifts.liftHom B f θ x)).op
       (op (liftedEtaleNeighborhood B f y₂ x U.unop)))).symm
-  exact eq_of_heq (congr_arg_heq (colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1
+  exact eq_of_heq (congr_arg_heq (colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1
     X.property (geometricPointLift (B.inclusion.map f) y₁ (GeometricLifts.comap B f θ x)))).op ⋙
       G.obj)) (congrArg op (liftedEtaleNeighborhood_neighborhoodFunctor_comap B f θ x U.unop)))
 

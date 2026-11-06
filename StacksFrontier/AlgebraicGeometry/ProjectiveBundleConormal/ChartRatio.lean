@@ -91,7 +91,7 @@ open. This is `AlgebraicGeometry.Scheme.Modules.Hom.app_smul` in the `.val.app` 
 found by instance search because the type is written `.val.obj (op V)` rather than `Γ(M, V)`. -/
 theorem val_app_smul {Y : Scheme.{u}} {M N : Y.Modules} (φ : M ⟶ N) (V : Y.Opens)
     (r : Γ(Y, V)) (x : Γ(M, V)) :
-    φ.val.app (op V) ((M.smul r).hom x) = (N.smul r).hom (φ.val.app (op V) x) :=
+    φ.val.app (op V) ((M.smul r).asHom.hom x) = (N.smul r).asHom.hom (φ.val.app (op V) x) :=
   (φ.val.app (op V)).hom.map_smul r x
 
 /-- **Restricting a section from `W` to the image of the inclusion of `W` is injective**, the two
@@ -144,9 +144,9 @@ pullback, and the frame strips `t`. -/
 theorem eq_of_smul_pullbackSection_eq {X : Scheme.{u}} {L : X.Modules} {W : X.Opens}
     (frame : Γ(L, W) ≃ₗ[Γ(X, W)] Γ(X, W)) {t : Γ(L, W)} (ht : frame t = 1)
     {r₁ r₂ : Γ((↑W : Scheme.{u}), ⊤)}
-    (h : (((Scheme.Modules.pullback W.ι).obj L).smul r₁).hom
+    (h : (((Scheme.Modules.pullback W.ι).obj L).smul r₁).asHom.hom
           (Scheme.Modules.pullbackSection W.ι L W ⊤ W.ι_preimage_self.ge t) =
-        (((Scheme.Modules.pullback W.ι).obj L).smul r₂).hom
+        (((Scheme.Modules.pullback W.ι).obj L).smul r₂).asHom.hom
           (Scheme.Modules.pullbackSection W.ι L W ⊤ W.ι_preimage_self.ge t)) :
     r₁ = r₂ := by
   have hsurj := (ConcreteCategory.bijective_of_isIso
@@ -201,7 +201,7 @@ theorem appLE_eq_awayToSection_of_res_eq_smul {Y : Scheme.{u}} {p q : S} (hp : p
     {U : Y.Opens} (hUT : U ≤ T)
     (hDU : AlgebraicGeometry.Proj.basicOpen 𝒮 q ≤ f ⁻¹ᵁ U) (g : Γ(Y, U))
     (hg : F.presheaf.map (homOfLE hUT).op tp =
-      (F.smul g).hom (F.presheaf.map (homOfLE hUT).op tq)) :
+      (F.smul g).asHom.hom (F.presheaf.map (homOfLE hUT).op tq)) :
     f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g =
       (AlgebraicGeometry.Proj.awayToSection 𝒮 q).hom
         (HomogeneousLocalization.Away.mk 𝒮 hq 1 p (by simpa using hp)) := by
@@ -223,7 +223,7 @@ theorem appLE_eq_awayToSection_of_res_eq_smul {Y : Scheme.{u}} {p q : S} (hp : p
             (F.presheaf.map (homOfLE hUT).op tq)).trans
         (congrArg
           (fun z => (((Scheme.Modules.pullback f).obj F).smul
-              (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).hom z)
+              (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).asHom.hom z)
           (hpull tq))))
   have hnat : ∀ t : Γ(F, T),
       ε.hom.val.app (op (AlgebraicGeometry.Proj.basicOpen 𝒮 q))
@@ -239,7 +239,7 @@ theorem appLE_eq_awayToSection_of_res_eq_smul {Y : Scheme.{u}} {p q : S} (hp : p
           (homOfLE (le_top (a := AlgebraicGeometry.Proj.basicOpen 𝒮 q))).op
           (degreeSection 𝒮 1 ⟨p, hp⟩) =
       ((Stacks.TwistPullbackRatio.O1 𝒮).smul
-            (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).hom
+            (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).asHom.hom
         ((Stacks.TwistPullbackRatio.O1 𝒮).presheaf.map
           (homOfLE (le_top (a := AlgebraicGeometry.Proj.basicOpen 𝒮 q))).op
           (degreeSection 𝒮 1 ⟨q, hq⟩)) :=
@@ -253,11 +253,11 @@ theorem appLE_eq_awayToSection_of_res_eq_smul {Y : Scheme.{u}} {p q : S} (hp : p
                   (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g) _).trans
               (congrArg
                 (fun z => ((Stacks.TwistPullbackRatio.O1 𝒮).smul
-                    (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).hom z)
+                    (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).asHom.hom z)
                 (hnat tq))))).trans
         (congrArg
           (fun z => ((Stacks.TwistPullbackRatio.O1 𝒮).smul
-              (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).hom
+              (f.appLE U (AlgebraicGeometry.Proj.basicOpen 𝒮 q) hDU g)).asHom.hom
             ((Stacks.TwistPullbackRatio.O1 𝒮).presheaf.map
               (homOfLE (le_top (a := AlgebraicGeometry.Proj.basicOpen 𝒮 q))).op z))
           hεq))
@@ -533,7 +533,7 @@ theorem pullbackSection_chartSection_ratio (s m : Γ(E, W))
             (HomogeneousLocalization.Away.mk (SymmetricAlgebra.grading Γ(X, W) Γ(E, W))
               (SymmetricAlgebra.ι_mem_grading_one s) 1
               (SymmetricAlgebra.ι Γ(X, W) Γ(E, W) m)
-              (SymmetricAlgebra.ι_mem_grading_smul m)))).hom
+              (SymmetricAlgebra.ι_mem_grading_smul m)))).asHom.hom
         (Scheme.Modules.pullbackSection (chartSection E hW hσ)
           (twistingSheaf (SymmetricAlgebra.grading Γ(X, W) Γ(E, W)) (1 : ℤ)) ⊤ ⊤
           (top_le_chartSection_preimage_top E hσ hW)
@@ -582,7 +582,7 @@ theorem pullbackSection_chartSection_ratio (s m : Γ(E, W))
               (HomogeneousLocalization.Away.mk (SymmetricAlgebra.grading Γ(X, W) Γ(E, W))
                 (SymmetricAlgebra.ι_mem_grading_one s) 1
                 (SymmetricAlgebra.ι Γ(X, W) Γ(E, W) m)
-                (SymmetricAlgebra.ι_mem_grading_smul m)))).hom z)
+                (SymmetricAlgebra.ι_mem_grading_smul m)))).asHom.hom z)
         (hbr s).symm))
 
 include hσ e hqe in
@@ -607,7 +607,7 @@ theorem pullbackSection_app_eq_smul (s m : Γ(E, W))
             (HomogeneousLocalization.Away.mk (SymmetricAlgebra.grading Γ(X, W) Γ(E, W))
               (SymmetricAlgebra.ι_mem_grading_one s) 1
               (SymmetricAlgebra.ι Γ(X, W) Γ(E, W) m)
-              (SymmetricAlgebra.ι_mem_grading_smul m)))).hom
+              (SymmetricAlgebra.ι_mem_grading_smul m)))).asHom.hom
         (Scheme.Modules.pullbackSection W.ι Q.L W ⊤ W.ι_preimage_self.ge (Q.q.app W s)) :=
   (chartTwistTransport_pullbackSection E Q hσ e hqe hW m).symm.trans
     ((congrArg ((chartTwistTransport E Q hσ e hW).val.app (op ⊤))
@@ -634,7 +634,7 @@ theorem pullbackSection_app_eq_smul (s m : Γ(E, W))
                 (HomogeneousLocalization.Away.mk (SymmetricAlgebra.grading Γ(X, W) Γ(E, W))
                   (SymmetricAlgebra.ι_mem_grading_one s) 1
                   (SymmetricAlgebra.ι Γ(X, W) Γ(E, W) m)
-                  (SymmetricAlgebra.ι_mem_grading_smul m)))).hom z)
+                  (SymmetricAlgebra.ι_mem_grading_smul m)))).asHom.hom z)
           (chartTwistTransport_pullbackSection E Q hσ e hqe hW s))))
 
 include hσ e hqe in
@@ -686,7 +686,7 @@ theorem appLE_chartMap_eq_awayToSection_of_res_eq_smul (s m : Γ(E, W))
     (g : Γ((bundle E).scheme, U))
     (hg : (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hU).op
             (tautologicalSectionOver E W m) =
-          ((tautologicalTwist E (symPieces E)).smul g).hom
+          ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
             ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hU).op
               (tautologicalSectionOver E W s))) :
     (chartMap E (symPieces E) hW).appLE U

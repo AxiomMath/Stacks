@@ -137,7 +137,7 @@ theorem isZero_obj_of_isZero_chart (P : Sheaf (SpacesEtale.topology B S hS X) A)
     Limits.IsZero (P.obj.obj (op V)) :=
   have hpb := IsPullback.of_hasPullback g g
   (IsZero.iff_id_eq_zero _).2 <| Fork.IsLimit.hom_ext
-    (isLimitForkOfSurjectiveSingleton B S hS P.obj P.cond hg hpb
+    (isLimitForkOfSurjectiveSingleton B S hS P.obj P.property hg hpb
       (Presheaf.fork_condition_of_isPullback P.obj hpb)) (hU.eq_of_tgt _ _)
 
 end Vanishing
@@ -167,7 +167,7 @@ abbrev coneChartsSheaf (G : Sheaf (SpacesEtale.topology B S hS X) A) :
 /-- `AlgebraicGeometry.Space.coneChartsSheaf` is a limit cone. -/
 abbrev isLimitConeChartsSheaf (G : Sheaf (SpacesEtale.topology B S hS X) A) :
     IsLimit (coneChartsSheaf B S hS X G) :=
-  isLimitConeCharts B S hS X G.obj G.cond
+  isLimitConeCharts B S hS X G.obj G.property
 
 /-- The global-sections cone of the restriction of `G` to the charts, as a cone over the
 composite of `G` with the opposite of the comparison functor, with its vertex written as the

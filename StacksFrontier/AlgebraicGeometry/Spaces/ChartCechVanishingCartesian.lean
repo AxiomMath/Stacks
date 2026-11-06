@@ -90,10 +90,10 @@ theorem isZero_cechCohomology_succ_of_isCartesianOnAffineCharts
     (haff : ∀ i, IsAffine (chartScheme (E.X i)))
     (hcov : E.sieve₀ ∈ topology B S hS F W) (p : ℕ) (hp : 0 < p) :
     letI : HasFiniteLimits (Over W) := hasFiniteLimits_of_hasTerminal_and_pullbacks
-    IsZero (cechCohomology E (chartAbelianPresheaf B S hS F hF G) p) :=
+    IsZero (cechCohomology E (chartAbelianPresheaf.{m} B S hS F hF G) p) :=
   isZero_cechCohomology_succ_of_overTensorPresheafIso B S hS F W hW E hfin haff hcov
-    ((chartAbelianPresheaf B S hS F hF G).obj (op W))
-    (chartAbelianPresheaf B S hS F hF G) (tensorToChartSections B S hS F hF W G)
+    ((chartAbelianPresheaf.{m} B S hS F hF G).obj (op W))
+    (chartAbelianPresheaf.{m} B S hS F hF G) (tensorToChartSections B S hS F hF W G)
     (fun Z hZ ↦ isIso_tensorToChartSectionsApp B S hS F hF W G hG hW (op Z) hZ) p hp
 
 end AlgebraicGeometry.Space.SmallEtale

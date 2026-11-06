@@ -245,11 +245,11 @@ def sheafTensorRightRestrictScalarsIso
           ((Stacks.forgetCommRingSheaf J).map ρ)).obj N) ≅
       (_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf J).map ρ)).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor O₂).flip.obj M).obj N) :=
-  haveI : IsIso (commRingSheafMap J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).cond
-      (Stacks.SheafOfModules.Tensor.ringSheaf O₂).cond) :=
+  haveI : IsIso (commRingSheafMap J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property
+      (Stacks.SheafOfModules.Tensor.ringSheaf O₂).property) :=
     inferInstanceAs (IsIso ((Stacks.forgetCommRingSheaf J).map ρ))
-  tensorRestrictScalarsAlongIsoIso J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).cond
-    (Stacks.SheafOfModules.Tensor.ringSheaf O₂).cond M N
+  tensorRestrictScalarsAlongIsoIso J ρ.hom (Stacks.SheafOfModules.Tensor.ringSheaf O₁).property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O₂).property M N
 
 end SheafTensor
 

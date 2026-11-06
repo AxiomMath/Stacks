@@ -74,6 +74,11 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable (A : Type u) [CommRing A] (M P : ModuleCat.{max u v w} A)
 
+/-- A finite free module, placed in a larger universe, is projective. -/
+private instance projective_finiteFreeModule (k : ℕ) :
+    Module.Projective A (finiteFreeModule.{t} A k) :=
+  inferInstanceAs (Module.Projective A (ULift.{t, u} (Fin k → A)))
+
 /-- The finite free module of rank `n` at two universe annotations that produce the same
 universe of carriers. -/
 noncomputable def finiteFreeModuleUliftIso (n : ℕ) :

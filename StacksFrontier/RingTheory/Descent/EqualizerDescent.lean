@@ -124,7 +124,6 @@ theorem IsBaseChange.bijective_liftBaseChange {M : Type*} [AddCommGroup M] [Modu
   have he : (ρ.liftBaseChange S : S ⊗[R] M → N) = h.equiv := by
     refine funext fun x => ?_
     induction x with
-    | zero => rw [map_zero, map_zero]
     | tmul s m => rw [LinearMap.liftBaseChange_tmul, h.equiv_tmul]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   rw [he]

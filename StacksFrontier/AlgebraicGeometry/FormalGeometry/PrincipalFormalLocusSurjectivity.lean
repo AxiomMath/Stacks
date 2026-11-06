@@ -158,7 +158,7 @@ private theorem injective_app_hom_of_iso {X : Scheme.{u}} {G K : X.Modules} (e :
 private theorem subsingleton_sections_powQuotient_zero {X : Scheme.{u}}
     (g : End (𝟭 (SheafOfModules.{u} X.ringCatSheaf))) (G : X.Modules) (V : X.Opens) :
     Subsingleton Γ(powQuotient g G 0, V) := by
-  have : Epi ((g ^ 0).app G) := by rw [pow_zero]; exact (inferInstance : Epi (𝟙 G))
+  have : Epi ((g ^ 0).asHom.app G) := by rw [pow_zero]; exact (inferInstance : Epi (𝟙 G))
   have hz : IsZero (powQuotient g G 0) := isZero_cokernel_of_epi _
   have hzero : ∀ w : Γ(powQuotient g G 0, V), w = 0 := fun w =>
     (congrArg (fun φ => ConcreteCategory.hom (Scheme.Modules.Hom.app φ V) w)
@@ -226,7 +226,7 @@ theorem stalk_complementScalar_apply (f : A) (G : (complementZeroLocus A a : Sch
     ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
       (Scheme.Modules.Hom.mapPresheaf (((Stacks.SheafOfModules.terminalSectionToEnd
           (complementZeroLocus A a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a
-          f))).app G))) z =
+          f))).asHom.app G))) z =
         complementTopScalars a f • z := by
   let := affineStalkModule G ⊤ x trivial
   let : Module ((complementZeroLocus A a : Scheme).presheaf.stalk x) (G.presheaf.stalk x) :=
@@ -236,7 +236,7 @@ theorem stalk_complementScalar_apply (f : A) (G : (complementZeroLocus A a : Sch
   refine (TopCat.Presheaf.stalkFunctor_map_germ_apply V x hxV _ t).trans ?_
   have e1 : ConcreteCategory.hom (Scheme.Modules.Hom.app
       (((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a : Scheme).ringCatSheaf
-      ⊤ isTerminalTop (complementTopScalars a f))).app G) V) t =
+      ⊤ isTerminalTop (complementTopScalars a f))).asHom.app G) V) t =
       scalarAt ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
           Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) V • t :=
     Stacks.SheafOfModules.scalarActionLocal _ G V t
@@ -249,7 +249,7 @@ theorem stalk_complementScalar_apply (f : A) (G : (complementZeroLocus A a : Sch
   show G.presheaf.germ V x hxV
       (ConcreteCategory.hom (Scheme.Modules.Hom.app (((Stacks.SheafOfModules.terminalSectionToEnd
           (complementZeroLocus A a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a
-          f))).app G) V) t) = _
+          f))).asHom.app G) V) t) = _
   rw [e1, e2]
   refine (PresheafOfModules.germ_smul G.val x V hxV _ t).trans ?_
   show _ = (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial
@@ -265,7 +265,7 @@ theorem injective_stalk_complementMul (f : A) (G : (complementZeroLocus A a : Sc
     Function.Injective (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
       (Scheme.Modules.Hom.mapPresheaf (((Stacks.SheafOfModules.terminalSectionToEnd
           (complementZeroLocus A a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a
-          f))).app G))) :
+          f))).asHom.app G))) :
         G.presheaf.stalk x → G.presheaf.stalk x) := by
   let := affineStalkModule G ⊤ x trivial
   let : Module ((complementZeroLocus A a : Scheme).presheaf.stalk x) (G.presheaf.stalk x) :=
@@ -292,7 +292,7 @@ theorem mono_complementMul_app (f : A) (G : (complementZeroLocus A a : Scheme).M
     [G.IsQuasicoherent]
     (hAss : ∀ x ∈ Stacks.Divisors.associatedPoints G, f ∉ x.1.asIdeal) :
     Mono (((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
-        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).app G) := by
+        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).asHom.app G) := by
   refine mono_of_stalk_injective_on_weaklyAssociatedPoints (F := G) (G := G) _ fun x => ?_
   by_cases hx : x ∈ Stacks.Divisors.weaklyAssociatedPoints G
   · rw [← associatedPoints_eq_weaklyAssociatedPoints] at hx
@@ -395,7 +395,7 @@ omit [IsNoetherianRing A] in
 0H39: they are realized by the torsion-free module `G` itself, which is condition (4). -/
 theorem condition1_powQuotient (f : A) (G : (complementZeroLocus A a : Scheme).Modules)
     (hG : Mono (((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
-        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).app G)) :
+        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).asHom.app G)) :
     Condition1 ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
         Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f)))
       (fun n => powQuotient ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
@@ -412,7 +412,7 @@ quotients `G / f^(n+1) G`. -/
 abbrev complementAdicSystem (f : A) (hcomplete : IsAdicComplete (Ideal.span {f}) A)
     (G : (complementZeroLocus A a : Scheme).Modules) (hG : Mono
         (((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
-        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).app G))
+        Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))).asHom.app G))
     (hfin : Module.Finite A ((ModuleCat.restrictScalars (complementTopScalars a)).obj
       ((_root_.SheafOfModules.evaluation (complementZeroLocus A a : Scheme).ringCatSheaf (op ⊤)).obj
         (powQuotient ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
@@ -440,7 +440,7 @@ abbrev complementProj (f : A)
         Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) G (n + 1) :=
   cokernel.π (C := SheafOfModules.{u} (complementZeroLocus A a : Scheme).ringCatSheaf)
     ((((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a : Scheme).ringCatSheaf ⊤
-        isTerminalTop (complementTopScalars a f))) ^ (n + 1)).app G)
+        isTerminalTop (complementTopScalars a f))) ^ (n + 1)).asHom.app G)
 
 omit [IsNoetherianRing A] in
 /-- The quotient projections are compatible with the transition maps. -/
@@ -455,7 +455,7 @@ theorem complementProj_comp_quotientToQuotient (f : A)
 variable (f : A) (hcomplete : IsAdicComplete (Ideal.span {f}) A)
   (G : (complementZeroLocus A a : Scheme).Modules) (hG : Mono
       (((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a : Scheme).ringCatSheaf
-      ⊤ isTerminalTop (complementTopScalars a f))).app G))
+      ⊤ isTerminalTop (complementTopScalars a f))).asHom.app G))
   (hfin : Module.Finite A ((ModuleCat.restrictScalars (complementTopScalars a)).obj
     ((_root_.SheafOfModules.evaluation (complementZeroLocus A a : Scheme).ringCatSheaf
       (op ⊤)).obj (powQuotient ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a
@@ -614,7 +614,7 @@ theorem exists_quotientSystemNearVanishing_iso_powQuotient (n : ℕ) :
             Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) G n,
       adicProj (idealSheafNearVanishing A (Ideal.span {f}) a) G (op n) ≫ e.hom =
         cokernel.π ((((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
-            Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) ^ n).app G) := by
+            Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) ^ n).asHom.app G) := by
   show ∃ e : cokernel (C := (complementZeroLocus A a : Scheme).Modules)
       (idealPowerMultiple (idealSheafNearVanishing A (Ideal.span {f}) a) n G).ι ≅ _,
     cokernel.π (C := (complementZeroLocus A a : Scheme).Modules)
@@ -913,10 +913,10 @@ theorem isIso_comparisonMap_span_singleton_of_isCoherent_pushforward
     have h1 : adicProj J F (op (n + 1)) ≫ Q.map (homOfLE (Nat.le_succ n)).op =
         adicProj J F (op n) := adicProj_comp_map J F _
     have lhs : adicProj J F (op (n + 1)) ≫ Q.map (homOfLE (Nat.le_succ n)).op ≫ (e n).hom =
-        cokernel.π ((g ^ n).app F) :=
+        cokernel.π ((g ^ n).asHom.app F) :=
       (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ (e n).hom) h1).trans (he n))
     have rhs : adicProj J F (op (n + 1)) ≫ (e (n + 1)).hom ≫ quotientToQuotient g F n =
-        cokernel.π ((g ^ n).app F) :=
+        cokernel.π ((g ^ n).asHom.app F) :=
       (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ quotientToQuotient g F n)
         (he (n + 1))).trans (cokernel.π_desc _ _ _))
     exact lhs.trans rhs.symm

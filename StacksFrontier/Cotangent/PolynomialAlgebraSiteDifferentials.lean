@@ -331,7 +331,7 @@ theorem polynomialBaseStructureHom_app (X : polynomialSite A B) :
 of Kähler differentials of the universe lift of `A → P`. -/
 def polynomialRelativeDifferentialsPresheaf :
     PresheafOfModules.{u + 1} (polynomialStructureRingSheaf A B).obj :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
     (polynomialBaseStructureHom A B).hom
 
 /-- **The sheaf of relative differentials `Ω_{𝒪/A}` on `C_{B/A}`**, a sheaf of `𝒪`-modules. It
@@ -345,9 +345,9 @@ def polynomialRelativeDifferentials :
 
 /-- The universal relative derivation of `𝒪` over `A̲` with values in `Ω_{𝒪/A}`. -/
 def polynomialUniversalDerivation :
-    (polynomialRelativeDifferentials A B).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (polynomialRelativeDifferentials A B).val
       (polynomialBaseStructureHom A B).hom :=
-  PresheafOfModules.DifferentialsConstruction.derivation' (polynomialBaseStructureHom A B).hom
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' (polynomialBaseStructureHom A B).hom
 
 /-- The sections of `Ω_{𝒪/A}` over the object `(P, α)` of `C_{B/A}` are the Kähler
 differentials of the map of rings `A̲ ⟶ 𝒪` evaluated there, which by
@@ -383,14 +383,14 @@ def polynomialRelativeDifferentialsCorepresentableBy :
       (polynomialRelativeDifferentials A B) := by
   refine AlgebraicGeometry.SheafOfModules.universalDerivationCorepresentableBy.{u + 1, u, u + 1,
     u + 1} _ _ _ (polynomialUniversalDerivation A B) (fun F D => ?_)
-  refine ⟨⟨(PresheafOfModules.DifferentialsConstruction.isUniversal'
+  refine ⟨⟨(PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
     (polynomialBaseStructureHom A B).hom).desc D⟩, ?_, fun g hg => ?_⟩
-  · exact (PresheafOfModules.DifferentialsConstruction.isUniversal'
+  · exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
       (polynomialBaseStructureHom A B).hom).fac D
   · exact SheafOfModules.hom_ext
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
         (polynomialBaseStructureHom A B).hom).postcomp_injective _ _
-          (hg.trans ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+          (hg.trans ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
             (polynomialBaseStructureHom A B).hom).fac D).symm))
 
 /-! ### The base change `Ω_1 = B ⊗_𝒪 Ω_{𝒪/A}` -/

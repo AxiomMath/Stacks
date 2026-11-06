@@ -76,9 +76,6 @@ universe v₁ v₂ v₃ u₁ u₂ u₃ w
 
 namespace CategoryTheory
 
-attribute [local implicit_reducible] CategoryTheory.Functor.mapHomotopyCategory
-  _root_.HomotopyCategory.quotient
-
 section Qh
 
 variable {A : Type u₁} {B : Type u₂} [Category.{v₁} A] [Category.{v₂} B]

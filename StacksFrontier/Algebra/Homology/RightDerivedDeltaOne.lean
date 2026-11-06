@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Homology.Refinements
+public import Mathlib.CategoryTheory.Abelian.Refinements
 public import StacksFrontier.Algebra.Homology.DerivedFunctorLongExact
 public import StacksFrontier.Algebra.Homology.RightDerivedCoEdge
 

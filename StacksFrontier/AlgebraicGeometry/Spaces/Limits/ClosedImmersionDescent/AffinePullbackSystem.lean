@@ -72,6 +72,20 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_affinePullbackSystem
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Discrete limits of presheaves of types (instance search times out without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_presheaf_affinePullbackSystem
+    {C : Type*} [Category C] {J : Type} :
+    HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 lemma exists_over_limit_of_affine
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {J : Type u} [Category.{u} J] [IsConnected J]
@@ -620,7 +634,11 @@ private lemma eventually_isClosedImmersion_of_affine_atlas
   let shA : Jᵒᵖ ⥤ Sheaf (BigFppfOver.topology B S hS) (Type u) := {
     obj j := ⟨yoneda.obj (A.obj j),
       (isAlgebraicSpace_yoneda B S hS (A.obj j)).isSheaf⟩
-    map g := ⟨yoneda.map (A.map g)⟩ }
+    map g := ObjectProperty.homMk (yoneda.map (A.map g))
+    map_id j := Sheaf.hom_ext <|
+      (congrArg yoneda.map (A.map_id j)).trans (yoneda.map_id _)
+    map_comp g g' := Sheaf.hom_ext <|
+      (congrArg yoneda.map (A.map_comp g g')).trans (yoneda.map_comp _ _) }
   have hps : Presheaf.IsSheaf _ pc.pt := Sheaf.isSheaf_of_isLimit shA pc hpc
   have hls : Presheaf.IsSheaf _ (R.obj lc.pt) :=
     (Presheaf.isSheaf_of_iso_iff e).mpr hps

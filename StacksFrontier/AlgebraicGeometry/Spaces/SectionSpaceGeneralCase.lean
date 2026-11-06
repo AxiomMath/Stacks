@@ -231,6 +231,19 @@ end Relocalize
 
 /-! ### The kernel pair of a comparison of spaces of sections -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `U` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_SectionSpaceGeneralCase {B : BigFppfSite.{u}}
+    {U : Scheme.{u}} {hU : B.Contains U} :
+    HasPullbacks ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SectionSpaceGeneralCase
+    {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}
+    {X Y Z : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section KernelPair
 
 variable {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}

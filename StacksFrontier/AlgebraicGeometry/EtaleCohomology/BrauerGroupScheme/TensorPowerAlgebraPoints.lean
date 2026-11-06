@@ -294,7 +294,7 @@ theorem curry'_altProjFree_comp_natTensorPowTrivIso_inv_eq_sum {T : Scheme.{u}}
     MonoidalClosed.curry' (altProjFree T (n + 1)) ≫ (natTensorPowTrivIso M).inv.hom
       = ∑ k : ULift.{u, 0} (Fin (n + 1) → Fin (n + 1)) ×
             ULift.{u, 0} (Fin (n + 1) → Fin (n + 1)),
-          Matrix.altProj (R₀ T) k.1.down k.2.down ≫
+          (Matrix.altProj (R₀ T) k.1.down k.2.down).asHom ≫
             natTensorPowPoint (n + 1) (fun j => matIncl (S := T)
               (ULift.up.{u, 0} (k.1.down j), ULift.up.{u, 0} (k.2.down j)) ≫ M.inv.hom) := by
   refine Eq.trans (congrArg (fun z => z ≫ (natTensorPowTrivIso M).inv.hom)
@@ -323,10 +323,10 @@ theorem curry'_altProjFree_comp_natTensorPowTrivIso_inv_eq_sum {T : Scheme.{u}}
         (natTensorPowPoint_matIncl T (n + 1) n c e).symm).trans
           (natTensorPowPoint_comp_natTensorPowCongr_inv M (n + 1) _))
   exact (Category.assoc _ _ _).trans
-    ((congrArg (fun z => z ≫ matIncl (S := T) (ULift.up.{u, 0} c, ULift.up.{u, 0} e) ≫
+    ((congrArg (fun z : R₀ T => z.asHom ≫ matIncl (S := T) (ULift.up.{u, 0} c, ULift.up.{u, 0} e) ≫
         (natTensorPowTrivIso M).inv.hom)
       (freeDualMatrix_altProjFree T (n + 1) (ULift.up.{u, 0} c) (ULift.up.{u, 0} e))).trans
-      (congrArg (fun z => Matrix.altProj (R₀ T) c e ≫ z) hstep))
+      (congrArg (fun z => (Matrix.altProj (R₀ T) c e).asHom ≫ z) hstep))
 
 end Stacks.EtaleCohomology.BrauerScheme
 

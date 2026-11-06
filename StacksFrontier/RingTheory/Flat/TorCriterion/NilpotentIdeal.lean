@@ -145,10 +145,8 @@ private theorem rTensor_restrictScalars_injective'
         = eY ((LinearMap.rTensor ((R⧸J) ⊗[R] M) f) t) := by
     intro t
     induction t with
-    | zero => simp
     | tmul x m' =>
         induction m' with
-        | zero => simp
         | tmul a m =>
             show (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸J] (a ⊗ₜ[R] m)))
               = eY ((LinearMap.rTensor ((R⧸J) ⊗[R] M) f) (x ⊗ₜ[R⧸J] (a ⊗ₜ[R] m)))

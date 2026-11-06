@@ -318,10 +318,10 @@ instance isIso_completionSubfunctorRestrict_emptyToBase :
   rw [isIso_iff_bijective]
   refine ⟨fun x y _ => ?_, fun y => ?_⟩
   · have := isEmpty_toScheme_of_hom_emptySiteObject x.1.down
-    exact Subtype.ext (ULift.ext _ _ (hom_ext_of_isEmpty _ _))
+    exact Subtype.ext (ULift.ext (hom_ext_of_isEmpty _ _))
   · have := isEmpty_toScheme_of_hasImageIn_empty y.2
     exact ⟨⟨ULift.up (homOfIsEmpty _ _), hasImageIn_empty_of_isEmpty _⟩,
-      Subtype.ext (ULift.ext _ _ (hom_ext_of_isEmpty _ _))⟩
+      Subtype.ext (ULift.ext (hom_ext_of_isEmpty _ _))⟩
 
 /-- `∅ ⟶ S` induces an isomorphism of the completions along the empty set. -/
 instance isIso_completionSheafRestrict_emptyToBase :

@@ -887,7 +887,6 @@ theorem isGeometricallyIrreducible_adjoin_linearCombination
       cases i with
       | inl i => rfl
       | inr b => cases b <;> rfl
-    · rfl
   have hL := isGeometricallyIrreducible_linearCombination_of_infinite k' K' L n x' g'
     hgen' hx' (isGeometricallyIrreducible_of_adjoin_eq_top k' K' L x' hx' hgen' hK')
     hfg' c' hind'

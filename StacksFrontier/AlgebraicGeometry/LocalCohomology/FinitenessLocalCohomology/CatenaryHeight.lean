@@ -106,7 +106,6 @@ private theorem isAlgebraic_residueField_of_isIntegral {R S : Type*} [CommRing R
     Algebra.IsAlgebraic q.ResidueField Q.ResidueField := by
   let : Algebra q.ResidueField Q.ResidueField := Ideal.ResidueField.algebraOfLiesOver q Q
   let := Localization.AtPrime.algebraOfLiesOver q Q
-  have : Localization.AtPrime.IsLiesOverAlgebra q Q := ⟨rfl⟩
   let : Algebra R Q.ResidueField :=
     ((algebraMap (S ⧸ Q) Q.ResidueField).comp (algebraMap R (S ⧸ Q))).toAlgebra
   have : IsScalarTower R S Q.ResidueField := IsScalarTower.of_algebraMap_eq' rfl
@@ -155,6 +154,8 @@ theorem quotient_height_eq_of_finite_integral
       rw [Ideal.LiesOver.over (P := P) (p := p)])
   have : Q'.LiesOver q' := liesOver_map_quotientMk hpq hPQ
   have : Algebra.IsIntegral R S := Ideal.Quotient.algebra_isIntegral_of_liesOver P p
+  have : Module.Finite A S := Module.Finite.trans B S
+  have : Module.Finite R S := Module.Finite.of_restrictScalars_finite A R S
   have htrdeg : Algebra.trdeg R S = 0 := trdeg_eq_zero
   let : Algebra q'.ResidueField Q'.ResidueField :=
     Ideal.ResidueField.algebraOfLiesOver q' Q'

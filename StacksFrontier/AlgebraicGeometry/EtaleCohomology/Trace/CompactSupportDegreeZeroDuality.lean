@@ -247,10 +247,10 @@ theorem geometricCyclotomicDualInvariantsToHom_apply_eq
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h⁻¹) ⟨h⁻¹, rfl⟩
   change ((cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)).obj.obj.obj.ρ
       ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
-        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h⁻¹)).hom
+        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h⁻¹)).asHom.hom
       (geometricCyclotomicDualInvariantsToHom B X f kbar Λ y ρ b
         ((ρ.obj.obj.obj.ρ (((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
-          (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h⁻¹)⁻¹)).hom m)) =
+          (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h⁻¹)⁻¹)).asHom.hom m)) =
     geometricCyclotomicDualInvariantsToHom B X f kbar Λ y ρ b m at hb
   rwa [htriv, map_inv (etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
     (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) h, inv_inv] at hb
@@ -317,7 +317,7 @@ theorem injective_geometricCyclotomicDualInvariantsLift
   apply Subtype.ext
   have e : geometricCyclotomicDualInvariantsToHom B X f kbar Λ y ρ b =
       geometricCyclotomicDualInvariantsToHom B X f kbar Λ y ρ b' :=
-    AddMonoidHom.ext fun m ↦ ULift.ext _ _ (DFunLike.congr_fun h (Stacks.Trace.coinvariantsMk _ m))
+    AddMonoidHom.ext fun m ↦ ULift.ext (DFunLike.congr_fun h (Stacks.Trace.coinvariantsMk _ m))
   exact e
 
 /-- `b ↦ b̄` is surjective: `m ↦ c(m̄)` is `N`-equivariant for every `c : M_N → μ_n`, since `N`
@@ -346,9 +346,9 @@ theorem surjective_geometricCyclotomicDualInvariantsLift
     refine AddMonoidHom.ext fun m ↦ ?_
     show ((cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)).obj.obj.obj.ρ
         ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
-      (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g)).hom (φ ((ρ.obj.obj.obj.ρ
+      (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g)).asHom.hom (φ ((ρ.obj.obj.obj.ρ
         ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
-          (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g)⁻¹).hom m)) = φ m
+          (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g)⁻¹).asHom.hom m)) = φ m
     rw [htriv]
     exact congrArg (fun z ↦ ULift.up (c z)) (Stacks.Trace.coinvariantsMk_group_action
       ((finiteTypeContinuousModuleRepresentation Λ _ ρ).comp

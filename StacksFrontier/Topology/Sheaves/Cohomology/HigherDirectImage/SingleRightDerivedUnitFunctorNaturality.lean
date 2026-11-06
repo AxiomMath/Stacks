@@ -174,9 +174,9 @@ lemma singleRightDerivedUnit_fac_app (τ : Φ ⟶ Φ')
     (ρ : Φ.rightDerivedFunctorPlus ⟶ Φ'.rightDerivedFunctorPlus)
     (hσ : σ = Functor.mapHomotopyCategoryPlusNatTrans τ)
     (hρ : ∀ K : HomotopyCategory.Plus A,
-      Φ.rightDerivedFunctorPlusUnit.app K ≫ ρ.app (DerivedCategory.Plus.Qh.obj K) =
+      Φ.rightDerivedFunctorPlusUnith.app K ≫ ρ.app (DerivedCategory.Plus.Qh.obj K) =
         DerivedCategory.Plus.Qh.map (σ.app K) ≫
-          Φ'.rightDerivedFunctorPlusUnit.app K)
+          Φ'.rightDerivedFunctorPlusUnith.app K)
     (M : A) :
     (DerivedCategory.Plus.singleFunctor B 0).map (τ.app M) ≫
         (singleRightDerivedUnit Φ').app M =
@@ -193,7 +193,7 @@ lemma singleRightDerivedUnit_fac_app (τ : Φ ⟶ Φ')
           ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M) :=
     ρ.naturality ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M)
   rw [singleRightDerivedUnit_app, singleRightDerivedUnit_app, Category.assoc, Category.assoc,
-    hnatρ, ← Category.assoc (Φ.rightDerivedFunctorPlusUnit.app _), hρM, Category.assoc,
+    hnatρ, ← Category.assoc (Φ.rightDerivedFunctorPlusUnith.app _), hρM, Category.assoc,
     ← Category.assoc ((Functor.mapSingleFunctorCompQhIso Φ).app M).inv]
   exact (Category.assoc _ _ _).symm.trans
     (CategoryTheory.eq_whisker (mapSingleFunctorCompQhIso_inv_app_natTrans Φ Φ' τ M) _)

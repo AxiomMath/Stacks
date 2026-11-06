@@ -123,7 +123,7 @@ theorem homogeneousComponent_sub_mem_degreeGE {n : ℕ} {p : MvPolynomial σ B}
   rw [mem_support_iff, coeff_sub, coeff_homogeneousComponent] at hd
   rcases eq_or_ne d.degree n with h | h
   · simp [h] at hd
-  · have hc : coeff d p ≠ 0 := by simpa [h] using hd
+  · have hc : p.coeff d ≠ 0 := by simpa [h] using hd
     have := hp d (mem_support_iff.2 hc)
     omega
 
@@ -198,8 +198,8 @@ theorem span_range_monomial_eq_degreeGE (n : ℕ) :
     exact monomial_mem_degreeGE d.2 1
   · rw [← support_sum_monomial_coeff p]
     refine Submodule.sum_mem _ fun d hd => ?_
-    have hsm : (monomial d (coeff d p) : MvPolynomial σ B)
-        = coeff d p • monomial d (1 : B) := by
+    have hsm : (monomial d (p.coeff d) : MvPolynomial σ B)
+        = p.coeff d • monomial d (1 : B) := by
       rw [smul_monomial, smul_eq_mul, mul_one]
     rw [hsm]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨⟨d, hp d hd⟩, rfl⟩)

@@ -176,8 +176,8 @@ theorem isClosedImmersion_residualToSpace (i : Fin n) :
   have hmonofac : Mono (g ≫ (D.reducedPointSubspace i).ι) := by
     rw [hg]
     exact (D.neighborhood i).mono_residueField
-  have _ : Mono g := mono_of_mono g (D.reducedPointSubspace i).ι
-  have _ : Mono (g ≫ eR.hom) := inferInstance
+  have hmg : Mono g := mono_of_mono g (D.reducedPointSubspace i).ι
+  have _ : Mono (g ≫ eR.hom) := mono_comp' hmg (IsIso.mono_of_iso eR.hom)
   have hgiso : IsIso g := by
     have := (isEmpty_points_or_isIso_of_mono_to_fieldSpectrum B S hS M εM hTalg
       (g ≫ eR.hom)).resolve_left fun h => h.false (D.nonempty_points_residualObject i).some

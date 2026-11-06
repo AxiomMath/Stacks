@@ -180,7 +180,7 @@ private theorem exists_hom_overProd_opens {S T : Scheme.{u}} {n : ℕ} {Y : Fin 
       rw [← Category.assoc, ht, hcomp]) : Over.mk h ⟶ Over.mk ((U i).ι ≫ g i))
   refine ⟨bO.left, bO.w, fun i ↦ ?_⟩
   have hb : bO.left ≫ overProdπ (fun i ↦ (U i).ι ≫ g i) i = t i :=
-    congrArg Over.Hom.left (Limits.Pi.lift_π _ i)
+    congrArg Over.Hom.left (Limits.Pi.lift_comp_π _ i)
   rw [← Category.assoc, hb, ht]
 
 private theorem isOpenImmersion_and_range_overProdOpensι {S : Scheme.{u}} {n : ℕ}

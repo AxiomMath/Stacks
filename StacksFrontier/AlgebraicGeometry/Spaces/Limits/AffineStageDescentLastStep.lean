@@ -42,6 +42,14 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_AffineStageDescentLastStep
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 namespace DescentSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

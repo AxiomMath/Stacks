@@ -51,6 +51,24 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
 universe u
 
+/-- Discrete limits in presheaves of types, supplied directly: the instance search for them
+times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_ThickenedBaseGlobalSectionSets.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  functorCategoryHasLimitsOfShape
+
+/-- Discrete limits in sheaves of types, supplied directly from those of presheaves: the instance
+search for them times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_sheaf_ThickenedBaseGlobalSectionSets.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] (T : GrothendieckTopology C) {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (Sheaf T (Type u)) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf T (Type u))
+
 namespace CategoryTheory
 
 /-- The underlying sheaf of sets of a morphism of sheaves of commutative rings, read through the

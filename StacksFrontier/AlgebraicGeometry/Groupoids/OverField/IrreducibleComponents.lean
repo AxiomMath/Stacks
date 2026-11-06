@@ -725,7 +725,8 @@ private theorem galoisAction_fixes_component_through_point
       (pullback (C := Scheme) f (Spec.map (CommRingCat.ofHom (algebraMap k K)))),
         e' (IsLocalRing.closedPoint K) ∈ W'.1 → W' = W)
     (σ : MulOpposite (K ≃ₐ[k] K)) :
-    ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).ρ σ)
+    ConcreteCategory.hom
+      ((galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).ρ σ).asHom
       (⟨W.1, W.2⟩ : (galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).V) =
       ⟨W.1, W.2⟩ := by
   have hσbase : Spec.map (CommRingCat.ofHom σ.unop.toRingEquiv.toRingHom) ≫
@@ -749,14 +750,14 @@ private theorem galoisAction_fixes_component_through_point
     (congrArg (fun q : Spec (.of K) ⟶
       pullback (C := Scheme) f (Spec.map (CommRingCat.ofHom (algebraMap k K))) =>
         q (IsLocalRing.closedPoint K)) hcomm).trans (congrArg e' (Subsingleton.elim _ _))
-  let eh := Scheme.homeoOfIso ((galoisActionOnBaseChange k K (Over.mk f)).ρAut σ)
+  let eh := Scheme.homeoOfIso ((galoisActionOnBaseChange k K (Over.mk f)).ρAut σ).asIso
   have hcomp : (galoisBaseChangeMap k K X f σ.unop).base '' (W.1 : Set _) ∈
       irreducibleComponents (pullback (C := Scheme) f
         (Spec.map (CommRingCat.ofHom (algebraMap k K)))) :=
     image_mem_irreducibleComponents_of_homeomorph eh W.2
   let W' : (galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).V := ⟨W.1, W.2⟩
   show ConcreteCategory.hom
-    ((galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).ρ σ) W' = W'
+    ((galoisActionOnGeometricIrreducibleComponents k K (Over.mk f)).ρ σ).asHom W' = W'
   apply Subtype.ext
   rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
   exact congrArg Subtype.val (hW ⟨_, hcomp⟩ ⟨_, hrW, hfixr⟩)

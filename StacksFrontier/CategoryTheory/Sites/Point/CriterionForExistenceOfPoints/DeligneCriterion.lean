@@ -9,6 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Bernstein
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.CategoryTheory.Functor.OfSequence
+public import Mathlib.CategoryTheory.Comma.LocallySmall
 public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
@@ -563,27 +564,28 @@ private lemma isCofilteredOrEmpty_elements_bigFiber (T : ℕ → Stage.{w, v, u}
     IsCofilteredOrEmpty (bigFiber (C := C) T r).Elements
     where
   cone_objs := by
-    rintro ⟨Z₁, x₁⟩ ⟨Z₂, x₂⟩
+    rintro @⟨Z₁, x₁⟩ @⟨Z₂, x₂⟩
     obtain ⟨n₁, i₁, f₁, rfl⟩ := bigMk_jointly_surjective T r x₁
     obtain ⟨n₂, i₂, f₂, rfl⟩ := bigMk_jointly_surjective T r x₂
     obtain ⟨D₁⟩ := nonempty_descent T r (le_max_left n₁ n₂)
     obtain ⟨D₂⟩ := nonempty_descent T r (le_max_right n₁ n₂)
     obtain ⟨j, c₁, c₂, -⟩ := IsCofilteredOrEmpty.cone_objs (D₁.E.obj i₁) (D₂.E.obj i₂)
     exact
-      ⟨⟨(T (max n₁ n₂)).q.obj j, bigMk T r (𝟙 _)⟩,
-        CategoryOfElements.homMk _ _ _ (bigFiber_map_bigMk_id T r D₁ c₁ f₁),
-        CategoryOfElements.homMk _ _ _ (bigFiber_map_bigMk_id T r D₂ c₂ f₂), trivial⟩
+      ⟨(bigFiber T r).elementsMk ((T (max n₁ n₂)).q.obj j) (bigMk T r (𝟙 _)),
+        Functor.Elements.homMk _ (bigFiber_map_bigMk_id T r D₁ c₁ f₁),
+        Functor.Elements.homMk _ (bigFiber_map_bigMk_id T r D₂ c₂ f₂), trivial⟩
   cone_maps := by
-    rintro ⟨Z₁, x₁⟩ ⟨Z₂, x₂⟩ g₁ g₂
+    rintro @⟨Z₁, x₁⟩ @⟨Z₂, x₂⟩ g₁ g₂
     obtain ⟨n, i, f, rfl⟩ := bigMk_jointly_surjective T r x₁
-    have hg : bigMk T r (f ≫ g₁.1) = bigMk T r (f ≫ g₂.1) := by
-      rw [← bigFiber_map_bigMk T r f g₁.1, ← bigFiber_map_bigMk T r f g₂.1, g₁.2, g₂.2]
+    have hg : bigMk T r (f ≫ g₁.hom) = bigMk T r (f ≫ g₂.hom) := by
+      rw [← bigFiber_map_bigMk T r f g₁.hom, ← bigFiber_map_bigMk T r f g₂.hom, g₁.map_val,
+        g₂.map_val]
     obtain ⟨m, hnm, D, j, c, hc⟩ := exists_descent_comp_eq T r hg
     refine
-      ⟨⟨(T m).q.obj j, bigMk T r (𝟙 _)⟩,
-        CategoryOfElements.homMk _ _ _ (bigFiber_map_bigMk_id T r D c f),
-        CategoryOfElements.ext _ _ _ ?_⟩
-    show ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₁.val = ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₂.val
+      ⟨(bigFiber T r).elementsMk ((T m).q.obj j) (bigMk T r (𝟙 _)),
+        Functor.Elements.homMk _ (bigFiber_map_bigMk_id T r D c f),
+        Functor.Elements.hom_ext ?_⟩
+    show ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₁.hom = ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₂.hom
     simpa only [Category.assoc] using hc
 
 omit [Small.{w, u} C] in
@@ -591,14 +593,15 @@ private lemma isCofiltered_elements_bigFiber (T : ℕ → Stage.{w, v, u} J S)
     (r : ∀ n : ℕ, Refines.{w, v, u} (T n) (T (n + 1))) :
     IsCofiltered (bigFiber (C := C) T r).Elements := by
   have := isCofilteredOrEmpty_elements_bigFiber (X := X) T r
-  have : Nonempty (bigFiber (C := C) T r).Elements := ⟨⟨X, bigMk T r (T 0).θ⟩⟩
+  have : Nonempty (bigFiber (C := C) T r).Elements := ⟨(bigFiber T r).elementsMk X (bigMk T r (T 0).θ)⟩
   exact {}
 
 private lemma initiallySmall_elements_bigFiber (T : ℕ → Stage.{w, v, u} J S)
     (r : ∀ n : ℕ, Refines.{w, v, u} (T n) (T (n + 1))) :
     InitiallySmall.{w} (bigFiber (C := C) T r).Elements := by
   have : Small.{w} (bigFiber (C := C) T r).Elements :=
-    inferInstanceAs (Small.{w} (Σ Z : C, (bigFiber T r).obj Z))
+    small_of_surjective.{w} (α := Σ Z : C, (bigFiber T r).obj Z)
+      (f := fun x ↦ (bigFiber T r).elementsMk x.1 x.2) (fun x ↦ ⟨⟨x.obj, x.val⟩, rfl⟩)
   exact initiallySmall_of_essentiallySmall _
 
 /-- The point of the site attached to a tower of stages: the colimit of the fibre functors of its

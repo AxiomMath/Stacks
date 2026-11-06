@@ -320,8 +320,7 @@ theorem not_surjective_tensorProduct_of_units_mem_inf
   have hAB := subring_A_le_B S h_units
   have himage : ∀ t : TensorProduct ℤ S.A S.B, f t ∈ S.B := by
     intro t
-    refine TensorProduct.induction_on t ?_ ?_ ?_
-    · simp [f]
+    refine TensorProduct.inductionOn t ?_ ?_
     · intro a b
       show ((a : S.K) * (b : S.K)) ∈ S.B
       exact S.B.mul_mem (Subring.inclusion hAB a).property b.property

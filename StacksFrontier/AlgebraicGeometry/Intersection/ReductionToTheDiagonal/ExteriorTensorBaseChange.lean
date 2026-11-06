@@ -78,7 +78,6 @@ public noncomputable def exteriorAction : A ⊗[k] B →ₐ[k] Module.End k (M �
       apply LinearMap.ext
       intro x
       induction x with
-      | zero => simp
       | tmul m n => simp [Module.End.mul_apply, TensorProduct.liftAux_tmul]
       | add x y hx hy => simp only [map_add, hx, hy])
 
@@ -152,11 +151,9 @@ public noncomputable def exteriorToTensor : M ⊗[k] N →ₗ[A ⊗[k] A] M ⊗[
   map_smul' := by
     intro r x
     induction r with
-    | zero => simp
     | add r r' hr hr' => simp only [add_smul, map_add, hr, hr']
     | tmul a b =>
         induction x with
-        | zero => simp
         | add x y hx hy => simp only [smul_add, map_add, hx, hy]
         | tmul m n =>
             rw [RingHom.id_apply, exteriorModule_smul_tmul, exteriorToTensorAux_tmul,
@@ -254,7 +251,6 @@ public noncomputable def diagonalTensorEquiv :
     (by
       ext z
       induction z with
-      | zero => simp
       | add z z' hz hz' => simp only [map_add, hz, hz']
       | tmul m n =>
           simp [diagonalTensorFwd, diagonalTensorInv, diagonalTensorFwdAux,
@@ -298,11 +294,9 @@ public noncomputable def exteriorMap (f : M →ₗ[A] M') (g : N →ₗ[A] N') :
   map_smul' := by
     intro r x
     induction r with
-    | zero => simp
     | add r r' hr hr' => simp only [add_smul, map_add, hr, hr']
     | tmul a b =>
         induction x with
-        | zero => simp
         | add x y hx hy => simp only [smul_add, map_add, hx, hy]
         | tmul m n =>
             rw [RingHom.id_apply, exteriorModule_smul_tmul, TensorProduct.map_tmul,
@@ -319,11 +313,9 @@ public theorem diagonalTensorEquiv_naturality (f : M →ₗ[A] M') (g : N →ₗ
     diagonalTensorEquiv M' N' (LinearMap.lTensor A (exteriorMap (k := k) f g) x) =
       TensorProduct.map f g (diagonalTensorEquiv M N x) := by
   induction x with
-  | zero => simp
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a z =>
       induction z with
-      | zero => simp
       | add z z' hz hz' => simp only [TensorProduct.tmul_add, map_add, hz, hz']
       | tmul m n => simp
 

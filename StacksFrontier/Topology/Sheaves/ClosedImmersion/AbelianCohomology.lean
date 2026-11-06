@@ -261,6 +261,8 @@ private lemma closedPushforward_preservesFiniteColimits
   apply (T.preservesFiniteColimits_tfae.out 1 4).mp
   intro S hS
   have : Epi S.g := hS.epi_g
+  have : PreservesLimitsOfShape WalkingParallelPair T :=
+    PreservesFiniteLimits.preservesFiniteLimits _
   exact ⟨ShortComplex.exact_of_f_is_kernel _ (KernelFork.mapIsLimit _ hS.fIsKernel T),
     inferInstance⟩
 
@@ -840,6 +842,8 @@ private lemma closedPullback_preservesFiniteLimits :
   have := closedReflector_preservesFiniteLimits.{u,w} i hi
   have : PreservesFiniteLimits (closedPullback i hi ⋙ closedPushforward i) :=
     preservesFiniteLimits_of_natIso (closedPullbackPushforwardIso i hi).symm
+  have : ReflectsFiniteLimits (closedPushforward i) :=
+    ReflectsLimitsOfSize.reflectsFiniteLimits.{0, 0} _
   exact preservesFiniteLimits_of_reflects_of_preserves (closedPullback i hi) (closedPushforward i)
 end Reflector
 

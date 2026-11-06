@@ -64,7 +64,7 @@ public def properSupportStalkCocone :
   ι :=
     { app U := (fShriekSubsheaf B g G).val.arrow.hom.app (op U.unop.1) ≫
         colimit.ι (etaleStalkDiagram B Y.obj Y.property (y.toGeometricPoint B g s) G.obj)
-          (op ⟨baseChange B g U.unop.1, fiberPointElement B g s U.unop.1 U.unop.2 y⟩)
+          (op (Functor.elementsMk _ (baseChange B g U.unop.1) (fiberPointElement B g s U.unop.1 U.unop.2 y)))
       naturality U U' m := by
         refine ConcreteCategory.hom_ext _ _ fun τ => ?_
         have hn := ConcreteCategory.congr_hom
@@ -78,8 +78,8 @@ public def properSupportStalkCocone :
         simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id,
           ConcreteCategory.comp_apply] at hn ⊢
         refine Eq.trans (congrArg (ConcreteCategory.hom (colimit.ι (etaleStalkDiagram B Y.obj
-          Y.property (y.toGeometricPoint B g s) G.obj) (op ⟨baseChange B g U'.unop.1,
-            fiberPointElement B g s U'.unop.1 U'.unop.2 y⟩))) hn) ?_
+          Y.property (y.toGeometricPoint B g s) G.obj) (op (Functor.elementsMk _ (baseChange B g U'.unop.1)
+            (fiberPointElement B g s U'.unop.1 U'.unop.2 y))))) hn) ?_
         exact hg }
 
 /-- **The germ at a point of the geometric fibre** of a germ of a section of the proper-support
@@ -99,7 +99,7 @@ public theorem properSupportStalkEval_germ (W : SmallEtale B Z.obj Z.property)
           W w τ) =
       etaleGerm B Y.obj Y.property (y.toGeometricPoint B g s) G.obj (baseChange B g W)
         (fiberPointElement B g s W w y) (properSupportSection B g G W τ) :=
-  ConcreteCategory.congr_hom (colimit.ι_desc (properSupportStalkCocone B g G s y) (op ⟨W, w⟩)) τ
+  ConcreteCategory.congr_hom (colimit.ι_desc (properSupportStalkCocone B g G s y) (op (Functor.elementsMk _ W w))) τ
 
 /-- **Morphisms into the proper-support direct image are determined by germs.** Two morphisms
 `A ⟶ g_! G` agree as soon as, for every section `σ` of `A` over an étale neighbourhood `(W, w)` of
@@ -248,7 +248,7 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
   obtain ⟨t', rfl⟩ : ∃ t', etaleStalkSheafificationMap B Z.obj Z.property s P t' = t :=
     ⟨(etaleStalkSheafificationIso B Z.obj Z.property s P).hom t,
       Iso.hom_inv_id_apply (etaleStalkSheafificationIso B Z.obj Z.property s P) t⟩
-  obtain ⟨⟨W, w⟩, l, rfl⟩ := exists_listSum_generators_eq_etaleStalk.{u, max (u + 1) v} B (f ≫ g)
+  obtain ⟨@⟨W, w⟩, l, rfl⟩ := exists_listSum_generators_eq_etaleStalk.{u, max (u + 1) v} B (f ≫ g)
     s F (fun _ => inferInstance) t'
   let L' := L.comp (etaleStalkSheafificationMap B Z.obj Z.property s P).hom
   let R' := R.comp (etaleStalkSheafificationMap B Z.obj Z.property s P).hom
@@ -257,13 +257,13 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
     (map_list_sum R' _).symm)
   obtain ⟨pr, -, rfl⟩ := List.mem_map.1 ht
   have hι : etaleStalkSheafificationMap B Z.obj Z.property s P
-        (colimit.ι (etaleStalkDiagram B Z.obj Z.property s P) (op ⟨W, w⟩)
+        (colimit.ι (etaleStalkDiagram B Z.obj Z.property s P) (op (Functor.elementsMk _ W w))
           (finiteSupportPushforwardGenerator B (f ≫ g) F W pr.1 pr.2)) =
       etaleGerm B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj W w
         ((toSheafify (SmallEtale.topology B Z.obj Z.property) P).app (op W)
           (finiteSupportPushforwardGenerator B (f ≫ g) F W pr.1 pr.2)) :=
     ConcreteCategory.congr_hom
-      (colimit_ι_comp_etaleStalkSheafificationMap B Z.obj Z.property s P (op ⟨W, w⟩)) _
+      (colimit_ι_comp_etaleStalkSheafificationMap B Z.obj Z.property s P (op (Functor.elementsMk _ W w))) _
   exact (congrArg L hι).trans ((hgen W w pr.1 pr.2).trans (congrArg R hι).symm)
 
 /-- **Stacks 0F79, the germ formula for `c'`.** -/

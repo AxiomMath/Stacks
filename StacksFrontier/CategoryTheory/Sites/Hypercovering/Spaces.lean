@@ -235,7 +235,11 @@ private theorem leg_face_f (K : SimplicialObject (FC X))
   fin_cases d <;> simp [leg, faceArrow, StructuredArrow.mk, vertex, SimplexCategory.δ,
     FormalCoproduct.Hom.fromIncl] <;>
     dsimp [StructuredArrow.hom, Comma.hom, SimplexCategory.Hom.toOrderHom,
-      SimplexCategory.Hom.mk, Fin.succAboveOrderEmb] <;> rfl
+      SimplexCategory.Hom.mk, Fin.succAboveOrderEmb] <;>
+    first
+    | rfl
+    | (intro h; exact absurd rfl h)
+    | (intro h; exact absurd h (by decide))
 
 private theorem matchingLift_face (K : SimplicialObject (FC X))
     (i₀ i₁ : (K.obj (op ⦋0⦌)).I) (d : Fin 2) :

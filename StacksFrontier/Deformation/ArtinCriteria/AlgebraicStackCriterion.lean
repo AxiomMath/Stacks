@@ -47,8 +47,6 @@ import all StacksFrontier.Deformation.Artin.Versality.FormalObjectApproximation.
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits IsLocalRing
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Over.post
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber.fiberInclusion
 attribute [local implicit_reducible] Deformation.Artin.baseOver

@@ -285,7 +285,7 @@ private theorem ramificationIndex_eq_of_ramificationIdx'_eq
   rw [Ideal.ramificationIdx_tower (R := B) (S := S) (T := C) P mC, hone, mul_one]
   have hlies : P.LiesOver (IsLocalRing.maximalIdeal B) :=
     ⟨((IsLocalRing.isMaximal_iff B).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) P)).symm⟩
   rw [← Ideal.ramificationIdx'_eq_ramificationIdx _ P (IsDiscreteValuationRing.not_a_field B)]
   exact hunr P hPmax
 

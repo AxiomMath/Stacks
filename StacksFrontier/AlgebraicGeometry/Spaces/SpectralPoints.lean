@@ -179,10 +179,9 @@ theorem quasiSeparatedSpace_points_of_isAbsolutelyQuasiSeparated
   let fAObj : AObj ⟶ XObj := ObjectProperty.homMk fA
   let fDObj : DObj ⟶ XObj := ObjectProperty.homMk fD
   let PObj := AlgebraicSpaces.fiberProduct B S hS fAObj fDObj
-  let pObj : PObj ⟶ AObj := ObjectProperty.homMk (pullback.fst fA fD)
-  let qObj : PObj ⟶ DObj := ObjectProperty.homMk (pullback.snd fA fD)
-  have hsq : IsPullback pObj qObj fAObj fDObj :=
-    AlgebraicSpaces.isPullback_fiberProduct B S hS fAObj fDObj
+  obtain ⟨pObj, qObj, hsq⟩ : ∃ (pObj : PObj ⟶ AObj) (qObj : PObj ⟶ DObj),
+      IsPullback pObj qObj fAObj fDObj :=
+    ⟨_, _, AlgebraicSpaces.isPullback_fiberProduct B S hS fAObj fDObj⟩
   let eP : yoneda.obj W ≅ PObj.obj := e
   have hcomp : pObj.hom ≫ fA = qObj.hom ≫ fD := congrArg (fun g ↦ g.hom) hsq.w
   have hePts : Function.Surjective (pointsMap B S hS (yoneda.obj W) eP.hom) := fun z ↦

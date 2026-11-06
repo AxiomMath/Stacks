@@ -48,7 +48,7 @@ with which the proof of **Stacks 07WG** reads condition (1): given a scheme `V`,
 
 ## Implementation notes
 
-The condition is stated as `(diagonalAut hG (Y.obj a)).hom = 𝟙 _` rather than as an equality of
+The condition is stated as `(diagonalAut hG (Y.obj a)).asIso.hom = 𝟙 _` rather than as an equality of
 isomorphisms, because that is the form in which a consumer meets it: the automorphism arrives as
 the automorphism component of an object of the relative inertia, and the predicate it has to
 test is an equation between morphisms.
@@ -129,7 +129,7 @@ theorem nonempty_relVertHom_iff
     (hY : Y ⋙ RelativeDiagonalFibre.RelProdP p𝒮 (structureFunctor p𝒮 p𝒮 p𝒮' G G)
       (diagonal hG) = p𝒯) :
     Nonempty (RelativeDiagonalFibre.RelVertHom p𝒯 Y a) ↔
-      (diagonalAut hG (Y.obj a)).hom = 𝟙 (Y.obj a).x := by
+      (diagonalAut hG (Y.obj a)).asIso.hom = 𝟙 (Y.obj a).x := by
   constructor
   · rintro ⟨m⟩
     rw [diagonalAut_hom, ← val_eq_isoFst_hom hG Y a m, val_eq_isoSnd_hom hG Y a m]

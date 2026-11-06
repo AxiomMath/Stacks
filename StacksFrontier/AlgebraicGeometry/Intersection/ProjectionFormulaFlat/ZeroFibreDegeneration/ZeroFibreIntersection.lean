@@ -285,7 +285,7 @@ theorem topologicalKrullDim_inter_zeroSection_familyBaseChange_add_le (d p r n :
       (↥(closure ({C'.subschemeι.base (genericPoint C'.subscheme)} :
         Set (projectiveLineProduct sP)) ∩ closure {(zeroSection sP).base (genericPoint P)} ∩
           closure {(familyBaseChange sP ι).base
-            (genericPoint (projectiveLineProduct (ι ≫ sP)))})) +
+                    (genericPoint (projectiveLineProduct (ι ≫ sP)))})) +
         ((2 * (p + 1) : ℕ) : WithBot ℕ∞) ≤ ((r + 1 + p + (d + 1) : ℕ) : WithBot ℕ∞) := by
   have hc'cl := closure_genericPoint_subschemeι_eq_support K sP C'
   have hset : closure ({C'.subschemeι.base (genericPoint C'.subscheme)} :
@@ -405,15 +405,17 @@ theorem eq_properPushforward_product_zeroSection (hX : IsRegular X) (hP : IsRegu
   have hG := torFormula_properPushforward_eq_properPushforward_zeroSection sP ι hP d p r n hd hp
     hrn _ hγsupp (by rw [hpushγ]; exact h3)
   rw [hpushγ] at hG
-  have hcy : closure ({(familyBaseChange sP ι).base
-      (genericPoint (projectiveLineProduct (ι ≫ sP)))} : Set (projectiveLineProduct sP)) =
+  have hcy : closure ({
+      (familyBaseChange sP ι).base (genericPoint (projectiveLineProduct (ι ≫ sP)))} :
+        Set (projectiveLineProduct sP)) =
       Set.range (familyBaseChange sP ι).base :=
     (range_eq_closure_singleton (familyBaseChange sP ι)).symm
   have hδ : topologicalKrullDim (closure ({(zeroSection sP).base (genericPoint P)} :
       Set (projectiveLineProduct sP))) = (p : WithBot ℕ∞) := by
     rw [topologicalKrullDim_closure_image_genericPoint, hp]
-  have hy : topologicalKrullDim (closure ({(familyBaseChange sP ι).base
-      (genericPoint (projectiveLineProduct (ι ≫ sP)))} : Set (projectiveLineProduct sP))) =
+  have hy : topologicalKrullDim (closure ({
+      (familyBaseChange sP ι).base (genericPoint (projectiveLineProduct (ι ≫ sP)))} :
+        Set (projectiveLineProduct sP))) =
       ((d + 1 : ℕ) : WithBot ℕ∞) := by
     rw [topologicalKrullDim_closure_familyBaseChange_genericPoint, hd]; push_cast; rfl
   have hrangeι : topologicalKrullDim (Set.range ι.base) = (d : WithBot ℕ∞) := by
@@ -580,8 +582,9 @@ theorem intersectionProduct_zeroFibre_eq_properPushforward_zeroSection
     rw [topologicalKrullDim_projectiveLineProduct, hp]; push_cast; rfl
   have hcx : closure ({ι.base (genericPoint X)} : Set P) = Set.range ι.base :=
     (range_eq_closure_singleton ι).symm
-  have hcy : closure ({(familyBaseChange sP ι).base
-      (genericPoint (projectiveLineProduct (ι ≫ sP)))} : Set (projectiveLineProduct sP)) =
+  have hcy : closure ({
+      (familyBaseChange sP ι).base (genericPoint (projectiveLineProduct (ι ≫ sP)))} :
+        Set (projectiveLineProduct sP)) =
       Set.range (familyBaseChange sP ι).base :=
     (range_eq_closure_singleton (familyBaseChange sP ι)).symm
   have hc'cl := closure_genericPoint_subschemeι_eq_support K sP C'

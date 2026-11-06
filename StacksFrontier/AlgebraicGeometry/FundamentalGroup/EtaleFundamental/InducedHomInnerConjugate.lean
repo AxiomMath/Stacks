@@ -61,7 +61,7 @@ public def IsEtaleFundamentalGroupHomInducedBy {x : GeometricPoint X} {y : Geome
   ∃ T : H ⋙ finiteEtaleFiberFunctor y ≅ finiteEtaleFiberFunctor x,
     ∀ (γ : EtaleFundamentalGroup Y y) (V : FiniteEtaleOver X)
       (w : (finiteEtaleFiberFunctor x).obj V),
-      ((Φ γ).app V).hom w = T.hom.app V ((γ.app (H.obj V)).hom (T.inv.app V w))
+      ((Φ γ).asIso.app V).hom w = T.hom.app V ((γ.asIso.app (H.obj V)).hom (T.inv.app V w))
 
 /-- **`f_*` is induced by the base change along `f`.** -/
 public theorem isEtaleFundamentalGroupHomInducedBy_map (f : Y ⟶ X) (y : GeometricPoint Y) :
@@ -80,8 +80,8 @@ public theorem isEtaleFundamentalGroupHomInducedBy_basePointHom {x x' : Geometri
   have hγ : t.conjAut (etaleFundamentalGroupBasePointHom t γ) = γ :=
     etaleFundamentalGroupMulEquiv_basePointHom t γ
   rw [hγ] at h
-  show ((etaleFundamentalGroupBasePointHom t γ).app V).hom w =
-    t.inv.app V ((γ.app V).hom (t.hom.app V w))
+  show ((etaleFundamentalGroupBasePointHom t γ).asIso.app V).hom w =
+    t.inv.app V ((γ.asIso.app V).hom (t.hom.app V w))
   rw [h, Iso.hom_inv_id_app_apply]
 
 namespace IsEtaleFundamentalGroupHomInducedBy
@@ -109,13 +109,13 @@ public theorem of_iso {H H' : FiniteEtaleOver X ⥤ FiniteEtaleOver Y} (ν : H �
   obtain ⟨T, hT⟩ := h
   refine ⟨Functor.isoWhiskerRight ν.symm (finiteEtaleFiberFunctor y) ≪≫ T, fun γ V w => ?_⟩
   rw [hT]
-  show T.hom.app V ((γ.app (H.obj V)).hom (T.inv.app V w)) =
+  show T.hom.app V ((γ.asIso.app (H.obj V)).hom (T.inv.app V w)) =
     T.hom.app V ((finiteEtaleFiberFunctor y).map (ν.inv.app V)
-      ((γ.app (H'.obj V)).hom ((finiteEtaleFiberFunctor y).map (ν.hom.app V) (T.inv.app V w))))
+      ((γ.asIso.app (H'.obj V)).hom ((finiteEtaleFiberFunctor y).map (ν.hom.app V) (T.inv.app V w))))
   congr 1
-  have hn : (γ.app (H'.obj V)).hom ((finiteEtaleFiberFunctor y).map (ν.hom.app V) (T.inv.app V w)) =
-      (finiteEtaleFiberFunctor y).map (ν.hom.app V) ((γ.app (H.obj V)).hom (T.inv.app V w)) :=
-    ConcreteCategory.congr_hom (γ.hom.naturality (ν.hom.app V)) (T.inv.app V w)
+  have hn : (γ.asIso.app (H'.obj V)).hom ((finiteEtaleFiberFunctor y).map (ν.hom.app V) (T.inv.app V w)) =
+      (finiteEtaleFiberFunctor y).map (ν.hom.app V) ((γ.asIso.app (H.obj V)).hom (T.inv.app V w)) :=
+    ConcreteCategory.congr_hom (γ.asIso.hom.naturality (ν.hom.app V)) (T.inv.app V w)
   rw [hn, ← Functor.map_comp_apply, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
   rfl
 
@@ -126,10 +126,10 @@ public theorem isInnerConjugate {H : FiniteEtaleOver X ⥤ FiniteEtaleOver Y}
     IsInnerConjugate Φ Φ' := by
   obtain ⟨T, hT⟩ := h
   obtain ⟨T', hT'⟩ := h'
-  let c : EtaleFundamentalGroup X x := T.symm ≪≫ T'
-  refine ⟨c, fun γ => Aut.ext ?_⟩
+  let c : EtaleFundamentalGroup X x := Aut.of (T.symm ≪≫ T')
+  refine ⟨c, fun γ => Aut.ext (Iso.ext ?_)⟩
   ext V w
-  show ((Φ' γ).app V).hom w = T'.hom.app V (T.inv.app V (((Φ γ).app V).hom
+  show ((Φ' γ).asIso.app V).hom w = T'.hom.app V (T.inv.app V (((Φ γ).asIso.app V).hom
     (T.hom.app V (T'.inv.app V w))))
   rw [hT', hT, Iso.hom_inv_id_app_apply, Iso.hom_inv_id_app_apply]
 

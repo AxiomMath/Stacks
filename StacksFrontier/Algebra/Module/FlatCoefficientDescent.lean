@@ -88,7 +88,6 @@ theorem piRightHom_lTensor_pi (r : ∀ i, M →ₗ[A] Mi i) (i : ι) (x : W ⊗[
     TensorProduct.piRightHom A A W Mi (LinearMap.lTensor W (LinearMap.pi r) x) i =
       LinearMap.lTensor W (r i) x := by
   induction x with
-  | zero => simp
   | add u v hu hv => simp [hu, hv]
   | tmul w m => simp
 
@@ -131,7 +130,6 @@ theorem prodRight_lTensor_prod (r₁ : M →ₗ[A] M₁) (r₂ : M →ₗ[A] M�
     TensorProduct.prodRight A A W M₁ M₂ (LinearMap.lTensor W (LinearMap.prod r₁ r₂) x) =
       (LinearMap.lTensor W r₁ x, LinearMap.lTensor W r₂ x) := by
   induction x with
-  | zero => simp [Prod.ext_iff]
   | add u v hu hv => simp [hu, hv]
   | tmul w m => simp
 
@@ -141,7 +139,6 @@ theorem lTensor_diff (s₁ : M₁ →ₗ[A] M₀) (s₂ : M₂ →ₗ[A] M₀) (
       LinearMap.lTensor W s₁ (TensorProduct.prodRight A A W M₁ M₂ w).1 -
         LinearMap.lTensor W s₂ (TensorProduct.prodRight A A W M₁ M₂ w).2 := by
   induction w with
-  | zero => simp
   | add u v hu hv =>
       simp only [map_add, hu, hv, Prod.fst_add, Prod.snd_add]
       abel
@@ -285,7 +282,6 @@ theorem bijective_cmp_bot (c : Comparison A W L M N) : Function.Bijective (c.cmp
   have h : ∀ z : W ⊗[A] M (⊥ : L), z = 0 := by
     intro z
     induction z with
-    | zero => rfl
     | add u v hu hv => rw [hu, hv, add_zero]
     | tmul w m => rw [c.subsingleton_M_bot m, TensorProduct.tmul_zero]
   rw [h x, h y]

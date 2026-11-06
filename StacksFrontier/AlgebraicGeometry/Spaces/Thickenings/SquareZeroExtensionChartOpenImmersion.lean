@@ -93,41 +93,40 @@ sum of `𝒜(U)`-multiples of images of elements of `K_V`. -/
 theorem ker_le_map_ker_app_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    [Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U))]
-    (halg : algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) = (E.A.val.map h.op).hom) :
+    [Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U))]
+    (halg : algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) = (E.A.obj.map h.op).hom) :
     RingHom.ker (E.π.hom.app (op U)).hom ≤
-      Ideal.map (algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)))
+      Ideal.map (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)))
         (RingHom.ker (E.π.hom.app (op V)).hom) := by
-  let g : RingHom.ker (E.π.hom.app (op V)).hom →ₗ[E.A.val.obj (op V)]
+  let g : RingHom.ker (E.π.hom.app (op V)).hom →ₗ[E.A.obj.obj (op V)]
       RingHom.ker (E.π.hom.app (op U)).hom :=
-    { toFun := fun x => ⟨algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U))
-        (x : E.A.val.obj (op V)), by
+    { toFun := fun x => ⟨algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U))
+        (x : E.A.obj.obj (op V)), by
           rw [RingHom.mem_ker, halg, SquareZeroExtension.π_app_map_apply, RingHom.mem_ker.mp x.2,
             map_zero]⟩
       map_add' := fun x y => Subtype.ext (map_add
-        (algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U))) _ _)
+        (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U))) _ _)
       map_smul' := fun a x => Subtype.ext (by
-        change algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U))
-            (a * (x : E.A.val.obj (op V))) =
-          a • algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) (x : E.A.val.obj (op V))
+        change algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U))
+            (a * (x : E.A.obj.obj (op V))) =
+          a • algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) (x : E.A.obj.obj (op V))
         rw [Algebra.smul_def, map_mul]) }
   have hbc := SquareZeroExtension.isBaseChange_ker_app_of_isAffine B S hS E h hU hV halg g
     (fun _ => rfl)
   have key : ∀ n : RingHom.ker (E.π.hom.app (op U)).hom,
-      (n : E.A.val.obj (op U)) ∈ Ideal.map
-        (algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)))
+      (n : E.A.obj.obj (op U)) ∈ Ideal.map
+        (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)))
         (RingHom.ker (E.π.hom.app (op V)).hom) := by
     intro n
     induction n using hbc.inductionOn with
-    | zero => simp
     | tmul m =>
-      change algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) (m : E.A.val.obj (op V)) ∈ _
+      change algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) (m : E.A.obj.obj (op V)) ∈ _
       exact Ideal.mem_map_of_mem _ m.2
     | smul s n ih =>
-      change s * (n : E.A.val.obj (op U)) ∈ _
+      change s * (n : E.A.obj.obj (op U)) ∈ _
       exact Ideal.mul_mem_left _ s ih
     | add n₁ n₂ ih₁ ih₂ =>
-      change (n₁ : E.A.val.obj (op U)) + (n₂ : E.A.val.obj (op U)) ∈ _
+      change (n₁ : E.A.obj.obj (op U)) + (n₂ : E.A.obj.obj (op U)) ∈ _
       exact Ideal.add_mem _ ih₁ ih₂
   intro z hz
   exact key ⟨z, hz⟩
@@ -149,18 +148,18 @@ formally smooth over `𝒜(V)` because it is étale, by
 theorem isLocalization_away_app_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    [Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U))]
-    (halg : algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) = (E.A.val.map h.op).hom)
-    [Algebra ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))]
-    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-        ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))
-      = ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom)
-    (a : E.A.val.obj (op V))
+    [Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U))]
+    (halg : algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) = (E.A.obj.map h.op).hom)
+    [Algebra ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))]
+    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+        ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))
+      = ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom)
+    (a : E.A.obj.obj (op V))
     [IsLocalization.Away ((E.π.hom.app (op V)).hom a)
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))] :
-    IsLocalization.Away a (E.A.val.obj (op U)) := by
-  have : Algebra.Etale (E.A.val.obj (op V)) (E.A.val.obj (op U)) :=
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))] :
+    IsLocalization.Away a (E.A.obj.obj (op U)) := by
+  have : Algebra.Etale (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) :=
     SquareZeroExtension.algebraEtale_app_of_isAffine B S hS E h hU hV halg
   refine Stacks.Etale.isLocalization_away_of_squareZero
     (E.π.hom.app (op V)).hom (E.π.hom.app (op U)).hom
@@ -182,25 +181,25 @@ the ambient space of the realizing thickening. -/
 theorem isOpenImmersion_chartSpec_map_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    [Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U))]
-    (halg : algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) = (E.A.val.map h.op).hom)
-    [Algebra ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))]
-    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-        ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))
-      = ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom)
-    (a : E.A.val.obj (op V))
+    [Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U))]
+    (halg : algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) = (E.A.obj.map h.op).hom)
+    [Algebra ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))]
+    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+        ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))
+      = ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom)
+    (a : E.A.obj.obj (op V))
     [IsLocalization.Away ((E.π.hom.app (op V)).hom a)
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))] :
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))] :
     _root_.AlgebraicGeometry.IsOpenImmersion ((chartSpec B S hS E).map h) := by
-  have : IsLocalization.Away a (E.A.val.obj (op U)) :=
+  have : IsLocalization.Away a (E.A.obj.obj (op U)) :=
     SquareZeroExtension.isLocalization_away_app_of_isAffine B S hS E h hU hV halg halgO a
   have hmap : CommRingCat.ofHom
-      (algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U))) = E.A.val.map h.op := by
+      (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U))) = E.A.obj.map h.op := by
     rw [halg]
     exact CommRingCat.ofHom_hom _
   have hoi := _root_.AlgebraicGeometry.IsOpenImmersion.of_isLocalization
-    (R := E.A.val.obj (op V)) (S := E.A.val.obj (op U)) a
+    (R := E.A.obj.obj (op V)) (S := E.A.obj.obj (op U)) a
   rw [hmap] at hoi
   exact hoi
 
@@ -221,22 +220,22 @@ module. -/
 theorem contains_chartSpec_obj_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    [Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U))]
-    (halg : algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) = (E.A.val.map h.op).hom)
-    [Algebra ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))]
-    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-        ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))
-      = ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom)
-    (a : E.A.val.obj (op V))
+    [Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U))]
+    (halg : algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) = (E.A.obj.map h.op).hom)
+    [Algebra ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))]
+    (halgO : algebraMap ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+        ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))
+      = ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom)
+    (a : E.A.obj.obj (op V))
     [IsLocalization.Away ((E.π.hom.app (op V)).hom a)
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))]
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))]
     (hVsite : B.Contains ((chartSpec B S hS E).obj V)) :
     B.Contains ((chartSpec B S hS E).obj U) := by
-  have : IsLocalization.Away a (E.A.val.obj (op U)) :=
+  have : IsLocalization.Away a (E.A.obj.obj (op U)) :=
     SquareZeroExtension.isLocalization_away_app_of_isAffine B S hS E h hU hV halg halgO a
   exact _root_.AlgebraicGeometry.Scheme.size_Spec_lt_of_isLocalization B.aleph0_lt_cutoff
-    B.cutoff_isStrongPrelimit (Submonoid.powers a) (E.A.val.obj (op U)) hVsite
+    B.cutoff_isStrongPrelimit (Submonoid.powers a) (E.A.obj.obj (op U)) hVsite
 
 /-- **Unconditionally: the arrow of the chart diagram over a basic open of an affine chart is an
 open immersion.**  For an affine chart `V` and a section `a` of `𝒜` over it, the basic open of
@@ -249,7 +248,7 @@ with its localization hypothesis discharged by
 the smaller chart by `AlgebraicGeometry.Space.isAffine_chartScheme_openChart_basicOpen`. -/
 theorem isOpenImmersion_chartSpec_map_openChartInclusion_basicOpen (V : SmallEtale B S hS X.1)
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    (a : E.A.val.obj (op V)) :
+    (a : E.A.obj.obj (op V)) :
     _root_.AlgebraicGeometry.IsOpenImmersion ((chartSpec B S hS E).map
       (openChartInclusion B S hS X.1 V
         (((BigFppfOver.toScheme B S hS).obj
@@ -257,27 +256,27 @@ theorem isOpenImmersion_chartSpec_map_openChartInclusion_basicOpen (V : SmallEta
             ((E.π.hom.app (op V)).hom a)))) := by
   have hU := isAffine_chartScheme_openChart_basicOpen B S hS X.1 V hV
     ((E.π.hom.app (op V)).hom a)
-  let _ : Algebra (E.A.val.obj (op V))
-      (E.A.val.obj (op (openChart B S hS X.1 V
+  let _ : Algebra (E.A.obj.obj (op V))
+      (E.A.obj.obj (op (openChart B S hS X.1 V
         (((BigFppfOver.toScheme B S hS).obj
           ((SmallEtale.toOver B S hS X.1).obj V)).basicOpen
             ((E.π.hom.app (op V)).hom a))))) :=
-    (E.A.val.map (openChartInclusion B S hS X.1 V
+    (E.A.obj.map (openChartInclusion B S hS X.1 V
       (((BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS X.1).obj V)).basicOpen
           ((E.π.hom.app (op V)).hom a))).op).hom.toAlgebra
-  let _ : Algebra ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj
+  let _ : Algebra ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj
         (op (openChart B S hS X.1 V
           (((BigFppfOver.toScheme B S hS).obj
             ((SmallEtale.toOver B S hS X.1).obj V)).basicOpen
               ((E.π.hom.app (op V)).hom a))))) :=
-    ((smallEtaleRingedTopos B S hS X).O.val.map (openChartInclusion B S hS X.1 V
+    ((smallEtaleRingedTopos B S hS X).O.obj.map (openChartInclusion B S hS X.1 V
       (((BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS X.1).obj V)).basicOpen
           ((E.π.hom.app (op V)).hom a))).op).hom.toAlgebra
   have hloc : IsLocalization.Away ((E.π.hom.app (op V)).hom a)
-      ((smallEtaleRingedTopos B S hS X).O.val.obj
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj
         (op (openChart B S hS X.1 V
           (((BigFppfOver.toScheme B S hS).obj
             ((SmallEtale.toOver B S hS X.1).obj V)).basicOpen

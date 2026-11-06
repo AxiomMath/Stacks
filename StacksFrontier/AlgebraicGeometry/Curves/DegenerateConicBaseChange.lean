@@ -88,7 +88,7 @@ theorem conicForm_isHomogeneous (k : Type u) [CommRing k] :
 theorem conicForm_ne_zero (k : Type u) [CommRing k] [Nontrivial k] :
     conicForm k ≠ 0 := by
   intro h
-  have := congrArg (MvPolynomial.coeff (Finsupp.single (0 : Fin 3) 2)) h
+  have := congrArg (fun p : MvPolynomial (Fin 3) k => p.coeff (Finsupp.single (0 : Fin 3) 2)) h
   rw [conicForm] at this
   simp [MvPolynomial.coeff_X_pow, Finsupp.single_eq_single_iff] at this
 

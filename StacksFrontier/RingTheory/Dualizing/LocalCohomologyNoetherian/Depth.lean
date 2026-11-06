@@ -81,7 +81,7 @@ theorem subsingleton_localCohomologyWithSupportIn_of_lt_depth (R : Type u) [Comm
     apply ModuleCat.isZero_iff_subsingleton.mpr
     let Nₙ := ModuleCat.of R (R ⧸ I ^ n)
     have hExt : Subsingleton (Ext Nₙ M₀ i) :=
-      ModuleCat.subsingleton_ext_of_lt_depth I M₀ Nₙ hIM₀ (k := n)
+      ModuleCat.subsingleton_ext_of_lt_ideal_depth I M₀ Nₙ hIM₀ (k := n)
         (by rw [Ideal.annihilator_quotient]) hi₀
     have hDerived : Subsingleton (DerivedCategory.Ext
         ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj Nₙ) K₀ (i : ℤ)) :=
@@ -149,7 +149,7 @@ private theorem ext_precomp_quotientPowerSucc_injective (R : Type u) [CommRing R
     rw [← hd]
     exact_mod_cast Nat.sub_lt hd0 (by omega)
   have hkerExt : Subsingleton (Ext S.X₁ M (d - 1)) :=
-    ModuleCat.subsingleton_ext_of_lt_depth I M S.X₁ hIM (k := 1)
+    ModuleCat.subsingleton_ext_of_lt_ideal_depth I M S.X₁ hIM (k := 1)
       (by simpa using le_annihilator_ker_quotientPowerSucc R I n) hdepth_lt
   intro x y (hxy : (Ext.mk₀ g).comp x (zero_add d) = (Ext.mk₀ g).comp y (zero_add d))
   have hzero : (Ext.mk₀ g).comp (x - y) (zero_add d) = 0 := by

@@ -117,11 +117,13 @@ closed immersion. -/
 theorem mem_supp_pushforward_of_mem {W X : Scheme.{u}} (i : W ⟶ X) [IsClosedImmersion i]
     (F : W.Modules) (x : W) (hx : x ∈ SheafOfModules.supp F) :
     i.base x ∈ SheafOfModules.supp ((Scheme.Modules.pushforward i).obj F) := by
-  let a := TopCat.Presheaf.stalkPushforward Ab.{u} i.base F.presheaf x
-  have : IsIso a := TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing
-    (C := Ab.{u}) i.isClosedEmbedding.isInducing F.presheaf x
+  let a := @TopCat.Presheaf.stalkPushforward Ab.{u} _ AddCommGrpCat.hasColimitsOfSize.{u, u, u} _ _
+    i.base F.presheaf x
+  have : IsIso a := @TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing
+    Ab.{u} _ AddCommGrpCat.hasColimitsOfSize.{u, u, u} _ _ _
+    i.isClosedEmbedding.isInducing F.presheaf x
   obtain ⟨s, hs⟩ := hx
-  have : Epi a := inferInstance
+  have : Epi a := IsIso.epi_of_iso a
   exact @exists_ne_zero_of_epi _ _ _ this _ hs
 
 /-- **The direct image of a nonzero ideal of an integral closed subscheme is supported on the

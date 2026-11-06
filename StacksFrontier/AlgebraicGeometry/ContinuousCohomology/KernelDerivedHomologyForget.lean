@@ -157,7 +157,7 @@ def singleResIso :
       continuousModuleRes.{0, v + 1, v + 1} R φ ⋙
         DerivedCategory.Plus.singleFunctor
           (Stacks.Injectives.ContinuousModule.{0, v + 1, v + 1} R G) 0 :=
-  haveI : IsIso (continuousModuleRes.{0, v + 1, v + 1} R φ).rightDerivedFunctorPlusUnit :=
+  haveI : IsIso (continuousModuleRes.{0, v + 1, v + 1} R φ).rightDerivedFunctorPlusUnith :=
     Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology _
   Functor.isoWhiskerLeft _ (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus
       (continuousModuleRes.{0, v + 1, v + 1} R φ)).symm ≪≫

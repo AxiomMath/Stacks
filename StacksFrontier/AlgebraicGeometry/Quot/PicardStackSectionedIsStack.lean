@@ -293,7 +293,9 @@ theorem exists_trivialization_of_compatible (hc : ModulePushforwardCoherence B S
   · have := hδiso i
     rw [CategoryTheory.Functor.map_comp, hb' i, hb i, IsIso.inv_hom_id]
   · exact CategoryTheory.Functor.map_id _ _
-  · exact (transportTrivialization_eq_iff σ hσ (c i) _ b).2 (hb i)
+  · have h := hb i
+    refine (transportTrivialization_eq_iff σ hσ (c i) (α i).hom b).2 ?_
+    convert h using 3
 
 end PicardSituation
 

@@ -105,7 +105,6 @@ public lemma mateEquiv_whisker (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
   refine TwoSquare.ext _ _ fun d => ?_
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
-  simp only [← Functor.map_comp, ψ.naturality]
 
 end Mate
 

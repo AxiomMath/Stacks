@@ -253,7 +253,8 @@ theorem preimage_eq_empty_iff (T : D.SchemesOver) (Z : Set (points B S hS D.X.1)
       Set.range (pointsMap B S hS (yoneda.obj T.left) T.hom.hom) ⊆
         (pointsMap B S hS D.X.1 D.f.hom '' Z)ᶜ := by
   have hsq : IsPullback (D.baseChangeProjection T).hom (D.baseChangeInclusion T).hom
-      D.f.hom T.hom.hom := IsPullback.of_hasPullback D.f.hom T.hom.hom
+      D.f.hom T.hom.hom :=
+    AlgebraicSpaces.isPullback_hom B S hS (AlgebraicSpaces.isPullback_fiberProduct B S hS D.f T.hom)
   constructor
   · intro h
     rintro b ⟨s, rfl⟩ ⟨x, hxZ, hxb⟩

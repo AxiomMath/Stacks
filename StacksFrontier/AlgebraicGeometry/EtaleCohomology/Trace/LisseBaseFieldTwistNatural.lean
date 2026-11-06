@@ -65,7 +65,7 @@ theorem exists_iso_rationalPointSections_lisseEtaleSheaf_natural :
       (rationalPointFrobeniusEndo (ZMod m) (Over.mk (𝟙 (Spec (.of k)))) kbar (𝟙 _)
           (baseFieldOver_id_comp_hom k) p q hcard).app
             ((lisseEtaleSheaf B (BigEtaleSite.specField B U k) z' (ZMod m)).obj P) ≫ W.hom =
-        W.hom ≫ P.obj.obj.obj.ρ (finiteFieldFrobenius p q hcard z')⁻¹ ∧
+        W.hom ≫ (P.obj.obj.obj.ρ (finiteFieldFrobenius p q hcard z')⁻¹).asHom ∧
       ∀ g : P ⟶ P, (etaleModuleInverseImage.{u, 0} (ZMod m)
           (fieldBaseChangeProj (Over.mk (𝟙 (Spec (.of k)))) kbar) ⋙
           sheafToPresheaf _ (ModuleCat.{u + 1} (ZMod m)) ⋙
@@ -351,9 +351,9 @@ def lisseBaseFieldModuleMap (g : Q ⟶ Q) :
         have hc := ConcreteCategory.congr_hom (g.hom.hom.hom.comm a) v
         change g.hom.hom.hom.hom.hom
             (((lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ).obj.obj.obj.ρ
-              (etaleFundamentalGroupMap f x a)).hom v) =
+              (etaleFundamentalGroupMap f x a)).asHom.hom v) =
           ((lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ).obj.obj.obj.ρ
-            (etaleFundamentalGroupMap f x a)).hom (g.hom.hom.hom.hom.hom v)
+            (etaleFundamentalGroupMap f x a)).asHom.hom (g.hom.hom.hom.hom.hom v)
         exact (congrArg g.hom.hom.hom.hom.hom
           (lisseBaseFieldModule_ρ_apply B U k f x hs (ZMod m) Q hQ a v)).trans
           (hc.trans (lisseBaseFieldModule_ρ_apply B U k f x hs (ZMod m) Q hQ a _).symm) }))
@@ -381,7 +381,7 @@ theorem exists_isIso_twist_lisseEtaleSheaf_baseField_natural (φ : EtaleFundamen
           ((etaleModuleInverseImage.{u, 0} (ZMod m)
             (fieldBaseChangeProj (Over.mk (𝟙 (Spec (.of k)))) kbar)).map
             ((constantSheaf (Spec (.of k)).smallEtaleTopology (ModuleCat.{u + 1} (ZMod m))).map
-              (Q.obj.obj.obj.ρ φ))) ≫
+              (Q.obj.obj.obj.ρ φ).asHom)) ≫
         (etaleModuleDirectImage.{u, 0} (ZMod m)
           (geometricFrobeniusBaseChange (Over.mk (𝟙 (Spec (.of k)))) kbar p q hcard)).map u₀ ∧
       ∀ g : Q ⟶ Q,
@@ -398,7 +398,7 @@ theorem exists_isIso_twist_lisseEtaleSheaf_baseField_natural (φ : EtaleFundamen
     hcard (x.map f) (lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ)
   have hB : (lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ).obj.obj.obj.ρ
       (finiteFieldFrobenius p q hcard (x.map f))⁻¹ = Q.obj.obj.obj.ρ φ := by
-    refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+    refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
     rw [← hφ]
     exact lisseBaseFieldModule_ρ_apply B U k f x hs (ZMod m) Q hQ φ v
   rw [hB] at hW

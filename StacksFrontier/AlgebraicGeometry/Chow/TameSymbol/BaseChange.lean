@@ -151,7 +151,7 @@ theorem underIdeal_isMaximal (P : TameSymbolPreparation a B) (Q : Ideal (A' ⊗[
     [Q.IsMaximal] : (underIdeal Q).IsMaximal := by
   let := P.finite
   have hA' : Q.comap (algebraMap A' (A' ⊗[A] B)) = maximalIdeal A' :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal Q)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A') Q)
   have hA : (underIdeal Q).comap (algebraMap A B) = maximalIdeal A := by
     have h : (underIdeal Q).comap (algebraMap A B) =
         (Q.comap (algebraMap A' (A' ⊗[A] B))).comap (algebraMap A A') := by
@@ -162,7 +162,8 @@ theorem underIdeal_isMaximal (P : TameSymbolPreparation a B) (Q : Ideal (A' ⊗[
     rw [h, hA']
     exact IsLocalRing.maximalIdeal_comap (algebraMap A A')
   have : (underIdeal Q).IsPrime := Ideal.comap_isPrime _ _
-  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _ (by rw [hA]; infer_instance)
+  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) _
+    (by rw [Ideal.under_def, hA]; infer_instance)
 
 /-- The local homomorphism `B_{𝔮 ∩ B} → (A' ⊗_A B)_𝔮` at a maximal ideal `𝔮` of `A' ⊗_A B`. -/
 noncomputable def localMap (P : TameSymbolPreparation a B) (Q : Ideal (A' ⊗[A] B))

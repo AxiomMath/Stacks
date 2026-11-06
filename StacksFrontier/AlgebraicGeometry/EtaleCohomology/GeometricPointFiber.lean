@@ -89,45 +89,47 @@ public def geometricPointFiber : SmallEtale B S hS ⥤ Type u where
 /-- Forget the size cutoff on an étale neighborhood. -/
 private def neighborhoodInclusion : (geometricPointFiber B S hS s).Elements ⥤
     (Scheme.pointSmallEtale s.hom).fiber.Elements where
-  obj U := ⟨MorphismProperty.Over.mk _ (B.inclusion.map U.1.obj.hom) U.1.property,
-    Over.homMk U.2.1 U.2.2⟩
-  map {U V} f := ⟨MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.1)
-    (SmallEtale.toScheme_map_comp B S hS f.1) (by trivial),
-    Over.OverMorphism.ext (congrArg Subtype.val f.2)⟩
+  obj U := .mk (obj := MorphismProperty.Over.mk _ (B.inclusion.map U.obj.obj.hom) U.obj.property)
+    (Over.homMk U.val.1 U.val.2)
+  map {U V} f := Functor.Elements.homMk
+    (MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.hom)
+      (SmallEtale.toScheme_map_comp B S hS f.hom) (by trivial))
+    (Over.OverMorphism.ext (congrArg Subtype.val f.map_val))
 
 private instance : (neighborhoodInclusion B S hS s).Faithful where
-  map_injective h := Subtype.ext <| ObjectProperty.hom_ext _ <| Over.OverMorphism.ext <|
-    ObjectProperty.hom_ext _ <| congrArg (fun k => k.1.left) h
+  map_injective h := Functor.Elements.hom_ext <| ObjectProperty.hom_ext _ <|
+    Over.OverMorphism.ext <| ObjectProperty.hom_ext _ <| congrArg (fun k => k.hom.left) h
 
 private instance : (neighborhoodInclusion B S hS s).Full where
   map_surjective f :=
-    ⟨⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk f.1.left)
-      (ObjectProperty.hom_ext _ f.1.w)), Subtype.ext (congrArg (fun k => k.left) f.2)⟩,
-      Subtype.ext (MorphismProperty.Over.Hom.ext rfl)⟩
+    ⟨Functor.Elements.homMk (ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk f.hom.left)
+      (ObjectProperty.hom_ext _ f.hom.w))) (Subtype.ext (congrArg (fun k => k.left) f.map_val)),
+      Functor.Elements.hom_ext (MorphismProperty.Over.Hom.ext rfl)⟩
 
 /-- Every neighborhood has an affine refinement inside the chosen size cutoff. -/
 private theorem exists_neighborhood_refinement
     (U : (Scheme.pointSmallEtale s.hom).fiber.Elements) :
     ∃ V, IsAffine ((SmallEtale.toScheme B S hS).obj V.1) ∧
       Nonempty ((neighborhoodInclusion B S hS s).obj V ⟶ U) := by
-  let p : s.source ⟶ U.1.left := U.2.left
-  obtain ⟨R, j, hj, y, hy⟩ : ∃ (R : CommRingCat.{u}) (j : Spec R ⟶ U.1.left)
-      (_ : IsOpenImmersion j) (y : s.source ⟶ Spec R), y ≫ j = U.2.left := by
+  let p : s.source ⟶ U.obj.left := U.val.left
+  obtain ⟨R, j, hj, y, hy⟩ : ∃ (R : CommRingCat.{u}) (j : Spec R ⟶ U.obj.left)
+      (_ : IsOpenImmersion j) (y : s.source ⟶ Spec R), y ≫ j = U.val.left := by
     obtain ⟨R, j, _, hj, _⟩ := Scheme.exists_affine_mem_range_and_range_subset
       (x := p.base (default : s.source)) (U := ⊤) (by simp)
     refine ⟨R, j, inferInstance, _, IsOpenImmersion.lift_fac j p ?_⟩
     rintro _ ⟨a, rfl⟩
     rwa [Subsingleton.elim a default]
-  have hjf : Etale (j ≫ U.1.hom) := inferInstance
+  have hjf : Etale (j ≫ U.obj.hom) := inferInstance
   have hR : B.Contains (Spec R) :=
-    (Scheme.size_le_of_locallyOfFiniteType (j ≫ U.1.hom)).trans_lt hS
+    (Scheme.size_le_of_locallyOfFiniteType (j ≫ U.obj.hom)).trans_lt hS
   let V : SmallEtale B S hS :=
-    ⟨Over.mk (ObjectProperty.homMk (j ≫ U.1.hom) : B.obj (Spec R) hR ⟶ B.obj S hS), hjf⟩
-  have hyS : y ≫ (j ≫ U.1.hom) = s.hom := by
+    ⟨Over.mk (ObjectProperty.homMk (j ≫ U.obj.hom) : B.obj (Spec R) hR ⟶ B.obj S hS), hjf⟩
+  have hyS : y ≫ (j ≫ U.obj.hom) = s.hom := by
     rw [← Category.assoc, hy]
-    exact Over.w U.2
-  refine ⟨⟨V, ⟨y, hyS⟩⟩, inferInstanceAs (IsAffine (Spec R)),
-    ⟨⟨MorphismProperty.Over.homMk j rfl (by trivial), Over.OverMorphism.ext hy⟩⟩⟩
+    exact Over.w U.val
+  refine ⟨.mk (obj := V) ⟨y, hyS⟩, inferInstanceAs (IsAffine (Spec R)),
+    ⟨Functor.Elements.homMk (MorphismProperty.Over.homMk j rfl (by trivial))
+      (Over.OverMorphism.ext hy)⟩⟩
 
 /-- Every étale neighborhood of a geometric point inside the chosen site is refined by an
 affine one. -/

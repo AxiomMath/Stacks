@@ -402,7 +402,6 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
           (ConcreteCategory.hom (H' n) w).down := by
       rw [hσdec, map_mul, map_mul, Module.End.mul_apply, hβfix, hGφ]
     convert hF.trans (hlev.trans (levelRepresentation_apply ρ₀ (n + 1) _ _)) using 3
-    rfl
   · intro v hv n
     obtain ⟨z, hz⟩ := (mem_range_padicLevelDirectImageStalkHom_iff B W.1 W.2 s B V x jW
       (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth ht n

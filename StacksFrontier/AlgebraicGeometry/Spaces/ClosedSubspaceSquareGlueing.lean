@@ -60,6 +60,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ClosedSubspaceSquareGlueing :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ClosedSubspaceSquareGlueing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Subfunctors and fppf coverings -/
 
 /-- **Containment of subsheaves is checked on an fppf covering.** -/
@@ -95,7 +106,7 @@ def glueSubfunctor {I : Type v} {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   map := by
     intro U U' g x hx W k i η hη
     exact hx W (k ≫ g.unop) i η (by
-      rw [hη, op_comp, Quiver.Hom.op_unop, FunctorToTypes.map_comp_apply])
+      rw [hη, op_comp, Quiver.Hom.op_unop, Functor.map_comp_apply])
 
 variable {B S hS}
 
@@ -131,8 +142,8 @@ theorem isSheaf_glueSubfunctor {I : Type v} {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   refine mem_obj_of_sieve_le B S hS (hX i) (T i) (hT i) η _
     ((BigFppfOver.topology B S hS).pullback_stable k hs) fun {V} m hm => ?_
   refine hm V (𝟙 _) i _ ?_
-  rw [op_id, FunctorToTypes.map_id_apply, NatTrans.naturality_apply, hη, op_comp,
-    FunctorToTypes.map_comp_apply]
+  rw [op_id, Functor.map_id_apply, NatTrans.naturality_apply, hη, op_comp,
+    Functor.map_comp_apply]
 
 /-! ### Glueing subfunctors across an elementary distinguished square -/
 
@@ -182,7 +193,7 @@ theorem mem_of_app_eq_of_isElementaryDistinguishedSquare (hW : IsAlgebraicSpace 
       show (pullback.snd f f).app _ _ ∈ T₂.obj _
       have h1 := congrArg (fun m => m.app (op Y') η) (pullback.diagonal_fst f)
       have h2 := congrArg (fun m => m.app (op Y') η) (pullback.diagonal_snd f)
-      simp only [FunctorToTypes.comp, NatTrans.id_app, types_id_apply] at h1 h2
+      simp only [NatTrans.comp_app_apply, NatTrans.id_app, types_id_apply] at h1 h2
       change (pullback.fst f f).app _ _ ∈ T₂.obj _ at hy
       rw [h2]
       rwa [h1] at hy
@@ -195,7 +206,7 @@ theorem mem_of_app_eq_of_isElementaryDistinguishedSquare (hW : IsAlgebraicSpace 
       have hc2 := congrArg (fun m => m.app (op Y')
         ((pullback.snd U₀.ι (pullback.fst f f ≫ f)).app (op Y') η))
         (pullback.condition (f := f) (g := f))
-      simp only [FunctorToTypes.comp] at hc1 hc2
+      simp only [NatTrans.comp_app_apply] at hc1 hc2
       have ha := (hcompat Y' _ _ hc1).2 hy
       exact (hcompat Y' _ _ (hc1.trans hc2)).1 ha
   obtain ⟨z, hz1, hz2⟩ := exists_pullback_section f f b b' hbb

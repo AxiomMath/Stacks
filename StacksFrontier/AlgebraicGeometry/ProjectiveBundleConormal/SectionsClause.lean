@@ -105,8 +105,8 @@ theorem pullback_section_transport {B P R : Scheme.{u}} (f : B ⟶ P) (g : P ⟶
       (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g ρ).inv.app M) ≫
         (Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback ρ).obj M) =
       eqToHom (by simp) ≫ (Scheme.Modules.pullbackComp (f ≫ g) ρ).inv.app M := by
-    rw [← cancel_mono ((Scheme.Modules.pullbackComp (f ≫ g) ρ).hom.app M)]
-    simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+    rw [← Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp (f ≫ g) ρ).app M)]
+    simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
     simpa using key
   rw [reassoc_of% key']
   simp

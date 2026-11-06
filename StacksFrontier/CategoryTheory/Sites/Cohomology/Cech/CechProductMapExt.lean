@@ -66,7 +66,7 @@ theorem cechProductMap_comp_π_left_anyUniverses
     [∀ i : Fin (n + 1) → G.I₀, HasProduct (fun a ↦ Over.mk (G.f (i a)))] (b : Fin (n + 1)) :
     cechProductMap E G φ n i ≫ (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left =
       (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left ≫ φ.h₀ (i b) := by
-  rw [cechProductMap, ← Over.comp_left, Pi.lift_π]
+  rw [cechProductMap, ← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 /-- A morphism between iterated fibre products which agrees with the components of a morphism

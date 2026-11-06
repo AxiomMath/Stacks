@@ -164,7 +164,7 @@ each of them applies.  On the Zariski side:
 `AlgebraicGeometry.Space.app_representedAssociatedModuleAdjunction_unit`,
 `AlgebraicGeometry.SmallEtale.associatedModuleAdjunction_unit_app_universalRelativeDerivation_d`,
 `AlgebraicGeometry.Space.representedModuleSiteEquivalence_unit_app_val_app` and the `d_map` field
-of `PresheafOfModules.Derivation`, which absorbs the restriction along the counit of the
+of `PresheafOfModulesOfCommRing.Derivation`, which absorbs the restriction along the counit of the
 equivalence of sites back into `d^a`; then
 `AlgebraicGeometry.Space.representedUniversalDerivation_d`, a `rfl` lemma, names the result at
 `AlgebraicGeometry.Space.representedOpensObj`.  On the spaces side:
@@ -416,7 +416,7 @@ differential `d_{X/Y} a`.
 
 This is the shape in which the hypothesis of
 `AlgebraicGeometry.Space.representedAssociatedModulePullbackMate_square_of_postcomp` is
-discharged.  Both reductions it performs -- `PresheafOfModules.Derivation.postcomp_d_apply`, and
+discharged.  Both reductions it performs -- `PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`, and
 the two spellings of a section that `AlgebraicGeometry.Scheme.Modules.app_apply_eq_val_app`
 identifies -- are crossings that cost tens of thousands of heartbeats at the small étale site of
 a represented algebraic space.  Stated here on variables they cost nothing, and the consumer pays
@@ -428,10 +428,10 @@ theorem postcomp_universalRelativeDerivation_eq_of_app_d {X Y : Scheme.{u}} (f :
         u₂.app O ((universalRelativeDerivation f).d a)) :
     (universalRelativeDerivation f).postcomp u₁.val =
       (universalRelativeDerivation f).postcomp u₂.val := by
-  refine PresheafOfModules.Derivation.ext (funext fun O => AddMonoidHom.ext fun a => ?_)
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun O => AddMonoidHom.ext fun a => ?_)
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (universalRelativeDerivation f) u₁.val a) ?_
-  refine Eq.trans ?_ (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans ?_ (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (universalRelativeDerivation f) u₂.val a).symm
   refine Eq.trans (Scheme.Modules.app_apply_eq_val_app u₁ O.unop _).symm ?_
   exact (h O.unop a).trans (Scheme.Modules.app_apply_eq_val_app u₂ O.unop _)

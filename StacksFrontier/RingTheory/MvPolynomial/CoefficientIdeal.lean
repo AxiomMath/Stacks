@@ -61,13 +61,13 @@ theorem monomial_mem_coefficientIdeal {d : σ →₀ ℕ} {a : R} (ha : a ∈ K 
 /-- The polynomials all of whose coefficients lie in the ideal of their degree. This is an ideal
 because the family is monotone. -/
 private def coeffwiseIdeal (hK : Monotone K) : Ideal (MvPolynomial σ R) where
-  carrier := {p | ∀ d, coeff d p ∈ K d}
+  carrier := {p | ∀ d, p.coeff d ∈ K d}
   zero_mem' := by simp
   add_mem' := fun hp hq d => by simpa using (K d).add_mem (hp d) (hq d)
   smul_mem' := by
     classical
     intro p q hq d
-    change coeff d (p * q) ∈ K d
+    change (p * q).coeff d ∈ K d
     rw [coeff_mul]
     refine Ideal.sum_mem _ fun ab hab => ?_
     have he := Finset.HasAntidiagonal.mem_antidiagonal.mp hab
@@ -75,7 +75,7 @@ private def coeffwiseIdeal (hK : Monotone K) : Ideal (MvPolynomial σ R) where
 
 /-- Membership in the coefficient ideal is the coefficientwise condition. -/
 theorem mem_coefficientIdeal_iff (hK : Monotone K) {p : MvPolynomial σ R} :
-    p ∈ coefficientIdeal K ↔ ∀ d, coeff d p ∈ K d := by
+    p ∈ coefficientIdeal K ↔ ∀ d, p.coeff d ∈ K d := by
   classical
   refine ⟨fun hp => ?_, fun hp => ?_⟩
   · refine (?_ : coefficientIdeal K ≤ coeffwiseIdeal K hK) hp
@@ -110,12 +110,12 @@ def coefficientQuotientMap : MvPolynomial σ R →ₗ[R] Π₀ d, R ⧸ K d := b
 `d` modulo `K d`. -/
 @[simp]
 theorem coefficientQuotientMap_apply (p : MvPolynomial σ R) (d : σ →₀ ℕ) :
-    coefficientQuotientMap K p d = Ideal.Quotient.mk (K d) (coeff d p) := rfl
+    coefficientQuotientMap K p d = Ideal.Quotient.mk (K d) (p.coeff d) := rfl
 
 /-- A polynomial maps to zero exactly when each of its coefficients lies in the ideal of its
 degree. -/
 theorem coefficientQuotientMap_eq_zero_iff {p : MvPolynomial σ R} :
-    coefficientQuotientMap K p = 0 ↔ ∀ d, coeff d p ∈ K d := by
+    coefficientQuotientMap K p = 0 ↔ ∀ d, p.coeff d ∈ K d := by
   rw [DFinsupp.ext_iff]
   exact forall_congr' fun d => Ideal.Quotient.eq_zero_iff_mem
 
@@ -159,7 +159,7 @@ private theorem coefficientQuotientMap_comp_subtype_surjective (n : ℕ)
   refine ⟨⟨∑ d ∈ x.support, monomial d (rep d),
     Submodule.sum_mem _ fun d hd => isHomogeneous_monomial _ (hsupp d hd)⟩, ?_⟩
   refine DFinsupp.ext fun d => ?_
-  have hcoeff : coeff d (∑ e ∈ x.support, monomial e (rep e)) =
+  have hcoeff : (∑ e ∈ x.support, monomial e (rep e)).coeff d =
       if d ∈ x.support then rep d else 0 := by
     simp [coeff_sum, coeff_monomial, Finset.sum_ite_eq' x.support d rep]
   simp only [LinearMap.coe_comp, Function.comp_apply, Submodule.coe_subtype,
@@ -190,7 +190,7 @@ theorem flat_quotientGrading (hK : Monotone K)
     (Ideal.Quotient.mkₐ R J).toLinearMap ∘ₗ (𝒜 n).subtype with hh
   set g : ↥(𝒜 n) →ₗ[R] Π₀ d, R ⧸ K' d :=
     coefficientQuotientMap K' ∘ₗ (𝒜 n).subtype
-  have hmem : ∀ p ∈ 𝒜 n, (p ∈ J ↔ ∀ d, coeff d p ∈ K' d) := by
+  have hmem : ∀ p ∈ 𝒜 n, (p ∈ J ↔ ∀ d, p.coeff d ∈ K' d) := by
     intro p hp
     rw [hJ, mem_coefficientIdeal_iff K hK]
     refine ⟨fun hpJ d => ?_, fun hpK d => ?_⟩
@@ -205,7 +205,7 @@ theorem flat_quotientGrading (hK : Monotone K)
   have hker : LinearMap.ker h = LinearMap.ker g := by
     ext q
     have h1 : h q = 0 ↔ (q : MvPolynomial σ R) ∈ J := Ideal.Quotient.eq_zero_iff_mem
-    have h2 : g q = 0 ↔ ∀ d, coeff d (q : MvPolynomial σ R) ∈ K' d :=
+    have h2 : g q = 0 ↔ ∀ d, (q : MvPolynomial σ R).coeff d ∈ K' d :=
       coefficientQuotientMap_eq_zero_iff K'
     simp only [LinearMap.mem_ker, h1, h2]
     exact hmem _ q.2
@@ -234,8 +234,8 @@ theorem bijective_algebraMap_quotientGrading_zero (hK : Monotone K) (hK0 : K 0 =
     rw [hK0, Submodule.mem_bot, MvPolynomial.coeff_zero_C] at h0
     exact sub_eq_zero.mp h0
   · rintro ⟨x, p, hp, rfl⟩
-    refine ⟨coeff 0 p, Subtype.ext ?_⟩
-    have hpC : C (coeff 0 p) = p := by
+    refine ⟨p.coeff 0, Subtype.ext ?_⟩
+    have hpC : C (p.coeff 0) = p := by
       ext d
       rcases eq_or_ne d 0 with rfl | hd
       · simp

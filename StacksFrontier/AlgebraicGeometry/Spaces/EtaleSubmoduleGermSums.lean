@@ -140,22 +140,22 @@ theorem exists_map_mem_of_toPresheafFiber_mem_submoduleGermSet (N : M.Submodule)
   obtain ⟨V', w', n, hn, he⟩ := h
   let Φ := etaleSitePoint B S hS X.1 x X.2
   let P := etaleModuleSectionsPresheaf B S hS M
-  obtain ⟨⟨V₀, w₀⟩, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
-    (C := Φ.fiber.Elements) ⟨V, p⟩ ⟨V', w'⟩
-  have ha := Φ.toPresheafFiber_w_apply a.1 w₀ P s
-  have hb := Φ.toPresheafFiber_w_apply b.1 w₀ P n
-  rw [a.2] at ha
-  rw [b.2] at hb
+  obtain ⟨@⟨V₀, w₀⟩, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
+    (C := Φ.fiber.Elements) (Φ.fiber.elementsMk V p) (Φ.fiber.elementsMk V' w')
+  have ha := Φ.toPresheafFiber_w_apply a.hom w₀ P s
+  have hb := Φ.toPresheafFiber_w_apply b.hom w₀ P n
+  rw [a.map_val] at ha
+  rw [b.map_val] at hb
   have heq := he.symm
   rw [← ha, ← hb] at heq
   obtain ⟨V₁, c, w₁, hc, hcs⟩ := (Φ.toPresheafFiber_eq_iff' V₀ w₀ _ _).1 heq
-  refine ⟨V₁, c ≫ a.1, w₁, ?_, ?_⟩
-  · change Φ.fiber.map (c ≫ a.1) w₁ = p
-    rw [Functor.map_comp, types_comp_apply, hc, a.2]
-  · have hn' := N.map_mem (c ≫ b.1).op hn
-    have e : M.val.map (c ≫ a.1).op s = M.val.map (c ≫ b.1).op n := by
-      have e1 := PresheafOfModules.map_comp_apply M.val a.1.op c.op s
-      have e2 := PresheafOfModules.map_comp_apply M.val b.1.op c.op n
+  refine ⟨V₁, c ≫ a.hom, w₁, ?_, ?_⟩
+  · change Φ.fiber.map (c ≫ a.hom) w₁ = p
+    rw [Functor.map_comp, types_comp_apply, hc, a.map_val]
+  · have hn' := N.map_mem (c ≫ b.hom).op hn
+    have e : M.val.map (c ≫ a.hom).op s = M.val.map (c ≫ b.hom).op n := by
+      have e1 := PresheafOfModules.map_comp_apply M.val a.hom.op c.op s
+      have e2 := PresheafOfModules.map_comp_apply M.val b.hom.op c.op n
       exact e1.trans (hcs.trans e2.symm)
     rw [e]
     exact hn'
@@ -208,13 +208,15 @@ theorem toPresheafFiber_add_mem_etaleGermSet
       (etaleModuleSectionsPresheaf B S hS M) (s₁ + s₂) ∈ etaleGermSet B S hS g hg N t := by
   obtain ⟨V₁, w₁, n₁, hn₁, he₁⟩ := h₁
   obtain ⟨V₂, w₂, n₂, hn₂, he₂⟩ := h₂
-  obtain ⟨⟨V₀, w₀⟩, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
-    (C := (liftSitePoint B S hS g t).fiber.Elements) ⟨V₁, w₁⟩ ⟨V₂, w₂⟩
+  obtain ⟨@⟨V₀, w₀⟩, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
+    (C := (liftSitePoint B S hS g t).fiber.Elements)
+      ((liftSitePoint B S hS g t).fiber.elementsMk V₁ w₁)
+      ((liftSitePoint B S hS g t).fiber.elementsMk V₂ w₂)
   exact ⟨V₀, w₀, _, add_mem_etaleSubmodule_obj B S hS g hg N _ _
-      (N.map_mem a.1.op hn₁) (N.map_mem b.1.op hn₂),
+      (N.map_mem a.hom.op hn₁) (N.map_mem b.hom.op hn₂),
     (etaleSitePoint B S hS X.1 x X.2).toPresheafFiber_add M.val _ z _ _ s₁ s₂
-      ((toPresheafFiber_pushLift_map B S hS g hg t a.1 a.2 n₁).trans he₁)
-      ((toPresheafFiber_pushLift_map B S hS g hg t b.1 b.2 n₂).trans he₂)⟩
+      ((toPresheafFiber_pushLift_map B S hS g hg t a.hom a.map_val n₁).trans he₁)
+      ((toPresheafFiber_pushLift_map B S hS g hg t b.hom b.map_val n₂).trans he₂)⟩
 
 /-- The sum of two sections of the étale pullback `M|_Y` is their sum as sections of `M`. -/
 theorem etaleModulePullback_add_eq {V : SmallEtale B S hS Y.1}

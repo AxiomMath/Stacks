@@ -223,7 +223,7 @@ public theorem isIso_baseCounit_app_baseAssociatedModule (τ : SiteKind) (𝓖 :
   have : IsIso ((baseAssociatedModuleAdjunction B S hS τ).unit.app 𝓖) :=
     isIso_baseUnit_app B S hS τ 𝓖
   have : IsIso ((baseAssociatedModule B S hS τ).map
-      ((baseAssociatedModuleAdjunction B S hS τ).unit.app 𝓖)) := inferInstance
+      ((baseAssociatedModuleAdjunction B S hS τ).unit.app 𝓖)) := Functor.map_isIso _ _
   exact IsIso.of_isIso_fac_left
     ((baseAssociatedModuleAdjunction B S hS τ).left_triangle_components 𝓖)
 
@@ -323,7 +323,8 @@ public theorem mono_baseAssociatedModule_map_baseRestrictModule_map_f (hC : C.Sh
   have := isIso_baseCounit_app_of_essImage B S hS τ h₁
   have : Mono ((baseAssociatedModuleAdjunction B S hS τ).counit.app C.X₁ ≫
       (𝟭 (SheafOfModules.{u}
-        (FibredSite.baseRingStructureSheaf B S hS τ))).map C.f) := mono_comp _ _
+        (FibredSite.baseRingStructureSheaf B S hS τ))).map C.f) :=
+    @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ hC.mono_f
   exact mono_of_mono_fac
     ((baseAssociatedModuleAdjunction B S hS τ).counit.naturality C.f)
 

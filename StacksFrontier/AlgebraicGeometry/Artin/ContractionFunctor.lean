@@ -377,6 +377,17 @@ namespace ContractionSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ContractionFunctor :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ContractionFunctor
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_ContractionFunctor.has_limit _
+
 /-- In the situation of Stacks 0GH8, a witness of the compatibility between a morphism
 `u : V ∖ Z ⟶ U'` and a morphism `x̂ : V_{/Z} ⟶ W`, in the sense of the discussion preceding
 Stacks 0GHA: a proper morphism `p : V' ⟶ V` of algebraic spaces over `S` which is an

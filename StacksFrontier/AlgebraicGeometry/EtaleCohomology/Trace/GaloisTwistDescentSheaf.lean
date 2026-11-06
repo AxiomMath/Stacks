@@ -193,7 +193,7 @@ theorem bijective_groupRingToCoinduction [Finite G] :
     Function.Bijective (groupRingToCoinduction.{u} k₀ G) := by
   classical
   have := Fintype.ofFinite G
-  refine ⟨fun x y hxy => ULift.ext _ _ (MonoidAlgebra.ext (Finsupp.ext fun g => ?_)), fun f => ?_⟩
+  refine ⟨fun x y hxy => ULift.ext (MonoidAlgebra.ext (Finsupp.ext fun g => ?_)), fun f => ?_⟩
   · have h := congrArg (fun φ : (groupRingCoinduction k₀ G).obj
       (ModuleCat.of k₀ (ULift.{u + 1} k₀)) =>
         (show ULift.{u + 1} k₀ from coindEval φ (MonoidAlgebra.single g⁻¹ 1)).down) hxy
@@ -207,7 +207,7 @@ theorem bijective_groupRingToCoinduction [Finite G] :
     refine Finset.sum_congr rfl fun g _ => congrArg _ ?_
     rw [← groupRingCoinductionDelta_smul]
     congr 1
-    exact ULift.ext _ _ (mul_one _)
+    exact ULift.ext (mul_one _)
 
 /-- **`k₀[G]` is coinduced from `k₀`**: `k₀[G] ≅ Hom_{k₀}(k₀[G], k₀)` as `k₀[G]`-modules. -/
 def groupRingCoinductionEquiv :

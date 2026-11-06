@@ -74,6 +74,20 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_StratumFibreBound :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_StratumFibreBound
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- For a relatively representable morphism `f : h_V ⟶ X` of presheaves on the big fppf site
 over `S` and a morphism `a : h_A ⟶ X`, the disjunction "the represented fibre of `f` along `a` is
 not finite, or it is finite locally free of some rank at least `d`", read of the morphism of

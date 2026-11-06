@@ -171,6 +171,8 @@ of abelian groups with sections in `u + 1` is a sheaf of sets. -/
 local instance hasSheafComposeSmallEtaleForgetAddCommGrpULift (T : BigFppfOver B S hS) :
     (SmallEtale.topology B S hS (yoneda.obj T)).HasSheafCompose
       (forget AddCommGrpCat.{u + 1}) :=
+  have : EssentiallySmall.{u + 1} (SmallEtale B S hS (yoneda.obj T)) :=
+    essentiallySmallSelf.{u} _
   CategoryTheory.hasSheafCompose_forget_addCommGrpCat_of_essentiallySmall.{u + 1, u + 1, u}
     (SmallEtale.topology B S hS (yoneda.obj T))
 

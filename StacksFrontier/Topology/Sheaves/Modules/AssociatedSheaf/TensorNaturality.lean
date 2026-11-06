@@ -32,7 +32,7 @@ attribute [local implicit_reducible] structureSheafRing
   Stacks.SheafOfModules.TensorSheafification.tensorUnitMap
   Stacks.SheafOfModules.TensorSheafification.toSheafify
   _root_.SheafOfModules.forget _root_.PresheafOfModules.restrictScalars
-  _root_.PresheafOfModules.toPresheaf _root_.PresheafOfModules.Monoidal.tensorObj
+  _root_.PresheafOfModules.toPresheaf _root_.PresheafOfModulesOfCommRing.Monoidal.tensorObj
   _root_.PresheafOfModules.tensorObj
 
 variable (X : RingedSpace.{u, u}) {R : Type u} [CommRing R] (α : R →+* X.presheaf.obj (op ⊤))
@@ -58,7 +58,7 @@ private theorem apply_eq_of_tmul_tmul {R S A M N G F : Type*} [CommSemiring R] [
 public theorem associatedPresheafTensorIso_naturality_left {M M' : ModuleCat.{u} R}
     (f : M ⟶ M') (N : ModuleCat.{u} R) :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-      PresheafOfModules.monoidalCategory (R := X.presheaf)
+      PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedPresheafFunctor X α).map (f ▷ N) ≫ (associatedPresheafTensorIso X α M' N).hom =
       (associatedPresheafTensorIso X α M N).hom ≫
         ((associatedPresheafFunctor X α).map f ▷ associatedPresheaf X α N) := by
@@ -72,7 +72,7 @@ public theorem associatedPresheafTensorIso_naturality_left {M M' : ModuleCat.{u}
 public theorem associatedPresheafTensorIso_naturality_right (M : ModuleCat.{u} R)
     {N N' : ModuleCat.{u} R} (g : N ⟶ N') :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-      PresheafOfModules.monoidalCategory (R := X.presheaf)
+      PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedPresheafFunctor X α).map (M ◁ g) ≫ (associatedPresheafTensorIso X α M N').hom =
       (associatedPresheafTensorIso X α M N).hom ≫
         (associatedPresheaf X α M ◁ (associatedPresheafFunctor X α).map g) := by
@@ -106,7 +106,7 @@ public theorem whiskerRight_comp_tensorHom_of_comp {C : Type*} [Category* C] [Mo
 public theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} R}
     (f : M ⟶ M') (N : ModuleCat.{u} R) :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-      PresheafOfModules.monoidalCategory (R := X.presheaf)
+      PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedSheafFunctor.{u, u} X α).map (X := M ⊗ N) (Y := M' ⊗ N) (f ▷ N) ≫
         (associatedSheafTensorIso X α M' N).hom =
       (associatedSheafTensorIso X α M N).hom ≫
@@ -127,7 +127,7 @@ public theorem assocTensorIso_naturality_left {M M' : ModuleCat.{u} R}
               PresheafOfModules.restrictScalars (𝟙 (structureSheafRing X).obj)).obj
               ((associatedSheafFunctor.{u, u} X α).obj N)) := by
   let : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-    PresheafOfModules.monoidalCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   have hT : CommSq
       ((associatedPresheafFunctor X α).map (X := M) (Y := M') f ▷ associatedPresheaf X α N)
       (Stacks.SheafOfModules.TensorSheafification.tensorUnitMap X.presheaf
@@ -183,7 +183,7 @@ public theorem whiskerLeft_comp_tensorHom_of_comp {C : Type*} [Category* C] [Mon
 public theorem assocTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : ModuleCat.{u} R}
     (g : N ⟶ N') :
     letI : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-      PresheafOfModules.monoidalCategory (R := X.presheaf)
+      PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
     (associatedSheafFunctor.{u, u} X α).map (X := M ⊗ N) (Y := M ⊗ N') (M ◁ g) ≫
         (associatedSheafTensorIso X α M N').hom =
       (associatedSheafTensorIso X α M N).hom ≫
@@ -204,7 +204,7 @@ public theorem assocTensorIso_naturality_right (M : ModuleCat.{u} R) {N N' : Mod
             (Y := (associatedSheafFunctor.{u, u} X α).obj N')
             ((associatedSheafFunctor.{u, u} X α).map (X := N) (Y := N') g)) := by
   let : MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-    PresheafOfModules.monoidalCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   have hT : CommSq
       (associatedPresheaf X α M ◁ (associatedPresheafFunctor X α).map (X := N) (Y := N') g)
       (Stacks.SheafOfModules.TensorSheafification.tensorUnitMap X.presheaf

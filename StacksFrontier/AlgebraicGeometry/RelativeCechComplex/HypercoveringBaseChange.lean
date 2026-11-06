@@ -168,6 +168,7 @@ theorem iota_obj_eq_qcohModule
       RelativeCechBaseChange.qcohModule G :=
   rfl
 
+set_option maxHeartbeats 2000000 in
 /-- The coefficient presheaf of [Stacks, Tag 01XL] at a quasi-coherent module, as the value of
 the functor of `Stacks.AlgebraicGeometry.CechPushforwardComplex.relativeCechPresheaf_eq`. -/
 theorem relativeCechPresheaf_obj_eq_aux (k : Y ⟶ Z)
@@ -177,8 +178,7 @@ theorem relativeCechPresheaf_obj_eq_aux (k : Y ⟶ Z)
         (relativeMonad Y).flip ⋙
           (Functor.whiskeringRight (Over Y)ᵒᵖ Y.Modules Z.Modules).obj
             (Scheme.Modules.pushforward k)).obj G :=
-  congrArg (fun T ↦ T.obj G)
-    (Stacks.AlgebraicGeometry.CechPushforwardComplex.relativeCechPresheaf_eq k)
+  by rw [Stacks.AlgebraicGeometry.CechPushforwardComplex.relativeCechPresheaf_eq k]
 
 /-- **The coefficient presheaf of [Stacks, Tag 01XL] is the presheaf of monads followed by the
 direct image**, as an equality of presheaves on `Over Y`:  the value at `A` is `(a ≫ k)_* a^* 𝓖`

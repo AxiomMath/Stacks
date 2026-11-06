@@ -195,11 +195,11 @@ public theorem exists_coordinateChartEquiv_blowupChartHom :
     rw [algebraMap_coordinateChartAlgebra_C, hC r, coordinateChartRename_C,
       MvPolynomial.algHom_C, MvPolynomial.algebraMap_eq]
   | add p q hp hq =>
-    simp only [map_add]
-    rw [hp, hq]
+    rw [(algebraMap _ _).map_add, e.map_add, (coordinateChartRename R m n i).map_add, hp, hq]
+    exact (map_add (blowupChartHom R (Fin m) (Fin n) i) p q).symm
   | mul_X p v hp =>
-    simp only [map_mul]
-    rw [hp, hX v]
+    rw [(algebraMap _ _).map_mul, e.map_mul, (coordinateChartRename R m n i).map_mul, hp, hX v]
+    exact (map_mul (blowupChartHom R (Fin m) (Fin n) i) p (X v)).symm
 
 /-! ### The chart over the ring of global sections -/
 

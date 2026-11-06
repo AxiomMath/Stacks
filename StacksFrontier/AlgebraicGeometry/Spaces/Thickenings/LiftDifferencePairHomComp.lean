@@ -59,7 +59,13 @@ variable {X' U' : AlgebraicSpaces B S hS} (ZX : ClosedSubspaces B S hS X'.1)
 def conormalInverseImageSquareZeroValues :
     Stacks.Sites.SquareZeroValues (conormalModule B S hS X' ZX) where
   ambient := structureRingSheafInverseImage B S hS (subspaceInclusion B S hS X' ZX)
-  ambient_mul_comm {V} s t := pullback_sections_mul_comm (R := structureRingSheaf B S hS X')
+  ambient_mul_comm {V} s t :=
+    haveI : PreservesFiniteProducts
+        (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X' ZX)).inverseImage :=
+      haveI :=
+        (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X' ZX)).preservesFiniteLimits
+      ⟨fun _ => inferInstance⟩
+    pullback_sections_mul_comm (R := structureRingSheaf B S hS X')
       (SmallEtale.topology B S hS (⟨ZX.1.toFunctor, ZX.2.1⟩ : AlgebraicSpaces B S hS).1)
       (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X' ZX)).inverseImage
       (ringSheaf_mul_comm_smallEtaleRingedSite B S hS X') V s t

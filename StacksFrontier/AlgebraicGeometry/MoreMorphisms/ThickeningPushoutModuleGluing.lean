@@ -91,8 +91,12 @@ theorem pullback_map_pullbackComp_hom_app_comp_pullbackComp_hom_app {A B C D : S
       (Scheme.Modules.pullbackComp a b).hom.app ((Scheme.Modules.pullback c).obj N) ≫
           (Scheme.Modules.pullbackComp (a ≫ b) c).hom.app N ≫
         (Scheme.Modules.pullbackCongr (Category.assoc a b c)).hom.app N := by
-  rw [← cancel_epi ((Scheme.Modules.pullbackComp a (b ≫ c)).inv.app N ≫
-    (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b c).inv.app N))]
+  have hε : Epi ((Scheme.Modules.pullbackComp a (b ≫ c)).inv.app N ≫
+      (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b c).inv.app N)) :=
+    @IsIso.epi_of_iso _ _ _ _ _ (((Scheme.Modules.pullbackComp a (b ≫ c)).app N).symm ≪≫
+      (Scheme.Modules.pullback a).mapIso ((Scheme.Modules.pullbackComp b c).app N).symm).isIso_hom
+  rw [← @cancel_epi _ _ _ _ _ ((Scheme.Modules.pullbackComp a (b ≫ c)).inv.app N ≫
+    (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b c).inv.app N)) hε]
   have e1 : ((Scheme.Modules.pullbackComp a (b ≫ c)).inv.app N ≫
       (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b c).inv.app N)) ≫
       (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b c).hom.app N) ≫
@@ -136,8 +140,10 @@ theorem pullbackComp_compatible {U V₁ V₂ W Y : Scheme.{u}} (a₁ : U ⟶ V�
       (Scheme.Modules.pullbackComp (a₂ ≫ b₂) t).hom.app L ≫
         (Scheme.Modules.pullbackCongr (Category.assoc a₂ b₂ t)).hom.app L ≫
         (Scheme.Modules.pullbackComp a₂ (b₂ ≫ t)).inv.app L := by
-    rw [← cancel_epi ((Scheme.Modules.pullbackComp a₂ b₂).hom.app
-      ((Scheme.Modules.pullback t).obj L)), Iso.hom_inv_id_app_assoc, ← reassoc_of% hA₂,
+    rw [← @cancel_epi _ _ _ _ _ ((Scheme.Modules.pullbackComp a₂ b₂).hom.app
+      ((Scheme.Modules.pullback t).obj L))
+      (@IsIso.epi_of_iso _ _ _ _ _ ((Scheme.Modules.pullbackComp a₂ b₂).app
+        ((Scheme.Modules.pullback t).obj L)).isIso_hom), Iso.hom_inv_id_app_assoc, ← reassoc_of% hA₂,
       Iso.hom_inv_id_app]
     simp only [Functor.comp_obj, Category.comp_id]
   rw [Functor.map_comp, Category.assoc, reassoc_of% h', Iso.app_hom, Iso.hom_inv_id_app]

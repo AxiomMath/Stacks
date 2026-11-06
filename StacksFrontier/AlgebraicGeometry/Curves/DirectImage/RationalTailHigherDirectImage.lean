@@ -140,7 +140,7 @@ theorem epi_rightDerived_zero_pushforward_map_biprodToIntersection
   rw [← NatIso.naturality_2
     (Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso c)
     (Scheme.IdealSheafData.biprodToIntersection C (complementaryCurveIdeal C))]
-  infer_instance
+  exact epi_comp' (IsIso.epi_of_iso _) (epi_comp' this (IsIso.epi_of_iso _))
 
 end Epi
 

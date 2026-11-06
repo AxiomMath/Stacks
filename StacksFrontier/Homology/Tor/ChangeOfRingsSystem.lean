@@ -395,11 +395,11 @@ private def functorEndAlgHom (R : Type u) [CommRing R]
     {C : Type*} [Category* C] [Preadditive C] [CategoryTheory.Linear R C]
     (F : C ⥤ ModuleCat.{u} R)
     [F.Additive] [F.Linear R] (X : C) : End X →ₐ[R] Module.End R (F.obj X) where
-  toFun f := (F.map f).hom
+  toFun f := (F.map f.asHom).hom
   map_zero' := congrArg ModuleCat.Hom.hom (F.map_zero X X)
   map_one' := congrArg ModuleCat.Hom.hom (F.map_id X)
-  map_add' f g := congrArg ModuleCat.Hom.hom (F.map_add (f := f) (g := g))
-  map_mul' f g := congrArg ModuleCat.Hom.hom (F.map_comp g f)
+  map_add' f g := congrArg ModuleCat.Hom.hom (F.map_add (f := f.asHom) (g := g.asHom))
+  map_mul' f g := congrArg ModuleCat.Hom.hom (F.map_comp g.asHom f.asHom)
   commutes' r := by
     change (F.map (r • 𝟙 X)).hom = r • LinearMap.id
     rw [F.map_smul, F.map_id]
@@ -407,17 +407,19 @@ private def functorEndAlgHom (R : Type u) [CommRing R]
 
 private def mulEndAlgHom (R A : Type u) [CommRing R] [CommRing A] [Algebra R A] :
     A →ₐ[R] End (ModuleCat.of R A) where
-  toFun a := ModuleCat.ofHom (TorChangeOfRings.mulLinear R A a)
-  map_zero' := by apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear]
-  map_one' := by apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear]
+  toFun a := End.of (ModuleCat.ofHom (TorChangeOfRings.mulLinear R A a))
+  map_zero' := by apply End.ext; apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear]
+  map_one' := by apply End.ext; apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear]
   map_add' a b := by
+    apply End.ext
     apply ModuleCat.hom_ext
     ext x
     change (a + b) * x = a * x + b * x
     exact add_mul a b x
-  map_mul' a b := by apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear, mul_assoc,
-    End.mul_def]
+  map_mul' a b := by apply End.ext; apply ModuleCat.hom_ext; ext; simp [TorChangeOfRings.mulLinear,
+    mul_assoc, End.mul_asHom]
   commutes' r := by
+    apply End.ext
     apply ModuleCat.hom_ext
     ext x
     change algebraMap R A r * x = r • x
@@ -444,11 +446,10 @@ private def torRightAction (R A B : Type u) [CommRing R] [CommRing A] [CommRing 
 private lemma torActions_commute (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
     [Algebra R A] [Algebra R B] (i : ℕ) (a : A) (b : B) :
     Commute (torLeftAction R A B i a) (torRightAction R A B i b) :=
-  LinearMap.ext fun x => (congrArg (fun f : End (((Tor (ModuleCat.{u} R) i).obj
-    (ModuleCat.of R A)).obj (ModuleCat.of R B)) => f.asHom x)
+  LinearMap.ext fun x => (ConcreteCategory.congr_hom
     (((Tor (ModuleCat.{u} R) i).map
       (ModuleCat.ofHom (TorChangeOfRings.mulLinear R A a))).naturality
-        (ModuleCat.ofHom (TorChangeOfRings.mulLinear R B b))))
+        (ModuleCat.ofHom (TorChangeOfRings.mulLinear R B b))) x)
 
 private def torTensorAction (R A B : Type u) [CommRing R] [CommRing A] [CommRing B]
     [Algebra R A] [Algebra R B] (i : ℕ) :

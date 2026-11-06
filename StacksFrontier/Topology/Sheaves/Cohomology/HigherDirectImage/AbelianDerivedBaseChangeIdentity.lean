@@ -199,19 +199,19 @@ the square. -/
 theorem onHomotopy_eq_unit_comp_derivedId_app
     (hτ : ∀ X, τ.app X = cU.hom.app (P.obj X) ≫ P.map (cV.inv.app X))
     (K : HomotopyCategory.Plus A) :
-    (onHomotopy P P U V τ (asIso U.rightDerivedFunctorPlusUnit)).app K =
-      U.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnit.app K) ≫
+    (onHomotopy P P U V τ (asIso U.rightDerivedFunctorPlusUnith)).app K =
+      U.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnith.app K) ≫
         (derivedId P U V cU cV).app (DerivedCategory.Plus.Qh.obj K) := by
   have hnat0 := (Functor.rightDerivedFunctorPlusIdIsoOf U cU).hom.naturality
-    (P.rightDerivedFunctorPlusUnit.app K)
-  have hfacU : (asIso U.rightDerivedFunctorPlusUnit).hom.app
+    (P.rightDerivedFunctorPlusUnith.app K)
+  have hfacU : (asIso U.rightDerivedFunctorPlusUnith).hom.app
         (P.mapHomotopyCategoryPlus.obj K) ≫
       (Functor.rightDerivedFunctorPlusIdIsoOf U cU).hom.app
         (DerivedCategory.Plus.Qh.obj (P.mapHomotopyCategoryPlus.obj K)) =
     DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusIdIsoOf U cU).hom.app
       (P.mapHomotopyCategoryPlus.obj K)) :=
     Functor.rightDerivedFunctorPlusIdIsoOf_fac U cU (P.mapHomotopyCategoryPlus.obj K)
-  have hfacU' : (asIso U.rightDerivedFunctorPlusUnit).inv.app
+  have hfacU' : (asIso U.rightDerivedFunctorPlusUnith).inv.app
         (P.mapHomotopyCategoryPlus.obj K) ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusIdIsoOf U cU).hom.app
         (P.mapHomotopyCategoryPlus.obj K)) =
@@ -219,7 +219,7 @@ theorem onHomotopy_eq_unit_comp_derivedId_app
       (DerivedCategory.Plus.Qh.obj (P.mapHomotopyCategoryPlus.obj K)) := by
     rw [← hfacU, ← Category.assoc, Iso.inv_hom_id_app, Category.id_comp]
   have hfacV := Functor.rightDerivedFunctorPlusIdIsoOf_inv_app V cV K
-  have hnatP := P.rightDerivedFunctorPlusUnit.naturality
+  have hnatP := P.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusIdIsoOf V cV).inv.app K)
   dsimp only [Functor.comp_map, Functor.id_obj] at hnatP
   rw [onHomotopy_app_mapSquarePlus, mapSquarePlus_idLaw_app P U V cU cV τ hτ K, derivedId_app,
@@ -232,14 +232,14 @@ additive functors whose two horizontal legs are isomorphic to the identity, the 
 comparison those isomorphisms force is the comparison the derived identity isomorphisms force. -/
 theorem derived_id
     (hτ : ∀ X, τ.app X = cU.hom.app (P.obj X) ≫ P.map (cV.inv.app X)) :
-    derived P P U V τ (asIso U.rightDerivedFunctorPlusUnit) = derivedId P U V cU cV := by
+    derived P P U V τ (asIso U.rightDerivedFunctorPlusUnith) = derivedId P U V cU cV := by
   let _ : (P.rightDerivedFunctorPlus ⋙ U.rightDerivedFunctorPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight P.rightDerivedFunctorPlusUnit U.rightDerivedFunctorPlus ≫
+      (Functor.whiskerRight P.rightDerivedFunctorPlusUnith U.rightDerivedFunctorPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso A) :=
     (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso _
       (fun K ↦ by dsimp; infer_instance)
   refine Functor.rightDerived_ext (P.rightDerivedFunctorPlus ⋙ U.rightDerivedFunctorPlus)
-    (Functor.whiskerRight P.rightDerivedFunctorPlusUnit U.rightDerivedFunctorPlus ≫
+    (Functor.whiskerRight P.rightDerivedFunctorPlusUnith U.rightDerivedFunctorPlus ≫
       (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso A) _ _ _ ?_
   rw [Category.assoc, derived_fac]
   refine NatTrans.ext (funext fun K => ?_)
@@ -250,7 +250,7 @@ theorem derived_id
 theorem derived_id_app
     (hτ : ∀ X, τ.app X = cU.hom.app (P.obj X) ≫ P.map (cV.inv.app X))
     (M : DerivedCategory.Plus A) :
-    (derived P P U V τ (asIso U.rightDerivedFunctorPlusUnit)).app M =
+    (derived P P U V τ (asIso U.rightDerivedFunctorPlusUnith)).app M =
       (Functor.rightDerivedFunctorPlusIdIsoOf U cU).hom.app
           (P.rightDerivedFunctorPlus.obj M) ≫
         P.rightDerivedFunctorPlus.map

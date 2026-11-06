@@ -207,7 +207,7 @@ theorem openSubspaceOfPointsRestrict_comp_eq_of_forall_pullback_snd
     (sieve_ofArrows_pullback_opensObjectι_mem_topology V hI hgens φ ht)
   refine hsheaf.isSeparatedFor.ext fun Y g hg => ?_
   obtain ⟨_, h', _, ⟨f⟩, rfl⟩ := hg
-  rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
   congr 1
   have hf : f.1 ∈ Iid := hgens ▸ Ideal.subset_span f.2
   have hc : (pullback.fst (t ≫ φ) (ι f) ≫ t) ≫ φ = pullback.snd (t ≫ φ) (ι f) ≫ ι f :=
@@ -228,7 +228,7 @@ theorem openSubspaceOfPointsRestrict_comp_eq_of_forall_pullback_snd
         (Space.pointsMap B S hS _ (yoneda.map φ) ⁻¹' Z)ᶜ).toFunctor.map
           (pullback.fst (t ≫ φ) (ι f)).op ⟨t, ht⟩ = ⟨pullback.fst (t ≫ φ) (ι f) ≫ t, hmt⟩ := rfl
     rw [e1, openSubspaceOfPointsRestrict_comp_app_of_comp_eq γ φ (ι f) _ _ _ hc hmt,
-      ← FunctorToTypes.map_comp_apply, ← op_comp, pullback.lift_snd]
+      ← Functor.map_comp_apply, ← op_comp, pullback.lift_snd]
   exact (hres α).trans ((congrArg (G.map (pullback.lift _ _ hc).op) (hF f hf)).trans
     (hres β).symm)
 
@@ -308,7 +308,7 @@ theorem exists_restrict_eq_of_isLimit (G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
         exact pullback.condition)
     have hm : pullback.snd φ (ι f) = m ≫ pullback.snd (D.map (gf f)).hom (ι f) :=
       (pullback.lift_snd _ _ _).symm
-    rw [hm, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, hgf f]
+    rw [hm, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hgf f]
   exact openSubspaceOfPointsRestrict_comp_eq_of_forall_pullback_snd hGs V hI hgens α β φ
     fun f _ => hF f
 

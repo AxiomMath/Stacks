@@ -164,6 +164,10 @@ abbrev projectiveCompletion : Scheme.{u} :=
 abbrev projectiveCompletionProj : projectiveCompletion E ⟶ X :=
   Stacks.Chow.bundleProj (completionModule E)
 
+/-- The projection `ℰ ⊕ 𝒪_X ⟶ ℰ` is an epimorphism (it is split by the first inclusion). -/
+instance epi_completionProjection : Epi (completionProjection E) :=
+  @IsSplitEpi.epi _ _ _ _ _ (biprod.fst_epi (X := E) (Y := Stacks.Ample.unitModule X))
+
 /-- **The divisor at infinity `i : 𝐏(ℰ) ⟶ P`**: the closed immersion of projective bundles induced
 by the projection `ℰ ⊕ 𝒪_X ⟶ ℰ`. -/
 abbrev infinityEmbedding : Stacks.Chow.bundle E ⟶ projectiveCompletion E :=

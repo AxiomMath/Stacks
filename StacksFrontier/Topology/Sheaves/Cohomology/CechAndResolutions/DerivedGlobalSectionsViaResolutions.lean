@@ -264,12 +264,12 @@ theorem rightDerivedFunctorPlusUnit_comp_compIso_trans_squareIso_hom_app
         ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F₁ ⋙ G₁))).inv.app K ≫
           (Functor.mapHomotopyCategoryPlusCompIso (F := F₁) (G := G₁) e).hom.app K ≫
           (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F₂ ⋙ G₂))).inv.app K) = w) :
-    (F₁ ⋙ G₁).rightDerivedFunctorPlusUnit.app K ≫
+    (F₁ ⋙ G₁).rightDerivedFunctorPlusUnith.app K ≫
         (DerivedPushforwardSections.compIso F₁ G₁ h₁ ≪≫
             DerivedPushforwardSections.squareIso F₁ G₁ F₂ G₂ e h₁ h₂).hom.app
           (DerivedCategory.Plus.Qh.obj K) =
-      w ≫ G₂.rightDerivedFunctorPlusUnit.app (F₂.mapHomotopyCategoryPlus.obj K) ≫
-        G₂.rightDerivedFunctorPlus.map (F₂.rightDerivedFunctorPlusUnit.app K) := by
+      w ≫ G₂.rightDerivedFunctorPlusUnith.app (F₂.mapHomotopyCategoryPlus.obj K) ≫
+        G₂.rightDerivedFunctorPlus.map (F₂.rightDerivedFunctorPlusUnith.app K) := by
   subst hw
   rw [Iso.trans_hom, NatTrans.comp_app, ← Category.assoc,
     DerivedPushforwardSections.compIso_hom,
@@ -288,12 +288,12 @@ This is the equation that pins the comparison down, and it is what identifies th
 [Stacks, Tag 01FB] with the canonical map of [Stacks, Tag 01F9]. -/
 theorem rightDerivedFunctorPlusUnit_comp_derivedModuleGlobalSectionsAlongIso_hom
     (K : HomotopyCategory.Plus (Modules X)) :
-    (moduleGlobalSections X ⋙ restrictGlobalScalars f).rightDerivedFunctorPlusUnit.app K ≫
+    (moduleGlobalSections X ⋙ restrictGlobalScalars f).rightDerivedFunctorPlusUnith.app K ≫
         (derivedModuleGlobalSectionsAlongIso f).hom.app (DerivedCategory.Plus.Qh.obj K) =
-      (moduleGlobalSections Y).rightDerivedFunctorPlusUnit.app
+      (moduleGlobalSections Y).rightDerivedFunctorPlusUnith.app
           ((RingedSpaceModuleAdjunction.modulePushforward f).mapHomotopyCategoryPlus.obj K) ≫
         (moduleGlobalSections Y).rightDerivedFunctorPlus.map
-          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
             K) := by
   have hid : (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl
             (SheafOfModules.evaluation.{u} (structureSheafRing X)
@@ -354,7 +354,7 @@ theorem mapHomologicalComplexDerivedUnit_comp_alongIso_hom
           (CochainComplex.plus_mapHomologicalComplex_obj
             (RingedSpaceModuleAdjunction.modulePushforward f) hK) ≫
         DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨K, hK⟩))) := by
   have hQ : ((moduleGlobalSections X ⋙
         restrictGlobalScalars f).mapHomologicalComplexQhIso hK).inv =
@@ -363,16 +363,16 @@ theorem mapHomologicalComplexDerivedUnit_comp_alongIso_hom
           (RingedSpaceModuleAdjunction.modulePushforward f) hK)).inv :=
     rfl
   have hiota : DerivedCategory.Plus.ι.map
-          ((moduleGlobalSections X ⋙ restrictGlobalScalars f).rightDerivedFunctorPlusUnit.app
+          ((moduleGlobalSections X ⋙ restrictGlobalScalars f).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨K, hK⟩)) ≫
         DerivedCategory.Plus.ι.map ((derivedModuleGlobalSectionsAlongIso f).hom.app
           (DerivedCategory.Plus.Qh.obj
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨K, hK⟩))) =
-      DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlusUnit.app
+      DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlusUnith.app
           ((RingedSpaceModuleAdjunction.modulePushforward f).mapHomotopyCategoryPlus.obj
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨K, hK⟩))) ≫
         DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨K, hK⟩))) :=
     ((DerivedCategory.Plus.ι.map_comp _ _).symm.trans
         (congrArg (fun m => DerivedCategory.Plus.ι.map m)
@@ -404,7 +404,7 @@ pushforward of sheaves of modules. -/
 theorem mapSingleFunctorPlusCompQhIso_inv_app_comp_map_qhHom (Z : A)
     (I : CochainComplex.InjectiveResolution ((CochainComplex.singleFunctor A 0).obj Z)) :
     (T.mapSingleFunctorPlusCompQhIso.inv.app Z ≫
-          T.rightDerivedFunctorPlusUnit.app
+          T.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor A 0).obj Z) ≫
           T.rightDerivedFunctorPlus.map
             ((DerivedCategory.Plus.singleFunctorIsoCompQh A 0).inv.app Z)) ≫
@@ -414,7 +414,7 @@ theorem mapSingleFunctorPlusCompQhIso_inv_app_comp_map_qhHom (Z : A)
           (CochainComplex.plus_mapHomologicalComplex_obj T I.boundedBelow)
           ((HomologicalComplex.singleMapHomologicalComplex T (ComplexShape.up ℤ) 0).inv.app Z ≫
             (T.mapHomologicalComplex (ComplexShape.up ℤ)).map I.ι) ≫
-        T.rightDerivedFunctorPlusUnit.app
+        T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩) := by
   have hq : CochainComplex.InjectiveResolution.qhHom Z I =
       (DerivedCategory.Plus.singleFunctorIsoCompQh A 0).hom.app Z ≫
@@ -432,13 +432,13 @@ theorem mapSingleFunctorPlusCompQhIso_inv_app_comp_map_qhHom (Z : A)
   have hnat : DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map
           (HomotopyCategory.Plus.quotientHomMk
             (CochainComplex.plus_singleFunctor_obj Z) I.boundedBelow I.ι)) ≫
-        T.rightDerivedFunctorPlusUnit.app
+        T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩) =
-      T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj Z) ≫
+      T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj Z) ≫
         T.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
           (HomotopyCategory.Plus.quotientHomMk
             (CochainComplex.plus_singleFunctor_obj Z) I.boundedBelow I.ι)) :=
-    T.rightDerivedFunctorPlusUnit.naturality _
+    T.rightDerivedFunctorPlusUnith.naturality _
   have hmhc := T.mapHomotopyCategoryPlus_map_quotientHomMk
     (CochainComplex.plus_singleFunctor_obj Z) I.boundedBelow I.ι
   have hmS := T.mapSingleFunctorPlusCompQhIso_inv_app_eq_qhHomMk Z
@@ -453,7 +453,7 @@ theorem mapSingleFunctorPlusCompQhIso_inv_app_comp_map_qhHom (Z : A)
       ((DerivedCategory.Plus.singleFunctorIsoCompQh A 0).inv.app Z)), hcancel, Category.id_comp,
     ← hnat, hmhc, hmS]
   exact (Category.assoc _ _ _).symm.trans (congrArg
-    (fun z => z ≫ T.rightDerivedFunctorPlusUnit.app
+    (fun z => z ≫ T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩)) hqc)
 
 end SingleResolution
@@ -491,7 +491,7 @@ private lemma derivedPushforwardSingleNatTrans_app_comp_map_qhHom {G : Modules Y
         (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlus.map
           (CochainComplex.InjectiveResolution.qhHom F I) =
       pushforwardResolutionHom f ψ I ≫
-        (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+        (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨I.cocomplex, I.boundedBelow⟩) := by
   have h1 : (derivedPushforwardSingleNatTrans f).app F ≫
         (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlus.map
@@ -504,7 +504,7 @@ private lemma derivedPushforwardSingleNatTrans_app_comp_map_qhHom {G : Modules Y
                 (ComplexShape.up ℤ) 0).inv.app F ≫
             ((RingedSpaceModuleAdjunction.modulePushforward f).mapHomologicalComplex
               (ComplexShape.up ℤ)).map I.ι) ≫
-        (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+        (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨I.cocomplex, I.boundedBelow⟩) :=
     mapSingleFunctorPlusCompQhIso_inv_app_comp_map_qhHom
       (RingedSpaceModuleAdjunction.modulePushforward f) F I
@@ -512,7 +512,7 @@ private lemma derivedPushforwardSingleNatTrans_app_comp_map_qhHom {G : Modules Y
     ((congrArg (fun z => (DerivedCategory.Plus.singleFunctor (Modules Y) 0).map ψ ≫ z) h1).trans
       ((Category.assoc _ _ _).symm.trans
         (congrArg (fun z => z ≫
-            (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+            (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨I.cocomplex, I.boundedBelow⟩))
           (DerivedCategory.Plus.singleFunctor_map_comp_qhHomMk ψ
             (plus_modulePushforwardComplex f I.boundedBelow) _))))
@@ -535,7 +535,7 @@ private lemma derivedModuleGlobalSectionsMap_comp_map_qhHom {G : Modules Y} {F :
             ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨I.cocomplex, I.boundedBelow⟩)) =
       (moduleGlobalSections Y).rightDerivedFunctorPlus.map
         (pushforwardResolutionHom f (RingedSpaceModuleAdjunction.homEquiv f F G φ) I ≫
-          (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+          (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (Modules X)).obj
               ⟨I.cocomplex, I.boundedBelow⟩)) := by
   have hdef : derivedModuleGlobalSectionsMap f φ =
@@ -578,6 +578,27 @@ private lemma derivedModuleGlobalSectionsMap_comp_map_qhHom {G : Modules Y} {F :
 
 attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 
+/-- The unit `rightDerivedFunctorPlusUnith` (whose definition Mathlib does not expose) is
+invertible at `K` when the unit of `Functor.totalRightDerived` is: both are units of right derived
+functors of the same functor. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_of_isIso_totalRightDerivedUnit
+    {D : Type*} {E : Type*} [Category* D] [Category* E] [Abelian D] [Abelian E]
+    [HasDerivedCategory D] [HasDerivedCategory E] (G : D ⥤ E) [G.Additive]
+    [EnoughInjectives D] (K : HomotopyCategory.Plus D)
+    (h : IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app K)) :
+    IsIso (G.rightDerivedFunctorPlusUnith.app K) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)) K] at h
+  exact (isIso_comp_right_iff _ _).1 h
+
 /-- The comparison of a bounded-below complex with the right derived functor is invertible when
 every term is right acyclic. -/
 private lemma isIso_mapHomologicalComplexDerivedUnit_of_rightAcyclic
@@ -588,11 +609,12 @@ private lemma isIso_mapHomologicalComplexDerivedUnit_of_rightAcyclic
   have hderives : (T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso A) :=
     Functor.hasRightDerivedFunctor_of_hasPointwiseRightDerivedFunctor _ _
-  have hunit : IsIso (T.rightDerivedFunctorPlusUnit.app
+  have hunit : IsIso (T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩)) :=
-    T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K hK h
+    isIso_rightDerivedFunctorPlusUnith_app_of_isIso_totalRightDerivedUnit T _
+      (T.isIso_totalRightDerivedUnit_app_of_rightAcyclic K hK h)
   exact inferInstanceAs (IsIso ((T.mapHomologicalComplexQhIso hK).inv ≫
-    DerivedCategory.Plus.ι.map (T.rightDerivedFunctorPlusUnit.app
+    DerivedCategory.Plus.ι.map (T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ⟨K, hK⟩))))
 
 omit [EnoughInjectives (Modules X)] in
@@ -631,7 +653,7 @@ private lemma isIso_iotaMap_map_derivedPushforwardUnit {F : Modules X}
     (I : CochainComplex.InjectiveResolution
       ((CochainComplex.singleFunctor (Modules X) 0).obj F)) :
     IsIso (DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-      ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+      ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient (Modules X)).obj
           ⟨I.cocomplex, I.boundedBelow⟩)))) := by
   have h1 := isIso_mapHomologicalComplexDerivedUnit_along f I
@@ -648,7 +670,7 @@ private lemma isIso_iotaMap_map_derivedPushforwardUnit {F : Modules X}
   have hm : (moduleGlobalSections Y).mapHomologicalComplexDerivedUnit
         (plus_modulePushforwardComplex f I.boundedBelow) ≫
       DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-        ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+        ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient (Modules X)).obj ⟨I.cocomplex, I.boundedBelow⟩))) =
     (moduleGlobalSections X ⋙ restrictGlobalScalars f).mapHomologicalComplexDerivedUnit
         I.boundedBelow ≫
@@ -691,7 +713,7 @@ private lemma iotaMap_derivedModuleGlobalSectionsMap_comp_alongResolutionIso_hom
         (moduleGlobalSections Y).mapHomologicalComplexDerivedUnit
             (plus_modulePushforwardComplex f I.boundedBelow) ≫
           DerivedCategory.Plus.ι.map ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-            ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+            ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.quotient (Modules X)).obj
                 ⟨I.cocomplex, I.boundedBelow⟩))) =
       DerivedCategory.Plus.ι.map
@@ -710,7 +732,7 @@ private lemma iotaMap_derivedModuleGlobalSectionsMap_comp_alongResolutionIso_hom
           (DerivedCategory.Plus.ι.map_comp _ _).symm))
   refine (cancel_mono (DerivedCategory.Plus.ι.map
     ((moduleGlobalSections Y).rightDerivedFunctorPlus.map
-      ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+      ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient (Modules X)).obj
           ⟨I.cocomplex, I.boundedBelow⟩))))).1 ?_
   exact (Category.assoc _ _ _).trans

@@ -341,18 +341,19 @@ automorphism of a chosen pushforward dies under transport along `f` exactly when
 with the canonical arrow between the two chosen pushforwards. -/
 public theorem mem_ker_transportAutHom_iff {A B : Under (p.obj x)}
     (f : A ⟶ B) (a : Aut (P.obj A)) :
-    a ∈ MonoidHom.ker (P.transportAutHom f) ↔ a.hom.val ≫ P.map f = P.map f := by
+    a ∈ MonoidHom.ker (P.transportAutHom f) ↔ a.asIso.hom.val ≫ P.map f = P.map f := by
   constructor
   · intro ha
     have h' : P.transportHom f a = 𝟙 (P.obj B).1 :=
-      congrArg (fun b : Aut (P.obj B) => b.hom.val) (MonoidHom.mem_ker.mp ha)
-    calc a.hom.val ≫ P.map f = P.map f ≫ P.transportHom f a :=
+      congrArg (fun b : Aut (P.obj B) => b.asIso.hom.val) (MonoidHom.mem_ker.mp ha)
+    calc a.asIso.hom.val ≫ P.map f = P.map f ≫ P.transportHom f a :=
           (P.map_transportHom f a).symm
       _ = P.map f ≫ 𝟙 (P.obj B).1 := by rw [h']
       _ = P.map f := Category.comp_id _
   · intro ha
     refine MonoidHom.mem_ker.mpr ?_
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     change P.transportHom f a = 𝟙 (P.obj B).1
     let _ := P.map_cocartesian f
@@ -399,28 +400,29 @@ variable {p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k} {x : F}
 the canonical arrow between the two pushforwards. -/
 public theorem transportAut_eq_iff {A B : Under (p.obj x)} (f : A ⟶ B)
     (γ : Aut (P.obj A)) (δ : Aut (P.obj B)) :
-    P.transportAut f γ = δ ↔ γ.hom.val ≫ P.map f = P.map f ≫ δ.hom.val := by
+    P.transportAut f γ = δ ↔ γ.asIso.hom.val ≫ P.map f = P.map f ≫ δ.asIso.hom.val := by
   constructor
   · intro h
-    have h' : P.transportHom f γ = δ.hom.val :=
-      congrArg (fun a : Aut (P.obj B) => a.hom.val) h
+    have h' : P.transportHom f γ = δ.asIso.hom.val :=
+      congrArg (fun a : Aut (P.obj B) => a.asIso.hom.val) h
     rw [← h']
     exact (P.map_transportHom f γ).symm
   · intro h
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
-    change P.transportHom f γ = δ.hom.val
+    change P.transportHom f γ = δ.asIso.hom.val
     let _ := P.map_cocartesian f
     let _ := P.transportHom_isHomLift f γ
-    let _ : p.IsHomLift (𝟙 B.right) δ.hom.val := δ.hom.2
+    let _ : p.IsHomLift (𝟙 B.right) δ.asIso.hom.val := δ.asIso.hom.2
     apply Functor.IsStronglyCocartesian.ext p f.right (P.map f) (𝟙 B.right)
     rw [P.map_transportHom f γ, h]
 
 /-- A fibre automorphism lies over the identity of the base. -/
 public theorem p_map_aut {A : Under (p.obj x)} (α : Aut (P.obj A)) :
-    p.map α.hom.val = 𝟙 (p.obj (P.obj A).1) := by
-  let _ : p.IsHomLift (𝟙 A.right) α.hom.val := α.hom.2
-  rw [IsHomLift.fac' p (𝟙 A.right) α.hom.val]
+    p.map α.asIso.hom.val = 𝟙 (p.obj (P.obj A).1) := by
+  let _ : p.IsHomLift (𝟙 A.right) α.asIso.hom.val := α.asIso.hom.2
+  rw [IsHomLift.fac' p (𝟙 A.right) α.asIso.hom.val]
   simp
 
 /-- The base of the canonical arrow between two chosen pushforwards. -/
@@ -482,9 +484,9 @@ prescribed. This is the Rim-Schlessinger bijection used to add infinitesimal
 automorphisms. -/
 private theorem existsUnique_planeAut (hp : SatisfiesRS p)
     (α β : Aut (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))))
-    (hα : α.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+    (hα : α.asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
       P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)))
-    (hβ : β.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+    (hβ : β.asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
       P.map (squareZeroUnderRed p x (tgtLine.{v, w} k))) :
     ∃! γ : Aut (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))),
       P.transportAut (squareZeroUnderMap p x (lineFst.{v, w} k)) γ = α ∧
@@ -519,44 +521,44 @@ private theorem existsUnique_planeAut (hp : SatisfiesRS p)
       (c : Aut (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))))
       (g : (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 ⟶
         (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1),
-      g ≫ P.map (squareZeroUnderMap p x f) = P.map (squareZeroUnderMap p x f) ≫ c.hom.val →
+      g ≫ P.map (squareZeroUnderMap p x f) = P.map (squareZeroUnderMap p x f) ≫ c.asIso.hom.val →
       p.map g ≫ p.map (P.map (squareZeroUnderMap p x f)) =
         p.map (P.map (squareZeroUnderMap p x f)) := by
     intro f c g h
     rw [← p.map_comp, h, p.map_comp, p_map_aut P c, Category.comp_id]
   have build : ∀ a b : Aut (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))),
-      a.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+      a.asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
         P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) →
-      b.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+      b.asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
         P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) →
       ∃ g : (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 ⟶
           (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1,
         p.IsHomLift (𝟙 (squareZeroUnder p x (tgtPlane.{v, w} k)).right) g ∧
         g ≫ P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) =
-          P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.hom.val ∧
+          P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.asIso.hom.val ∧
         g ≫ P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) =
-          P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.hom.val := by
+          P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.asIso.hom.val := by
     intro a b ha hb
-    have hcond : (P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.hom.val) ≫
+    have hcond : (P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.asIso.hom.val) ≫
           P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
-        (P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.hom.val) ≫
+        (P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.asIso.hom.val) ≫
           P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) := by
       rw [Category.assoc, ha, Category.assoc, hb]
       exact planeCone_condition P
     obtain ⟨g, hl1, hl2⟩ : ∃ g : (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 ⟶
           (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1,
         g ≫ P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) =
-            P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.hom.val ∧
+            P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.asIso.hom.val ∧
           g ≫ P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) =
-            P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.hom.val :=
+            P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.asIso.hom.val :=
       ⟨PullbackCone.IsLimit.lift hlim _ _ hcond,
         PullbackCone.IsLimit.lift_fst hlim _ _ hcond,
         PullbackCone.IsLimit.lift_snd hlim _ _ hcond⟩
     exact ⟨g, hbase g (hlift _ a _ hl1) (hlift _ b _ hl2), hl1, hl2⟩
   have hinv : ∀ a : Aut (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))),
-      a.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+      a.asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
         P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) →
-      a.symm.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
+      (a⁻¹).asIso.hom.val ≫ P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) =
         P.map (squareZeroUnderRed p x (tgtLine.{v, w} k)) := fun a ha =>
     (mem_ker_transportAutHom_iff P _ a⁻¹).mp
       (inv_mem ((mem_ker_transportAutHom_iff P _ a).mpr ha))
@@ -565,34 +567,35 @@ private theorem existsUnique_planeAut (hp : SatisfiesRS p)
       (g g' : (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 ⟶
         (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1),
       g ≫ P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) =
-        P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.hom.val →
+        P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.asIso.hom.val →
       g ≫ P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) =
-        P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.hom.val →
+        P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.asIso.hom.val →
       g' ≫ P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) =
-        P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ a.symm.hom.val →
+        P.map (squareZeroUnderMap p x (lineFst.{v, w} k)) ≫ (a⁻¹).asIso.hom.val →
       g' ≫ P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) =
-        P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ b.symm.hom.val →
+        P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ (b⁻¹).asIso.hom.val →
       g ≫ g' = 𝟙 (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 := by
     intro a b g g' h1 h2 h1' h2'
-    have ha : a.hom.val ≫ a.symm.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
-      congrArg Subtype.val a.hom_inv_id
-    have hb : b.hom.val ≫ b.symm.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
-      congrArg Subtype.val b.hom_inv_id
+    have ha : a.asIso.hom.val ≫ (a⁻¹).asIso.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
+      congrArg Subtype.val a.asIso.hom_inv_id
+    have hb : b.asIso.hom.val ≫ (b⁻¹).asIso.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
+      congrArg Subtype.val b.asIso.hom_inv_id
     refine huniq _ _ ?_ ?_
     · rw [Category.assoc, h1', ← Category.assoc, h1, Category.assoc, ha, Category.comp_id,
         Category.id_comp]
     · rw [Category.assoc, h2', ← Category.assoc, h2, Category.assoc, hb, Category.comp_id,
         Category.id_comp]
   obtain ⟨g, hgl, hg1, hg2⟩ := build α β hα hβ
-  obtain ⟨g', hgl', hg1', hg2'⟩ := build α.symm β.symm (hinv α hα) (hinv β hβ)
+  obtain ⟨g', hgl', hg1', hg2'⟩ := build α⁻¹ β⁻¹ (hinv α hα) (hinv β hβ)
   have hgg := hmul α β g g' hg1 hg2 hg1' hg2'
-  have hgg' := hmul α.symm β.symm g' g hg1' hg2' hg1 hg2
-  refine ⟨⟨⟨g, hgl⟩, ⟨g', hgl'⟩, Functor.Fiber.hom_ext hgg, Functor.Fiber.hom_ext hgg'⟩,
+  have hgg' := hmul α⁻¹ β⁻¹ g' g hg1' hg2' hg1 hg2
+  refine ⟨.of ⟨⟨g, hgl⟩, ⟨g', hgl'⟩, Functor.Fiber.hom_ext hgg, Functor.Fiber.hom_ext hgg'⟩,
     ⟨(transportAut_eq_iff P _ _ α).mpr hg1, (transportAut_eq_iff P _ _ β).mpr hg2⟩, ?_⟩
   intro γ' hγ'
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
-  change γ'.hom.val = g
+  change γ'.asIso.hom.val = g
   refine huniq _ _ ?_ ?_
   · exact ((transportAut_eq_iff P _ γ' α).mp hγ'.1).trans hg1.symm
   · exact ((transportAut_eq_iff P _ γ' β).mp hγ'.2).trans hg2.symm
@@ -1035,8 +1038,8 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
         (∀ t : Uε.right,
           (eqToHom (P.obj Uε).2.symm ≫ p.map Hε.hom ≫
             eqToHom (Q.obj Vε).2).hom t = t) ∧
-        (∀ a, (localizedTangentEquivKernel P a).1.hom.val ≫ Hε.hom =
-          Hε.hom ≫ (localizedTangentEquivKernel Q (E a)).1.hom.val) := by
+        (∀ a, (localizedTangentEquivKernel P a).1.asIso.hom.val ≫ Hε.hom =
+          Hε.hom ≫ (localizedTangentEquivKernel Q (E a)).1.asIso.hom.val) := by
   classical
   dsimp only
   let mE := dualCompare (p := p) x x₀
@@ -1210,55 +1213,60 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
       _ = g := by simp only [Category.id_comp, Category.comp_id]
   let Φ : Aut (P.obj (dualNumbersUnder (p := p) (x := x))) →
       Aut (Q.obj (dualNumbersUnder (p := p) (x := x₀))) := fun α =>
-    { hom := ⟨HEi ≫ α.hom.val ≫ HE, hconjlift α.hom.val α.hom.2⟩
-      inv := ⟨HEi ≫ α.inv.val ≫ HE, hconjlift α.inv.val α.inv.2⟩
+    Aut.of
+    { hom := ⟨HEi ≫ α.asIso.hom.val ≫ HE, hconjlift α.asIso.hom.val α.asIso.hom.2⟩
+      inv := ⟨HEi ≫ α.asIso.inv.val ≫ HE, hconjlift α.asIso.inv.val α.asIso.inv.2⟩
       hom_inv_id := Functor.Fiber.hom_ext (by
-        change (HEi ≫ α.hom.val ≫ HE) ≫ (HEi ≫ α.inv.val ≫ HE) =
+        change (HEi ≫ α.asIso.hom.val ≫ HE) ≫ (HEi ≫ α.asIso.inv.val ≫ HE) =
           𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1
-        have h : α.hom.val ≫ α.inv.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
-          congrArg Subtype.val α.hom_inv_id
+        have h : α.asIso.hom.val ≫ α.asIso.inv.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
+          congrArg Subtype.val α.asIso.hom_inv_id
         rw [hcancelP, h, hidP])
       inv_hom_id := Functor.Fiber.hom_ext (by
-        change (HEi ≫ α.inv.val ≫ HE) ≫ (HEi ≫ α.hom.val ≫ HE) =
+        change (HEi ≫ α.asIso.inv.val ≫ HE) ≫ (HEi ≫ α.asIso.hom.val ≫ HE) =
           𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1
-        have h : α.inv.val ≫ α.hom.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
-          congrArg Subtype.val α.inv_hom_id
+        have h : α.asIso.inv.val ≫ α.asIso.hom.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
+          congrArg Subtype.val α.asIso.inv_hom_id
         rw [hcancelP, h, hidP]) }
   let Ψ : Aut (Q.obj (dualNumbersUnder (p := p) (x := x₀))) →
       Aut (P.obj (dualNumbersUnder (p := p) (x := x))) := fun β =>
-    { hom := ⟨HE ≫ β.hom.val ≫ HEi, hconjliftQ β.hom.val β.hom.2⟩
-      inv := ⟨HE ≫ β.inv.val ≫ HEi, hconjliftQ β.inv.val β.inv.2⟩
+    Aut.of
+    { hom := ⟨HE ≫ β.asIso.hom.val ≫ HEi, hconjliftQ β.asIso.hom.val β.asIso.hom.2⟩
+      inv := ⟨HE ≫ β.asIso.inv.val ≫ HEi, hconjliftQ β.asIso.inv.val β.asIso.inv.2⟩
       hom_inv_id := Functor.Fiber.hom_ext (by
-        change (HE ≫ β.hom.val ≫ HEi) ≫ (HE ≫ β.inv.val ≫ HEi) =
+        change (HE ≫ β.asIso.hom.val ≫ HEi) ≫ (HE ≫ β.asIso.inv.val ≫ HEi) =
           𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1
-        have h : β.hom.val ≫ β.inv.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
-          congrArg Subtype.val β.hom_inv_id
+        have h : β.asIso.hom.val ≫ β.asIso.inv.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
+          congrArg Subtype.val β.asIso.hom_inv_id
         rw [hcancelQ, h, hidQ])
       inv_hom_id := Functor.Fiber.hom_ext (by
-        change (HE ≫ β.inv.val ≫ HEi) ≫ (HE ≫ β.hom.val ≫ HEi) =
+        change (HE ≫ β.asIso.inv.val ≫ HEi) ≫ (HE ≫ β.asIso.hom.val ≫ HEi) =
           𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1
-        have h : β.inv.val ≫ β.hom.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
-          congrArg Subtype.val β.inv_hom_id
+        have h : β.asIso.inv.val ≫ β.asIso.hom.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
+          congrArg Subtype.val β.asIso.inv_hom_id
         rw [hcancelQ, h, hidQ]) }
   have hΨΦ : ∀ α, Ψ (Φ α) = α := by
     intro α
+    apply Aut.ext
     apply Iso.ext
     apply Functor.Fiber.hom_ext
-    change HE ≫ (HEi ≫ α.hom.val ≫ HE) ≫ HEi = α.hom.val
-    exact hPQP α.hom.val
+    change HE ≫ (HEi ≫ α.asIso.hom.val ≫ HE) ≫ HEi = α.asIso.hom.val
+    exact hPQP α.asIso.hom.val
   have hΦΨ : ∀ β, Φ (Ψ β) = β := by
     intro β
+    apply Aut.ext
     apply Iso.ext
     apply Functor.Fiber.hom_ext
-    change HEi ≫ (HE ≫ β.hom.val ≫ HEi) ≫ HE = β.hom.val
-    exact hQPQ β.hom.val
+    change HEi ≫ (HE ≫ β.asIso.hom.val ≫ HEi) ≫ HE = β.asIso.hom.val
+    exact hQPQ β.asIso.hom.val
   have hΦmul : ∀ α β, Φ (α * β) = Φ α * Φ β := by
     intro α β
+    apply Aut.ext
     apply Iso.ext
     apply Functor.Fiber.hom_ext
-    change HEi ≫ (β.hom.val ≫ α.hom.val) ≫ HE =
-      (HEi ≫ β.hom.val ≫ HE) ≫ (HEi ≫ α.hom.val ≫ HE)
-    exact (hcancelP β.hom.val α.hom.val).symm
+    change HEi ≫ (β.asIso.hom.val ≫ α.asIso.hom.val) ≫ HE =
+      (HEi ≫ β.asIso.hom.val ≫ HE) ≫ (HEi ≫ α.asIso.hom.val ≫ HE)
+    exact (hcancelP β.asIso.hom.val α.asIso.hom.val).symm
   -- the comparison identities, in inverse form
   have hredcomp' : HEi ≫ P.map (tangentReduction (p := p) (x := x)) =
       Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by
@@ -1291,13 +1299,13 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
     intro α hα
     have hα' := (mem_ker_transportAutHom_iff P (tangentReduction (p := p) (x := x)) α).mp hα
     refine (mem_ker_transportAutHom_iff Q (tangentReduction (p := p) (x := x₀)) (Φ α)).mpr ?_
-    change (HEi ≫ α.hom.val ≫ HE) ≫ Q.map (tangentReduction (p := p) (x := x₀)) =
+    change (HEi ≫ α.asIso.hom.val ≫ HE) ≫ Q.map (tangentReduction (p := p) (x := x₀)) =
       Q.map (tangentReduction (p := p) (x := x₀))
-    calc (HEi ≫ α.hom.val ≫ HE) ≫ Q.map (tangentReduction (p := p) (x := x₀))
-        = HEi ≫ α.hom.val ≫ HE ≫ Q.map (tangentReduction (p := p) (x := x₀)) := by
+    calc (HEi ≫ α.asIso.hom.val ≫ HE) ≫ Q.map (tangentReduction (p := p) (x := x₀))
+        = HEi ≫ α.asIso.hom.val ≫ HE ≫ Q.map (tangentReduction (p := p) (x := x₀)) := by
             simp only [Category.assoc]
-      _ = HEi ≫ α.hom.val ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by rw [← hredcomp]
-      _ = HEi ≫ (α.hom.val ≫ P.map (tangentReduction (p := p) (x := x))) ≫ HZ := by
+      _ = HEi ≫ α.asIso.hom.val ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by rw [← hredcomp]
+      _ = HEi ≫ (α.asIso.hom.val ≫ P.map (tangentReduction (p := p) (x := x))) ≫ HZ := by
             simp only [Category.assoc]
       _ = HEi ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by rw [hα']
       _ = (HEi ≫ P.map (tangentReduction (p := p) (x := x))) ≫ HZ := by simp only [Category.assoc]
@@ -1309,13 +1317,13 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
     intro β hβ
     have hβ' := (mem_ker_transportAutHom_iff Q (tangentReduction (p := p) (x := x₀)) β).mp hβ
     refine (mem_ker_transportAutHom_iff P (tangentReduction (p := p) (x := x)) (Ψ β)).mpr ?_
-    change (HE ≫ β.hom.val ≫ HEi) ≫ P.map (tangentReduction (p := p) (x := x)) =
+    change (HE ≫ β.asIso.hom.val ≫ HEi) ≫ P.map (tangentReduction (p := p) (x := x)) =
       P.map (tangentReduction (p := p) (x := x))
-    calc (HE ≫ β.hom.val ≫ HEi) ≫ P.map (tangentReduction (p := p) (x := x))
-        = HE ≫ β.hom.val ≫ HEi ≫ P.map (tangentReduction (p := p) (x := x)) := by
+    calc (HE ≫ β.asIso.hom.val ≫ HEi) ≫ P.map (tangentReduction (p := p) (x := x))
+        = HE ≫ β.asIso.hom.val ≫ HEi ≫ P.map (tangentReduction (p := p) (x := x)) := by
             simp only [Category.assoc]
-      _ = HE ≫ β.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by rw [hredcomp']
-      _ = HE ≫ (β.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀))) ≫ HZi := by
+      _ = HE ≫ β.asIso.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by rw [hredcomp']
+      _ = HE ≫ (β.asIso.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀))) ≫ HZi := by
             simp only [Category.assoc]
       _ = HE ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by rw [hβ']
       _ = (HE ≫ Q.map (tangentReduction (p := p) (x := x₀))) ≫ HZi := by simp only [Category.assoc]
@@ -1328,31 +1336,31 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
         Φ (P.transportAut (tangentScaling (p := p) (x := x) c) α) := by
     intro c α
     refine (transportAut_eq_iff Q (tangentScaling (p := p) (x := x₀) c) (Φ α) _).mpr ?_
-    change (HEi ≫ α.hom.val ≫ HE) ≫ Q.map (tangentScaling (p := p) (x := x₀) c) =
+    change (HEi ≫ α.asIso.hom.val ≫ HE) ≫ Q.map (tangentScaling (p := p) (x := x₀) c) =
       Q.map (tangentScaling (p := p) (x := x₀) c) ≫
-        HEi ≫ (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val ≫ HE
-    calc (HEi ≫ α.hom.val ≫ HE) ≫ Q.map (tangentScaling (p := p) (x := x₀) c)
-        = HEi ≫ α.hom.val ≫ HE ≫ Q.map (tangentScaling (p := p) (x := x₀) c) := by
+        HEi ≫ (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val ≫ HE
+    calc (HEi ≫ α.asIso.hom.val ≫ HE) ≫ Q.map (tangentScaling (p := p) (x := x₀) c)
+        = HEi ≫ α.asIso.hom.val ≫ HE ≫ Q.map (tangentScaling (p := p) (x := x₀) c) := by
           simp only [Category.assoc]
-      _ = HEi ≫ α.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c) ≫ HE := by
+      _ = HEi ≫ α.asIso.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c) ≫ HE := by
           rw [← hscalecomp c]
-      _ = HEi ≫ (α.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c)) ≫ HE := by
+      _ = HEi ≫ (α.asIso.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c)) ≫ HE := by
           simp only [Category.assoc]
       _ = HEi ≫ (P.map (tangentScaling (p := p) (x := x) c) ≫
-            (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val) ≫ HE := by
+            (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val) ≫ HE := by
           have h : P.map (tangentScaling (p := p) (x := x) c) ≫
-              (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val =
-              α.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c) :=
+              (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val =
+              α.asIso.hom.val ≫ P.map (tangentScaling (p := p) (x := x) c) :=
             P.map_transportHom (tangentScaling (p := p) (x := x) c) α
           rw [h]
       _ = (HEi ≫ P.map (tangentScaling (p := p) (x := x) c)) ≫
-            (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val ≫ HE := by
+            (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val ≫ HE := by
           simp only [Category.assoc]
       _ = (Q.map (tangentScaling (p := p) (x := x₀) c) ≫ HEi) ≫
-            (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val ≫ HE := by
+            (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val ≫ HE := by
           rw [hscalecomp' c]
       _ = Q.map (tangentScaling (p := p) (x := x₀) c) ≫
-            HEi ≫ (P.transportAut (tangentScaling (p := p) (x := x) c) α).hom.val ≫ HE := by
+            HEi ≫ (P.transportAut (tangentScaling (p := p) (x := x) c) α).asIso.hom.val ≫ HE := by
           simp only [Category.assoc]
   -- the induced equivalence of tangent spaces
   let EPk := localizedTangentEquivKernel P
@@ -1399,10 +1407,10 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
           rw [hE0 a]
           rfl
       _ = (EQk (c • E0 a)).1 := (hQsmul c (E0 a)).symm
-  have hcond4 : ∀ a, (EPk a).1.hom.val ≫ HE = HE ≫ (EQk (E0 a)).1.hom.val := by
+  have hcond4 : ∀ a, (EPk a).1.asIso.hom.val ≫ HE = HE ≫ (EQk (E0 a)).1.asIso.hom.val := by
     intro a
     rw [hE0 a]
-    change (EPk a).1.hom.val ≫ HE = HE ≫ HEi ≫ (EPk a).1.hom.val ≫ HE
+    change (EPk a).1.asIso.hom.val ≫ HE = HE ≫ HEi ≫ (EPk a).1.asIso.hom.val ≫ HE
     rw [← Category.assoc, hHE1, Category.id_comp]
   let EL : localizedAutomorphismFunctorTangent P ≃ₗ[k]
       localizedAutomorphismFunctorTangent Q :=
@@ -1437,20 +1445,20 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
         (P.inclusion (dualNumbersUnder (p := p) (x := x))) hfacE
         (j ≫ Q.inclusion (dualNumbersUnder (p := p) (x := x₀))) Hε'.hom h2'
     refine LinearEquiv.ext fun a => ?_
-    have h4 : (EPk a).1.hom.val ≫ HE = HE ≫ (EQk (E' a)).1.hom.val := by
+    have h4 : (EPk a).1.asIso.hom.val ≫ HE = HE ≫ (EQk (E' a)).1.asIso.hom.val := by
       rw [← hHε']
       exact h4' a
-    have hval : (EQk (E' a)).1.hom.val = (EQk (E0 a)).1.hom.val := by
-      calc (EQk (E' a)).1.hom.val
-          = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 ≫ (EQk (E' a)).1.hom.val :=
+    have hval : (EQk (E' a)).1.asIso.hom.val = (EQk (E0 a)).1.asIso.hom.val := by
+      calc (EQk (E' a)).1.asIso.hom.val
+          = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 ≫ (EQk (E' a)).1.asIso.hom.val :=
             (Category.id_comp _).symm
-        _ = (HEi ≫ HE) ≫ (EQk (E' a)).1.hom.val := by rw [hHE2]
-        _ = HEi ≫ HE ≫ (EQk (E' a)).1.hom.val := Category.assoc _ _ _
-        _ = HEi ≫ HE ≫ (EQk (E0 a)).1.hom.val := by rw [← h4, hcond4 a]
-        _ = (HEi ≫ HE) ≫ (EQk (E0 a)).1.hom.val := (Category.assoc _ _ _).symm
-        _ = (EQk (E0 a)).1.hom.val := by rw [hHE2, Category.id_comp]
+        _ = (HEi ≫ HE) ≫ (EQk (E' a)).1.asIso.hom.val := by rw [hHE2]
+        _ = HEi ≫ HE ≫ (EQk (E' a)).1.asIso.hom.val := Category.assoc _ _ _
+        _ = HEi ≫ HE ≫ (EQk (E0 a)).1.asIso.hom.val := by rw [← h4, hcond4 a]
+        _ = (HEi ≫ HE) ≫ (EQk (E0 a)).1.asIso.hom.val := (Category.assoc _ _ _).symm
+        _ = (EQk (E0 a)).1.asIso.hom.val := by rw [hHE2, Category.id_comp]
     exact EQk.injective
-      (Subtype.ext (Iso.ext (Functor.Fiber.hom_ext hval)))
+      (Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext hval))))
 
 variable (hbase : p.obj x₀ = residueFieldObject.{u, v, w} Λ k)
   (P : ChosenPushforwardsAt p x)

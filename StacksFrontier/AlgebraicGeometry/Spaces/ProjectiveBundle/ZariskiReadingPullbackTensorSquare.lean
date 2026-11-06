@@ -523,8 +523,8 @@ theorem zariskiReadingSectionsCompat_directImage :
             (relativelyRepresentable_yoneda_map B S hS h)).inv.app
           ((SmallEtale.opensToSmallEtale (associatedBigEtaleSite B) _ T.left.property).obj
             O.unop))).trans ?_
-  refine (FunctorToTypes.map_comp_apply
-    (F := ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀).obj) _ _ _).trans ?_
+  refine (Functor.map_comp_apply
+    ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀).obj _ _ _).trans ?_
   rfl
 
 /-- The two formulas for the sections compatibility agree. -/

@@ -163,11 +163,12 @@ def ContinuousGSet.piObj {I : Type} [Finite I] (X : I → ContinuousGSet.{u, w} 
   let A : Action (Type w) G :=
     { V := ∀ i, (X i).obj.obj.V
       ρ :=
-        { toFun := fun g ↦ ↾fun x i ↦ (ConcreteCategory.hom ((X i).obj.obj.ρ g)) (x i)
-          map_one' := ConcreteCategory.hom_ext _ _ fun x ↦ funext fun i ↦
-            ConcreteCategory.congr_hom ((X i).obj.obj.ρ.map_one) (x i)
-          map_mul' g h := ConcreteCategory.hom_ext _ _ fun x ↦ funext fun i ↦
-            ConcreteCategory.congr_hom ((X i).obj.obj.ρ.map_mul g h) (x i) } }
+        { toFun := fun g ↦ .of (↾fun x i ↦ (ConcreteCategory.hom ((X i).obj.obj.ρ g).asHom) (x i))
+          map_one' := End.ext <| ConcreteCategory.hom_ext _ _ fun x ↦ funext fun i ↦
+            ConcreteCategory.congr_hom (congrArg End.asHom (X i).obj.obj.ρ.map_one) (x i)
+          map_mul' g h := End.ext <| ConcreteCategory.hom_ext _ _ fun x ↦ funext fun i ↦
+            ConcreteCategory.congr_hom (congrArg End.asHom ((X i).obj.obj.ρ.map_mul g h))
+              (x i) } }
   refine ⟨⟨A, ?_⟩, ⟨rfl⟩⟩
   have : DiscreteTopology ((forget₂ (Action (Type w) G) TopCat).obj A) := ⟨rfl⟩
   apply (Action.isContinuous_def A).2
@@ -178,7 +179,7 @@ def ContinuousGSet.piObj {I : Type} [Finite I] (X : I → ContinuousGSet.{u, w} 
   have ht : (Pi.topologicalSpace : TopologicalSpace (∀ i, (X i).obj.obj.V)) = ⊥ :=
     DiscreteTopology.eq_bot
   have h : @Continuous G (∀ i, (X i).obj.obj.V) _ Pi.topologicalSpace
-      (fun g i ↦ (ConcreteCategory.hom ((X i).obj.obj.ρ g)) (x i)) :=
+      (fun g i ↦ (ConcreteCategory.hom ((X i).obj.obj.ρ g).asHom) (x i)) :=
     continuous_pi fun i ↦ (X i).obj.property.continuous_smul.comp
       (continuous_id.prodMk continuous_const)
   rwa [ht] at h
@@ -604,10 +605,10 @@ theorem abelianEquivalenceOfGSetEquivalence_rho_apply
     (F : Sheaf J AddCommGrpCat.{w}) (σ : G)
     (x : ((abelianEquivalenceOfGSetEquivalence J e).functor.obj F).obj.obj.V) :
     ConcreteCategory.hom
-        (((abelianEquivalenceOfGSetEquivalence J e).functor.obj F).obj.obj.ρ σ) x =
+        (((abelianEquivalenceOfGSetEquivalence J e).functor.obj F).obj.obj.ρ σ).asHom x =
       ConcreteCategory.hom
         ((e.functor.obj
-          ((sheafCompose J (CategoryTheory.forget AddCommGrpCat.{w})).obj F)).obj.obj.ρ σ) x :=
+          ((sheafCompose J (CategoryTheory.forget AddCommGrpCat.{w})).obj F)).obj.obj.ρ σ).asHom x :=
   rfl
 
 end GenericTransport
@@ -702,11 +703,11 @@ theorem abelianEtaleStalkEquivalence_rho_apply
     (σ : GeometricPoint.absoluteGaloisGroup sbar)
     (x : (((abelianEtaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.V : _)) :
     ConcreteCategory.hom
-        (((abelianEtaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ) x =
+        (((abelianEtaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ).asHom x =
       ConcreteCategory.hom
         (((etaleGSetEquivalence.{u, v} B K hK sbar).functor.obj
           ((sheafCompose (SmallEtale.topology B (Spec (.of K)) hK)
-            (CategoryTheory.forget AddCommGrpCat.{max u v})).obj F)).obj.obj.ρ σ) x := rfl
+            (CategoryTheory.forget AddCommGrpCat.{max u v})).obj F)).obj.obj.ρ σ).asHom x := rfl
 
 /-- The comparison with the stalk functor, read on elements. -/
 theorem abelianEtaleStalkEquivalenceIso_app_hom_apply
@@ -749,9 +750,9 @@ def abelianEtaleSheafStalkEquivalence :
             (q : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U.1)
             (_hq : q.1 = Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ U.2.1)
             (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)),
-            let V : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := ⟨U.1, q⟩
+            let V : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := ⟨q⟩
             ConcreteCategory.hom (α.app F).hom
-                (ConcreteCategory.hom ((e.functor.obj F).obj.obj.ρ σ)
+                (ConcreteCategory.hom ((e.functor.obj F).obj.obj.ρ σ).asHom
                   (ConcreteCategory.hom (α.app F).inv
                     (abelianEtaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F U t))) =
               abelianEtaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F V t } := by
@@ -762,7 +763,7 @@ def abelianEtaleSheafStalkEquivalence :
     ((sheafCompose (SmallEtale.topology B (Spec (.of K)) hK)
       (CategoryTheory.forget AddCommGrpCat.{max u v})).obj F) σ τ hτ U q hq t
   have hU := abelianEtaleStalkForgetIso_germ.{u, v} B (Spec (.of K)) hK sbar F U t
-  have hV := abelianEtaleStalkForgetIso_germ.{u, v} B (Spec (.of K)) hK sbar F ⟨U.1, q⟩ t
+  have hV := abelianEtaleStalkForgetIso_germ.{u, v} B (Spec (.of K)) hK sbar F ⟨q⟩ t
   have hinv : ∀ x : (etaleStalkFunctor.{u, v} B (Spec (.of K)) hK sbar).obj
       ((sheafCompose (SmallEtale.topology B (Spec (.of K)) hK)
         (CategoryTheory.forget AddCommGrpCat.{max u v})).obj F), ConcreteCategory.hom
@@ -797,7 +798,7 @@ def abelianEtaleSheafStalkEquivalence :
             ((sheafCompose (SmallEtale.topology B (Spec (.of K)) hK)
               (CategoryTheory.forget AddCommGrpCat.{max u v})).obj F)).inv z) hcinv))
   have hmid := (congrArg (fun z ↦ ConcreteCategory.hom
-      (((abelianEtaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ) z)
+      (((abelianEtaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ).asHom z)
       hA).trans (abelianEtaleStalkEquivalence_rho_apply.{u, v} B K hK sbar F σ _)
   refine Eq.trans (abelianEtaleStalkEquivalenceIso_app_hom_apply.{u, v} B K hK sbar F _) ?_
   refine Eq.trans

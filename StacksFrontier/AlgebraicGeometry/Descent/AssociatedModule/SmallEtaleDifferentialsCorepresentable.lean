@@ -155,8 +155,8 @@ variable (B : BigEtaleSite.{u}) {X : Scheme.{u}} (hX : B.Contains X)
   {R₁ R₂ : (SmallEtale B X hX)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ₁ : R₁ ⟶ (commRingStructureSheaf B X hX).obj}
   {ψ₂ : R₂ ⟶ (commRingStructureSheaf B X hX).obj}
-  (D₁ : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ₁)
-  (D₂ : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ₂)
+  (D₁ : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ₁)
+  (D₂ : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ₂)
 
 /-- **Two derivations of `𝒪_{X_étale}` agreeing over the opens of `X` agree over an affine
 object with affine image.**  Their difference is an additive map satisfying the Leibniz rule and
@@ -247,7 +247,8 @@ variable (B : BigEtaleSite.{u}) {X Y : Scheme.{u}} (hX : B.Contains X)
   {F : SheafOfModules.{u} (structureSheaf B X hX)}
   {R : (SmallEtale B X hX)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (commRingStructureSheaf B X hX).obj}
-  (E₁ E₂ : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
+  (E₁ E₂ : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    F.val ψ)
 
 /-- **The small Zariski restriction of a derivation of `𝒪_{X_étale}` determines it**, as bare
 derivation data. -/
@@ -255,12 +256,12 @@ public theorem eq_of_zariskiRestrictionData_eq
     (h : zariskiRestrictionData B hX E₁ = zariskiRestrictionData B hX E₂) : E₁ = E₂ := by
   ext T a
   refine d_eq_of_zariskiRestrictionData_eq B hX E₁ E₂ (fun W b => ?_) T.unop a
-  exact PresheafOfModules.Derivation.congr_d h (X := op W) b
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d h (X := op W) b
 
 /-- **Restriction to the small Zariski site of `X` is injective on derivations of
 `𝒪_{X_étale}`.** -/
 public theorem zariskiRestrictionData_injective :
-    Function.Injective (fun E : PresheafOfModules.Derivation'
+    Function.Injective (fun E : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val ψ => zariskiRestrictionData B hX E) :=
   fun _ _ h => eq_of_zariskiRestrictionData_eq B hX _ _ h
 
@@ -277,7 +278,7 @@ public theorem eq_of_zariskiRestriction_eq
     (h : zariskiRestriction B hX f E₁ hE₁ = zariskiRestriction B hX f E₂ hE₂) : E₁ = E₂ :=
   eq_of_zariskiRestrictionData_eq B hX E₁ E₂ (by
     ext W a
-    exact PresheafOfModules.Derivation.congr_d h (X := W) a)
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d h (X := W) a)
 
 /-- **Stacks 04CS, the comparison map determines the derivation.**  Two derivations of
 `𝒪_{X_étale}` annihilating the functions pulled back from `Y` with the same comparison map
@@ -339,7 +340,7 @@ formed at `d^a` itself. -/
 public theorem associatedRelativeDifferentialsDerivation_pullbackSection
     (W : Y.Opens) (b : Γ(Y, W)) :
     (associatedRelativeDifferentialsDerivation B hX f).d (pullbackSection B hX f W b) = 0 := by
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply _ _ _) ?_
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply _ _ _) ?_
   rw [sectionsDerivation_pullbackSection]
   exact map_zero _
 
@@ -527,7 +528,7 @@ public theorem postcomp_homEquiv_id_eq_zariskiRestriction :
         PresheafOfModules.Hom.app k.val (op ((opensToSmallEtale B X hX).obj W.unop)))
         ((associatedModuleIsoSectionsSheafOfModules' B X hX
           (relativeDifferentials f)).hom_inv_id)) z
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply _ _ _) ?_
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply _ _ _) ?_
   refine Eq.trans (congrArg (fun k : relativeDifferentials f ⟶
       (restrictModule B X hX).obj (associatedRelativeDifferentials B hX f) =>
     ((k.val.app W).hom) ((universalRelativeDerivation f).d a))
@@ -566,7 +567,7 @@ variable (B : BigEtaleSite.{u}) (X : Scheme.{u}) (hX : B.Contains X) {Y : Scheme
 public theorem postcomp_postcomp {C : Type*} [Category C]
     {R : Cᵒᵖ ⥤ CommRingCat.{u}} {M N P : PresheafOfModules.{u} (R ⋙ forget₂ _ _)}
     {R₀ : Cᵒᵖ ⥤ CommRingCat.{u}} {ψ : R₀ ⟶ R}
-    (D : PresheafOfModules.Derivation' M ψ) (α : M ⟶ N) (β : N ⟶ P) :
+    (D : PresheafOfModulesOfCommRing.Derivation' M ψ) (α : M ⟶ N) (β : N ⟶ P) :
     (D.postcomp α).postcomp β = D.postcomp (α ≫ β) := by
   ext W a
   rfl
@@ -575,8 +576,9 @@ public theorem postcomp_postcomp {C : Type*} [Category C]
 private theorem postcomp_comp_eq_of_postcomp_eq {C : Type*} [Category C]
     {R : Cᵒᵖ ⥤ CommRingCat.{u}} {M N P : PresheafOfModules.{u} (R ⋙ forget₂ _ _)}
     {R₀ : Cᵒᵖ ⥤ CommRingCat.{u}} {ψ : R₀ ⟶ R}
-    (D : PresheafOfModules.Derivation' M ψ) {D' : PresheafOfModules.Derivation' N ψ}
-    {D'' : PresheafOfModules.Derivation' P ψ} (α : M ⟶ N) (β : N ⟶ P)
+    (D : PresheafOfModulesOfCommRing.Derivation' M ψ)
+    {D' : PresheafOfModulesOfCommRing.Derivation' N ψ}
+    {D'' : PresheafOfModulesOfCommRing.Derivation' P ψ} (α : M ⟶ N) (β : N ⟶ P)
     (h₁ : D.postcomp α = D') (h₂ : D'.postcomp β = D'') : D.postcomp (α ≫ β) = D'' := by
   rw [← postcomp_postcomp, h₁, h₂]
 
@@ -584,7 +586,7 @@ private theorem postcomp_comp_eq_of_postcomp_eq {C : Type*} [Category C]
 public theorem postcomp_id {C : Type*} [Category C]
     {R : Cᵒᵖ ⥤ CommRingCat.{u}} {M : PresheafOfModules.{u} (R ⋙ forget₂ _ _)}
     {R₀ : Cᵒᵖ ⥤ CommRingCat.{u}} {ψ : R₀ ⟶ R}
-    (D : PresheafOfModules.Derivation' M ψ) : D.postcomp (𝟙 M) = D := by
+    (D : PresheafOfModulesOfCommRing.Derivation' M ψ) : D.postcomp (𝟙 M) = D := by
   ext W a
   rfl
 
@@ -595,7 +597,8 @@ variable {F : SheafOfModules.{u} (structureSheaf B X hX)}
 /-- The comparison map of Stacks 04CS depends on the derivation only, the vanishing hypothesis
 being a proposition. -/
 public theorem differentialsComparison_congr
-    {E E' : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val ψ}
+    {E E' : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+      F.val ψ}
     (hEE' : E = E')
     (hE : ∀ (W : Y.Opens) (b : Γ(Y, W)), E.d (pullbackSection B hX f W b) = 0)
     (hE' : ∀ (W : Y.Opens) (b : Γ(Y, W)), E'.d (pullbackSection B hX f W b) = 0) :
@@ -611,7 +614,7 @@ Both sides have the same small Zariski restriction — the comparison map's adju
 `d_{X/Y}` to the restriction of `D`, and `d^a` restricts to `d_{X/Y}` followed by the unit of the
 adjunction — and restriction is injective. -/
 public theorem postcomp_differentialsComparison
-    (D : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    (D : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (constIntMap (commRingStructureSheaf B X hX).obj))
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) :
     (associatedRelativeDifferentialsDerivation B hX f).postcomp
@@ -695,7 +698,7 @@ the implementation notes of
 @[stacks 04CS "corepresentability: `(Ω_{X/Y})^a` with `d^a` is the module of differentials"]
 public theorem existsUnique_postcomp_associatedRelativeDifferentialsDerivation
     {G : SheafOfModules.{u} (structureSheaf B X hX)}
-    (D : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
+    (D : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
       (constIntMap (commRingStructureSheaf B X hX).obj))
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) :
     ∃! g : associatedRelativeDifferentials B hX f ⟶ G,
@@ -714,11 +717,11 @@ factorizations of each derivation through the other are mutually inverse, and th
 `(Ω_{X/Y})^a` is the comparison map by
 `AlgebraicGeometry.SmallEtale.postcomp_differentialsComparison`. -/
 public theorem isIso_differentialsComparison_of_universal
-    (D : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    (D : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (constIntMap (commRingStructureSheaf B X hX).obj))
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0)
     (huniv : ∀ (G : SheafOfModules.{u} (structureSheaf B X hX))
-      (E : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
+      (E : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
         (constIntMap (commRingStructureSheaf B X hX).obj)),
       (∀ (W : Y.Opens) (b : Γ(Y, W)), E.d (pullbackSection B hX f W b) = 0) →
         ∃! g : F ⟶ G, D.postcomp g.val = E) :

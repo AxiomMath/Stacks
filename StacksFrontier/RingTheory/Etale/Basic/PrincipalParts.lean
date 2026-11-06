@@ -210,7 +210,6 @@ private noncomputable def diagonalEnd : (S ⊗[R] S) →ₐ[R] Module.End R (S �
     (fun a b => by
       refine LinearMap.ext fun z => ?_
       induction z with
-      | zero => simp
       | tmul t m =>
         simp [Module.End.lTensorAlgHom, LinearMap.lTensorHom, LinearMap.lTensor_tmul,
           TensorProduct.smul_tmul']
@@ -225,7 +224,6 @@ private lemma diagonalEnd_tmul_tmul (a b t : S) (m : M) :
 private lemma diagonalEnd_algebraMap (s : S) (z : S ⊗[R] M) :
     diagonalEnd (R := R) (M := M) (algebraMap S (S ⊗[R] S) s) z = s • z := by
   induction z with
-  | zero => simp
   | tmul t m =>
     rw [Algebra.TensorProduct.algebraMap_apply, diagonalEnd_tmul_tmul]
     simp [TensorProduct.smul_tmul']
@@ -330,7 +328,6 @@ private lemma lmul'_diagonalMap (x : S ⊗[R] S) :
     (Algebra.TensorProduct.lmul' R : (S' ⊗[R] S') →ₐ[R] S') (diagonalMap (S' := S') x) =
       algebraMap S S' (Algebra.TensorProduct.lmul' R x) := by
   induction x with
-  | zero => simp
   | tmul a b =>
     rw [diagonalMap_tmul, Algebra.TensorProduct.lmul'_apply_tmul,
       Algebra.TensorProduct.lmul'_apply_tmul, map_mul]
@@ -379,7 +376,6 @@ private def opOfJet (v : (S' ⊗[R] S') →ₗ[S'] (M →ₗ[R] N))
   map_smul' r z := by
     simp only [RingHom.id_apply]
     induction z with
-    | zero => simp
     | tmul b m =>
       rw [TensorProduct.smul_tmul', jetAddHom_tmul, jetAddHom_tmul, TensorProduct.tmul_smul,
         ← algebraMap_smul S' r ((1 : S') ⊗ₜ[R] b), map_smul, LinearMap.smul_apply,
@@ -400,7 +396,6 @@ private lemma opOfJet_eq_zero (v : (S' ⊗[R] S') →ₗ[S'] (M →ₗ[R] N))
     opOfJet v hv = 0 := by
   refine LinearMap.ext fun z => ?_
   induction z with
-  | zero => simp
   | tmul b m => rw [opOfJet_tmul, h]; simp
   | add x y hx hy => rw [map_add, hx, hy]; simp
 
@@ -429,7 +424,6 @@ private lemma commSMul_opOfJet (v : (S' ⊗[R] S') →ₗ[S'] (M →ₗ[R] N))
         (jet_mulLeft v hv _) := by
   refine LinearMap.ext fun z => ?_
   induction z with
-  | zero => simp
   | tmul c m =>
     have hb : v (b ⊗ₜ[R] c) m = b • v ((1 : S') ⊗ₜ[R] c) m := by
       rw [show b ⊗ₜ[R] c = b • ((1 : S') ⊗ₜ[R] c) by

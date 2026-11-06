@@ -104,7 +104,7 @@ small étale site of `X` and an object `W` of the site, morphisms
 `W`.  The bijection is the composite of the sheafification adjunction, the free-forgetful
 adjunction and the Yoneda lemma. -/
 def etaleModuleFreeYonedaHomEquiv (W : X.Etale) (F : EtaleModules.{u, r} Λ X) :
-    ((etaleModuleFreeYoneda.{u, r} Λ X).obj W ⟶ F) ≃ F.val.obj (op W) :=
+    ((etaleModuleFreeYoneda.{u, r} Λ X).obj W ⟶ F) ≃ F.obj.obj (op W) :=
   ((sheafificationAdjunction X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).homEquiv _ F).trans
     ((((freeModuleOfTypeAdj.{r, u + 1} Λ).whiskerRight (C := X.Etaleᵒᵖ)).homEquiv _ _).trans
       uliftYonedaEquiv)
@@ -124,7 +124,7 @@ lemma etaleModuleFreeYonedaHomEquiv_comp {W : X.Etale} {F F' : EtaleModules.{u, 
 lemma etaleModuleFreeYonedaHomEquiv_map_comp {W' W : X.Etale} (w : W' ⟶ W)
     {F : EtaleModules.{u, r} Λ X} (k : (etaleModuleFreeYoneda.{u, r} Λ X).obj W ⟶ F) :
     etaleModuleFreeYonedaHomEquiv Λ X W' F ((etaleModuleFreeYoneda.{u, r} Λ X).map w ≫ k) =
-      F.val.map w.op (etaleModuleFreeYonedaHomEquiv Λ X W F k) := by
+      F.obj.map w.op (etaleModuleFreeYonedaHomEquiv Λ X W F k) := by
   simp only [etaleModuleFreeYonedaHomEquiv, Equiv.trans_apply]
   rw [show (etaleModuleFreeYoneda.{u, r} Λ X).map w =
       (presheafToSheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).map
@@ -152,7 +152,7 @@ lemma etaleModuleFreeYonedaHomEquiv_add {W : X.Etale} {F : EtaleModules.{u, r} �
 variable (Λ X) in
 /-- `etaleModuleFreeYonedaHomEquiv` as an additive equivalence. -/
 def etaleModuleFreeYonedaHomAddEquiv (W : X.Etale) (F : EtaleModules.{u, r} Λ X) :
-    ((etaleModuleFreeYoneda.{u, r} Λ X).obj W ⟶ F) ≃+ F.val.obj (op W) where
+    ((etaleModuleFreeYoneda.{u, r} Λ X).obj W ⟶ F) ≃+ F.obj.obj (op W) where
   __ := etaleModuleFreeYonedaHomEquiv Λ X W F
   map_add' := etaleModuleFreeYonedaHomEquiv_add
 
@@ -240,7 +240,7 @@ section of `H^n(M)` over `U`. -/
 def affineEtaleHomToSection (M : DerivedCategory (EtaleModules.{u, r} Λ X)) (n : ℤ)
     (U : X.AffineEtale) :
     ((affineEtaleConstantUnbounded.{u, r} Λ X).obj U ⟶ M⟦n⟧) →+
-      ((DerivedCategory.homologyFunctor _ n).obj M).val.obj (op ((AffineEtale.Spec X).obj U)) :=
+      ((DerivedCategory.homologyFunctor _ n).obj M).obj.obj (op ((AffineEtale.Spec X).obj U)) :=
   (etaleModuleFreeYonedaHomAddEquiv Λ X _ _).toAddMonoidHom.comp
     ((Preadditive.rightComp _ (homologyZeroShiftIso M n).hom).comp
       (homToHomologyZero _ (M⟦n⟧)))
@@ -258,7 +258,7 @@ lemma affineEtaleHomToSection_naturality (M : DerivedCategory (EtaleModules.{u, 
     {V U : X.AffineEtale} (v : V ⟶ U)
     (φ : (affineEtaleConstantUnbounded.{u, r} Λ X).obj U ⟶ M⟦n⟧) :
     affineEtaleHomToSection M n V ((affineEtaleConstantUnbounded.{u, r} Λ X).map v ≫ φ) =
-      ((DerivedCategory.homologyFunctor _ n).obj M).val.map ((AffineEtale.Spec X).map v).op
+      ((DerivedCategory.homologyFunctor _ n).obj M).obj.map ((AffineEtale.Spec X).map v).op
         (affineEtaleHomToSection M n U φ) := by
   rw [affineEtaleHomToSection_apply, affineEtaleHomToSection_apply, Functor.comp_map,
     Functor.comp_map, homToHomologyZero_comp_left, Category.assoc,
@@ -269,12 +269,12 @@ lemma affineEtaleHomToSection_naturality (M : DerivedCategory (EtaleModules.{u, 
 def affineEtaleHomPresheafToHomology (M : DerivedCategory (EtaleModules.{u, r} Λ X)) (n : ℤ) :
     affineEtaleHomPresheafUnbounded.{u, r} Λ X M n ⟶
       ((affineEtaleAbelianRestriction.{u, r} Λ X).obj
-        ((DerivedCategory.homologyFunctor _ n).obj M)).val where
+        ((DerivedCategory.homologyFunctor _ n).obj M)).obj where
   app U := AddCommGrpCat.ofHom (AddEquiv.ulift.symm.toAddMonoidHom.comp
     ((affineEtaleHomToSection M n U.unop).comp AddEquiv.ulift.toAddMonoidHom))
   naturality U U' g := by
     ext ⟨φ⟩
-    exact ULift.ext _ _ (affineEtaleHomToSection_naturality M n g.unop φ)
+    exact ULift.ext (affineEtaleHomToSection_naturality M n g.unop φ)
 
 /-- Two morphisms `(j_U)_! Λ ⟶ M[n]` with the same section of `H^n(M)` agree locally on `U`. -/
 theorem affineEtaleHomToSection_vanishingSieve_mem (M : DerivedCategory (EtaleModules.{u, r} Λ X))
@@ -302,7 +302,7 @@ lemma affineEtaleConstantUnbounded_map_comp_eq (M : DerivedCategory (EtaleModule
 /-- A section of `H^n(M)` over `U` comes, locally on `U`, from morphisms `(j_V)_! Λ ⟶ M[n]`. -/
 theorem affineEtaleHomToSection_liftSieve_mem (M : DerivedCategory (EtaleModules.{u, r} Λ X))
     (n : ℤ) {U : X.AffineEtale}
-    (s : ((DerivedCategory.homologyFunctor _ n).obj M).val.obj (op ((AffineEtale.Spec X).obj U))) :
+    (s : ((DerivedCategory.homologyFunctor _ n).obj M).obj.obj (op ((AffineEtale.Spec X).obj U))) :
     homologyLiftSieve (AffineEtale.Spec X ⋙ etaleModuleFreeYoneda.{u, r} Λ X) (M⟦n⟧)
         ((etaleModuleFreeYonedaHomEquiv Λ X _ _).symm s ≫ (homologyZeroShiftIso M n).inv) ∈
       AffineEtale.topology X U :=
@@ -313,13 +313,13 @@ theorem affineEtaleHomToSection_liftSieve_mem (M : DerivedCategory (EtaleModules
 section. -/
 lemma affineEtaleHomToSection_eq_of_homToHomologyZero_eq
     (M : DerivedCategory (EtaleModules.{u, r} Λ X)) (n : ℤ) {V U : X.AffineEtale} (v : V ⟶ U)
-    (s : ((DerivedCategory.homologyFunctor _ n).obj M).val.obj (op ((AffineEtale.Spec X).obj U)))
+    (s : ((DerivedCategory.homologyFunctor _ n).obj M).obj.obj (op ((AffineEtale.Spec X).obj U)))
     (ψ : (affineEtaleConstantUnbounded.{u, r} Λ X).obj V ⟶ M⟦n⟧)
     (hψ : homToHomologyZero _ (M⟦n⟧) ψ =
       (AffineEtale.Spec X ⋙ etaleModuleFreeYoneda.{u, r} Λ X).map v ≫
         (etaleModuleFreeYonedaHomEquiv Λ X _ _).symm s ≫ (homologyZeroShiftIso M n).inv) :
     affineEtaleHomToSection M n V ψ =
-      ((DerivedCategory.homologyFunctor _ n).obj M).val.map ((AffineEtale.Spec X).map v).op s := by
+      ((DerivedCategory.homologyFunctor _ n).obj M).obj.map ((AffineEtale.Spec X).map v).op s := by
   rw [affineEtaleHomToSection_apply, hψ, Category.assoc, Category.assoc, Iso.inv_hom_id,
     Category.comp_id, Functor.comp_map, etaleModuleFreeYonedaHomEquiv_map_comp,
     Equiv.apply_symm_apply]
@@ -334,7 +334,7 @@ instance affineEtaleHomPresheafToHomology_isLocallyInjective
     refine (AffineEtale.topology X).superset_covering ?_
       (affineEtaleHomToSection_vanishingSieve_mem M n x y (congrArg ULift.down h))
     intro V v hv
-    exact ULift.ext _ _ (affineEtaleConstantUnbounded_map_comp_eq M n v x y hv)
+    exact ULift.ext (affineEtaleConstantUnbounded_map_comp_eq M n v x y hv)
 
 /-- The comparison `affineEtaleHomPresheafToHomology` is locally surjective. -/
 instance affineEtaleHomPresheafToHomology_isLocallySurjective
@@ -346,7 +346,7 @@ instance affineEtaleHomPresheafToHomology_isLocallySurjective
     refine (AffineEtale.topology X).superset_covering ?_
       (affineEtaleHomToSection_liftSieve_mem M n s)
     rintro V v ⟨ψ, hψ⟩
-    exact ⟨ULift.up ψ, ULift.ext _ _
+    exact ⟨ULift.up ψ, ULift.ext
       (affineEtaleHomToSection_eq_of_homToHomologyZero_eq M n v s ψ hψ)⟩
 
 variable (X) in

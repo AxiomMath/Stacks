@@ -282,7 +282,7 @@ theorem subsingleton_globalSections_extensionByZero_sheafEquiv (k : Type u) [Fie
   have e4 := ((sheafToPresheaf _ _).mapIso e1).app
     (op ((SmallEtale.toEtaleSite B Xbar hXbar).obj (SmallEtale.final B Xbar hXbar)))
   have s1 : Subsingleton (H.obj.obj (op (SmallEtale.final B Xbar hXbar))) :=
-    ⟨fun a b ↦ ULift.ext _ _ (h0.elim a.down b.down)⟩
+    ⟨fun a b ↦ ULift.ext (h0.elim a.down b.down)⟩
   exact subsingleton_of_moduleIso Λ e3.symm
     (subsingleton_of_moduleIso Λ e4.symm (subsingleton_of_moduleIso Λ e2 s1))
 

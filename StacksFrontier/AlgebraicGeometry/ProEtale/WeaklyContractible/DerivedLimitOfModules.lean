@@ -77,7 +77,7 @@ private theorem cokernel_iso_of_natIso {A : Type*} [Category* A] [Abelian A]
     (Pi.mapIso fun n : ℕ ↦ α.app ⟨n⟩) ?_⟩
   apply Pi.hom_ext
   intro n
-  simp only [Category.assoc, Pi.mapIso_hom_π, Pi.lift_π_assoc, Pi.lift_π,
+  simp only [Category.assoc, Pi.mapIso_hom_π, Pi.lift_comp_π_assoc, Pi.lift_comp_π, Iso.app_hom,
     Preadditive.sub_comp, Preadditive.comp_sub,
     reassoc_of% (Pi.mapIso_hom_π (fun n : ℕ ↦ α.app ⟨n⟩) (n + 1))]
   congr 1

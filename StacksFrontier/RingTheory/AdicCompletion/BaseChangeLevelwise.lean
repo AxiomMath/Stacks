@@ -190,7 +190,6 @@ theorem bijective_reduceModIdeal_tensorUnit (hI : I.FG) (k : ℕ) :
   refine ⟨?_, ?_⟩
   · intro t
     induction t with
-    | zero => exact ⟨0, by simp⟩
     | add t t' ht ht' =>
       obtain ⟨x, hx⟩ := ht
       obtain ⟨x', hx'⟩ := ht'

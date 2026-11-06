@@ -5,6 +5,9 @@ public import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
 public import Mathlib.CategoryTheory.Comma.Over.Pullback
 public import Mathlib.CategoryTheory.Comma.StructuredArrow.Small
+public import Mathlib.CategoryTheory.Adjunction.Limits
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Connected
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 public import Mathlib.CategoryTheory.Presentable.Directed
 public import StacksFrontier.AlgebraicGeometry.LimitUniverse.AffineTransitionLimit
 

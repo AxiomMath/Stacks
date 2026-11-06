@@ -155,7 +155,7 @@ public theorem localizedAutomorphismTangent_deformationCategory_linearEquiv
     ∃ E : localizedAutomorphismFunctorTangent P ≃ₗ[k] (L.functor.obj M : Type w),
       (∃ η, IsCompatible η) ∧
         ∀ η, IsCompatible η → ∀ a, (L.autEquiv M (E a)).1.right =
-          η.inv ≫ (D.morphisms yε.1 yε.1 (localizedTangentEquivKernel P a).1.hom.1).arrow ≫
+          η.inv ≫ (D.morphisms yε.1 yε.1 (localizedTangentEquivKernel P a).1.asIso.hom.1).arrow ≫
             η.hom := by
   intro D hD M L t yε IsCompatible
   let := naturalLocalizedTangentAddCommGroup P hD.satisfiesRS
@@ -174,7 +174,7 @@ public theorem localizedAutomorphismTangent_deformationCategory_linearEquiv
     apply Under.UnderMorphism.ext
     change (Ψ (a * b)).1.right = (Ψ a).1.right ≫ (Ψ b).1.right
     rw [hΨ, hΨ, hΨ]
-    change η.inv ≫ (D.morphisms yε.1 yε.1 (b.hom.1 ≫ a.hom.1)).arrow ≫ η.hom = _
+    change η.inv ≫ (D.morphisms yε.1 yε.1 (b.asIso.hom.1 ≫ a.asIso.hom.1)).arrow ≫ η.hom = _
     rw [D.reversed_composition]
     simp only [Category.assoc, η.hom_inv_id_assoc]
     rfl
@@ -187,9 +187,10 @@ public theorem localizedAutomorphismTangent_deformationCategory_linearEquiv
     obtain ⟨δ, hδc⟩ := hδ c
     let s := tangentScaling (p := D.projection) (x := y.1) c
     let ψ := η.inv ≫ (D.morphisms yε.1 yε.1 (P.map s)).arrow ≫ η.hom
-    have htr : (D.morphisms yε.1 yε.1 (P.transportAutHom s a).hom.1).arrow ≫
+    have htr : (D.morphisms yε.1 yε.1 (P.transportAutHom s a).asIso.hom.1).arrow ≫
         (D.morphisms yε.1 yε.1 (P.map s)).arrow =
-          (D.morphisms yε.1 yε.1 (P.map s)).arrow ≫ (D.morphisms yε.1 yε.1 a.hom.1).arrow := by
+          (D.morphisms yε.1 yε.1 (P.map s)).arrow ≫
+            (D.morphisms yε.1 yε.1 a.asIso.hom.1).arrow := by
       rw [← D.reversed_composition, ← D.reversed_composition]
       exact congrArg (fun f => (D.morphisms yε.1 yε.1 f).arrow) (P.map_transportHom s a)
     have hT : (Ψ (P.transportAutHom s a)).1.right ≫ ψ = ψ ≫ (Ψ a).1.right := by
@@ -226,7 +227,8 @@ public theorem localizedAutomorphismTangent_deformationCategory_linearEquiv
     rw [hf, CategoryTheory.Functor.map_smul, CategoryTheory.Functor.map_id]
     rfl
   have hX : ∀ a, (L.autEquiv M (E₀ a)).1.right =
-      η.inv ≫ (D.morphisms yε.1 yε.1 (localizedTangentEquivKernel P a).1.hom.1).arrow ≫ η.hom :=
+      η.inv ≫ (D.morphisms yε.1 yε.1 (localizedTangentEquivKernel P a).1.asIso.hom.1).arrow ≫
+        η.hom :=
     fun a => (congrArg (fun θ : t ⟶ t => θ.1.right) (hE₀ a)).trans (hΨ (K a))
   have hb := trivialDeformation_right_post B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k)
   refine ⟨{ E₀ with map_add' := hadd, map_smul' := hsmul }, ⟨η, hη, hηb hb⟩,

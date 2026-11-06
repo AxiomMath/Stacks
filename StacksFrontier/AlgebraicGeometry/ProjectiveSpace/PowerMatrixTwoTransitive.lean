@@ -69,8 +69,8 @@ private theorem comp_matrixToAutOver_hom_eq_of_left (k : Type u) [Field k] (n : 
     {a c : Over.mk (𝟙 (Spec (CommRingCat.of k))) ⟶
       (projectiveSpaceOverRing n (.of k)).asOver (Spec (.of k))}
     {M : Matrix.GeneralLinearGroup (Fin (n + 1)) k}
-    (h : a.left ≫ (projectiveSpaceMatrixToAut k n M).hom = c.left) :
-    a ≫ (projectiveSpaceMatrixToAutOver k n M).hom = c := by
+    (h : a.left ≫ (projectiveSpaceMatrixToAut k n M).asIso.hom = c.left) :
+    a ≫ (projectiveSpaceMatrixToAutOver k n M).asIso.hom = c := by
   refine Over.OverMorphism.ext ?_
   rw [Over.comp_left, projectiveSpaceMatrixToAutOver_hom_left]
   exact h
@@ -83,8 +83,8 @@ theorem exists_comp_matrixToAutOver_hom_eq_and_eq
       (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K)))
     (hab : a ≠ b) (hcd : c ≠ d) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      a ≫ (projectiveSpaceMatrixToAutOver K n M).hom = c ∧
-        b ≫ (projectiveSpaceMatrixToAutOver K n M).hom = d := by
+      a ≫ (projectiveSpaceMatrixToAutOver K n M).asIso.hom = c ∧
+        b ≫ (projectiveSpaceMatrixToAutOver K n M).asIso.hom = d := by
   obtain ⟨M, h₁, h₂⟩ := exists_comp_matrixToAut_hom_eq_and_eq K n a.left b.left c.left d.left
     (Over.w a) (Over.w b) (Over.w c) (Over.w d)
     (fun h => hab (Over.OverMorphism.ext h)) (fun h => hcd (Over.OverMorphism.ext h))
@@ -98,7 +98,7 @@ theorem exists_comp_matrixToAutOver_hom_eq
     (a b : Over.mk (𝟙 (Spec (CommRingCat.of K))) ⟶
       (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      a ≫ (projectiveSpaceMatrixToAutOver K n M).hom = b := by
+      a ≫ (projectiveSpaceMatrixToAutOver K n M).asIso.hom = b := by
   obtain ⟨M, h⟩ := exists_comp_matrixToAut_hom_eq K n (u := u.left) (v := v.left)
     (Over.w u) (Over.w v) (fun hh => huv (Over.OverMorphism.ext hh)) a.left b.left
     (Over.w a) (Over.w b)
@@ -130,8 +130,8 @@ theorem exists_comp_powerMatrixAut_hom_eq_and_eq
           q ≫ Pi.π (fun _ : Fin m =>
             (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) i)) :
     ∃ M : Fin m → Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      x ≫ (projectiveSpacePowerMatrixAut K n m M).hom = p ∧
-        y ≫ (projectiveSpacePowerMatrixAut K n m M).hom = q := by
+      x ≫ (projectiveSpacePowerMatrixAut K n m M).asIso.hom = p ∧
+        y ≫ (projectiveSpacePowerMatrixAut K n m M).asIso.hom = q := by
   classical
   obtain ⟨j, hj⟩ : ∃ j : Fin m,
       x ≫ Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) j ≠
@@ -142,12 +142,12 @@ theorem exists_comp_powerMatrixAut_hom_eq_and_eq
     exact hxy (Pi.hom_ext _ _ hcon)
   have key : ∀ i : Fin m, ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
       (x ≫ Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) i) ≫
-          (projectiveSpaceMatrixToAutOver K n M).hom =
+          (projectiveSpaceMatrixToAutOver K n M).asIso.hom =
             p ≫ Pi.π (fun _ : Fin m =>
               (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) i ∧
         (y ≫ Pi.π (fun _ : Fin m =>
             (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) i) ≫
-          (projectiveSpaceMatrixToAutOver K n M).hom =
+          (projectiveSpaceMatrixToAutOver K n M).asIso.hom =
             q ≫ Pi.π (fun _ : Fin m =>
               (projectiveSpaceOverRing n (.of K)).asOver (Spec (.of K))) i := by
     intro i

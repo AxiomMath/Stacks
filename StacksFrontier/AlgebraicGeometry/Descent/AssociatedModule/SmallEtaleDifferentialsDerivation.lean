@@ -211,7 +211,7 @@ the associated module: the derivation of the structure sheaf of the small étale
 which over an object `h : T → X` is the universal derivation `d_{T/Y}`, read through the
 isomorphism `h^*Ω_{X/Y} ≅ Ω_{T/Y}` of Stacks 04BX. -/
 public noncomputable def sectionsDerivation :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
       (sectionsPresheafOfModules B X hX (relativeDifferentials f))
       (constIntMap (commRingStructureSheaf B X hX).obj) where
   d {T} := sectionsDerivationHom B hX f T.unop
@@ -243,7 +243,7 @@ public noncomputable def sectionsDerivation :
 associated module with its sections description. -/
 @[stacks 04CS "the derivation `d^a` into the associated module of differentials"]
 public noncomputable def associatedRelativeDifferentialsDerivation :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
       (associatedRelativeDifferentials B hX f).val
       (constIntMap (commRingStructureSheaf B X hX).obj) :=
   (sectionsDerivation B hX f).postcomp

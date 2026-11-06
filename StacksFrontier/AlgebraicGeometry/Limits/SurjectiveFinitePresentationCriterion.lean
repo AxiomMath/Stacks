@@ -4,6 +4,7 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.Ring.FinitePresentation
 public import Mathlib.AlgebraicGeometry.AffineTransitionLimit
 public import Mathlib.AlgebraicGeometry.Group.Affine
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 
 /-!
 # Surjectivity alone suffices for local finite presentation

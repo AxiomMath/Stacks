@@ -319,7 +319,7 @@ theorem Finsupp.mapDomain_subtypeDomain_of_support_subset {J M : Type*} [AddComm
     Finsupp.mapDomain Subtype.val (Finsupp.subtypeDomain p f) = f := by
   ext j
   by_cases hj : p j
-  · exact Finsupp.mapDomain_apply Subtype.val_injective _ ⟨j, hj⟩
+  · exact Finsupp.mapDomain_apply_of_injective Subtype.val_injective _ ⟨j, hj⟩
   · rw [Finsupp.mapDomain_of_notMem_range _ _ (by rintro ⟨⟨i, hi⟩, rfl⟩; exact hj hi),
       Finsupp.notMem_support_iff.mp fun h => hj (hf j h)]
 

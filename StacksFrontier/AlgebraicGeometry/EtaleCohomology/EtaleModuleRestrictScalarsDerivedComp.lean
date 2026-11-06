@@ -42,16 +42,16 @@ theorem rightDerivedFunctorPlus_comp_mapDerivedCategoryPlus_ext
     {G : DerivedCategory.Plus A ⥤ DerivedCategory.Plus C}
     (γ₁ γ₂ : T.rightDerivedFunctorPlus ⋙ r.mapDerivedCategoryPlus ⟶ G)
     (h : ∀ K : HomotopyCategory.Plus A,
-      r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnit.app K) ≫
+      r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnith.app K) ≫
           γ₁.app (DerivedCategory.Plus.Qh.obj K) =
-        r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnit.app K) ≫
+        r.mapDerivedCategoryPlus.map (T.rightDerivedFunctorPlusUnith.app K) ≫
           γ₂.app (DerivedCategory.Plus.Qh.obj K)) :
     γ₁ = γ₂ := by
   let τ : (T ⋙ r).rightDerivedFunctorPlus ≅ T.rightDerivedFunctorPlus ⋙ r.mapDerivedCategoryPlus :=
     rightDerivedFunctorPlusCompIsoOfRightAcyclic T r (fun _ _ => rightAcyclic_of_exact _ _) ≪≫
       isoWhiskerLeft _ (rightDerivedFunctorPlusIsoMapDerivedCategoryPlus r)
   suffices hτ : τ.hom ≫ γ₁ = τ.hom ≫ γ₂ by simpa using hτ
-  refine rightDerived_ext (T ⋙ r).rightDerivedFunctorPlus (T ⋙ r).rightDerivedFunctorPlusUnit
+  refine rightDerived_ext (T ⋙ r).rightDerivedFunctorPlus (T ⋙ r).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) G _ _ ?_
   refine NatTrans.ext (funext fun K => ?_)
   have hu := Stacks.EtaleCohomology.unit_comp_compExact_app T r K
@@ -61,7 +61,7 @@ theorem rightDerivedFunctorPlus_comp_mapDerivedCategoryPlus_ext
           (T.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) := rfl
   simp only [NatTrans.comp_app, whiskerLeft_app, hτ, Category.assoc]
   rw [reassoc_of% hu, reassoc_of% hu]
-  exact (Category.assoc _ _ _).trans ((whisker_eq _ (h K)).trans (Category.assoc _ _ _).symm)
+  exact whisker_eq _ (h K)
 
 end CategoryTheory.Functor
 
@@ -108,7 +108,7 @@ theorem restrictScalars_mapDerivedCategoryPlusFactorsh_compIso :
 /-- `res_ρ` of the composition comparison of `Λ'`-coefficients after the unit. -/
 theorem restrictScalars_map_unit_comp_derivedDirectImageComp :
     (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K) ≫
         (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
             ((etaleModuleDerivedDirectImageComp.{u, 0} Λ' f g fg hfg).hom.app
             (DerivedCategory.Plus.Qh.obj K)) =
@@ -116,11 +116,11 @@ theorem restrictScalars_map_unit_comp_derivedDirectImageComp :
           ((Functor.mapHomotopyCategoryPlusCompIso
           (etaleModuleDirectImageComp.{u, 0} Λ' f g fg hfg)).inv.app K)) ≫
         (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-            ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnit.app
+            ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
           ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlus.map
-              ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K)) :=
+              ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K)) :=
   ((etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map_comp _ _).symm.trans ((congrArg
       (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
     (Functor.unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom_app _ _ _ _ K)).trans
@@ -134,12 +134,12 @@ theorem derivedDirectImage_map_restrictScalars_directImage_unit :
         ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
           ((etaleModuleRestrictScalars ρ Y).mapDerivedCategoryPlus.map
-              ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K)) ≫
+              ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K)) ≫
         (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
             ((etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app
             (DerivedCategory.Plus.Qh.obj K)) =
       (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
-          ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+          ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
           ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
           ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlus.map
@@ -156,7 +156,7 @@ theorem derivedDirectImage_map_restrictScalars_directImage_unit :
 unit of `R(f ≫ g)_*`. -/
 theorem restrictScalars_derivedDirectImageComp_unit_right :
     (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K) ≫
         (etaleModuleDerivedDirectImageRestrictScalars ρ fg).hom.app
             (DerivedCategory.Plus.Qh.obj K) ≫
             (etaleModuleDerivedDirectImageComp.{u, 0} Λ f g fg hfg).hom.app
@@ -167,24 +167,24 @@ theorem restrictScalars_derivedDirectImageComp_unit_right :
             DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
             (etaleModuleDirectImageComp.{u, 0} Λ f g fg hfg)).inv.app
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
-            (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnit.app
+            (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
             (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
-            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
             (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
             ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlus.map
             ((etaleModuleRestrictScalars ρ X).mapDerivedCategoryPlusFactorsh.inv.app K)) := by
   let a := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-      ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K)
+      ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K)
   let t := (etaleModuleDerivedDirectImageRestrictScalars ρ fg).hom.app
       (DerivedCategory.Plus.Qh.obj K)
   let e := (etaleModuleDerivedDirectImageComp.{u, 0} Λ f g fg hfg).hom.app
       ((etaleModuleRestrictScalars ρ X).mapDerivedCategoryPlus.obj (DerivedCategory.Plus.Qh.obj K))
   let F := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlusFactorsh.hom.app
       ((etaleModuleDirectImage.{u, 0} Λ' fg).mapHomotopyCategoryPlus.obj K)
-  let v := (etaleModuleDirectImage.{u, 0} Λ fg).rightDerivedFunctorPlusUnit.app
+  let v := (etaleModuleDirectImage.{u, 0} Λ fg).rightDerivedFunctorPlusUnith.app
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)
   let w := (etaleModuleDirectImage.{u, 0} Λ fg).rightDerivedFunctorPlus.map
       ((etaleModuleRestrictScalars ρ X).mapDerivedCategoryPlusFactorsh.inv.app K)
@@ -196,11 +196,11 @@ theorem restrictScalars_derivedDirectImageComp_unit_right :
   let c := DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
       (etaleModuleDirectImageComp.{u, 0} Λ f g fg hfg)).inv.app
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
-  let ug := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnit.app
+  let ug := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnith.app
       ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
   let uf := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
-      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
   have h1 : a ≫ t = F ≫ v ≫ w := restrictScalars_directImage_unit ρ fg K
   have h2 : w ≫ e = e2 ≫ z := (etaleModuleDerivedDirectImageComp.{u, 0} Λ f g fg hfg).hom.naturality
@@ -216,14 +216,14 @@ theorem restrictScalars_derivedDirectImageComp_unit_right :
 `Rg_*` read at `f_*(res_ρ K)`. -/
 theorem restrictScalars_directImage_unit_directImage :
     (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnit.app
+        ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnith.app
         ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleDerivedDirectImageRestrictScalars ρ g).hom.app (DerivedCategory.Plus.Qh.obj
             ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K)) =
       (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlusFactorsh.hom.app
           ((etaleModuleDirectImage.{u, 0} Λ' g).mapHomotopyCategoryPlus.obj
           ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K)) ≫
-        (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnit.app
+        (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
@@ -236,7 +236,7 @@ theorem restrictScalars_directImage_unit_directImage :
 ≅ Rg_* ∘ Rf_* ∘ res_ρ` after the unit of `R(f ≫ g)_*`. -/
 theorem restrictScalars_derivedDirectImageComp_unit_left :
     (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K) ≫
         (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
             ((etaleModuleDerivedDirectImageComp.{u, 0} Λ' f g fg hfg).hom.app
             (DerivedCategory.Plus.Qh.obj K)) ≫
@@ -251,17 +251,17 @@ theorem restrictScalars_derivedDirectImageComp_unit_left :
             DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
             (etaleModuleDirectImageComp.{u, 0} Λ f g fg hfg)).inv.app
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
-            (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnit.app
+            (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnith.app
             ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
             (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
-            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+            ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
             ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K)) ≫
             (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
             ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlus.map
             ((etaleModuleRestrictScalars ρ X).mapDerivedCategoryPlusFactorsh.inv.app K)) := by
   let a := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-      ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K)
+      ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K)
   let b := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
       ((etaleModuleDerivedDirectImageComp.{u, 0} Λ' f g fg hfg).hom.app
       (DerivedCategory.Plus.Qh.obj K))
@@ -274,20 +274,20 @@ theorem restrictScalars_derivedDirectImageComp_unit_left :
       ((Functor.mapHomotopyCategoryPlusCompIso
       (etaleModuleDirectImageComp.{u, 0} Λ' f g fg hfg)).inv.app K))
   let q := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-      ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnit.app
+      ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlusUnith.app
       ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K))
   let m := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
     ((etaleModuleDirectImage.{u, 0} Λ' g).rightDerivedFunctorPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K))
+        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K))
   let s₀ := (etaleModuleDerivedDirectImageRestrictScalars ρ g).hom.app (DerivedCategory.Plus.Qh.obj
       ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K))
   let n := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
     ((etaleModuleRestrictScalars ρ Y).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K))
+        ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K))
   let F' := (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlusFactorsh.hom.app
       ((etaleModuleDirectImage.{u, 0} Λ' g).mapHomotopyCategoryPlus.obj
       ((etaleModuleDirectImage.{u, 0} Λ' f).mapHomotopyCategoryPlus.obj K))
-  let ug' := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnit.app
+  let ug' := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlusUnith.app
       ((etaleModuleDirectImage.{u, 0} Λ f).mapHomotopyCategoryPlus.obj
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
   let j := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
@@ -299,7 +299,7 @@ theorem restrictScalars_derivedDirectImageComp_unit_left :
       (etaleModuleDirectImageComp.{u, 0} Λ f g fg hfg)).inv.app
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
   let uf := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
-      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnit.app
+      ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlusUnith.app
       ((etaleModuleRestrictScalars ρ X).mapHomotopyCategoryPlus.obj K))
   let z := (etaleModuleDirectImage.{u, 0} Λ g).rightDerivedFunctorPlus.map
     ((etaleModuleDirectImage.{u, 0} Λ f).rightDerivedFunctorPlus.map
@@ -307,7 +307,7 @@ theorem restrictScalars_derivedDirectImageComp_unit_left :
   have hab : a ≫ b = p ≫ q ≫ m :=
     restrictScalars_map_unit_comp_derivedDirectImageComp ρ f g fg hfg K
   have hmt : m ≫ t = s₀ ≫ n := (etaleModuleDerivedDirectImageRestrictScalars ρ g).hom.naturality
-      ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnit.app K)
+      ((etaleModuleDirectImage.{u, 0} Λ' f).rightDerivedFunctorPlusUnith.app K)
   have hqs : q ≫ s₀ = F' ≫ ug' ≫ j := restrictScalars_directImage_unit_directImage ρ f g K
   have hjny : j ≫ n ≫ y = uf ≫ z := derivedDirectImage_map_restrictScalars_directImage_unit ρ f g K
   have hpF : p ≫ F' = F ≫ c := restrictScalars_mapDerivedCategoryPlusFactorsh_compIso ρ f g fg hfg K
@@ -320,7 +320,7 @@ theorem restrictScalars_derivedDirectImageComp_unit_left :
 after the unit of `R(f ≫ g)_*`. -/
 theorem restrictScalars_derivedDirectImageComp_unit :
     (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K) ≫
         (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
             ((etaleModuleDerivedDirectImageComp.{u, 0} Λ' f g fg hfg).hom.app
             (DerivedCategory.Plus.Qh.obj K)) ≫
@@ -331,7 +331,7 @@ theorem restrictScalars_derivedDirectImageComp_unit :
             ((etaleModuleDerivedDirectImageRestrictScalars ρ f).hom.app
             (DerivedCategory.Plus.Qh.obj K)) =
       (etaleModuleRestrictScalars ρ Z).mapDerivedCategoryPlus.map
-          ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnit.app K) ≫
+          ((etaleModuleDirectImage.{u, 0} Λ' fg).rightDerivedFunctorPlusUnith.app K) ≫
         (etaleModuleDerivedDirectImageRestrictScalars ρ fg).hom.app
             (DerivedCategory.Plus.Qh.obj K) ≫
             (etaleModuleDerivedDirectImageComp.{u, 0} Λ f g fg hfg).hom.app

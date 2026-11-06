@@ -100,6 +100,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on `BigFppfOver B U hU`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SectionSpaceFibreIdentification
+    (B : BigFppfSite.{u}) (U : Scheme.{u}) (hU : B.Contains U) :
+    HasPullbacks ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SectionSpaceFibreIdentification
+    {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}
+    {X Y Z : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_SectionSpaceFibreIdentification B U hU).has_limit _
+
 variable {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}
   {Z : BigFppfOver B U hU} {W₁ W₂ : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u}
   {w₁ : W₁ ⟶ yoneda.obj Z} {w₂ : W₂ ⟶ yoneda.obj Z}

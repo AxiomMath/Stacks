@@ -425,8 +425,7 @@ private theorem sheafHomIsoHead_baseChange (n k : ℕ) (d : ℤ) (he : d + k = -
             (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase _
             inferInstance).inv))
     (twistPairingCurry_baseChange g E hqc E' hqc' hE D D' k d (-(n : ℤ) - 1) he)
-  have s₃ := inv_square (Scheme.Modules.pullback g)
-    (Iso.inv_hom_id_app (Stacks.DerivedIndexing.rightDerivedIso
+  have hi₃ := (Iso.inv_hom_id_app (Stacks.DerivedIndexing.rightDerivedIso
         (Scheme.Modules.pushforward
           (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase) n)
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -435,7 +434,7 @@ private theorem sheafHomIsoHead_baseChange (n k : ℕ) (d : ℤ) (he : d + k = -
             (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase).obj
           (Stacks.AlgebraicGeometry.ReflexiveModules.dualSheaf
             ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqc).piece (k : ℤ)))))))
-    (Iso.hom_inv_id_app (Stacks.DerivedIndexing.rightDerivedIso
+  have hj₃ := (Iso.hom_inv_id_app (Stacks.DerivedIndexing.rightDerivedIso
         (Scheme.Modules.pushforward
           (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase) n)
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -444,7 +443,7 @@ private theorem sheafHomIsoHead_baseChange (n k : ℕ) (d : ℤ) (he : d + k = -
             (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase).obj
           (Stacks.AlgebraicGeometry.ReflexiveModules.dualSheaf
             ((Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc').piece (k : ℤ)))))))
-    (higherBaseChangeNat_comp_rightDerivedIso
+  have hh₃ := (higherBaseChangeNat_comp_rightDerivedIso
       (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase g
       (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase
       (bundleBaseChange g E hqc E' hqc' hE) (bundleBaseChange_toBase g E hqc E' hqc' hE) n
@@ -458,6 +457,7 @@ private theorem sheafHomIsoHead_baseChange (n k : ℕ) (d : ℤ) (he : d + k = -
         (@asIso _ _ _ _ (thetaSharp g E hqc E' hqc' hE D D' (-(n : ℤ) - 1))
           (isIso_thetaSharp g E hqc E' hqc' hE D D' (-(n : ℤ) - 1)))
         (symDualSquareIso g E hqc E' hqc' hE (k : ℤ))).hom)
+  have s₃ := inv_square (Scheme.Modules.pullback g) hi₃ hj₃ hh₃
   have s₄ := (projectionFormula_baseChange_iso
     (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase g
     (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase

@@ -191,7 +191,7 @@ private theorem galoisBaseChangeMap_image_eq_of_genericPoint
     (galoisBaseChangeMap k K X f σ).base '' (Z : Set _) = Z := by
   have hcl := Z.2.1.closure_genericPoint (isClosed_of_mem_irreducibleComponents Z.1 Z.2)
   let a := Scheme.homeoOfIso
-    ((galoisActionOnBaseChange k K (Over.mk f)).ρAut (MulOpposite.op σ))
+    ((galoisActionOnBaseChange k K (Over.mk f)).ρAut (MulOpposite.op σ)).asIso
   have ha : ∀ x, (galoisBaseChangeMap k K X f σ).base x = a x := fun _ => rfl
   rw [← hcl, Set.image_congr' ha, a.image_closure, Set.image_singleton,
     show a Z.2.1.genericPoint = _ from (ha _).symm.trans hZ, hcl]
@@ -441,7 +441,7 @@ public theorem exists_finite_subextension_defining_component
     ⟨e.hom.base ⁻¹' (Z : Set Y), preimage_mem_irreducibleComponents_of_iso e Z.2⟩
   have hfixedE : ∀ σop : MulOpposite (K ≃ₐ[E] K),
       ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents E K (Over.mk fE)).ρ σop) Tbar =
+        ((galoisActionOnGeometricIrreducibleComponents E K (Over.mk fE)).ρ σop).asHom Tbar =
         Tbar := by
     intro σop
     apply Subtype.ext
@@ -486,8 +486,8 @@ private theorem galoisActionOnBaseChange_ρ_comp_eq_of_fixed
       pullback.snd X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) ≫
         Spec.map (CommRingCat.ofHom E.val))
     (σ : K ≃ₐ[k] K) (hσ : ∀ x : E, σ x = x) :
-    (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ) ≫ p = p := by
-  let q := (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)
+    ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom ≫ p = p := by
+  let q := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   have hqfst : q ≫ pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
     simp [q, galoisActionOnBaseChange, CategoryTheory.Limits.pullback.map,
@@ -518,15 +518,15 @@ public theorem exists_finite_subextension_stabilizing_irreducible_component
       ∀ σ : K ≃ₐ[k] K, (∀ x : E, σ x = x) →
         ConcreteCategory.hom
           ((galoisActionOnGeometricIrreducibleComponents k K X).ρ
-            (MulOpposite.op σ)) T = T := by
+            (MulOpposite.op σ)).asHom T = T := by
   classical
   obtain ⟨E, hE, T', p, hp1, hp2, hpT⟩ :=
     exists_finite_subextension_defining_component X.left X.hom T
   refine ⟨E, hE, fun σ hσ => Subtype.ext ?_⟩
-  let q := (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)
+  let q := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   have hqp : q ≫ p = p := galoisActionOnBaseChange_ρ_comp_eq_of_fixed X E p hp1 hp2 σ hσ
   have hsurj : Function.Surjective q.base :=
-    (Scheme.homeoOfIso ((galoisActionOnBaseChange k K X).ρAut (MulOpposite.op σ))).surjective
+    (Scheme.homeoOfIso ((galoisActionOnBaseChange k K X).ρAut (MulOpposite.op σ)).asIso).surjective
   rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe, ← hpT]
   have hpre : q.base ⁻¹' (p.base ⁻¹' (T' : Set _)) = p.base ⁻¹' (T' : Set _) := by
     rw [← Set.preimage_comp, ← TopCat.coe_comp, ← Scheme.Hom.comp_base, hqp]

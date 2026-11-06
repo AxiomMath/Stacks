@@ -125,7 +125,7 @@ theorem isIso_levelHom_app (hT : (T.tow d₀ hd₀).IsAdmissible) (n : ℕ) (k :
       rw [T1.map_zero, e.map_zero]
       rfl
     | add x y hx hy =>
-      refine (map_add _ x y).trans ?_
+      refine (AddMonoidHom.map_add _ x y).trans ?_
       rw [hx, hy]
       show _ = φ3 (e (T1 (x + y)))
       rw [T1.map_add, e.map_add]

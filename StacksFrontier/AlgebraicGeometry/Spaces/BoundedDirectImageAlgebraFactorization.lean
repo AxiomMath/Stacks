@@ -263,6 +263,13 @@ def pushforwardAlgebraIdAlgebraIso (Y : AlgebraicSpaces B S hS) :
 
 variable {X Y : AlgebraicSpaces B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_BoundedDirectImageAlgebraFactorization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The base change `Y ×_X Z` of an algebraic space `Z` affine over `X`**, as an algebraic
 space affine over `Y`.  Fibre products of algebraic spaces exist, by Stacks 02X2
 (`AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct`), and an affine morphism stays

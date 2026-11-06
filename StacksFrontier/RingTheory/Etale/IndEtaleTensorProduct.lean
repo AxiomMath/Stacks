@@ -49,7 +49,6 @@ private theorem comm_comm_apply (k X Y : Type u) [CommRing k] [CommRing X] [Comm
     [Algebra k X] [Algebra k Y] (z : X ⊗[k] Y) :
     Algebra.TensorProduct.comm k Y X (Algebra.TensorProduct.comm k X Y z) = z := by
   induction z with
-  | zero => simp
   | tmul a b => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -156,7 +155,6 @@ theorem indEtale_tensorProduct_map
   have : IsScalarTower (B ⊗[k] B') (A ⊗[k] B') (A ⊗[k] A') := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
     induction x with
-    | zero => simp
     | tmul b b' => rw [hmap]; rfl
     | add x y hx hy => simp only [map_add]; rw [hx, hy]
   exact indEtale_comp h1 h2

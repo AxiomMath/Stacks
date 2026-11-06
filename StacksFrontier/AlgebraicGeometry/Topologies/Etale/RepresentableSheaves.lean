@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Topologies.Fpqc.FinerTopologies
 public import StacksFrontier.AlgebraicGeometry.Topologies.FpqcSmallEtaleSheaf
+public import Mathlib.CategoryTheory.Sites.Subcanonical
 public import Mathlib.CategoryTheory.Sites.SubcanonicalOver
 
 /-!

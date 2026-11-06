@@ -110,7 +110,9 @@ lemma smallModelEquivHom_intertwines (g : G)
   have h := congr($(Representation.dualTensorHom_comm (rep R G M) (rep R G N) g)
     ((Stacks.DualTensor.smallModelEquiv R M.obj.obj.V N.obj.obj.V).symm z))
   simp only [LinearMap.comp_apply] at h
-  simpa [smallModelEquivHom, dualTensorSmallRep_apply] using h
+  have e : ∀ x, dualTensorHomEquiv R M.obj.obj.V N.obj.obj.V x =
+      dualTensorHom R M.obj.obj.V N.obj.obj.V x := fun _ => rfl
+  simpa [smallModelEquivHom, dualTensorSmallRep_apply, e] using h
 
 /-- For `M` finite projective over `R`, the `R`-module of morphisms `M ⟶ N` of continuous
 discrete `R`-`G`-modules is the `R`-module of `G`-invariants of `Mᵛ ⊗_R N` with the diagonal

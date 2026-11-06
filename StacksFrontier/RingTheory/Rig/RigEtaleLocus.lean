@@ -343,7 +343,6 @@ private theorem map_le_annihilator_tensor {R S M : Type*} [CommRing R] [CommRing
   intro s hs
   refine Module.mem_annihilator.mpr fun t => ?_
   induction t with
-  | zero => simp
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul b m =>
     show (algebraMap R S s * b) ⊗ₜ[R] m = 0

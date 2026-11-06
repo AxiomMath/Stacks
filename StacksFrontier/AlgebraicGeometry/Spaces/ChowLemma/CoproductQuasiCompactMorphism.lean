@@ -56,6 +56,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] AlgebraicGeometry.BigFppfOver.hasSheafify_type
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A morphism out of a finite coproduct of algebraic spaces over `S` is quasi-compact as
 soon as its restrictions to the summands are.** -/
 theorem isQuasiCompact_of_isColimit_cofan {I : Type v} [Finite I] [Small.{u} I]
@@ -68,8 +70,9 @@ theorem isQuasiCompact_of_isColimit_cofan {I : Type v} [Finite I] [Small.{u} I]
     IsQuasiCompact B S hS f := by
   intro Z hZ hZqc g
   let gs : (⟨Z, hZ.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶
-    ⟨Y, hY.isSheaf⟩ := ⟨g⟩
-  let fs : P ⟶ (⟨Y, hY.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) := ⟨f⟩
+    ⟨Y, hY.isSheaf⟩ := ObjectProperty.homMk g
+  let fs : P ⟶ (⟨Y, hY.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
+    ObjectProperty.homMk f
   let t : pullback gs fs ⟶ P := pullback.snd gs fs
   have hsq : IsPullback (pullback.fst gs fs).hom t.hom g f :=
     isPullback_hom_of_sheaf (IsPullback.of_hasPullback gs fs)

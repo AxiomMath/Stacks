@@ -369,7 +369,8 @@ theorem pairingApp₃_trilinearEquivTensorSheafHom_symm
     ((CategoryTheory.congr_fun
           (congrArg (fun m ↦ PresheafOfModules.Hom.app m U)
             (doubleTensorSheafHomEquivPresheafTensorHom_eq hA F G H N t))
-          ((a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c)).trans
+          (((a ⊗ₜ[(A ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U] b) ⊗ₜ c :
+            ((F.val ⊗ G.val) ⊗ H.val).obj U))).trans
       ((CategoryTheory.comp_apply _ _ _).trans
         (congrArg (fun z ↦ t.val.app U z)
           (sheafifyDoubleTensorIso_hom_val_app_unit_tmul hA F G H U a b c))))

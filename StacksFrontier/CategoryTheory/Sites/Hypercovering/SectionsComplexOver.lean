@@ -443,7 +443,6 @@ lemma homFreeAbelianSheafComplex_d {X : C} (J : GrothendieckTopology C)
   rw [AlgebraicTopology.alternatingFaceMapComplex_obj_d]
   simp only [AlgebraicTopology.AlternatingFaceMapComplex.objD, Functor.map_sum,
     Functor.map_zsmul, unop_sum, unop_zsmul]
-  rfl
 
 /-- The degreewise comparison `sectionsDegreeIso` is compatible with the `j`-th face maps. -/
 lemma sectionsDegreeIso_comm_face {X : C} (J : GrothendieckTopology C)

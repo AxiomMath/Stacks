@@ -213,8 +213,8 @@ cyclically symmetric smooth `(2, 2, 2)`-hypersurface of `ℙ^1 × ℙ^1 × ℙ^1
 public structure WehlerRelations (H : Fin 3 → S.Modules)
     [∀ i, SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 (H i)] (A : S.Modules)
     [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 A] (ρ σ : Aut S) : Prop where
-  hom_ρ : ρ.hom ≫ p = p
-  hom_σ : σ.hom ≫ p = p
+  hom_ρ : ρ.asIso.hom ≫ p = p
+  hom_σ : σ.asIso.hom ≫ p = p
   isAmple : Scheme.Modules.IsAmple S A
   pair_ample : ∀ (Y : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y],
     intersectionNumber k p (𝟙 S) 2 hS.le ![Y, A] =
@@ -223,16 +223,16 @@ public structure WehlerRelations (H : Fin 3 → S.Modules)
           intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 2]
   pair_ρ : ∀ (Y : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y]
     (i : Fin 3),
-      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback ρ.hom).obj (H i)] =
+      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback ρ.asIso.hom).obj (H i)] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H (i + 1)]
   pair_σ_zero : ∀ (Y : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y],
-    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.hom).obj (H 0)] =
+    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.asIso.hom).obj (H 0)] =
       intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 0]
   pair_σ_one : ∀ (Y : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y],
-    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.hom).obj (H 1)] =
+    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.asIso.hom).obj (H 1)] =
       intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 1]
   pair_σ_two : ∀ (Y : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y],
-    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.hom).obj (H 2)] +
+    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback σ.asIso.hom).obj (H 2)] +
         intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 2] =
       2 * intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 0] +
         2 * intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 1]
@@ -266,20 +266,20 @@ public theorem exists_intersectionMatrix (h : WehlerRelations k p hS H A ρ σ) 
     ∃ b : ℤ, 0 < b ∧
       (∀ i j : Fin 3, intersectionNumber k p (𝟙 S) 2 hS.le ![H i, H j] = if i = j then 0 else b) ∧
       intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] = 6 * b := by
-  have : IsIso ρ.hom := @Iso.isIso_hom _ _ S S ρ
-  have : IsIso σ.hom := @Iso.isIso_hom _ _ S S σ
+  have : IsIso ρ.asIso.hom := @Iso.isIso_hom _ _ S S ρ.asIso
+  have : IsIso σ.asIso.hom := @Iso.isIso_hom _ _ S S σ.asIso
   set x : Fin 3 → Fin 3 → ℤ := fun i j => intersectionNumber k p (𝟙 S) 2 hS.le ![H i, H j]
     with hx
   have hcomm : ∀ i j, x i j = x j i := fun i j =>
     intersectionNumber_vecCons_comm k p hS.le (H i) (H j)
   have hshift : ∀ i j, x (i + 1) (j + 1) = x i j := fun i j => by
-    have h1 := intersectionNumber_pullback_vecCons k p hS ρ.hom h.hom_ρ (H i) (H j)
+    have h1 := intersectionNumber_pullback_vecCons k p hS ρ.asIso.hom h.hom_ρ (H i) (H j)
     rw [h.pair_ρ, intersectionNumber_vecCons_comm, h.pair_ρ] at h1
     exact (hcomm _ _).trans h1
   -- the covering involution
-  set Q := (Scheme.Modules.pullback σ.hom).obj (H 2) with hQ
+  set Q := (Scheme.Modules.pullback σ.asIso.hom).obj (H 2) with hQ
   have hQQ : intersectionNumber k p (𝟙 S) 2 hS.le ![Q, Q] = x 2 2 :=
-    intersectionNumber_pullback_vecCons k p hS σ.hom h.hom_σ (H 2) (H 2)
+    intersectionNumber_pullback_vecCons k p hS σ.asIso.hom h.hom_σ (H 2) (H 2)
   have hQ2 := h.pair_σ_two Q
   have hQj : ∀ j, intersectionNumber k p (𝟙 S) 2 hS.le ![Q, H j] =
       2 * x j 0 + 2 * x j 1 - x j 2 := fun j => by
@@ -311,13 +311,13 @@ omit [IsIntegral S] in
 `σ^*𝓗_0 ≅ 𝓗_0`, `σ^*𝓗_1 ≅ 𝓗_1`, `σ^*𝓗_2 ⊗ 𝓗_2 ≅ (𝓗_0 ⊗ 𝓗_0) ⊗ (𝓗_1 ⊗ 𝓗_1)` and
 `𝓐 ≅ (𝓗_0 ⊗ 𝓗_1) ⊗ 𝓗_2` is ample, then the numerical relations hold, by additivity of the
 intersection pairing ([Stacks, Tag 0BER]). -/
-public theorem of_isos (hρ : ρ.hom ≫ p = p) (hσ : σ.hom ≫ p = p)
+public theorem of_isos (hρ : ρ.asIso.hom ≫ p = p) (hσ : σ.asIso.hom ≫ p = p)
     (hA : Scheme.Modules.IsAmple S A)
     (eA : A ≅ Scheme.Modules.tensorObj (Scheme.Modules.tensorObj (H 0) (H 1)) (H 2))
-    (eρ : ∀ i : Fin 3, (Scheme.Modules.pullback ρ.hom).obj (H i) ≅ H (i + 1))
-    (eσ0 : (Scheme.Modules.pullback σ.hom).obj (H 0) ≅ H 0)
-    (eσ1 : (Scheme.Modules.pullback σ.hom).obj (H 1) ≅ H 1)
-    (eσ2 : Scheme.Modules.tensorObj ((Scheme.Modules.pullback σ.hom).obj (H 2)) (H 2) ≅
+    (eρ : ∀ i : Fin 3, (Scheme.Modules.pullback ρ.asIso.hom).obj (H i) ≅ H (i + 1))
+    (eσ0 : (Scheme.Modules.pullback σ.asIso.hom).obj (H 0) ≅ H 0)
+    (eσ1 : (Scheme.Modules.pullback σ.asIso.hom).obj (H 1) ≅ H 1)
+    (eσ2 : Scheme.Modules.tensorObj ((Scheme.Modules.pullback σ.asIso.hom).obj (H 2)) (H 2) ≅
       Scheme.Modules.tensorObj (Scheme.Modules.tensorObj (H 0) (H 0))
         (Scheme.Modules.tensorObj (H 1) (H 1))) :
     WehlerRelations k p hS H A ρ σ where
@@ -343,13 +343,13 @@ form.** As `AlgebraicGeometry.WehlerRelations.of_isos`, with the relation for `�
 `σ^*𝓗_2 ⊗ 𝓗_2² ≅ ((𝓗_0 ⊗ 𝓗_0) ⊗ (𝓗_1 ⊗ 𝓗_1)) ⊗ 𝓗_2`, the form in which the covering involution
 of a family of binary quadrics provides it (`Stacks.BinaryQuadric.quadricInvolutionTwistIso`):
 cancelling one `𝓗_2` numerically gives the relation of `of_isos`. -/
-public theorem of_isos_of_twist (hρ : ρ.hom ≫ p = p) (hσ : σ.hom ≫ p = p)
+public theorem of_isos_of_twist (hρ : ρ.asIso.hom ≫ p = p) (hσ : σ.asIso.hom ≫ p = p)
     (hA : Scheme.Modules.IsAmple S A)
     (eA : A ≅ Scheme.Modules.tensorObj (Scheme.Modules.tensorObj (H 0) (H 1)) (H 2))
-    (eρ : ∀ i : Fin 3, (Scheme.Modules.pullback ρ.hom).obj (H i) ≅ H (i + 1))
-    (eσ0 : (Scheme.Modules.pullback σ.hom).obj (H 0) ≅ H 0)
-    (eσ1 : (Scheme.Modules.pullback σ.hom).obj (H 1) ≅ H 1)
-    (eσ2 : Scheme.Modules.tensorObj ((Scheme.Modules.pullback σ.hom).obj (H 2))
+    (eρ : ∀ i : Fin 3, (Scheme.Modules.pullback ρ.asIso.hom).obj (H i) ≅ H (i + 1))
+    (eσ0 : (Scheme.Modules.pullback σ.asIso.hom).obj (H 0) ≅ H 0)
+    (eσ1 : (Scheme.Modules.pullback σ.asIso.hom).obj (H 1) ≅ H 1)
+    (eσ2 : Scheme.Modules.tensorObj ((Scheme.Modules.pullback σ.asIso.hom).obj (H 2))
         (Scheme.Modules.tensorObj (H 2) (H 2)) ≅
       Scheme.Modules.tensorObj (Scheme.Modules.tensorObj (Scheme.Modules.tensorObj (H 0) (H 0))
         (Scheme.Modules.tensorObj (H 1) (H 1))) (H 2)) :
@@ -374,13 +374,13 @@ omit [IsIntegral S] in
 /-- The composite `τ = σ ∘ ρ` of the two automorphisms is again an automorphism over `k`, and so
 are all its powers. -/
 public theorem pow_hom_comp (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
-    ((σ * ρ) ^ n).hom ≫ p = p := by
+    ((σ * ρ) ^ n).asIso.hom ≫ p = p := by
   induction n with
   | zero =>
     rw [pow_zero]
     exact Category.id_comp p
   | succ n ih =>
-    have e : ((σ * ρ) ^ (n + 1)).hom = ((σ * ρ) ^ n).hom ≫ ρ.hom ≫ σ.hom := by
+    have e : ((σ * ρ) ^ (n + 1)).asIso.hom = ((σ * ρ) ^ n).asIso.hom ≫ ρ.asIso.hom ≫ σ.asIso.hom := by
       rw [pow_succ']
       rfl
     rw [e, Category.assoc, Category.assoc, h.hom_σ, h.hom_ρ, ih]
@@ -389,30 +389,30 @@ public theorem pow_hom_comp (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
 `τ^*𝓗_0 ≡ 𝓗_1`, `τ^*𝓗_1 ≡ 𝓗_2` and `τ^*𝓗_2 ≡ 2 𝓗_1 + 2 𝓗_2 - 𝓗_0`. -/
 public theorem pair_mul_pullback (h : WehlerRelations k p hS H A ρ σ) (Y : S.Modules)
     [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 Y] :
-    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).hom).obj (H 0)] =
+    intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).asIso.hom).obj (H 0)] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 1] ∧
-      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).hom).obj (H 1)] =
+      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).asIso.hom).obj (H 1)] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 2] ∧
-      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).hom).obj (H 2)] =
+      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).asIso.hom).obj (H 2)] =
         2 * intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 1] +
           2 * intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 2] -
             intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 0] := by
   have hM : ∀ (M : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 M],
-      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).hom).obj M] =
+      intersectionNumber k p (𝟙 S) 2 hS.le ![Y, (Scheme.Modules.pullback (σ * ρ).asIso.hom).obj M] =
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![(Scheme.Modules.pullback ρ.inv).obj Y, (Scheme.Modules.pullback σ.hom).obj M] := by
+          ![(Scheme.Modules.pullback ρ.asIso.inv).obj Y, (Scheme.Modules.pullback σ.asIso.hom).obj M] := by
     intro M _
-    exact intersectionNumber_vecCons_pullback_comp_right k p hS ρ σ h.hom_ρ Y M
+    exact intersectionNumber_vecCons_pullback_comp_right k p hS ρ.asIso σ.asIso h.hom_ρ Y M
   have hρY : ∀ i : Fin 3, intersectionNumber k p (𝟙 S) 2 hS.le
-      ![(Scheme.Modules.pullback ρ.inv).obj Y, H i] =
+      ![(Scheme.Modules.pullback ρ.asIso.inv).obj Y, H i] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H (i + 1)] := fun i => by
-    rw [intersectionNumber_vecCons_pullback_inv_left k p hS ρ h.hom_ρ, h.pair_ρ]
+    rw [intersectionNumber_vecCons_pullback_inv_left k p hS ρ.asIso h.hom_ρ, h.pair_ρ]
   refine ⟨?_, ?_, ?_⟩
   · rw [hM, h.pair_σ_zero, hρY]
     rfl
   · rw [hM, h.pair_σ_one, hρY]
     rfl
-  · have h2 := h.pair_σ_two ((Scheme.Modules.pullback ρ.inv).obj Y)
+  · have h2 := h.pair_σ_two ((Scheme.Modules.pullback ρ.asIso.inv).obj Y)
     rw [hM]
     have e0 : _ = intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 1] := hρY 0
     have e1 : _ = intersectionNumber k p (𝟙 S) 2 hS.le ![Y, H 2] := hρY 1
@@ -423,38 +423,38 @@ public theorem pair_mul_pullback (h : WehlerRelations k p hS H A ρ σ) (Y : S.M
 `(τ^n)^*𝓐` is their sum. -/
 public theorem pair_pow_succ_pullback (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
     (intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).hom).obj (H 0)] =
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).asIso.hom).obj (H 0)] =
       intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 1)]) ∧
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 1)]) ∧
     (intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).hom).obj (H 1)] =
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).asIso.hom).obj (H 1)] =
       intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 2)]) ∧
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 2)]) ∧
     (intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).hom).obj (H 2)] =
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).asIso.hom).obj (H 2)] =
       2 * intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 1)] +
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 1)] +
         2 * intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 2)] -
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 2)] -
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 0)]) := by
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 0)]) := by
   set g := (σ * ρ) ^ n with hg
-  have hgp : g.hom ≫ p = p := h.pow_hom_comp n
+  have hgp : g.asIso.hom ≫ p = p := h.pow_hom_comp n
   have hsplit : ∀ (M : S.Modules) [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 M],
       intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).hom).obj M] =
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ (n + 1)).asIso.hom).obj M] =
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![(Scheme.Modules.pullback g.inv).obj A,
-            (Scheme.Modules.pullback (σ * ρ).hom).obj M] := by
+          ![(Scheme.Modules.pullback g.asIso.inv).obj A,
+            (Scheme.Modules.pullback (σ * ρ).asIso.hom).obj M] := by
     intro M _
-    have e : ((σ * ρ) ^ (n + 1)).hom = g.hom ≫ (σ * ρ).hom := by rw [hg, pow_succ']; rfl
+    have e : ((σ * ρ) ^ (n + 1)).asIso.hom = g.asIso.hom ≫ (σ * ρ).asIso.hom := by rw [hg, pow_succ']; rfl
     rw [e]
-    exact intersectionNumber_vecCons_pullback_comp_right k p hS g (σ * ρ) hgp A M
+    exact intersectionNumber_vecCons_pullback_comp_right k p hS g.asIso (σ * ρ).asIso hgp A M
   have hback : ∀ i : Fin 3, intersectionNumber k p (𝟙 S) 2 hS.le
-      ![(Scheme.Modules.pullback g.inv).obj A, H i] =
-        intersectionNumber k p (𝟙 S) 2 hS.le ![A, (Scheme.Modules.pullback g.hom).obj (H i)] :=
-    fun i => intersectionNumber_vecCons_pullback_inv_left k p hS g hgp A (H i)
-  obtain ⟨t0, t1, t2⟩ := h.pair_mul_pullback ((Scheme.Modules.pullback g.inv).obj A)
+      ![(Scheme.Modules.pullback g.asIso.inv).obj A, H i] =
+        intersectionNumber k p (𝟙 S) 2 hS.le ![A, (Scheme.Modules.pullback g.asIso.hom).obj (H i)] :=
+    fun i => intersectionNumber_vecCons_pullback_inv_left k p hS g.asIso hgp A (H i)
+  obtain ⟨t0, t1, t2⟩ := h.pair_mul_pullback ((Scheme.Modules.pullback g.asIso.inv).obj A)
   refine ⟨?_, ?_, ?_⟩
   · rw [hsplit, t0, hback]
   · rw [hsplit, t1, hback]
@@ -462,13 +462,13 @@ public theorem pair_pow_succ_pullback (h : WehlerRelations k p hS H A ρ σ) (n 
 
 /-- Pairing with `(τ^n)^*𝓐` is the sum of the pairings with the `(τ^n)^*𝓗_j`. -/
 public theorem pair_pow_pullback_ample (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
-    intersectionNumber k p (𝟙 S) 2 hS.le ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A] =
+    intersectionNumber k p (𝟙 S) 2 hS.le ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A] =
       intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 0)] +
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 0)] +
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 1)] +
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 1)] +
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H 2)] := by
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H 2)] := by
   have hgp := h.pow_hom_comp n
   simp only [← intersectionNumber_vecCons_pullback_inv_left k p hS _ hgp A]
   exact h.pair_ample _
@@ -483,14 +483,14 @@ public theorem intersectionNumber_add_le_pow_pullback (h : WehlerRelations k p h
     (n : ℕ) :
     intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] + n ≤
       intersectionNumber k p (𝟙 S) 2 hS.le
-        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A] := by
+        ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A] := by
   obtain ⟨b, hb, hx, hAA⟩ := h.exists_intersectionMatrix
   set u : ℕ → Fin 3 → ℤ := fun n j => intersectionNumber k p (𝟙 S) 2 hS.le
-    ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj (H j)] with hu
+    ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj (H j)] with hu
   have hu0 : ∀ j, u 0 j = 2 * b := by
     intro j
     simp only [hu]
-    have e0 : ((σ * ρ) ^ 0).hom = 𝟙 S := by
+    have e0 : ((σ * ρ) ^ 0).asIso.hom = 𝟙 S := by
       rw [pow_zero]
       rfl
     rw [e0, intersectionNumber_vecCons_pullback_id_right, intersectionNumber_vecCons_comm,
@@ -537,9 +537,9 @@ public theorem exists_isAmple_intersectionNumber_gt (h : WehlerRelations k p hS 
       N < intersectionNumber k p (𝟙 S) 2 hS.le ![A, B] := by
   obtain ⟨n, hn⟩ := exists_nat_gt (N - intersectionNumber k p (𝟙 S) 2 hS.le ![A, A])
   have hgp := h.pow_hom_comp n
-  have : IsIso ((σ * ρ) ^ n).hom := @Iso.isIso_hom _ _ S S ((σ * ρ) ^ n)
+  have : IsIso ((σ * ρ) ^ n).asIso.hom := @Iso.isIso_hom _ _ S S ((σ * ρ) ^ n).asIso
   obtain ⟨hamp, hself⟩ := isAmple_pullback_and_intersectionNumber_eq k p hS
-    ((σ * ρ) ^ n).hom hgp A h.isAmple
+    ((σ * ρ) ^ n).asIso.hom hgp A h.isAmple
   refine ⟨_, inferInstance, hamp, hself, ?_⟩
   linarith [h.intersectionNumber_add_le_pow_pullback n]
 

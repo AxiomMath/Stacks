@@ -34,6 +34,13 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_AlgebraicSpaceStackHomDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A point lifts locally along an étale covering.** Let `{q i : Y i ⟶ Z}` be an étale covering
 of algebraic spaces and let `z : U ⟶ Z` be a point of `Z` with values in an object `U` of the big
 fppf site. There is a covering family `{h i : V i ⟶ U}` of `U`, indexed by the same type, along

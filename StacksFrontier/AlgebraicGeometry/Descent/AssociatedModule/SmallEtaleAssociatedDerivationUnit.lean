@@ -86,9 +86,9 @@ theorem associatedModuleAdjunction_unit_app_universalRelativeDerivation_d
       (associatedDerivation B hX f).d
         (X := op ((opensToSmallEtale B X hX).obj W))
         (((commRingStructureMap B X hX).hom.app (op W)).hom a) := by
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (Scheme.Hom.universalRelativeDerivation f) _ a).symm ?_
-  exact PresheafOfModules.Derivation.congr_d
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalRelativeDerivation_postcomp_associatedModuleAdjunction_unit B hX f) a
 
 end AlgebraicGeometry.SmallEtale

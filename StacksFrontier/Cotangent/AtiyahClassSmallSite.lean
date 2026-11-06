@@ -132,7 +132,7 @@ value over `(P, α)` is `Ω[P⁄A]`. No universe lift intervenes, unlike on the 
 def smallAtiyahRelativeDifferentialsPresheaf :
     PresheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (smallAtiyahStructureSheaf A B κ)).obj :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
     (smallAtiyahBaseHom A B κ).hom
 
 /-- **The sheaf of relative differentials `Ω_{𝒪/A}` on the small model of `C_{B/A}`**, a sheaf of
@@ -145,9 +145,9 @@ def smallAtiyahRelativeDifferentials :
 
 /-- The universal relative derivation of `𝒪` over `A̲` with values in `Ω_{𝒪/A}`. -/
 def smallAtiyahUniversalDerivation :
-    (smallAtiyahRelativeDifferentials A B κ).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (smallAtiyahRelativeDifferentials A B κ).val
       (smallAtiyahBaseHom A B κ).hom :=
-  PresheafOfModules.DifferentialsConstruction.derivation' (smallAtiyahBaseHom A B κ).hom
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' (smallAtiyahBaseHom A B κ).hom
 
 /-- **Tag 04BL for the small model of `C_{B/A}`.** `Ω_{𝒪/A}` corepresents the functor sending a
 sheaf of `𝒪`-modules to the relative derivations of `𝒪` over `A̲` with values in it, so it is the
@@ -162,14 +162,14 @@ def smallAtiyahRelativeDifferentialsCorepresentableBy :
       (smallAtiyahRelativeDifferentials A B κ) := by
   refine AlgebraicGeometry.SheafOfModules.universalDerivationCorepresentableBy.{u, u, u, u}
     _ _ _ (smallAtiyahUniversalDerivation A B κ) (fun F D => ?_)
-  refine ⟨⟨(PresheafOfModules.DifferentialsConstruction.isUniversal'
+  refine ⟨⟨(PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
     (smallAtiyahBaseHom A B κ).hom).desc D⟩, ?_, fun g hg => ?_⟩
-  · exact (PresheafOfModules.DifferentialsConstruction.isUniversal'
+  · exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
       (smallAtiyahBaseHom A B κ).hom).fac D
   · exact SheafOfModules.hom_ext
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
         (smallAtiyahBaseHom A B κ).hom).postcomp_injective _ _
-          (hg.trans ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+          (hg.trans ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
             (smallAtiyahBaseHom A B κ).hom).fac D).symm))
 
 /-- **The first vertex of the Atiyah triangle is formed with `Ω_{𝒪/A}`.** The corepresenting

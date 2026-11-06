@@ -720,10 +720,11 @@ def cotangentToChart (U : X.Opens) (n : SimplexCategory) :
             ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n)))
       rw [← TensorProduct.smul_tmul, Algebra.smul_def, map_mul]
       congr 2
-      refine ULift.ext _ _ ((evaluation_app_down Λ X structureMap U n _).trans ?_).symm
+      refine ULift.ext ((evaluation_app_down Λ X structureMap U n _).trans ?_).symm
       exact congrArg (CommAlgCat.standardResolutionAugmentationHom.{u, u} Λ _ (op n))
         (Iso.inv_hom_id_apply (chartResolutionIso Λ X structureMap U n) q))
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `cotangentToChart` is semilinear along `𝒪_X(U) → ULift 𝒪_X(U)`. -/
 theorem cotangentToChart_smul (U : X.Opens) (n : SimplexCategory)
     (b : sectionCotangentAlgebra Λ X structureMap U)
@@ -795,6 +796,7 @@ theorem chartCotangentDesc_resolutionToChartDifferentials (U : X.Opens) (n : Sim
       chartAugmentationHom_resolutionToChartHom]
     exact (CommAlgCat.cotangentTerm_one_tmul_smul (op n) q x).symm
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `cotangentToChart` undoes `chartCotangentDesc`: the composite
 `Ω_{ULift Γ(A_{n,U})/ULift Λ} → L^{-n}_{𝒪_X(U)/Λ} → ULift 𝒪_X(U) ⊗ Ω_{ULift Γ(A_{n,U})/ULift Λ}` is
 `m ↦ 1 ⊗ m`. -/
@@ -832,7 +834,7 @@ theorem cotangentToChart_chartCotangentDesc (U : X.Opens) (n : SimplexCategory)
           ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n)) = _
     have hp : resolutionToChartHom Λ X structureMap U n
         ((chartResolutionIso Λ X structureMap U n).hom p.down) = p :=
-      ULift.ext _ _ (Iso.hom_inv_id_apply (chartResolutionIso Λ X structureMap U n) p.down)
+      ULift.ext (Iso.hom_inv_id_apply (chartResolutionIso Λ X structureMap U n) p.down)
     rw [resolutionToChartDifferentials_D, map_one, hp]
     rfl
   | zero =>
@@ -848,7 +850,7 @@ theorem cotangentToChart_chartCotangentDesc (U : X.Opens) (n : SimplexCategory)
     rw [hx]
     have hp : chartSectionsUp Λ X structureMap U n (chartAugmentationHom Λ X structureMap U n p) =
         algebraMap _ _ p :=
-      ULift.ext _ _ (evaluation_app_down Λ X structureMap U n p).symm
+      ULift.ext (evaluation_app_down Λ X structureMap U n p).symm
     show chartSectionsUp Λ X structureMap U n (chartAugmentationHom Λ X structureMap U n p) •
         ((1 : (zariskiPresheaf.{u, u + 1} Λ X structureMap).obj
           (op (resolutionChart Λ X structureMap U n))) ⊗ₜ[resolutionChartRing Λ X structureMap U n]
@@ -859,6 +861,7 @@ theorem cotangentToChart_chartCotangentDesc (U : X.Opens) (n : SimplexCategory)
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul', TensorProduct.smul_tmul', hp]
     rfl
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `chartToCotangent` is a left inverse of `cotangentToChart`. -/
 theorem chartToCotangent_cotangentToChart (U : X.Opens) (n : SimplexCategory)
     (x : CommAlgCat.cotangentTerm.{u, u} Λ (sectionCotangentAlgebra Λ X structureMap U) (op n)) :

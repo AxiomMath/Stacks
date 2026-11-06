@@ -141,12 +141,26 @@ def rightDerivedFunctorPlusUnitSingleNatIso (hF : ∀ M : C, F.rightAcyclic M) :
         F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       HomotopyCategory.Plus.singleFunctor C 0 ⋙
         DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus :=
-  haveI : ∀ M : C, IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := fun M => hF M
+  haveI : ∀ M : C, IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := fun M => by
+    have hM' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).app
+        ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := hF M
+    have hφ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+      (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith).1 inferInstance
+    rw [← Functor.rightDerived_fac_app _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+      (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith ((HomotopyCategory.Plus.singleFunctor C 0).obj M)]
+    infer_instance
   NatIso.ofComponents
-    (fun M => asIso (F.rightDerivedFunctorPlusUnit.app
+    (fun M => asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj M)))
-    (fun _ => F.rightDerivedFunctorPlusUnit.naturality _)
+    (fun _ => F.rightDerivedFunctorPlusUnith.naturality _)
 
 /-- **An abelian category all of whose objects are right acyclic for `F` is computed by `F`
 itself, naturally in the object.**  This is the natural-isomorphism form of

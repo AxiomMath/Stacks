@@ -193,7 +193,6 @@ theorem etaleModuleDerivedExtendRestrictAdj_counit_app_Q
     (etaleModuleDerivedExtendScalars.{u, r} φ X).map_comp, Category.assoc, Category.assoc,
     Category.assoc, hB, reassoc_of% (etaleModuleDerivedExtendRestrictAdj_counit_fac φ X Jh),
     reassoc_of% hE, etaleModuleExtendScalars_mapHomotopyCategory_counit_Qh φ X J p]
-  rfl
 
 end Stacks.EtaleCohomology
 

@@ -143,9 +143,9 @@ public def envelopeEquivQuotientSingleRelation (B : DividedPowerRing.{u})
     (hf : J = B.ideal ⊔ Ideal.span (Set.range (fun _ : Unit ↦ g)))
     (D : DividedPowerEnvelope B (RingHom.id (B : Type u)) J hJ) :
     (DividedPowerAlgebra (B : Type u) (Unit →₀ (B : Type u)) ⧸
-        Ideal.span {dividedPowerPolynomialVariable (B : Type u) (ι := Unit) () -
+        Ideal.span {(dividedPowerPolynomialVariable (B : Type u) (ι := Unit) () -
           algebraMap (B : Type u) (DividedPowerAlgebra (B : Type u) (Unit →₀ (B : Type u)))
-            g}) ≃+* (D.object : Type u) :=
+            g)}) ≃+* (D.object : Type u) :=
   (Ideal.quotEquivOfEq (ker_presentation_eq_span_of_regular B g hg J hJ hf D).symm).trans
     (RingHom.quotientKerEquivOfSurjective
       (surjectiveDividedPowerPolynomialMap B Unit J hJ (fun _ ↦ g) hf D).2.2.2)
@@ -220,10 +220,10 @@ public theorem ker_presentation_pthRootRelation (B : DividedPowerRing.{u}) (p : 
       (RingHom.id (Polynomial (B : Type u))) J hJ) :
     RingHom.ker (surjectiveDividedPowerPolynomialMap (polynomialDividedPowerRing B) Unit J hJ
         (fun _ ↦ Polynomial.X ^ p - Polynomial.C lam) hf D).1.toRingHom =
-      Ideal.span {dividedPowerPolynomialVariable (Polynomial (B : Type u)) (ι := Unit) () -
+      Ideal.span {(dividedPowerPolynomialVariable (Polynomial (B : Type u)) (ι := Unit) () -
         algebraMap (Polynomial (B : Type u))
           (DividedPowerAlgebra (Polynomial (B : Type u)) (Unit →₀ Polynomial (B : Type u)))
-          (Polynomial.X ^ p - Polynomial.C lam)} :=
+          (Polynomial.X ^ p - Polynomial.C lam))} :=
   ker_presentation_eq_span_of_regular (polynomialDividedPowerRing B)
     (Polynomial.X ^ p - Polynomial.C lam)
     (fun _ h ↦ mem_map_C_of_mul_monic B.ideal (Polynomial.monic_X_pow_sub_C lam hp) h)
@@ -241,10 +241,10 @@ public def pthRootRelationEnvelopeEquiv (B : DividedPowerRing.{u}) (p : ℕ) (hp
     (D : DividedPowerEnvelope (polynomialDividedPowerRing B)
       (RingHom.id (Polynomial (B : Type u))) J hJ) :
     (DividedPowerAlgebra (Polynomial (B : Type u)) (Unit →₀ Polynomial (B : Type u)) ⧸
-        Ideal.span {dividedPowerPolynomialVariable (Polynomial (B : Type u)) (ι := Unit) () -
+        Ideal.span {(dividedPowerPolynomialVariable (Polynomial (B : Type u)) (ι := Unit) () -
           algebraMap (Polynomial (B : Type u))
             (DividedPowerAlgebra (Polynomial (B : Type u)) (Unit →₀ Polynomial (B : Type u)))
-            (Polynomial.X ^ p - Polynomial.C lam)}) ≃+* (D.object : Type u) :=
+            (Polynomial.X ^ p - Polynomial.C lam))}) ≃+* (D.object : Type u) :=
   envelopeEquivQuotientSingleRelation (polynomialDividedPowerRing B)
     (Polynomial.X ^ p - Polynomial.C lam)
     (fun _ h ↦ mem_map_C_of_mul_monic B.ideal (Polynomial.monic_X_pow_sub_C lam hp) h)

@@ -18,6 +18,7 @@ public import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.RingTheory.Ideal.GoingDown
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.RingTheory.Ideal.Pure
 public import Mathlib.RingTheory.Radical.NatInt
 public import Mathlib.RingTheory.WittVector.IsPoly

@@ -232,8 +232,8 @@ theorem exists_bottom_of_hasQuotients : ∀ (r : ℕ) (V : X.Modules) (L : Fin (
       have : Mono g₀ := hS.exact.mono_g hf₀
       have : IsIso g₀ := isIso_of_mono_of_epi g₀
       refine ⟨L 0, Iso.refl _, F, inv g₀, 0, IsZero.eq_of_tgt hF _ _, ?_, hF⟩
-      refine ShortComplex.ShortExact.mk' ?_ inferInstance (IsZero.epi hF _)
-      exact (ShortComplex.exact_iff_epi _ rfl).2 inferInstance
+      refine ShortComplex.ShortExact.mk' ?_ (IsIso.mono_of_iso (inv g₀)) (IsZero.epi hF _)
+      exact (ShortComplex.exact_iff_epi _ rfl).2 (IsIso.epi_of_iso (inv g₀))
   | succ r ih =>
       intro V L _ h
       obtain ⟨F, hF, f₀, g₀, w₀, h₀, hrec⟩ := h

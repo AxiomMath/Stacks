@@ -91,16 +91,18 @@ private def coindAction (R : Type u) [Ring R] (G : Type (max u w)) [Group G]
     (M : ModuleCat.{max u w} R) : Action (ModuleCat.{max u w} R) G where
   V := ModuleCat.of.{max u w} R (G → M)
   ρ := {
-    toFun g := ModuleCat.ofHom (coindLinear R G M g)
+    toFun g := End.of (ModuleCat.ofHom (coindLinear R G M g))
     map_one' := by
+      apply End.ext
       apply ModuleCat.hom_ext
       ext f x
-      simp [coindLinear]
+      simp [coindLinear, End.one_asHom]
     map_mul' := by
       intro g h
+      apply End.ext
       apply ModuleCat.hom_ext
       ext f x
-      simp [coindLinear, mul_assoc]
+      simp [coindLinear, mul_assoc, End.mul_asHom]
   }
 
 private def coindFunctor (R : Type u) [Ring R] (G : Type (max u w)) [Group G] :
@@ -141,17 +143,17 @@ private def coindHomEquiv (R : Type u) [Ring R] (G : Type (max u w)) [Group G]
       (X ⟶ (coindFunctor R G).obj M) where
   toFun f := {
     hom := ModuleCat.ofHom {
-      toFun := fun x g => f.hom (((X.ρ g).hom) x)
+      toFun := fun x g => f.hom (((X.ρ g).asHom.hom) x)
       map_add' := by
         intro x y
         ext g
-        rw [map_add ((X.ρ g).hom)]
+        rw [map_add ((X.ρ g).asHom.hom)]
         exact map_add f.hom _ _
       map_smul' := by
         intro r x
         ext g
-        change f.hom ((X.ρ g).hom (r • x)) = _
-        rw [map_smul ((X.ρ g).hom)]
+        change f.hom ((X.ρ g).asHom.hom (r • x)) = _
+        rw [map_smul ((X.ρ g).asHom.hom)]
         exact map_smul f.hom _ _
     }
     comm := by
@@ -159,10 +161,10 @@ private def coindHomEquiv (R : Type u) [Ring R] (G : Type (max u w)) [Group G]
       apply ModuleCat.hom_ext
       ext x
       funext g
-      change f.hom (((X.ρ g).hom) (((X.ρ h).hom) x)) =
-        f.hom (((X.ρ (g * h)).hom) x)
+      change f.hom (((X.ρ g).asHom.hom) (((X.ρ h).asHom.hom) x)) =
+        f.hom (((X.ρ (g * h)).asHom.hom) x)
       congr 1
-      rw [X.ρ.map_mul g h, End.mul_def]
+      rw [X.ρ.map_mul g h, End.mul_asHom]
       rfl
   }
   invFun f := ModuleCat.ofHom {
@@ -181,7 +183,7 @@ private def coindHomEquiv (R : Type u) [Ring R] (G : Type (max u w)) [Group G]
   left_inv f := by
     apply ModuleCat.hom_ext
     ext x
-    change f.hom (((X.ρ 1).hom) x) = f.hom x
+    change f.hom (((X.ρ 1).asHom.hom) x) = f.hom x
     simp
   right_inv f := by
     apply Action.hom_ext
@@ -189,10 +191,10 @@ private def coindHomEquiv (R : Type u) [Ring R] (G : Type (max u w)) [Group G]
     ext x
     funext g
     have h := congrArg (fun q => (ConcreteCategory.hom q) x) (f.comm g)
-    change f.hom.hom (((X.ρ g).hom) x) =
+    change f.hom.hom (((X.ρ g).asHom.hom) x) =
       coindLinear R G M g (f.hom.hom x) at h
     have h' := congrArg (fun z : G → M => z 1) h
-    change (f.hom.hom (((X.ρ g).hom) x)) 1 = (f.hom.hom x) g
+    change (f.hom.hom (((X.ρ g).asHom.hom) x)) 1 = (f.hom.hom x) g
     simpa [coindLinear] using h'
 
 private def forgetCoindAdjunction (R : Type u) [Ring R] (G : Type (max u w)) [Group G] :
@@ -277,7 +279,7 @@ private lemma continuous_of_comp_injective_discrete
 /-- A discrete action is continuous iff all its orbit maps are continuous. -/
 private lemma isContinuous_iff_continuous_orbit (X : Action (ModuleCat.{max u w} R) G)
     [TopologicalSpace X.V] [DiscreteTopology X.V] :
-    continuousActionProperty R G X ↔ ∀ x : X.V, Continuous fun g : G => (X.ρ g).hom x := by
+    continuousActionProperty R G X ↔ ∀ x : X.V, Continuous fun g : G => (X.ρ g).asHom.hom x := by
   obtain rfl : ‹TopologicalSpace X.V› = ⊥ := DiscreteTopology.eq_bot
   exact ⟨fun h => continuous_prod_of_discrete_right.mp h.continuous_smul,
     fun h => ⟨continuous_prod_of_discrete_right.mpr h⟩⟩
@@ -285,8 +287,8 @@ private lemma isContinuous_iff_continuous_orbit (X : Action (ModuleCat.{max u w}
 /-- Orbit maps of a discrete action are carried to orbit maps by morphisms of actions. -/
 private lemma continuous_orbit_map {X Y : Action (ModuleCat.{max u w} R) G}
     [TopologicalSpace X.V] [DiscreteTopology X.V] [TopologicalSpace Y.V] (f : X ⟶ Y) {x : X.V}
-    (hx : Continuous fun g : G => (X.ρ g).hom x) :
-    Continuous fun g : G => (Y.ρ g).hom (f.hom.hom x) :=
+    (hx : Continuous fun g : G => (X.ρ g).asHom.hom x) :
+    Continuous fun g : G => (Y.ρ g).asHom.hom (f.hom.hom x) :=
   ((continuous_of_discreteTopology : Continuous fun z : X.V => f.hom.hom z).comp hx).congr
     fun g => ConcreteCategory.congr_hom (f.comm g) x
 
@@ -341,7 +343,7 @@ private instance continuous_closedUnderFiniteProducts :
     let : DiscreteTopology (p.diag.obj j).V := ⟨rfl⟩
     have h := (isContinuous_iff_continuous_orbit R G (p.diag.obj j)).1 (p.prop_diag_obj j)
       ((p.π.app j).hom x)
-    change Continuous (fun g => (p.π.app j).hom (((X.ρ g).hom) x))
+    change Continuous (fun g => (p.π.app j).hom (((X.ρ g).asHom.hom) x))
     exact h.congr fun g => (ConcreteCategory.congr_hom ((p.π.app j).comm g) x).symm⟩
 
 private instance continuous_containsZero :
@@ -423,12 +425,12 @@ private def smoothSubmodule (X : Action (ModuleCat.{max u w} R) G) : Submodule R
   letI : DiscreteTopology X.V := ⟨rfl⟩
   refine {
     toAddSubmonoid := {
-      carrier := {x | Continuous (fun g : G => (X.ρ g).hom x)}
+      carrier := {x | Continuous (fun g : G => (X.ρ g).asHom.hom x)}
       add_mem' := ?_
       zero_mem' := ?_ }
     smul_mem' := ?_ }
   · intro x y hx hy
-    have h : Continuous (fun g : G => (X.ρ g).hom x + (X.ρ g).hom y) :=
+    have h : Continuous (fun g : G => (X.ρ g).asHom.hom x + (X.ρ g).asHom.hom y) :=
       (continuous_add.comp (hx.prodMk hy))
     simpa [map_add] using h
   · simpa using (continuous_const : Continuous (fun _ : G => (0 : X.V)))
@@ -438,21 +440,21 @@ private def smoothSubmodule (X : Action (ModuleCat.{max u w} R) G) : Submodule R
 
 private lemma smooth_shift (X : Action (ModuleCat.{max u w} R) G) (g : G)
     {x : X.V} (hx : x ∈ smoothSubmodule R G X) :
-    ((X.ρ g).hom x) ∈ smoothSubmodule R G X := by
+    ((X.ρ g).asHom.hom x) ∈ smoothSubmodule R G X := by
   let : TopologicalSpace X.V := ⊥
   let : DiscreteTopology X.V := ⟨rfl⟩
   have hmul : Continuous (fun h : G => h * g) := continuous_id.mul continuous_const
   have h := hx.comp hmul
-  show Continuous (fun h : G => (X.ρ h).hom ((X.ρ g).hom x))
+  show Continuous (fun h : G => (X.ρ h).asHom.hom ((X.ρ g).asHom.hom x))
   convert h using 1
   funext h
-  show ((X.ρ h).hom ((X.ρ g).hom x)) = (X.ρ (h * g)).hom x
-  rw [X.ρ.map_mul h g, End.mul_def]
+  show ((X.ρ h).asHom.hom ((X.ρ g).asHom.hom x)) = (X.ρ (h * g)).asHom.hom x
+  rw [X.ρ.map_mul h g, End.mul_asHom]
   rfl
 
 private def smoothActionLinear (X : Action (ModuleCat.{max u w} R) G) (g : G) :
     smoothSubmodule R G X →ₗ[R] smoothSubmodule R G X where
-  toFun x := ⟨(X.ρ g).hom x.1, smooth_shift R G X g x.2⟩
+  toFun x := ⟨(X.ρ g).asHom.hom x.1, smooth_shift R G X g x.2⟩
   map_add' x y := by ext; simp
   map_smul' r x := by ext; simp
 
@@ -460,16 +462,18 @@ private def smoothAction (X : Action (ModuleCat.{max u w} R) G) :
     Action (ModuleCat.{max u w} R) G where
   V := ModuleCat.of R (smoothSubmodule R G X)
   ρ := {
-    toFun g := ModuleCat.ofHom (smoothActionLinear R G X g)
+    toFun g := End.of (ModuleCat.ofHom (smoothActionLinear R G X g))
     map_one' := by
+      apply End.ext
       apply ModuleCat.hom_ext
       ext x
-      simp [smoothActionLinear]
+      simp [smoothActionLinear, End.one_asHom]
     map_mul' := by
       intro g h
+      apply End.ext
       apply ModuleCat.hom_ext
       ext x
-      simp [smoothActionLinear, X.ρ.map_mul, End.mul_def]
+      simp [smoothActionLinear, X.ρ.map_mul, End.mul_asHom]
   }
 
 private lemma smoothAction_continuous (X : Action (ModuleCat.{max u w} R) G) :
@@ -481,8 +485,8 @@ private lemma smoothAction_continuous (X : Action (ModuleCat.{max u w} R) G) :
   refine (isContinuous_iff_continuous_orbit R G _).2 fun x => ?_
   apply continuous_discrete_rng.2
   intro y
-  have heq : ((fun g : G => ((smoothAction R G X).ρ g).hom x) ⁻¹' {y}) =
-      ((fun g : G => (X.ρ g).hom x.1) ⁻¹' {y.1}) := by
+  have heq : ((fun g : G => ((smoothAction R G X).ρ g).asHom.hom x) ⁻¹' {y}) =
+      ((fun g : G => (X.ρ g).asHom.hom x.1) ⁻¹' {y.1}) := by
     ext g
     simp only [Set.mem_preimage, Set.mem_singleton_iff]
     dsimp [smoothAction, smoothActionLinear]
@@ -511,7 +515,7 @@ private def smoothActionMap {X Y : Action (ModuleCat.{max u w} R) G} (f : X ⟶ 
     apply ModuleCat.hom_ext
     ext x
     apply Subtype.ext
-    change f.hom.hom ((X.ρ g).hom x.1) = (Y.ρ g).hom (f.hom.hom x.1)
+    change f.hom.hom ((X.ρ g).asHom.hom x.1) = (Y.ρ g).asHom.hom (f.hom.hom x.1)
     exact ConcreteCategory.congr_hom (f.comm g) x.1
 
 private def smoothActionCore :
@@ -573,7 +577,7 @@ private def liftSmoothHom (Y : DiscreteContAction (ModuleCat.{max u w} R) G)
     apply ModuleCat.hom_ext
     ext y
     apply Subtype.ext
-    change f.hom.hom ((Y.obj.obj.ρ g).hom y) = (X.ρ g).hom (f.hom.hom y)
+    change f.hom.hom ((Y.obj.obj.ρ g).asHom.hom y) = (X.ρ g).asHom.hom (f.hom.hom y)
     exact ConcreteCategory.congr_hom (f.comm g) y
 
 private def smoothSubactionι (X : Action (ModuleCat.{max u w} R) G) :

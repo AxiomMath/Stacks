@@ -382,7 +382,6 @@ theorem fShriekStalk_comp_pushforwardStalkToFibreSections_germ
           (congrArg ((properSupportSheafInclusion B f F).hom.app (op N.1) ≫ ·)
             (colimit_ι_pushforwardStalkToFibreSections B f y hy F N))))
   have h := ConcreteCategory.congr_hom hm a
-  simp only [ConcreteCategory.comp_apply] at h
   exact h
 
 /-- `c_ȳ` carries the image of the stalk of `f_!F` into the compactly supported sections. -/
@@ -394,8 +393,8 @@ theorem fShriekStalk_mem_geometricFibreCompactSections
   have hp : properSupportSections B f F W ((properSupportSheafInclusion B f F).hom.app (op W) a) :=
     a.2
   exact (congrArg (· ∈ geometricFibreCompactSections B f y hy F)
-    (fShriekStalk_comp_pushforwardStalkToFibreSections_germ B f y hy F ⟨W, q⟩ a)).mpr
-    (isProperOver_geometricFibreRestriction B f y hy F ⟨W, q⟩ _ hp)
+    (fShriekStalk_comp_pushforwardStalkToFibreSections_germ B f y hy F ⟨q⟩ a)).mpr
+    (isProperOver_geometricFibreRestriction B f y hy F ⟨q⟩ _ hp)
 
 /-- **The map `(f_!F)_ȳ ⟶ H⁰_c(X_ȳ, F|_{X_ȳ})` of Stacks 0F76**: the restriction of
 `c_ȳ : (f_*F)_ȳ ⟶ H⁰(X_ȳ, F|_{X_ȳ})` to the stalk of the subsheaf `f_!F`, which lands in the
@@ -440,7 +439,7 @@ theorem fShriekStalkToCompactSections_injective :
   rw [injective_iff_map_eq_zero]
   intro g hg
   obtain ⟨W, q, a, rfl⟩ := exists_etaleGerm_eq B Y.obj Y.property y _ g
-  let N : (geometricPointFiber B Y.obj Y.property y).Elements := ⟨W, q⟩
+  let N : (geometricPointFiber B Y.obj Y.property y).Elements := ⟨q⟩
   let s : F.obj.obj (op ((smallEtaleBaseChange B f).obj W)) :=
     (properSupportSheafInclusion B f F).hom.app (op W) a
   have h0 : geometricFibreRestriction B f y hy F N s = 0 := by

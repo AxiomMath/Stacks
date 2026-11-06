@@ -76,7 +76,7 @@ theorem isFiberedInGroupoids_uliftHomDown (C : Type*) [Category C] :
     subst hx
     exact ⟨ULiftHom.objUp V, ULift.up f, IsHomLift.map (p := ULiftHom.down) (ULift.up f)⟩
   unique_lift {x y z} φ ψ f hf :=
-    ⟨ULift.up f, ⟨rfl, ULift.ext _ _ hf⟩, fun χ hχ => ULift.ext _ _ hχ.1⟩
+    ⟨ULift.up f, ⟨rfl, ULift.ext hf⟩, fun χ hχ => ULift.ext hχ.1⟩
 
 end CategoryTheory.Functor
 

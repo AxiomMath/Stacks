@@ -104,7 +104,8 @@ theorem isLocallyQuasiFinite_of_mono_of_isLocallyQuasiFinite {k : Type u} [Field
   let p : X.reprX ⟶ Y.reprX := yoneda.preimage (X.reprW.hom ≫ f ≫ Y.reprW.inv)
   have : Mono p := (Functor.mono_map_iff_mono yoneda p).1 (by
     rw [show yoneda.map p = X.reprW.hom ≫ f ≫ Y.reprW.inv from yoneda.map_preimage _]
-    infer_instance)
+    exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _ X.reprW.isIso_hom)
+      (mono_comp' ‹Mono f› (@IsIso.mono_of_iso _ _ _ _ _ Y.reprW.isIso_inv)))
   have hft : IsLocallyOfFiniteType B S hS f :=
     (holdsOnEveryEtaleChart_iff_representable B S hS _
       isEtaleLocalOnSourceAndTarget_locallyOfFiniteType f).2

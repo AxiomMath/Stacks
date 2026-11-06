@@ -71,10 +71,7 @@ private lemma ι_map_quotientCompQhIso_hom_app {C : Type*} [Category* C] [Abelia
     [HasDerivedCategory C] (K : CochainComplex.Plus C) :
     DerivedCategory.Plus.ι.map ((DerivedCategory.Plus.quotientCompQhIso C).hom.app K) =
       (DerivedCategory.quotientCompQhIso C).hom.app K.obj := by
-  refine ((DerivedCategory.Plus.ι).map_preimage _).trans ?_
-  show 𝟙 _ ≫ DerivedCategory.Qh.map (𝟙 _) ≫ _ = _
-  rw [DerivedCategory.Qh.map_id]
-  exact (Category.id_comp _).trans (Category.id_comp _)
+  rfl
 
 variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
   [HasDerivedCategory A] [HasDerivedCategory B]
@@ -173,15 +170,15 @@ theorem mapCochainComplexPlusDerivedUnit_comp_rightDerivedRestrictionIso_hom_app
         rA.mapDerivedCategoryPlus.map qA'.hom :=
     mapDerivedCategoryPlusQIso_inv_app rA N
   have hdu' : G'.mapCochainComplexPlusDerivedUnit.app N =
-      qM'.inv ≫ G'.rightDerivedFunctorPlusUnit.app K ≫ G'.rightDerivedFunctorPlus.map qA'.hom :=
+      qM'.inv ≫ G'.rightDerivedFunctorPlusUnith.app K ≫ G'.rightDerivedFunctorPlus.map qA'.hom :=
     rfl
   have hdu : G.mapCochainComplexPlusDerivedUnit.app (rA.mapCochainComplexPlus.obj N) =
-      qM₂.inv ≫ G.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj K) ≫
+      qM₂.inv ≫ G.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj K) ≫
         G.rightDerivedFunctorPlus.map qA.hom :=
     rfl
   have s1 : rM.mapDerivedCategoryPlus.map qM'.hom ≫
       rM.mapDerivedCategoryPlus.map (G'.mapCochainComplexPlusDerivedUnit.app N) =
-      rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app K) ≫
+      rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app K) ≫
         rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlus.map qA'.hom) := by
     rw [hdu', ← Functor.map_comp, Iso.hom_inv_id_assoc]
     exact rM.mapDerivedCategoryPlus.map_comp _ _
@@ -205,13 +202,13 @@ theorem mapCochainComplexPlusDerivedUnit_comp_rightDerivedRestrictionIso_hom_app
   let b := rM.mapDerivedCategoryPlus.map qM'.hom
   let c := rM.mapDerivedCategoryPlus.map (G'.mapCochainComplexPlusDerivedUnit.app N)
   let d := θ.hom.app (DerivedCategory.Plus.Q.obj N)
-  let u' := rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app K)
+  let u' := rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app K)
   let x := rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlus.map qA'.hom)
   let θK := θ.hom.app (DerivedCategory.Plus.Qh.obj K)
   let y := G.rightDerivedFunctorPlus.map (rA.mapDerivedCategoryPlus.map qA'.hom)
   let eh := rM.mapDerivedCategoryPlusFactorsh.hom.app (G'.mapHomotopyCategoryPlus.obj K)
   let E := DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.quotient M).map eN)
-  let v := G.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj K)
+  let v := G.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj K)
   let w := G.rightDerivedFunctorPlus.map (rA.mapDerivedCategoryPlusFactorsh.inv.app K)
   have s3' : u' ≫ θK = eh ≫ E ≫ v ≫ w :=
     (map_unit_comp_rightDerivedRestrictionIso_hom_app G' G rA rM e hac K).trans

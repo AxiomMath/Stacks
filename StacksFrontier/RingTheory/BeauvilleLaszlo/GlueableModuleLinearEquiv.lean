@@ -42,7 +42,6 @@ public theorem isGlueableFor_of_linearEquiv (e : M ≃ₗ[R] N) (f : R)
       u (baseChangeToAway (S := S) M f x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul m s => simp [hu]
     | add x y hx hy => simp [hx, hy]
   have hloc : ∀ x : TensorProduct R M (Localization.Away f),
@@ -50,7 +49,6 @@ public theorem isGlueableFor_of_linearEquiv (e : M ≃ₗ[R] N) (f : R)
         u (localizedBaseChangeToAway (S := S) M f x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul m x => simp [hu]
     | add x y hx hy => simp [hx, hy]
   have sq₁ : toTensorBaseChanges (S := S) N f ∘ₗ (e : M →ₗ[R] N) =

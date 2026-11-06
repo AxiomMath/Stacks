@@ -68,6 +68,11 @@ namespace Stacks.Cohomology.AbelianBasis
 variable {X : Type u} [TopologicalSpace X]
   [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
 
+-- Mathlib v4.35.0: instance search for `HasProducts.{u} AddCommGrpCat.{u}` times out here;
+-- supply it directly from `AddCommGrpCat.hasLimitsOfShape`.
+local instance hasProductsAddCommGrpCat : HasProducts.{u} AddCommGrpCat.{u} :=
+  fun _ => AddCommGrpCat.hasLimitsOfShape
+
 /-! ### Abelian sheaves as coefficients for Stacks 01EW -/
 
 /-- The identity functor on abelian sheaves, read as a functor to the abelian sheaves on `X`:

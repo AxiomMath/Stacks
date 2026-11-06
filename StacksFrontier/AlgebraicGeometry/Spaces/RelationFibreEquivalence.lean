@@ -65,6 +65,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Stacks 03JU, part (4) implies part (2) -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 03JU, condition (4) implies condition (2).** If a point `x` of an algebraic space
 `F` over `S` has a field-valued representative presenting it by a monomorphism out of the
 spectrum of a field, then for every étale chart `φ : h_U ⟶ F` and every pair of points of `|U|`
@@ -77,7 +78,7 @@ theorem HasMonomorphicFieldRepresentative.hasFiniteRelationFiberAtEveryEtaleChar
   intro U φ a b hφ ha hb
   have hUalg : IsAlgebraicSpace B S hS (yoneda.obj U) := isAlgebraicSpace_yoneda B S hS U
   let D : PointsFibresDiagram B S hS :=
-    { W := pullback φ φ
+    { W := Limits.pullback φ φ
       Z := yoneda.obj U
       X := yoneda.obj U
       Y := F

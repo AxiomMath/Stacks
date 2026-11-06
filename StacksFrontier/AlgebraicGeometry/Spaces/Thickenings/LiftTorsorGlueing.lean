@@ -226,9 +226,9 @@ map. -/
 theorem transportActionSectionEquiv_zero (hG : IsThickening C S hS X' Z.1)
     (hP : P.IsEtaleChartSquare C S hS) :
     P.transportActionSectionEquiv C S hS hG hP.1 hP.2 0 = 0 := by
-  have h0 : (liftActionSheafTypeSheaf C S hS Z q a).val.map
+  have h0 : (liftActionSheafTypeSheaf C S hS Z q a).obj.map
         (P.subEtaleChartIso C S hS hG).op.hom
-        (0 : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) =
+        (0 : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) =
       (0 : (liftActionSheaf C S hS Z q a).val.obj (op P.subEtaleChart)) :=
     map_zero ((liftActionSheaf C S hS Z q a).val.presheaf.map
       (P.subEtaleChartIso C S hS hG).op.hom).hom
@@ -249,7 +249,7 @@ restriction map of the transported sheaf is `map_add` of the morphism of abelian
 acting sheaf's side, which is the spelling the elaborator can unify. -/
 theorem transportActionSectionEquiv_add (hG : IsThickening C S hS X' Z.1)
     (hP : P.IsEtaleChartSquare C S hS)
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     P.transportActionSectionEquiv C S hS hG hP.1 hP.2 (θ + η) =
       P.transportActionSectionEquiv C S hS hG hP.1 hP.2 θ +
         P.transportActionSectionEquiv C S hS hG hP.1 hP.2 η := by
@@ -299,10 +299,10 @@ theorem liftActionSheafTransport_map_comp_apply (Z : ClosedSubspaces C S hS X'.1
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' W' : SmallEtale C S hS X'.1} (m : W' ⟶ V') (n : V' ⟶ U')
-    (x : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map (m ≫ n).op x =
-      (liftActionSheafTransport C S hS Z hG q a).val.map m.op
-        ((liftActionSheafTransport C S hS Z hG q a).val.map n.op x) := by
+    (x : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map (m ≫ n).op x =
+      (liftActionSheafTransport C S hS Z hG q a).obj.map m.op
+        ((liftActionSheafTransport C S hS Z hG q a).obj.map n.op x) := by
   rw [op_comp, Functor.map_comp_apply]
 
 /-- **The restriction maps of the transported acting sheaf carry the zero section to the zero
@@ -312,9 +312,9 @@ theorem liftActionSheafTransport_map_zero (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U') :
-    (liftActionSheafTransport C S hS Z hG q a).val.map m.op
-        (0 : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) =
-      (0 : (liftActionSheafTransport C S hS Z hG q a).val.obj (op V')) := by
+    (liftActionSheafTransport C S hS Z hG q a).obj.map m.op
+        (0 : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) =
+      (0 : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op V')) := by
   rw [liftActionSheafTransport_map_apply]
   exact map_zero _
 
@@ -327,8 +327,8 @@ theorem liftActionSheafTransport_map_eq (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map m.op θ =
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map m.op θ =
       (liftActionSheaf C S hS Z q a).val.map
         ((thickeningChartBaseChange C S hS hG).map m).op θ :=
   rfl
@@ -355,7 +355,7 @@ theorem isSheafFor_liftActionSheafTransport (Z : ClosedSubspaces C S hS X'.1)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' : SmallEtale C S hS X'.1} {R : Sieve U'}
     (hR : R ∈ SmallEtale.topology C S hS X'.1 U') :
-    Presieve.IsSheafFor (liftActionSheafTransport C S hS Z hG q a).val (R : Presieve U') :=
+    Presieve.IsSheafFor (liftActionSheafTransport C S hS Z hG q a).obj (R : Presieve U') :=
   (isSheaf_iff_isSheaf_of_type _ _).1 (liftActionSheafTransport C S hS Z hG q a).property R hR
 
 /-- The transported acting sheaf is separated for every covering sieve of the small étale site of
@@ -365,7 +365,7 @@ theorem isSeparatedFor_liftActionSheafTransport (Z : ClosedSubspaces C S hS X'.1
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' : SmallEtale C S hS X'.1} {R : Sieve U'}
     (hR : R ∈ SmallEtale.topology C S hS X'.1 U') :
-    Presieve.IsSeparatedFor (liftActionSheafTransport C S hS Z hG q a).val (R : Presieve U') :=
+    Presieve.IsSeparatedFor (liftActionSheafTransport C S hS Z hG q a).obj (R : Presieve U') :=
   (isSheafFor_liftActionSheafTransport C S hS Z hG q a hR).isSeparatedFor
 
 /-! ### The translation relation -/
@@ -383,7 +383,7 @@ stable under restriction
 (`AlgebraicGeometry.Space.eq_of_isTranslateBy`), the latter because chart presentations exist on
 a covering family. -/
 def IsTranslateBy (hG : IsThickening C S hS X' Z.1) {U' : SmallEtale C S hS X'.1}
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U'))
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U'))
     (β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) : Prop :=
   ∀ ⦃V' : SmallEtale C S hS X'.1⦄ (m : V' ⟶ U')
     (Q : ChartLiftPresentation C S hS p q a.hom V')
@@ -391,18 +391,18 @@ def IsTranslateBy (hG : IsThickening C S hS X' Z.1) {U' : SmallEtale C S hS X'.1
     Q.liftSection = (liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op β →
       (liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op γ =
         Q.translateTransportSection C S hS hG hQ.1 hQ.2
-          ((liftActionSheafTransport C S hS Z hG q a).val.map m.op θ)
+          ((liftActionSheafTransport C S hS Z hG q a).obj.map m.op θ)
 
 /-- **The translation relation is stable under restriction to a smaller chart.**  This holds by
 the shape of `AlgebraicGeometry.Space.IsTranslateBy`, which quantifies over all chart
 presentations below the chart. -/
 theorem IsTranslateBy.restrict {hG : IsThickening C S hS X' Z.1}
     {U' : SmallEtale C S hS X'.1}
-    {θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')}
+    {θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')}
     {β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     (h : IsTranslateBy C S hS hG θ β γ) {V' : SmallEtale C S hS X'.1} (n : V' ⟶ U') :
     IsTranslateBy C S hS hG
-      ((liftActionSheafTransport C S hS Z hG q a).val.map n.op θ)
+      ((liftActionSheafTransport C S hS Z hG q a).obj.map n.op θ)
       ((liftsSubfunctor C S hS p q a.hom).toFunctor.map n.op β)
       ((liftsSubfunctor C S hS p q a.hom).toFunctor.map n.op γ) := by
   intro W' m Q hQ hbase
@@ -415,7 +415,7 @@ family of charts carrying a chart presentation with presented lift the restricti
 restrict to the chartwise translate, and the sheaf of lifts is separated. -/
 theorem eq_of_isTranslateBy (hX : IsFirstOrderThickening C S hS X' Z.1)
     {U' : SmallEtale C S hS X'.1}
-    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')}
+    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')}
     {β γ₁ γ₂ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     (h₁ : IsTranslateBy C S hS hX.isThickening θ β γ₁)
     (h₂ : IsTranslateBy C S hS hX.isThickening θ β γ₂) :
@@ -432,7 +432,7 @@ the same lift are equal: this is the freeness of the chartwise action
 with the sheaf condition of the acting sheaf. -/
 theorem eq_of_isTranslateBy_left (hX : IsFirstOrderThickening C S hS X' Z.1)
     {U' : SmallEtale C S hS X'.1}
-    {θ θ' : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')}
+    {θ θ' : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')}
     {β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     (h₁ : IsTranslateBy C S hS hX.isThickening θ β γ)
     (h₂ : IsTranslateBy C S hS hX.isThickening θ' β γ) :
@@ -449,7 +449,7 @@ theorem eq_of_isTranslateBy_left (hX : IsFirstOrderThickening C S hS X' Z.1)
 theorem isTranslateBy_zero (hG : IsThickening C S hS X' Z.1)
     {U' : SmallEtale C S hS X'.1}
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
-    IsTranslateBy C S hS hG (0 : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U'))
+    IsTranslateBy C S hS hG (0 : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U'))
       β β := by
   intro V' m Q hQ hbase
   rw [liftActionSheafTransport_map_zero, Q.translateTransportSection_zero C S hS hG hQ]
@@ -465,7 +465,7 @@ is not contradictory. -/
 theorem translateTransportSection_add_of_eq {hG : IsThickening C S hS X' Z.1}
     {U' : SmallEtale C S hS X'.1} (P : ChartLiftPresentation C S hS p q a.hom U')
     (hP : P.IsEtaleChartSquare C S hS)
-    (θ η ζ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U'))
+    (θ η ζ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U'))
     (h : P.translateTransportSection C S hS hG hP.1 hP.2 η =
       P.translateTransportSection C S hS hG hP.1 hP.2 ζ) :
     P.translateTransportSection C S hS hG hP.1 hP.2 (θ + η) =
@@ -511,15 +511,15 @@ def IsChartTranslationCompatible (p : X' ⟶ Bb) (Z : ClosedSubspaces C S hS X'.
     (hP : P.IsEtaleChartSquare C S hS)
     (Q : ChartLiftPresentation C S hS p q a.hom V')
     (hQ : Q.IsEtaleChartSquare C S hS)
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U'))
-    (ζ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op V')),
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U'))
+    (ζ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op V')),
     (liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op
         (P.translateTransportSection C S hS hG hP.1 hP.2 η) =
       Q.translateTransportSection C S hS hG hQ.1 hQ.2 ζ →
     (liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op
         (P.translateTransportSection C S hS hG hP.1 hP.2 (θ + η)) =
       Q.translateTransportSection C S hS hG hQ.1 hQ.2
-        ((liftActionSheafTransport C S hS Z hG q a).val.map m.op θ + ζ)
+        ((liftActionSheafTransport C S hS Z hG q a).obj.map m.op θ + ζ)
 
 /-- **The chartwise translate is a translate in the sense of
 `AlgebraicGeometry.Space.IsTranslateBy`**, granted the compatibility of the chartwise
@@ -529,7 +529,7 @@ theorem isTranslateBy_translateTransportSection {hG : IsThickening C S hS X' Z.1
     (hH : IsChartTranslationCompatible C S hS p Z hG q a)
     {U' : SmallEtale C S hS X'.1} (P : ChartLiftPresentation C S hS p q a.hom U')
     (hP : P.IsEtaleChartSquare C S hS)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     IsTranslateBy C S hS hG θ P.liftSection
       (P.translateTransportSection C S hS hG hP.1 hP.2 θ) := by
   intro V' m Q hQ hbase
@@ -556,20 +556,20 @@ chart. -/
 theorem isTranslateBy_of_sieve (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')}
+    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')}
     {β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     {R : Sieve U'} (hR : R ∈ SmallEtale.topology C S hS X'.1 U')
     (h : ∀ ⦃V' : SmallEtale C S hS X'.1⦄ (f : V' ⟶ U'), R f →
       IsTranslateBy C S hS hX.isThickening
-        ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map f.op θ)
+        ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map f.op θ)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map f.op β)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map f.op γ)) :
     IsTranslateBy C S hS hX.isThickening θ β γ := by
   intro W' m Q hQ hbase
   set tr := Q.translateTransportSection C S hS hX.isThickening hQ.1 hQ.2
-    ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op θ) with htr
+    ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op θ) with htr
   have hQtr := isTranslateBy_translateTransportSection C S hS hH Q hQ
-    ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op θ)
+    ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op θ)
   rw [hbase, ← htr] at hQtr
   refine Stacks.CategoryTheory.eq_of_locally_locally_eq
     ((isSheaf_iff_isSheaf_of_type _ _).1 (isSheaf_liftsSubfunctor C S hS p q a.hom))
@@ -613,7 +613,7 @@ amalgamates them. -/
 theorem exists_isTranslateBy (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     ∃ γ, IsTranslateBy C S hS hX.isThickening θ β γ := by
   obtain ⟨I, W, r, P, hval, hw, hv, hcov⟩ :=
@@ -621,21 +621,21 @@ theorem exists_isTranslateBy (hX : IsFirstOrderThickening C S hS X' Z.1)
   have claim : ∀ ⦃V' : SmallEtale C S hS X'.1⦄ (f : V' ⟶ U') (i : I) (g : V' ⟶ W i),
       g ≫ r i = f →
       IsTranslateBy C S hS hX.isThickening
-        ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map f.op θ)
+        ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map f.op θ)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map f.op β)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map g.op
           ((P i).translateTransportSection C S hS hX.isThickening (hw i) (hv i)
-            ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map (r i).op θ))) := by
+            ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map (r i).op θ))) := by
     intro V' f i g hg
     have hb := isTranslateBy_translateTransportSection C S hS hH (P i) ⟨hw i, hv i⟩
-      ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map (r i).op θ)
+      ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map (r i).op θ)
     rw [hval i] at hb
     have hres := hb.restrict C S hS g
     rwa [← liftActionSheafTransport_map_comp_apply, ← liftsSubfunctor_map_comp_apply, hg] at hres
   obtain ⟨γ, hγ⟩ := Stacks.CategoryTheory.exists_map_ofArrows_eq
     (isSheafFor_liftsSubfunctor C S hS p q a.hom hcov)
     (fun i => (P i).translateTransportSection C S hS hX.isThickening (hw i) (hv i)
-      ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map (r i).op θ))
+      ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map (r i).op θ))
     (by
       intro i j T gi gj hsq
       exact eq_of_isTranslateBy C S hS hX (claim (gi ≫ r i) i gi rfl)
@@ -668,7 +668,7 @@ theorem exists_isTranslateBy_left (hX : IsFirstOrderThickening C S hS X' Z.1)
   have claim : ∀ ⦃V' : SmallEtale C S hS X'.1⦄ (f : V' ⟶ U') (i : I) (g : V' ⟶ W i),
       g ≫ r i = f →
       IsTranslateBy C S hS hX.isThickening
-        ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map g.op (θ' i))
+        ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map g.op (θ' i))
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map f.op β)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map f.op γ) := by
     intro V' f i g hg
@@ -703,7 +703,7 @@ family. -/
 theorem IsTranslateBy.add (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    {θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')}
+    {θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')}
     {β γ δ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     (h₁ : IsTranslateBy C S hS hX.isThickening η β γ)
     (h₂ : IsTranslateBy C S hS hX.isThickening θ γ δ) :
@@ -717,7 +717,7 @@ theorem IsTranslateBy.add (hX : IsFirstOrderThickening C S hS X' Z.1)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op δ) =
       (liftsSubfunctor C S hS p q a.hom).toFunctor.map (r i).op
         (P.translateTransportSection C S hS hX.isThickening hP.1 hP.2
-          ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op (θ + η))) := by
+          ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op (θ + η))) := by
     intro i
     have hQi : (Q i).IsEtaleChartSquare C S hS := ⟨hw i, hv i⟩
     have hbQ : (Q i).liftSection =
@@ -727,12 +727,12 @@ theorem IsTranslateBy.add (hX : IsFirstOrderThickening C S hS X' Z.1)
     have e2 := h₂ (r i ≫ m) (Q i) hQi hbQ
     have hhyp : (liftsSubfunctor C S hS p q a.hom).toFunctor.map (r i).op
           (P.translateTransportSection C S hS hX.isThickening hP.1 hP.2
-            ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op η)) =
+            ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op η)) =
         (Q i).translateTransportSection C S hS hX.isThickening hQi.1 hQi.2 0 := by
       rw [(Q i).translateTransportSection_zero C S hS hX.isThickening hQi, hval i, hγ]
     have e3 := hH (r i) P hP (Q i) hQi
-      ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op θ)
-      ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op η) 0 hhyp
+      ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op θ)
+      ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op η) 0 hhyp
     rw [← liftsSubfunctor_map_comp_apply, e2, liftActionSheafTransport_map_add, e3, add_zero,
       ← liftActionSheafTransport_map_comp_apply]
   exact Stacks.CategoryTheory.eq_of_map_ofArrows_eq
@@ -751,7 +751,7 @@ presentation exists over an arbitrary chart, which is why the action is obtained
 noncomputable def translateGlobalSection (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U') :=
   (exists_isTranslateBy C S hS hX hH θ β).choose
@@ -760,7 +760,7 @@ noncomputable def translateGlobalSection (hX : IsFirstOrderThickening C S hS X' 
 theorem isTranslateBy_translateGlobalSection (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     IsTranslateBy C S hS hX.isThickening θ β (translateGlobalSection C S hS hX hH θ β) :=
   (exists_isTranslateBy C S hS hX hH θ β).choose_spec
@@ -771,7 +771,7 @@ over a chart presentation with presented lift `β`. -/
 theorem eq_translateGlobalSection (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')}
+    {θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')}
     {β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')}
     (h : IsTranslateBy C S hS hX.isThickening θ β γ) :
     γ = translateGlobalSection C S hS hX hH θ β :=
@@ -783,7 +783,7 @@ theorem translateGlobalSection_zero (hX : IsFirstOrderThickening C S hS X' Z.1)
     {U' : SmallEtale C S hS X'.1}
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     translateGlobalSection C S hS hX hH
-        (0 : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')) β = β :=
+        (0 : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')) β = β :=
   (eq_translateGlobalSection C S hS hX hH
     (isTranslateBy_zero C S hS hX.isThickening β)).symm
 
@@ -791,7 +791,7 @@ theorem translateGlobalSection_zero (hX : IsFirstOrderThickening C S hS X' Z.1)
 theorem translateGlobalSection_add (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
-    (θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
+    (θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     translateGlobalSection C S hS hX hH (θ + η) β =
       translateGlobalSection C S hS hX hH θ (translateGlobalSection C S hS hX hH η β) :=
@@ -807,12 +807,12 @@ translate. -/
 theorem translateGlobalSection_map (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
     (β : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
     (liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op
         (translateGlobalSection C S hS hX hH θ β) =
       translateGlobalSection C S hS hX hH
-        ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op θ)
+        ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op θ)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op β) :=
   eq_translateGlobalSection C S hS hX hH
     ((isTranslateBy_translateGlobalSection C S hS hX hH θ β).restrict C S hS m)
@@ -825,7 +825,7 @@ theorem existsUnique_translateGlobalSection (hX : IsFirstOrderThickening C S hS 
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' : SmallEtale C S hS X'.1}
     (β γ : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')) :
-    ∃! θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'),
+    ∃! θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'),
       translateGlobalSection C S hS hX hH θ β = γ := by
   obtain ⟨θ, hθ⟩ := exists_isTranslateBy_left C S hS hX hH β γ
   refine ⟨θ, (eq_translateGlobalSection C S hS hX hH hθ).symm, fun θ' hθ' => ?_⟩
@@ -842,9 +842,9 @@ sheaves have sections in one universe.  It is
 noncomputable def liftTorsorAct (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     (U' : SmallEtale C S hS X'.1)
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
-    (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U') :=
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
+    (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U') :=
   ULift.up (translateGlobalSection C S hS hX hH θ β.down)
 
 /-- `AlgebraicGeometry.Space.liftTorsorAct` is the universe lift of
@@ -852,8 +852,8 @@ noncomputable def liftTorsorAct (hX : IsFirstOrderThickening C S hS X' Z.1)
 theorem liftTorsorAct_eq (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     (U' : SmallEtale C S hS X'.1)
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
     liftTorsorAct C S hS hX hH U' θ β =
       ULift.up (translateGlobalSection C S hS hX hH θ β.down) :=
   rfl
@@ -864,7 +864,7 @@ the acting sheaf (`AlgebraicGeometry.Space.liftActionSheafTransport_one_eq_zero`
 theorem liftTorsorAct_one (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     (U' : SmallEtale C S hS X'.1)
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
     liftTorsorAct C S hS hX hH U' 1 β = β := by
   rw [liftTorsorAct_eq, liftActionSheafTransport_one_eq_zero,
     translateGlobalSection_zero C S hS hX hH β.down]
@@ -877,8 +877,8 @@ theorem liftTorsorAct_one (hX : IsFirstOrderThickening C S hS X' Z.1)
 theorem liftTorsorAct_mul (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     (U' : SmallEtale C S hS X'.1)
-    (θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
+    (θ η : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
     liftTorsorAct C S hS hX hH U' (θ * η) β =
       liftTorsorAct C S hS hX hH U' θ (liftTorsorAct C S hS hX hH U' η β) := by
   rw [liftTorsorAct_eq, liftTorsorAct_eq, liftTorsorAct_eq,
@@ -892,13 +892,13 @@ those of the sheaf of lifts (`AlgebraicGeometry.Space.liftsSubfunctorULift_map_u
 theorem liftTorsorAct_map (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'))
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
-    (liftsSubfunctorULift C S hS p q a.hom).val.map m.op
+    (θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'))
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
+    (liftsSubfunctorULift C S hS p q a.hom).obj.map m.op
         (liftTorsorAct C S hS hX hH U' θ β) =
       liftTorsorAct C S hS hX hH V'
-        ((liftActionSheafTransport C S hS Z hX.isThickening q a).val.map m.op θ)
-        ((liftsSubfunctorULift C S hS p q a.hom).val.map m.op β) := by
+        ((liftActionSheafTransport C S hS Z hX.isThickening q a).obj.map m.op θ)
+        ((liftsSubfunctorULift C S hS p q a.hom).obj.map m.op β) := by
   rw [liftTorsorAct_eq, liftsSubfunctorULift_map_up, liftTorsorAct_eq]
   exact congrArg ULift.up (translateGlobalSection_map C S hS hX hH m θ β.down)
 
@@ -909,8 +909,8 @@ hypothesis, since the two sections are given.  This is
 theorem existsUnique_liftTorsorAct (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a)
     (U' : SmallEtale C S hS X'.1)
-    (s t : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
-    ∃! θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U'),
+    (s t : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
+    ∃! θ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U'),
       liftTorsorAct C S hS hX hH U' θ s = t := by
   obtain ⟨θ, hθ, huniq⟩ := existsUnique_translateGlobalSection C S hS hX hH s.down t.down
   refine ⟨θ, ?_, fun θ' hθ' => huniq θ' (congrArg ULift.down hθ')⟩
@@ -940,7 +940,7 @@ and the zero law carry nothing beyond the first-order thickening. -/
 noncomputable def liftPseudoTorsor (hX : IsFirstOrderThickening C S hS X' Z.1)
     (hH : IsChartTranslationCompatible C S hS p Z hX.isThickening q a) :
     PseudoTorsor (liftActionSheafOfGroups C S hS Z hX.isThickening q a) where
-  presheaf := (liftsSubfunctorULift C S hS p q a.hom).val
+  presheaf := (liftsSubfunctorULift C S hS p q a.hom).obj
   isSheaf := (liftsSubfunctorULift C S hS p q a.hom).property
   act U θ β := liftTorsorAct C S hS hX hH U.unop θ β
   one_act U s := liftTorsorAct_one C S hS hX hH U.unop s
@@ -1063,7 +1063,7 @@ theorem translateTransportSection_eq (hG : IsThickening C S hS X' Z.1)
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     P.translateTransportSection C S hS hG hw hv θ =
       P.translateActionSection (P.transportActionSectionEquiv C S hS hG hw hv θ) :=
   rfl
@@ -1079,7 +1079,7 @@ theorem transportActionSectionEquiv_eq
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart)
     (hG : IsThickening C S hS X' Z.1)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     P.transportActionSectionEquiv C S hS hG hw hv θ =
       actionSectionEquiv C S hS P hw hv
         ((liftActionSheaf C S hS Z q a).val.map
@@ -1128,7 +1128,7 @@ def IsChartActionPresentationIndependent (p : X' ⟶ Bb) (Z : ClosedSubspaces C 
   ∀ ⦃V' : SmallEtale C S hS X'.1⦄
     (P₁ : ChartLiftPresentation C S hS p q a.hom V') (hP₁ : P₁.IsEtaleChartSquare C S hS)
     (P₂ : ChartLiftPresentation C S hS p q a.hom V') (hP₂ : P₂.IsEtaleChartSquare C S hS)
-    (θ η ζ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op V')),
+    (θ η ζ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op V')),
     P₁.translateTransportSection C S hS hG hP₁.1 hP₁.2 η =
         P₂.translateTransportSection C S hS hG hP₂.1 hP₂.2 ζ →
       P₁.translateTransportSection C S hS hG hP₁.1 hP₁.2 (θ + η) =
@@ -1153,11 +1153,11 @@ functoriality of the acting sheaf and nothing else. -/
 theorem liftActionSheaf_map_subEtaleChartIso_naturality (hG : IsThickening C S hS X' Z.1)
     {U' V' : SmallEtale C S hS X'.1} (P : ChartLiftPresentation C S hS p q a.hom U')
     (R : P.Restriction V')
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     (liftActionSheaf C S hS Z q a).val.map (R.subEtaleChartMap (Z := Z) (a := a)).op
         ((liftActionSheaf C S hS Z q a).val.map (P.subEtaleChartIso C S hS hG).hom.op θ) =
       (liftActionSheaf C S hS Z q a).val.map (R.presentation.subEtaleChartIso C S hS hG).hom.op
-        ((liftActionSheafTransport C S hS Z hG q a).val.map R.chartMap.op θ) :=
+        ((liftActionSheafTransport C S hS Z hG q a).obj.map R.chartMap.op θ) :=
   (((liftActionSheaf C S hS Z q a).val.map_comp_apply
         (P.subEtaleChartIso C S hS hG).hom.op
         (R.subEtaleChartMap (Z := Z) (a := a)).op θ).symm.trans
@@ -1208,11 +1208,11 @@ theorem map_translateTransportSection_of_isActionSectionRestrictionNatural
     (P : ChartLiftPresentation C S hS p q a.hom U') (hP : P.IsEtaleChartSquare C S hS)
     (R : P.Restriction V')
     (hnat : R.IsActionSectionRestrictionNatural (Z := Z) (a := a) hP.1 hP.2)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     (liftsSubfunctor C S hS p q a.hom).toFunctor.map R.chartMap.op
         (P.translateTransportSection C S hS hG hP.1 hP.2 θ) =
       R.presentation.translateTransportSection C S hS hG hP.1 hP.2
-        ((liftActionSheafTransport C S hS Z hG q a).val.map R.chartMap.op θ) := by
+        ((liftActionSheafTransport C S hS Z hG q a).obj.map R.chartMap.op θ) := by
   rw [ChartLiftPresentation.translateTransportSection_eq,
     ChartLiftPresentation.translateTransportSection_eq,
     ChartLiftPresentation.transportActionSectionEquiv_eq,
@@ -1244,7 +1244,7 @@ theorem isChartTranslationCompatible_of_natural_of_presentationIndependent
     ChartLiftPresentation.Restriction.exists_of_isFirstOrderThickening P hX m
       Q.isAffineAmbient
   subst hR
-  have key := fun (σ : (liftActionSheafTransport C S hS Z hX.isThickening q a).val.obj (op U')) =>
+  have key := fun (σ : (liftActionSheafTransport C S hS Z hX.isThickening q a).obj.obj (op U')) =>
     map_translateTransportSection_of_isActionSectionRestrictionNatural C S hS P hP R
       (hnat P hP R) σ
   rw [key η] at h

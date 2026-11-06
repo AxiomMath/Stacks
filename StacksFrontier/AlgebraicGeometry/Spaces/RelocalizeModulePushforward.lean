@@ -91,8 +91,8 @@ theorem relocalizeDirectImageRanIso_hom_π
         (relocalizeSpacesEtale B hT hS g X).op.map j.hom ≫
           (relocalizeComparisonOpIso B hT hS g X).hom.app j.right := rfl
   rw [hm]
-  exact ((FunctorToTypes.map_comp_apply _ _ _ a).trans
-    (FunctorToTypes.map_comp_apply _ _ _ _)).symm
+  simp only [Functor.map_comp]
+  rfl
 
 /-! ### The chart morphisms under relocalization -/
 

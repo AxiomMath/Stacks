@@ -69,7 +69,7 @@ private lemma componentIdeal_genericPoint_closure {X Y : Scheme.{u}}
     (i : Y ⟶ X) [IsClosedImmersion i] (C : irreducibleComponents Y)
     [IsIntegral (componentIdeal i C).subscheme] :
     closure ({(componentIdeal i C).subschemeι
-      (_root_.genericPoint (componentIdeal i C).subscheme)} : Set X) =
+                (_root_.genericPoint (componentIdeal i C).subscheme)} : Set X) =
         (componentSupport i C : Set X) := by
   let I := componentIdeal i C
   rw [← Set.image_singleton, I.subschemeι.isClosedEmbedding.closure_image_eq,

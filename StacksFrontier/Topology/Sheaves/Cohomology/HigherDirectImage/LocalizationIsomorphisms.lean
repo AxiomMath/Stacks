@@ -235,24 +235,24 @@ noncomputable def successiveRightDerivedFunctorPlusUnit :
         DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus ⋙
         G.rightDerivedFunctorPlus :=
-  Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus
+  Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus
 
 /-- The successive units form a derived-functor unit as soon as `G`'s unit is an isomorphism on the
 image under `F` of every bounded below complex of injectives. -/
 private theorem isRightDerivedFunctor_successiveUnit_of_isIso_app_map
     (h : ∀ K : HomotopyCategory.Plus (InjectiveObject A),
-      IsIso (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj
+      IsIso (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj
         ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj K)))) :
     (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor
       (successiveRightDerivedFunctorPlusUnit F G) (HomotopyCategory.Plus.quasiIso A) := by
   refine (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso
     _ (fun K => ?_)
-  change IsIso ((Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus).app _)
+  change IsIso ((Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus).app _)
   rw [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
   have := h K
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
     ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj K)) := inferInstance
   infer_instance
 
@@ -278,7 +278,7 @@ the composite of the termwise functors**, with `successiveRightDerivedFunctorPlu
 unit.  Again it suffices to check the unit on a bounded below complex of injectives, where the
 unit of `F` is an isomorphism. -/
 theorem isRightDerivedFunctor_successiveUnit_of_isIso_unit
-    (hG : IsIso G.rightDerivedFunctorPlusUnit) :
+    (hG : IsIso G.rightDerivedFunctorPlusUnith) :
     (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor
       (successiveRightDerivedFunctorPlusUnit F G) (HomotopyCategory.Plus.quasiIso A) :=
   isRightDerivedFunctor_successiveUnit_of_isIso_app_map F G

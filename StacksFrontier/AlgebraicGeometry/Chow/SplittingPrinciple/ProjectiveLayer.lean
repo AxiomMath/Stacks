@@ -121,7 +121,8 @@ theorem isTwistedPullbackQuotient_id (F : X.Modules) [F.IsQuasicoherent] (hF : F
   refine ⟨F, inferInstance, hF, 𝟙_ X.Modules,
     Stacks.SheafOfModules.isInvertible_unit _ _,
     (Scheme.Modules.pullbackId X).hom.app F ≫ (ρ_ F).inv, ?_⟩
-  infer_instance
+  exact epi_comp' (IsIso.epi_of_iso ((Scheme.Modules.pullbackId X).app F).hom)
+    (IsIso.epi_of_iso (ρ_ F).inv)
 
 /-- **Twisted quotients of pullbacks pull back**: if a twist of `ℱ` is a quotient of `g^*𝒢`, then
 a twist of `k^*ℱ` is a quotient of `(g ∘ k)^*𝒢`. -/
@@ -256,7 +257,7 @@ theorem IsTwistedPullbackQuotient.kernel_bundleTautological {g : Y ⟶ X} {F : Y
   have e₂ : Epi q₂ := by
     dsimp only [q₂]
     infer_instance
-  have e₃ : Epi q₃ := epi_comp' inferInstance (epi_comp' m2 inferInstance)
+  have e₃ : Epi q₃ := epi_comp' (IsIso.epi_of_iso _) (epi_comp' m2 inferInstance)
   exact ⟨Stacks.SymTwistChart.tensorObj G G,
     @AlgebraicGeometry.tensorSheaf_isQuasicoherent X.toRingedSpace G G hq hq,
     @AlgebraicGeometry.SheafOfModules.tensorSheaf_isFiniteType X.toRingedSpace G G hft' hft',

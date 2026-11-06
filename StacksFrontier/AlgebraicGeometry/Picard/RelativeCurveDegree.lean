@@ -228,7 +228,7 @@ theorem relativeDegreeComponent_eq_vadd_relativeDegreeZero {φ : T → ℤ}
   ext y
   constructor
   · intro hy
-    refine ⟨y - x, ?_, by abel⟩
+    refine ⟨y - x, ?_, add_sub_cancel x y⟩
     rw [SetLike.mem_coe, mem_relativeDegreeZero_iff, map_sub, hy, hx, sub_self]
   · rintro ⟨z, hz, rfl⟩
     simpa using add_mem_relativeDegreeComponent π hdim hx hz

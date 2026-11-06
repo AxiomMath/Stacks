@@ -240,8 +240,9 @@ support: an isomorphism is a monomorphism both ways, so Stacks 04KB applies twic
 theorem supportOfSheaf_eq_of_mapIso
     {F G : Sheaf (SmallEtale.topology B S hS X) AddCommGrpCat.{u}} (e : F ≅ G) :
     supportOfSheaf B S hS X F = supportOfSheaf B S hS X G :=
-  Set.eq_of_subset_of_subset (supportOfSheaf_subset_of_mono B S hS X hX e.hom)
-    (supportOfSheaf_subset_of_mono B S hS X hX e.inv)
+  Set.eq_of_subset_of_subset
+    (@supportOfSheaf_subset_of_mono B S hS X hX F G e.hom (IsSplitMono.mono (f := e.hom)))
+    (@supportOfSheaf_subset_of_mono B S hS X hX G F e.inv (IsSplitMono.mono (f := e.inv)))
 
 /-! ### Pseudo-coherence from a degree is monotone in that degree -/
 

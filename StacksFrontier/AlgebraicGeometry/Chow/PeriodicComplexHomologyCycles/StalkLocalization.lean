@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.Grp.Zero
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FlatShortExactSequence
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkLinearEquiv

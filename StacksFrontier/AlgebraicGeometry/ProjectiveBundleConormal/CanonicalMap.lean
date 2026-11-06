@@ -300,8 +300,8 @@ theorem pullback_kernelTautologicalMap_eq_zero :
     ((pullbackSectionNatIso E hσ).hom.naturality (kernel.ι Q.q)).symm
   have hqe' : (pullbackSectionNatIso E hσ).hom.app E ≫
       (Scheme.Modules.pullback σ).map (tautologicalMap E (symPieces E)) ≫ e.hom = Q.q := hqe
-  rw [← cancel_mono e.hom, zero_comp,
-    ← cancel_epi ((pullbackSectionNatIso E hσ).hom.app (kernel Q.q)), comp_zero]
+  rw [← e.cancel_iso_hom_right _ 0, zero_comp,
+    ← ((pullbackSectionNatIso E hσ).app (kernel Q.q)).cancel_iso_hom_left _ 0, comp_zero]
   calc (pullbackSectionNatIso E hσ).hom.app (kernel Q.q) ≫
         (Scheme.Modules.pullback σ).map (kernelTautologicalMap E Q) ≫ e.hom
       = ((pullbackSectionNatIso E hσ).hom.app (kernel Q.q) ≫
@@ -332,8 +332,7 @@ theorem pullback_kernelTautologicalMapTwisted_eq_zero :
       have : MonoidalPreadditive X.Modules :=
         _root_.SheafOfModules.monoidalPreadditiveSheafTensor X.toRingedSpace.sheaf
       rw [← hnat, hv, MonoidalPreadditive.zero_whiskerRight, comp_zero]
-    simpa using (cancel_mono (pullbackTensorComparison σ (tautologicalTwist E (symPieces E))
-      (inverseTautologicalTwist E))).mp (h2.trans zero_comp.symm)
+    exact (Preadditive.IsIso.comp_right_eq_zero _ _).mp h2
   rw [kernelTautologicalMapTwisted, Functor.map_comp, hwhisker, zero_comp]
 
 /-! ### Factoring the twisted map through the ideal sheaf of the section -/

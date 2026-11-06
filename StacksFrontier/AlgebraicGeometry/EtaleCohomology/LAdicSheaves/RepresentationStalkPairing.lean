@@ -153,8 +153,8 @@ theorem finiteLocallyConstantAbelianStalkCounit_germ_pairing
       (EtaleFundamentalGroup X.1 x)).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : EtaleFundamentalGroup X.1 x) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (U : (geometricPointFiber B X.1 X.2 s).Elements)
     (a : ((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).inverse.obj M).obj.obj.obj
       (op U.1))
@@ -306,9 +306,9 @@ theorem exists_toPresheafFiber_eq₂ (R : Type) [Ring R]
     preservesFilteredColimitsOfSize_shrink.{u, u + 1, u, u + 1} _
   obtain ⟨X₁, x₁, a₁, rfl⟩ := Φ.toPresheafFiber_jointly_surjective m
   obtain ⟨X₂, x₂, b₂, rfl⟩ := Φ.toPresheafFiber_jointly_surjective n
-  let W := IsCofiltered.min (C := Φ.fiber.Elements) ⟨X₁, x₁⟩ ⟨X₂, x₂⟩
-  let f₁ := IsCofiltered.minToLeft (C := Φ.fiber.Elements) ⟨X₁, x₁⟩ ⟨X₂, x₂⟩
-  let f₂ := IsCofiltered.minToRight (C := Φ.fiber.Elements) ⟨X₁, x₁⟩ ⟨X₂, x₂⟩
+  let W := IsCofiltered.min (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
+  let f₁ := IsCofiltered.minToLeft (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
+  let f₂ := IsCofiltered.minToRight (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
   refine ⟨W, P.map f₁.1.op a₁, Q.map f₂.1.op b₂, ?_, ?_⟩
   · refine (Φ.toPresheafFiber_w_apply f₁.1 W.2 P a₁).trans ?_
     rw [f₁.2]
@@ -421,7 +421,7 @@ theorem representationLevelStalkPairing_eq_zero_left
     have h2 := representationLevelStalkCounit_stalkPairing B X x ρ hρ t k 0 n
     rw [hm n, ← h0 n, h2, hn] at h1
     exact (congrArg (fun z => z.down 0) h1).symm
-  refine ULift.ext _ _ (funext fun i => ?_)
+  refine ULift.ext (funext fun i => ?_)
   simpa using key (Pi.single i 1)
 
 /-- A section of the second stalk vanishing against everything is zero. -/
@@ -447,7 +447,7 @@ theorem representationLevelStalkPairing_eq_zero_right
     have h2 := representationLevelStalkCounit_stalkPairing B X x ρ hρ t k m 0
     rw [hn m, ← h0 m, h2, hm] at h1
     exact (congrArg (fun z => z.down 0) h1).symm
-  refine ULift.ext _ _ (funext fun i => ?_)
+  refine ULift.ext (funext fun i => ?_)
   simpa using key (Pi.single i 1)
 
 /-- An injective bilinear map `M × N → T` of free `ℤ/n`-modules of ranks `r`, `r`, `1` is a perfect

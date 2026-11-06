@@ -622,7 +622,6 @@ theorem d₁'_apply {k : ℕ} (y : E.P₁ k) : E.d₁' k y = E.g₁₂ k y - E.g
 theorem ι₁_lTensor_d₀ {k : ℕ} (z : B ⊗[A] E.P₀ k) :
     E.ι₁ k ((E.d₀ k).lTensor B z) = E.d₁' k (E.ι₀ k z) := by
   induction z with
-  | zero => simp
   | add z z' h h' => rw [map_add, map_add, h, h', map_add, map_add]
   | tmul b x =>
     have hq : E.q₀₂ (E.tb b) = E.e₂ b := congr($(E.q₀₂_comp_tb) b)
@@ -641,7 +640,6 @@ theorem ι₁_lTensor_d₀ {k : ℕ} (z : B ⊗[A] E.P₀ k) :
 theorem ι₁_eq_contr {k : ℕ} (z : B ⊗[A] E.P₁ k) :
     E.ι₁ k z = E.contr₂ k ((E.d₁ k).lTensor B z) + E.d₁' k (E.contr₁ k z) := by
   induction z with
-  | zero => simp
   | add z z' h h' => rw [map_add, h, h', map_add, map_add, map_add, map_add]; abel
   | tmul b y =>
     have hq : E.q₀₂ (E.tb b) = E.e₂ b := congr($(E.q₀₂_comp_tb) b)
@@ -658,7 +656,6 @@ factor. -/
 theorem tb_smul_ι₀ {k : ℕ} (b : B) (z : B ⊗[A] E.P₀ k) :
     E.tb b • E.ι₀ k z = E.ι₀ k (b • z) := by
   induction z with
-  | zero => simp
   | add z z' h h' => rw [map_add, smul_add, h, h', smul_add, map_add]
   | tmul b' x => rw [ι₀_tmul, TensorProduct.smul_tmul', ι₀_tmul, smul_eq_mul, map_mul, mul_smul]
 
@@ -666,7 +663,6 @@ theorem tb_smul_ι₀ {k : ℕ} (b : B) (z : B ⊗[A] E.P₀ k) :
 theorem sb_smul_mem_range_ι₀ {k : ℕ} (b : B) (z : B ⊗[A] E.P₀ k) :
     E.sb b • E.ι₀ k z ∈ (E.ι₀ k).range := by
   induction z with
-  | zero => simp
   | add z z' h h' => rw [map_add, smul_add]; exact add_mem h h'
   | tmul b' x => exact ⟨b' ⊗ₜ (b • x), by rw [ι₀_tmul, ι₀_tmul, gs_smul, smul_comm]⟩
 
@@ -741,7 +737,6 @@ theorem mem_range_ε_iff {k : ℕ} (w : D') : w ∈ LinearMap.range (E.ε k) ↔
   constructor
   · rintro ⟨z, rfl⟩
     induction z with
-    | zero => simp
     | add z z' h h' => rw [map_add]; exact add_mem h h'
     | tmul d y =>
       rw [ε_tmul]
@@ -763,7 +758,6 @@ def act (k : ℕ) : B ⊗[A] C →ₐ[A] Module.End A (B ⊗[A] E.P₁ k) :=
     fun b c ↦ by
       refine LinearMap.ext fun z ↦ ?_
       induction z with
-      | zero => simp
       | add z z' h h' => rw [map_add, map_add, h, h']
       | tmul b' y =>
         change b • (b' ⊗ₜ (c • y)) = LinearMap.lTensor B (Algebra.lsmul A A (E.P₁ k) c)
@@ -806,7 +800,6 @@ theorem r₀_tmul {k : ℕ} (d : D') (y : ↥(E.I ^ k)) :
 theorem r₀_smul {k : ℕ} (d : D') (z : D' ⊗[C'] ↥(E.I ^ k)) :
     E.r₀ k (d • z) = E.act k (E.τ (E.σ d)) (E.r₀ k z) := by
   induction z with
-  | zero => simp
   | add z z' h h' => rw [smul_add, map_add, h, h', map_add, map_add]
   | tmul d' y => rw [TensorProduct.smul_tmul', r₀_tmul, r₀_tmul, smul_eq_mul, map_mul, map_mul,
       map_mul, Module.End.mul_apply]
@@ -872,7 +865,6 @@ theorem r_eq_zero {k : ℕ} (w : D') (hw : w ∈ E.K ^ (k + 1)) :
 theorem exists_r_eq_ι₁ {k : ℕ} (z : B ⊗[A] E.P₁ k) :
     ∃ w : ↥(E.K ^ k), Submodule.Quotient.mk w = E.ι₁ k z ∧ E.r k w = z := by
   induction z with
-  | zero => exact ⟨0, by simp, map_zero _⟩
   | add z z' h h' =>
     obtain ⟨w, h₁, h₂⟩ := h
     obtain ⟨w', h₁', h₂'⟩ := h'

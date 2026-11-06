@@ -141,7 +141,7 @@ instance preservesZeroMorphisms_uliftForPresentationFunctor :
     (uliftForPresentationFunctor.{u, v, r, m, t} (R := R)).PreservesZeroMorphisms where
   map_zero _ _ := by
     ext _ _
-    exact ULift.ext _ _ rfl
+    exact ULift.ext rfl
 
 end SheafOfModules
 

@@ -28,7 +28,7 @@ At the level of abelian categories the comparison is Mathlib's
 the equivalence `AlgebraicGeometry.Scheme.Modules.overEquiv` between the slice-site model and
 the open-subscheme model is restriction along `U.ι`. All three functors are exact, so that
 isomorphism is carried to derived categories by
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`.
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`.
 
 ## Main definitions
 
@@ -129,7 +129,7 @@ def derivedOverFunctorEquiv :
     (SheafOfModules.overFunctor.{u} X.ringCatSheaf U).mapDerivedCategory ⋙
         ((Scheme.Modules.overEquiv U).functor).mapDerivedCategory ≅
       (Scheme.Modules.restrictFunctor U.ι).mapDerivedCategory :=
-  @Functor.mapDerivedCategoryCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
+  @Functor.mapDerivedCategoryCompIsoOfCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
     (SheafOfModules.overFunctor_additive.{u, u, u, u} X.ringCatSheaf U)
     (inferInstanceAs
       (PreservesFiniteLimits (SheafOfModules.overFunctor.{u} X.ringCatSheaf U)))

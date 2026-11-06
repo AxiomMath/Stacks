@@ -451,7 +451,7 @@ def etaleCohomologyColimit_isColimit_of_affine_etaleVertex
       (coconeVertexIsoEtaleCohomology D c B hD hX hc 𝒢 i p).hom) :=
   IsColimit.ofIsoColimit
     (etaleCohomologyColimit_isColimit_of_affine D c B hD hX hc F 𝒢 ι hcolim i p E)
-    (Cocones.ext (coconeVertexIsoEtaleCohomology D c B hD hX hc 𝒢 i p) fun _ => rfl)
+    (Cocone.ext (coconeVertexIsoEtaleCohomology D c B hD hX hc 𝒢 i p) fun _ => rfl)
 
 /-- **Every group of the cohomology diagram of Stacks 09YQ is an etale cohomology group of a level
 scheme.** The value of the diagram at an arrow `A : j ⟶ i` is `H^p_etale(X_j, F_j')`, where `F_j'`

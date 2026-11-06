@@ -777,6 +777,14 @@ end KoszulGeneral
 
 section Koszul
 
+/-- `HasWeakSheafify J AddCommGrpCat.{u}` at the site's own universe, so that instance search does
+not leave a universe of a `max`-universe sheafification instance unsolved. -/
+abbrev hasWeakSheafifyAddCommGrpCat_koszulTransport {C : Type u} [SmallCategory C]
+    (J : GrothendieckTopology C) : HasWeakSheafify J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat_koszulTransport
+
 open Stacks.SheafOfModules.TopWedge Stacks.SheafOfModules.WedgeQuotient
 
 variable {S : Scheme.{u}} {E E' : S.Modules} [E.IsQuasicoherent] [E'.IsQuasicoherent]

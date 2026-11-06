@@ -424,7 +424,7 @@ theorem surjective_wholeSpaceSystem_level_map_of_abelian [IsAffine S.X] [IsAffin
     (hp : IsNilpotent (S.p : Γ(S.X, ⊤)))
     (G : Sheaf (smallTopology S) AddCommGrpCat.{u + 1})
     (hG : HasSurjectiveWholeSpaceTransitions G) (n e : ℕ) :
-    Function.Surjective (ConcreteCategory.hom (G.val.map
+    Function.Surjective (ConcreteCategory.hom (G.obj.map
       (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).map (homOfLE (Nat.le_succ e))).op)) :=
   hG _ _ _
     (isClosedImmersion_targetHom_inverse_map hp _

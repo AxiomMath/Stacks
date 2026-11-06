@@ -195,7 +195,7 @@ theorem baseCofreeOneInv_comp_map_cofreeOneπ (T : Cᵒᵖ) (g : T ⟶ W₀) :
       CechComplex.cofreeOneπ W₀.unop (cofreeOneBaseValue ψ W₀ J) g.unop ≫
         (baseCofreeOneFactor ψ hψ W₀ J g).hom := by
   rw [baseCofreeOneInv, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- `baseCofreeOneInv_comp_map_cofreeOneπ`, with the index of the projection given separately. -/
 @[reassoc]

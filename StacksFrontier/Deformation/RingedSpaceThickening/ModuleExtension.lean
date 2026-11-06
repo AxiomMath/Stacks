@@ -160,7 +160,7 @@ theorem idealAction_app_tmul
         ((idealSheafι i).val.app (op U)).hom a) • n := by
   classical
   let _mon : MonoidalCategory (PresheafOfModules.{u} (O X')) :=
-    PresheafOfModules.monoidalCategory
+    PresheafOfModulesOfCommRing.monoidalCategory
   unfold idealAction Stacks.IdealTorsion.idealTensorMultiplication
   set adj := PresheafOfModules.sheafificationAdjunction
     (R := Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)

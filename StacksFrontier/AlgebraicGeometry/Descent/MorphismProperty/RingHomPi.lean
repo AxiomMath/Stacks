@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Finiteness.FinitePresentationLocal
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.RingHom.FaithfullyFlat
 public import Mathlib.RingTheory.RingHom.FinitePresentation

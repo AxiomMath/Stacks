@@ -121,9 +121,11 @@ public instance (F : RightExactCoproductPreservingFunctor A B) : F.obj.Additive 
 /-- The ring action encoded by an additive functor out of the one-object category of `A`. -/
 public def ringAction (G : SingleObj A ⥤+ B) :
     A →+* End (G.obj.obj (SingleObj.star A)) :=
-  { G.obj.mapEnd (SingleObj.star A) with
-    map_zero' := G.obj.map_zero _ _
-    map_add' := fun _ _ => G.obj.map_add }
+  { toFun a := End.of (G.obj.map a)
+    map_one' := by ext; exact G.obj.map_id _
+    map_mul' a b := by ext; exact G.obj.map_comp b a
+    map_zero' := by ext; exact G.obj.map_zero _ _
+    map_add' _ _ := by ext; exact G.obj.map_add }
 
 /-- Restriction to the right regular module.  On objects this sends `F` to `F(A)`, equipped
 with the action whose value at `a` is `F` applied to left multiplication by `a`. -/
@@ -143,7 +145,7 @@ omit [HasCokernels B] in
 public lemma ringAction_functorToRingActions_obj
     (F : RightExactCoproductPreservingFunctor A B) (a : A) :
     ringAction A B ((functorToRingActions A B).obj F) a =
-      F.obj.map (regularModuleLeftMul A a) := rfl
+      End.of (F.obj.map (regularModuleLeftMul A a)) := rfl
 
 private lemma finitelyPresentedModule_le_isFinitelyPresentable (R : Type u) [Ring R] :
     finitelyPresentedModule.{u, u} R ≤
@@ -318,8 +320,7 @@ private def moduleActionToAdditiveFunctor :
     let F := SingleObj.functor K.action.toMonoidHom
     letI : F.Additive := ⟨by
       intro X Y f g
-      simp [F, SingleObj.functor, K.action.map_add]
-      rfl⟩
+      simp [F, SingleObj.functor, K.action.map_add]⟩
     exact AdditiveFunctor.of F
   map f := ObjectProperty.homMk (SingleObj.natTrans f.hom f.comm)
   map_id K := by

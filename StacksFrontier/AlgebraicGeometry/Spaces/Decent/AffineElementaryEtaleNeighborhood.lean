@@ -86,6 +86,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_affineElementaryEtale :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_affineElementaryEtale
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Residue-field points of a scheme of the site -/
 
 /-- The field-valued point of a represented presheaf given by the residue field at a point of
@@ -272,7 +283,8 @@ private theorem points_eq_of_isIso_pullback_snd
   obtain ⟨wa, hwa, hwac⟩ := exists_point_of_isPullback_presheaf B S hS hp a c ha
   obtain ⟨wb, hwb, hwbc⟩ := exists_point_of_isPullback_presheaf B S hS hp b c hb
   have hw : wa = wb :=
-    pointsMap_injective_of_mono B S hS (pullback.snd f g) (hwac.trans hwbc.symm)
+    @pointsMap_injective_of_mono B S hS _ _ (pullback.snd f g) (IsIso.mono_of_iso _) _ _
+      (hwac.trans hwbc.symm)
   rw [← hwa, ← hwb, hw]
 
 /-! ### The residue field of an elementary étale neighborhood -/

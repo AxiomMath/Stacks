@@ -199,13 +199,15 @@ theorem tensorProductLeftUnitor_eq
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     tensorProductLeftUnitor O hO M =
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (λ_ M.val) ≪≫ valIso O hO M
-        := rfl
+        := by
+  unfold tensorProductLeftUnitor valIso Stacks.SheafOfModules.sheafifyValIso
+  rfl
 
 theorem tensorProductRightUnitor_eq
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     tensorProductRightUnitor O hO M =
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (ρ_ M.val) ≪≫ valIso O hO M
-        := rfl
+        := by with_unfolding_all rfl
 
 theorem tensorProductIso_hom_eq
     {M M' N N' : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
@@ -340,6 +342,7 @@ noncomputable def assocVal
           P.val)).val) :=
   tensorProductAssociator O hO M N P
 
+set_option maxHeartbeats 1000000 in
 /-- The associativity constraint of the tensor product sheaf, in the form which avoids naming
 the inverse of the sheafified whiskered unit: it is the sheafified presheaf associator, read
 between the two sheafification comparisons. -/
@@ -473,6 +476,7 @@ theorem tensorObjIso_assoc_lhs_eq_val
                   P.val).hom) ≫
             (assocVal O hO M N P).hom := rfl
 
+set_option maxHeartbeats 1000000 in
 /-- **The associator of the monoidal structure on sheaves of modules is the associativity
 constraint of the tensor product sheaf**, read through `tensorObjIso`. -/
 theorem tensorObjIso_associativity

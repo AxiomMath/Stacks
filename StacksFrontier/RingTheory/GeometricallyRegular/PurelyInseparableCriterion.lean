@@ -133,7 +133,7 @@ private lemma h1Cotangent_delta_naturality (x : H1Cotangent S T) :
     | monomial n s =>
       simp [MvPolynomial.map_monomial, Generators.H1Cotangent.δAux_monomial,
         g, P, Q]
-    | add z w hz hw => simp only [map_add, hz, hw]
+    | add z w hz hw => simp only [RingHom.map_add, LinearMap.map_add, hz, hw]
   obtain ⟨x, hx⟩ := x
   obtain ⟨y, rfl⟩ := Extension.Cotangent.mk_surjective x
   show Generators.H1Cotangent.δ Q (Generators.self R A)
@@ -207,9 +207,9 @@ lemma isLocalRing_of_isIntegral_of_injective_comap
   refine congrArg PrimeSpectrum.asIdeal
     (hinj (a₁ := ⟨q, inferInstance⟩) (a₂ := ⟨m, inferInstance⟩) (PrimeSpectrum.ext ?_))
   exact (IsLocalRing.isMaximal_iff R).mp
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q) |>.trans
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q) |>.trans
     ((IsLocalRing.isMaximal_iff R).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)).symm
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m)).symm
 
 /-- The base change `A ⊗[k] L` of a local ring `A` along a purely inseparable field extension
 `L / k` is local. -/
@@ -529,7 +529,7 @@ private lemma h1Cotangent_delta_naturality_square
       congr 1
       rw [Finsupp.prod_mapDomain_index (fun _ ↦ pow_zero _) (fun _ _ _ ↦ pow_add _ _ _)]
       simp [Finsupp.prod, map_prod, map_pow]
-    | add z w hz hw => simp only [map_add, hz, hw]
+    | add z w hz hw => rw [map_add (MvPolynomial.rename (R := S) ⇑(algebraMap T B)) z w]; simp only [RingHom.map_add, LinearMap.map_add, hz, hw]
   obtain ⟨x, hx⟩ := x
   obtain ⟨y, rfl⟩ := Extension.Cotangent.mk_surjective x
   show Generators.H1Cotangent.δ Q (Generators.self R A)
@@ -734,7 +734,6 @@ private lemma eq_zero_of_mapBaseChange_eq_zero_of_regular_tensorProduct
     rw [heH, h1Cotangent_delta_naturality_square R k A L B]
     generalize H1Cotangent.δ R k L x = y
     induction y with
-    | zero => simp [c]
     | tmul a z => simp [c]
     | add x y hx hy => simpa [f, h, c, tmul_add] using congrArg₂ (· + ·) hx hy
   dsimp only
@@ -852,7 +851,6 @@ private lemma injective_mapBaseChange_of_first_root_baseChange
           (AlgebraTensorModule.cancelBaseChange A K T T Ω[A⁄R]) (1 ⊗ₜ[K] f x) := by
         intro x
         induction x with
-        | zero => simp [t, fT, f]
         | tmul a z => simp [t, fT, f, cA]
         | add x y hx hy => simpa [tmul_add] using congrArg₂ (· + ·) hx hy
       rw [hcomm, hu, tmul_zero, map_zero]

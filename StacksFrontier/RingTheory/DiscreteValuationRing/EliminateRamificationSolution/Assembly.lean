@@ -277,8 +277,8 @@ private theorem exists_finite_extension_isSolution_of_formallySmooth_algebraicEx
   let algCFC : Algebra CF C := b.toAlgebra
   have : IsScalarTower B CF C := IsScalarTower.of_algebraMap_eq fun x => (b.commutes x).symm
   have hiB : Algebra.IsIntegral CF C := Algebra.IsIntegral.tower_top (R := B)
-  have : m.asIdeal.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
-    (R := CF) m.asIdeal (hmq.symm ▸ hq)
+  have : m.asIdeal.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_under
+    (R := CF) m.asIdeal (show (m.asIdeal.comap b.toRingHom).IsMaximal from hmq.symm ▸ hq)
   have hbInj : Function.Injective b := by
     intro x y h
     apply Subtype.val_injective
@@ -447,7 +447,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
       have : IsLocalHom (algebraMap B (Localization.AtPrime q.asIdeal)) :=
         isLocalHom_localization_of_comap_eq_maximalIdeal B C q.asIdeal
           (IsLocalRing.eq_maximalIdeal
-            (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal))
+            (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := _) q.asIdeal))
       exact exists_isLocalization_fractionRing_atPrime_integralClosure B L T q.asIdeal
     have : IsFractionRing A' E := isFractionRing_integralClosure_of_tower A K E
     have : Finite P := Finite.of_injective
@@ -600,7 +600,7 @@ theorem exists_finite_extension_isSolution_of_eppTheorem
           (Localization.localRingHom (m.comap f₁) m f₁ rfl)
           (IsLocalRing.maximalIdeal (Localization.AtPrime m)) := by
       obtain ⟨q, hq⟩ : ∃ q : P, q.asIdeal = m.comap (algebraMap C C₁) :=
-        ⟨⟨m.comap (algebraMap C C₁), Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m⟩, rfl⟩
+        ⟨⟨m.comap (algebraMap C C₁), Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := _) m⟩, rfl⟩
       let : Algebra E (FractionRing (Localization.AtPrime q.asIdeal)) := hEM q
       have : IsScalarTower A' E (FractionRing (Localization.AtPrime q.asIdeal)) := hA'EM q
       obtain ⟨D, hD⟩ := hcommon q

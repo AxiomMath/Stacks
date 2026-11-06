@@ -119,7 +119,8 @@ theorem pullbackModules_map_eq_zero_iff_comp_unitStructureMap (f : RingedToposHo
     have h' : (f.toModulesHom.pullbackModules).map m ≫ pullbackUnitStructureMap f = 0 :=
       ((pullbackAdjPushforwardModules f).homEquiv _ _).injective
         ((RingedToposHom.homEquiv_map_comp_pullbackUnitStructureMap f m).trans (h.trans hz.symm))
-    exact (cancel_mono (pullbackUnitStructureMap f)).1 (h'.trans (zero_comp).symm)
+    exact ((asIso (pullbackUnitStructureMap f)).cancel_iso_hom_right _ _).1
+      (h'.trans (zero_comp).symm)
 
 end Generic
 
@@ -744,6 +745,8 @@ theorem siteThickeningIdealTildeIso_hom_comp :
   have htri := adj.left_triangle_components M
   have hη : (representedAffineAssociated B S hS U').map (inv (adj.unit.app M)) =
       adj.counit.app ((representedAffineAssociated B S hS U').obj M) := by
+    have : IsIso ((representedAffineAssociated B S hS U').map (adj.unit.app M)) :=
+      Functor.map_isIso _ _
     rw [Functor.map_inv, IsIso.inv_eq_of_hom_inv_id htri]
   have hn := adj.counit.naturality (siteThickeningIdealToTilde h hiso hfo)
   dsimp only [Functor.comp_map, Functor.id_map] at hn
@@ -1004,7 +1007,7 @@ theorem thickeningIdealHom_ext
           hiso hfo).idealOfThickening.I ⟶ X}
     (hφψ : ∀ a, thickeningIdealSection h hiso hfo a ≫ φ = thickeningIdealSection h hiso hfo a ≫ ψ) :
     φ = ψ := by
-  refine (cancel_epi (thickeningIdealTildeIso h hiso hfo hh).inv).1 ?_
+  refine ((thickeningIdealTildeIso h hiso hfo hh).cancel_iso_inv_left _ _).1 ?_
   have adj : schemeAssociatedFunctor U ⊣ representedAffineSections B S hS U :=
     representedAffineAssociatedAdjunction B S hS U
   refine hom_ext_of_adjunction_homFromSelfOfElement adj fun a ↦ ?_
@@ -1099,7 +1102,7 @@ theorem thickeningIdealSection_comp_thickeningIdealMap
     thickeningIdealSection h₁ hiso₁ hfo₁ a ≫
         thickeningIdealMap h₁ h₂ g hg hiso₁ hfo₁ hiso₂ hfo₂ hh₁ hh₂ =
       thickeningIdealSection h₂ hiso₂ hfo₂ ((thickeningKerMapOf h₁ h₂ g hg hh₁ hh₂).hom a) := by
-  refine (cancel_mono (thickeningIdealTildeIso h₂ hiso₂ hfo₂ hh₂).hom).1 ?_
+  refine ((thickeningIdealTildeIso h₂ hiso₂ hfo₂ hh₂).cancel_iso_hom_right _ _).1 ?_
   refine ((Category.assoc _ _ _).trans (congrArg (thickeningIdealSection h₁ hiso₁ hfo₁ a ≫ ·)
     (thickeningIdealMap_comp_tildeIso_hom h₁ h₂ g hg hiso₁ hfo₁ hiso₂ hfo₂ hh₁ hh₂))).trans ?_
   refine ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ (schemeAssociatedFunctor U).map

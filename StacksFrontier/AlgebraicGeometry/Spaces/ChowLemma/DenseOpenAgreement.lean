@@ -101,9 +101,11 @@ theorem schemeTheoreticImageSubfunctor_yoneda_eq_top_of_comp {V O D : BigFppfOve
   have he : (hpb.isoIsPullback V O hsq).hom ≫ v = pullback.snd (v ≫ j) j :=
     IsPullback.isoIsPullback_hom_snd V O hpb hsq
   have hiso : IsIso (yoneda.map (hpb.isoIsPullback V O hsq).hom) := inferInstance
+  have hepi : Epi (yoneda.map (hpb.isoIsPullback V O hsq).hom) := IsIso.epi_of_iso _
   have hrange : Subfunctor.range (yoneda.map (pullback.snd (v ≫ j) j)) =
       Subfunctor.range (yoneda.map v) := by
-    rw [← he, Functor.map_comp, Subfunctor.range_comp, Subfunctor.range_eq_top,
+    rw [← he, Functor.map_comp, Subfunctor.range_comp,
+      @Subfunctor.range_eq_top _ _ _ _ (yoneda.map (hpb.isoIsPullback V O hsq).hom) hepi,
       Subfunctor.image_top]
   have h089E := schemeTheoreticImageSubfunctor_pullback_snd_yoneda_of_flat B S hS j (v ≫ j)
   rw [hdense] at h089E

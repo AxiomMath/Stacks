@@ -139,10 +139,10 @@ theorem liftActionSheafTransport_map_add (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map m.op (θ + η) =
-      (liftActionSheafTransport C S hS Z hG q a).val.map m.op θ +
-        (liftActionSheafTransport C S hS Z hG q a).val.map m.op η := by
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map m.op (θ + η) =
+      (liftActionSheafTransport C S hS Z hG q a).obj.map m.op θ +
+        (liftActionSheafTransport C S hS Z hG q a).obj.map m.op η := by
   rw [liftActionSheafTransport_map_apply, liftActionSheafTransport_map_apply,
     liftActionSheafTransport_map_apply]
   exact map_add _ θ η
@@ -156,9 +156,9 @@ instance liftActionSheafTransport_addCommGroup_op (Z : ClosedSubspaces C S hS X'
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     (U : (SmallEtale C S hS X'.1)ᵒᵖ) :
-    AddCommGroup ((liftActionSheafTransport C S hS Z hG q a).val.obj U) :=
+    AddCommGroup ((liftActionSheafTransport C S hS Z hG q a).obj.obj U) :=
   inferInstanceAs (AddCommGroup
-    ((liftActionSheafTransport C S hS Z hG q a).val.obj (op U.unop)))
+    ((liftActionSheafTransport C S hS Z hG q a).obj.obj (op U.unop)))
 
 /-- **The sections of the transported acting sheaf form a group, written multiplicatively**:
 the abelian group of
@@ -168,9 +168,9 @@ instance liftActionSheafTransport_group_op (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     (U : (SmallEtale C S hS X'.1)ᵒᵖ) :
-    Group ((liftActionSheafTransport C S hS Z hG q a).val.obj U) :=
+    Group ((liftActionSheafTransport C S hS Z hG q a).obj.obj U) :=
   inferInstanceAs (Group (Multiplicative
-    ((liftActionSheafTransport C S hS Z hG q a).val.obj U)))
+    ((liftActionSheafTransport C S hS Z hG q a).obj.obj U)))
 
 /-- The multiplication of
 `AlgebraicGeometry.Space.liftActionSheafTransport_group_op` is the addition of the sections of
@@ -179,7 +179,7 @@ theorem liftActionSheafTransport_mul_eq_add (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U : (SmallEtale C S hS X'.1)ᵒᵖ}
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj U) :
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj U) :
     θ * η = θ + η :=
   rfl
 
@@ -189,7 +189,7 @@ theorem liftActionSheafTransport_one_eq_zero (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     (U : (SmallEtale C S hS X'.1)ᵒᵖ) :
-    (1 : (liftActionSheafTransport C S hS Z hG q a).val.obj U) = 0 :=
+    (1 : (liftActionSheafTransport C S hS Z hG q a).obj.obj U) = 0 :=
   rfl
 
 /-- `AlgebraicGeometry.Space.liftActionSheafTransport_map_add` at an arbitrary morphism of the
@@ -198,10 +198,10 @@ theorem liftActionSheafTransport_map_add_op (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U V : (SmallEtale C S hS X'.1)ᵒᵖ} (f : U ⟶ V)
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj U) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map f (θ + η) =
-      (liftActionSheafTransport C S hS Z hG q a).val.map f θ +
-        (liftActionSheafTransport C S hS Z hG q a).val.map f η :=
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj U) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map f (θ + η) =
+      (liftActionSheafTransport C S hS Z hG q a).obj.map f θ +
+        (liftActionSheafTransport C S hS Z hG q a).obj.map f η :=
   liftActionSheafTransport_map_add C S hS Z hG q a f.unop θ η
 
 /-- **The restriction maps of the transported acting sheaf are group homomorphisms** for
@@ -211,10 +211,10 @@ theorem liftActionSheafTransport_map_mul_op (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U V : (SmallEtale C S hS X'.1)ᵒᵖ} (f : U ⟶ V)
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj U) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map f (θ * η) =
-      (liftActionSheafTransport C S hS Z hG q a).val.map f θ *
-        (liftActionSheafTransport C S hS Z hG q a).val.map f η :=
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj U) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map f (θ * η) =
+      (liftActionSheafTransport C S hS Z hG q a).obj.map f θ *
+        (liftActionSheafTransport C S hS Z hG q a).obj.map f η :=
   liftActionSheafTransport_map_add_op C S hS Z hG q a f θ η
 
 /-- **The acting sheaf of [Stacks Project, Tag 061D] as a sheaf of groups on the small étale
@@ -230,7 +230,7 @@ def liftActionSheafOfGroups (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y) :
     SheafOfGroups.{u + 1} (SmallEtale.topology C S hS X'.1) where
-  presheaf := (liftActionSheafTransport C S hS Z hG q a).val
+  presheaf := (liftActionSheafTransport C S hS Z hG q a).obj
   isSheaf := (liftActionSheafTransport C S hS Z hG q a).property
   group U := liftActionSheafTransport_group_op C S hS Z hG q a U
   map_mul {_ _} f θ η := liftActionSheafTransport_map_mul_op C S hS Z hG q a f θ η
@@ -241,7 +241,7 @@ theorem liftActionSheafOfGroups_presheaf (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y) :
     (liftActionSheafOfGroups C S hS Z hG q a).presheaf =
-      (liftActionSheafTransport C S hS Z hG q a).val :=
+      (liftActionSheafTransport C S hS Z hG q a).obj :=
   rfl
 
 /-! ### The sheaf of lifts at the universe of the acting sheaf -/
@@ -265,7 +265,7 @@ def liftsSubfunctorULift (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
 are the universe lift of the sections of the sheaf of lifts. -/
 theorem liftsSubfunctorULift_obj (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
     (a : X.toFunctor ⟶ Y.1) (U' : SmallEtale C S hS X'.1) :
-    (liftsSubfunctorULift C S hS p q a).val.obj (op U') =
+    (liftsSubfunctorULift C S hS p q a).obj.obj (op U') =
       ULift.{u + 1} ((liftsSubfunctor C S hS p q a).toFunctor.obj (op U')) :=
   rfl
 
@@ -274,7 +274,7 @@ sheaf of lifts**, read on a lifted section. -/
 theorem liftsSubfunctorULift_map_up (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
     (a : X.toFunctor ⟶ Y.1) {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
     (β : (liftsSubfunctor C S hS p q a).toFunctor.obj (op U')) :
-    (liftsSubfunctorULift C S hS p q a).val.map m.op (ULift.up β) =
+    (liftsSubfunctorULift C S hS p q a).obj.map m.op (ULift.up β) =
       ULift.up ((liftsSubfunctor C S hS p q a).toFunctor.map m.op β) :=
   rfl
 
@@ -282,8 +282,8 @@ theorem liftsSubfunctorULift_map_up (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunct
 sheaf of lifts**, read on an arbitrary section through the inverse of the lift. -/
 theorem liftsSubfunctorULift_down_map (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
     (a : X.toFunctor ⟶ Y.1) {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (β : (liftsSubfunctorULift C S hS p q a).val.obj (op U')) :
-    ((liftsSubfunctorULift C S hS p q a).val.map m.op β).down =
+    (β : (liftsSubfunctorULift C S hS p q a).obj.obj (op U')) :
+    ((liftsSubfunctorULift C S hS p q a).obj.map m.op β).down =
       (liftsSubfunctor C S hS p q a).toFunctor.map m.op β.down :=
   rfl
 
@@ -291,7 +291,7 @@ theorem liftsSubfunctorULift_down_map (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfun
 are in bijection with the lifts over that chart. -/
 def liftsSubfunctorULiftEquiv (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
     (a : X.toFunctor ⟶ Y.1) (U' : SmallEtale C S hS X'.1) :
-    (liftsSubfunctorULift C S hS p q a).val.obj (op U') ≃
+    (liftsSubfunctorULift C S hS p q a).obj.obj (op U') ≃
       (liftsSubfunctor C S hS p q a).toFunctor.obj (op U') :=
   Equiv.ulift
 
@@ -300,9 +300,9 @@ of `AlgebraicGeometry.Space.liftsSubfunctorULiftEquiv` form a commuting square w
 restriction maps of the two presheaves. -/
 theorem liftsSubfunctorULiftEquiv_naturality (p : X' ⟶ Bb) (q : Y ⟶ Bb) {X : Subfunctor X'.1}
     (a : X.toFunctor ⟶ Y.1) {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (β : (liftsSubfunctorULift C S hS p q a).val.obj (op U')) :
+    (β : (liftsSubfunctorULift C S hS p q a).obj.obj (op U')) :
     liftsSubfunctorULiftEquiv C S hS p q a V'
-        ((liftsSubfunctorULift C S hS p q a).val.map m.op β) =
+        ((liftsSubfunctorULift C S hS p q a).obj.map m.op β) =
       (liftsSubfunctor C S hS p q a).toFunctor.map m.op
         (liftsSubfunctorULiftEquiv C S hS p q a U' β) :=
   rfl
@@ -328,7 +328,7 @@ def transportLiftsEquivULift (hG : IsThickening C S hS X' Z.1)
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart) :
     (liftActionSheafOfGroups C S hS Z hG q a).presheaf.obj (op U') ≃
-      (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U') :=
+      (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U') :=
   (P.transportLiftsEquiv C S hS hG hw hv).trans Equiv.ulift.symm
 
 /-- The bijection of
@@ -359,7 +359,7 @@ theorem existsUnique_translateTransportSection_up_eq (hG : IsThickening C S hS X
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart)
-    (β : (liftsSubfunctorULift C S hS p q a.hom).val.obj (op U')) :
+    (β : (liftsSubfunctorULift C S hS p q a.hom).obj.obj (op U')) :
     ∃! θ : (liftActionSheafOfGroups C S hS Z hG q a).presheaf.obj (op U'),
       ULift.up (P.translateTransportSection C S hS hG hw hv θ) = β :=
   ⟨(P.transportLiftsEquivULift C S hS hG hw hv).symm β,

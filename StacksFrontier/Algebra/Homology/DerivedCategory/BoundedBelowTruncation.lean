@@ -171,7 +171,8 @@ theorem isGE_three_of_epi_of_mono_homologyMap_mor₁ (T : Triangle (Plus C))
   have hz : IsZero ((DerivedCategory.homologyFunctor C i).obj (ι.mapTriangle.obj T).obj₃) := by
     rw [IsZero.iff_id_eq_zero]
     rw [← cancel_epi ((DerivedCategory.homologyFunctor C i).map (ι.mapTriangle.obj T).mor₂)]
-    simp [hβ]
+    rw [hβ]
+    simp
   exact hz
 
 /-- **The third vertex of a distinguished triangle of `D⁺(C)` whose first morphism is invertible

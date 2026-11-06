@@ -95,7 +95,8 @@ theorem isAffineHom_of_isIso_spaceReductionMap {Z Z' : AlgebraicSpaces B S hS} (
   refine ⟨⟨T, hT⟩, e.inv ≫ (pullback.fst i g).hom,
     yoneda.preimage (e.inv ≫ (pullback.snd i g).hom), ?_⟩
   refine (AlgebraicSpaces.isPullback_hom B S hS (IsPullback.of_hasPullback i g)).of_iso e
-    (Iso.refl _) (Iso.refl _) (Iso.refl _) (by simp) ?_ (by simp) (by simp; rfl)
+    (Iso.refl _) (Iso.refl _) (Iso.refl _) (by simp) ?_ (by simp)
+    (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]; rfl)
   simp only [Iso.refl_hom, Functor.map_preimage]
   exact (Category.comp_id (pullback.snd i g).hom).trans (e.hom_inv_id_assoc _).symm
 

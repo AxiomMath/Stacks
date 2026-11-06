@@ -143,7 +143,7 @@ variable {R : Type u} [Ring R]
 theorem exists_commSubring_of_pairwise_commute {R : Type u} [Ring R] (xs : List R)
     (hc : ∀ a ∈ xs, ∀ b ∈ xs, Commute a b) :
     ∃ (A : Type u) (_ : CommRing A) (ι : A →+* R) (xs' : List A), xs'.map ι = xs := by
-  have := Subring.isMulCommutative_closure (s := {a | a ∈ xs}) fun a ha b hb => (hc a ha b hb).eq
+  have := Subring.isMulCommutative_closure (s := {a | a ∈ xs}) fun a ha b hb _ => hc a ha b hb
   refine ⟨Subring.closure {a | a ∈ xs}, inferInstance, (Subring.closure {a | a ∈ xs}).subtype,
     xs.attach.map fun a => ⟨a.1, Subring.subset_closure a.2⟩, ?_⟩
   rw [List.map_map]

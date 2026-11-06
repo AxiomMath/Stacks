@@ -81,13 +81,13 @@ def endomorphismComplexRestrictScalarsMap (I : CochainComplex (ModuleCat.{max w 
     exact AddCommGrpCat.ofHom
       { toFun := fun z ↦
           ULift.up (z.down.map (ModuleCat.restrictScalars.{max w x} e.toRingHom))
-        map_zero' := ULift.ext _ _ (CochainComplex.HomComplex.Cochain.map_zero I I n
+        map_zero' := ULift.ext (CochainComplex.HomComplex.Cochain.map_zero I I n
           (ModuleCat.restrictScalars.{max w x} e.toRingHom))
-        map_add' := fun z z' ↦ ULift.ext _ _ (CochainComplex.HomComplex.Cochain.map_add
+        map_add' := fun z z' ↦ ULift.ext (CochainComplex.HomComplex.Cochain.map_add
           z.down z'.down (ModuleCat.restrictScalars.{max w x} e.toRingHom)) }
   · intro n m _
     ext z
-    exact ULift.ext _ _ (CochainComplex.HomComplex.δ_map n m z.down
+    exact ULift.ext (CochainComplex.HomComplex.δ_map n m z.down
       (ModuleCat.restrictScalars.{max w x} e.toRingHom))
 
 /-- Restriction of scalars along a ring *isomorphism* is an equivalence, hence bijective on
@@ -119,8 +119,8 @@ isomorphism. -/
 instance isIso_liftedRingIsoHom : IsIso (liftedRingIsoHom e) := by
   apply (ConcreteCategory.isIso_iff_bijective (liftedRingIsoHom e)).mpr
   refine ⟨fun a b hab ↦ ?_, fun b ↦ ⟨ULift.up (e b.down), ?_⟩⟩
-  · exact ULift.ext _ _ (e.symm.injective (congrArg ULift.down hab))
-  · exact ULift.ext _ _ (e.symm_apply_apply b.down)
+  · exact ULift.ext (e.symm.injective (congrArg ULift.down hab))
+  · exact ULift.ext (e.symm_apply_apply b.down)
 
 /-- Restriction of scalars along a ring isomorphism carries the scalar homothety to the scalar
 homothety: both composites send a scalar `a` to the cochain `a • 𝟙`, the two scalar actions

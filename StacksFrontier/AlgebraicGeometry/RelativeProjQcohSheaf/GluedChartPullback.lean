@@ -221,7 +221,8 @@ public theorem ofPullbackChart_injective {W Y Z : Scheme.{u}} {p : W ⟶ Y} [IsO
     {φ₁ φ₂ : (Scheme.Modules.pullback p).obj N ⟶ (Scheme.Modules.pullback p').obj M}
     (h : ofPullbackChart φ₁ = ofPullbackChart φ₂) : φ₁ = φ₂ := by
   rw [ofPullbackChart, ofPullbackChart] at h
-  exact (cancel_mono _).mp ((cancel_epi _).mp h)
+  exact (cancel_mono ((Scheme.Modules.restrictFunctorIsoPullback p').app M).inv).mp
+    ((cancel_epi ((Scheme.Modules.restrictFunctorIsoPullback p).app N).hom).mp h)
 
 
 end Stacks.AlgebraicGeometry.ModuleHomGlue

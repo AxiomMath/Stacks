@@ -375,7 +375,7 @@ public theorem fracTerm_comp_π (t : CechCochains.OrdIndex (I := Fin (n + 1)) n)
     fracTerm f F ≫
         Pi.π (fun u : CechCochains.OrdIndex (I := Fin (n + 1)) n => restrictedModule f F n u) t =
       fracFactor f F t :=
-  Pi.lift_π _ t
+  Pi.lift_comp_π _ t
 
 /-! ### The fraction class in degree-`c` cohomology -/
 
@@ -414,7 +414,7 @@ private theorem exists_descent_succ {m : ℕ} (g : Fin (m + 2) → Γ(X, ⊤)) (
         (Pi.π (fun u : CechCochains.OrdIndex (I := Fin (m + 2)) m => restrictedModule g G m u)
             (faceIndex j) ≫
           canR g G (faceIndex j) (topIndex (m + 1)) (omitLe g (topIndex (m + 1)) j)) :=
-    Pi.lift_π _ _
+    Pi.lift_comp_π _ _
   have hterm : ∀ j : Fin (m + 2),
       (Pi.lift fun s => (if faceIndex i = s then ((-1 : ℤ) ^ (i : ℕ)) else 0) •
           divFactor g G s) ≫ (((-1 : ℤ) ^ (j : ℕ)) •
@@ -425,7 +425,7 @@ private theorem exists_descent_succ {m : ℕ} (g : Fin (m + 2) → Γ(X, ⊤)) (
         (divFactor g G (faceIndex j) ≫
           canR g G (faceIndex j) (topIndex (m + 1)) (omitLe g (topIndex (m + 1)) j))) := by
     intro j
-    rw [Preadditive.comp_zsmul, ← Category.assoc, Pi.lift_π, Preadditive.zsmul_comp]
+    rw [Preadditive.comp_zsmul, ← Category.assoc, Pi.lift_comp_π, Preadditive.zsmul_comp]
   rw [Category.assoc, fracTerm_comp_π, Category.assoc, hsum, Preadditive.comp_sum]
   simp only [hterm]
   rw [Finset.sum_eq_single_of_mem i (Finset.mem_univ i) ?_, ite_eq_left rfl, sign_smul_sign,
@@ -450,7 +450,7 @@ private theorem exists_descent (i : Fin (n + 1)) :
       have key : smulHom (f i) F ≫ fracTerm f F = difZero f F := by
         refine Limits.Pi.hom_ext _ _ fun t => ?_
         rw [Category.assoc, fracTerm_comp_π,
-          show difZero f F ≫ Pi.π _ t = augR f F 0 t from Pi.lift_π _ t,
+          show difZero f F ≫ Pi.π _ t = augR f F 0 t from Pi.lift_comp_π _ t,
           ← fracFactor_comp_smulHom f F t, hi]
         exact smulHom_naturality _ _
       exact ⟨𝟙 F, key.trans (((Category.id_comp (difZero f F)).symm).trans

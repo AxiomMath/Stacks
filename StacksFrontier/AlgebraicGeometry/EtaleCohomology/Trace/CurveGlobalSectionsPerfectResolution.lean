@@ -149,6 +149,7 @@ def globalSectionsForgetIso :
 
 variable [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) r})]
 
+set_option maxHeartbeats 1600000 in
 /-- **The cohomology of the global sections of an injective resolution embeds into sheaf
 cohomology.** For an injective resolution `G[0] ⟶ I` of a sheaf of `Λ`-modules by a complex
 concentrated in degrees `≥ 0`, `Hⁿ⁺¹(Γ(Y, I))` embeds into `Hⁿ⁺¹(Y, G)` of the underlying abelian

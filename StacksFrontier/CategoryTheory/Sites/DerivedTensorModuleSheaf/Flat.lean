@@ -154,9 +154,9 @@ theorem sheafifiedFree_biprod {F G : Sheaf J (ModuleCat.{w} Λ)}
 /-- Every sheaf of `Λ`-modules is a quotient of a sheafified presheaf of free modules. -/
 theorem exists_epi_sheafifiedFree (F : Sheaf J (ModuleCat.{w} Λ)) :
     ∃ (G : Sheaf J (ModuleCat.{w} Λ)) (_ : sheafifiedFree J Λ G) (p : G ⟶ F), Epi p := by
-  let S : Cᵒᵖ ⥤ Type w := F.val ⋙ forget (ModuleCat.{w} Λ)
-  let ε : S ⋙ ModuleCat.free Λ ⟶ F.val :=
-    Functor.whiskerLeft F.val (ModuleCat.adj Λ).counit
+  let S : Cᵒᵖ ⥤ Type w := F.obj ⋙ forget (ModuleCat.{w} Λ)
+  let ε : S ⋙ ModuleCat.free Λ ⟶ F.obj :=
+    Functor.whiskerLeft F.obj (ModuleCat.adj Λ).counit
   have : ∀ X, Epi (ε.app X) := fun X =>
     (ModuleCat.epi_iff_surjective _).2 (fun x => ⟨ModuleCat.freeMk x, by
       simp [ε, ModuleCat.adj]⟩)

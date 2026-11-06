@@ -446,7 +446,6 @@ public lemma transitionGen_smul (D : DescentData.{u, v, w} R A)
     transitionGen D n i j ((a ⊗ₜ[R] (1 : A) : A ⊗[R] A) • w) =
       cechLeg R A n i (ULift.up a) • transitionGen D n i j w := by
   induction w with
-  | zero => simp
   | add p q hp hq => rw [smul_add, map_add, map_add, hp, hq, smul_add]
   | tmul c x =>
     have h1 : restrictedScalarAction R A D.module 1 x = x := one_smul A x
@@ -460,7 +459,6 @@ private theorem transitionGen_base_smul (D : DescentData.{u, v, w} R A)
     transitionGen D n i j (r • z) =
       cechHead R A n (ULift.up r) • transitionGen D n i j z := by
   induction z with
-  | zero => simp
   | add x y hx hy => simp [hx, hy, smul_add]
   | tmul a x =>
       rw [TensorProduct.smul_tmul', Algebra.smul_def, transitionGen_tmul,
@@ -536,7 +534,6 @@ private theorem transitionGen₂_rightComm_one
           (z ⊗ₜ[R] (1 : A))) =
       transitionGen D n i k z := by
   induction z with
-  | zero => simp [transitionGen₂]
   | add z₁ z₂ hz₁ hz₂ =>
       simp only [TensorProduct.add_tmul, LinearEquiv.map_add,
         AddMonoidHom.map_add, hz₁, hz₂]
@@ -552,7 +549,6 @@ private theorem transitionGen_map
       transitionGen E n i j
         ((restrictHom R A g.hom).lTensor A z) := by
   induction z with
-  | zero => simp
   | add p q hp hq => simp [hp, hq]
   | tmul a x =>
       simp only [transitionGen_tmul, LinearMap.lTensor_tmul]
@@ -595,7 +591,6 @@ private theorem tensorComm_smul_left
       ((1 : A) ⊗ₜ[R] a : A ⊗[R] A) •
         (TensorProduct.comm R (restrictModule R A N) A z) := by
   induction z with
-  | zero => simp
   | add z₁ z₂ hz₁ hz₂ => simp [hz₁, hz₂]
   | tmul x b =>
       simp [sourceTensor_smul_tmul, targetTensor_smul_tmul]
@@ -609,7 +604,6 @@ private theorem tensorComm_smul_right
       (a ⊗ₜ[R] (1 : A) : A ⊗[R] A) •
         (TensorProduct.comm R (restrictModule R A N) A z) := by
   induction z with
-  | zero => simp
   | add z₁ z₂ hz₁ hz₂ => simp [hz₁, hz₂]
   | tmul x b =>
       simp [sourceTensor_smul_tmul, targetTensor_smul_tmul]
@@ -621,7 +615,6 @@ private theorem transitionGen_smul_second
     transitionGen D n i i (((1 : A) ⊗ₜ[R] a : A ⊗[R] A) • z) =
       cechLeg R A n i (ULift.up a) • transitionGen D n i i z := by
   induction z with
-  | zero => simp
   | add z₁ z₂ hz₁ hz₂ => simp [hz₁, hz₂, smul_add]
   | tmul b x =>
       simp only [targetTensor_smul_tmul, transitionGen_tmul]
@@ -722,7 +715,6 @@ private theorem transitionGen₂_transition12
         ((transition12 R A D.module D.transition) (z ⊗ₜ[R] (1 : A))) =
       (cechTransitionMap D n j k).hom (transitionGen D n i j z) := by
   induction z with
-  | zero => simp [transition12, transitionGen₂]
   | add z₁ z₂ hz₁ hz₂ =>
       rw [TensorProduct.add_tmul, map_add, map_add, hz₁, hz₂, map_add]
       exact ((cechTransitionMap D n j k).hom.map_add _ _).symm
@@ -818,7 +810,6 @@ private theorem cechTransitionMapReverse_transitionGen
         ((TensorProduct.comm R (restrictModule R A D.module) A)
           (D.transition.symm z)) := by
   induction z with
-  | zero => simp
   | add z₁ z₂ hz₁ hz₂ => simp [hz₁, hz₂]
   | tmul a x =>
       have h : (a ⊗ₜ[R] (x : restrictModule R A D.module)) =
@@ -939,7 +930,6 @@ private theorem transitionGen_natural (D : DescentData.{u, v, w} R A)
     (cechSemilinearMap R A D.module β j).hom (transitionGen D n i j z) =
       transitionGen D m (β.toOrderHom i) (β.toOrderHom j) z := by
   induction z with
-  | zero => exact (map_zero _).trans (map_zero _).symm
   | add z₁ z₂ hz₁ hz₂ =>
       rw [map_add (transitionGen D n i j) z₁ z₂, (cechSemilinearMap R A D.module β j).hom.map_add,
         hz₁, hz₂]

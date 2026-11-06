@@ -147,12 +147,12 @@ restriction are those of the given derivation; the vanishing on the new base is 
 The restriction is `PresheafOfModules.pushforward` along the identity comparison of the
 coefficient rings, which is the shape in which a transport along an equivalence of sites that
 matches the two structure sheaves appears. -/
-noncomputable def Derivation.pushforwardOfId (d : M.Derivation' φ₀)
+noncomputable def Derivation.pushforwardOfId (d : PresheafOfModulesOfCommRing.Derivation' M φ₀)
     {Base : Cᵒᵖ ⥤ CommRingCat.{u}} (φ : Base ⟶ F.op ⋙ R)
     (hφ : ∀ (X : Cᵒᵖ) (a : Base.obj X),
       d.d (X := F.op.obj X) ((φ.app X).hom a) = 0) :
-    ((PresheafOfModules.pushforward
-        (𝟙 ((F.op ⋙ R) ⋙ forget₂ CommRingCat.{u} RingCat.{u}))).obj M).Derivation' φ where
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.pushforward
+        (𝟙 ((F.op ⋙ R) ⋙ forget₂ CommRingCat.{u} RingCat.{u}))).obj M) φ where
   d {X} := d.d (X := F.op.obj X)
   d_mul {_X} a b := d.d_mul a b
   d_map {_X _Y} g x := d.d_map (F.op.map g) x
@@ -436,7 +436,7 @@ theorem representedAssociatedDerivation_structureSharpInverseImage
 /-- **The canonical derivation `d^a` of Stacks 04CS is a `ψ`-derivation of the structure sheaf
 of the small étale site of the represented algebraic space.** -/
 noncomputable def representedUniversalDerivation :
-    (representedRelativeDifferentials B S hS α).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (representedRelativeDifferentials B S hS α).val
       (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom :=
   PresheafOfModules.Derivation.pushforwardOfId
     (representedSmallEtaleEquivalence B S hS U').functor
@@ -715,7 +715,7 @@ This is the form in which the scheme-level development of Stacks 04CS consumes a
 `AlgebraicGeometry.SmallEtale.differentialsComparison`, are unchanged, so the two readings are
 interchangeable wherever the vanishing condition over `ψ♯` is not itself used. -/
 noncomputable def restrictedUniversalIntDerivation :
-    PresheafOfModules.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
       (R := (AlgebraicGeometry.SmallEtale.commRingStructureSheaf (associatedBigEtaleSite B)
         ((BigFppfOver.toScheme B S hS).obj U'') U''.left.property).obj)
       ((representedModuleRestriction B S hS U'').obj
@@ -786,7 +786,7 @@ theorem representedDifferentialsComparison_representedUniversalDerivation
       (sheafOfDifferentials B S hS (schemeSpaceMap β)).val.map
         ((representedSmallEtaleEquivalence B S hS U'').unit.app Z.unop).op z)
     (Eq.trans
-      (PresheafOfModules.Derivation.congr_d
+      (PresheafOfModulesOfCommRing.Derivation.congr_d
         (X := op ((representedSmallEtaleEquivalence B S hS U'').functor.obj Z.unop))
         (AlgebraicGeometry.SmallEtale.associatedDerivation_postcomp_differentialsComparison
           (associatedBigEtaleSite B) U''.left.property
@@ -826,8 +826,8 @@ instance faithful_representedModulePushforward (C : BigFppfOver B S hS) :
 private theorem derivation_ext_of_d_eq {C : Type u₁} [Category.{v₁} C] {D : Type u₂}
     [Category.{v₂} D] {F : C ⥤ D} {R : Dᵒᵖ ⥤ CommRingCat.{u}} {S₀ : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)} {φ : S₀ ⟶ F.op ⋙ R}
-    {d d' : M.Derivation φ} (h : ∀ (Z : Dᵒᵖ) (x : R.obj Z), d.d x = d'.d x) : d = d' :=
-  PresheafOfModules.Derivation.ext (funext fun Z ↦ AddMonoidHom.ext (h Z))
+    {d d' : PresheafOfModulesOfCommRing.Derivation M φ} (h : ∀ (Z : Dᵒᵖ) (x : R.obj Z), d.d x = d'.d x) : d = d' :=
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun Z ↦ AddMonoidHom.ext (h Z))
 
 /-- **A morphism out of `(Ω_{U/V})^a` is determined by its values on the canonical differentials
 over the objects of the small étale site coming from charts of the represented algebraic
@@ -947,7 +947,7 @@ theorem isIso_representedDifferentialsComparison :
       (x : (structureSetSheaf B S hS (schemeSpace U'')).obj.obj Z),
       c.val.app Z ((universalDerivation B S hS (schemeSpaceMap β)).d x) =
         (representedUniversalDerivation B S hS β).d x :=
-    fun _Z x ↦ PresheafOfModules.Derivation.congr_d hc x
+    fun _Z x ↦ PresheafOfModulesOfCommRing.Derivation.congr_d hc x
   refine ⟨c, ?_, ?_⟩
   · refine eq_of_representedUniversalDerivation B S hS β _ _ (fun Z x ↦ ?_)
     refine Eq.trans (congrArg (c.val.app (op Z))

@@ -86,7 +86,8 @@ theorem exists_hasSemistableReduction_of_hasSemistableReductionAtMaximalIdeals
     inferInstance, inferInstance, ⟨fun r hr => ?_⟩, h 𝔪 A⟩
   by_contra hr'
   have hmem : r ∈ Ideal.comap (algebraMap R R') 𝔪 := by
-    have hmax := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) 𝔪
+    have hmax : (Ideal.comap (algebraMap R R') 𝔪).IsMaximal :=
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) 𝔪
     rw [IsLocalRing.eq_maximalIdeal hmax]
     exact (IsLocalRing.mem_maximalIdeal r).mpr hr'
   rw [IsScalarTower.algebraMap_apply R R' A,

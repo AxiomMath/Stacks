@@ -97,14 +97,14 @@ The escape is necessary: a sheaf has exactly one section over an object covered 
 sieve, so over such an object every group element fixes every morphism into `W`, and freeness
 without the escape would force `G` to be trivial. -/
 def ActsFreelyOnObject (act : G →* Aut W) (J : GrothendieckTopology C) : Prop :=
-  ∀ ⦃V : C⦄ (φ : V ⟶ W) (g : G), φ ≫ (act g).hom = φ → (⊥ : Sieve V) ∈ J V ∨ g = 1
+  ∀ ⦃V : C⦄ (φ : V ⟶ W) (g : G), φ ≫ (act g).asIso.hom = φ → (⊥ : Sieve V) ∈ J V ∨ g = 1
 
 /-! ### The presheaf of orbits -/
 
 /-- Two morphisms into `W` lie in the same orbit when a group element carries the first to the
 second. -/
 def actOrbitSetoid (act : G →* Aut W) (V : C) : Setoid (V ⟶ W) where
-  r φ ψ := ∃ g : G, φ ≫ (act g).hom = ψ
+  r φ ψ := ∃ g : G, φ ≫ (act g).asIso.hom = ψ
   iseqv :=
     { refl := fun φ => ⟨1, by rw [act_hom_one, Category.comp_id]⟩
       symm := by
@@ -146,7 +146,7 @@ def actOrbitClass (act : G →* Aut W) {V : C} (φ : V ⟶ W) :
 /-- Two morphisms into `W` have the same orbit if and only if a group element carries the first to
 the second. -/
 theorem actOrbitClass_eq_iff (act : G →* Aut W) {V : C} (φ ψ : V ⟶ W) :
-    actOrbitClass act φ = actOrbitClass act ψ ↔ ∃ g : G, φ ≫ (act g).hom = ψ :=
+    actOrbitClass act φ = actOrbitClass act ψ ↔ ∃ g : G, φ ≫ (act g).asIso.hom = ψ :=
   ⟨fun h => _root_.Quotient.exact h, fun h => _root_.Quotient.sound h⟩
 
 /-- Restricting the orbit of `φ` along `f` gives the orbit of `f ≫ φ`. -/
@@ -175,7 +175,7 @@ theorem actOrbitProjection_app (act : G →* Aut W) {V : C} (φ : V ⟶ W) :
 /-- The morphism from the presheaf of orbits of `W` to `Hom(-, T)` induced by a morphism
 `q : W ⟶ T` invariant under the action. -/
 def actOrbitDesc (act : G →* Aut W) {T : C} (q : W ⟶ T)
-    (hq : ∀ g : G, (act g).hom ≫ q = q) : actOrbitPresheaf W act ⟶ yoneda.obj T where
+    (hq : ∀ g : G, (act g).asIso.hom ≫ q = q) : actOrbitPresheaf W act ⟶ yoneda.obj T where
   app _ := ↾(_root_.Quotient.lift (fun φ => φ ≫ q) (by
     rintro φ ψ ⟨g, rfl⟩
     rw [Category.assoc, hq]))
@@ -188,7 +188,7 @@ def actOrbitDesc (act : G →* Aut W) {T : C} (q : W ⟶ T)
 /-- The morphism induced by an invariant `q` sends the orbit of `φ` to `φ ≫ q`. -/
 @[simp]
 theorem actOrbitDesc_actOrbitClass (act : G →* Aut W) {T : C} (q : W ⟶ T)
-    (hq : ∀ g : G, (act g).hom ≫ q = q) {V : C} (φ : V ⟶ W) :
+    (hq : ∀ g : G, (act g).asIso.hom ≫ q = q) {V : C} (φ : V ⟶ W) :
     (actOrbitDesc act q hq).app (op V) (actOrbitClass act φ) = φ ≫ q :=
   rfl
 
@@ -204,7 +204,7 @@ that its kernel pair is the orbit relation. -/
 structure IsOrbitQuotient (act : G →* Aut W) (J : GrothendieckTopology C) {T : C} (q : W ⟶ T) :
     Prop where
   /-- The morphism is invariant under the action. -/
-  comp_eq (g : G) : (act g).hom ≫ q = q
+  comp_eq (g : G) : (act g).asIso.hom ≫ q = q
   /-- Every morphism into `T` lifts to `W`, locally on the source. -/
   isLocallySurjective : Presheaf.IsLocallySurjective J (actOrbitDesc act q comp_eq)
   /-- Two morphisms into `W` with the same composite to `T` are in the same orbit, locally on
@@ -221,7 +221,7 @@ variable {act : G →* Aut W} {J : GrothendieckTopology C} [HasWeakSheafify J (T
 /-- **If the quotient sheaf `W/G` is the sheaf represented by `T` then `q` exhibits `T` as the
 quotient `W/G`.** The hypothesis is that sheafification carries the comparison morphism from the
 presheaf of orbits to an isomorphism, which is exactly the identification of `W/G` with `T`. -/
-theorem isOrbitQuotient_of_isIso_presheafToSheaf_map (hq : ∀ g : G, (act g).hom ≫ q = q)
+theorem isOrbitQuotient_of_isIso_presheafToSheaf_map (hq : ∀ g : G, (act g).asIso.hom ≫ q = q)
     (h : IsIso ((presheafToSheaf J (Type v)).map (actOrbitDesc act q hq))) :
     IsOrbitQuotient act J q where
   comp_eq := hq
@@ -286,12 +286,12 @@ pieces. -/
 theorem exists_sieve_existsUnique_comp_act (hfree : ActsFreelyOnObject act J) {V : C}
     (φ ψ : V ⟶ W) :
     ∃ S : Sieve V, S ∈ J V ∧ ∀ ⦃V' : C⦄ (f : V' ⟶ V), S f → (⊥ : Sieve V') ∉ J V' →
-      ∃! g : G, f ≫ φ ≫ (act g).hom = f ≫ ψ := by
+      ∃! g : G, f ≫ φ ≫ (act g).asIso.hom = f ≫ ψ := by
   refine ⟨translationSieve act φ ψ, hq.translationSieve_mem hT φ ψ, ?_⟩
   rintro V' f ⟨g, hg⟩ hV'
   refine ⟨g, hg.symm, fun g' hg' => ?_⟩
   refine (hq.isTorsorObject hT hfree).injective_comp_act (f ≫ φ) hV' ?_
-  change (f ≫ φ) ≫ (act g').hom = (f ≫ φ) ≫ (act g).hom
+  change (f ≫ φ) ≫ (act g').asIso.hom = (f ≫ φ) ≫ (act g).asIso.hom
   rw [Category.assoc, Category.assoc, hg', ← hg]
 
 end IsOrbitQuotient

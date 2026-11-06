@@ -97,6 +97,17 @@ private theorem isClosedMap_of_comp_of_surjective {α β γ : Type*} [Topologica
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_affineLineInvolution :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_affineLineInvolution
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_affineLineInvolution B S hS).has_limit _
+
 /-! ### Universal closedness along a surjection -/
 
 section Descent

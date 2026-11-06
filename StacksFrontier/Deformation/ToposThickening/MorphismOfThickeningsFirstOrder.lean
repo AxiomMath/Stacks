@@ -317,6 +317,7 @@ noncomputable def firstOrderSurjection :
       ((pullbackModules D.f'.toModulesHom).obj D.idealJ.I) ≫
     (pushforwardModules D.i).map (D.pullbackComparison.app D.idealJ.I).hom
 
+set_option maxRecDepth 4000 in
 /-- **Stacks 08M7.** When both thickenings are first order the canonical reduction map
 `(f')^*J ⟶ f^*J` is surjective: the unit of `i^* ⊣ i_*` is an epimorphism at every module, and
 the second factor is the direct image of an isomorphism.
@@ -328,12 +329,12 @@ section universe, as the closed immersion carried by \
 AlgebraicGeometry.ClosedRingedImmersion requires, the two lower ones staying independent"]
 theorem firstOrderSurjection_epi (hi : IsFirstOrderThickening D.i)
     (_ht : IsFirstOrderThickening D.t) : Epi D.firstOrderSurjection := by
-  have : Epi ((pullbackAdjPushforwardModules D.i).unit.app
+  have h₁ : Epi ((pullbackAdjPushforwardModules D.i).unit.app
       ((pullbackModules D.f'.toModulesHom).obj D.idealJ.I)) :=
     hi.isThickening.epi_unit_app _
-  have : IsIso ((pushforwardModules D.i).map (D.pullbackComparison.app D.idealJ.I).hom) :=
+  have h₂ : IsIso ((pushforwardModules D.i).map (D.pullbackComparison.app D.idealJ.I).hom) :=
     ((pushforwardModules D.i).mapIso (D.pullbackComparison.app D.idealJ.I)).isIso_hom
-  exact epi_comp _ _
+  exact epi_comp' h₁ (@IsIso.epi_of_iso _ _ _ _ _ h₂)
 
 /-- **Stacks 08M7.** When both thickenings are first order the induced map of defining ideals
 `(f')^*J ⟶ I` factors uniquely through the canonical reduction `(f')^*J ⟶ f^*J`, giving the

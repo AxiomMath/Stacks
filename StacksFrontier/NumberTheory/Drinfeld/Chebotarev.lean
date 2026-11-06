@@ -119,11 +119,11 @@ omit [ConnectedSpace ↥X] in
 /-- The `m`-fold composite of the underlying morphism of an automorphism in `FiniteEtaleOver X`
 is the underlying morphism of its `m`-th power. -/
 theorem compPow_left_eq_pow_left (Z : FiniteEtaleOver X) (σ : Aut Z) (m : ℕ) :
-    compPow σ.hom.left m = (σ ^ m).hom.left := by
+    compPow σ.asIso.hom.left m = (σ ^ m).asIso.hom.left := by
   induction m with
   | zero => rfl
   | succ m ih =>
-    rw [pow_succ, Aut.Aut_mul_def, compPow, ih]
+    rw [pow_succ, Aut.mul_asIso, compPow, ih]
     rfl
 
 /-- **Chebotarev density, coset form.** Let `X` be a smooth, proper, geometrically irreducible
@@ -153,7 +153,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   set F := finiteEtaleFiberFintypeFunctor X base
   obtain ⟨σ, hσ⟩ := MulAction.exists_smul_eq (Aut Z) (show F.obj Z from z₀)
     (show F.obj Z from g • z₀)
-  have hσ' : (finiteEtaleFiberFunctor base).map σ.hom z₀ = g • z₀ := hσ
+  have hσ' : (finiteEtaleFiberFunctor base).map σ.asIso.hom z₀ = g • z₀ := hσ
   have : Finite ((finiteEtaleFiberFunctor base).obj Z) :=
     forall_finite_finiteEtaleFiberFunctor_obj base Z
   have : Finite (Aut Z) := Finite.of_injective _
@@ -161,12 +161,12 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   set n := orderOf σ
   have hn : 0 < n := orderOf_pos σ
   let σs : Z.left ≅ Z.left :=
-    { hom := σ.hom.left
-      inv := σ.inv.left
-      hom_inv_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.hom_inv_id
-      inv_hom_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.inv_hom_id }
+    { hom := σ.asIso.hom.left
+      inv := σ.asIso.inv.left
+      hom_inv_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.asIso.hom_inv_id
+      inv_hom_id := congrArg (fun φ : Z ⟶ Z => φ.left) σ.asIso.inv_hom_id }
   have hσn : compPow σs.hom n = 𝟙 Z.left := by
-    show compPow σ.hom.left n = _
+    show compPow σ.asIso.hom.left n = _
     rw [compPow_left_eq_pow_left, pow_orderOf_eq_one]
     rfl
   -- the field of constants of `Z` and the action of `σ` on it
@@ -182,8 +182,8 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   have hσr0 : σs.hom ≫ r ≫ Spec.map (CommRingCat.ofHom (algebraMap k κ)) =
       r ≫ Spec.map (CommRingCat.ofHom (algebraMap k κ)) := by
     rw [hr, ← Category.assoc]
-    show σ.hom.left ≫ Z.hom ≫ f = _
-    rw [← Category.assoc, MorphismProperty.Over.w σ.hom]
+    show σ.asIso.hom.left ≫ Z.hom ≫ f = _
+    rw [← Category.assoc, MorphismProperty.Over.w σ.asIso.hom]
   obtain ⟨θ, hθ⟩ := exists_algHom_comp_specMap r σs.hom hσr0
   obtain ⟨c, hc, hθc⟩ := exists_algHom_eq_iterateFrobenius p e hq θ
   set E := e * c
@@ -271,7 +271,7 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
     show Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     congr 1
-  have htw : ∀ z : T, z.1.1 ≫ σ.hom.left =
+  have htw : ∀ z : T, z.1.1 ≫ σ.asIso.hom.left =
       Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (e * D))) ≫ z.1.1 := fun z =>
     (congrArg (fun φ => z.1.1 ≫ φ) hcompm.symm).trans (z.2.trans
       (congrArg (fun N => Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p N)) ≫ z.1.1) hEm))
@@ -280,13 +280,13 @@ theorem exists_frobeniusData_element_mem_smul_of_finite (f : X ⟶ Spec (.of k))
   have hfixX : ∀ z : T, Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (e * D))) ≫ (tX z).1 =
       (tX z).1 := fun z => by
     show _ ≫ z.1.1 ≫ Z.hom = z.1.1 ≫ Z.hom
-    rw [← Category.assoc, ← htw z, Category.assoc, MorphismProperty.Over.w σ.hom]
+    rw [← Category.assoc, ← htw z, Category.assoc, MorphismProperty.Over.w σ.asIso.hom]
   -- a good point exists
   by_cases hgood : ∃ z : T, residueDegree f (Scheme.SpecToEquivOfField Ω X (tX z).1).1 = D
   · obtain ⟨z, hz⟩ := hgood
-    obtain ⟨hcl, cd, w, hw⟩ := exists_frobeniusData_element_smul_eq f Ω p e hq base Z σ.hom
+    obtain ⟨hcl, cd, w, hw⟩ := exists_frobeniusData_element_smul_eq f Ω p e hq base Z σ.asIso.hom
       z.1.1 (hzX z) hD (htw z) hz
-    obtain ⟨c', hc'⟩ := exists_frobeniusData_element_mem_smul Z σ.hom U g z₀ hstab htrans hσ'
+    obtain ⟨c', hc'⟩ := exists_frobeniusData_element_mem_smul Z σ.asIso.hom U g z₀ hstab htrans hσ'
       cd w hw
     refine ⟨_, fun hxS => ?_, c', hc'⟩
     have := hM _ hxS

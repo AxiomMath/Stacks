@@ -59,8 +59,7 @@ public theorem tensorExteriorPower_addMonoidHom_ext {i : ℕ}
     (h : ∀ (m : M) (v : Fin i → X),
       F (m ⊗ₜ exteriorPower.ιMulti R i v) = G (m ⊗ₜ exteriorPower.ιMulti R i v)) :
     F = G := by
-  refine AddMonoidHom.ext fun z ↦ TensorProduct.induction_on z ?_ ?_ ?_
-  · rw [map_zero, map_zero]
+  refine AddMonoidHom.ext fun z ↦ TensorProduct.inductionOn (motive := fun z ↦ F z = G z) z ?_ ?_
   · intro m x
     refine Submodule.span_induction (p := fun y _ ↦ ∀ w : M, F (w ⊗ₜ y) = G (w ⊗ₜ y))
       ?_ ?_ ?_ ?_

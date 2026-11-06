@@ -241,7 +241,7 @@ def koszulTopProjInv : M ⟶ (∏ᶜ fun _ : AlternatingCech.Idx r ((r : ℤ) - 
 theorem koszulTopProjInv_comp_pi (S : AlternatingCech.Idx r ((r : ℤ) - 1 + 1)) :
     koszulTopProjInv X r M ≫
         Pi.π (fun _ : AlternatingCech.Idx r ((r : ℤ) - 1 + 1) => M) S = 𝟙 M :=
-  Pi.lift_π _ S
+  Pi.lift_comp_π _ S
 
 /-- The projection of the top-degree term onto its unique factor is an isomorphism. -/
 instance isIso_koszulTopProj : IsIso (koszulTopProj X r M) := by
@@ -269,7 +269,7 @@ theorem toCoIdxProduct_comp_pi (i : Fin r) :
     toCoIdxProduct X r M ≫
         Pi.π (fun _ : AlternatingCech.Idx r ((r : ℤ) - 1) => M) (AlternatingCech.coIdx i) =
       Cech.cechSign Finset.univ i • Pi.π (fun _ : Fin r => M) i := by
-  refine Eq.trans (Pi.lift_π _ (AlternatingCech.coIdx i)) ?_
+  refine Eq.trans (Pi.lift_comp_π _ (AlternatingCech.coIdx i)) ?_
   rw [AlternatingCech.missing_coIdx]
 
 /-- The `i`-th component of `fromCoIdxProduct` is the projection onto the factor `coIdx i`
@@ -278,7 +278,7 @@ theorem fromCoIdxProduct_comp_pi (i : Fin r) :
     fromCoIdxProduct X r M ≫ Pi.π (fun _ : Fin r => M) i =
       Cech.cechSign Finset.univ i •
         Pi.π (fun _ : AlternatingCech.Idx r ((r : ℤ) - 1) => M) (AlternatingCech.coIdx i) :=
-  Pi.lift_π _ i
+  Pi.lift_comp_π _ i
 
 end Products
 

@@ -50,6 +50,8 @@ instance sheafPushforwardContinuous_additive' :
   haveI : PreservesLimitsOfSize.{0, 0}
       (u.sheafPushforwardContinuous AddCommGrpCat.{w} J K) :=
     (lowerShriekAdjunction' J K u).rightAdjoint_preservesLimits
+  haveI : HasBinaryProducts (Sheaf K AddCommGrpCat.{w}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf K _)
   Functor.additive_of_preserves_binary_products _
 
 /-- Lower shriek of abelian sheaves is additive, for sites whose morphisms live in independent

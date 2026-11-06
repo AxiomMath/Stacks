@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Kernels
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import Mathlib.Algebra.Module.Presentation.Finite
 public import StacksFrontier.Topology.Sheaves.Modules.AssociatedSheaf.Free

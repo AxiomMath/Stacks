@@ -73,7 +73,7 @@ public theorem exists_eq_pow_mul_of_mem_baseIdeal_pow_smul (n : ℕ) {c : T.A}
 
 /-- A polynomial all of whose coefficients are divisible by `p^n` is divisible by `p^n`. -/
 public theorem mem_levelFiltration_of_forall_coeff (n : ℕ) {x : T.P}
-    (h : ∀ m, MvPolynomial.coeff m x ∈ T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)) :
+    (h : ∀ m, x.coeff m ∈ T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)) :
     x ∈ T.levelFiltration n := by
   classical
   have hC : ((T.p : T.P) ^ n) = MvPolynomial.C ((T.p : T.A) ^ n) := by
@@ -97,7 +97,7 @@ public def monomialCoeffLevel (m : Fin T.r →₀ ℕ) (n : ℕ) :
       obtain ⟨y, rfl⟩ := (T.mem_levelFiltration_iff n x).mp hx
       have hC : ((T.p : T.P) ^ n) = MvPolynomial.C ((T.p : T.A) ^ n) := by
         rw [map_pow, map_natCast]
-      change MvPolynomial.coeff m ((T.p : T.P) ^ n * y) ∈
+      change ((T.p : T.P) ^ n * y).coeff m ∈
         T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)
       rw [hC, MvPolynomial.coeff_C_mul]
       exact T.pow_mul_mem_baseIdeal_pow_smul n _)
@@ -106,7 +106,7 @@ public def monomialCoeffLevel (m : Fin T.r →₀ ℕ) (n : ℕ) :
 @[simp]
 public theorem monomialCoeffLevel_mkQ (m : Fin T.r →₀ ℕ) (n : ℕ) (x : T.P) :
     T.monomialCoeffLevel m n ((T.levelFiltration n).mkQ x) =
-      (T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)).mkQ (MvPolynomial.coeff m x) := rfl
+      (T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)).mkQ (x.coeff m) := rfl
 
 /-- The `m`-th monomial coefficient of an element of `D`, as a compatible family of
 coefficients modulo every power of `p`. -/
@@ -142,7 +142,7 @@ public def monomialCoeff (m : Fin T.r →₀ ℕ) : T.D →ₗ[T.A] T.A :=
 coefficient of any polynomial representing it at the level `n`. -/
 public theorem monomialCoeff_sub_mem (m : Fin T.r →₀ ℕ) (a : T.D) (n : ℕ) (x : T.P)
     (hx : (T.levelFiltration n).mkQ x = a.val n) :
-    T.monomialCoeff m a - MvPolynomial.coeff m x ∈
+    T.monomialCoeff m a - x.coeff m ∈
       T.baseIdeal ^ n • (⊤ : Submodule T.A T.A) := by
   have hof : AdicCompletion.of T.baseIdeal T.A (T.monomialCoeff m a) = T.monomialCoeffHom m a := by
     show AdicCompletion.of T.baseIdeal T.A ((AdicCompletion.ofLinearEquiv T.baseIdeal T.A).symm
@@ -152,7 +152,7 @@ public theorem monomialCoeff_sub_mem (m : Fin T.r →₀ ℕ) (a : T.D) (n : ℕ
       (T.monomialCoeffHom m a).val n := by rw [hof]
   rw [AdicCompletion.of_apply] at hval
   have hright : (T.monomialCoeffHom m a).val n =
-      (T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)).mkQ (MvPolynomial.coeff m x) := by
+      (T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)).mkQ (x.coeff m) := by
     show T.monomialCoeffLevel m n (a.val n) = _
     rw [← hx, T.monomialCoeffLevel_mkQ]
   rw [hright] at hval
@@ -167,7 +167,7 @@ private theorem eq_of_forall_sub_mem_baseIdeal_pow_smul {x y : T.A}
 /-- On the dense image of `P` the functional is the monomial coefficient of a polynomial. -/
 @[simp]
 public theorem monomialCoeff_algebraMap (m : Fin T.r →₀ ℕ) (f : T.P) :
-    T.monomialCoeff m (algebraMap T.P T.D f) = MvPolynomial.coeff m f :=
+    T.monomialCoeff m (algebraMap T.P T.D f) = f.coeff m :=
   T.eq_of_forall_sub_mem_baseIdeal_pow_smul fun n ↦ T.monomialCoeff_sub_mem m _ n f rfl
 
 /-- **An element of `D` is determined by its monomial coefficients.** -/
@@ -176,7 +176,7 @@ public theorem eq_zero_of_monomialCoeff_eq_zero {a : T.D} (h : ∀ m, T.monomial
   apply AdicCompletion.ext
   intro n
   obtain ⟨x, hx⟩ := Submodule.mkQ_surjective (T.levelFiltration n) (a.val n)
-  have hcoeff : ∀ m, MvPolynomial.coeff m x ∈ T.baseIdeal ^ n • (⊤ : Submodule T.A T.A) := by
+  have hcoeff : ∀ m, x.coeff m ∈ T.baseIdeal ^ n • (⊤ : Submodule T.A T.A) := by
     intro m
     have hmem := T.monomialCoeff_sub_mem m a n x hx
     rw [h m, zero_sub] at hmem
@@ -198,9 +198,9 @@ public theorem monomialCoeff_pderiv (k : Fin T.r) (m : Fin T.r →₀ ℕ) (a : 
   have h2 := T.monomialCoeff_sub_mem (m + Finsupp.single k 1) a n x hx
   have hkey : T.monomialCoeff m (T.pderiv k a) -
       T.monomialCoeff (m + Finsupp.single k 1) a * ((m k : T.A) + 1) =
-      (T.monomialCoeff m (T.pderiv k a) - MvPolynomial.coeff m (MvPolynomial.pderiv k x)) -
+      (T.monomialCoeff m (T.pderiv k a) - (MvPolynomial.pderiv k x).coeff m) -
         (T.monomialCoeff (m + Finsupp.single k 1) a -
-          MvPolynomial.coeff (m + Finsupp.single k 1) x) * ((m k : T.A) + 1) := by
+          x.coeff (m + Finsupp.single k 1)) * ((m k : T.A) + 1) := by
     rw [MvPolynomial.coeff_pderiv]
     ring
   rw [hkey]

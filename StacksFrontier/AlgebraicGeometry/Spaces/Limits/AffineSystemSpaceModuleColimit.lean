@@ -185,7 +185,6 @@ theorem affineSpaceβ_coherence {T'' T' T : BigFppfOver B S hS} (h : T'' ⟶ T')
     Iso.refl_inv, Category.assoc, NatTrans.comp_app, NatTrans.id_app]
   rw [key', Iso.inv_hom_id_app_assoc]
   convert (affineSpaceβ B S hS (h ≫ g)).hom_inv_id_app M using 2
-  exact Category.id_comp _
 
 /-- `AlgebraicGeometry.Space.affineSpaceβ_coherence` with the inverse images, their comparisons
 and the identifications of inverse images abstracted into variables, each pinned down by an

@@ -83,6 +83,7 @@ theorem exists_geometricPoint_small_extension (s : GeometricPoint S) {R : CommRi
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp, hcomp,
       CommRingCat.ofHom_hom, Spec.map_preimage, hs₀]
   · change #L ≤ max ℵ₀ #R
+    haveI : Module.IsTorsionFree K L := DivisionSemiring.to_moduleIsTorsionFree
     exact (Algebra.IsAlgebraic.cardinalMk_le_max K L).trans
       (max_le ((Subfield.cardinalMk_closure_le_max _).trans
         (max_le (Cardinal.mk_range_le.trans (le_max_right _ _)) (le_max_left _ _)))

@@ -96,6 +96,11 @@ noncomputable def restrictBaseChangeModuleIso :
       D.baseChangeModule T :=
   ((D.baseChangeComparison h).app D.F).symm
 
+/-- Shortcut: `F_T ≅ F_{T'}|_{X_T}` is a monomorphism (instance search times out without it). -/
+instance (priority := high) mono_restrictBaseChangeModuleIso_inv :
+    Mono (D.restrictBaseChangeModuleIso h).inv :=
+  IsIso.mono_of_iso _
+
 /-- **The restriction of a quotient of `F_{T'}` to `X_T` is a given quotient of `F_T`** exactly
 when the kernel of `F_{T'}|_{X_T} ⟶ (F_{T'}/K')|_{X_T}` is the image of `K` under
 `F_T ≅ F_{T'}|_{X_T}`. The left hand side is the functoriality of the functor of quotients of

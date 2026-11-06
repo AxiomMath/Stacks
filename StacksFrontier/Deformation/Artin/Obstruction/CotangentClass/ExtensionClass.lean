@@ -522,13 +522,11 @@ private theorem toKaehler_comp_cotangentSpaceMap {ι' : Type u} (P : Algebra.Gen
       P.toExtension.toKaehler := by
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, LinearMap.comp_apply] at *; rw [hx, hy]
   | tmul x y =>
     obtain ⟨y, rfl⟩ := KaehlerDifferential.tensorProductTo_surjective _ _ y
     induction y with
-    | zero => simp only [map_zero, tmul_zero]
     | add y z hy hz => simp only [map_add, tmul_add, LinearMap.comp_apply] at *; rw [hy, hz]
     | tmul y z =>
       simp only [Derivation.tensorProductTo_tmul, tmul_smul, smul_tmul', LinearMap.comp_apply,

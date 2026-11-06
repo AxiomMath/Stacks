@@ -81,8 +81,9 @@ theorem sectionOfBaseChange_coherence (f : T ⟶ X) (π : P ⟶ X) (π' : P' ⟶
         (Scheme.Modules.pullbackId T).hom.app ((Scheme.Modules.pullback f).obj M) =
           eqToHom (by simp) := by
       simpa using u
-    rw [← cancel_epi ((Scheme.Modules.pullbackComp (𝟙 T) f).inv.app M), Iso.inv_hom_id_app,
-      ← Category.assoc, u₂, eqToHom_trans, eqToHom_refl]
+    have u₃ := (Iso.inv_comp_eq ((Scheme.Modules.pullbackComp (𝟙 T) f).app M)).1 u₂
+    simp only [Iso.app_hom] at u₃
+    rw [u₃, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
   have cancel₁ : ∀ {W : T.Modules}
       (t : (Scheme.Modules.pullback σ).obj ((Scheme.Modules.pullback (b ≫ π)).obj M) ⟶ W),
       (Scheme.Modules.pullback σ).map ((Scheme.Modules.pullbackComp b π).inv.app M) ≫
@@ -90,8 +91,8 @@ theorem sectionOfBaseChange_coherence (f : T ⟶ X) (π : P ⟶ X) (π' : P' ⟶
     intro W t
     rw [← Functor.map_comp_assoc, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
       Category.id_comp]
-  refine (cancel_mono ((Scheme.Modules.pullbackComp (σ ≫ b) π).hom.app M)).1 ?_
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+  refine ((Iso.app (Scheme.Modules.pullbackComp (σ ≫ b) π) M).cancel_iso_hom_right _ _).1 ?_
+  simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   have hA' := hA =≫ eqToHom (congrArg (fun g => (Scheme.Modules.pullback g).obj M) hh.symm)
   simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id] at hA'
   rw [← hA', cancel₁]

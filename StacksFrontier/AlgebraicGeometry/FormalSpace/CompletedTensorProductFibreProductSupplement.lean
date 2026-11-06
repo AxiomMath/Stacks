@@ -766,7 +766,8 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   have hdt : d.toRingHom.comp tR = RingHom.id T := by
     refine RingHom.ext fun x => ?_
     refine UniformSpace.Completion.induction_on x ?_ ?_
-    · exact isClosed_eq (d.continuous.comp htR) continuous_id
+    · haveI : T2Space T := hTweak.2.2
+      exact isClosed_eq (d.continuous.comp htR) continuous_id
     · intro z
       show d.toRingHom (tR (z : T)) = _
       rw [UniformSpace.Completion.extensionHom_coe]

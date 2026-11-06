@@ -78,7 +78,7 @@ theorem negVars_monomial (m : σ →₀ ℕ) (c : k) :
 
 /-- The `±1`-action multiplies the coefficient of a monomial by the sign of its total degree. -/
 theorem coeff_negVars (f : MvPolynomial σ k) (m : σ →₀ ℕ) :
-    coeff m (negVars k σ f) = (-1) ^ Finsupp.degree m * coeff m f := by
+    (negVars k σ f).coeff m = (-1) ^ Finsupp.degree m * f.coeff m := by
   classical
   induction f using MvPolynomial.induction_on' with
   | monomial m' c =>
@@ -214,7 +214,7 @@ theorem mem_evenSubalgebra_iff_negVars_eq (h2 : (2 : k) ≠ 0) {f : MvPolynomial
   · by_contra he
     have h := coeff_negVars f m
     rw [hf, (Nat.not_even_iff_odd.mp he).neg_one_pow] at h
-    have h2c : (2 : k) * coeff m f = 0 := by linear_combination h
+    have h2c : (2 : k) * f.coeff m = 0 := by linear_combination h
     exact mem_support_iff.mp hm ((mul_eq_zero.mp h2c).resolve_left h2)
 
 /-! ### The morphism `Y → X` is finite of degree two -/
@@ -267,8 +267,8 @@ theorem span_insert_one_range_X_eq_top :
   rw [f.as_sum]
   refine Submodule.sum_mem _ fun m hm ↦ ?_
   rcases Nat.even_or_odd (Finsupp.degree m) with he | ho
-  · have h : monomial m (coeff m f) =
-        (⟨monomial m (coeff m f), monomial_mem_evenSubalgebra he _⟩ :
+  · have h : monomial m (f.coeff m) =
+        (⟨monomial m (f.coeff m), monomial_mem_evenSubalgebra he _⟩ :
           evenSubalgebra k σ) • (1 : MvPolynomial σ k) := by
       rw [Algebra.smul_def]; exact (mul_one _).symm
     rw [h]
@@ -280,11 +280,11 @@ theorem span_insert_one_range_X_eq_top :
       rw [Nat.odd_iff] at ho
       rw [Nat.even_iff]
       omega
-    have h : monomial m (coeff m f) =
-        (⟨monomial m' (coeff m f), monomial_mem_evenSubalgebra he' _⟩ :
+    have h : monomial m (f.coeff m) =
+        (⟨monomial m' (f.coeff m), monomial_mem_evenSubalgebra he' _⟩ :
           evenSubalgebra k σ) • X i := by
       rw [Algebra.smul_def]
-      show monomial m (coeff m f) = monomial m' (coeff m f) * X i
+      show monomial m (f.coeff m) = monomial m' (f.coeff m) * X i
       rw [show (X i : MvPolynomial σ k) = monomial (Finsupp.single i 1) 1 from
             by rw [← X_pow_eq_monomial, pow_one],
         monomial_mul_monomial, mul_one, hm', add_comm]
@@ -425,18 +425,18 @@ theorem vertexIdeal_eq_under :
   · rw [vertexIdeal, Ideal.span_le]
     rintro _ ⟨⟨i, j⟩, rfl⟩
     exact Ideal.mem_comap.mpr (Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨i, rfl⟩))
-  · have hc0 : coeff 0 (a : MvPolynomial σ k) = 0 := by
+  · have hc0 : (a : MvPolynomial σ k).coeff 0 = 0 := by
       rw [← constantCoeff_eq]
       have : (a : MvPolynomial σ k) ∈ idealOfVars σ k := ha
       rw [idealOfVars_eq_ker, RingHom.mem_ker] at this
       exact this
     have heven := mem_evenSubalgebra_iff.mp a.2
     have hsum : a = ∑ m ∈ (a : MvPolynomial σ k).support.attach,
-        (⟨monomial m.1 (coeff m.1 (a : MvPolynomial σ k)),
+        (⟨monomial m.1 ((a : MvPolynomial σ k).coeff m.1),
           monomial_mem_evenSubalgebra (heven m.1 m.2) _⟩ : evenSubalgebra k σ) := by
       refine Subtype.ext ?_
       push_cast
-      rw [Finset.sum_attach _ fun m ↦ monomial m (coeff m (a : MvPolynomial σ k))]
+      rw [Finset.sum_attach _ fun m ↦ monomial m ((a : MvPolynomial σ k).coeff m)]
       exact ((a : MvPolynomial σ k).as_sum)
     rw [hsum]
     refine Ideal.sum_mem _ fun m _ ↦ mem_vertexIdeal_of_coe_eq_monomial rfl fun h0 ↦ ?_
@@ -750,7 +750,7 @@ theorem height_vertexIdeal (n : ℕ) : (vertexIdeal k (Fin n)).height = n := by
       ≤ ringKrullDim (evenSubalgebra k (Fin n)) := Ideal.height_le_ringKrullDim_of_isPrime
   rw [Algebra.IsIntegral.ringKrullDim_eq (evenSubalgebra k (Fin n)) (MvPolynomial (Fin n) k),
     MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field] at h1
-  simp only [Nat.card_eq_fintype_card, Fintype.card_fin, zero_add] at h1
+  simp only [ENat.card_eq_coe_natCard, Nat.card_eq_fintype_card, Fintype.card_fin, zero_add] at h1
   exact_mod_cast h1
 
 /-- For at least two variables the vertex `𝔪 = (tᵢtⱼ)` has codimension greater than one, so the

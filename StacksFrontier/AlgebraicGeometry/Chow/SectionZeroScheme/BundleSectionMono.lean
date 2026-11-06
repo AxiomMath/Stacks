@@ -303,7 +303,8 @@ theorem mono_pullback_map_comp_tautologicalDatumUniv
     rw [NatTrans.naturality_assoc, NatTrans.naturality_assoc]
     rfl
   rw [e]
-  exact mono_comp _ _
+  exact @mono_comp _ _ _ _ _ _ (@mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _
+    (IsIso.mono_of_iso _)) _ h₂
 
 end Stacks.RelativeProj
 

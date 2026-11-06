@@ -197,8 +197,7 @@ private lemma flat_neronStage_blowup
     [Module.Flat S.R X.A] [Algebra.FiniteType S.R X.A]
     (π : S.R) (hπ : IsLocalRing.maximalIdeal S.R = Ideal.span ({π} : Set S.R)) :
     Module.Flat S.R (NeronStage.blowup S X π hπ).A := by
-  show Module.Flat S.R (affineBlowupAlgebra _ _ _)
-  exact flat_affineBlowupAlgebra _ _
+  exact flat_affineBlowupAlgebra (R := S.R) (A := X.A) _ _
 
 /-- Being of finite type over `R` is inherited by the blowup of a stage. -/
 private lemma finiteType_neronStage_blowup
@@ -412,8 +411,8 @@ private lemma exists_exact_differentials_localization
           a ⊗ₜ[neronChart S π] KaehlerDifferential.map S.R S.R S.A (neronChart S π) x) ∧
         Function.Injective f ∧
         ∃ _g : (L ⊗[neronChart S π] Ω[neronChart S π⁄S.R]) →ₗ[L] (Fin c →
-            L ⧸ Ideal.span ({algebraMap (neronChart S π) L
-              (algebraMap S.R (neronChart S π) π)} : Set L)),
+            L ⧸ Ideal.span
+              ({algebraMap (neronChart S π) L (algebraMap S.R (neronChart S π) π)} : Set L)),
           Function.Exact f _g := by
   obtain ⟨c, hc⟩ := exists_closedFibre_ringKrullDim_eq S π hπ hsep hsm
   obtain ⟨f, hf, g, hzero, hex⟩ :=

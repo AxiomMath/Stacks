@@ -124,6 +124,26 @@ universe u v w
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_targetIdentities
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_targetIdentities
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_targetIdentities B S hS).has_limit _
+
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_targetIdentities
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-! ### Cartesian squares, preimages of subfunctors and base change of a pair -/
 
 /-- A subfunctor which is cartesian over another one along a morphism is its preimage. -/
@@ -673,7 +693,10 @@ public theorem mono_objectsInclusion (F : FinitePartUniversalOpen G) :
     Mono F.objectsInclusion := by
   show Mono (F.objectsEquiv.hom ≫
     (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι)
-  infer_instance
+  have h₁ : Mono F.objectsEquiv.hom := IsIso.mono_of_iso _
+  have h₂ : Mono (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι :=
+    inferInstance
+  exact mono_comp _ _
 
 /-- Two morphisms into the object space of the finite part which name the same sections of the
 finite part presheaf are equal. -/

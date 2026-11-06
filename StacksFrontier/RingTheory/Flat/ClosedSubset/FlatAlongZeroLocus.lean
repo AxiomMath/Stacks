@@ -98,7 +98,6 @@ lemma Module.FlatAlongZeroLocus.baseChange
   let Sq := Localization.AtPrime q
   let : q'.LiesOver q := ⟨rfl⟩
   let : Algebra Sq D := Localization.AtPrime.algebraOfLiesOver q q'
-  let : Localization.AtPrime.IsLiesOverAlgebra q q' := ⟨rfl⟩
   let eMq : Mq ≃ₗ[Sq] Sq ⊗[S] M :=
     LocalizedModule.equivTensorProduct q.primeCompl M
   let eRestrict : D ⊗[Sq] Mq ≃ₗ[Sq] D ⊗[S] Mq :=

@@ -491,7 +491,7 @@ theorem GarelMaps.isCompatible_id_iff (w : 𝟙 Y ≫ f = f ≫ 𝟙 X) (c c' : 
     rw [twistedPullbackFormsBaseChange_id L w, absoluteFormsMap_id Y] at hp
     have hn := (Scheme.Modules.pullbackId Y).hom.naturality (c p)
     rw [hn] at hp
-    exact (cancel_epi _).1 hp
+    exact (((Scheme.Modules.pullbackId Y).app _).cancel_iso_hom_left _ _).1 hp
   · subst h
     rw [twistedPullbackFormsBaseChange_id L w, absoluteFormsMap_id Y]
     exact (Scheme.Modules.pullbackId Y).hom.naturality (c p)

@@ -331,8 +331,10 @@ private theorem krullDim_eq_rank_difference
     have h := hlen s
     rw [hs] at h
     omega
-  have : WellFoundedLT α := ⟨SetRel.IsWellFounded.of_finiteDimensional {(x, y) : α × α | x < y}⟩
-  have : WellFoundedGT α := ⟨SetRel.IsWellFounded.inv_of_finiteDimensional {(x, y) : α × α | x < y}⟩
+  have : WellFoundedLT α :=
+    SetRel.IsWellFounded.of_finiteDimensional {(x, y) : α × α | x < y}
+  have : WellFoundedGT α :=
+    SetRel.IsWellFounded.inv_of_finiteDimensional {(x, y) : α × α | x < y}
   obtain ⟨t, e, he, hbot, htop⟩ :=
     (LTSeries.longestOf α).exists_relSeries_covBy_and_head_eq_bot_and_last_eq_bot
   have hv : ∀ j : Fin (t.length + 1), ρ (t j) = ρ t.head + j.val := by

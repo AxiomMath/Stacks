@@ -86,8 +86,8 @@ private theorem closureSubscheme_genericPoint {X : Scheme.{u}} (x : X)
     (closureSubscheme x).subschemeι
         (_root_.genericPoint (closureSubscheme x).subscheme) = x := by
   have hclos :
-      closure ({(closureSubscheme x).subschemeι
-        (_root_.genericPoint (closureSubscheme x).subscheme)} : Set X) =
+      closure ({((closureSubscheme x).subschemeι
+        (_root_.genericPoint (closureSubscheme x).subscheme))} : Set X) =
       closure ({x} : Set X) := by
     rw [← Set.image_singleton,
       (closureSubscheme x).subschemeι.isClosedEmbedding.closure_image_eq,

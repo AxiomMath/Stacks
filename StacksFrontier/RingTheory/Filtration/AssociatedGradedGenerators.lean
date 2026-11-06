@@ -184,8 +184,8 @@ public theorem exists_finset_ideal_span_smul_eq {R : Type u} [CommRing R] {M : T
   classical
   have heq : Ideal.span s • N = ⨆ x : s, Ideal.span {x.1} • N := by
     rw [ideal_span_smul_eq_iSup, ← iSup_subtype'' s (fun x => Ideal.span {x} • N)]
-  obtain ⟨t, ht⟩ := CompleteLattice.IsCompactElement.exists_finset_of_le_iSup
-    _ ((Submodule.fg_iff_compact _).mp hfg) (fun x : s => Ideal.span {x.1} • N) heq.le
+  obtain ⟨t, ht⟩ := IsCompactElement.exists_finset_of_le_iSup
+    ((Submodule.fg_iff_compact _).mp hfg) (fun x : s => Ideal.span {x.1} • N) heq.le
   refine ⟨t.image Subtype.val, ?_, le_antisymm ?_ ?_⟩
   · simp only [Finset.coe_image, Set.image_subset_iff]
     exact fun x _ => x.2

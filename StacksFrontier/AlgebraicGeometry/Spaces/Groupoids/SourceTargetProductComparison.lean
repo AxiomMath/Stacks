@@ -58,6 +58,17 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS B)
   (hB : IsTerminal B.obj)
 
+/-- Pullbacks of presheaves on `BigFppfOver C S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SourceTargetProductComparison :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SourceTargetProductComparison
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A fibre product over a final presheaf is a binary product, so the square `U ×_B U` of the
 object space of a groupoid over a final base is a limit of the pair `(U, U)`. -/
 def isLimit_objectPairsBinaryFan :

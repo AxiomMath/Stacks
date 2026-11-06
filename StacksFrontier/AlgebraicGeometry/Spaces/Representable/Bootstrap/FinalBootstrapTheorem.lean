@@ -148,6 +148,27 @@ attribute [local instance] bigFppfOverHasPullbacks
 
 attribute [local instance] bigFppfOverHasBinaryProducts
 
+local instance hasPullbacks_presheaf_finalBootstrapTheorem
+    (site : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : site.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver site S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_finalBootstrapTheorem
+    {site : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver site S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance hasPullbacks_over_presheaf_finalBootstrapTheorem
+    {site : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
+    (X : (AlgebraicGeometry.BigFppfOver site S hS)ᵒᵖ ⥤ Type u) : HasPullbacks (Over X) :=
+  inferInstance
+
+local instance (priority := high) hasPullback_over_presheaf_finalBootstrapTheorem
+    {site : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
+    {X : (AlgebraicGeometry.BigFppfOver site S hS)ᵒᵖ ⥤ Type u} {Y Z W : Over X}
+    (f : Y ⟶ W) (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem isRepresentableByAlgebraicSpaces_of_relativelyRepresentable
     (site : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : site.Contains S)
     {X Y : (AlgebraicGeometry.BigFppfOver site S hS)ᵒᵖ ⥤ Type u}
@@ -666,7 +687,7 @@ private theorem yoneda_map_comp_eq_of_comp_eq
   have h := congrArg yoneda.map h
   simp only [Functor.map_comp, hx, hy] at h
   simp only [← Category.assoc] at h
-  simpa only [Category.assoc] using (cancel_mono eU.hom).mp h
+  simpa only [Category.assoc] using (Iso.cancel_iso_hom_right _ _ eU).mp h
 
 private theorem jointlyMono_site_of_jointlyMono
     (site : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : site.Contains S)
@@ -704,7 +725,7 @@ private theorem jointlyMono_site_of_jointlyMono
       simpa only [Category.assoc] using hB
   have heq : yoneda.map f ≫ eR.inv = yoneda.map g ≫ eR.inv :=
     congrArg (fun k : Over.mk (xf ≫ R.hom) ⟶ R => k.left) hfg
-  exact yoneda.map_injective ((cancel_mono eR.inv).mp heq)
+  exact yoneda.map_injective ((Iso.cancel_iso_inv_right _ _ eR).mp heq)
 
 private theorem exists_refl_site
     (site : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : site.Contains S)

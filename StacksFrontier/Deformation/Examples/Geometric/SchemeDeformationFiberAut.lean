@@ -151,17 +151,17 @@ def fiberAutEquivSelfMaps (P : SchemeDeformationCategory (Λ := Λ) (k := k) X) 
       { e : P.scheme ⟶ P.scheme //
         e ≫ P.toBase = P.toBase ∧ P.specialMap ≫ e = P.specialMap ∧ IsIso e } where
   toFun a := by
-    refine ⟨a.hom.val.map, ?_, a.hom.val.special_compat, ?_⟩
-    · have hb : a.hom.val.base = 𝟙 P.base := deformationFiberHom_base a.hom
-      have hw : a.hom.val.map ≫ P.toBase = P.toBase ≫ baseSpecMap a.hom.val.base :=
-        a.hom.val.cartesian.w
+    refine ⟨a.asIso.hom.val.map, ?_, a.asIso.hom.val.special_compat, ?_⟩
+    · have hb : a.asIso.hom.val.base = 𝟙 P.base := deformationFiberHom_base a.asIso.hom
+      have hw : a.asIso.hom.val.map ≫ P.toBase = P.toBase ≫ baseSpecMap a.asIso.hom.val.base :=
+        a.asIso.hom.val.cartesian.w
       rw [hb, baseSpecMap_id, Category.comp_id] at hw
       exact hw
-    · refine ⟨a.inv.val.map, ?_, ?_⟩
+    · refine ⟨a.asIso.inv.val.map, ?_, ?_⟩
       · exact congrArg (fun g : deformationFiberObj P ⟶ deformationFiberObj P ↦ g.val.map)
-          a.inv_hom_id
+          a.asIso.inv_hom_id
       · exact congrArg (fun g : deformationFiberObj P ⟶ deformationFiberObj P ↦ g.val.map)
-          a.hom_inv_id
+          a.asIso.hom_inv_id
   invFun := fun ⟨e, hbase, hspecial, hiso⟩ => by
     letI := hiso
     have hinvbase : CategoryTheory.inv e ≫ P.toBase = P.toBase := by
@@ -186,7 +186,7 @@ def fiberAutEquivSelfMaps (P : SchemeDeformationCategory (Λ := Λ) (k := k) X) 
           rw [baseSpecMap_id]
           exact IsPullback.of_horiz_isIso ⟨by rw [Category.comp_id]; exact hinvbase⟩
         special_compat := hinvspecial }
-    refine
+    refine .of
       { hom := ⟨hom, deformationFiberHom_isHomLift hom rfl⟩
         inv := ⟨inv, deformationFiberHom_isHomLift inv rfl⟩
         hom_inv_id := ?_
@@ -200,8 +200,8 @@ def fiberAutEquivSelfMaps (P : SchemeDeformationCategory (Λ := Λ) (k := k) X) 
       · exact Category.comp_id _
       · exact IsIso.hom_inv_id e
   left_inv a := by
-    refine Iso.ext (Subtype.ext (SchemeDeformationCategory.Hom.ext ?_ rfl))
-    exact (deformationFiberHom_base a.hom).symm
+    refine Aut.ext (Iso.ext (Subtype.ext (SchemeDeformationCategory.Hom.ext ?_ rfl)))
+    exact (deformationFiberHom_base a.asIso.hom).symm
   right_inv := by
     rintro ⟨e, hbase, hspecial, hiso⟩
     exact Subtype.ext rfl

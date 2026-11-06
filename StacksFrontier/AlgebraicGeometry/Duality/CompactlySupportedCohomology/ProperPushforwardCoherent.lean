@@ -164,7 +164,7 @@ public abbrev plusPushforwardToDerived :
 public def plusPushforwardUnitPlus :
     plusPushforwardToDerived f ⟶ DerivedCategory.Plus.Qh ⋙
       ((Scheme.Modules.pushforward f).rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-  Functor.whiskerRight (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit
+  Functor.whiskerRight (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
     DerivedCategory.Plus.ι
 
 /-- The comparison `f_*K ⟶ Rf_*K` for a bounded below complex `K`. -/
@@ -183,12 +183,12 @@ public theorem isRightDerivedFunctor_plusPushforwardUnitPlus :
   (HomotopyCategory.Plus.localizerMorphism_derives
       (plusPushforwardToDerived f)).isRightDerivedFunctor_of_isIso
     (plusPushforwardUnitPlus f) (fun Z => by
-      have h : IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
+      have h : IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
           ((InjectiveObject.ι X.Modules).mapHomotopyCategoryPlus.obj Z)) :=
         (HomotopyCategory.Plus.localizerMorphism_derives
             ((Scheme.Modules.pushforward f).mapHomotopyCategoryPlus ⋙
               DerivedCategory.Plus.Qh)).isIso_of_isRightDerivedFunctor
-          (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit Z
+          (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith Z
       exact @Functor.map_isIso _ _ _ _ _ _ DerivedCategory.Plus.ι _ h)
 
 omit [QuasiCompact f] [QuasiSeparated f] in

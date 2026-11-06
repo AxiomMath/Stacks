@@ -78,7 +78,7 @@ there with both of its types given.  The section the unitor lemmas produce is a 
 *transported* object, spelled through the `ULift` equivalence that `monoidal` is defined by, and
 the scalar they multiply by lives in `X.toRingedSpace.presheaf.obj (op V)`; neither is the
 spelling the module instance on `A.val.obj (op V)` is keyed at, which is
-`X.ringCatSheaf.val.obj (op V)`.  Pinning `α` and `β` to that keyed spelling — the base ring of
+`X.ringCatSheaf.obj.obj (op V)`.  Pinning `α` and `β` to that keyed spelling — the base ring of
 `A` and the sections of `A`, both equal to what the goal says by `rfl` — is what lets the
 existing `Module` instance be found instead of a new one being searched for at a spelling nothing
 is registered at.
@@ -161,7 +161,7 @@ public theorem whiskerRight_globalSmul_unit_comp_leftUnitor (r : Γ(X, ⊤)) (A 
     (Stacks.SheafOfModules.OnSpace.leftUnitor_tmul X.toRingedSpace A (op V) _ a)) ?_
   refine Eq.trans ?_ (comp2_app_apply_of _ _ _ _
     (Stacks.SheafOfModules.OnSpace.leftUnitor_tmul X.toRingedSpace A (op V) _ a) rfl).symm
-  exact mul_smul (α := (X.ringCatSheaf.val.obj (op V) : Type u))
+  exact mul_smul (α := (X.ringCatSheaf.obj.obj (op V) : Type u))
     (β := (A.val.obj (op V) : Type u)) _ _ _
 
 /-- **Multiplication by `r` on the monoidal unit, whiskered on the left and followed by the right
@@ -177,7 +177,7 @@ public theorem whiskerLeft_globalSmul_unit_comp_rightUnitor (r : Γ(X, ⊤)) (A 
     (Stacks.SheafOfModules.OnSpace.rightUnitor_tmul X.toRingedSpace A (op V) a _)) ?_
   refine Eq.trans ?_ (comp2_app_apply_of _ _ _ _
     (Stacks.SheafOfModules.OnSpace.rightUnitor_tmul X.toRingedSpace A (op V) a _) rfl).symm
-  exact mul_smul (α := (X.ringCatSheaf.val.obj (op V) : Type u))
+  exact mul_smul (α := (X.ringCatSheaf.obj.obj (op V) : Type u))
     (β := (A.val.obj (op V) : Type u)) _ _ _
 
 /-- The inverse right unit constraint carries multiplication by `r` to multiplication by `r` on

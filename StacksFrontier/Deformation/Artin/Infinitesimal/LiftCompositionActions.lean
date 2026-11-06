@@ -117,7 +117,7 @@ public theorem liftFiberIsoOfHom_inv_fac
 /-- Conjugating a fibre automorphism by an isomorphism of fibre objects, read on underlying
 arrows. -/
 public theorem conjAut_hom_val {u v : p.Fiber A'} (e : u ≅ v) (a : Aut u) :
-    (e.conjAut a).hom.val = e.inv.val ≫ a.hom.val ≫ e.hom.val :=
+    (e.conjAut a).asIso.hom.val = e.inv.val ≫ a.asIso.hom.val ≫ e.hom.val :=
   (congrArg (fun k : v ⟶ v => k.val) (Iso.conjAut_hom e a)).trans rfl
 
 /-- Conjugation by an isomorphism of fibre objects which is compatible with the two lifting
@@ -153,39 +153,41 @@ public noncomputable def infinitesimalAutTransport
   left_inv a := by
     apply Subtype.ext
     apply CategoryTheory.Aut.ext
+    apply Iso.ext
     apply CategoryTheory.Functor.Fiber.hom_ext
     change ((liftFiberIsoOfHom hp t₁ t₂ f).symm.conjAut
-      ((liftFiberIsoOfHom hp t₁ t₂ f).conjAut a.1)).hom.val = a.1.hom.val
+      ((liftFiberIsoOfHom hp t₁ t₂ f).conjAut a.1)).asIso.hom.val = a.1.asIso.hom.val
     rw [conjAut_hom_val, conjAut_hom_val, Iso.symm_hom, Iso.symm_inv,
       liftFiberIsoOfHom_hom_val]
-    calc f.hom ≫ ((liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ a.1.hom.val ≫ f.hom) ≫
+    calc f.hom ≫ ((liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ a.1.asIso.hom.val ≫ f.hom) ≫
             (liftFiberIsoOfHom hp t₁ t₂ f).inv.val
-        = (f.hom ≫ (liftFiberIsoOfHom hp t₁ t₂ f).inv.val) ≫ a.1.hom.val ≫
+        = (f.hom ≫ (liftFiberIsoOfHom hp t₁ t₂ f).inv.val) ≫ a.1.asIso.hom.val ≫
             (f.hom ≫ (liftFiberIsoOfHom hp t₁ t₂ f).inv.val) := by
           simp only [Category.assoc]
-      _ = a.1.hom.val := by rw [liftFiberIsoOfHom_hom_comp_inv]; simp
+      _ = a.1.asIso.hom.val := by rw [liftFiberIsoOfHom_hom_comp_inv]; simp
   right_inv b := by
     apply Subtype.ext
     apply CategoryTheory.Aut.ext
+    apply Iso.ext
     apply CategoryTheory.Functor.Fiber.hom_ext
     change ((liftFiberIsoOfHom hp t₁ t₂ f).conjAut
-      ((liftFiberIsoOfHom hp t₁ t₂ f).symm.conjAut b.1)).hom.val = b.1.hom.val
+      ((liftFiberIsoOfHom hp t₁ t₂ f).symm.conjAut b.1)).asIso.hom.val = b.1.asIso.hom.val
     rw [conjAut_hom_val, conjAut_hom_val, Iso.symm_hom, Iso.symm_inv,
       liftFiberIsoOfHom_hom_val]
     calc (liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫
-            (f.hom ≫ b.1.hom.val ≫ (liftFiberIsoOfHom hp t₁ t₂ f).inv.val) ≫ f.hom
-        = ((liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ f.hom) ≫ b.1.hom.val ≫
+            (f.hom ≫ b.1.asIso.hom.val ≫ (liftFiberIsoOfHom hp t₁ t₂ f).inv.val) ≫ f.hom
+        = ((liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ f.hom) ≫ b.1.asIso.hom.val ≫
             ((liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ f.hom) := by
           simp only [Category.assoc]
-      _ = b.1.hom.val := by rw [liftFiberIsoOfHom_inv_comp_hom]; simp
+      _ = b.1.asIso.hom.val := by rw [liftFiberIsoOfHom_inv_comp_hom]; simp
   map_mul' a b := Subtype.ext ((liftFiberIsoOfHom hp t₁ t₂ f).conjAut.map_mul a.1 b.1)
 
 private theorem infinitesimalAutTransport_hom_val
     (hp : Deformation.IsCofiberedInGroupoids p)
     (t₁ t₂ : Deformation.Lift p g x) (f : t₁ ⟶ t₂)
     (a : infinitesimalAutomorphisms hp t₁) :
-    (infinitesimalAutTransport hp t₁ t₂ f a).1.hom.val =
-      (liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ a.1.hom.val ≫ f.hom := by
+    (infinitesimalAutTransport hp t₁ t₂ f a).1.asIso.hom.val =
+      (liftFiberIsoOfHom hp t₁ t₂ f).inv.val ≫ a.1.asIso.hom.val ≫ f.hom := by
   rw [show (infinitesimalAutTransport hp t₁ t₂ f a).1 =
     (liftFiberIsoOfHom hp t₁ t₂ f).conjAut a.1 from rfl, conjAut_hom_val,
     liftFiberIsoOfHom_hom_val]

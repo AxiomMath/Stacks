@@ -2,6 +2,7 @@ module
 
 public import Mathlib.RingTheory.RingHom.EssFiniteType
 public import Mathlib.RingTheory.RingHom.QuasiFinite
+public import Mathlib.RingTheory.TensorProduct.Pi
 public import StacksFrontier.RingTheory.IntegralClosure.DedekindDomain
 public import StacksFrontier.RingTheory.IntegralClosure.Pi
 

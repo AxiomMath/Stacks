@@ -655,7 +655,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
               exact (algebraMap (L ⊗[K] K₁) (M ⊗[K] K₁)).injective.comp
                 (IsFractionRing.injective B₁ (L ⊗[K] K₁)))
           let : Module.IsTorsionFree B₁ R := Module.isTorsionFree_iff_algebraMap_injective.mpr
-            (FaithfulSMul.algebraMap_injective B₁ R)
+            (@FaithfulSMul.algebraMap_injective B₁ R _ _ _ this.toFaithfulSMul)
           have hBR : (IsLocalRing.maximalIdeal B₁).map (algebraMap B₁ R) =
             IsLocalRing.maximalIdeal R := by
             have hr : IsDiscreteValuationRing.ramificationIndex B₁ R = 1 := hram

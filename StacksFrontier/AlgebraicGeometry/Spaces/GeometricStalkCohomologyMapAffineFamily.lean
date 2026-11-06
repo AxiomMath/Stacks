@@ -240,7 +240,7 @@ theorem forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_represented
   refine (forall_congr' fun x => forall_congr' fun n => (step₁ x n).trans
     (isIso_geometricStalkBaseChangeCohomologyMap_representedAffine_iff_of_kFlat B S hS f₀ g₀ f₀' g₀'
       w₀ x M hM.1 _ _ n)).trans ?_
-  refine forall_swap.trans ?_
+  refine forall_comm.trans ?_
   let : Algebra Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
       Γ((BigFppfOver.toScheme B S hS).obj U, ⊤) :=
     (representedAffineCommRingCatHom B S hS f₀).hom.toAlgebra

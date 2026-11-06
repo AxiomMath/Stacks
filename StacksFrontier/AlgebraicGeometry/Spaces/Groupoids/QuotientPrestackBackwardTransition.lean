@@ -361,6 +361,27 @@ namespace AlgebraicGeometry.Space
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_QuotientPrestackBackwardTransition
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} (J : Type) :
+    Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_QuotientPrestackBackwardTransition
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    Limits.HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_QuotientPrestackBackwardTransition
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  hasPullbacks_presheaf_QuotientPrestackBackwardTransition.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- **A section is a morphism out of a representable algebraic space.**  A `T`-point of an
@@ -579,6 +600,11 @@ end AlgebraicGeometry.Stack
 namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 
 universe u
+
+attribute [local instance high]
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_presheaf_QuotientPrestackBackwardTransition
+  AlgebraicGeometry.Space.hasPullbacks_presheaf_QuotientPrestackBackwardTransition
+  AlgebraicGeometry.Space.hasPullback_presheaf_QuotientPrestackBackwardTransition
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {A : AlgebraicSpaces B S hS}

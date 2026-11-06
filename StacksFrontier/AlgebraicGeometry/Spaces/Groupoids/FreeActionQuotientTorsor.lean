@@ -206,20 +206,21 @@ of the quotient.** This is the datum of which [Stacks, Tag 0727] asks that the c
 torsor. -/
 def freeActionChartAut : G →* Aut (freeActionQuotientChart G B S hS V a ha) where
   toFun g :=
-    { hom := freeActionChartMap G B S hS V a ha g
-      inv := freeActionChartMap G B S hS V a ha g⁻¹
-      hom_inv_id := by
-        rw [freeActionChartMap_comp, inv_mul_cancel, freeActionChartMap_one]
-      inv_hom_id := by
-        rw [freeActionChartMap_comp, mul_inv_cancel, freeActionChartMap_one] }
-  map_one' := Aut.ext (freeActionChartMap_one G B S hS V a ha)
-  map_mul' g h := Aut.ext (freeActionChartMap_comp G B S hS V a ha h g).symm
+    Aut.of
+      { hom := freeActionChartMap G B S hS V a ha g
+        inv := freeActionChartMap G B S hS V a ha g⁻¹
+        hom_inv_id := by
+          rw [freeActionChartMap_comp, inv_mul_cancel, freeActionChartMap_one]
+        inv_hom_id := by
+          rw [freeActionChartMap_comp, mul_inv_cancel, freeActionChartMap_one] }
+  map_one' := Aut.ext (Iso.ext (freeActionChartMap_one G B S hS V a ha))
+  map_mul' g h := Aut.ext (Iso.ext (freeActionChartMap_comp G B S hS V a ha h g).symm)
 
 /-- The automorphism of the chart attached to `g` by `freeActionChartAut` has underlying
 morphism `freeActionChartMap g`. -/
 @[simp]
 theorem freeActionChartAut_hom (g : G) :
-    (freeActionChartAut G B S hS V a ha g).hom = freeActionChartMap G B S hS V a ha g :=
+    (freeActionChartAut G B S hS V a ha g).asIso.hom = freeActionChartMap G B S hS V a ha g :=
   rfl
 
 /-! ### The kernel pair of the chart, inside the small site of the quotient -/
@@ -460,7 +461,7 @@ theorem eq_one_of_comp_freeActionChartAut
     (hA : Nonempty (points B S hS
       ((SpacesEtale.toSpaces B S hS (actionQuotientSpace G B S hS V a ha)).obj A).obj))
     (φ : A ⟶ freeActionQuotientChart G B S hS V a ha) (g : G)
-    (hg : φ ≫ (freeActionChartAut G B S hS V a ha g).hom = φ) :
+    (hg : φ ≫ (freeActionChartAut G B S hS V a ha g).asIso.hom = φ) :
     g = 1 := by
   classical
   obtain ⟨x⟩ := hA
@@ -478,7 +479,7 @@ theorem eq_one_of_comp_freeActionChartAut
         (m ≫ siteActionHom G B hS V a g) =
       (Over.post (X := B.obj hS) B.inclusion).map m := congrArg _ hfix
   rw [CategoryTheory.Functor.map_comp, post_map_siteActionHom] at key
-  have h1 : ((1 : Aut (underlyingOver B hS V))).hom = 𝟙 (underlyingOver B hS V) := rfl
+  have h1 : ((1 : Aut (underlyingOver B hS V))).asIso.hom = 𝟙 (underlyingOver B hS V) := rfl
   refine ha ((Over.post (X := B.obj hS) B.inclusion).obj p.siteObject)
     ⟨IsLocalRing.closedPoint p.carrier⟩
     ((Over.post (X := B.obj hS) B.inclusion).map m) g 1 ?_

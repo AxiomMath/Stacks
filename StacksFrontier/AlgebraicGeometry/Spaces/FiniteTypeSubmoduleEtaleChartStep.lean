@@ -125,6 +125,17 @@ theorem dominationProperty_of_isAffineSpace (W : AlgebraicSpaces B S hS)
   fun _ hF _ g hg hYqc G hG =>
     exists_isFiniteType_le_etaleSubmoduleRestrict_of_isAffineSpace B S hS hWa hF g hg hYqc G hG
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FiniteTypeSubmoduleEtaleChartStep :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FiniteTypeSubmoduleEtaleChartStep
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Sections of a fibre product of presheaves -/
 
 /-- A pair of sections of the two factors of a fibre product of presheaves with the same image

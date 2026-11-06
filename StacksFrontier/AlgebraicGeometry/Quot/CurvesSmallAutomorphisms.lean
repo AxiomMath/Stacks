@@ -322,7 +322,7 @@ private theorem pair_injective (g : Over U) {W : BigFppfOver B integerBase hZ}
       κ y g e ≫ (unshrink y m₂).totalMap.hom ≫ (pbMap y g).totalMap.hom := by
     rw [← pair_morphism, ← pair_morphism]
     exact eq_of_heq (congr_arg_heq Space.RelativeMorphism.morphism h)
-  rw [cancel_epi] at h₁
+  simp only [Iso.cancel_iso_inv_left] at h₁
   have ht : (unshrink y m₁).totalMap.hom = (unshrink y m₂).totalMap.hom :=
     (isPullback_totalMap_hom (pbMap y g)).hom_ext h₁
       ((unshrink_totalMap_comp_toBase y m₁).trans (unshrink_totalMap_comp_toBase y m₂).symm)

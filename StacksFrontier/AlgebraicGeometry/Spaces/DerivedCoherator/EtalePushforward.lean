@@ -198,7 +198,6 @@ theorem rightOrthogonal_spaceDerivedPushforward (f : X ⟶ Y) (hf : IsEtale B S 
   have h4 : φ₀ = 0 := by
     have : φ₀ = adj.homEquiv _ _ φ₁ := ((adj.homEquiv _ _).apply_symm_apply φ₀).symm
     rw [this, h3, Adjunction.homEquiv_apply, Functor.map_zero, comp_zero]
-    rfl
   have h5 : eM.hom ≫ φ ≫ eJ.inv = 0 := by rw [← hφ₀, h4, Functor.map_zero]
   simpa using h5
 

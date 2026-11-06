@@ -253,13 +253,13 @@ three factors is: the first because `G` is a functor and
 of `e` at multiplication by the scalar, and the third because
 `Stacks.ModuleCatLift.constantSheafForget₂Iso` is equivariant on `J₂`. -/
 public lemma moduleLiftConstantSheafForgetIsoApp_scalar (E : ModuleCat.{w} Λ) (a : Λ) :
-    sheafScalarEnd Λ J₂
-          ((moduleLift Λ J₁ J₂ G).obj ((constantSheaf J₁ (ModuleCat.{w} Λ)).obj E)) a ≫
+    (sheafScalarEnd Λ J₂
+          ((moduleLift Λ J₁ J₂ G).obj ((constantSheaf J₁ (ModuleCat.{w} Λ)).obj E)) a).asHom ≫
         (moduleLiftConstantSheafForgetIsoApp Λ J₁ J₂ G e E).hom =
       (moduleLiftConstantSheafForgetIsoApp Λ J₁ J₂ G e E).hom ≫
-        sheafScalarEnd Λ J₂ ((constantSheaf J₂ (ModuleCat.{w} Λ)).obj E) a := by
+        (sheafScalarEnd Λ J₂ ((constantSheaf J₂ (ModuleCat.{w} Λ)).obj E) a).asHom := by
   rw [sheafScalarEnd_moduleLift_obj]
-  exact map_comp_forgetIsoApp_hom_eq Λ J₁ J₂ G e ((ModuleCat.smulNatTrans Λ a).app E)
+  exact map_comp_forgetIsoApp_hom_eq Λ J₁ J₂ G e ((ModuleCat.smulNatTrans Λ a).asHom.app E)
     (constantSheafForget₂Iso_hom_app_scalar Λ J₁ E a)
     (constantSheafForget₂Iso_hom_app_scalar Λ J₂ E a)
 

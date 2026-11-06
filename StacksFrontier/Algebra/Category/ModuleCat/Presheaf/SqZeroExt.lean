@@ -286,7 +286,7 @@ noncomputable def sqZeroExtSndHom (U : Cᵒᵖ) : R.obj U →+ M.obj U :=
 /-- A splitting of the square-zero extension, trivial on `S`, is a relative derivation. -/
 noncomputable def sqZeroExtDerivation {S : Cᵒᵖ ⥤ CommRingCat.{u}} (ψ : S ⟶ R)
     (hsec : g ≫ sqZeroExtProj M = 𝟙 R) (hker : ψ ≫ g = ψ ≫ sqZeroExtInl M) :
-    M.Derivation' ψ where
+    PresheafOfModulesOfCommRing.Derivation' M ψ where
   d {U} := sqZeroExtSndHom M g U
   d_mul {U} a b := by
     rw [sqZeroExtSndHom_apply, map_mul, sqZeroExtSnd_mul,
@@ -307,21 +307,23 @@ noncomputable def sqZeroExtDerivation {S : Cᵒᵖ ⥤ CommRingCat.{u}} (ψ : S 
 variable {S : Cᵒᵖ ⥤ CommRingCat.{u}} {ψ : S ⟶ R}
 
 /-- Two relative derivations agreeing on all local sections are equal. -/
-theorem derivation_ext {D D' : M.Derivation' ψ} (h : ∀ (U : Cᵒᵖ) (a : R.obj U), D.d a = D'.d a) :
-    D = D' := by
+theorem derivation_ext {D D' : PresheafOfModulesOfCommRing.Derivation' M ψ}
+    (h : ∀ (U : Cᵒᵖ) (a : R.obj U), D.d a = D'.d a) : D = D' := by
   ext U a
   exact h U a
 
 /-- The splitting of the projection from the square-zero extension determined by a relative
 derivation. -/
-noncomputable def sqZeroExtOfDerivation (D : M.Derivation' ψ) : R ⟶ sqZeroExtPresheaf M where
+noncomputable def sqZeroExtOfDerivation (D : PresheafOfModulesOfCommRing.Derivation' M ψ) :
+    R ⟶ sqZeroExtPresheaf M where
   app U := sqZeroExtLift M (𝟙 (R.obj U)) D.d (fun a b => D.d_mul a b)
   naturality _U _V i := CommRingCat.hom_ext (RingHom.ext fun a =>
     sqZeroExt_ext rfl (D.d_map i a))
 
 /-- The splitting determined by a relative derivation has that derivation as its module
 component. -/
-@[simp] theorem sqZeroExtSnd_ofDerivation (D : M.Derivation' ψ) (U : Cᵒᵖ) (a : R.obj U) :
+@[simp] theorem sqZeroExtSnd_ofDerivation (D : PresheafOfModulesOfCommRing.Derivation' M ψ)
+    (U : Cᵒᵖ) (a : R.obj U) :
     sqZeroExtSnd (M := M) (U := U)
       ((sqZeroExtApp M (sqZeroExtOfDerivation M D) U).hom a) = D.d a := rfl
 

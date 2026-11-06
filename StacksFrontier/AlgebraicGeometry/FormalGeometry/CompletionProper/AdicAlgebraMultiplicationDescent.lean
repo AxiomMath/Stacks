@@ -89,7 +89,7 @@ instance is not found at `X.ringCatSheaf.obj` on its own. The `mul` field of
 `Stacks.FundamentalGroup.ModuleAlgebraData` is stated with the same local instance. -/
 local instance presheafOfModulesMonoidalOfScheme (X : Scheme.{u}) :
     MonoidalCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 attribute [local instance] sectionsModuleForgetPresheaf
 

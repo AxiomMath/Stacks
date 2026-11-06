@@ -867,6 +867,10 @@ private lemma exists_weightSpace_lift_of_epi {A B : Type u} [CommRing A] [CommRi
   simpa only [t, Finsupp.mapRange_apply, Finsupp.single_eq_same] using
     congrArg (fun a : ℤ →₀ L.obj X => a k) heq
 
+private noncomputable instance commRingAlgebraRingFunctorObj {A : Type u} [CommRing A]
+    (X : (CommAlgCat.{u} A)ᵒᵖᵒᵖ) : CommRing ((Laurent.algebraRingFunctor A).obj X) :=
+  inferInstanceAs (CommRing X.unop.unop)
+
 private noncomputable def baseChangeEvaluation {A : Type u} [CommRing A]
     {B C : CommAlgCat.{u} A} (f : B ⟶ C) :
     PresheafOfModules.evaluation (Laurent.algebraRingFunctor A) (Opposite.op (Opposite.op B)) ⋙

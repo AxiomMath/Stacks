@@ -43,7 +43,7 @@ variable {R ι N e}
 `p_j`. -/
 noncomputable def genSpec {A : Type v} [CommRing A] [Algebra R A]
     (p : ι → MvPolynomial (Fin N) A) : MvPolynomial (ι × MultiIndex N e) R →ₐ[R] A :=
-  aeval fun jE ↦ coeff (multiIndexExponent N e jE.2) (p jE.1)
+  aeval fun jE ↦ (p jE.1).coeff (multiIndexExponent N e jE.2)
 
 /-- **Specializing the generic polynomials.** If every `p_j` has total degree at most `e`, the
 specialization of the generic coefficients to the coefficients of the `p_j` turns `g_j` into
@@ -56,7 +56,7 @@ theorem map_genPoly {A : Type v} [CommRing A] [Algebra R A] (p : ι → MvPolyno
   refine MvPolynomial.ext _ _ fun m ↦ ?_
   simp only [genPoly, map_sum, MvPolynomial.map_monomial, MvPolynomial.coeff_sum,
     MvPolynomial.coeff_monomial]
-  by_cases hcoeff : MvPolynomial.coeff m (p j) = 0
+  by_cases hcoeff : (p j).coeff m = 0
   · rw [hcoeff]
     refine Finset.sum_eq_zero fun E _ ↦ ?_
     by_cases he : multiIndexExponent N e E = m

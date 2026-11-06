@@ -46,6 +46,9 @@ namespace AlgebraicGeometry
 
 attribute [local instance] Stacks.EtaleCohomology.moduleCat_hasLimitsOfSize
 
+attribute [local instance] SmallEtale.isRightAdjointPushforward_moduleCat
+  SmallEtale.hasWeakSheafifyOver_moduleCat
+
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
 
 /-- **A constructible sheaf of `Λ`-modules on Mathlib's small étale site**: one whose

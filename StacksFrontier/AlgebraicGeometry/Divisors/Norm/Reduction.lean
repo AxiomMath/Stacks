@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Divisors.Norm.Basic
 public import StacksFrontier.AlgebraicGeometry.Frobenius

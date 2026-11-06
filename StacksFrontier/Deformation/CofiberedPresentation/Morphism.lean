@@ -57,7 +57,7 @@ universe u v w u₁ uU
 
 namespace Deformation
 
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
+attribute [local implicit_reducible]
   CategoryTheory.uliftFunctor PresentationGroupoid.toGroupoidInFunctors
   PresentationArrow.comp TwoFibreProductOver.fst TwoFibreProductOver.snd
 
@@ -65,11 +65,11 @@ variable {C : Type u} [Category.{v} C]
 variable {F : Type u₁} [Category.{w} F]
 variable (p : F ⥤ C) (U : C ⥤ Type uU)
 variable (f : U.Elements ⥤ F)
-variable (over : f ⋙ p = CategoryOfElements.π U)
+variable (over : f ⋙ p = Functor.Elements.π U)
 variable (P : PresentationGroupoid p U f over)
 
 private lemma elements_eqToHom_val {X Y : U.Elements} (h : X = Y) :
-    (eqToHom h).val = eqToHom (congrArg (fun z : U.Elements => z.1) h) := by
+    (eqToHom h).hom = eqToHom (congrArg (fun z : U.Elements => z.obj) h) := by
   cases h
   rfl
 
@@ -83,9 +83,9 @@ private lemma map_inv_eq_of_map_hom {D : Type*} [Category D] {E : Type*} [Catego
 @[implicit_reducible]
 private def normalizedIso {T : C} (r : PresentationArrow p U f over T)
     {x y : U.obj T} (hs : r.source = x) (ht : r.target = y) :
-    f.obj ⟨T, x⟩ ≅ f.obj ⟨T, y⟩ :=
-  eqToIso (congrArg (fun z => f.obj ⟨T, z⟩) hs.symm) ≪≫ r.iso.symm ≪≫
-    eqToIso (congrArg (fun z => f.obj ⟨T, z⟩) ht)
+    f.obj (U.elementsMk T x) ≅ f.obj (U.elementsMk T y) :=
+  eqToIso (congrArg (fun z => f.obj (U.elementsMk T z)) hs.symm) ≪≫ r.iso.symm ≪≫
+    eqToIso (congrArg (fun z => f.obj (U.elementsMk T z)) ht)
 
 private lemma normalizedIso_comp {T : C}
     (a b : PresentationArrow p U f over T)
@@ -108,7 +108,7 @@ private lemma normalizedIso_comp {T : C}
 private noncomputable def arrowIso (T : C) (a : P.arrows.obj T)
     {x y : P.toGroupoidInFunctors.Evaluation T}
     (hs : P.source.app T a = x) (ht : P.target.app T a = y) :
-    f.obj ⟨T, x.down⟩ ≅ f.obj ⟨T, y.down⟩ :=
+    f.obj (U.elementsMk T x.down) ≅ f.obj (U.elementsMk T y.down) :=
   normalizedIso p U f over (P.arrowEquiv T a)
     ((P.arrowEquiv_source T a).trans (congrArg ULift.down hs))
     ((P.arrowEquiv_target T a).trans (congrArg ULift.down ht))
@@ -128,7 +128,7 @@ private lemma arrowIso_comp (T : C) (a b : P.arrows.obj T)
 @[implicit_reducible]
 private noncomputable def fiberIso (T : C)
     {x y : P.toGroupoidInFunctors.Evaluation T} (a : x ⟶ y) :
-    f.obj ⟨T, x.down⟩ ≅ f.obj ⟨T, y.down⟩ :=
+    f.obj (U.elementsMk T x.down) ≅ f.obj (U.elementsMk T y.down) :=
   arrowIso p U f over P T (P.toGroupoidInFunctors.evaluationArrowEquiv T x y a).1
     (P.toGroupoidInFunctors.evaluationArrowEquiv T x y a).2.1
     (P.toGroupoidInFunctors.evaluationArrowEquiv T x y a).2.2
@@ -151,7 +151,7 @@ private lemma fiberIso_id (T : C) (x : P.toGroupoidInFunctors.Evaluation T) :
 @[implicit_reducible]
 private noncomputable def presentationFiberFunctor (T : C) :
     P.toGroupoidInFunctors.Evaluation T ⥤ F where
-  obj x := f.obj ⟨T, x.down⟩
+  obj x := f.obj (U.elementsMk T x.down)
   map a := (fiberIso p U f over P T a).hom
   map_id x := by rw [fiberIso_id]; rfl
   map_comp a b := by rw [fiberIso_comp]; rfl
@@ -160,26 +160,26 @@ private lemma presentationFiberFunctor_map_eqToHom (T : C)
     {x y : P.toGroupoidInFunctors.Evaluation T} (h : x = y) :
     (presentationFiberFunctor p U f over P T).map (eqToHom h) =
       eqToHom (congrArg
-        (fun z : P.toGroupoidInFunctors.Evaluation T => f.obj ⟨T, z.down⟩) h) := by
+        (fun z : P.toGroupoidInFunctors.Evaluation T => f.obj (U.elementsMk T z.down)) h) := by
   cases h
   exact (presentationFiberFunctor p U f over P T).map_id x
 
 @[implicit_reducible]
 private def relationIso :
-    (CategoryOfElements.map P.source ⋙ (uliftElementsEquivalence U).inverse) ⋙ f ≅
-    (CategoryOfElements.map P.target ⋙ (uliftElementsEquivalence U).inverse) ⋙ f :=
+    (NatTrans.mapElements P.source ⋙ (uliftElementsEquivalence U).inverse) ⋙ f ≅
+    (NatTrans.mapElements P.target ⋙ (uliftElementsEquivalence U).inverse) ⋙ f :=
   Functor.isoWhiskerRight P.sourceProjectionIso.symm f ≪≫
     Functor.isoWhiskerLeft P.fibreProductEquivalence.functor
-      (TwoFibreProductOver.psiIso (CategoryOfElements.π U) (CategoryOfElements.π U) p f f).symm ≪≫
+      (TwoFibreProductOver.psiIso (Functor.Elements.π U) (Functor.Elements.π U) p f f).symm ≪≫
     Functor.isoWhiskerRight P.targetProjectionIso f
 
 private lemma arrowIso_eq (T : C) (a : P.arrows.obj T)
     {x y : P.toGroupoidInFunctors.Evaluation T}
     (hs : P.source.app T a = x) (ht : P.target.app T a = y) :
     arrowIso p U f over P T a hs ht =
-      eqToIso (congrArg (fun z : ULift.{w} (U.obj T) => f.obj ⟨T, z.down⟩) hs.symm) ≪≫
-        (relationIso p U f over P).app ⟨T, a⟩ ≪≫
-      eqToIso (congrArg (fun z : ULift.{w} (U.obj T) => f.obj ⟨T, z.down⟩) ht) := by
+      eqToIso (congrArg (fun z : ULift.{w} (U.obj T) => f.obj (U.elementsMk T z.down)) hs.symm) ≪≫
+        (relationIso p U f over P).app (P.arrows.elementsMk T a) ≪≫
+      eqToIso (congrArg (fun z : ULift.{w} (U.obj T) => f.obj (U.elementsMk T z.down)) ht) := by
   subst x; subst y
   ext
   simp only [arrowIso, normalizedIso, P.arrowEquiv_iso, relationIso,
@@ -202,26 +202,26 @@ private lemma arrowIso_naturality {T S : C} (k : T ⟶ S) (a : P.arrows.obj T)
   subst x; subst y
   simp only [arrowIso_eq, Iso.trans_hom, eqToIso.hom, eqToHom_refl, Category.id_comp,
     Category.comp_id]
-  have h : f.map ((CategoryOfElements.map P.source ⋙ (uliftElementsEquivalence U).inverse).map
+  have h : f.map ((NatTrans.mapElements P.source ⋙ (uliftElementsEquivalence U).inverse).map
         (⟨k, rfl⟩ : P.arrows.elementsMk T a ⟶ P.arrows.elementsMk S (P.arrows.map k a))) ≫
-      ((relationIso p U f over P).app ⟨S, P.arrows.map k a⟩).hom =
-      ((relationIso p U f over P).app ⟨T, a⟩).hom ≫
-        f.map ((CategoryOfElements.map P.target ⋙ (uliftElementsEquivalence U).inverse).map
+      ((relationIso p U f over P).app (P.arrows.elementsMk S (P.arrows.map k a))).hom =
+      ((relationIso p U f over P).app (P.arrows.elementsMk T a)).hom ≫
+        f.map ((NatTrans.mapElements P.target ⋙ (uliftElementsEquivalence U).inverse).map
           (⟨k, rfl⟩ : P.arrows.elementsMk T a ⟶ P.arrows.elementsMk S (P.arrows.map k a))) :=
     (relationIso p U f over P).hom.naturality _
   have hmap (n : P.arrows ⟶ U ⋙ uliftFunctor.{w})
       (hn : n.app S (P.arrows.map k a) = (U ⋙ uliftFunctor.{w}).map k (n.app T a)) :
       f.map (⟨k, rfl⟩ : U.elementsMk T (n.app T a).down ⟶
         U.elementsMk S (U.map k (n.app T a).down)) ≫
-        eqToHom (congrArg (fun z : ULift.{w} (U.obj S) => f.obj ⟨S, z.down⟩) hn.symm) =
-      f.map ((CategoryOfElements.map n ⋙
+        eqToHom (congrArg (fun z : ULift.{w} (U.obj S) => f.obj (U.elementsMk S z.down)) hn.symm) =
+      f.map ((NatTrans.mapElements n ⋙
         (uliftElementsEquivalence U).inverse).map
           (⟨k, rfl⟩ : P.arrows.elementsMk T a ⟶ P.arrows.elementsMk S (P.arrows.map k a))) := by
     rw [← eqToHom_map f (congrArg (fun z : ULift.{w} (U.obj S) => U.elementsMk S z.down) hn.symm),
       ← f.map_comp]
     congr 1
-    apply Subtype.ext
-    simp only [CategoryOfElements.comp_val, elements_eqToHom_val]
+    apply Functor.Elements.hom_ext
+    simp only [Functor.Elements.comp_hom, elements_eqToHom_val]
     show k ≫ eqToHom (_ : S = S) = k
     simp
   rw [← Category.assoc, hmap P.source hs', ← Category.assoc]
@@ -253,7 +253,7 @@ private lemma fiberTransition_id (T : C) :
   rw [← eqToHom_map f (show U.elementsMk T x.down =
       U.elementsMk T (U.map (𝟙 T) x.down) by simp)]
   congr 1
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   simp [elements_eqToHom_val]
 
 private lemma fiberTransition_comp {T S V : C} (k : T ⟶ S) (l : S ⟶ V) :
@@ -274,7 +274,7 @@ private lemma fiberTransition_comp {T S V : C} (k : T ⟶ S) (l : S ⟶ V) :
       U.elementsMk V (U.map (k ≫ l) x.down) by simp)]
   simp only [← f.map_comp]
   congr 1
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   simp [elements_eqToHom_val]
 
 @[implicit_reducible]
@@ -357,20 +357,20 @@ private lemma presentationFunctor_comp_quotient :
         presentationFunctor p U f over P = f := by
   refine Functor.ext (F := _) (G := f) (fun _ => rfl) ?_
   intro X Y k
-  show f.map (⟨k.1, rfl⟩ : U.elementsMk X.1 X.2 ⟶
-    U.elementsMk Y.1 (U.map k.1 X.2)) ≫
-    (presentationFiberFunctor p U f over P Y.1).map (eqToHom (congrArg ULift.up k.2)) = _
+  show f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
+    U.elementsMk Y.1 (U.map k.hom X.2)) ≫
+    (presentationFiberFunctor p U f over P Y.1).map (eqToHom (congrArg ULift.up k.map_val)) = _
   rw [eqToHom_map]
-  show f.map (⟨k.1, rfl⟩ : U.elementsMk X.1 X.2 ⟶
-    U.elementsMk Y.1 (U.map k.1 X.2)) ≫ eqToHom _ = _
-  rw [← eqToHom_map f (congrArg (U.elementsMk Y.1) k.2), ← f.map_comp]
+  show f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
+    U.elementsMk Y.1 (U.map k.hom X.2)) ≫ eqToHom _ = _
+  rw [← eqToHom_map f (congrArg (U.elementsMk Y.1) k.map_val), ← f.map_comp]
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   congr 1
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   simp [elements_eqToHom_val]
 
 private lemma fiberIso_surjective (T : C)
-    {x y : P.toGroupoidInFunctors.Evaluation T} (e : f.obj ⟨T, x.down⟩ ≅ f.obj ⟨T, y.down⟩)
+    {x y : P.toGroupoidInFunctors.Evaluation T} (e : f.obj (U.elementsMk T x.down) ≅ f.obj (U.elementsMk T y.down))
     (he : p.map e.hom = eqToHom (elementBaseEq p U f over T x.down) ≫
       eqToHom (elementBaseEq p U f over T y.down).symm) :
     ∃ a : x ⟶ y, fiberIso p U f over P T a = e := by
@@ -424,34 +424,34 @@ private lemma presentationFunctor_full (hp : IsCofiberedInGroupoids p) :
   exact ht'
 
 private lemma relation_lift {A B : P.arrows.Elements}
-    (a : (CategoryOfElements.map P.target ⋙ (uliftElementsEquivalence U).inverse).obj A ⟶
-      (CategoryOfElements.map P.target ⋙ (uliftElementsEquivalence U).inverse).obj B)
-    (b : (CategoryOfElements.map P.source ⋙ (uliftElementsEquivalence U).inverse).obj A ⟶
-      (CategoryOfElements.map P.source ⋙ (uliftElementsEquivalence U).inverse).obj B)
-    (hab : a.val = b.val)
+    (a : (NatTrans.mapElements P.target ⋙ (uliftElementsEquivalence U).inverse).obj A ⟶
+      (NatTrans.mapElements P.target ⋙ (uliftElementsEquivalence U).inverse).obj B)
+    (b : (NatTrans.mapElements P.source ⋙ (uliftElementsEquivalence U).inverse).obj A ⟶
+      (NatTrans.mapElements P.source ⋙ (uliftElementsEquivalence U).inverse).obj B)
+    (hab : a.hom = b.hom)
     (hw : f.map b ≫ (relationIso p U f over P).hom.app B =
       (relationIso p U f over P).hom.app A ≫ f.map a) :
-    ∃ k : A ⟶ B, k.val = a.val := by
+    ∃ k : A ⟶ B, k.hom = a.hom := by
   let α := P.targetProjectionIso
   let β := P.sourceProjectionIso
   let E := P.fibreProductEquivalence.functor
   let a' := α.hom.app A ≫ a ≫ α.inv.app B
   let b' := β.hom.app A ≫ b ≫ β.inv.app B
-  have hα (X : P.arrows.Elements) : (CategoryOfElements.π U).map (α.hom.app X) =
+  have hα (X : P.arrows.Elements) : (Functor.Elements.π U).map (α.hom.app X) =
       eqToHom ((E.obj X).hx.trans (Functor.congr_obj P.fibreProductOverBase X)) :=
     P.targetProjectionIso_vertical X
-  have hβ (X : P.arrows.Elements) : (CategoryOfElements.π U).map (β.hom.app X) =
+  have hβ (X : P.arrows.Elements) : (Functor.Elements.π U).map (β.hom.app X) =
       eqToHom ((E.obj X).hy.trans (Functor.congr_obj P.fibreProductOverBase X)) :=
     P.sourceProjectionIso_vertical X
-  have hα' (X : P.arrows.Elements) : (CategoryOfElements.π U).map (α.inv.app X) =
+  have hα' (X : P.arrows.Elements) : (Functor.Elements.π U).map (α.inv.app X) =
       eqToHom ((E.obj X).hx.trans (Functor.congr_obj P.fibreProductOverBase X)).symm :=
     map_inv_eq_of_map_hom _ (α.app X) (hα X) (by simp)
-  have hβ' (X : P.arrows.Elements) : (CategoryOfElements.π U).map (β.inv.app X) =
+  have hβ' (X : P.arrows.Elements) : (Functor.Elements.π U).map (β.inv.app X) =
       eqToHom ((E.obj X).hy.trans (Functor.congr_obj P.fibreProductOverBase X)).symm :=
     map_inv_eq_of_map_hom _ (β.app X) (hβ X) (by simp)
-  have hbase : eqToHom (E.obj A).hy.symm ≫ (CategoryOfElements.π U).map b' ≫
+  have hbase : eqToHom (E.obj A).hy.symm ≫ (Functor.Elements.π U).map b' ≫
       eqToHom (E.obj B).hy =
-      eqToHom (E.obj A).hx.symm ≫ (CategoryOfElements.π U).map a' ≫
+      eqToHom (E.obj A).hx.symm ≫ (Functor.Elements.π U).map a' ≫
       eqToHom (E.obj B).hx := by
     simp only [a', b', Functor.map_comp, hα, hβ, hα', hβ',
       Category.assoc, eqToHom_trans_assoc, eqToHom_trans]
@@ -473,7 +473,7 @@ private lemma relation_lift {A B : P.arrows.Elements}
     simp only [Functor.map_comp, Category.assoc] at hh ⊢
     simp only [reassoc_of% hA, hB] at hh
     dsimp only [Functor.comp_obj, TwoFibreProductOver.snd_obj,
-      CategoryOfElements.map, NatTrans.mapElements, uliftElementsEquivalence] at hh
+      NatTrans.mapElements, NatTrans.mapElements, uliftElementsEquivalence] at hh
     simp only [Category.id_comp, Category.comp_id] at hh
     exact hh
   let r : E.obj A ⟶ E.obj B := TwoFibreProductOver.Hom.mk' a' b' hbase hw'
@@ -481,13 +481,13 @@ private lemma relation_lift {A B : P.arrows.Elements}
   refine ⟨k, ?_⟩
   have hnat := α.hom.naturality k
   change (E.map k).a ≫ α.hom.app B =
-    α.hom.app A ≫ (CategoryOfElements.map P.target ⋙
+    α.hom.app A ≫ (NatTrans.mapElements P.target ⋙
       (uliftElementsEquivalence U).inverse).map k at hnat
   rw [hk] at hnat
   change (α.hom.app A ≫ a ≫ α.inv.app B) ≫ α.hom.app B = _ at hnat
   simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id] at hnat
   have hh := (cancel_epi (α.hom.app A)).mp hnat
-  exact (congrArg Subtype.val hh).symm
+  exact (congrArg Functor.Elements.Hom.hom hh).symm
 
 private lemma arrow_map_of_square {T S : C} (a : P.arrows.obj T) (b : P.arrows.obj S)
     {x y : P.toGroupoidInFunctors.Evaluation T} {x' y' : P.toGroupoidInFunctors.Evaluation S}
@@ -495,18 +495,18 @@ private lemma arrow_map_of_square {T S : C} (a : P.arrows.obj T) (b : P.arrows.o
     (hb : P.source.app S b = x') (hb' : P.target.app S b = y')
     (u : U.elementsMk T y.down ⟶ U.elementsMk S y'.down)
     (v : U.elementsMk T x.down ⟶ U.elementsMk S x'.down)
-    (huv : u.val = v.val)
+    (huv : u.hom = v.hom)
     (hw : f.map v ≫ (arrowIso p U f over P S b hb hb').hom =
       (arrowIso p U f over P T a ha ha').hom ≫ f.map u) :
-    P.arrows.map u.val a = b := by
+    P.arrows.map u.hom a = b := by
   subst x; subst y; subst x'; subst y'
-  have h : f.map v ≫ (relationIso p U f over P).hom.app ⟨S, b⟩ =
-      (relationIso p U f over P).hom.app ⟨T, a⟩ ≫ f.map u := by
+  have h : f.map v ≫ (relationIso p U f over P).hom.app (P.arrows.elementsMk S b) =
+      (relationIso p U f over P).hom.app (P.arrows.elementsMk T a) ≫ f.map u := by
     simp only [arrowIso_eq, eqToIso_refl, Iso.refl_trans, Iso.trans_refl] at hw
     exact hw
   obtain ⟨k, hk⟩ := relation_lift p U f over P (A := P.arrows.elementsMk T a)
     (B := P.arrows.elementsMk S b) u v huv h
-  exact hk ▸ k.2
+  exact hk ▸ k.map_val
 
 private lemma fiber_stabilizer_trivial {T S : C} (k : T ⟶ S)
     (x : P.toGroupoidInFunctors.Evaluation T)
@@ -627,13 +627,13 @@ theorem presentationMorphism_isEquivalence_iff
   have : g.Full := presentationMorphism_full p U f over P hp
   have : g.Faithful := presentationMorphism_faithful p U f over P
   have hobj (X : Grothendieck (evaluationFunctor P.toGroupoidInFunctors)) :
-      g.obj X = f.obj ⟨X.base, X.fiber.down⟩ :=
-    Functor.congr_obj (presentationMorphism p U f over P).2.2 ⟨X.base, X.fiber.down⟩
+      g.obj X = f.obj (U.elementsMk X.base X.fiber.down) :=
+    Functor.congr_obj (presentationMorphism p U f over P).2.2 (U.elementsMk X.base X.fiber.down)
   constructor
   · intro hg
     refine ⟨fun Y => ?_⟩
     obtain ⟨X, ⟨e⟩⟩ := hg.essSurj.mem_essImage Y
-    exact ⟨⟨X.base, X.fiber.down⟩, ⟨(eqToIso (hobj X)).symm ≪≫ e⟩⟩
+    exact ⟨U.elementsMk X.base X.fiber.down, ⟨(eqToIso (hobj X)).symm ≪≫ e⟩⟩
   · intro hf
     have : g.EssSurj := ⟨fun Y => by
       obtain ⟨X, ⟨e⟩⟩ := hf.mem_essImage Y

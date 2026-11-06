@@ -211,10 +211,11 @@ theorem memChart_of_map_maximalIdeal_eq_span {b : A} (hb : b ∈ maximalIdeal A)
   have hzU : blowUpToBase (maximalIdealSheaf A) z ∈ (specTopAffineOpen A).1 := trivial
   have hexc : AlgebraicGeometry.IdealSheafData.stalk (exceptionalIdeal (maximalIdealSheaf A)) z =
       Ideal.span {((blowUpToBase (maximalIdealSheaf A)).stalkMap z)
-        ((Spec (.of A)).presheaf.germ (specTopAffineOpen A).1
-          (blowUpToBase (maximalIdealSheaf A) z) hzU
-          ((maximalIdealSheafSection hb : (maximalIdealSheaf A).ideal (specTopAffineOpen A)) :
-            Γ(Spec (.of A), (specTopAffineOpen A).1)))} := by
+                    ((Spec (.of A)).presheaf.germ (specTopAffineOpen A).1
+                      (blowUpToBase (maximalIdealSheaf A) z) hzU
+                      ((maximalIdealSheafSection hb :
+                          (maximalIdealSheaf A).ideal (specTopAffineOpen A)) :
+                        Γ(Spec (.of A), (specTopAffineOpen A).1)))} := by
     have key : Ideal.map (((blowUpToBase (maximalIdealSheaf A)).stalkMap z).hom.comp
         ((Spec (.of A)).presheaf.germ (specTopAffineOpen A).1
           (blowUpToBase (maximalIdealSheaf A) z) hzU).hom)

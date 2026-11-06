@@ -339,6 +339,7 @@ section Stacks0GQL
 
 variable (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0GQL, part (3), the kernel in `Mod(𝒪_𝒳)`.** For a map `φ : 𝓕 ⟶ 𝓖` of quasi-coherent
 modules on an algebraic stack, the kernel of `φ` computed in `Mod(𝒪_𝒳)` lies in
 `LQCoh^fbc(𝒪_𝒳)`, `LQCoh^fbc(𝒪_𝒳)` being a weak Serre subcategory containing `QCoh(𝒪_𝒳)`

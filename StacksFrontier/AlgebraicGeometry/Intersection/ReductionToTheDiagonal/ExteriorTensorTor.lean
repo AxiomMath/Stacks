@@ -195,7 +195,6 @@ variable (M N : Type u) [AddCommGroup M] [Module k M] [Module A M] [IsScalarTowe
 theorem smul_base_tmul (r : A ⊗[k] A) (z : A ⊗[A ⊗[k] A] (M ⊗[k] N)) :
     r • z = (Algebra.TensorProduct.lmul' k r) • z := by
   induction z with
-  | zero => simp
   | add x y hx hy => simp only [smul_add, hx, hy]
   | tmul a x =>
       rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', diagonalAlgebra_smul, smul_eq_mul]
@@ -268,8 +267,7 @@ noncomputable def extLeftSC (f : X →ₗ[A] Y) (g : Y →ₗ[A] Z) (hfg : g ∘
     (ModuleCat.ofHom (exteriorMap (k := k) (LinearMap.id (R := A) (M := W)) g))
     (by
       ext z
-      refine TensorProduct.induction_on z ?_ (fun w x ↦ ?_) (fun x y hx hy ↦ ?_)
-      · simp
+      refine TensorProduct.inductionOn z (fun w x ↦ ?_) (fun x y hx hy ↦ ?_)
       · have h : g (f x) = 0 := by rw [← LinearMap.comp_apply, hfg, LinearMap.zero_apply]
         simp [h]
       · simp only [map_add, hx, hy])
@@ -282,8 +280,7 @@ noncomputable def extRightSC (f : X →ₗ[A] Y) (g : Y →ₗ[A] Z) (hfg : g �
     (ModuleCat.ofHom (exteriorMap (k := k) g (LinearMap.id (R := A) (M := W))))
     (by
       ext z
-      refine TensorProduct.induction_on z ?_ (fun x w ↦ ?_) (fun x y hx hy ↦ ?_)
-      · simp
+      refine TensorProduct.inductionOn z (fun x w ↦ ?_) (fun x y hx hy ↦ ?_)
       · have h : g (f x) = 0 := by rw [← LinearMap.comp_apply, hfg, LinearMap.zero_apply]
         simp [h]
       · simp only [map_add, hx, hy])
@@ -456,17 +453,11 @@ noncomputable def freeExteriorEquiv :
   map_smul' r z := by
     rw [RingHom.id_apply]
     induction r with
-    | zero =>
-        have h : (0 : A ⊗[k] A) • z = 0 := zero_smul _ _
-        rw [h, map_zero, zero_smul]
     | add r r' hr hr' =>
         have h : (r + r') • z = r • z + r' • z := add_smul _ _ _
         rw [h, map_add, hr, hr', add_smul]
     | tmul x y =>
         induction z with
-        | zero =>
-            have h : (x ⊗ₜ[k] y) • (0 : (ι →₀ A) ⊗[k] (κ →₀ A)) = 0 := smul_zero _
-            rw [h, map_zero, smul_zero]
         | add z z' hz hz' =>
             have h : (x ⊗ₜ[k] y) • (z + z') = (x ⊗ₜ[k] y) • z + (x ⊗ₜ[k] y) • z' :=
               smul_add _ _ _

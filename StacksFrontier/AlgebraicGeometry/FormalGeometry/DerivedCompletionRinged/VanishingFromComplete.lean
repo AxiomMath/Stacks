@@ -35,7 +35,7 @@ attribute [local instance] hasExactColimitsOfShape_nat_sheafOfModules
 abbrev awaySmulUnit :
     SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶
       SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
-  (awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+  (awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
 
 /-- The sequential diagram `𝒪 --f--> 𝒪 --f--> ⋯`, whose colimit is `𝒪_f`. -/
 abbrev awayTelescopeSequence :
@@ -159,7 +159,6 @@ theorem singleFunctor_map_awaySmulUnit :
             (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map
           (awaySmulUnit X h)) := rfl
   rw [h3, hsm, h1, DerivedCategory.Q.map_smul, DerivedCategory.Q.map_id]
-  rfl
 
 /-- The map which multiplication by the global section `f` on `𝒪` induces on derived internal
 Hom into `K` is multiplication by `f`. The morphism is taken as a variable so that the statement

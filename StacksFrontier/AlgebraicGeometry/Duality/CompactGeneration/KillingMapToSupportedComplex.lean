@@ -125,6 +125,7 @@ theorem exists_isPerfect_isIso_comp_eq_zero_ringedSite [CompactSpace X] [QuasiSe
     Stacks.Duality.Supported.exists_isPerfect_isIso_derivedRestrict_comp_eq_zero hT hTc K hKqc hKT ζ
   exact ⟨I, f, hIp, hIiso, hf⟩
 
+set_option maxRecDepth 8000 in
 /-- **[Stacks, Tag 0A9C].** Let `X` be a quasi-compact quasi-separated scheme, let `T ⊆ X` be
 closed with quasi-compact complement and write `U = X ∖ T`. Let `α : P ⟶ E` be a morphism of
 `D(𝒪_X)` with `E` having quasi-coherent cohomology supported on `T`, and with either `P` perfect
@@ -165,9 +166,11 @@ theorem exists_isPerfect_derivedTensor_comp_eq_zero [CompactSpace X] [QuasiSepar
       (schemeDerivedTensorProduct X) P).hom ≫ α
   obtain ⟨I, f, hIp, hIiso, hf⟩ :=
     exists_isPerfect_isIso_comp_eq_zero_ringedSite hT hTc _ hKqc hKT (e.symm u)
-  exact ⟨I, f, hIp, hIiso,
+  have key :=
     RingedSite.derivedTensorProductFunctor_map_app_comp_eq_zero_of_comp_derivedCurryHomEquiv_symm
-      (ringedSite X.sheaf) _ _ _ _ f u hf⟩
+      (ringedSite X.sheaf) (Stacks.DerivedTensor.RingedSite.unitObject (ringedSite X.sheaf))
+      I P E f u hf
+  exact ⟨I, f, hIp, hIiso, key⟩
 
 end AlgebraicGeometry
 

@@ -180,7 +180,7 @@ variable {ℓ : ℕ} (hℓ : ℓ.Prime) (K : 𝒜) (P : ObjectProperty 𝒜) [P.
   (hK : P K) {π : Type*} [Group π] (Θ : P.FullSubcategory ⥤ Action AddCommGrpCat.{w} π)
   [Θ.Additive] [Θ.Full] [Θ.Faithful]
   (hK_card : Nat.card (Θ.obj ⟨K, hK⟩).V = ℓ)
-  (hK_triv : ∀ (σ : π) (y : (Θ.obj ⟨K, hK⟩).V), ((Θ.obj ⟨K, hK⟩).ρ σ).hom y = y)
+  (hK_triv : ∀ (σ : π) (y : (Θ.obj ⟨K, hK⟩).V), ((Θ.obj ⟨K, hK⟩).ρ σ).asHom.hom y = y)
   (hfin : ∀ G : P.FullSubcategory, Finite (Θ.obj G).V)
   (hepi : ∀ {G H : P.FullSubcategory} (f : G ⟶ H), Epi f.hom →
     Function.Surjective (Θ.map f).hom)
@@ -225,19 +225,19 @@ theorem isZero_of_subsingleton {G : P.FullSubcategory} (hG : Subsingleton (Θ.ob
 
 /-- The action of `π` on a finite object, as an action on its underlying type. -/
 abbrev actionMulAction (M : Action AddCommGrpCat.{w} π) : MulAction π M.V where
-  smul σ x := (M.ρ σ).hom x
+  smul σ x := (M.ρ σ).asHom.hom x
   one_smul x := by
-    change (M.ρ 1).hom x = x
+    change (M.ρ 1).asHom.hom x = x
     simp
   mul_smul σ τ x := by
-    change (M.ρ (σ * τ)).hom x = (M.ρ σ).hom ((M.ρ τ).hom x)
+    change (M.ρ (σ * τ)).asHom.hom x = (M.ρ σ).asHom.hom ((M.ρ τ).asHom.hom x)
     simp
 
 include hℓ hK_card hK_triv hfin hepi htors in
 /-- **A filtration with quotients `K`, by induction on the size of the fibre.** -/
 theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     ∀ G : P.FullSubcategory, Nat.card (Θ.obj G).V = n →
-      (∀ σ : π, ∃ k : ℕ, ∀ x : (Θ.obj G).V, ((Θ.obj G).ρ (σ ^ (ℓ ^ k))).hom x = x) →
+      (∀ σ : π, ∃ k : ℕ, ∀ x : (Θ.obj G).V, ((Θ.obj G).ρ (σ ^ (ℓ ^ k))).asHom.hom x = x) →
       ∃ X : RelSeries (CokernelIsoStep K G.obj),
         IsZero (X.head : 𝒜) ∧ IsIso X.last.arrow := by
   have : Fact ℓ.Prime := ⟨hℓ⟩
@@ -287,7 +287,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     hQ.card_modEq_card_fixedPoints _
   have hzQ : (0 : V.V) ∈ MulAction.fixedPoints Q V.V := by
     rintro ⟨g, σ, rfl⟩
-    show (V.ρ σ).hom 0 = 0
+    show (V.ρ σ).asHom.hom 0 = 0
     exact map_zero _
   obtain ⟨x, hxQ, hx0⟩ : ∃ x ∈ MulAction.fixedPoints Q V.V, x ≠ 0 := by
     have hdvd' : ℓ ∣ Nat.card (MulAction.fixedPoints Q V.V) := by
@@ -304,7 +304,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     by_cases ha0 : a = 0
     · exact ⟨b, hb, fun hb0 ↦ hab (Subtype.ext (ha0.trans hb0.symm))⟩
     · exact ⟨a, ha, ha0⟩
-  have hxfix : ∀ σ : π, (V.ρ σ).hom x = x := fun σ ↦ hxQ ⟨_, σ, rfl⟩
+  have hxfix : ∀ σ : π, (V.ρ σ).asHom.hom x = x := fun σ ↦ hxQ ⟨_, σ, rfl⟩
   let e := zmodAddEquivOfGenerator hgen hK_card
   let ψ₀ : ZMod ℓ →+ V.V := ZMod.lift ℓ ⟨zmultiplesHom V.V x, by
     simpa [zmultiplesHom_apply, natCast_zsmul] using hVℓ x⟩
@@ -321,7 +321,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
       comm := fun σ ↦ by
         ext y
         obtain ⟨z, rfl, hz⟩ := hψ y
-        show ψ (((Θ.obj ⟨K, hK⟩).ρ σ).hom (z • k₁)) = (V.ρ σ).hom (ψ (z • k₁))
+        show ψ (((Θ.obj ⟨K, hK⟩).ρ σ).asHom.hom (z • k₁)) = (V.ρ σ).asHom.hom (ψ (z • k₁))
         rw [hK_triv, hz, map_zsmul, hxfix] }
   obtain ⟨s', hs'⟩ := Θ.map_surjective φ
   set s : K ⟶ G.obj := s'.hom
@@ -362,7 +362,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     refine Fintype.card_lt_of_surjective_not_injective _ hqsurj fun hinj ↦ hx0 (hinj ?_)
     rw [hqx, map_zero]
-  have hmon' : ∀ σ : π, ∃ k : ℕ, ∀ y : (Θ.obj G').V, ((Θ.obj G').ρ (σ ^ (ℓ ^ k))).hom y = y := by
+  have hmon' : ∀ σ : π, ∃ k : ℕ, ∀ y : (Θ.obj G').V, ((Θ.obj G').ρ (σ ^ (ℓ ^ k))).asHom.hom y = y := by
     intro σ
     obtain ⟨k, hk⟩ := hmon σ
     refine ⟨k, fun y ↦ ?_⟩
@@ -390,7 +390,7 @@ with trivial action; suppose every object with `P` is killed by the prime `ℓ`.
 filtration from a zero subobject to the whole of `G` with all successive quotients
 isomorphic to `K`. -/
 theorem exists_relSeries_cokernelIsoStep (G : P.FullSubcategory)
-    (hmon : ∀ σ : π, ∃ k : ℕ, ∀ x : (Θ.obj G).V, ((Θ.obj G).ρ (σ ^ (ℓ ^ k))).hom x = x) :
+    (hmon : ∀ σ : π, ∃ k : ℕ, ∀ x : (Θ.obj G).V, ((Θ.obj G).ρ (σ ^ (ℓ ^ k))).asHom.hom x = x) :
     ∃ X : RelSeries (CokernelIsoStep K G.obj), IsZero (X.head : 𝒜) ∧ IsIso X.last.arrow :=
   exists_relSeries_cokernelIsoStep_aux hℓ K P hK Θ hK_card hK_triv hfin hepi htors _ G rfl hmon
 

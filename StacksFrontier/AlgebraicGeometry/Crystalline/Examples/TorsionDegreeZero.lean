@@ -244,7 +244,8 @@ theorem ker_reduceCoefficients :
   ext f
   rw [RingHom.mem_ker, MvPolynomial.ext_iff, Ideal.mem_span_singleton, hC,
     MvPolynomial.C_dvd_iff_dvd_coeff]
-  simp only [reduceCoefficients, MvPolynomial.coeff_map, MvPolynomial.coeff_zero, hdvd]
+  simp only [reduceCoefficients, MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero,
+    Finsupp.zero_apply, hdvd]
 
 /-- Coefficient reduction carries the three quadratic generators of `J` onto the three
 generators of `(x², xy, y²) ⊆ 𝐅_p[x, y]`. -/

@@ -75,7 +75,10 @@ theorem isFlat_of_fact_prime
       (ringedTopos (ULift.{u + 1} (ZMod ℓ)) X).O)) :
     AlgebraicGeometry.SheafOfModules.IsFlat.{u + 1, u + 1, u + 1, u + 1}
       (O := (ringedTopos (ULift.{u + 1} (ZMod ℓ)) X).O) M := by
-  let a := Stacks.ConstantSheaf.constantRingSheafMap (topology X) (ULift.{u + 1} (ZMod ℓ))
+  haveI : HasSheafify (topology X) CommRingCat.{u + 1} :=
+    AlgebraicGeometry.SheafOfModules.hasSheafify_commRingCat.{u + 1, u + 1, u + 1} _
+  let a := Stacks.ConstantSheaf.constantRingSheafMap (topology X)
+    (ULift.{u + 1, 0} (ZMod ℓ) : Type (u + 1))
   let adj := Stacks.ConstantSheaf.sheafOfModulesOfConstantRingAdjunction (topology X) a
   let G := Stacks.ConstantSheaf.moduleSheafOfConstantRing (topology X) a
   let e : G ⋙ sheafToPresheaf (topology X) (ModuleCat.{u + 1} (ULift.{u + 1} (ZMod ℓ))) ≅

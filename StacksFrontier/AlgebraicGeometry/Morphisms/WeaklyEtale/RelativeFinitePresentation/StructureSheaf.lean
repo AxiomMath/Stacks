@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 public import StacksFrontier.Algebra.Module.FinitePresentationRel.Basic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Morphisms.WeaklyEtale.RelativeFinitePresentation.Defs

@@ -365,13 +365,13 @@ theorem epi_excessMap : Epi (D.excessMap hj) := by
     hK
     hA
     hC
-  have := Stacks.AlgebraicGeometry.ReflexiveModules.toDoubleDual_isIso_of_isFiniteLocallyFree
+  have hiso := Stacks.AlgebraicGeometry.ReflexiveModules.toDoubleDual_isIso_of_isFiniteLocallyFree
     D.bundleZX.bundle D.bundleZX.isFiniteLocallyFree
   have : Epi (dualMap D.excessDualMap) := by
     rw [excessDualMap, dualMap_comp]
     exact epi_comp' h₁.epi_g h₂.epi_g
   rw [excessMap]
-  infer_instance
+  exact epi_comp' (IsIso.epi_of_iso _) (epi_comp' this (IsIso.epi_of_iso _))
 
 /-- `𝒩₁ = ker(𝒩 ⟶ i^*ℰ)` is finite locally free: the kernel of an epimorphism of finite locally
 free modules. -/

@@ -258,9 +258,6 @@ noncomputable def constTensorHom (U : (Opens space.{u})ᵒᵖ) :
 theorem pairingMap_constTensorHom (U : (Opens space.{u})ᵒᵖ) (z : N ⊗[R] M) :
     pairingMap R M N e U (constTensorHom R M N U z) = fun _ => e z := by
   induction z with
-  | zero =>
-    simp only [map_zero]
-    rfl
   | tmul n m => rfl
   | add z₁ z₂ h₁ h₂ =>
     simp only [map_add, h₁, h₂]
@@ -273,7 +270,6 @@ theorem constTensorHom_surjective (U : (Opens space.{u})ᵒᵖ) (x₀ : ↥(unop
     Function.Surjective (constTensorHom R M N U) := by
   intro t
   induction t with
-  | zero => exact ⟨0, map_zero _⟩
   | tmul g f =>
       refine ⟨g x₀ ⊗ₜ[R] f x₀, ?_⟩
       rw [constTensorHom_tmul]

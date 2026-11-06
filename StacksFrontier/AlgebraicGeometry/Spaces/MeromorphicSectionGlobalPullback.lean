@@ -159,6 +159,7 @@ noncomputable def meromorphicSectionSheafDescendedHom
   descendedHomPresheaf B S hS f G _ H i
     (FMap.compSource B S hS f (fmapMeromorphicSectionsSheafUp B S hS f M hf) α)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0ENC, part (1).**  When pullbacks of meromorphic functions are defined for `f`,
 there is a canonical map on global meromorphic sections
 

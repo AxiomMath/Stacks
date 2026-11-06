@@ -113,14 +113,14 @@ private theorem exists_natTrans_of_finite_cofinal {C : Type u} [Category.{v} C]
     Functor.initial_of_exists_of_isCofiltered_of_fullyFaithful K hrefine
   have : IsCofiltered P.FullSubcategory :=
     IsCofiltered.of_exists_of_isCofiltered_of_fullyFaithful K hrefine
-  let H := CategoryOfElements.π F ⋙ G
+  let H := Functor.Elements.π F ⋙ G
   have (b : P.FullSubcategory) : Finite ((K ⋙ H).obj b) := hfinite b
   have (b : P.FullSubcategory) : Nonempty ((K ⋙ H).obj b) := hne b
   obtain ⟨s, hs⟩ := nonempty_sections_of_initial K H
     (nonempty_sections_of_finite_cofiltered_system (K ⋙ H))
-  refine ⟨fun X x => s ⟨X, x⟩, ?_⟩
+  refine ⟨fun X x => s (F.elementsMk X x), ?_⟩
   intro X Y f x
-  exact hs (CategoryOfElements.homMk ⟨X, x⟩ ⟨Y, F.map f x⟩ f rfl)
+  exact hs (Functor.Elements.homMk (x := F.elementsMk X x) (y := F.elementsMk Y (F.map f x)) f rfl)
 
 /-- A natural family of maps between two functors with cofiltered categories of elements is
 bijective everywhere as soon as it is bijective on a cofinal class of objects. -/
@@ -135,14 +135,14 @@ private theorem bijective_of_bijective_on_cofinal {C : Type u} [Category.{v} C]
     Function.Bijective (α X) := by
   constructor
   · intro a b hab
-    let A : F.Elements := ⟨X, a⟩
-    let B : F.Elements := ⟨X, b⟩
+    let A : F.Elements := F.elementsMk X a
+    let B : F.Elements := F.elementsMk X b
     let T := IsCofiltered.min A B
     obtain ⟨T', hT', ⟨r⟩⟩ := hF T
     let f := r ≫ IsCofiltered.minToLeft A B
     let g := r ≫ IsCofiltered.minToRight A B
-    let U : G.Elements := ⟨T'.1, α T'.1 T'.2⟩
-    let V : G.Elements := ⟨X, α X a⟩
+    let U : G.Elements := G.elementsMk T'.1 (α T'.1 T'.2)
+    let V : G.Elements := G.elementsMk X (α X a)
     let f' : U ⟶ V := ⟨f.1, by simpa only [f.2] using (hnat f.1 T'.2)⟩
     let g' : U ⟶ V := ⟨g.1, by
       show G.map g.1 (α T'.1 T'.2) = α X a
@@ -166,7 +166,7 @@ private theorem bijective_of_bijective_on_cofinal {C : Type u} [Category.{v} C]
       _ = F.map (k.1 ≫ g.1) c := by rw [heq]
       _ = b := by rw [Functor.map_comp_apply, hk, g.2]
   · intro a
-    obtain ⟨T, hT, ⟨f⟩⟩ := hG ⟨X, a⟩
+    obtain ⟨T, hT, ⟨f⟩⟩ := hG (G.elementsMk X a)
     obtain ⟨b, hb⟩ := (hα T.1 hT).2 T.2
     exact ⟨F.map f.1 b, by rw [← hnat, hb]; exact f.2⟩
 
@@ -366,8 +366,8 @@ private theorem injective_of_natTo_geometricPointFiber
     Function.Injective (α X) := by
   have : IsAffine (B.inclusion.obj X.obj.left) := hX
   intro a b hab
-  let A : F.Elements := ⟨X, a⟩
-  let D : F.Elements := ⟨X, b⟩
+  let A : F.Elements := F.elementsMk X a
+  let D : F.Elements := F.elementsMk X b
   let T := IsCofiltered.min A D
   let f := IsCofiltered.minToLeft A D
   let g := IsCofiltered.minToRight A D
@@ -610,12 +610,12 @@ private def elementsEquivalenceOfFiberEquivs {C : Type u} [Category.{v} C]
     (he : ∀ {X Y} (f : X ⟶ Y) (a : F.obj X), G.map f (e X a) = e Y (F.map f a)) :
     F.Elements ≌ G.Elements where
   functor :=
-    { obj a := ⟨a.1, e a.1 a.2⟩
+    { obj a := G.elementsMk a.1 (e a.1 a.2)
       map {a b} f := ⟨f.1, (he f.1 a.2).trans (congrArg (e b.1) f.2)⟩
       map_id a := rfl
       map_comp f g := rfl }
   inverse :=
-    { obj a := ⟨a.1, (e a.1).symm a.2⟩
+    { obj a := F.elementsMk a.1 ((e a.1).symm a.2)
       map {a b} f := ⟨f.1, by
         apply (e b.1).injective
         rw [← he]
@@ -623,23 +623,23 @@ private def elementsEquivalenceOfFiberEquivs {C : Type u} [Category.{v} C]
       map_id a := rfl
       map_comp f g := rfl }
   unitIso := NatIso.ofComponents (fun a =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by
+    Functor.Elements.isoMk (Iso.refl _) (by
       change F.map (𝟙 a.1) a.2 = (e a.1).symm (e a.1 a.2)
       simp)) (by
       intro a b f
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       change f.1 ≫ 𝟙 _ = 𝟙 _ ≫ f.1
       simp)
   counitIso := NatIso.ofComponents (fun a =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by
+    Functor.Elements.isoMk (Iso.refl _) (by
       change G.map (𝟙 a.1) (e a.1 ((e a.1).symm a.2)) = a.2
       simp)) (by
       intro a b f
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       change f.1 ≫ 𝟙 _ = 𝟙 _ ≫ f.1
       simp)
   functor_unitIso_comp a := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     change (𝟙 a.1) ≫ 𝟙 a.1 = 𝟙 a.1
     simp
 
@@ -652,24 +652,24 @@ private noncomputable def presheafFiberIsoOfFiberIso
     [HasColimitsOfShape F.Elementsᵒᵖ (Type w)]
     [HasColimitsOfShape G.Elementsᵒᵖ (Type w)] :
     (Functor.whiskeringLeft F.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-        (CategoryOfElements.π F).op ⋙ colim ≅
+        (Functor.Elements.π F).op ⋙ colim ≅
       (Functor.whiskeringLeft G.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-        (CategoryOfElements.π G).op ⋙ colim := by
+        (Functor.Elements.π G).op ⋙ colim := by
   let E := elementsEquivalenceOfFiberEquivs e he
   let K := E.functor.op
-  have hK : K ⋙ (CategoryOfElements.π G).op = (CategoryOfElements.π F).op := rfl
+  have hK : K ⋙ (Functor.Elements.π G).op = (Functor.Elements.π F).op := rfl
   have : K.Final := Functor.final_equivalence_comp (𝟭 _) K
-  let H := (Functor.whiskeringLeft G.Elementsᵒᵖ Cᵒᵖ (Type w)).obj (CategoryOfElements.π G).op
+  let H := (Functor.whiskeringLeft G.Elementsᵒᵖ Cᵒᵖ (Type w)).obj (Functor.Elements.π G).op
   let HK := (Functor.whiskeringLeft F.Elementsᵒᵖ G.Elementsᵒᵖ (Type w)).obj K
   have hH : H ⋙ HK =
       (Functor.whiskeringLeft F.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-        (K ⋙ (CategoryOfElements.π G).op) := rfl
+        (K ⋙ (Functor.Elements.π G).op) := rfl
   have hcomp := congrArg
     (fun q : F.Elementsᵒᵖ ⥤ Cᵒᵖ =>
       (Functor.whiskeringLeft F.Elementsᵒᵖ Cᵒᵖ (Type w)).obj q ⋙ colim) hK
   have hsrc : (H ⋙ HK) ⋙ colim =
       (Functor.whiskeringLeft F.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-        (CategoryOfElements.π F).op ⋙ colim := by
+        (Functor.Elements.π F).op ⋙ colim := by
     rw [hH, hcomp]
   exact (eqToIso hsrc).symm ≪≫ Functor.associator H HK colim ≪≫
     Functor.isoWhiskerLeft H (Functor.Final.colimIso K)
@@ -684,10 +684,10 @@ private noncomputable def sheafFiberIsoOfFiberIso
     [HasColimitsOfShape G.Elementsᵒᵖ (Type w)] :
     sheafToPresheaf J (Type w) ⋙
         ((Functor.whiskeringLeft F.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-          (CategoryOfElements.π F).op ⋙ colim) ≅
+          (Functor.Elements.π F).op ⋙ colim) ≅
       sheafToPresheaf J (Type w) ⋙
         ((Functor.whiskeringLeft G.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-          (CategoryOfElements.π G).op ⋙ colim) :=
+          (Functor.Elements.π G).op ⋙ colim) :=
   Functor.isoWhiskerLeft (sheafToPresheaf J (Type w)) (presheafFiberIsoOfFiberIso e he)
 
 /-- **Stacks 04HU, part (2).** Every point of the small étale topos of `S` has the geometric
@@ -706,7 +706,7 @@ public theorem exists_geometricPoint_inverseImage_iso
       Nonempty (p.inverseImage ≅
         sheafToPresheaf (SmallEtale.topology B S hS) (Type (u + 1)) ⋙
           (Functor.whiskeringLeft _ _ _).obj
-            (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+            (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           colim) := by
   obtain ⟨Φ, hΦ⟩ := p.exists_sitePoint_fiber_eq
   obtain ⟨s, e, he⟩ := exists_fiber_equiv_geometricPointFiber.{u, u + 1} B S hS Φ

@@ -101,6 +101,17 @@ theorem isEtale_of_isPullback_of_isAlgebraicSpace (B : BigFppfSite.{u}) (S : Sch
 
 variable (B : BigFppfSite.{u}) (U : Scheme.{u}) (hU : B.Contains U)
 
+/-- Pullbacks of presheaves on `BigFppfOver B U hU`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SectionSpaceFinitePart :
+    HasPullbacks ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SectionSpaceFinitePart
+    {X Y Z : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_SectionSpaceFinitePart B U hU).has_limit _
+
 /-- The terminal presheaf on the big fppf site of `U`, as an algebraic space over `U`. -/
 noncomputable def terminalPresheafSpace : AlgebraicSpaces B U hU :=
   ⟨⊤_ ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u), isAlgebraicSpace_terminal B U hU⟩
@@ -425,7 +436,7 @@ theorem range_sectionLift_ι_comp_sectionAmbientProjection {T : BigFppfOver B U 
     {w : W ⟶ yoneda.obj Z} (σ : SectionsOver B U hU Z T W w) :
     (Subfunctor.range (sectionLift σ)).ι ≫ sectionAmbientProjection T w =
       (sectionLiftRangeIso σ).inv := by
-  apply (cancel_epi (sectionLiftRangeIso σ).hom).1
+  apply (Iso.cancel_iso_hom_left (sectionLiftRangeIso σ) _ _).1
   rw [← Category.assoc, sectionLiftRangeIso_hom_comp_ι, sectionLift_comp_sectionAmbientProjection,
     Iso.hom_inv_id]
 
@@ -464,7 +475,7 @@ theorem isBaseChange_sectionPair (hW : IsAlgebraicSpace B U hU W) {w : W ⟶ yon
           pullback.snd (terminal.from (yoneda.obj T)) (terminal.from W) =
       (Subfunctor.range (sectionLift (SectionsOver.restrict h σ))).ι ≫
         pullback.snd (terminal.from (yoneda.obj T')) (terminal.from W)
-    apply (cancel_epi (sectionLiftRangeIso (SectionsOver.restrict h σ)).hom).1
+    apply (Iso.cancel_iso_hom_left (sectionLiftRangeIso (SectionsOver.restrict h σ)) _ _).1
     rw [sectionLiftRangeIso_hom_comp_ι_comp_snd, SectionsOver.restrict_coe]
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [sectionLiftRangeIso_hom_comp_ι_comp_snd]

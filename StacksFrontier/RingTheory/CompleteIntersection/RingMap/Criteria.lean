@@ -765,7 +765,7 @@ private lemma isRegular_of_ringKrullDim_le {k : Type*} [Field k] {ι : Type*} [_
     Module.IsMaximalCohenMacaulay.of_isLocalization_atPrime_mvPolynomial hk p
       (Localization.AtPrime p)
   have hd : ringKrullDim (MvPolynomial ι k) = ((Nat.card ι : ℕ) : WithBot ℕ∞) := by
-    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing,
+    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
       ringKrullDim_eq_zero_of_isField (Semifield.toIsField k), zero_add]
   have hlen : (List.ofFn f).length = c := List.length_ofFn
   have hne : Ideal.ofList (List.ofFn f) ≠ ⊤ := by
@@ -791,10 +791,10 @@ private lemma exists_noetherian_model {R : Type*} [CommRing R] {ι α : Type*}
   let _ := Fintype.ofFinite α
   let T : Finset R :=
     Finset.univ.biUnion fun i : α =>
-      (g i).support.image fun d => MvPolynomial.coeff d (g i)
+      (g i).support.image fun d => (g i).coeff d
   let R₀ : Subalgebra ℤ R := Algebra.adjoin ℤ (T : Set R)
   have hmem (i : α) (d : ι →₀ ℕ) (hd : d ∈ (g i).support) :
-      MvPolynomial.coeff d (g i) ∈ R₀ := by
+      (g i).coeff d ∈ R₀ := by
     apply Algebra.subset_adjoin
     simp only [Finset.mem_coe, T, Finset.mem_biUnion, Finset.mem_univ, true_and]
     exact ⟨i, Finset.mem_image_of_mem _ hd⟩
@@ -803,7 +803,7 @@ private lemma exists_noetherian_model {R : Type*} [CommRing R] {ι α : Type*}
     refine ⟨∑ d ∈ (g i).support,
       MvPolynomial.monomial d
         (if h : d ∈ (g i).support then
-          (⟨MvPolynomial.coeff d (g i), hmem i d h⟩ : R₀) else 0), ?_⟩
+          (⟨(g i).coeff d, hmem i d h⟩ : R₀) else 0), ?_⟩
     rw [map_sum]
     conv_rhs => rw [(g i).as_sum]
     refine Finset.sum_congr rfl fun d hd => ?_

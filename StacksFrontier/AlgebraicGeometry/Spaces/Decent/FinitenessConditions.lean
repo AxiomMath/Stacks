@@ -258,10 +258,13 @@ private theorem locallySurjective_sigma_yoneda_of_cover (J : GrothendieckTopolog
     {I : Type u} [Small.{u} I] {Y : I → C} {T : C} (f : ∀ i, Y i ⟶ T)
     (hcover : Sieve.ofArrows Y f ∈ J T) :
     Presheaf.IsLocallySurjective J (Sigma.desc (fun i => yoneda.map (f i))) := by
-  classical
-  have hsmall :=
+  have : HasColimitsOfShape (Discrete I) (Cᵒᵖ ⥤ Type u) :=
+    functorCategoryHasColimitsOfShape
+  have hsmall : Presheaf.IsLocallySurjective J
+      (Sigma.desc (fun i => shrinkYoneda.{u}.map (f i))) :=
     (GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_shrinkYoneda_map
       J f).mp hcover
+  classical
   let e : (∐ fun i => shrinkYoneda.{u}.obj (Y i)) ≅ (∐ fun i => yoneda.obj (Y i)) :=
     Sigma.mapIso (fun i => shrinkYonedaIsoYoneda.app (Y i))
   have hfac : e.hom ≫ Sigma.desc (fun i => yoneda.map (f i)) =

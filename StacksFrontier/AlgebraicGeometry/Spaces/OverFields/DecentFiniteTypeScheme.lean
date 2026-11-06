@@ -513,6 +513,7 @@ private theorem isRepresentable_of_quasiAffine_fpqc_baseChange
   exact isRepresentable_of_natIso (yoneda.obj W)
     (e ≪≫ asIso (pullback.snd (𝟙 (yoneda.obj V)) f))
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem quasiAffine_of_open_factor
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hF : IsAlgebraicSpace B S hS F)
@@ -869,6 +870,19 @@ private theorem exists_affine_factor_of_finite_over_algebraicallyClosed
 
 /-! ### Stacks 0B88 -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_DecentFiniteTypeScheme
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance (priority := high) hasBinaryProducts_presheaf_DecentFiniteTypeScheme
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0B88.** Let `k` be a field with algebraic closure `K = k̄` and let `X` be an
 algebraic space over `k`.  Assume
 

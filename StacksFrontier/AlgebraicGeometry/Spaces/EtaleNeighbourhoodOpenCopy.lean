@@ -89,6 +89,8 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+attribute [local instance high] hasPullbacks_presheaf_flat hasPullback_presheaf_flat
+
 section Graph
 
 variable {X Y U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : X ⟶ Y} {g : U ⟶ Y} {a : U ⟶ X}

@@ -83,7 +83,7 @@ theorem subsingleton_localizedAutomorphismFunctorTangent
     (h : Quiver.IsThin (p.Fiber (dualNumbersUnder (p := p) (x := x)).right)) :
     Subsingleton (localizedAutomorphismFunctorTangent P) := by
   have : Subsingleton (infinitesimalAutomorphismKernel P (tangentReduction (p := p) (x := x))) :=
-    ⟨fun a b => Subtype.ext (Iso.ext ((h _ _).elim _ _))⟩
+    ⟨fun a b => Subtype.ext (Aut.ext (Iso.ext ((h _ _).elim _ _)))⟩
   exact (localizedTangentEquivKernel P).injective.subsingleton
 
 /-- The tangent module at the rank-one module of a deformation category is finite

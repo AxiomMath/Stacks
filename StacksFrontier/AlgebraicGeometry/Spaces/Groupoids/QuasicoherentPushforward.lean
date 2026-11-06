@@ -183,7 +183,8 @@ theorem Hom.groupoidInverse_comp_arrowsMap (φ : Hom G G') :
     rw [hsource, Category.assoc, htarget, ← Category.assoc, groupoidInverse_target]
   have hleft : groupoidCompose G (𝟙 G.arrows.obj) (groupoidInverse G) w₀ =
       G.target.hom ≫ (identityArrow G).hom := by
-    simpa [identityAfterTarget] using groupoidCompose_inverseLeft G (𝟙 G.arrows.obj)
+    simpa only [identityAfterTarget, Category.id_comp] using
+      groupoidCompose_inverseLeft G (𝟙 G.arrows.obj)
   have key : groupoidCompose G' (φ.arrowsMap.hom) (groupoidInverse G ≫ φ.arrowsMap.hom) w' =
       identityAfterTarget G' (φ.arrowsMap.hom) := by
     rw [← Hom.groupoidCompose_comp_arrowsMap' φ (𝟙 G.arrows.obj) (groupoidInverse G) w₀
@@ -208,7 +209,8 @@ theorem inverseArrow_comp_inverseArrow (G : GroupoidInAlgebraicSpaces B S hS A) 
   have key : groupoidCompose G (groupoidInverse G) (𝟙 G.arrows.obj) w₀ =
       identityAfterTarget G (groupoidInverse G) := by
     rw [identityAfterTarget, ← Category.assoc, groupoidInverse_target]
-    simpa [identityAfterSource] using groupoidCompose_inverseRight G (𝟙 G.arrows.obj)
+    simpa only [identityAfterSource, Category.id_comp, Category.comp_id] using
+      groupoidCompose_inverseRight G (𝟙 G.arrows.obj)
   have h := groupoidCompose_eq_inverse G (groupoidInverse G) (𝟙 G.arrows.obj) w₀ key
   exact h.symm
 

@@ -161,10 +161,10 @@ theorem specMap_ulift_isOpenImmersion {C : Type v} {D : Type w}
       (AlgebraicGeometry.Spec.map (CommRingCat.ofHom iD)) :=
     AlgebraicGeometry.IsOpenImmersion.of_isLocalization (ULift.up (f g))
   have hfAway : Function.Bijective fAway := by
-    refine ⟨fun x y hxy => ULift.ext _ _ ((haway g hg).injective (congrArg ULift.down hxy)),
+    refine ⟨fun x y hxy => ULift.ext ((haway g hg).injective (congrArg ULift.down hxy)),
       fun z => ?_⟩
     obtain ⟨x, hx⟩ := (haway g hg).surjective z.down
-    exact ⟨⟨x⟩, ULift.ext _ _ hx⟩
+    exact ⟨⟨x⟩, ULift.ext hx⟩
   let _ : IsIso (CommRingCat.ofHom fAway) :=
     (RingEquiv.toCommRingCatIso (RingEquiv.ofBijective fAway hfAway)).isIso_hom
   have hsq :
@@ -507,8 +507,8 @@ noncomputable def noetherPairingWithFormula {A : Type u} {B : Type v}
   let p : dualizingModule F →ₗ[B] (↑J →ₗ[B] B) := {
     toFun := fun ω => {
       toFun := fun j => qAll ω (e.symm j)
-      map_add' := by intro x y; simp
-      map_smul' := by intro b x; simp
+      map_add' := by intro x y; rw [e.symm.map_add, map_add]
+      map_smul' := by intro b x; rw [e.symm.map_smul, LinearMap.map_smul]; rfl
     }
     map_add' := by intro x y; ext j; simp
     map_smul' := by intro b x; ext j; simp

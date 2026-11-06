@@ -114,7 +114,7 @@ end Carrier
 /-- The identity of `G` acts trivially on a discrete `G`-module. -/
 private lemma ρ_one_apply {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] (X : ContinuousGModule.{u, max u v} G) (z : X.obj.obj.V) :
-    (X.obj.obj.ρ (1 : G)).hom z = z := by
+    (X.obj.obj.ρ (1 : G)).asHom.hom z = z := by
   rw [map_one]
   rfl
 
@@ -179,7 +179,7 @@ variable {G B}
 
 /-- The action on `Stacks.GroupCohomology.locallyConstantGModule` is right translation. -/
 @[simp] lemma locallyConstantGModule_ρ_hom (g : G) (f : lcFun G B) :
-    (((locallyConstantGModule G B).obj.obj.ρ g).hom f : lcFun G B) = g • f := rfl
+    (((locallyConstantGModule G B).obj.obj.ρ g).asHom.hom f : lcFun G B) = g • f := rfl
 
 end Module
 
@@ -194,7 +194,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Com
 the locally constant function `g ↦ ψ (g • z)`. -/
 def orbitHom (X : ContinuousGModule.{u, max u v} G) (ψ : X.obj.obj.V →+ B) :
     X.obj.obj.V →+ lcFun G B where
-  toFun z := ⟨fun g ↦ ψ ((X.obj.obj.ρ g).hom z),
+  toFun z := ⟨fun g ↦ ψ ((X.obj.obj.ρ g).asHom.hom z),
     isLocallyConstant_of_stabilizer G X z _ fun g₁ g₂ h ↦ by rw [h]⟩
   map_zero' := Subtype.ext (funext fun g ↦ by simp)
   map_add' z₁ z₂ := Subtype.ext (funext fun g ↦ by simp)
@@ -203,11 +203,11 @@ variable (X : ContinuousGModule.{u, max u v} G) (ψ : X.obj.obj.V →+ B)
 
 /-- The orbit map sends `z` to the function `g ↦ ψ (g • z)`. -/
 @[simp] lemma orbitHom_apply_coe (z : X.obj.obj.V) (g : G) :
-    ((orbitHom X ψ z : lcFun G B) : G → B) g = ψ ((X.obj.obj.ρ g).hom z) := rfl
+    ((orbitHom X ψ z : lcFun G B) : G → B) g = ψ ((X.obj.obj.ρ g).asHom.hom z) := rfl
 
 /-- The orbit map is `G`-equivariant for the action by right translation. -/
 lemma orbitHom_smul (g : G) (z : X.obj.obj.V) :
-    orbitHom X ψ ((X.obj.obj.ρ g).hom z) = g • orbitHom X ψ z := by
+    orbitHom X ψ ((X.obj.obj.ρ g).asHom.hom z) = g • orbitHom X ψ z := by
   refine Subtype.ext (funext fun x ↦ ?_)
   simp only [orbitHom_apply_coe, lcFun_smul_coe]
   rw [map_mul]
@@ -232,7 +232,7 @@ theorem mono_orbitMap (hψ : Function.Injective ψ) : Mono (orbitMap X ψ) := by
   rw [ModuleCat.mono_iff_injective]
   intro z₁ z₂ h
   have h' : orbitHom X ψ z₁ = orbitHom X ψ z₂ := h
-  have h1 : ψ ((X.obj.obj.ρ (1 : G)).hom z₁) = ψ ((X.obj.obj.ρ (1 : G)).hom z₂) :=
+  have h1 : ψ ((X.obj.obj.ρ (1 : G)).asHom.hom z₁) = ψ ((X.obj.obj.ρ (1 : G)).asHom.hom z₂) :=
     congrFun (congrArg Subtype.val h') 1
   exact (ρ_one_apply X z₁).symm.trans ((hψ h1).trans (ρ_one_apply X z₂))
 
@@ -254,7 +254,7 @@ instance injective_locallyConstantGModule [DivisibleBy B ℤ] :
   have : Mono fm := hfm
   let G₀ : X.obj.obj.V →+ lcFun G B :=
     (gModuleHomEquiv G X (locallyConstantGModule G B) gm).1
-  have hG₀ : ∀ (g : G) (x : X.obj.obj.V), G₀ ((X.obj.obj.ρ g).hom x) = g • G₀ x :=
+  have hG₀ : ∀ (g : G) (x : X.obj.obj.V), G₀ ((X.obj.obj.ρ g).asHom.hom x) = g • G₀ x :=
     fun g x ↦ ((gModuleHomEquiv G X (locallyConstantGModule G B) gm).2 g x).trans
       (locallyConstantGModule_ρ_hom g (G₀ x))
   let ψ : X.obj.obj.V →+ B :=
@@ -267,17 +267,17 @@ instance injective_locallyConstantGModule [DivisibleBy B ℤ] :
     (ModuleCat.mono_iff_injective ((continuousGModuleUnderlying.{u, max u v} G).map fm)).mp
       (Functor.map_mono _ fm)
   have hfleq : ∀ (g : G) (x : X.obj.obj.V),
-      fl ((X.obj.obj.ρ g).hom x) = (Y.obj.obj.ρ g).hom (fl x) :=
+      fl ((X.obj.obj.ρ g).asHom.hom x) = (Y.obj.obj.ρ g).asHom.hom (fl x) :=
     fun g x ↦ ConcreteCategory.congr_hom (fm.hom.hom.comm g) x
   obtain ⟨ψ', hψ'⟩ := (Module.Baer.of_divisible B).extension_property_addMonoidHom fl hflinj ψ
   refine ⟨orbitMap Y ψ', (gModuleHomEquiv G X (locallyConstantGModule G B)).injective
     (Subtype.ext (AddMonoidHom.ext fun x ↦ ?_))⟩
   change orbitHom Y ψ' (fl x) = G₀ x
   refine Subtype.ext (funext fun g ↦ ?_)
-  change ψ' ((Y.obj.obj.ρ g).hom (fl x)) = (G₀ x : G → B) g
-  calc ψ' ((Y.obj.obj.ρ g).hom (fl x))
-      = ψ' (fl ((X.obj.obj.ρ g).hom x)) := by rw [hfleq]
-    _ = ψ ((X.obj.obj.ρ g).hom x) := DFunLike.congr_fun hψ' _
+  change ψ' ((Y.obj.obj.ρ g).asHom.hom (fl x)) = (G₀ x : G → B) g
+  calc ψ' ((Y.obj.obj.ρ g).asHom.hom (fl x))
+      = ψ' (fl ((X.obj.obj.ρ g).asHom.hom x)) := by rw [hfleq]
+    _ = ψ ((X.obj.obj.ρ g).asHom.hom x) := DFunLike.congr_fun hψ' _
     _ = (G₀ x : G → B) g :=
       (congrArg (fun f : lcFun G B ↦ (f : G → B) 1) (hG₀ g x)).trans (by simp)
 

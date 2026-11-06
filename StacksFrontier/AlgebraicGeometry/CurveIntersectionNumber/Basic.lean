@@ -86,7 +86,7 @@ namespace MvPolynomial
 tuple.** Its value is the constant coefficient plus the linear coefficient times the point. -/
 theorem eval_const_eq_of_totalDegree_le_one {P : MvPolynomial (Fin 1) ℚ}
     (h : P.totalDegree ≤ 1) (t : ℚ) :
-    eval (fun _ ↦ t) P = constantCoeff P + coeff (Finsupp.single 0 1) P * t := by
+    eval (fun _ ↦ t) P = constantCoeff P + P.coeff (Finsupp.single 0 1) * t := by
   have hne : (Finsupp.single (0 : Fin 1) (1 : ℕ)) ≠ 0 := by simp
   have key : ∀ d : Fin 1 →₀ ℕ, d ∈ P.support → d = 0 ∨ d = Finsupp.single 0 1 := by
     intro d hdmem
@@ -99,7 +99,7 @@ theorem eval_const_eq_of_totalDegree_le_one {P : MvPolynomial (Fin 1) ℚ}
     rcases Nat.lt_or_ge (d 0) 1 with h0 | h1
     · exact Or.inl (by rw [hd, Nat.lt_one_iff.mp h0]; simp)
     · exact Or.inr (by rw [hd, le_antisymm hsum h1])
-  have hP : P = C (constantCoeff P) + C (coeff (Finsupp.single 0 1) P) * X 0 := by
+  have hP : P = C (constantCoeff P) + C (P.coeff (Finsupp.single 0 1)) * X 0 := by
     ext d
     by_cases h0 : d = 0
     · subst h0; simp [coeff_C, coeff_X, constantCoeff, hne]
@@ -134,7 +134,7 @@ def IsSelfIntersectionNumber (d : ℕ) (L : X.Modules)
       (@eulerCharacteristic k _ X f _
         (twistedSheaf (SheafOfModules.unit X.ringCatSheaf) (fun _ ↦ L) n)
         (twistedSheaf_isCoherent _ _ n) : ℚ)) ∧
-    MvPolynomial.coeff (∑ j : Fin d, Finsupp.single j 1) P = c
+    P.coeff (∑ j : Fin d, Finsupp.single j 1) = c
 
 /-- **The twist of `𝒪_X` by the first tensor power of an invertible module is that module.**
 Raising the single exponent from `0` to `1` tensors the empty twist of `𝒪_X` by `𝓛`, and
@@ -190,7 +190,7 @@ theorem eq_invertibleCurveDegree_of_isSelfIntersectionNumber
       (twistedSheafUnitOneIso L)
   -- The two values of the polynomial pin down its linear coefficient.
   have hlin : ∀ t : ℤ, MvPolynomial.constantCoeff P +
-      MvPolynomial.coeff (Finsupp.single 0 1) P * (t : ℚ) = @eulerCharacteristic k _ X f _
+      P.coeff (Finsupp.single 0 1) * (t : ℚ) = @eulerCharacteristic k _ X f _
         (twistedSheaf (SheafOfModules.unit X.ringCatSheaf) (fun _ : Fin 1 ↦ L) (fun _ ↦ t))
         (twistedSheaf_isCoherent _ _ _) :=
     fun t ↦ (MvPolynomial.eval_const_eq_of_totalDegree_le_one hdeg t).symm.trans

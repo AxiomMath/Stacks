@@ -275,7 +275,7 @@ theorem exists_eventual_sum_shift [IsNoetherianRing A] {L : Type v} [Fintype L]
   have hT : ∀ a ∈ Set.range T, ∀ b ∈ Set.range T, a * b = b * a := by
     rintro _ ⟨l, rfl⟩ _ ⟨l', rfl⟩
     exact shift_mul_shift_comm (hcomm l l')
-  have := Algebra.isMulCommutative_adjoin A hT
+  have := Algebra.isMulCommutative_adjoin A (fun a ha b hb _ => hT a ha b hb)
   let : CommRing (Algebra.adjoin A (Set.range T)) := IsMulCommutative.instCommRing
   let ψ : MvPolynomial L A →ₐ[A] Algebra.adjoin A (Set.range T) :=
     MvPolynomial.aeval fun l ↦ ⟨T l, Algebra.subset_adjoin ⟨l, rfl⟩⟩

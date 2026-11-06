@@ -185,8 +185,8 @@ there the factorization of `𝟭` through the homotopy category cancels it. -/
 public theorem Functor.mapDerivedCategoryFactors_inv_comp_mapDerivedCategoryIdIso_hom
     (P : CochainComplex C ℤ) :
     (𝟭 C).mapDerivedCategoryFactors.inv.app P ≫
-        Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj P) = 𝟙 _ := by
-  have hnat := Functor.mapDerivedCategoryIdIso.hom.naturality
+        (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Q.obj P) = 𝟙 _ := by
+  have hnat := (Functor.mapDerivedCategoryIdIso C).hom.naturality
     ((DerivedCategory.quotientCompQhIso C).hom.app P)
   have hQh := Functor.mapDerivedCategoryIdIso_hom_app_Qh
     ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj P)

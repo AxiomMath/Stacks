@@ -131,7 +131,7 @@ public lemma productResolutionMap_f_zero_π {A : Type*} [Category A] [Abelian A]
       Pi.π M n ≫ (I n).ι.f 0 := by
   simpa only [productResolutionMap, HomologicalComplex.comp_f,
     CochainComplex.single₀_map_f_zero] using
-    HomologicalComplex.congr_hom (Pi.lift_π
+    HomologicalComplex.congr_hom (Pi.lift_comp_π
       (fun n => (CochainComplex.single₀ A).map (Pi.π M n) ≫ (I n).ι) n) 0
 
 /-- `productResolutionMap M I` is a quasi-isomorphism in degree zero. -/
@@ -159,10 +159,10 @@ public lemma productResolutionMap_quasiIsoAt_zero {A : Type*} [Category A] [Abel
         (Pi.π (fun n => (I n).cocomplex) n).f 0 =
           a ≫ (Pi.π (fun n => (I n).cocomplex) n).f 0
       rw [Category.assoc, productResolutionMap_f_zero_π, ← Category.assoc,
-        Pi.lift_π, hl a ha n]
+        Pi.lift_comp_π, hl a ha n]
     · intro W a ha m hm
       refine Pi.hom_ext _ _ fun n => ?_
-      rw [Pi.lift_π]
+      rw [Pi.lift_comp_π]
       apply (cancel_mono ((I n).ι.f 0)).mp
       rw [hl a ha n, Category.assoc, ← productResolutionMap_f_zero_π,
         ← Category.assoc, hm]
@@ -287,8 +287,8 @@ public lemma map_inverseLimitSequence_g {A D : Type*} [Category A] [Category D]
             G.map (F.map (homOfLE (Nat.le_succ n)).op)) := by
   refine Pi.hom_ext _ _ fun n => ?_
   dsimp only [inverseLimitSequence]
-  rw [Category.assoc, piComparison_comp_π, ← G.map_comp, Pi.lift_π,
-    G.map_sub, G.map_comp, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  rw [Category.assoc, piComparison_comp_π, ← G.map_comp, Pi.lift_comp_π,
+    G.map_sub, G.map_comp, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, ← Category.assoc, piComparison_comp_π]
 
 /-! ### The two indexings of the right derived functors -/
@@ -311,14 +311,14 @@ noncomputable def rightDerivedPlusObjIso {A B : Type*} [Category A] [Category B]
     ⟨I.cochainComplex, ⟨0, inferInstance⟩⟩
   have : ∀ n : ℤ, Injective (L.obj.as.X n) := fun n =>
     inferInstanceAs (Injective (I.cochainComplex.X n))
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app L) := inferInstance
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app L) := inferInstance
   let e : (DerivedCategory.Plus.singleFunctor A 0).obj M ≅ DerivedCategory.Plus.Qh.obj L :=
     DerivedCategory.Plus.ι.preimageIso
       ((DerivedCategory.singleFunctorIsoCompQ A 0).app M ≪≫
         asIso (DerivedCategory.Q.map I.ι') ≪≫
           ((DerivedCategory.quotientCompQhIso A).app I.cochainComplex).symm)
   let e' := F.rightDerivedFunctorPlus.mapIso e ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app L)).symm
+    (asIso (F.rightDerivedFunctorPlusUnith.app L)).symm
   refine (DerivedCategory.Plus.homologyFunctor B (p : ℤ)).mapIso e' ≪≫ ?_
   change (DerivedCategory.homologyFunctor B (p : ℤ)).obj
     (DerivedCategory.Qh.obj ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj

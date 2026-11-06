@@ -135,7 +135,7 @@ theorem isIso_piComparison_restrictFunctor (V : X.Opens) (F : ι → X.Modules) 
       (Pi.π (fun b ↦ (Scheme.Modules.restrictFunctor V.ι).obj (F b)) i).app W
         ((piComparison (Scheme.Modules.restrictFunctor V.ι) F).app W x) =
       (Pi.π F i).app (V.ι ''ᵁ W) x := fun x i ↦ by
-    rw [MeromorphicQuasicoherent.comp_app_apply, piComparison, Pi.lift_π,
+    rw [MeromorphicQuasicoherent.comp_app_apply, piComparison, Pi.lift_comp_π,
       MeromorphicQuasicoherent.restrictFunctor_map_app]
     rfl
   exact (congrArg Function.Bijective (funext₂ key)).mpr hL

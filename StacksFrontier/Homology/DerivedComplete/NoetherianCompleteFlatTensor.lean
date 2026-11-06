@@ -135,32 +135,32 @@ private theorem isIso_difference_of_uniform_proZero
         Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) (n + 1) ≫
           F.map (homOfLE (Nat.le_succ n)).op) := by
   let X := fun n : ℕ => F.obj (Opposite.op n)
-  let t : End (∏ᶜ X) := Pi.lift fun n => Pi.π X (n + 1) ≫
+  let t : End (∏ᶜ X) := .of <| Pi.lift fun n => Pi.π X (n + 1) ≫
     F.map (homOfLE (Nat.le_succ n)).op
-  have hp (k n : ℕ) : (t ^ k) ≫ Pi.π X n =
+  have hp (k n : ℕ) : (t ^ k).asHom ≫ Pi.π X n =
       Pi.π X (n + k) ≫ F.map (homOfLE (Nat.le_add_right n k)).op := by
     induction k generalizing n with
     | zero => simp [X]
     | succ k ih =>
-      rw [pow_succ, End.mul_def, Category.assoc, ih, ← Category.assoc,
-        show t ≫ Pi.π X (n + k) = Pi.π X (n + k + 1) ≫
-          F.map (homOfLE (Nat.le_succ (n + k))).op from Pi.lift_π _ _,
+      rw [pow_succ, End.mul_asHom, Category.assoc, ih, ← Category.assoc,
+        show t.asHom ≫ Pi.π X (n + k) = Pi.π X (n + k + 1) ≫
+          F.map (homOfLE (Nat.le_succ (n + k))).op from Pi.lift_comp_π _ _,
         Category.assoc, ← F.map_comp]
       rfl
   have hz : t ^ c = 0 := by
+    ext : 1
     apply Pi.hom_ext
     intro n
     rw [hp, hF]
     simp
-  have ht : IsIso ((1 : End (∏ᶜ X)) - t) :=
+  have ht : IsIso ((1 : End (∏ᶜ X)) - t).asHom :=
     (isUnit_iff_isIso _).mp (IsNilpotent.isUnit_one_sub ⟨c, hz⟩)
   have hd : (Pi.lift fun n : ℕ ↦ Pi.π X n - Pi.π X (n + 1) ≫
-      F.map (homOfLE (Nat.le_succ n)).op) = (1 : End (∏ᶜ X)) - t := by
+      F.map (homOfLE (Nat.le_succ n)).op) = ((1 : End (∏ᶜ X)) - t).asHom := by
     apply Pi.hom_ext
     intro n
-    show _ = (𝟙 _ - End.asHom t) ≫ Pi.π X n
-    rw [Preadditive.sub_comp, Category.id_comp]
-    simp only [t, Pi.lift_π]
+    rw [End.sub_asHom, End.one_asHom, Preadditive.sub_comp, Category.id_comp]
+    simp only [t, Pi.lift_comp_π]
   rwa [hd]
 
 private def adicCompletionCone {A : Type u} [CommRing A]

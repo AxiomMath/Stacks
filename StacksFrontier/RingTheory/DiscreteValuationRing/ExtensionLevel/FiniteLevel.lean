@@ -735,7 +735,7 @@ private lemma isTotallyRamifiedWithRespectTo_self
   have hm : m.IsMaximal := IsLocalRing.maximalIdeal.isMaximal S
   have hl : m.LiesOver (IsLocalRing.maximalIdeal A) :=
     ⟨(IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
   refine ⟨m, hm, hl, fun n hn _ => IsLocalRing.eq_maximalIdeal hn, ?_⟩
   let := hl
   let := Ideal.Quotient.algebraOfLiesOver m (IsLocalRing.maximalIdeal A)

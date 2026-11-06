@@ -116,7 +116,7 @@ theorem coordinatePoint_toIdeal (j : σ) :
 coordinates.** -/
 theorem sub_monomial_mem_coordinateIdeal {n : ℕ} {p : MvPolynomial σ k} (hp : p.IsHomogeneous n)
     (j : σ) :
-    p - monomial (Finsupp.single j n) (coeff (Finsupp.single j n) p) ∈ coordinateIdeal k j := by
+    p - monomial (Finsupp.single j n) (p.coeff (Finsupp.single j n)) ∈ coordinateIdeal k j := by
   classical
   rw [coordinateIdeal, mem_ideal_span_X_image]
   intro m hm
@@ -162,7 +162,7 @@ theorem eq_coordinatePoint_iff (j : σ) (x : AlgebraicGeometry.Proj (homogeneous
       have hpx : p ∈ x.asHomogeneousIdeal.toIdeal :=
         (x.asHomogeneousIdeal.isHomogeneous.mem_iff).mp ha n
       have hp : p.IsHomogeneous n := (mem_homogeneousSubmodule _ _).mp (Subtype.prop _)
-      set c := coeff (Finsupp.single j n) p
+      set c := p.coeff (Finsupp.single j n)
       have hdiff := sub_monomial_mem_coordinateIdeal k hp j
       have hmon : C c * X j ^ n ∈ x.asHomogeneousIdeal.toIdeal := by
         rw [C_mul_X_pow_eq_monomial]
@@ -174,7 +174,7 @@ theorem eq_coordinatePoint_iff (j : σ) (x : AlgebraicGeometry.Proj (homogeneous
         · exact x.isPrime.ne_top
             (Ideal.eq_top_of_isUnit_mem _ h ((isUnit_iff_ne_zero.mpr hc).map C))
         · exact hXj (x.isPrime.mem_of_pow_mem n h)
-      have hc' : coeff (Finsupp.single j n) p = 0 := hc
+      have hc' : p.coeff (Finsupp.single j n) = 0 := hc
       rwa [hc', map_zero, sub_zero] at hdiff
     exact ProjectiveSpectrum.ext (HomogeneousIdeal.ext (le_antisymm hle hx))
   · rintro rfl

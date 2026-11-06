@@ -214,7 +214,8 @@ theorem exists_lift_fieldPoint_of_isOpenImmersion
     (FieldValuedPoint.class_eq_class_iff B S hS F _ _).mp hpq
   have h₁ := yoneda_map_comp_yonedaEquiv_symm_comp B S hS i a q.value r.value ha
   have h₂ : yoneda.map b ≫ yonedaEquiv.symm p.value = yonedaEquiv.symm r.value := by
-    simpa using yoneda_map_comp_yonedaEquiv_symm_comp B S hS (𝟙 F) b p.value r.value hb
+    simpa only [Category.comp_id] using
+      yoneda_map_comp_yonedaEquiv_symm_comp B S hS (𝟙 F) b p.value r.value hb
   let ℓ := hpb.lift (yoneda.map a ≫ yonedaEquiv.symm q.value) (yoneda.map b) (h₁.trans h₂.symm)
   let t : r.siteObject B S hS F ⟶ W := yoneda.preimage ℓ
   let T := BigFppfOver.toScheme B S hS

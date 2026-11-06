@@ -583,8 +583,8 @@ theorem isMaximal_comap_chartPresentation (hx : ∀ i, x i ∈ maximalIdeal A)
     (M : Ideal (affineBlowupAlgebra (maximalIdeal A) (x 0) S)) [hM : M.IsMaximal]
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M) :
-    ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-      (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+    ((M.map (Ideal.Quotient.mk (Ideal.span
+      {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
         (chartPresentation S hx)).IsMaximal := by
   let B := affineBlowupAlgebra (maximalIdeal A) (x 0) S
   let πQ : B →+* chartExceptionalQuotient (maximalIdeal A) (x 0) S :=
@@ -605,8 +605,8 @@ theorem mem_of_chartPresentation_mem (hx : ∀ i, x i ∈ maximalIdeal A)
     (M : Ideal (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M) {f : MvPolynomial (Fin 2) (ResidueField A)}
-    (hf : f ∈ (M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-      (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+    (hf : f ∈ (M.map (Ideal.Quotient.mk (Ideal.span
+      {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
         (chartPresentation S hx))
     {z : affineBlowupAlgebra (maximalIdeal A) (x 0) S}
     (hz : chartPresentation S hx f = Ideal.Quotient.mk _ z) : z ∈ M := by
@@ -634,8 +634,8 @@ theorem isScalarSqLinear_restrict_of_chartFraction_mem (hx : ∀ i, x i ∈ maxi
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M)
     (hmem : dehomogenizeFirst (ResidueField A) 2 (quadraticFormPoly fun p r => residue A (a p r)) ∈
-      ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+      ((M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
           (chartPresentation S hx)) ^ 2)
     (j : Fin 2) (hj : chartFraction S hx j.succ ∈ M) :
     IsScalarSqLinear fun p r : Fin 2 =>
@@ -650,8 +650,8 @@ theorem isScalarSqLinear_restrict_of_chartFraction_mem (hx : ∀ i, x i ∈ maxi
       exact ⟨p, r, hpr, fun h => hne ((residue_eq_zero_iff _).mp h)⟩)
     hcase _ hNmax.ne_top hmem
   have hXj : (X j : MvPolynomial (Fin 2) (ResidueField A)) ∈
-      (M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+      (M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
           (chartPresentation S hx) := by
     rw [Ideal.mem_comap, chartPresentation_X]
     exact Ideal.mem_map_of_mem _ hj
@@ -668,8 +668,8 @@ theorem map_maximalIdeal_localization_eq_span (hx : ∀ i, x i ∈ maximalIdeal 
         (Localization.AtPrime M)).comp
         (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))) (maximalIdeal A) =
       Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) (x 0) S)
-        (Localization.AtPrime M)
-        (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x j))} := by
+                    (Localization.AtPrime M)
+                    (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x j))} := by
   rw [← Ideal.map_map, affineBlowupAlgebra.map_ideal_eq_span_singleton (maximalIdeal A) (x 0)
     (hx 0), Ideal.map_span, Set.image_singleton, ← algebraMap_mul_chartFraction S hx j,
     map_mul]
@@ -702,15 +702,15 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinateForm (x : Fin 3 → A)
       (maximalIdeal A) ≤ M)
     (hmem : dehomogenizeFirst (ResidueField A) 2
         (quadraticFormPoly fun p r => residue A (a (σ p) (σ r))) ∈
-      ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) ((x ∘ σ) 0)}))).comap
+      ((M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) ((x ∘ σ) 0)}))).comap
           (chartPresentation S hxσ)) ^ 2) :
     Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S)
         (Localization.AtPrime M)).comp
         (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S))) (maximalIdeal A) =
       Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S)
-        (Localization.AtPrime M)
-        (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) (x 0))} := by
+                    (Localization.AtPrime M)
+                    (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) (x 0))} := by
   have hspanσ : Ideal.span (Set.range (x ∘ σ)) = maximalIdeal A := by
     rw [Set.range_comp, Equiv.range_eq_univ, Set.image_univ, hspan]
   -- the position of the good coordinate among the reordered generators
@@ -733,8 +733,8 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinateForm (x : Fin 3 → A)
     (fun p r hrp => upperSymm_upper _ p r hrp) hcaseσ
   have hmem' : dehomogenizeFirst (ResidueField A) 2
       (quadraticFormPoly fun p r => residue A (a' p r)) ∈
-      ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) ((x ∘ σ) 0)}))).comap
+      ((M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) ((x ∘ σ) 0)}))).comap
           (chartPresentation S hxσ)) ^ 2 := by
     have : (fun p r => residue A (a' p r)) = upperSymm fun p r => residue A (a (σ p) (σ r)) :=
       funext fun p => funext fun r => hres p r
@@ -904,8 +904,8 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinate [IsNoetherianRing A] (x : F
         (Localization.AtPrime M)).comp
         (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S))) (maximalIdeal A) =
       Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S)
-        (Localization.AtPrime M)
-        (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) (x 0))} := by
+                    (Localization.AtPrime M)
+                    (algebraMap A (affineBlowupAlgebra (maximalIdeal A) ((x ∘ σ) 0) S) (x 0))} := by
   have hspanσ : Ideal.span (Set.range (x ∘ σ)) = maximalIdeal A := by
     rw [Set.range_comp, Equiv.range_eq_univ, Set.image_univ, hspan]
   have hxσ : ∀ i, (x ∘ σ) i ∈ maximalIdeal A := fun i => hspanσ ▸ Ideal.subset_span ⟨i, rfl⟩
@@ -959,8 +959,8 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinate_chart [IsNoetherianRing A] 
         (Localization.AtPrime M)).comp
         (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x j) S))) (maximalIdeal A) =
       Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) (x j) S)
-        (Localization.AtPrime M)
-        (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x j) S) (x 0))} := by
+                    (Localization.AtPrime M)
+                    (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x j) S) (x 0))} := by
   have key : ∀ (b : A) (hb : b = (x ∘ Equiv.swap 0 j) 0) [IsLocalization.Away b S]
       (M : Ideal (affineBlowupAlgebra (maximalIdeal A) b S)) [M.IsMaximal]
       (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) b S))
@@ -971,8 +971,8 @@ theorem map_maximalIdeal_eq_span_of_isGoodCoordinate_chart [IsNoetherianRing A] 
           (Localization.AtPrime M)).comp
           (algebraMap A (affineBlowupAlgebra (maximalIdeal A) b S))) (maximalIdeal A) =
         Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) b S)
-          (Localization.AtPrime M)
-          (algebraMap A (affineBlowupAlgebra (maximalIdeal A) b S) (x 0))} := by
+                      (Localization.AtPrime M)
+                      (algebraMap A (affineBlowupAlgebra (maximalIdeal A) b S) (x 0))} := by
     intro b hb _ M _ hle _ hdim hsing
     subst hb
     exact map_maximalIdeal_eq_span_of_isGoodCoordinate x hspan a hupper hrel hgood _ S M hle

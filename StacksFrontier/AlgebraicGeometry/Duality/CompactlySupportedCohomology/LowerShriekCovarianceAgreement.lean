@@ -69,12 +69,12 @@ theorem mapDerivedCategoryIsoOfNatIso_trans_mapDerivedCategoryCompIso (F : C₁ 
     [G.Additive] [PreservesFiniteLimits G] [PreservesFiniteColimits G]
     [H.Additive] [PreservesFiniteLimits H] [PreservesFiniteColimits H] (e : H ≅ F ⋙ G) :
     mapDerivedCategoryIsoOfNatIso H (F ⋙ G) e ≪≫ mapDerivedCategoryCompIso F G =
-      (Functor.mapDerivedCategoryCompIso e.symm).symm := by
+      (Functor.mapDerivedCategoryCompIsoOfCompIso e.symm).symm := by
   ext1
   apply Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso C₁ (ComplexShape.up ℤ))
   intro P
-  rw [Iso.symm_hom, ← cancel_mono ((Functor.mapDerivedCategoryCompIso e.symm).hom.app _),
+  rw [Iso.symm_hom, ← cancel_mono ((Functor.mapDerivedCategoryCompIsoOfCompIso e.symm).hom.app _),
     Iso.inv_hom_id_app, Iso.trans_hom, NatTrans.comp_app, mapDerivedCategoryIsoOfNatIso_hom_app_Q,
     mapDerivedCategoryCompIso_hom_app_Q, Functor.mapDerivedCategoryCompIso_hom_app_Q]
   have h : (NatIso.mapHomologicalComplex e (ComplexShape.up ℤ)).hom.app P ≫
@@ -294,9 +294,9 @@ theorem restrictFunctorMapDerivedCategoryCompIso_inv_app_comp_derivedRestrictIso
       (Scheme.Modules.restrictFunctor (a ≫ b))
       (Scheme.Modules.restrictFunctorCongr (rfl : a ≫ b = a ≫ b) ≪≫
         Scheme.Modules.restrictFunctorComp a b)
-    have h₂ : Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorCongr
+    have h₂ : Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorCongr
         (rfl : a ≫ b = a ≫ b) ≪≫ Scheme.Modules.restrictFunctorComp a b).symm =
-        Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorComp a b).symm := by
+        Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorComp a b).symm := by
       rw [restrictFunctorCongr_rfl_trans_restrictFunctorComp]
     exact congrArg (fun e => e.inv.app M) (h₁.trans (congrArg Iso.symm h₂))
   · exact (congrArg (· ≫ _) (Category.comp_id _)).trans (Iso.hom_inv_id_app _ _)

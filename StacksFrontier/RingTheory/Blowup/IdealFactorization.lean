@@ -159,8 +159,8 @@ theorem map_ideal_eq_span_singleton (ha : a ∈ I) :
       Ideal.span {algebraMap R (affineBlowupAlgebra I a S) a} := by
   refine le_antisymm (Ideal.map_le_iff_le_comap.mpr fun x hx => ?_) (Ideal.span_le.mpr ?_)
   · rw [Ideal.mem_comap, Ideal.mem_span_singleton]
-    refine ⟨fraction I a 1 ⟨x, by simpa using hx⟩, ?_⟩
-    simpa using (algebraMap_pow_mul_fraction I a 1 ⟨x, by simpa using hx⟩).symm
+    refine ⟨fraction (S := S) I a 1 ⟨x, by simpa using hx⟩, ?_⟩
+    simpa using (algebraMap_pow_mul_fraction (S := S) I a 1 ⟨x, by simpa using hx⟩).symm
   · rintro _ rfl
     exact Ideal.mem_map_of_mem _ ha
 
@@ -174,7 +174,7 @@ theorem map_ideal_pow_eq_span_singleton (ha : a ∈ I) (d : ℕ) :
 fractions `x / aᵈ` for `x ∈ J`. -/
 noncomputable def normalize (d : ℕ) (hJ : J ≤ I ^ d) :
     Ideal (affineBlowupAlgebra I a S) :=
-  Ideal.span (Set.range fun x : J => fraction I a d ⟨x, hJ x.2⟩)
+  Ideal.span (Set.range fun x : J => fraction (S := S) I a d ⟨x, hJ x.2⟩)
 
 /-- **The factorization of an ideal `J ⊆ Iᵈ` on an affine chart of the blowup**, with the first
 factor written as the principal ideal `(aᵈ)`: the extension of `J` to `R[I/a]` is `aᵈ` times the
@@ -189,9 +189,9 @@ theorem map_ideal_eq_span_singleton_mul_normalize (d : ℕ) (hJ : J ≤ I ^ d) :
   constructor
   · rintro ⟨x, hx, rfl⟩
     exact ⟨_, Set.mem_singleton _, _, ⟨⟨x, hx⟩, rfl⟩,
-      algebraMap_pow_mul_fraction I a d ⟨x, hJ hx⟩⟩
+      algebraMap_pow_mul_fraction (S := S) I a d ⟨x, hJ hx⟩⟩
   · rintro ⟨_, rfl, _, ⟨x, rfl⟩, rfl⟩
-    exact ⟨x, x.2, (algebraMap_pow_mul_fraction I a d ⟨x, hJ x.2⟩).symm⟩
+    exact ⟨x, x.2, (algebraMap_pow_mul_fraction (S := S) I a d ⟨x, hJ x.2⟩).symm⟩
 
 /-- **The factorization of an ideal `J ⊆ Iᵈ` on an affine chart of the blowup.** For `a ∈ I` the
 extension of `J` to `R[I/a]` is the `d`-th power of the extension of `I` times the normalization

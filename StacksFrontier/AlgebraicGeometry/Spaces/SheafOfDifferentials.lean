@@ -54,10 +54,10 @@ of sheaves of commutative rings on a *small* site is
 `Stacks.Sheaves.Differentials.moduleOfDifferentials`, and it does not apply here: that site is
 `C : Type u` with `Category.{u} C`.  The construction below is the same formula — sheafify the
 presheaf of sectionwise Kähler differentials — assembled from Mathlib's
-`PresheafOfModules.DifferentialsConstruction.relativeDifferentials'` and
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'` and
 `PresheafOfModules.sheafification`, both of which are universe-polymorphic.  For the same reason
 the universal property is proved from Mathlib's
-`PresheafOfModules.DifferentialsConstruction.isUniversal'` through the sheafification bijection
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'` through the sheafification bijection
 rather than read off the small-site statement.
 
 The instance `smallEtaleRingedSite_hasWeakSheafify` restates one of the two sheafification
@@ -94,18 +94,18 @@ variable {C : Type u₁} [Category.{v₁} C]
 
 /-- Morphisms out of the presheaf of sectionwise Kähler differentials of
 `φ' : S ⟶ R` are the relative derivations of a presheaf of `R`-modules: the universal property of
-`PresheafOfModules.DifferentialsConstruction.derivation'`, packaged as a bijection. -/
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'`, packaged as a bijection. -/
 private noncomputable def presheafDifferentialsEquiv
     {S R : Cᵒᵖ ⥤ CommRingCat.{w}} (φ' : S ⟶ R)
     (M : PresheafOfModules.{w} (R ⋙ forget₂ CommRingCat RingCat)) :
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
-      M.Derivation' φ' where
-  toFun g := (PresheafOfModules.DifferentialsConstruction.derivation' φ').postcomp g
-  invFun := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').desc
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
+      PresheafOfModulesOfCommRing.Derivation' M φ' where
+  toFun g := (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ').postcomp g
+  invFun := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').desc
   left_inv _ :=
-    (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac _)
-  right_inv := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac _)
+  right_inv := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac
 
 end Presheaf
 
@@ -141,35 +141,36 @@ modules of the presheaf of sectionwise Kähler differentials of `f♯`. -/
 @[stacks 04CT "the sheaf of differentials of a morphism of algebraic spaces"]
 noncomputable def sheafOfDifferentials (f : X ⟶ Y) : Modules.{u, u} B S hS X.1 X.2 :=
   (PresheafOfModules.sheafification (𝟙 _)).obj
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
       (structureSharpInverseImage B S hS f).hom)
 
 /-- **Stacks 04CT.** The universal `Y`-derivation `d_{X/Y} : 𝒪_X ⟶ Ω_{X/Y}`: the sectionwise
 Kähler differential followed by the unit of sheafification. -/
 @[stacks 04CT "the universal `Y`-derivation `d_{X/Y}`"]
 noncomputable def universalDerivation (f : X ⟶ Y) :
-    (sheafOfDifferentials B S hS f).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (sheafOfDifferentials B S hS f).val
       (structureSharpInverseImage B S hS f).hom :=
-  (PresheafOfModules.DifferentialsConstruction.derivation'
+  (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'
       (structureSharpInverseImage B S hS f).hom).postcomp
     ((PresheafOfModules.sheafificationAdjunction
         (J := (smallEtaleRingedSite B S hS X.1 X.2).J)
         (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
           (smallEtaleRingedSite B S hS X.1 X.2).O)).obj)).unit.app
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (structureSharpInverseImage B S hS f).hom))
 
 /-- The sheaf of differentials corepresents the functor of `Y`-derivations: every `Y`-derivation
 with values in an `𝒪_X`-module factors through `d_{X/Y}` by a unique morphism of
 `𝒪_X`-modules. -/
 theorem universalDerivation_isUniversal (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2)
-    (D : F.val.Derivation' (structureSharpInverseImage B S hS f).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val
+      (structureSharpInverseImage B S hS f).hom) :
     ∃! g : sheafOfDifferentials B S hS f ⟶ F,
       (universalDerivation B S hS f).postcomp g.val = D := by
   set e := (PresheafOfModules.sheafificationHomEquiv
       (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O)).obj) (P :=
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (structureSharpInverseImage B S hS f).hom) (F := F)).trans
     (presheafDifferentialsEquiv (structureSharpInverseImage B S hS f).hom _)
   have key (g : sheafOfDifferentials B S hS f ⟶ F) :
@@ -230,7 +231,7 @@ theorem eq_of_isSheafOfDifferentialsMap (f : X' ⟶ X) (p : X ⟶ Y) (p' : X' �
     (sheafOfDifferentials B S hS p')
   have hD : (universalDerivation B S hS p).postcomp (e c₁).val =
       (universalDerivation B S hS p).postcomp (e c₂).val := by
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U t
     exact (h₁ U t).trans (h₂ U t).symm
   obtain ⟨g, hg, hu⟩ := universalDerivation_isUniversal B S hS p

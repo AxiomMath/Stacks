@@ -213,9 +213,10 @@ theorem isIso_spacesInverseImage_map_counit_of_isPullback {X Y U V : AlgebraicSp
 /-- A sheaf of sets all of whose values are terminal is terminal. -/
 def _root_.CategoryTheory.Sheaf.isTerminalOfIsTerminalVal {C : Type*} [Category C]
     {J : GrothendieckTopology C} {A : Type*} [Category A] (F : Sheaf J A)
-    (h : ∀ W, IsTerminal (F.val.obj W)) : IsTerminal F :=
+    (h : ∀ W, IsTerminal (F.obj.obj W)) : IsTerminal F :=
   IsTerminal.ofUniqueHom
-    (fun _ => ⟨{ app := fun W => (h W).from _, naturality := fun _ _ _ => (h _).hom_ext _ _ }⟩)
+    (fun _ => ObjectProperty.homMk
+      { app := fun W => (h W).from _, naturality := fun _ _ _ => (h _).hom_ext _ _ })
     (fun _ _ => Sheaf.hom_ext (NatTrans.ext (funext fun W => (h W).hom_ext _ _)))
 
 section OpenComplement

@@ -717,11 +717,11 @@ private lemma etale_le_finitePresentation (R : CommRingCat.{u}) :
 itself the image of a polynomial over `S`. -/
 private lemma map_sum_monomial_eq {S T σ : Type*} [CommRing S] [CommRing T] (φ : S →+* T)
     (p : MvPolynomial σ T) (c : {d // d ∈ p.support} → S)
-    (hc : ∀ d, φ (c d) = MvPolynomial.coeff d.1 p) :
+    (hc : ∀ d, φ (c d) = p.coeff d.1) :
     MvPolynomial.map φ (∑ d ∈ p.support.attach, MvPolynomial.monomial d.1 (c d)) = p := by
   refine Eq.trans ?_ (MvPolynomial.as_sum p).symm
   rw [map_sum, ← Finset.sum_attach p.support
-    fun d ↦ MvPolynomial.monomial d (MvPolynomial.coeff d p)]
+    fun d ↦ MvPolynomial.monomial d (p.coeff d)]
   exact Finset.sum_congr rfl fun d _ ↦ by rw [MvPolynomial.map_monomial, hc d]
 
 /-- A finite family of elements of an `R`-algebra `Λ` with the factorization property of Lemma
@@ -775,7 +775,7 @@ theorem ind_etale_of_comp {R A B : CommRingCat.{u}} (f : R ⟶ A) (g : A ⟶ B)
       h₁, h₂⟩
   obtain ⟨X, b, c, hX, hc⟩ := exists_lift hf
     (ι := Σ p : {p // p ∈ s}, {d // d ∈ (p : MvPolynomial (Fin n) A).support})
-    (fun z ↦ MvPolynomial.coeff z.2.1 z.1.1)
+    (fun z ↦ (z.1.1 : MvPolynomial (Fin n) A).coeff z.2.1)
   have hbX : ∀ x : R, b.right.hom (X.hom.hom x) = f.hom x := fun x ↦
     congr($(Under.w b).hom x)
   have hXfp : X.hom.hom.FinitePresentation := etale_le_finitePresentation R X hX

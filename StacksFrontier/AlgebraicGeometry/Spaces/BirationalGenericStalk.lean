@@ -70,6 +70,14 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_BirationalGenericStalk
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   (hY : IsAlgebraicSpace B S hS Y)
@@ -840,7 +848,7 @@ theorem isIso_pullback_snd_fromGenericStalk_of_isBirational
   let q := fromGenericStalk B S hS hY hdenseY hfiniteY _ hy
   let p := pullback.snd f q
   have hsplit : IsSplitEpi p := IsSplitEpi.mk' {
-    section_ := pullback.lift s (𝟙 _) (by simpa using hs)
+    section_ := pullback.lift s (𝟙 _) (by rw [Category.id_comp]; exact hs)
     id := pullback.lift_snd _ _ _ }
   have hm : Mono p := mono_pullback_snd_of_constant_points B S hS f x c d g hcomm hg q hfibre
     (pointsMap_fromGenericStalk B S hS hY hdenseY hfiniteY _ hy hdecentY)

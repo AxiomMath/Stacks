@@ -96,8 +96,8 @@ already conjugates the automorphisms themselves. -/
 theorem inertiaPullbackComparison_reflects_comm
     [(inertiaPullbackComparison pX pY F hF).Full]
     (A B : RelativeInertia pX) (m : A.obj ⟶ B.obj)
-    (hm : F.map m ≫ F.map B.auto.hom = F.map A.auto.hom ≫ F.map m) :
-    m ≫ B.auto.hom = A.auto.hom ≫ m := by
+    (hm : F.map m ≫ F.map B.auto.asIso.hom = F.map A.auto.asIso.hom ≫ F.map m) :
+    m ≫ B.auto.asIso.hom = A.auto.asIso.hom ≫ m := by
   let cmp := inertiaPullbackComparison pX pY F hF
   let a : (cmp.obj A).x ⟶ (cmp.obj B).x := ⟨F.map m, hm⟩
   let z : cmp.obj A ⟶ cmp.obj B :=
@@ -119,8 +119,8 @@ theorem inertiaPullbackComparison_reflects_comm
 identity. -/
 theorem inertiaPullbackComparison_exists_aut
     [(inertiaPullbackComparison pX pY F hF).EssSurj]
-    (x : X) (β : Aut (F.obj x)) (hβ : pY.map β.hom = 𝟙 _) :
-    ∃ α : Aut x, pX.map α.hom = 𝟙 _ ∧ F.map α.hom = β.hom := by
+    (x : X) (β : Aut (F.obj x)) (hβ : pY.map β.asIso.hom = 𝟙 _) :
+    ∃ α : Aut x, pX.map α.asIso.hom = 𝟙 _ ∧ F.map α.asIso.hom = β.asIso.hom := by
   let cmp := inertiaPullbackComparison pX pY F hF
   let Q : TwoFibreProductOver (RelativeInertia.toBase pY) pX pY
       (RelativeInertia.π pY) F :=
@@ -134,18 +134,18 @@ theorem inertiaPullbackComparison_exists_aut
   let A := cmp.objPreimage Q
   let e := cmp.objObjPreimageIso Q
   let b : A.obj ≅ x := (TwoFibreProductOver.snd _ _ _ _ _).mapIso e
-  refine ⟨b.symm ≪≫ A.auto ≪≫ b, ?_, ?_⟩
-  · exact map_inv_comp_comp_hom_eq_id pX b A.auto.hom A.cond
+  refine ⟨Aut.of (b.symm ≪≫ A.auto.asIso ≪≫ b), ?_, ?_⟩
+  · exact map_inv_comp_comp_hom_eq_id pX b A.auto.asIso.hom A.cond
   · have he : e.hom.a.hom = F.map e.hom.b := by
       have he := e.hom.w
       change e.hom.a.hom ≫ 𝟙 _ = 𝟙 _ ≫ F.map e.hom.b at he
       simpa using he
-    have hc : F.map e.hom.b ≫ β.hom = F.map A.auto.hom ≫ F.map e.hom.b := by
+    have hc : F.map e.hom.b ≫ β.asIso.hom = F.map A.auto.asIso.hom ≫ F.map e.hom.b := by
       have hc := e.hom.a.comm
-      change e.hom.a.hom ≫ β.hom = F.map A.auto.hom ≫ e.hom.a.hom at hc
+      change e.hom.a.hom ≫ β.asIso.hom = F.map A.auto.asIso.hom ≫ e.hom.a.hom at hc
       rwa [he] at hc
-    show F.map (b.inv ≫ A.auto.hom ≫ b.hom) = β.hom
-    have hc' : F.map b.hom ≫ β.hom = F.map A.auto.hom ≫ F.map b.hom := hc
+    show F.map (b.inv ≫ A.auto.asIso.hom ≫ b.hom) = β.asIso.hom
+    have hc' : F.map b.hom ≫ β.asIso.hom = F.map A.auto.asIso.hom ≫ F.map b.hom := hc
     rw [F.map_comp, F.map_comp, ← hc']
     simp
 
@@ -218,10 +218,10 @@ comparison an equivalence over `C`.** This is the converse packaging of
 how those two properties are transported across a cartesian square. -/
 theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
     (hR : ∀ (A B : RelativeInertia pX) (m : A.obj ⟶ B.obj),
-      F.map m ≫ F.map B.auto.hom = F.map A.auto.hom ≫ F.map m →
-      m ≫ B.auto.hom = A.auto.hom ≫ m)
-    (hL : ∀ (x : X) (β : Aut (F.obj x)), pY.map β.hom = 𝟙 _ →
-      ∃ α : Aut x, pX.map α.hom = 𝟙 _ ∧ F.map α.hom = β.hom) :
+      F.map m ≫ F.map B.auto.asIso.hom = F.map A.auto.asIso.hom ≫ F.map m →
+      m ≫ B.auto.asIso.hom = A.auto.asIso.hom ≫ m)
+    (hL : ∀ (x : X) (β : Aut (F.obj x)), pY.map β.asIso.hom = 𝟙 _ →
+      ∃ α : Aut x, pX.map α.asIso.hom = 𝟙 _ ∧ F.map α.asIso.hom = β.asIso.hom) :
     Nonempty (IsEquivalenceOver (RelativeInertia.toBase pX)
       (TwoFibreProductOver.structureFunctor (RelativeInertia.toBase pY) pX pY
         (RelativeInertia.π pY) F)
@@ -238,7 +238,8 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
       change m.a.hom ≫ 𝟙 _ = 𝟙 _ ≫ F.map m.b at he
       simpa using he
     have hc := m.a.comm
-    have hc' : F.map m.b ≫ (F.mapIso B.auto).hom = (F.mapIso A.auto).hom ≫ F.map m.b := by
+    have hc' : F.map m.b ≫ (F.mapIso B.auto.asIso).hom =
+        (F.mapIso A.auto.asIso).hom ≫ F.map m.b := by
       simpa [he, cmp, inertiaPullbackComparison, RelativeInertia.functoriality] using hc
     have hcomm := hR A B m.b hc'
     refine ⟨⟨m.b, hcomm⟩, TwoFibreProductOver.Hom.ext' ?_ rfl⟩
@@ -246,17 +247,17 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
   apply nonempty_isEquivalenceOver_of_forall_verticalObjPreimage
     (RelativeInertia.toBase pX) q cmp hcmp
   intro Q
-  let β : Aut (F.obj Q.y) := Q.iso.symm ≪≫ Q.x.auto ≪≫ Q.iso
-  have hβ : pY.map β.hom = 𝟙 _ :=
-    map_inv_comp_comp_hom_eq_id pY Q.iso Q.x.auto.hom Q.x.cond
+  let β : Aut (F.obj Q.y) := Aut.of (Q.iso.symm ≪≫ Q.x.auto.asIso ≪≫ Q.iso)
+  have hβ : pY.map β.asIso.hom = 𝟙 _ :=
+    map_inv_comp_comp_hom_eq_id pY Q.iso Q.x.auto.asIso.hom Q.x.cond
   obtain ⟨α, hα, hαF⟩ := hL Q.y β hβ
   let A : RelativeInertia pX := ⟨Q.y, α, hα⟩
   let a : Q.x ⟶ (cmp.obj A).x :=
     { hom := Q.iso.hom
       comm := by
-        show Q.iso.hom ≫ F.map α.hom = Q.x.auto.hom ≫ Q.iso.hom
+        show Q.iso.hom ≫ F.map α.asIso.hom = Q.x.auto.asIso.hom ≫ Q.iso.hom
         rw [hαF]
-        show Q.iso.hom ≫ Q.iso.inv ≫ Q.x.auto.hom ≫ Q.iso.hom = Q.x.auto.hom ≫ Q.iso.hom
+        show Q.iso.hom ≫ Q.iso.inv ≫ Q.x.auto.asIso.hom ≫ Q.iso.hom = Q.x.auto.asIso.hom ≫ Q.iso.hom
         simp }
   let m : Q ⟶ cmp.obj A :=
     { hbase := eqToHom Q.hy.symm
@@ -276,10 +277,10 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
   let ea : Q.x ≅ (cmp.obj A).x :=
     { hom := a
       inv := ⟨Q.iso.inv, by
-        show Q.iso.inv ≫ Q.x.auto.hom = F.map α.hom ≫ Q.iso.inv
+        show Q.iso.inv ≫ Q.x.auto.asIso.hom = F.map α.asIso.hom ≫ Q.iso.inv
         rw [hαF]
-        show Q.iso.inv ≫ Q.x.auto.hom =
-          (Q.iso.inv ≫ Q.x.auto.hom ≫ Q.iso.hom) ≫ Q.iso.inv
+        show Q.iso.inv ≫ Q.x.auto.asIso.hom =
+          (Q.iso.inv ≫ Q.x.auto.asIso.hom ≫ Q.iso.hom) ≫ Q.iso.inv
         simp⟩
       hom_inv_id := RelativeInertiaHom.ext Q.iso.hom_inv_id
       inv_hom_id := RelativeInertiaHom.ext Q.iso.inv_hom_id }
@@ -327,31 +328,31 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_baseChange
     rw [Functor.map_comp, Functor.map_comp]
     apply TwoFibreProductOver.Hom.ext'
     · exact hm
-    · show K.map m ≫ K.map B.auto.hom = K.map A.auto.hom ≫ K.map m
+    · show K.map m ≫ K.map B.auto.asIso.hom = K.map A.auto.asIso.hom ≫ K.map m
       apply inertiaPullbackComparison_reflects_comm pX pZ F hF
         ((RelativeInertia.functoriality pT pX K hK).obj A)
         ((RelativeInertia.functoriality pT pX K hK).obj B)
-      show F.map (K.map m) ≫ F.map (K.map B.auto.hom) =
-        F.map (K.map A.auto.hom) ≫ F.map (K.map m)
+      show F.map (K.map m) ≫ F.map (K.map B.auto.asIso.hom) =
+        F.map (K.map A.auto.asIso.hom) ≫ F.map (K.map m)
       simp only [← F.map_comp, ← K.map_comp]
-      show (K ⋙ F).map (m ≫ B.auto.hom) = (K ⋙ F).map (A.auto.hom ≫ m)
+      show (K ⋙ F).map (m ≫ B.auto.asIso.hom) = (K ⋙ F).map (A.auto.asIso.hom ≫ m)
       apply (cancel_epi (t.hom.app A.obj)).mp
       rw [← t.hom.naturality, ← t.hom.naturality]
-      have he : (H ⋙ G).map (m ≫ B.auto.hom) = (H ⋙ G).map (A.auto.hom ≫ m) := by
+      have he : (H ⋙ G).map (m ≫ B.auto.asIso.hom) = (H ⋙ G).map (A.auto.asIso.hom ≫ m) := by
         simpa only [Functor.comp_map, Functor.map_comp] using congrArg G.map hm
       rw [he]
   · intro x β hβ
-    let γ : Aut (F.obj (K.obj x)) := (t.app x).symm ≪≫ G.mapIso β ≪≫ t.app x
-    have hγ : pZ.map γ.hom = 𝟙 _ := by
-      have hGβ : pZ.map (G.map β.hom) = 𝟙 (pZ.obj ((H ⋙ G).obj x)) := by
-        have he := Functor.congr_hom hG β.hom
+    let γ : Aut (F.obj (K.obj x)) := Aut.of ((t.app x).symm ≪≫ G.mapIso β.asIso ≪≫ t.app x)
+    have hγ : pZ.map γ.asIso.hom = 𝟙 _ := by
+      have hGβ : pZ.map (G.map β.asIso.hom) = 𝟙 (pZ.obj ((H ⋙ G).obj x)) := by
+        have he := Functor.congr_hom hG β.asIso.hom
         simpa [hβ] using he
-      exact map_inv_comp_comp_hom_eq_id pZ (t.app x) (G.map β.hom) hGβ
+      exact map_inv_comp_comp_hom_eq_id pZ (t.app x) (G.map β.asIso.hom) hGβ
     obtain ⟨α, hα, hαF⟩ := inertiaPullbackComparison_exists_aut pX pZ F hF (K.obj x) γ hγ
     let m : J.obj x ⟶ J.obj x :=
       { hbase := 𝟙 (pT.obj x)
-        a := β.hom
-        b := α.hom
+        a := β.asIso.hom
+        b := α.asIso.hom
         ha := by
           apply IsHomLift.of_fac' pY _ _ (Functor.congr_obj hH x) (Functor.congr_obj hH x)
           simp [hβ]
@@ -359,16 +360,16 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_baseChange
           apply IsHomLift.of_fac' pX _ _ (Functor.congr_obj hK x) (Functor.congr_obj hK x)
           simp [hα]
         w := by
-          show G.map β.hom ≫ (t.app x).hom = (t.app x).hom ≫ F.map α.hom
+          show G.map β.asIso.hom ≫ (t.app x).hom = (t.app x).hom ≫ F.map α.asIso.hom
           rw [hαF]
-          show G.map β.hom ≫ (t.app x).hom =
-            (t.app x).hom ≫ (t.app x).inv ≫ G.map β.hom ≫ (t.app x).hom
+          show G.map β.asIso.hom ≫ (t.app x).hom =
+            (t.app x).hom ≫ (t.app x).inv ≫ G.map β.asIso.hom ≫ (t.app x).hom
           simp }
-    have hma : IsIso m.a := β.isIso_hom
-    have hmb : IsIso m.b := α.isIso_hom
+    have hma : IsIso m.a := β.asIso.isIso_hom
+    have hmb : IsIso m.b := α.asIso.isIso_hom
     have : IsIso m := TwoFibreProductOver.isIso_of_isIso_components _ _ _ _ _ m hma hmb
     have hδ : J.map (hJ.preimageIso (asIso m)).hom = m := hJ.map_preimage _
-    exact ⟨hJ.preimageIso (asIso m), congrArg TwoFibreProductOver.Hom.hbase hδ,
+    exact ⟨Aut.of (hJ.preimageIso (asIso m)), congrArg TwoFibreProductOver.Hom.hbase hδ,
       congrArg TwoFibreProductOver.Hom.a hδ⟩
 
 end BaseChange
@@ -405,12 +406,12 @@ stalls. This variant takes the comparison as a `HEq` instead. -/
 /-- Two objects of the relative inertia are equal as soon as their underlying objects are
 equal and their automorphisms agree over that equality. -/
 lemma obj_ext_heq {S : Type*} [Category S] {S' : Type*} [Category S'] {F : S ⥤ S'}
-    {A B : RelativeInertia F} (ho : A.obj = B.obj) (ha : HEq A.auto.hom B.auto.hom) :
+    {A B : RelativeInertia F} (ho : A.obj = B.obj) (ha : HEq A.auto.asIso.hom B.auto.asIso.hom) :
     A = B := by
   obtain ⟨ao, aa, ac⟩ := A; obtain ⟨bo, ba, bc⟩ := B
   simp only at ho; subst ho
   congr 1
-  exact Iso.ext (eq_of_heq ha)
+  exact Aut.isoEquiv.injective (Iso.ext (eq_of_heq ha))
 
 /-! ## The two categories of the left square -/
 
@@ -443,17 +444,18 @@ abbrev BaseChangeFibreProduct.structureFunctor :
 an automorphism of the `X`-component of `x'`, since `α'` is an automorphism of `x'` and
 composition in `X ×_Y Y'` is componentwise. -/
 @[simps]
-def baseChangeAutoX (A : BaseChangeInertia pX pY' pY F G) : Aut A.obj.x where
-  hom := A.auto.hom.a
-  inv := A.auto.inv.a
-  hom_inv_id := by
-    have h : (A.auto.hom ≫ A.auto.inv).a = (𝟙 A.obj : A.obj ⟶ A.obj).a := by
-      rw [A.auto.hom_inv_id]
-    simpa using h
-  inv_hom_id := by
-    have h : (A.auto.inv ≫ A.auto.hom).a = (𝟙 A.obj : A.obj ⟶ A.obj).a := by
-      rw [A.auto.inv_hom_id]
-    simpa using h
+def baseChangeAutoX (A : BaseChangeInertia pX pY' pY F G) : Aut A.obj.x :=
+  Aut.of
+  { hom := A.auto.asIso.hom.a
+    inv := A.auto.asIso.inv.a
+    hom_inv_id := by
+      have h : (A.auto.asIso.hom ≫ A.auto.asIso.inv).a = (𝟙 A.obj : A.obj ⟶ A.obj).a := by
+        rw [A.auto.asIso.hom_inv_id]
+      exact h.trans (by simp)
+    inv_hom_id := by
+      have h : (A.auto.asIso.inv ≫ A.auto.asIso.hom).a = (𝟙 A.obj : A.obj ⟶ A.obj).a := by
+        rw [A.auto.asIso.inv_hom_id]
+      exact h.trans (by simp) }
 
 /-- **The linchpin of Stacks 06PQ.** For an object `(x', α')` of `I_{X'/Y'}` the
 `X`-component `α` of `α'` satisfies `F α = id`.
@@ -462,9 +464,9 @@ The condition `π'(α') = id` says that the `Y'`-component of `α'` is the ident
 compatibility condition of a morphism of the 2-fibre product reads `F α ∘ β = β ∘ id = β`
 with `β` the gluing isomorphism of `x'`; cancelling `β` gives `F α = id`. -/
 lemma map_baseChangeAutoX_eq_id (A : BaseChangeInertia pX pY' pY F G) :
-    F.map A.auto.hom.a = 𝟙 (F.obj A.obj.x) := by
-  have hb : A.auto.hom.b = 𝟙 A.obj.y := A.cond
-  have hw := A.auto.hom.w
+    F.map A.auto.asIso.hom.a = 𝟙 (F.obj A.obj.x) := by
+  have hb : A.auto.asIso.hom.b = 𝟙 A.obj.y := A.cond
+  have hw := A.auto.asIso.hom.w
   rw [hb, G.map_id, Category.comp_id] at hw
   rw [← cancel_mono A.obj.iso.hom, hw, Category.id_comp]
 
@@ -486,8 +488,9 @@ def toBaseChangeFibreProduct :
       a :=
         { hom := φ.hom.a
           comm := by
-            have h : (φ.hom ≫ B.auto.hom).a = (A.auto.hom ≫ φ.hom).a := by rw [φ.comm]
-            exact (show φ.hom.a ≫ B.auto.hom.a = A.auto.hom.a ≫ φ.hom.a by simpa using h) }
+            have h : (φ.hom ≫ B.auto.asIso.hom).a = (A.auto.asIso.hom ≫ φ.hom).a := by rw [φ.comm]
+            exact (show φ.hom.a ≫ B.auto.asIso.hom.a = A.auto.asIso.hom.a ≫ φ.hom.a by
+              simpa using h) }
       b := φ.hom
       ha := (RelativeInertia.isHomLift_π_comp_iff (p := pX) φ.hom.hbase _).mpr φ.hom.ha
       hb := IsHomLift.of_fac' _ φ.hom.hbase φ.hom rfl rfl
@@ -522,12 +525,12 @@ of `x'`. -/
 `α'`. -/
 @[simp] lemma toBaseChangeFibreProduct_obj_x_auto_hom
     (A : BaseChangeInertia pX pY' pY F G) :
-    ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.hom = A.auto.hom.a := rfl
+    ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.asIso.hom = A.auto.asIso.hom.a := rfl
 
 /-- The inverse automorphism of the `I_{X/Y}`-component of `Θ (x', α')`. -/
 @[simp] lemma toBaseChangeFibreProduct_obj_x_auto_inv
     (A : BaseChangeInertia pX pY' pY F G) :
-    ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.inv = A.auto.inv.a := rfl
+    ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.asIso.inv = A.auto.asIso.inv.a := rfl
 
 /-- The `X'`-component of `Θ (x', α')` is `x'`. -/
 @[simp] lemma toBaseChangeFibreProduct_obj_y (A : BaseChangeInertia pX pY' pY F G) :
@@ -648,17 +651,18 @@ def conjugateHom (P : BaseChangeFibreProduct pX pY' pY F G) (γ : P.x.obj ⟶ P.
 `P = (U, (x, α), x', δ)` of `I_{X/Y} ×_X X'`. -/
 @[simps]
 def conjugateAuto (hF : F ⋙ pY = pX) (P : BaseChangeFibreProduct pX pY' pY F G) :
-    Aut P.y where
-  hom := conjugateHom pX pY' pY F G P P.x.auto.hom P.x.cond
-    (map_eq_id_of_comp_eq hF _ P.x.cond)
-  inv := conjugateHom pX pY' pY F G P P.x.auto.inv P.x.cond_inv
-    (map_eq_id_of_comp_eq hF _ P.x.cond_inv)
-  hom_inv_id := by
-    have h : P.x.auto.hom ≫ P.x.auto.inv = 𝟙 P.x.obj := P.x.auto.hom_inv_id
-    refine TwoFibreProductOver.Hom.ext' ?_ ?_ <;> simp [reassoc_of% h]
-  inv_hom_id := by
-    have h : P.x.auto.inv ≫ P.x.auto.hom = 𝟙 P.x.obj := P.x.auto.inv_hom_id
-    refine TwoFibreProductOver.Hom.ext' ?_ ?_ <;> simp [reassoc_of% h]
+    Aut P.y :=
+  Aut.of
+  { hom := conjugateHom pX pY' pY F G P P.x.auto.asIso.hom P.x.cond
+      (map_eq_id_of_comp_eq hF _ P.x.cond)
+    inv := conjugateHom pX pY' pY F G P P.x.auto.asIso.inv P.x.cond_inv
+      (map_eq_id_of_comp_eq hF _ P.x.cond_inv)
+    hom_inv_id := by
+      have h : P.x.auto.asIso.hom ≫ P.x.auto.asIso.inv = 𝟙 P.x.obj := P.x.auto.asIso.hom_inv_id
+      refine TwoFibreProductOver.Hom.ext' ?_ ?_ <;> simp [reassoc_of% h]
+    inv_hom_id := by
+      have h : P.x.auto.asIso.inv ≫ P.x.auto.asIso.hom = 𝟙 P.x.obj := P.x.auto.asIso.inv_hom_id
+      refine TwoFibreProductOver.Hom.ext' ?_ ?_ <;> simp [reassoc_of% h] }
 
 /-- The quasi-inverse `I_{X/Y} ×_X X' ⥤ I_{X'/Y'}` of `Θ`: send `(U, (x, α), x', δ)` to
 `(x', (δ⁻¹ ∘ α ∘ δ, id))`, and a morphism to its `X'`-component. -/
@@ -672,10 +676,10 @@ def fromBaseChangeFibreProduct (hF : F ⋙ pY = pX) :
         · have hb : u.b.a =
               (glue pX pY' pY F G P).inv ≫ u.a.hom ≫ (glue pX pY' pY F G Q).hom := by
             rw [glue_w u, Iso.inv_hom_id_assoc]
-          have hcomm : u.a.hom ≫ Q.x.auto.hom = P.x.auto.hom ≫ u.a.hom := u.a.comm
-          refine (show u.b.a ≫ ((glue pX pY' pY F G Q).inv ≫ Q.x.auto.hom
+          have hcomm : u.a.hom ≫ Q.x.auto.asIso.hom = P.x.auto.asIso.hom ≫ u.a.hom := u.a.comm
+          refine (show u.b.a ≫ ((glue pX pY' pY F G Q).inv ≫ Q.x.auto.asIso.hom
                 ≫ (glue pX pY' pY F G Q).hom)
-              = ((glue pX pY' pY F G P).inv ≫ P.x.auto.hom
+              = ((glue pX pY' pY F G P).inv ≫ P.x.auto.asIso.hom
                 ≫ (glue pX pY' pY F G P).hom) ≫ u.b.a from ?_).trans (by simp)
           rw [hb]
           simp [reassoc_of% hcomm]
@@ -719,13 +723,13 @@ lemma fromBaseChangeFibreProduct_comp_structureFunctor (hF : F ⋙ pY = pX) :
 lemma conjugateAuto_toBaseChangeFibreProduct (hF : F ⋙ pY = pX)
     (A : BaseChangeInertia pX pY' pY F G) :
     (conjugateAuto pX pY' pY F G hF
-        ((toBaseChangeFibreProduct pX pY' pY F G).obj A)).hom = A.auto.hom := by
+        ((toBaseChangeFibreProduct pX pY' pY F G).obj A)).asIso.hom = A.auto.asIso.hom := by
   refine TwoFibreProductOver.Hom.ext' ?_ ?_
   · exact (show (glue pX pY' pY F G ((toBaseChangeFibreProduct pX pY' pY F G).obj A)).inv
-        ≫ ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.hom
+        ≫ ((toBaseChangeFibreProduct pX pY' pY F G).obj A).x.auto.asIso.hom
         ≫ (glue pX pY' pY F G ((toBaseChangeFibreProduct pX pY' pY F G).obj A)).hom
-      = A.auto.hom.a by simp [glue])
-  · exact (show (𝟙 A.obj.y : A.obj.y ⟶ A.obj.y) = A.auto.hom.b from A.cond.symm)
+      = A.auto.asIso.hom.a by simp [glue])
+  · exact (show (𝟙 A.obj.y : A.obj.y ⟶ A.obj.y) = A.auto.asIso.hom.b from A.cond.symm)
 
 /-- `Θ⁻¹ ∘ Θ` is the identity functor: the round trip rebuilds `(x', α')` from `x'` and the
 `X`-component of `α'`, the `Y'`-component of `α'` having been the identity to begin with and
@@ -916,7 +920,7 @@ theorem exists_baseChangeComparison (pX : X ⥤ C) (pY' : Y' ⥤ C) (pY : Y ⥤ 
         BaseChangeFibreProduct pX pY' pY F G,
       (∀ A : RelativeInertia (TwoFibreProductOver.snd pX pY' pY F G),
         (Θ.obj A).x.obj = A.obj.x ∧
-        HEq (Θ.obj A).x.auto.hom A.auto.hom.a ∧
+        HEq (Θ.obj A).x.auto.asIso.hom A.auto.asIso.hom.a ∧
         (Θ.obj A).y = A.obj ∧
         HEq (Θ.obj A).iso.hom (𝟙 A.obj.x)) ∧
       (∀ {A B : RelativeInertia (TwoFibreProductOver.snd pX pY' pY F G)} (φ : A ⟶ B),

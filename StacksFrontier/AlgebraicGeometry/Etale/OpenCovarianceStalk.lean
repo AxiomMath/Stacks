@@ -200,9 +200,9 @@ public theorem etaleGerm_pullbackSectionAlongHom (t : GeometricPoint X'.obj)
       etaleGerm B X.obj X.property (t.map (B.inclusion.map j)) F.obj W q τ := by
   have h := ConcreteCategory.congr_hom
     (etaleStalkSmallEtalePullObjIso_germ B j t AddCommGrpCat.{max (u + 1) v} F
-      (⟨W', q'⟩ : (geometricPointFiber B X'.obj X'.property t).Elements)
-      (⟨W, q⟩ : (geometricPointFiber B X.obj X.property
-        (t.map (B.inclusion.map j))).Elements) b hb) τ
+      ((geometricPointFiber B X'.obj X'.property t).elementsMk W' q')
+      ((geometricPointFiber B X.obj X.property
+        (t.map (B.inclusion.map j))).elementsMk W q) b hb) τ
   simp only [ConcreteCategory.comp_apply] at h
   exact h
 

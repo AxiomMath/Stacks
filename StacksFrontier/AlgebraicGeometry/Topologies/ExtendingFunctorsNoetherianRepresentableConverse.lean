@@ -687,7 +687,7 @@ lemma exists_sectionGlued (haF' : IsZariskiSheaf F') :
       Category.id_comp]
   have h := congrArg (F'.map ((overOpenIso (L.chartOver V)).hom).op) (hx V)
   rw [← Functor.map_comp_apply, ← op_comp, ← Functor.map_comp_apply, ← op_comp, hmor,
-    Iso.hom_inv_id, op_id, FunctorToTypes.map_id_apply] at h
+    Iso.hom_inv_id, op_id, Functor.map_id_apply] at h
   exact h
 
 /-- The image under `a'` of the section of `F'` over the local representing object over `V` is

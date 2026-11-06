@@ -76,17 +76,17 @@ universe v u w m
 namespace CategoryTheory.Adjunction
 
 /-- **A left adjoint transports endomorphisms of the identity functor**, provided the right
-adjoint transports them back: if `U.map (b.app N) = a.app (U.obj N)` for every `N`, then
-`L.map (a.app X) = b.app (L.obj X)` for every `X`. Both sides correspond, under the adjunction,
-to `a.app X ≫ unit.app X`, by the naturality of the unit and of `a`. -/
+adjoint transports them back: if `U.map (b.asHom.app N) = a.asHom.app (U.obj N)` for every `N`, then
+`L.map (a.asHom.app X) = b.asHom.app (L.obj X)` for every `X`. Both sides correspond, under the adjunction,
+to `a.asHom.app X ≫ unit.app X`, by the naturality of the unit and of `a`. -/
 theorem map_endOfId {C D : Type*} [Category C] [Category D] {L : C ⥤ D} {U : D ⥤ C}
     (adj : L ⊣ U) {a : End (𝟭 C)} {b : End (𝟭 D)}
-    (h : ∀ N : D, U.map (b.app N) = a.app (U.obj N)) (X : C) :
-    L.map (a.app X) = b.app (L.obj X) := by
+    (h : ∀ N : D, U.map (b.asHom.app N) = a.asHom.app (U.obj N)) (X : C) :
+    L.map (a.asHom.app X) = b.asHom.app (L.obj X) := by
   apply (adj.homEquiv X (L.obj X)).injective
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, h]
-  have h1 := adj.unit.naturality (a.app X)
-  have h2 := a.naturality (adj.unit.app X)
+  have h1 := adj.unit.naturality (a.asHom.app X)
+  have h2 := a.asHom.naturality (adj.unit.app X)
   simp only [Functor.id_obj, Functor.id_map, Functor.comp_map] at h1 h2
   rw [← h1, ← h2]
   rfl
@@ -104,21 +104,22 @@ variable {C : Type u} [Category.{v} C] (R₀ : Cᵒᵖ ⥤ RingCat.{w})
 This is the presheaf-level counterpart of `Stacks.SheafOfModules.globalSectionToEnd`: on
 sections over `U` it is multiplication by the local scalar `f U`. -/
 def presheafSectionToEnd (f : (R₀ ⋙ forget RingCat).sections) :
-    End (𝟭 (PresheafOfModules.{m} R₀)) where
-  app M := {
-    app U := ModuleCat.ofHom (LinearMap.lsmul (R₀.obj U) (M.obj U) (f.val U))
-    naturality := by
-      intro U V i; ext x
-      change f.val V • M.map i x = M.map i (f.val U • x)
-      rw [M.map_smul]
-      exact congrArg (fun r => r • M.map i x) (f.property i).symm }
-  naturality M N g := by
-    ext U x; exact (PresheafOfModules.Hom.app g U).hom.map_smul (f.val U) x |>.symm
+    End (𝟭 (PresheafOfModules.{m} R₀)) :=
+  .of
+    { app M := {
+        app U := ModuleCat.ofHom (LinearMap.lsmul (R₀.obj U) (M.obj U) (f.val U))
+        naturality := by
+          intro U V i; ext x
+          change f.val V • M.map i x = M.map i (f.val U • x)
+          rw [M.map_smul]
+          exact congrArg (fun r => r • M.map i x) (f.property i).symm }
+      naturality M N g := by
+        ext U x; exact (PresheafOfModules.Hom.app g U).hom.map_smul (f.val U) x |>.symm }
 
 /-- On local sections, `Stacks.presheafSectionToEnd` is scalar multiplication. -/
 @[simp] theorem presheafSectionToEnd_apply (f : (R₀ ⋙ forget RingCat).sections)
     (M : PresheafOfModules.{m} R₀) (U : Cᵒᵖ) (x : M.obj U) :
-    PresheafOfModules.Hom.app ((presheafSectionToEnd R₀ f).app M) U x = f.val U • x := rfl
+    PresheafOfModules.Hom.app ((presheafSectionToEnd R₀ f).asHom.app M) U x = f.val U • x := rfl
 
 /-- The rings of sections of the presheaf of rings underlying a presheaf of commutative rings
 are commutative, in the unbundled form the multiplication endomorphisms ask for. -/
@@ -133,8 +134,8 @@ theorem tensorRight_map_presheafSmul {O : Cᵒᵖ ⥤ CommRingCat.{w}}
     (f : (ringPresheaf O ⋙ forget RingCat).sections)
     (P : PresheafOfModules.{w} (ringPresheaf O)) :
     PresheafOfModules.tensorHom (O := O)
-        ((presheafSectionToEnd (ringPresheaf O) f).app P) (𝟙 F) =
-      (presheafSectionToEnd (ringPresheaf O) f).app
+        ((presheafSectionToEnd (ringPresheaf O) f).asHom.app P) (𝟙 F) =
+      (presheafSectionToEnd (ringPresheaf O) f).asHom.app
         (PresheafOfModules.tensorObj (O := O) P F) := by
   refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
   let r : ((ringPresheaf O).obj U) := f.val U
@@ -155,8 +156,8 @@ theorem sheafification_map_presheafSmul (R : Sheaf J RingCat.{w})
     [∀ U, IsMulCommutative (R.obj.obj U)]
     (f : (R.obj ⋙ forget RingCat).sections) (P : PresheafOfModules.{w} R.obj) :
     (PresheafOfModules.sheafification (𝟙 R.obj)).map
-        ((presheafSectionToEnd R.obj f).app P) =
-      (SheafOfModules.globalSectionToEnd R f).app
+        ((presheafSectionToEnd R.obj f).asHom.app P) =
+      (SheafOfModules.globalSectionToEnd R f).asHom.app
         ((PresheafOfModules.sheafification (𝟙 R.obj)).obj P) :=
   Adjunction.map_endOfId (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj))
     (fun _ => rfl) P
@@ -172,13 +173,13 @@ theorem sheafTensorRight_map_globalSmul
     (f : ((commRingSheafToRingSheaf O).obj ⋙ forget RingCat).sections)
     (G : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O)) :
     ((SheafOfModules.Tensor.sheafTensor O).flip.obj F).map
-        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app G) =
-      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app
+        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G) =
+      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
         (((SheafOfModules.Tensor.sheafTensor O).flip.obj F).obj G) := by
   have h1 : PresheafOfModules.tensorHom (O := O.obj)
-        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app G).val)
+        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G).val)
           (𝟙 F.val) =
-      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).app
+      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app
         (PresheafOfModules.tensorObj (O := O.obj) G.val F.val) :=
     tensorRight_map_presheafSmul (O := O.obj) F.val f G.val
   have h2 := congrArg (fun ψ => (PresheafOfModules.sheafification
@@ -189,13 +190,14 @@ end Sheaf
 
 /-- **Multiplication by a scalar, as an endomorphism of the identity functor of the category
 of modules over a commutative ring.** -/
-def scalarEnd (R : CommRingCat.{u}) (r : ↑R) : End (𝟭 (ModuleCat.{u} ↑R)) where
-  app M := r • 𝟙 M
-  naturality M N f := by simp
+def scalarEnd (R : CommRingCat.{u}) (r : ↑R) : End (𝟭 (ModuleCat.{u} ↑R)) :=
+  .of
+    { app M := r • 𝟙 M
+      naturality M N f := by simp }
 
 /-- `Stacks.scalarEnd` is scalar multiplication on the identity. -/
 @[simp] theorem scalarEnd_app (R : CommRingCat.{u}) (r : ↑R) (M : ModuleCat.{u} ↑R) :
-    (scalarEnd R r).app M = r • 𝟙 M := rfl
+    (scalarEnd R r).asHom.app M = r • 𝟙 M := rfl
 
 end Stacks
 

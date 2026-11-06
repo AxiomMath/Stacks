@@ -444,7 +444,7 @@ theorem formalSpectrumToSpec_comp_eq_adicOfAlgebraization_comp
   refine congrArg ULift.up ?_
   refine (congrArg (fun f => X.map f.op s)
     (stageIsoSupportStage_hom_comp_supportStageToAffine D hRS q hq hrad K').symm).trans ?_
-  exact FunctorToTypes.map_comp_apply X
+  exact X.map_comp_apply
     (supportStageToAffine B S hS hRS q (IsLocalRing.maximalIdeal R) ⟨K'.1, hrad K'⟩).op
     ((BigAffineFppf.inclusion B S hS).map (stageIsoSupportStage D hRS q hq hrad K').hom).op s
 

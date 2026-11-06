@@ -139,7 +139,7 @@ theorem mem_range_of_chartCoords_mem {ι : Fin (n - k) ↪ Fin n}
     have hC : (MvPolynomial.C a : MvPolynomial (ChartIndex.{u} ι) (ULift.{u} ℤ)) =
         ((a.down : ℤ) : MvPolynomial (ChartIndex.{u} ι) (ULift.{u} ℤ)) := by
       rw [← map_intCast (MvPolynomial.C (σ := ChartIndex.{u} ι) (R := ULift.{u} ℤ))]
-      exact congrArg MvPolynomial.C (ULift.ext _ _ (by simp))
+      exact congrArg MvPolynomial.C (ULift.ext (by simp))
     refine ⟨((a.down : ℤ) : B), ?_⟩
     rw [map_intCast, hC, map_intCast]
   | add p q hp hq =>

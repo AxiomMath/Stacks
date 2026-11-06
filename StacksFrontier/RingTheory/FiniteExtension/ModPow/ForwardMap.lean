@@ -132,10 +132,10 @@ private lemma mk_mkB_eq_of_sub_eq_mul (A' : Type u) (A : Type v) [CommRing A'] [
     (c₁ c₂ p : B') (hN₁ : c₁ ∈ nIdeal A' A f t n B' g φ')
     (hN₂ : c₂ ∈ nIdeal A' A f t n B' g φ') (hp : p ∈ nIdeal A' A f t n B' g φ')
     (h : c₁ - c₂ = g * p) :
-    Ideal.Quotient.mk (Ideal.span {algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ')
-        g}) (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₁ hN₁)
-      = Ideal.Quotient.mk (Ideal.span {algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t
-          hφ') g}) (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₂ hN₂) := by
+    Ideal.Quotient.mk (Ideal.span {(algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ')
+        g)}) (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₁ hN₁)
+      = Ideal.Quotient.mk (Ideal.span {(algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t
+          hφ') g)}) (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₂ hN₂) := by
   refine quotient_mk_eq_of_sub_eq_mul B' g _ _ _
     (mkB A' A f t n B' g φ' hinj ht hn2t hφ' p hp) ?_
   rw [mkB_coe, mkB_coe, mkB_coe]
@@ -164,11 +164,11 @@ lemma phi_wd (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Algebra A' A
     (hN₁ : c₁ ∈ nIdeal A' A f t n B' g φ') (hN₂ : c₂ ∈ nIdeal A' A f t n B' g φ')
     (heq : Ideal.Quotient.mk (Ideal.span {algebraMap A' A f}) a₁
         = Ideal.Quotient.mk (Ideal.span {algebraMap A' A f}) a₂) :
-    Ideal.Quotient.mk (Ideal.span {algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ')
-        g})
+    Ideal.Quotient.mk (Ideal.span {(algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ')
+        g)})
         (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₁ hN₁)
-      = Ideal.Quotient.mk (Ideal.span {algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t
-          hφ') g})
+      = Ideal.Quotient.mk (Ideal.span {(algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t
+          hφ') g)})
         (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c₂ hN₂) := by
   rw [Ideal.Quotient.eq, Ideal.mem_span_singleton'] at heq
   obtain ⟨w, hw⟩ := heq

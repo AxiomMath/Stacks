@@ -59,7 +59,7 @@ theorem finite_maximalSpectrum_of_finite (B : Type*) [CommRing B] [Algebra A B]
   have hfin := Algebra.QuasiFinite.finite_primesOver (R := A) (S := B) (maximalIdeal A)
   have := hfin.to_subtype
   exact Finite.of_injective (fun v : MaximalSpectrum B ↦ (⟨v.asIdeal, v.isMaximal.isPrime,
-    ⟨(eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A)
+    ⟨(eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A)
       v.asIdeal)).symm⟩⟩ : (maximalIdeal A).primesOver B))
     fun v w h ↦ MaximalSpectrum.ext (congrArg Subtype.val h)
 

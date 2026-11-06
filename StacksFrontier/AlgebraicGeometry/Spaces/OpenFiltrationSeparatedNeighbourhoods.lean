@@ -68,6 +68,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under
+Lean v4.35.0: supply them directly. -/
+local instance (priority := high) hasLimit_cospan_presheaf_OpenFiltrationSeparatedNeighbourhoods
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### Factoring a field-valued point through an arbitrary open subspace -/
 
 /-- An open subspace of an algebraic space over `S` is the open subspace cut out by its own set

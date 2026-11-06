@@ -452,7 +452,6 @@ private lemma stage_inertia_invariants_etale
     Algebra.Etale.comp A RG (Localization.Away g)
   refine ⟨g, hg, ?_⟩
   convert (RingHom.etale_algebraMap.mpr hEtaleComp) using 1
-  rfl
 
 /-- Any finite subset of the inertia invariants lies in the image of an injective `A`-algebra
 map from a ring `R` attached to a single finite Galois stage, and `R` carries an element `g`

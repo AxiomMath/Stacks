@@ -52,7 +52,8 @@ variable (R : Type u) [Ring R] [Finite R] {Q : Type v} [Group Q] [TopologicalSpa
 `φ : S →+* Rᵐᵒᵖ`, intertwines `S[[Q]]` and `Rᵐᵒᵖ[[Q]]`** through `mapCoeff φ`. -/
 theorem internalHomSMul_map_of_semilinear (f : N.obj.obj.V →+ (V.obj.obj.V →+ W.obj.obj.V))
     (hq : ∀ (q : Q) (a : N.obj.obj.V) (v : V.obj.obj.V),
-      f ((N.obj.obj.ρ q).hom a) v = (W.obj.obj.ρ q).hom (f a ((V.obj.obj.ρ q⁻¹).hom v)))
+      f ((N.obj.obj.ρ q).asHom.hom a) v =
+        (W.obj.obj.ρ q).asHom.hom (f a ((V.obj.obj.ρ q⁻¹).asHom.hom v)))
     (hr : ∀ (s : S) (a : N.obj.obj.V) (v : V.obj.obj.V),
       f (s • a) v = f a ((φ s).unop • v))
     (x : CompletedGroupAlgebra S Q) (a : N.obj.obj.V) :
@@ -88,8 +89,8 @@ structure ComplexPairing where
     (A.X n).obj.obj.V →+ ((E.X p).obj.obj.V →+ (G.X q).obj.obj.V)
   /-- Equivariance, in the conjugation form. -/
   galois : ∀ (n p q : ℤ) (h : p + n = q) (σ : Q) (a : (A.X n).obj.obj.V) (e : (E.X p).obj.obj.V),
-    pair n p q h (((A.X n).obj.obj.ρ σ).hom a) e =
-      ((G.X q).obj.obj.ρ σ).hom (pair n p q h a (((E.X p).obj.obj.ρ σ⁻¹).hom e))
+    pair n p q h (((A.X n).obj.obj.ρ σ).asHom.hom a) e =
+      ((G.X q).obj.obj.ρ σ).asHom.hom (pair n p q h a (((E.X p).obj.obj.ρ σ⁻¹).asHom.hom e))
   /-- Balancing along `φ`. -/
   balanced : ∀ (n p q : ℤ) (h : p + n = q) (s : S) (a : (A.X n).obj.obj.V)
     (e : (E.X p).obj.obj.V), pair n p q h (s • a) e = pair n p q h a ((φ s).unop • e)

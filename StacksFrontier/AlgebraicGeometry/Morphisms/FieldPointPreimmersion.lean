@@ -99,7 +99,6 @@ theorem surjective_algebraMap_of_isEpi {K L : Type u} [Field K] [Field L] [Algeb
     (not_nontrivial_iff_subsingleton.mpr ?_)
   refine subsingleton_of_forall_eq 0 fun y ↦ ?_
   induction y with
-  | zero => rfl
   | add a b e₁ e₂ => rwa [e₁, zero_add]
   | tmul x y =>
     obtain ⟨x, rfl⟩ := R'.mkQ_surjective x

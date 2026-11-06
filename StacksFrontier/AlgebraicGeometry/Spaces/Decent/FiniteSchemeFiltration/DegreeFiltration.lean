@@ -317,7 +317,7 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       (hZnonempty : Z.Nonempty) :
       ∃ x ∈ Z, ∃ D : ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (W n)).Opens,
         IsAffineOpen D ∧ ∀ σ : Equiv.Perm (Fin (n + 1)),
-          ((schemeAction n σ).hom.base x) ∈ D := by
+          ((schemeAction n σ).asIso.hom.base x) ∈ D := by
     let q := AlgebraicGeometry.BigFppfOver.toScheme B S hS
     let : IsAffine (q.obj A) := hA
     let : Etale (q.map (toA n)) := (hToA n).1
@@ -331,11 +331,11 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
     exact exists_affineOpen_containing_finiteOrbit (schemeAction n)
       (q.map (toA n)) Z hZnonempty
   have hActionOver (n : ℕ) (σ : Equiv.Perm (Fin (n + 1))) :
-      yoneda.map (action n σ) ≫ w n = w n :=
+      yoneda.map (action n σ).asHom ≫ w n = w n :=
     distinctFiberPowerPermute_comp_structureMap B S hS a haRep haOpen haClosed n σ.symm
   have hFree (n : ℕ) (T : AlgebraicGeometry.BigFppfOver B S hS) (g : T ⟶ W n)
       (hT : Nonempty ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj T)) :
-      Function.Injective (fun σ ↦ g ≫ action n σ) :=
+      Function.Injective (fun σ ↦ g ≫ (action n σ).asHom) :=
     injective_distinctFiberPowerSiteAction B S hS a haRep haOpen haClosed n g hT
   let overAction (n : ℕ) : Equiv.Perm (Fin (n + 1)) →*
       Aut ((Over.post B.inclusion).obj (W n)) :=
@@ -459,8 +459,8 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
         (overAction n) hR (quotientSiteMap n) (hQuotientSiteKernelPair n) p₁ p₂ hp)
       (w n)
     intro σ
-    have heq : (Over.post B.inclusion).preimage ((overAction n σ).hom) =
-        action n σ := by
+    have heq : (Over.post B.inclusion).preimage ((overAction n σ).asIso.hom) =
+        (action n σ).asHom := by
       apply (Over.post B.inclusion).map_injective
       rw [Functor.map_preimage]
       rfl
@@ -590,10 +590,10 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
     hQuotientCompact, hQuotientSeparated, hhSurj, hhEtale, ?_, hdegree⟩
   intro p Z hZclosed hZreduced hZrange
   have hQAction (n : ℕ) (σ : Equiv.Perm (Fin (n + 1))) :
-      action n σ ≫ quotientSiteMap n = quotientSiteMap n := by
+      (action n σ).asHom ≫ quotientSiteMap n = quotientSiteMap n := by
     apply (Over.post B.inclusion).map_injective
     rw [Functor.map_comp]
-    show (overAction n σ).hom ≫ (Over.post B.inclusion).map (quotientSiteMap n) = _
+    show (overAction n σ).asIso.hom ≫ (Over.post B.inclusion).map (quotientSiteMap n) = _
     have heq := congrArg (fun k ↦ Sigma.ι
       (fun _ : Equiv.Perm (Fin (n + 1)) ↦ (Over.post B.inclusion).obj (W n)) σ ≫ k)
       (hQuotientSiteKernelPair n).w
@@ -690,8 +690,8 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
     a' b' (by simpa only [Functor.map_comp, Category.assoc] using hab)
   · obtain ⟨σ, hσ⟩ := hperm
     have hqeq : a' ≫ quotientSiteMap p = b' ≫ quotientSiteMap p := by
-      change a' ≫ action p σ = b' at hσ
-      rw [← hσ, Category.assoc a' (action p σ), hQAction]
+      change a' ≫ (action p σ).asHom = b' at hσ
+      rw [← hσ, Category.assoc a' (action p σ).asHom, hQAction]
     refine ⟨z', E, rfl, ?_⟩
     apply pullback.hom_ext
     · show (yonedaEquiv.symm z'.value ≫ pullback.fst π π) ≫ π =
@@ -813,8 +813,8 @@ theorem exists_symmetricPower_etaleChart
     simpa only [Category.assoc] using h i
   have hFree (T : BigFppfOver B S hS) (gT : T ⟶ W)
       (hT : Nonempty ((BigFppfOver.toScheme B S hS).obj T)) :
-      Function.Injective fun σ ↦ gT ≫ distinctFiberPowerSiteAction B S hS a haRep
-        haOpen haClosed n σ :=
+      Function.Injective fun σ ↦ gT ≫ (distinctFiberPowerSiteAction B S hS a haRep
+        haOpen haClosed n σ).asHom :=
     injective_distinctFiberPowerSiteAction B S hS a haRep haOpen haClosed n gT hT
   set action : Equiv.Perm (Fin (n + 1)) →* End W :=
     distinctFiberPowerSiteAction B S hS a haRep haOpen haClosed n with hactiondef
@@ -893,8 +893,8 @@ theorem exists_symmetricPower_etaleChart
         ((Over.post B.inclusion).map π) ((Over.post B.inclusion).map π) :=
     actionGroupoid_isPullback_of_quotientMap _ _ _ hResidue quot quotientSiteIso _ hπ
   have hmapAction (τ : Equiv.Perm (Fin (n + 1))) :
-      (Over.post B.inclusion).map (action τ) = (overAction τ).hom := rfl
-  have hactionπ (τ : Equiv.Perm (Fin (n + 1))) : action τ ≫ π = π := by
+      (Over.post B.inclusion).map (action τ).asHom = (overAction τ).asIso.hom := rfl
+  have hactionπ (τ : Equiv.Perm (Fin (n + 1))) : (action τ).asHom ≫ π = π := by
     have hι := congrArg (fun k ↦ Sigma.ι (fun _ : Equiv.Perm (Fin (n + 1)) ↦
       (Over.post B.inclusion).obj W) τ ≫ k) hπKernelPair.w
     simp only [← Category.assoc, actionRelationTarget, actionRelationSource,
@@ -903,16 +903,16 @@ theorem exists_symmetricPower_etaleChart
     rw [CategoryTheory.Functor.map_comp, hmapAction]
     simpa only [Category.id_comp] using hι
   have hactionincl (τ : Equiv.Perm (Fin (n + 1))) :
-      action τ ≫ incl = incl ≫ fiberPowerPermute a haRep n τ.symm :=
+      (action τ).asHom ≫ incl = incl ≫ fiberPowerPermute a haRep n τ.symm :=
     openSubschemeMap_inclusion B S hS L L (fiberPowerPermute a haRep n τ.symm)
       (mapsTo_distinctFiberPowerLocus B S hS a haRep haOpen haClosed n τ.symm)
-  set act : Equiv.Perm (Fin (n + 1)) → (W ⟶ W) := fun σ ↦ action σ⁻¹ with hactdef
+  set act : Equiv.Perm (Fin (n + 1)) → (W ⟶ W) := fun σ ↦ (action σ⁻¹).asHom with hactdef
   have hsymmInv (σ : Equiv.Perm (Fin (n + 1))) : (σ⁻¹).symm = σ := by
     simp [Equiv.Perm.inv_def]
   have hactpr (σ : Equiv.Perm (Fin (n + 1))) (i : Fin (n + 1)) : act σ ≫ pr i = pr (σ i) := by
     rw [hactdef, hprdef, ← Category.assoc, hactionincl, Category.assoc,
       fiberPowerPermute_projection, hsymmInv]
-  have hwInvariant (τ : Equiv.Perm (Fin (n + 1))) : yoneda.map (action τ) ≫ w = w :=
+  have hwInvariant (τ : Equiv.Perm (Fin (n + 1))) : yoneda.map (action τ).asHom ≫ w = w :=
     distinctFiberPowerPermute_comp_structureMap B S hS a haRep haOpen haClosed n τ.symm
   have hDescend : ∃! g : yoneda.obj V ⟶ X, yoneda.map π ≫ g = w := by
     have hR : B.Contains (actionRelationScheme ((Over.post B.inclusion).obj W)
@@ -924,7 +924,7 @@ theorem exists_symmetricPower_etaleChart
       (fun p₁ p₂ hp ↦ exists_actionRelation_lift B S hS W (Equiv.Perm (Fin (n + 1)))
         overAction hR π hπKernelPair p₁ p₂ hp) w
     intro τ
-    have heq : (Over.post B.inclusion).preimage ((overAction τ).hom) = action τ := by
+    have heq : (Over.post B.inclusion).preimage ((overAction τ).asIso.hom) = (action τ).asHom := by
       apply (Over.post B.inclusion).map_injective
       rw [Functor.map_preimage]
       exact (hmapAction τ).symm

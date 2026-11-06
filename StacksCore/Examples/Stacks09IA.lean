@@ -1,5 +1,6 @@
 module
 
+import Mathlib.FieldTheory.RatFunc.IntermediateField
 import Mathlib.NumberTheory.FunctionField
 public import StacksCore.FieldTheory.PurelyTranscendental
 import StacksCore.FieldTheory.RatFunc.AsPolynomial

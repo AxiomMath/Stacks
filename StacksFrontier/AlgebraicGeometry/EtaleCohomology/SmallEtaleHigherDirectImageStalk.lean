@@ -268,7 +268,7 @@ def isColimitSmallEtaleHigherDirectImageStalkCocone :
   IsColimit.ofIsoColimit
     ((Scheme.pointSmallEtale x).isColimitPresheafFiberCocone
       (smallEtaleHigherDirectImageCohomologyPresheaf f F n))
-    (Cocones.ext (smallEtaleHigherDirectImageStalkIso f x F n).symm fun _ => rfl)
+    (Cocone.ext (smallEtaleHigherDirectImageStalkIso f x F n).symm fun _ => rfl)
 
 /-- **[Stacks, Tag 03Q9] over [Stacks, Tag 03Q6] as a named hypothesis.** For an arbitrary
 morphism of schemes `f : X ⟶ Y`, an arbitrary geometric point `x` of `Y`, an arbitrary abelian

@@ -77,7 +77,7 @@ theorem isQuasiCompact_terminal_of_isFiniteTypeOverIntegers
       (terminal.from (viewOverIntegers B (⊤_ Scheme.{u}) hZ hZ F))) :
     IsQuasiCompact B (⊤_ Scheme.{u}) hZ (terminal.from F) := by
   rw [show terminal.from F = (viewOverIntegersIsoOfTerminal B hZ F).inv ≫ terminal.from _ from
-    Subsingleton.elim _ _]
+    terminal.hom_ext _ _]
   exact isQuasiCompact_isIso_comp B (⊤_ Scheme.{u}) hZ _ h.2
 
 /-- **An algebraic space over `Spec ℤ` whose view over `Spec ℤ` is locally of finite type is

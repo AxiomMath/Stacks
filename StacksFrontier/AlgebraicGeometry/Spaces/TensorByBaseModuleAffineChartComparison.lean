@@ -59,7 +59,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (X : AlgebraicSpaces B S hS) {U₀ : SmallEtale B S hS X.1} (hU₀ : IsTerminal U₀)
   (R : Type u) [CommRing R] (𝓕 : Modules.{u, u} B S hS X.1 X.2)
-  (α : R →+* (structureSheaf B S hS X.1 X.2).val.obj (op U₀))
+  (α : R →+* (structureSheaf B S hS X.1 X.2).obj.obj (op U₀))
   (M : ModuleCat.{u} R) (G : Modules.{u, u} B S hS X.1 X.2)
   (σ : M → (𝓕.val ⟶ (PresheafOfModules.restrictScalars
       (𝟙 (smallEtaleRingSheaf B S hS X.1 X.2).obj)).obj
@@ -68,8 +68,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     ((σ (m₁ + m₂)).app W).hom x = ((σ m₁).app W).hom x + ((σ m₂).app W).hom x)
   (hsmul : ∀ (r : R) (m : M) (W : (SmallEtale B S hS X.1)ᵒᵖ) (x : 𝓕.val.obj W),
     ((σ (r • m)).app W).hom x
-      = ((presheafMultOfHom R (structureSheaf B S hS X.1 X.2).val
-            (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).val) α) r
+      = ((presheafMultOfHom R (structureSheaf B S hS X.1 X.2).obj
+            (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).obj) α) r
             ((PresheafOfModules.restrictScalars
                 (𝟙 (smallEtaleRingSheaf B S hS X.1 X.2).obj)).obj
               ((SheafOfModules.forget (smallEtaleRingSheaf B S hS X.1 X.2)).obj G))).app W).hom
@@ -87,13 +87,13 @@ noncomputable def tensorByBaseModuleIsoOfComparisonOnAffineCharts
       IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj W) →
         Function.Bijective (comparisonApp R (SmallEtale.topology B S hS X.1)
           (structureSheaf B S hS X.1 X.2) 𝓕
-          (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).val) α)
+          (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).obj) α)
           M _ σ hadd hsmul (op W)).hom) :
     (tensorByBaseModule R hU₀ (SmallEtale.topology B S hS X.1)
         (structureSheaf B S hS X.1 X.2) 𝓕 α).obj M ≅ G :=
   tensorByBaseModuleIsoOfBijectiveOnAffineCharts B S hS X hU₀ R 𝓕 α M G
     (comparison R (SmallEtale.topology B S hS X.1) (structureSheaf B S hS X.1 X.2) 𝓕
-      (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).val) α) M _ σ hadd hsmul)
+      (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).obj) α) M _ σ hadd hsmul)
     hbij
 
 
@@ -107,14 +107,14 @@ noncomputable def tensorByBaseModuleIsoOfCancelledBijectiveOnAffineCharts
       IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj W) →
         Function.Bijective (comparisonCancelled R (SmallEtale.topology B S hS X.1)
           (structureSheaf B S hS X.1 X.2) 𝓕
-          (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).val) α)
+          (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).obj) α)
           M _ σ hadd hsmul (op W))) :
     (tensorByBaseModule R hU₀ (SmallEtale.topology B S hS X.1)
         (structureSheaf B S hS X.1 X.2) 𝓕 α).obj M ≅ G :=
   tensorByBaseModuleIsoOfComparisonOnAffineCharts B S hS X hU₀ R 𝓕 α M G σ hadd hsmul
     fun W hW => (bijective_comparisonApp_iff R (SmallEtale.topology B S hS X.1)
       (structureSheaf B S hS X.1 X.2) 𝓕
-      (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).val) α)
+      (coefficientMap R hU₀ (O := (structureSheaf B S hS X.1 X.2).obj) α)
       M _ σ hadd hsmul (op W)).mpr (hbij W hW)
 
 end AlgebraicGeometry.Space

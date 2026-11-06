@@ -61,14 +61,14 @@ def pairsPresheafYonedaIso {X : Scheme.{u}} (hX : B.Contains X) :
       invFun := fun c => (c.down ≫ prod.fst,
         ULift.up (homOfSchemeEquiv hX T.unop (c.down ≫ prod.snd)))
       left_inv := fun p => by
-        refine Prod.ext (prod.lift_fst _ _) (ULift.ext _ _ ?_)
+        refine Prod.ext (prod.lift_fst _ _) (ULift.ext ?_)
         change homOfSchemeEquiv hX T.unop (prod.lift _ _ ≫ prod.snd) = p.2.down
         rw [prod.lift_snd, Equiv.apply_symm_apply]
       right_inv := fun c => by
-        refine ULift.ext _ _ (prod.hom_ext (prod.lift_fst _ _) ?_)
+        refine ULift.ext (prod.hom_ext (prod.lift_fst _ _) ?_)
         rw [prod.lift_snd, Equiv.symm_apply_apply] }) fun {T T'} g => by
     ext p
-    refine ULift.ext _ _ (prod.hom_ext ?_ ?_)
+    refine ULift.ext (prod.hom_ext ?_ ?_)
     · change prod.lift (g.unop ≫ p.1) _ ≫ prod.fst = (g.unop ≫ prod.lift p.1 _) ≫ prod.fst
       rw [prod.lift_fst, Category.assoc, prod.lift_fst]
     · change prod.lift (g.unop ≫ p.1) _ ≫ prod.snd = (g.unop ≫ prod.lift p.1 _) ≫ prod.snd

@@ -50,7 +50,7 @@ theorem isContinuous_ulift (ρ : G →ₜ* Matrix.GeneralLinearGroup (Fin n) (ZM
   have h := hasOpenStabilizers (ρ := ρ) X.down
   have hset : {g : G | g • X = X} = {g : G | g • X.down = X.down} := by
     ext g
-    exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+    exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
   rw [hset]
   exact h
 

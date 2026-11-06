@@ -562,12 +562,12 @@ theorem exists_milnorTriangle_isIso_toLimit_homology_puncturedSpectrumSections_o
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -614,12 +614,12 @@ theorem exists_homologyIso_limit_puncturedSpectrumSections_of_two_le
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -679,12 +679,12 @@ theorem isIso_toLimit_homology_puncturedSpectrumSections_of_two_le
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -722,12 +722,12 @@ theorem nonempty_homologyIso_limit_puncturedSpectrumSections_of_two_le
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -779,12 +779,12 @@ theorem isIso_toLimit_homology_puncturedSpectrumSections_of_isCoherent
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -830,12 +830,12 @@ theorem exists_homologyIso_limit_puncturedSpectrumSections_of_isCoherent
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))

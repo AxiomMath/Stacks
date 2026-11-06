@@ -135,6 +135,15 @@ theorem forget_map_compInverseImageRingIso_inv_app (p : V ⟶ W) (f : W ⟶ X)
       ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS p f).hom.app A) =
       (smallEtaleRingedToposHom_compInverseImageIso B S hS p f).hom.app
         ((smallEtaleRingedTopos B S hS X).forgetRing.obj A) := by
+    haveI hfl := ((smallEtaleRingedToposHom B S hS f).toToposHom.comp
+      (smallEtaleRingedToposHom B S hS p).toToposHom).preservesFiniteLimits
+    haveI := (⟨fun _ ↦ hfl.preservesFiniteLimits _⟩ :
+      Limits.PreservesFiniteProducts ((smallEtaleRingedToposHom B S hS f).toToposHom.comp
+        (smallEtaleRingedToposHom B S hS p).toToposHom).inverseImage)
+    haveI hfl' := (smallEtaleRingedToposHom B S hS (p ≫ f)).toToposHom.preservesFiniteLimits
+    haveI := (⟨fun _ ↦ hfl'.preservesFiniteLimits _⟩ :
+      Limits.PreservesFiniteProducts
+        (smallEtaleRingedToposHom B S hS (p ≫ f)).toToposHom.inverseImage)
     refine Eq.trans ((smallEtaleRingedTopos B S hS V).forgetRing.map_comp _ _) ?_
     refine Eq.trans (congrArg₂ (fun a b ↦ a ≫ b)
       (forget_map_inverseImageCommRingComp_hom (smallEtaleRingedToposHom B S hS f).toToposHom
@@ -153,8 +162,11 @@ rings is the inverse image of the underlying map of sheaves of sets. -/
 theorem forget_map_smallEtaleInverseImageRing_map (p : V ⟶ W)
     {A A' : Sheaf (SmallEtale.topology B S hS W.1) CommRingCat.{u}} (a : A ⟶ A') :
     (smallEtaleRingedTopos B S hS V).forgetRing.map ((smallEtaleInverseImageRing B S hS p).map a) =
-      (τ p).inverseImage.map ((smallEtaleRingedTopos B S hS W).forgetRing.map a) :=
-  underlyingRingSheaf_map_pullbackCommRingSheafMap.{u, u, u, u + 1, u, u + 1}
+      (τ p).inverseImage.map ((smallEtaleRingedTopos B S hS W).forgetRing.map a) := by
+  haveI hfl : Limits.PreservesFiniteLimits (τ p).inverseImage := (τ p).preservesFiniteLimits
+  haveI : Limits.PreservesFiniteProducts (τ p).inverseImage :=
+    ⟨fun _ ↦ hfl.preservesFiniteLimits _⟩
+  exact underlyingRingSheaf_map_pullbackCommRingSheafMap.{u, u, u, u + 1, u, u + 1}
     (smallEtaleRingedTopos B S hS V).J _ a
 
 /-- **Associativity of the composition law of inverse images of sheaves of commutative rings**

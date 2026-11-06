@@ -136,20 +136,12 @@ theorem preparationSymbolValue_eq_of_extensions
         (Localization.AtPrime (v.asIdeal.under (TorsionCommonRefinement A B B'))) := fun q v =>
     Localization.AtPrime.algebraOfLiesOver q.asIdeal
       (v.asIdeal.under (TorsionCommonRefinement A B B'))
-  have : ∀ (q : MaximalSpectrum B) (v : MaximalSpectrum (Localization
-        (Algebra.algebraMapSubmonoid (TorsionCommonRefinement A B B') q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal
-        (v.asIdeal.under (TorsionCommonRefinement A B B')) := fun _ _ => ⟨rfl⟩
   let : ∀ (q' : MaximalSpectrum B') (v : MaximalSpectrum (Localization
         (Algebra.algebraMapSubmonoid (TorsionCommonRefinement A B B') q'.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q'.asIdeal)
         (Localization.AtPrime (v.asIdeal.under (TorsionCommonRefinement A B B'))) := fun q' v =>
     Localization.AtPrime.algebraOfLiesOver q'.asIdeal
       (v.asIdeal.under (TorsionCommonRefinement A B B'))
-  have : ∀ (q' : MaximalSpectrum B') (v : MaximalSpectrum (Localization
-        (Algebra.algebraMapSubmonoid (TorsionCommonRefinement A B B') q'.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q'.asIdeal
-        (v.asIdeal.under (TorsionCommonRefinement A B B')) := fun _ _ => ⟨rfl⟩
   -- The fibre hypotheses, on the `B` side and on the `B'` side.
   have hfass : ∀ q : MaximalSpectrum B,
       ¬ IsAssociatedPrime (maximalIdeal (Localization.AtPrime q.asIdeal))

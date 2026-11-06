@@ -1,11 +1,12 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Abelian
+public import Mathlib.Algebra.Category.Ring.Limits
 public import Mathlib.Algebra.Homology.DerivedCategory.HomologySequence
 public import Mathlib.CategoryTheory.Functor.Derived.LeftDerived
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Geometry.RingedSpace.Basic
 
 @[expose] public section

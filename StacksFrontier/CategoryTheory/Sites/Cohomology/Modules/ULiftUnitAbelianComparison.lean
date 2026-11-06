@@ -153,7 +153,7 @@ def uliftUnitHomAddEquiv (M : SheafOfModules.{max u v w} R) :
     change n.down • g.app X (ULift.up 1) = g.app X n
     rw [← map_zsmul]
     congr 1
-    exact ULift.ext _ _ (by simp)
+    exact ULift.ext (by simp)
   map_add' φ ψ := by
     ext X (n : ULift ℤ)
     rw [uliftUnitHomToConst_app_apply]

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.FunctionField
+public import Mathlib.AlgebraicGeometry.Morphisms.Immersion
 public import Mathlib.AlgebraicGeometry.Noetherian
 public import Mathlib.AlgebraicGeometry.ValuativeCriterion
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
@@ -394,7 +395,7 @@ private theorem specMap_functionFieldEquivOfGenericImmersion_comp :
         (residueFieldEquivOfIsImmersion g η).toRingHom) ≫
       Y.fromSpecResidueField (g η) = X.fromSpecResidueField η ≫ g :=
     g.SpecMap_residueFieldMap_fromSpecResidueField η
-  simp only [functionFieldEquivOfGenericImmersion, RingEquiv.toRingHom_trans,
+  simp only [functionFieldEquivOfGenericImmersion, RingEquiv.toRingHom_trans',
     CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc]
   rw [reassoc_of% specMap_functionFieldEquivResidueField,
     specMap_ambientEquivGenericResidueField_symm, hD]

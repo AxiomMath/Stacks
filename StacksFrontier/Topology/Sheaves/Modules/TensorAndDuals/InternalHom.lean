@@ -197,14 +197,14 @@ lemma sheafificationInternalHomComparison_isIso
       IsIso ((sheafificationInternalHomComparison X F G H).app U) := by
     rw [ConcreteCategory.isIso_iff_bijective]
     exact sheafificationInternalHomComparison_app_bijective X F G H U.unop
-  have : IsIso ((PresheafOfModules.toPresheaf _).map
-      (sheafificationInternalHomComparison X F G H)) := by
-    rw [NatTrans.isIso_iff_isIso_app]
-    intro U
-    exact Functor.map_isIso (forget₂ (ModuleCat ((Oforget X.presheaf).obj U)) AddCommGrpCat)
-      ((sheafificationInternalHomComparison X F G H).app U)
-  exact isIso_of_reflects_iso (sheafificationInternalHomComparison X F G H)
-    (PresheafOfModules.toPresheaf _)
+  refine ⟨⟨{ app := fun U ↦ inv ((sheafificationInternalHomComparison X F G H).app U)
+             naturality := fun {U V} i ↦ ?_ }, ?_, ?_⟩⟩
+  · rw [Functor.map_inv, IsIso.comp_inv_eq, Category.assoc,
+      (sheafificationInternalHomComparison X F G H).naturality, IsIso.inv_hom_id_assoc]
+  · ext U
+    simp
+  · ext U
+    simp
 
 /-- The sheaf-hom out of a tensor product is canonically the corresponding iterated sheaf-hom:
 `ℋom(F ⊗ G, H) ≅ ℋom(F, ℋom(G, H))`. -/

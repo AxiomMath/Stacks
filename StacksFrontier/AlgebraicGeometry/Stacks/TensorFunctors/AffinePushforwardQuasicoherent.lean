@@ -177,7 +177,6 @@ theorem isCartesianOnAffines_affinePushforward
   have key : ∀ z, F z = G (e.symm z) := by
     intro z
     induction z with
-    | zero => exact F.map_zero.trans ((congrArg G e.symm.map_zero).trans G.map_zero).symm
     | tmul s m =>
       rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
       rfl

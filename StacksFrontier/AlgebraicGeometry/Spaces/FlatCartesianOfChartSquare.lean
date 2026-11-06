@@ -124,7 +124,9 @@ theorem isFlat_and_isPullback_of_chartSquare
   have hpre0 := Subfunctor.isPullback_preimage g.hom Y.1
   have hpre := hpre0.flip
   have hcart : IsPullback X.1.ι f.hom g.hom Y.1.ι := by
-    refine hpre.of_iso (asIso φ).symm (Iso.refl _) (Iso.refl _) (Iso.refl _) (by simp [φ]) ?_
+    refine hpre.of_iso (asIso φ).symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
+      (by rw [Iso.refl_hom, Category.comp_id, Iso.symm_hom, asIso_inv, IsIso.eq_inv_comp]
+          simp only [φ, Subfunctor.homOfLe_ι]) ?_
       (by simp) (by simp)
     simp only [Iso.refl_hom, Category.comp_id, Iso.symm_hom, asIso_inv]
     rw [IsIso.eq_inv_comp, ← cancel_mono Y.1.ι, Category.assoc,

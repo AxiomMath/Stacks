@@ -101,8 +101,9 @@ private theorem prefixRestricted_smul
     (stage : ℕᵒᵖ) (scalar : (limit rings : RingCat.{ringLevel}))
     (values : (moduleDiagram rings (prefixSystem rings system)).obj stage)
     (index : Fin (stage.unop + 1)) :
-    ((((moduleDiagram rings (prefixSystem rings system)).obj stage).smul scalar).hom values) index =
-      (((moduleDiagram rings system).obj (op index.val)).smul scalar).hom (values index) := by
+    ((((moduleDiagram rings (prefixSystem rings system)).obj stage).smul scalar).asHom.hom
+      values) index =
+      (((moduleDiagram rings system).obj (op index.val)).smul scalar).asHom.hom (values index) := by
   show (rings.map (homOfLE (Nat.le_of_lt_succ index.isLt)).op)
       ((limit.π rings stage).hom scalar) • values index =
     ((limit.π rings (op index.val)).hom scalar) • values index
@@ -145,7 +146,8 @@ private def prefixLimitCone
               funext index
               change (Pi.π (fun index : ℕ => (moduleDiagram rings system).obj (op index))
                   index.val) (scalar • values) =
-                ((((moduleDiagram rings (prefixSystem rings system)).obj stage).smul scalar).hom
+                ((((moduleDiagram rings (prefixSystem rings system)).obj stage).smul
+                  scalar).asHom.hom
                   (fun index => Pi.π (fun index : ℕ =>
                     (moduleDiagram rings system).obj (op index)) index.val values)) index
               rw [prefixRestricted_smul]
@@ -181,7 +183,7 @@ private def prefixLimitConeIsLimit
         ((Pi.lift fun coordinate => cone.π.app (op coordinate) ≫
           prefixRestrictedEvaluation rings system (op coordinate)
             ⟨coordinate, Nat.lt_succ_self coordinate⟩) values) = cone.π.app stage values index
-    rw [← ConcreteCategory.comp_apply, Pi.lift_π]
+    rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
     change cone.π.app (op index.val) values ⟨index.val, Nat.lt_succ_self index.val⟩ =
       cone.π.app stage values index
     have compatible := ConcreteCategory.congr_hom
@@ -193,7 +195,7 @@ private def prefixLimitConeIsLimit
     have projected := congrArg (fun component => component ≫
       prefixRestrictedEvaluation rings system (op index) ⟨index, Nat.lt_succ_self index⟩)
         (factors (op index))
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     rw [Category.assoc, prefixLimitCone_projection] at projected
     exact projected
 
@@ -240,7 +242,7 @@ private theorem prefixLimitIso_identifies_unit
   intro index
   rw [Category.assoc, prefixLimitIso_hom_projection, ← Category.assoc,
     inverseLimit_map_π, Category.assoc, prefixUnitMap_restricted_last, Category.comp_id]
-  exact (Pi.lift_π (fun index : ℕ =>
+  exact (Pi.lift_comp_π (fun index : ℕ =>
     limit.π (moduleDiagram rings system) (op index)) index).symm
 
 private instance shortPrefixComponentModule
@@ -467,9 +469,9 @@ private theorem shortPrefixRestricted_smul
     (stage : ℕᵒᵖ) (scalar : (limit rings : RingCat.{ringLevel}))
     (values : (moduleDiagram rings (shortPrefixSystem rings system)).obj stage)
     (index : Fin stage.unop) :
-    ((((moduleDiagram rings (shortPrefixSystem rings system)).obj stage).smul scalar).hom values)
-      index =
-      (((moduleDiagram rings system).obj (op index.val)).smul scalar).hom (values index) := by
+    ((((moduleDiagram rings (shortPrefixSystem rings system)).obj stage).smul scalar).asHom.hom
+      values) index =
+      (((moduleDiagram rings system).obj (op index.val)).smul scalar).asHom.hom (values index) := by
   show (rings.map (homOfLE (Nat.le_of_lt index.isLt)).op)
       ((limit.π rings stage).hom scalar) • values index =
     ((limit.π rings (op index.val)).hom scalar) • values index
@@ -513,7 +515,7 @@ private def shortPrefixLimitCone
               change (Pi.π (fun index : ℕ => (moduleDiagram rings system).obj (op index))
                   index.val) (scalar • values) =
                 ((((moduleDiagram rings (shortPrefixSystem rings system)).obj stage).smul
-                  scalar).hom
+                  scalar).asHom.hom
                   (fun index => Pi.π (fun index : ℕ =>
                     (moduleDiagram rings system).obj (op index)) index.val values)) index
               rw [shortPrefixRestricted_smul]
@@ -549,7 +551,7 @@ private def shortPrefixLimitConeIsLimit
         ((Pi.lift fun coordinate => cone.π.app (op (coordinate + 1)) ≫
           shortPrefixRestrictedEvaluation rings system (op (coordinate + 1))
             ⟨coordinate, Nat.lt_succ_self coordinate⟩) values) = cone.π.app stage values index
-    rw [← ConcreteCategory.comp_apply, Pi.lift_π]
+    rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
     change cone.π.app (op (index.val + 1)) values ⟨index.val, Nat.lt_succ_self index.val⟩ =
       cone.π.app stage values index
     have compatible := ConcreteCategory.congr_hom
@@ -561,7 +563,7 @@ private def shortPrefixLimitConeIsLimit
     have projected := congrArg (fun component => component ≫
       shortPrefixRestrictedEvaluation rings system (op (index + 1)) ⟨index, Nat.lt_succ_self index⟩)
         (factors (op (index + 1)))
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     rw [Category.assoc, shortPrefixLimitCone_projection] at projected
     exact projected
 
@@ -609,7 +611,7 @@ private theorem finiteDifference_limit_eq_delta
   rw [Category.assoc, ← Category.assoc (prefixLimitIso rings system).inv
     (limit.π (moduleDiagram rings (prefixSystem rings system)) (op (index + 1))) _,
     prefixLimitIso_inv_projection]
-  simp only [productDelta, Preadditive.sub_comp, Category.id_comp, Pi.lift_π]
+  simp only [productDelta, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro value

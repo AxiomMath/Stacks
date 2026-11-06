@@ -195,7 +195,6 @@ noncomputable def symAlgBaseChangeEquiv :
       change symAlgBaseChangeHom B M (symAlgBaseChangeInv B M
         (SymmetricAlgebra.ι B (B ⊗[A] M) x)) = SymmetricAlgebra.ι B (B ⊗[A] M) x
       induction x with
-      | zero => rw [map_zero, map_zero, map_zero]
       | tmul b m =>
           rw [symAlgBaseChangeInv_ι, LinearMap.baseChange_tmul, symAlgBaseChangeHom_tmul,
             SymmetricAlgebra.lift_ι_apply, toSymBaseChange_apply, ← Algebra.smul_def,
@@ -223,7 +222,6 @@ theorem span_range_ι_one_tmul :
     exact LinearMap.mem_range_self _ _
   · rintro _ ⟨x, rfl⟩
     induction x with
-    | zero => simp
     | tmul b m =>
         rw [ι_tmul_eq_smul_ι_one_tmul]
         exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, rfl⟩)
@@ -332,8 +330,7 @@ degree-one generator of the base-changed module. -/
 theorem symmetricAlgebraBaseChange_symm_baseChange_ι (z : A ⊗[R] M) :
     (symmetricAlgebraBaseChange R A M).symm
         (LinearMap.baseChange A (ι R M) z) = ι A (A ⊗[R] M) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [map_add, map_add, hz, hw, map_add]
   | tmul a m =>
       rw [LinearMap.baseChange_tmul, TensorProduct.tmul_eq_smul_one_tmul, map_smul,
@@ -381,14 +378,12 @@ theorem baseChange_ι_mul_mem_range (i : ℕ) (z : A ⊗[R] M)
     (y : A ⊗[R] SymPow.symmetricPower i R M) :
     LinearMap.baseChange A (ι R M) z * symmetricPowerBaseChangeIncl R A M i y ∈
       LinearMap.range (symmetricPowerBaseChangeIncl R A M (i + 1)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw =>
       rw [map_add, add_mul]
       exact Submodule.add_mem _ hz hw
   | tmul a m =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y₁ y₂ h₁ h₂ =>
           rw [map_add, mul_add]
           exact Submodule.add_mem _ h₁ h₂
@@ -433,8 +428,7 @@ theorem symmetricAlgebraBaseChange_symm_incl_mem (n : ℕ)
     (y : A ⊗[R] SymPow.symmetricPower n R M) :
     (symmetricAlgebraBaseChange R A M).symm (symmetricPowerBaseChangeIncl R A M n y) ∈
       SymPow.symmetricPower n A (A ⊗[R] M) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add y₁ y₂ h₁ h₂ =>
       rw [map_add, map_add]
       exact Submodule.add_mem _ h₁ h₂

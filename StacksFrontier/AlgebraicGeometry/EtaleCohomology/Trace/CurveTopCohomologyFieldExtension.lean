@@ -84,7 +84,7 @@ theorem smul_eq_self_of_etaleFundamentalGroupMap_eq_one (V : FiniteEtaleOver Y)
     {σ : EtaleFundamentalGroup X x} (hσ : etaleFundamentalGroupMap f x σ = 1)
     (p : (finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj V)) : σ • p = p := by
   apply (finiteEtaleFiberProjectionEquiv f x V).injective
-  change finiteEtaleFiberProjection f x V ((σ.app _).hom p) = finiteEtaleFiberProjection f x V p
+  change finiteEtaleFiberProjection f x V ((σ.asIso.app _).hom p) = finiteEtaleFiberProjection f x V p
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection, hσ]
   rfl
 
@@ -98,11 +98,11 @@ theorem smul_eq_self_of_etaleFundamentalGroupMap_eq_one_of_iso (V : FiniteEtaleO
     have := congrArg ((finiteEtaleFiberFunctor x).map c.inv) h
     simpa [← Functor.map_comp_apply] using this
   apply hinj
-  have hnat := ConcreteCategory.congr_hom (σ.hom.naturality c.hom) p
-  change (finiteEtaleFiberFunctor x).map c.hom ((σ.app W).hom p) = _
+  have hnat := ConcreteCategory.congr_hom (σ.asIso.hom.naturality c.hom) p
+  change (finiteEtaleFiberFunctor x).map c.hom ((σ.asIso.app W).hom p) = _
   have h2 := smul_eq_self_of_etaleFundamentalGroupMap_eq_one f x V hσ
     ((finiteEtaleFiberFunctor x).map c.hom p)
-  change (σ.app _).hom ((finiteEtaleFiberFunctor x).map c.hom p) = _ at h2
+  change (σ.asIso.app _).hom ((finiteEtaleFiberFunctor x).map c.hom p) = _ at h2
   rw [← h2]
   exact hnat.symm
 

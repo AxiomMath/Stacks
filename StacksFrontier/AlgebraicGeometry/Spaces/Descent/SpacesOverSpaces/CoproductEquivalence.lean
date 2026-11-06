@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 public import Mathlib.CategoryTheory.Sites.LeftExact
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Spaces.Category
@@ -640,6 +641,12 @@ section Construction
 
 variable (Y : AlgebraicSheafCoproduct X hX)
   [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
+
+/-- Binary products in slices of presheaves, supplied directly: instance search for them times
+out since Lean v4.35.0. -/
+private local instance overPresheafHasBinaryProducts (T' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasBinaryProducts (Over T') :=
+  Over.ConstructProducts.over_binaryProduct_of_pullback
 
 private abbrev totalObj (D : AlgebraicCoproductDescentData f hT hX) : Over Y.sheaf.obj :=
   Over.mk ((totalCoproduct f hT hX D).map Y (fun i => (D.obj.obj i).hom))

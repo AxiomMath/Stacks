@@ -35,10 +35,10 @@ public def matrixULiftRepresentation (σ : G →* GL (Fin m) Λ) :
       Matrix.toLin' (σ g).val ∘ₗ (ULift.moduleEquiv (R := Λ)).toLinearMap
     map_one' := by
       ext x : 1
-      exact ULift.ext _ _ (by simp)
+      exact ULift.ext (by simp)
     map_mul' := fun g h => by
       ext x : 1
-      exact ULift.ext _ _ (by simp [Module.End.mul_apply, Matrix.mulVec_mulVec]) }
+      exact ULift.ext (by simp [Module.End.mul_apply, Matrix.mulVec_mulVec]) }
 
 omit [TopologicalSpace G] in
 /-- The representation `matrixULiftRepresentation Λ σ` acts on the underlying vector of
@@ -69,7 +69,7 @@ public theorem isContinuous_matrixULiftRepresentation (σ : G →* GL (Fin m) Λ
       ⟨(g * ·) '' (σ.ker : Set G), ?_, isOpenMap_mul_left g _ hσ, ⟨1, one_mem _, mul_one g⟩⟩
     rintro _ ⟨k, hk, rfl⟩
     have hk' : σ k = 1 := hk
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     show (σ (g * k)).val *ᵥ x.down = x.down
     rw [map_mul, hk', mul_one]
     exact congrArg ULift.down hg

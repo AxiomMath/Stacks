@@ -74,6 +74,11 @@ universe u v
 
 namespace PrincipalNaiveCompletion
 
+/-- Instance search no longer unfolds `Functor.const` to see the commutative ring `A`. -/
+local instance constRingCatObjCommRing (A : Type u) [CommRing A] (n : ℕᵒᵖ) :
+    CommRing (((Functor.const ℕᵒᵖ).obj (RingCat.of A)).obj n) :=
+  inferInstanceAs (CommRing A)
+
 private abbrev tensorTowerIso (A : Type u) [CommRing A]
     (T U : CochainComplex.DerivedTensor.DerivedTensorProduct A)
     (K : DerivedCategory (ModuleCat.{u} A))
@@ -1024,7 +1029,7 @@ private def milnorDerivedTriangleIso (F : Tower (A := A)) :
     rw [Category.assoc, milnorProductDerivedIso_π, ← Functor.map_comp,
       oneMinusShift_π, Functor.map_sub, Functor.map_comp]
     dsimp only [milnorDerivedTriangle, Triangle.mk_mor₂]
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
       milnorProductDerivedIso_π, ← Category.assoc, milnorProductDerivedIso_π]
   · simp [milnorDerivedTriangle]
 
@@ -1113,7 +1118,7 @@ private theorem exists_milnor_triangle_comparison
       (Pi.lift fun n : ℕ ↦ DerivedCategory.Q.map ((projection n).app L)) ≫
         Pi.π (fun n : ℕ ↦ (L ⋙ DerivedCategory.Q).obj (op n)) j =
           DerivedCategory.Q.map ((projection j).app L) :=
-    Pi.lift_π _ j
+    Pi.lift_comp_π _ j
   simp only [Category.assoc, Pi.map_π_assoc, Pi.map_π]
   rw [← Category.assoc, ← Category.assoc, ha]
   simp only [Category.assoc]
@@ -2330,7 +2335,7 @@ private theorem map_milnorEndo_piComparison
   dsimp only [milnorEndo, Functor.comp_obj, Functor.comp_map]
   apply Pi.hom_ext
   intro n
-  simp only [Category.assoc, piComparison_comp_π, Pi.lift_π,
+  simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π,
     Preadditive.comp_sub, ← F.map_comp]
   simp only [F.map_sub, F.map_comp]
   rw [← Category.assoc, piComparison_comp_π]
@@ -2511,7 +2516,7 @@ private theorem bijective_delta_of_isIso_milnorEndo
     dsimp only [d, e]
     rw [Category.assoc, Category.assoc, ModuleCat.piIsoPi_hom_ker_subtype]
     dsimp only [milnorEndo]
-    rw [Pi.lift_π, Preadditive.comp_sub, ← Category.assoc]
+    rw [Pi.lift_comp_π, Preadditive.comp_sub, ← Category.assoc]
     simp only [ModuleCat.piIsoPi_inv_kernel_ι]
   have hdFun : (fun x : ∀ n : ℕ, E.obj (op n) ↦
       fun n ↦ x n - (E.map (homOfLE (Nat.le_succ n)).op) (x (n+1))) = d := by

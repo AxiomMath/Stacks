@@ -625,6 +625,18 @@ end Space
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_curvesH01 :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasPullback_presheaf_curvesH01
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_curvesH01 B hZ).has_limit _
+
 namespace CurveFamily
 
 /-- **The fibres of a family of curves have dimension `1`.** Every point `s` of the base has a

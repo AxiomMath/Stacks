@@ -236,7 +236,7 @@ theorem submoduleTranspose_comp_pullbackDifferentialsMap_eq_zero (f : X ⟶ Y) (
   refine Eq.trans (congrArg (fun y ↦ (ModuleCat.Hom.hom
       (((modulePushforward B S hS f).map
         (pullbackDifferentialsMap B S hS f g)).val.app U)) y)
-    ((hu U x).trans (PresheafOfModules.Derivation.postcomp_d_apply _ _ _))) ?_
+    ((hu U x).trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply _ _ _))) ?_
   exact homEquiv_pullbackDifferentialsMap_universalDerivation_eq_zero B S hS f g U x.1 (hI U x)
 
 /-- **The composite-is-zero clause at an arbitrary sheaf of ideals, with the derivation named.**
@@ -256,9 +256,9 @@ theorem submoduleTranspose_comp_pullbackDifferentialsMap_eq_zero' (f : X ⟶ Y) 
     (I : (SheafOfModules.unit (structureRingSheaf B S hS Y)).Submodule)
     (u : I.toSheafOfModules ⟶ (modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS g)))
-    (D : ((modulePushforward B S hS f).obj
+    (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj
-        (sheafOfDifferentials B S hS g))).val.Derivation'
+        (sheafOfDifferentials B S hS g))).val
       (structureSharpInverseImage B S hS g).hom)
     (hD : D = pullbackUnitDerivation B S hS f g)
     (hu : ∀ (U : (SmallEtale B S hS Y.1)ᵒᵖ) (x : I.toSheafOfModules.val.obj U),

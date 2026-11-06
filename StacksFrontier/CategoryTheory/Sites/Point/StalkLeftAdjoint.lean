@@ -29,7 +29,7 @@ namespace CategoryTheory
 functor to sets.  This is the shape in which a point of a site computes its stalks. -/
 noncomputable abbrev elementColimit {C : Type u} [Category.{v} C] (H : C ⥤ Type w)
     (A : Type a) [Category.{b} A] [HasColimitsOfShape H.Elementsᵒᵖ A] : (Cᵒᵖ ⥤ A) ⥤ A :=
-  (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π H).op ⋙ Limits.colim
+  (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π H).op ⋙ Limits.colim
 
 end CategoryTheory
 
@@ -75,7 +75,7 @@ noncomputable def presheafStalk (u : C ⥤ Type w)
 lemma presheafStalk_map (u : C ⥤ Type w)
     [HasColimitsOfShape u.Elementsᵒᵖ (Type w)]
     {F G : Cᵒᵖ ⥤ Type w} (φ : F ⟶ G) :
-    (presheafStalk u).map φ = colimMap (Functor.whiskerLeft (CategoryOfElements.π u).op φ) :=
+    (presheafStalk u).map φ = colimMap (Functor.whiskerLeft (Functor.Elements.π u).op φ) :=
   rfl
 
 /-- The class `[(U, x, s)]` of a triple in the stalk `F_p`, where `x ∈ u(U)` and
@@ -83,14 +83,14 @@ lemma presheafStalk_map (u : C ⥤ Type w)
 noncomputable def stalkMk (u : C ⥤ Type w)
     [HasColimitsOfShape u.Elementsᵒᵖ (Type w)] (F : Cᵒᵖ ⥤ Type w)
     (U : C) (x : u.obj U) (s : F.obj (op U)) : (presheafStalk u).obj F :=
-  colimit.ι ((CategoryOfElements.π u).op ⋙ F) (op (u.elementsMk U x)) s
+  colimit.ι ((Functor.Elements.π u).op ⋙ F) (op (u.elementsMk U x)) s
 
 /-- The cocone over `(π u).op ⋙ F` with apex `E`, used to define the forward
 direction of the hom-equivalence. -/
 noncomputable def toFunCocone (u : C ⥤ Type w)
     (F : Cᵒᵖ ⥤ Type w) (E : Type w)
     (α : F ⟶ (presheafPushforward u).obj E) :
-    Cocone ((CategoryOfElements.π u).op ⋙ F) where
+    Cocone ((Functor.Elements.π u).op ⋙ F) where
   pt := E
   ι :=
     { app := fun X => ↾fun x => α.app (op X.unop.1) x X.unop.2
@@ -109,7 +109,7 @@ noncomputable def toFunCocone (u : C ⥤ Type w)
           by rw [hnat, presheafPushforward_obj_map_apply, Quiver.Hom.unop_op]
         have helem : u.map f.unop.1 Y.unop.2 = X.unop.2 := f.unop.2
         dsimp only [Functor.const_obj_obj, Functor.comp_obj, Functor.op_obj,
-          CategoryOfElements.π_obj, Functor.comp_map, Functor.op_map, CategoryOfElements.π_map,
+          Functor.Elements.π_obj, Functor.comp_map, Functor.op_map, Functor.Elements.π_map,
           TypeCat.Fun.toFun_apply, types_comp_apply, TypeCat.hom_ofHom, TypeCat.Fun.coe_mk,
           Functor.const_obj_map, types_id_apply]
         rw [hY, helem] }
@@ -135,7 +135,7 @@ lemma toFun_ι_apply
     (F : Cᵒᵖ ⥤ Type w) (E : Type w)
     (α : F ⟶ (presheafPushforward u).obj E)
     (X : u.Elementsᵒᵖ) (x : F.obj (op X.unop.1)) :
-    toFun u F E α (colimit.ι ((CategoryOfElements.π u).op ⋙ F) X x) =
+    toFun u F E α (colimit.ι ((Functor.Elements.π u).op ⋙ F) X x) =
       α.app (op X.unop.1) x X.unop.2 :=
   ConcreteCategory.congr_hom (colimit.ι_desc (toFunCocone u F E α) X) x
 
@@ -149,7 +149,7 @@ noncomputable def invFun
     (φ : (presheafStalk u).obj F ⟶ E) :
     F ⟶ (presheafPushforward u).obj E where
   app V := ↾fun x s =>
-    φ (colimit.ι ((CategoryOfElements.π u).op ⋙ F) (op (u.elementsMk V.unop s)) x)
+    φ (colimit.ι ((Functor.Elements.π u).op ⋙ F) (op (u.elementsMk V.unop s)) x)
   naturality := by
     intro V W f
     ext x
@@ -164,7 +164,7 @@ noncomputable def invFun
     let g : A ⟶ B := ⟨f.unop, rfl⟩
     let h : op B ⟶ op A := g.op
     -- `((π u).op ⋙ F).map h` is `F.map f.unop.op`, which is `F.map f`.
-    have hmap : ((CategoryOfElements.π u).op ⋙ F).map h = F.map f := rfl
+    have hmap : ((Functor.Elements.π u).op ⋙ F).map h = F.map f := rfl
     dsimp only [Functor.comp_obj, Functor.op_obj, TypeCat.Fun.toFun_apply, types_comp_apply,
       TypeCat.hom_ofHom, TypeCat.Fun.coe_mk, presheafPushforward_obj_map_apply]
     rw [← hmap, colimit.w_apply]
@@ -176,7 +176,7 @@ lemma invFun_app_apply
     (F : Cᵒᵖ ⥤ Type w) (E : Type w)
     (φ : (presheafStalk u).obj F ⟶ E) (V : Cᵒᵖ) (x : F.obj V) (s : u.obj V.unop) :
     (invFun u F E φ).app V x s =
-      φ (colimit.ι ((CategoryOfElements.π u).op ⋙ F) (op (u.elementsMk V.unop s)) x) :=
+      φ (colimit.ι ((Functor.Elements.π u).op ⋙ F) (op (u.elementsMk V.unop s)) x) :=
   rfl
 
 /-- Composition `invFun ∘ toFun = id`. -/
@@ -196,8 +196,8 @@ lemma leftInv
 private theorem stalk_hom_ext {u : C ⥤ Type w} [HasColimitsOfShape u.Elementsᵒᵖ (Type w)]
     {F : Cᵒᵖ ⥤ Type w} {E : Type w} {f g : (presheafStalk u).obj F ⟶ E}
     (h : ∀ (X : u.Elementsᵒᵖ) (x : F.obj (op X.unop.1)),
-      f (colimit.ι ((CategoryOfElements.π u).op ⋙ F) X x) =
-        g (colimit.ι ((CategoryOfElements.π u).op ⋙ F) X x)) :
+      f (colimit.ι ((Functor.Elements.π u).op ⋙ F) X x) =
+        g (colimit.ι ((Functor.Elements.π u).op ⋙ F) X x)) :
     f = g :=
   colimit.hom_ext fun X => by ext x; exact h X x
 
@@ -210,7 +210,6 @@ lemma rightInv
     toFun u F E (invFun u F E φ) = φ := by
   refine stalk_hom_ext fun X x => ?_
   rw [toFun_ι_apply, invFun_app_apply]
-  rfl
 
 /-- The hom-equivalence underlying the adjunction. -/
 noncomputable def homEquiv
@@ -244,9 +243,9 @@ lemma presheafStalk_map_ι_apply
     (u : C ⥤ Type w)
     [HasColimitsOfShape u.Elementsᵒᵖ (Type w)]
     {F F' : Cᵒᵖ ⥤ Type w} (β : F' ⟶ F) (X : u.Elementsᵒᵖ) (x : F'.obj (op X.unop.1)) :
-    (presheafStalk u).map β (colimit.ι ((CategoryOfElements.π u).op ⋙ F') X x) =
-      colimit.ι ((CategoryOfElements.π u).op ⋙ F) X (β.app (op X.unop.1) x) :=
-  colimit.ι_map_apply (Functor.whiskerLeft (CategoryOfElements.π u).op β) X x
+    (presheafStalk u).map β (colimit.ι ((Functor.Elements.π u).op ⋙ F') X x) =
+      colimit.ι ((Functor.Elements.π u).op ⋙ F) X (β.app (op X.unop.1) x) :=
+  colimit.ι_map_apply (Functor.whiskerLeft (Functor.Elements.π u).op β) X x
 
 /-- Naturality of the hom-equivalence in the left argument. -/
 @[ega "0 3.5.4" "special case"]
@@ -315,22 +314,22 @@ noncomputable def theta (u : C ⥤ Type v)
 `colimit.desc` is the inverse `thetaInv` of `θ^u_U`. -/
 @[implicit_reducible]
 noncomputable def thetaInvCocone (u : C ⥤ Type v) (U : C) :
-    Cocone ((CategoryOfElements.π u).op ⋙ yoneda.obj U) where
+    Cocone ((Functor.Elements.π u).op ⋙ yoneda.obj U) where
   pt := u.obj U
   ι :=
-    { app := fun j => ↾(fun (f : j.unop.fst ⟶ U) => u.map f (j.unop.snd))
+    { app := fun j => ↾(fun (f : j.unop.obj ⟶ U) => u.map f (j.unop.val))
       naturality := by
         intro j j' g
         ext f
-        dsimp only [Functor.comp_obj, Functor.op_obj, CategoryOfElements.π_obj, yoneda_obj_obj,
-          Functor.const_obj_obj, Functor.comp_map, Functor.op_map, CategoryOfElements.π_map,
+        dsimp only [Functor.comp_obj, Functor.op_obj, Functor.Elements.π_obj, yoneda_obj_obj,
+          Functor.const_obj_obj, Functor.comp_map, Functor.op_map, Functor.Elements.π_map,
           yoneda_obj_map, Quiver.Hom.unop_op, TypeCat.Fun.toFun_apply, types_comp_apply,
           TypeCat.hom_ofHom, TypeCat.Fun.coe_mk, Functor.const_obj_map, types_id_apply]
-        rw [Functor.map_comp_apply, CategoryOfElements.map_snd] }
+        rw [Functor.map_comp_apply, Functor.Elements.Hom.map_val] }
 
 /-- `thetaInvCocone` sends the representative `(V, y, f)` to `u(f)(y)`. -/
 lemma thetaInvCocone_ι_app_apply (u : C ⥤ Type v) (U : C) (j : u.Elementsᵒᵖ)
-    (f : j.unop.fst ⟶ U) : (thetaInvCocone u U).ι.app j f = u.map f j.unop.snd :=
+    (f : j.unop.obj ⟶ U) : (thetaInvCocone u U).ι.app j f = u.map f j.unop.val :=
   rfl
 
 /-- The inverse of `θ^u_U`: it sends the class `[(V, y, f)]` of `(h_U)_p` to
@@ -357,10 +356,11 @@ theorem theta_thetaInv (u : C ⥤ Type v)
     (z : (presheafStalk u).obj (yoneda.obj U)) :
     theta u U (thetaInv u U z) = z := by
   obtain ⟨⟨j⟩, f, rfl⟩ :=
-    Types.jointly_surjective' (F := (CategoryOfElements.π u).op ⋙ yoneda.obj U) z
+    Types.jointly_surjective' (F := (Functor.Elements.π u).op ⋙ yoneda.obj U) z
   unfold thetaInv theta stalkMk
   rw [colimit.ι_desc_apply, thetaInvCocone_ι_app_apply,
-    ← colimit.w_apply _ (CategoryOfElements.homMk j (u.elementsMk U (u.map f j.snd)) f rfl).op]
+    ← colimit.w_apply _
+      (Functor.Elements.homMk (x := j) (y := u.elementsMk U (u.map f j.val)) f rfl).op]
   simp
 
 end PresheafPushforwardStalkAdjunction

@@ -267,9 +267,9 @@ theorem chartRealizedSchemeMap_comp_chartRealizedSchemeToBase
     ((chartOpens B S hS d'.U).map (homOfLE (preimage_le_preimage_of_comm d d' i j h O)) ≫
       chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)) (chartOpensRestrict B S hS j O)
     (restrictChartOpens_comm_of_comm d d' i j h O) _ _ hΓ).symm
-  show E.A.val.map _ (E.A.val.map (chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)).op
+  show E.A.obj.map _ (E.A.obj.map (chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)).op
     (E.chartBaseRingHom φ d O a)) = _
-  exact (ConcreteCategory.congr_hom (E.A.val.map_comp (chartOpensRestrict B S hS i _).op
+  exact (ConcreteCategory.congr_hom (E.A.obj.map_comp (chartOpensRestrict B S hS i _).op
     ((chartOpens B S hS d'.U).map (homOfLE (preimage_le_preimage_of_comm d d' i j h O))).op)
     _).symm
 

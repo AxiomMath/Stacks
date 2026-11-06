@@ -87,7 +87,7 @@ private lemma map_map_eq_of_left {X : Scheme.{u}} (P : (Over X)ᵒᵖ ⥤ Type*)
     (h : f.left ≫ g.left = f'.left ≫ g'.left) (x : P.obj (op C)) :
     P.map f.op (P.map g.op x) = P.map f'.op (P.map g'.op x) := by
   have e : f ≫ g = f' ≫ g' := Over.OverMorphism.ext (by simpa using h)
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, e]
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, e]
 
 /-- A composable pair of morphisms of `Over X` acts on a presheaf as a morphism with the same
 underlying composite. -/
@@ -95,7 +95,7 @@ private lemma map_map_eq_map_of_left {X : Scheme.{u}} (P : (Over X)ᵒᵖ ⥤ Ty
     {A B C : Over X} (f : A ⟶ B) (g : B ⟶ C) (k : A ⟶ C) (h : f.left ≫ g.left = k.left)
     (x : P.obj (op C)) : P.map f.op (P.map g.op x) = P.map k.op x := by
   have e : f ≫ g = k := Over.OverMorphism.ext (by simpa using h)
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, e]
+  rw [← Functor.map_comp_apply, ← op_comp, e]
 
 /-- **Stacks 099S, the surjectivity half, for the inverse image on all `X`-schemes.** Let
 `Y = lim Y_i` be the limit of a cofiltered inverse system of quasi-compact and quasi-separated
@@ -481,14 +481,14 @@ public def Scheme.proetaleInverseImageIsColimit
     let fj : k ⟶ j.unop := IsCofiltered.minToRight i.unop j.unop
     have hk : G.map (c.π.app k).op (G.map (Y.map fi).op xi) =
         G.map (c.π.app k).op (G.map (Y.map fj).op xj) := by
-      rwa [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+      rwa [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
         ← op_comp, c.w, c.w]
     obtain ⟨l, g, hlg⟩ := Scheme.proetaleInverseImage_exists_map_eq_of_isLimit.{u, v} X Y c hc
       (fun f => inferInstance) (fun i => inferInstance) F k _ _ hk
     refine ⟨op l, (g ≫ fi).op, (g ≫ fj).op, ?_⟩
     change G.map (Y.map (g ≫ fi)).op xi = G.map (Y.map (g ≫ fj)).op xj
-    rwa [Y.map_comp, Y.map_comp, op_comp, op_comp, FunctorToTypes.map_comp_apply,
-      FunctorToTypes.map_comp_apply]
+    rwa [Y.map_comp, Y.map_comp, op_comp, op_comp, Functor.map_comp_apply,
+      Functor.map_comp_apply]
 
 /-- **Stacks 099S, the final statement.** If, in the situation of
 `AlgebraicGeometry.Scheme.proetaleInverseImageIsColimit`, the stages `Y_i` are objects of

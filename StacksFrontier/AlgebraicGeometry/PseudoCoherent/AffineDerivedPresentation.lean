@@ -127,7 +127,7 @@ public theorem nonempty_iso_derivedTilde_derivedSectionsSpec
   have ecancel : (Scheme.Modules.pushforward hU.isoSpec.inv).mapDerivedCategory.obj
       (hU.derivedRestrictSpec E) ≅
       (Scheme.Modules.restrictFunctor U.ι).mapDerivedCategory.obj E :=
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
         (Scheme.Modules.restrictFunctorCompPushforwardIso hU.isoSpec.inv)).app _ ≪≫
       (Functor.mapDerivedCategoryId (U.toScheme).Modules).app _
   exact ⟨ecancel.symm ≪≫

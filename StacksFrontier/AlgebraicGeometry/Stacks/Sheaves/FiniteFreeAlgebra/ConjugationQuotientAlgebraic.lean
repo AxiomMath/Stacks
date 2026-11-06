@@ -157,7 +157,7 @@ theorem isSmooth_groupOverStar_of_smooth {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
   have hhom : (groupOverStar B S hS F G).hom =
       (prod.fst : F ⨯ (G ⋙ forget GrpCat) ⟶ F) := by
     simp only [groupOverStar, overStar, Over.star_obj_hom]
-    exact prod.lift_fst _ _
+    rfl
   rw [hhom, ← hcomp]
   exact isSmooth_hom_comp_of_isSmooth hsrc hprod hF e (isSmooth_prod_fst_yoneda_obj a hF ha)
 

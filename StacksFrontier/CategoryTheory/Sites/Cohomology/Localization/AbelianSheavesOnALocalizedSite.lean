@@ -370,7 +370,7 @@ private noncomputable def overMapLiftInclusion {X Y : C} (f : X ⟶ Y) (V : Over
         apply Over.OverMorphism.ext
         change (𝟙 V.left) ≫ 𝟙 V.left = 𝟙 V.left
         simp)
-    exact { left := α.op, right := 𝟙 _, w := β.w }
+    exact β
   map_id := by
     intro g
     apply CostructuredArrow.hom_ext
@@ -445,10 +445,7 @@ private noncomputable def overMapLiftUnitApp {X Y : C} (f : X ⟶ Y) (V : Over Y
       apply Over.OverMorphism.ext
       change 𝟙 V.left ≫ c.hom.unop.left = c.hom.unop.left
       exact Category.id_comp _)
-  exact
-    { left := α.op
-      right := 𝟙 _
-      w := β.w }
+  exact β
 
 private noncomputable def overMapLiftAdjunction {X Y : C} (f : X ⟶ Y) (V : Over Y) :
     overMapLiftProjection f V ⊣ overMapLiftInclusion f V := by
@@ -479,8 +476,6 @@ private noncomputable def overMapLiftAdjunction {X Y : C} (f : X ⟶ Y) (V : Ove
         subsingleton
       right_triangle := by
         ext g
-        apply Opposite.unop_injective
-        apply Over.OverMorphism.ext
         simp only [Functor.comp_obj, Functor.id_obj, NatTrans.comp_app,
           Functor.whiskerLeft_app, Functor.associator_inv_app, Functor.whiskerRight_app,
           Category.id_comp, CostructuredArrow.comp_left, NatTrans.id_app',

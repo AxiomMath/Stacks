@@ -92,6 +92,18 @@ universe u v
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves of types on the site, supplied directly: under Mathlib v4.35.0 the
+instance search for `HasPullback` there times out. -/
+local instance (priority := high) hasPullback_presheaf_SmoothSourceLocalityTransfer
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  HasLimitsOfShape.has_limit _
+
+/-- Products of presheaves of types on the site indexed by a small discrete type, supplied
+directly for the same reason. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-! ### Smoothness of a morphism of the site -/
 
 /-- A smooth chart of a presheaf on the big fppf site of `S` is a smooth morphism of algebraic

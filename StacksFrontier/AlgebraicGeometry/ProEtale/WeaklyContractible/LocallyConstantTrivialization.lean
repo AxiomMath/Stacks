@@ -178,7 +178,7 @@ theorem preservesFiniteColimits_sheafSections_mk_id {X : Scheme.{u}} [IsAffine X
 one section. -/
 theorem subsingleton_sections_of_isEmpty (G : Sheaf (ProEt.topology S) (Type t)) (Z : S.ProEt)
     (hZ : IsEmpty Z.left) : Subsingleton (G.obj.obj (op Z)) :=
-  ⟨fun _ _ => ((isSheaf_iff_isSheaf_of_type _ G.obj).mp G.cond _
+  ⟨fun _ _ => ((isSheaf_iff_isSheaf_of_type _ G.obj).mp G.property _
     (bot_mem_topology_of_isEmpty Z hZ)).isSeparatedFor.ext fun _ _ h => h.elim⟩
 
 /-- **Sections over a clopen decomposition.** For a finite decomposition of the underlying scheme
@@ -189,7 +189,7 @@ theorem bijective_restrict_clopenDecomposition (G : Sheaf (ProEt.topology S) (Ty
     (hdec : IsClopenDecompositionCover U f) (hf : ∀ i, WeaklyEtale (f i ≫ W.hom)) :
     Function.Bijective (fun (x : G.obj.obj (op W)) (i : Fin n) =>
       G.obj.map (clopenDecompositionHom W f hf i).op x) := by
-  have hG := (isSheaf_iff_isSheaf_of_type _ G.obj).mp G.cond
+  have hG := (isSheaf_iff_isSheaf_of_type _ G.obj).mp G.property
   have hsh := (Presieve.isSheafFor_iff_generate _).mpr
     (hG _ (sieve_ofArrows_clopenDecomposition_mem_topology W f hdec hf))
   rw [Presieve.isSheafFor_arrows_iff] at hsh

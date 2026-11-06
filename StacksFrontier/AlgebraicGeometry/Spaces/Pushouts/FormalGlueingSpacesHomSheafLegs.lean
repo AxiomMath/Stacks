@@ -37,6 +37,14 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesHomSheafLegs
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
 /-! ### Base change of the evaluation -/
 
 section BaseChange
@@ -200,6 +208,7 @@ theorem isIso_legEval_of_baseChange
     let y₁ := hpb.lift (yonedaEquiv.symm x₁) k hk.symm
     let y₂ := hpb.lift (yonedaEquiv.symm x₂) k (by rw [hk, hb])
     have hy : y₁ = y₂ := by
+      haveI : Mono (legEval j' ((Over.pullback gJ).obj M) leg' hleg') := IsIso.mono_of_iso _
       rw [← cancel_mono (legEval j' ((Over.pullback gJ).obj M) leg' hleg')]
       refine pullback.hom_ext ?_ ?_
       · rw [Category.assoc, Category.assoc,

@@ -361,7 +361,7 @@ theorem relocalize_map_injective {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {
   apply Over.OverMorphism.ext
   have h1 := smallerBasePresheafEquivalence_map_left_comp B S S' hS hS' g v
   have h2 := smallerBasePresheafEquivalence_map_left_comp B S S' hS hS' g v'
-  rw [← cancel_mono (φ.hom.app G), h1, h2, h]
+  rw [← Iso.cancel_iso_hom_right _ _ (φ.app G), Iso.app_hom, h1, h2, h]
 
 end AlgebraicGeometry.Space
 

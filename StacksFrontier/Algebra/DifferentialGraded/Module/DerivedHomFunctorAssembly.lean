@@ -333,7 +333,7 @@ theorem isRightDerivedFunctor_derivedHomReflectorFunctor
     (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) DerivedCategory.Qh
     (derivedHomReflectorFunctor A K ⋙ derivedHomReflectorForget A K)
     (derivedHomReflectorForgetUnit A K β) h X).isColimit
-    (Limits.Cocones.ext (Iso.refl _) fun s => ?_)
+    (Limits.Cocone.ext (Iso.refl _) fun s => ?_)
   simp [Functor.derivedUnitCocone_ι_app, derivedHomReflectorForgetUnit]
 
 end CochainComplex

@@ -422,6 +422,7 @@ theorem toScheme_map_reesProjChartHom {X : AlgebraicSpaces B S hS}
 
 variable [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
+set_option synthInstance.maxHeartbeats 400000 in
 omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- **Stacks 085R, the canonical isomorphism.**  Let `S` be a scheme, let `X` be an algebraic
 space over `S`, let `Z ⊆ X` be a closed subspace with quasi-coherent defining sheaf of ideals
@@ -478,6 +479,7 @@ theorem exists_iso_proj_reesGrading_affineChart
   obtain ⟨e, he⟩ := exists_iso_schemeSpace_reesProjChart_of_isEtale hb V ha hcU hcR hcRR sq
   exact ⟨e, he, Stacks.Blowup.exists_iso_proj_reesGrading_of_ideal_eq _ I hI⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- **Stacks 085R, the affine open covering.**  In the situation of
 `AlgebraicGeometry.Space.exists_iso_proj_reesGrading_affineChart`, the scheme representing

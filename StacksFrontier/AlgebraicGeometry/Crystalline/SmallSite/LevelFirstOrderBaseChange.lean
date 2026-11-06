@@ -114,7 +114,7 @@ that carries a `CommRing` instance. -/
 instance instModuleCrysLevelSections (L : LevelScalars07JG S D) (F : QuasiCoherentCrystal S)
     (e : ℕ) :
     Module (crysSheafRing S (L.levelSystem.obj e).obj) (L.levelSections F e) :=
-  inferInstanceAs (Module ((structureSheaf S).val.obj (op (L.levelSystem.obj e)))
+  inferInstanceAs (Module ((structureSheaf S).obj.obj (op (L.levelSystem.obj e)))
     (L.levelSections F e))
 
 /-- **The base change of the sections of a crystal over a level along `p₀`**, the map of

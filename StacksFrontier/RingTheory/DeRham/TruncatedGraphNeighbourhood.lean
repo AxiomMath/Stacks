@@ -180,7 +180,7 @@ theorem truncationIdeal_le_ker (hN : m ^ N = ⊥) :
 
 /-- A polynomial of degree zero is the constant given by its constant coefficient. -/
 private theorem eq_C_coeff_zero_of_mem_degreeZero {p : MvPolynomial (Fin d) R}
-    (hp : p ∈ homogeneousSubmodule (Fin d) R 0) : p = C (coeff 0 p) := by
+    (hp : p ∈ homogeneousSubmodule (Fin d) R 0) : p = C (p.coeff 0) := by
   rw [← homogeneousComponent_zero, homogeneousComponent_of_mem hp, if_pos rfl]
 
 /-- **The truncation ideal has no weight-zero elements**: a constant in
@@ -218,8 +218,8 @@ def truncatedEval (hN : m ^ N = ⊥) : TruncatedAlgebra (R := R) m d N →ₐ[R]
 
 /-- Evaluation at `y = 0` sends the class of `p` to its constant coefficient. -/
 theorem truncatedEval_mk (hN : m ^ N = ⊥) (p : MvPolynomial (Fin d) R) :
-    truncatedEval hN (Ideal.Quotient.mk _ p) = coeff 0 p := by
-  show aeval (0 : Fin d → R) p = coeff 0 p
+    truncatedEval hN (Ideal.Quotient.mk _ p) = p.coeff 0 := by
+  show aeval (0 : Fin d → R) p = p.coeff 0
   rw [aeval_zero, Algebra.algebraMap_self, RingHom.id_apply, constantCoeff_eq]
 
 /-- **The truncated Poincaré lemma**: over a `ℚ`-algebra `A` with `𝔪^N = 0`, the restriction of
@@ -239,7 +239,7 @@ theorem quasiIso_deRhamComplexMap_truncatedAlgebra [Algebra ℚ A] (hN : m ^ N =
   refine Retraction.quasiIso (gr := truncatedGrading (R := R) m d N) ⟨fun s => ?_, ?_, ?_⟩
   · exact (truncatedEval hN).commutes s
   · rintro _ ⟨p, hp, rfl⟩
-    refine ⟨coeff 0 p, ?_⟩
+    refine ⟨p.coeff 0, ?_⟩
     conv_rhs => rw [eq_C_coeff_zero_of_mem_degreeZero hp]
     rfl
   · rintro n hn _ ⟨p, hp, rfl⟩
@@ -355,7 +355,7 @@ theorem truncatedReduction_algebraMap (h : GraphHyp π π' m N x) (r : R) :
 omit [IsScalarTower A (MvPolynomial (Fin d) A) R'] in
 /-- The reduction `R[y]/J → R₀` sends the class of `p` to `π` of its constant coefficient. -/
 theorem truncatedReduction_mk (h : GraphHyp π π' m N x) (p : MvPolynomial (Fin d) R) :
-    truncatedReduction h (Ideal.Quotient.mk _ p) = π (coeff 0 p) := by
+    truncatedReduction h (Ideal.Quotient.mk _ p) = π (p.coeff 0) := by
   simp [truncatedReduction, truncatedEval_mk]
 
 omit [IsScalarTower A (MvPolynomial (Fin d) A) R'] in
@@ -379,7 +379,7 @@ theorem ker_truncatedReduction_pow (h : GraphHyp π π' m N x) :
     rw [RingHom.mem_ker, AlgHom.coe_toRingHom, truncatedReduction_mk, ← RingHom.mem_ker,
       h.ker] at ht
     refine Ideal.mem_map_of_mem _ ?_
-    rw [← sub_add_cancel p (C (coeff 0 p))]
+    rw [← sub_add_cancel p (C (p.coeff 0))]
     refine Ideal.add_mem _ (Ideal.mem_sup_left ?_) (Ideal.mem_sup_right ?_)
     · rw [← Set.image_univ, mem_ideal_span_X_image]
       intro μ hμ

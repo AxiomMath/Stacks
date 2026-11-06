@@ -58,6 +58,17 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {V X A : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_FibreOverClosedPoint :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FibreOverClosedPoint
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- If `T.fromPreimage f` is an isomorphism, so is its base change along `a : A ⟶ X`: the
 preimage of `T` in `A ×_X V` maps isomorphically onto the preimage of `T` in `A`. This is checked
 on sections, where it is the bijectivity of `T.fromPreimage f` read through the fibre product. -/
@@ -123,6 +134,7 @@ theorem pointsMap_fst_injOn_of_isIso_fromPreimage (f : V ⟶ X) (a : A ⟶ X)
   rw [← pointsMap_comp_apply, ← pointsMap_comp_apply, hcomp, pointsMap_comp_apply,
     pointsMap_comp_apply] at htt'
   have h1 := pointsMap_injective_of_mono B S hS AT.ι htt'
+  have : Mono (AT.fromPreimage (pullback.fst a f)) := @IsIso.mono_of_iso _ _ _ _ _ hiso
   have h2 := pointsMap_injective_of_mono B S hS (AT.fromPreimage (pullback.fst a f)) h1
   rw [h2]
 

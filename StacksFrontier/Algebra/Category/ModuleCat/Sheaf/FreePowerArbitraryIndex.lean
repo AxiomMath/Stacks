@@ -424,6 +424,11 @@ noncomputable def sheafifyFreeConstIso (γ : Type u) :
   have _ : PreservesColimitsOfSize.{u, u} F :=
     (PresheafOfModules.sheafificationAdjunction
       (toRingCatMap J (𝟙 Osharp.obj))).leftAdjoint_preservesColimits
+  have _ : HasColimitsOfShape (Discrete γ) (PresheafOfModules.{u} (toRingCat J Osharp).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  have _ : HasColimitsOfShape (Discrete γ) (_root_.SheafOfModules.{u} (toRingCat J Osharp)) :=
+    _root_.SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      _ _
   (F.mapIso (freeConstCoprodIso γ)).trans
     ((PreservesCoproduct.iso F fun _ : γ => PresheafOfModules.unit (toRingCat J Osharp).obj).trans
       (Sigma.mapIso fun _ : γ => sheafifyUnitPresheafIso J))

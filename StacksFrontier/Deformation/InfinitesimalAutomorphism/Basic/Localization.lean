@@ -37,21 +37,22 @@ private lemma objectsOverFiberForget_mapAut_injective {F C : Type*} [Category* F
     Function.Injective ((objectsOverFiberForget p x A).mapAut y) := by
   intro a b hm
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   apply CostructuredArrow.hom_ext
-  exact congrArg (fun z : Aut ((objectsOverFiberForget p x A).obj y) => z.hom.val) hm
+  exact congrArg (fun z : Aut ((objectsOverFiberForget p x A).obj y) => z.asIso.hom.val) hm
 
 /-- An automorphism of the underlying object commuting with the arrow to `x` lifts to an
 automorphism of an object of the fibre of `objectsOverFunctor p x`. -/
 private lemma exists_objectsOverFiberForget_mapAut_eq {F C : Type*} [Category* F] [Category* C]
     {p : F ⥤ C} {x : F} {A : C}
     (y : (objectsOverFunctor p x).Fiber A) (b : Aut ((objectsOverFiberForget p x A).obj y))
-    (hw : b.hom.val ≫ y.1.hom = y.1.hom) :
+    (hw : b.asIso.hom.val ≫ y.1.hom = y.1.hom) :
     ∃ a : Aut y, (objectsOverFiberForget p x A).mapAut y a = b := by
-  let αO : y.1 ≅ y.1 := Over.isoMk (Functor.Fiber.fiberInclusion.mapIso b) hw
-  have hαhom : αO.hom.left = b.hom.val := by
+  let αO : y.1 ≅ y.1 := Over.isoMk (Functor.Fiber.fiberInclusion.mapIso b.asIso) hw
+  have hαhom : αO.hom.left = b.asIso.hom.val := by
     simp [αO, Functor.Fiber.fiberInclusion, Functor.mapIso]
-  have hαinv : αO.inv.left = b.inv.val := by
+  have hαinv : αO.inv.left = b.asIso.inv.val := by
     simp [αO, Functor.Fiber.fiberInclusion, Functor.mapIso]
   have hlift (f : y.1 ⟶ y.1) (c : (objectsOverFiberForget p x A).obj y ⟶
         (objectsOverFiberForget p x A).obj y)
@@ -61,13 +62,14 @@ private lemma exists_objectsOverFiberForget_mapAut_eq {F C : Type*} [Category* F
     show p.map f.left = eqToHom y.2 ≫ 𝟙 A ≫ eqToHom y.2.symm
     rw [hf]
     simpa using IsHomLift.fac' p (𝟙 A) c.val
-  have hqhom := hlift αO.hom b.hom hαhom
-  have hqinv := hlift αO.inv b.inv hαinv
-  exact ⟨{
+  have hqhom := hlift αO.hom b.asIso.hom hαhom
+  have hqinv := hlift αO.inv b.asIso.inv hαinv
+  exact ⟨.of {
     hom := ⟨αO.hom, hqhom⟩
     inv := ⟨αO.inv, hqinv⟩
     hom_inv_id := Functor.Fiber.hom_ext αO.hom_inv_id
-    inv_hom_id := Functor.Fiber.hom_ext αO.inv_hom_id }, Aut.ext (Functor.Fiber.hom_ext hαhom)⟩
+    inv_hom_id := Functor.Fiber.hom_ext αO.inv_hom_id },
+    Aut.ext (Iso.ext (Functor.Fiber.hom_ext hαhom))⟩
 
 private lemma fiberInclusion_mapIso_eqToIso {F C : Type*} [Category* F] [Category* C]
     {p : F ⥤ C} {A : C} {X Y : p.Fiber A}
@@ -164,7 +166,7 @@ private lemma mem_infinitesimalAutomorphisms_objectsOverFunctor_iff
     (a : Aut yε) :
     a ∈ infinitesimalAutomorphisms
         (isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀).cofibered g e hpair j hj ↔
-      (eqToHom hε.symm ≫ a.hom.val.left ≫ eqToHom hε) ≫
+      (eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε) ≫
           (canonicalRetraction hp.cofibered g e hpair.split i hi).1 =
         (canonicalRetraction hp.cofibered g e hpair.split i hi).1 := by
   rw [mem_infinitesimalAutomorphisms_iff, ← eqToHom_conj_comp_eq_iff hε h₀,
@@ -199,16 +201,16 @@ private lemma exists_conjAut_objectsOverFiberForget_mapAut_eq
   let G := objectsOverFiberForget p x₀.1 Aε
   have hx : G.obj yε = xε := Subtype.ext hε
   let b : Aut (G.obj yε) := (eqToIso hx).conjAut.symm a
-  have hb : b.hom.val ≫ eqToHom hε = eqToHom hε ≫ a.hom.val := by
+  have hb : b.asIso.hom.val ≫ eqToHom hε = eqToHom hε ≫ a.asIso.hom.val := by
     have hc : (eqToIso hx).conjAut b = a := (eqToIso hx).conjAut.apply_symm_apply a
-    have hm : (eqToIso hε).conjAut (Functor.Fiber.fiberInclusion.mapIso b) =
-        Functor.Fiber.fiberInclusion.mapIso a := by
-      have hm' := congrArg (Functor.Fiber.fiberInclusion.mapIso) hc
+    have hm : ((eqToIso hε).conjAut (Functor.Fiber.fiberInclusion.mapAut _ b)).asIso =
+        Functor.Fiber.fiberInclusion.mapIso a.asIso := by
+      have hm' := congrArg (fun z => Functor.Fiber.fiberInclusion.mapIso z.asIso) hc
       rwa [Functor.map_conjAut, fiberInclusion_mapIso_eqToIso hx hε] at hm'
-    have hmhom' : eqToHom hε.symm ≫ b.hom.val ≫ eqToHom hε = a.hom.val :=
+    have hmhom' : eqToHom hε.symm ≫ b.asIso.hom.val ≫ eqToHom hε = a.asIso.hom.val :=
       congrArg (fun z => z.hom) hm
     simpa [Category.assoc] using congrArg (fun z => eqToHom hε ≫ z) hmhom'
-  have hw : b.hom.val ≫ yε.1.hom = yε.1.hom := by
+  have hw : b.asIso.hom.val ≫ yε.1.hom = yε.1.hom := by
     rw [hεhom, ← Category.assoc, hb, Category.assoc,
       (mem_infinitesimalAutomorphisms_iff hp.cofibered g e hpair i hi a).mp ha]
   obtain ⟨αQ, hαQ⟩ := exists_objectsOverFiberForget_mapAut_eq yε b hw
@@ -245,14 +247,15 @@ public theorem infinitesimalAutomorphismGroup_objectsOverFunctor
       infinitesimalAutomorphismGroup
         (isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀)
         g e hpair j hj ≃* infinitesimalAutomorphismGroup hp g e hpair i hi,
-      ∀ a, (E a).val.hom.val =
-        eqToHom hε.symm ≫ a.val.hom.val.left ≫ eqToHom hε := by
+      ∀ a, (E a).val.asIso.hom.val =
+        eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε := by
   let hpq := isPredeformationCategory_objectsOverFunctor p hp.cofibered x₀
   let G := objectsOverFiberForget p x₀.1 Aε
   have hx : G.obj yε = xε := Subtype.ext hε
   let φ : Aut yε →* Aut xε := (eqToIso hx).conjAut.toMonoidHom.comp (G.mapAut yε)
-  have hφ (a : Aut yε) : (φ a).hom.val = eqToHom hε.symm ≫ a.hom.val.left ≫ eqToHom hε := by
-    show (Functor.Fiber.fiberInclusion.mapIso ((eqToIso hx).conjAut (G.mapAut yε a))).hom = _
+  have hφ (a : Aut yε) :
+      (φ a).asIso.hom.val = eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε := by
+    show (Functor.Fiber.fiberInclusion.mapIso ((eqToIso hx).conjAut (G.mapAut yε a)).asIso).hom = _
     rw [Functor.map_conjAut, fiberInclusion_mapIso_eqToIso hx hε]
     rfl
   let S : Subgroup (Aut xε) := infinitesimalAutomorphisms hp.cofibered g e hpair i hi
@@ -271,9 +274,10 @@ public theorem infinitesimalAutomorphismGroup_objectsOverFunctor
     exact ⟨b, (hmem b).mpr ha, rfl⟩
   let E : T ≃* S := (T.equivMapOfInjective φ hφ_injective).trans (MulEquiv.subgroupCongr hmap)
   have hE (a : T) : (E a).1 = φ a.1 := rfl
-  have hEval (a : T) : (E a).val.hom.val = eqToHom hε.symm ≫ a.val.hom.val.left ≫ eqToHom hε :=
-    (congrArg (fun z => z.hom.val) (hE a)).trans (hφ a.1)
-  exact ⟨E, hEval, fun E' hE' => MulEquiv.ext fun a => Subtype.ext <| Aut.ext <|
+  have hEval (a : T) :
+      (E a).val.asIso.hom.val = eqToHom hε.symm ≫ a.val.asIso.hom.val.left ≫ eqToHom hε :=
+    (congrArg (fun z => z.asIso.hom.val) (hE a)).trans (hφ a.1)
+  exact ⟨E, hEval, fun E' hE' => MulEquiv.ext fun a => Subtype.ext <| Aut.ext <| Iso.ext <|
     Functor.Fiber.hom_ext <| (hE' a).trans (hEval a).symm⟩
 
 end

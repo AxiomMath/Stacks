@@ -412,10 +412,9 @@ theorem pushforwardTensorApp_globalSmul_tmul (hV₀' : IsTerminal V₀')
         (geometricCoefficientMap B S hS D.f V₀)).obj
       ((Stacks.TensorByBaseModule.constantModulePresheaf
         (baseChartRing B S hS D.Y V₀)).obj (D.baseModule V₀ V₀'))).obj W).isModule
-  induction n using TensorProduct.induction_on with
-  | zero =>
-    exact ((congrArg _ (TensorProduct.tmul_zero _ s)).trans (map_zero _)).trans
-      (((congrArg _ (TensorProduct.tmul_zero _ s)).trans (map_zero _)).symm)
+  let : Module ((structureSheaf B S hS D.X.1 D.X.2).obj.obj W) (D.F.val.obj W) :=
+    (D.F.val.obj W).isModule
+  induction n using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((congrArg _ (TensorProduct.tmul_add s x y)).trans (map_add _ _ _)).trans
       ((congrArg₂ (· + ·) hx hy).trans

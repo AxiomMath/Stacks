@@ -201,9 +201,15 @@ private theorem isZero_of_derivedPowerTorsion_of_leftOrthogonal (hI : I.FG)
   let J : Ideal A := RingHom.ker (algebraMap A (End Y))
   have hj : I ≤ J.radical := by
     rw [← hs, Ideal.span_le]
-    exact hnil
+    intro b hb
+    obtain ⟨n, hn⟩ := hnil b hb
+    refine ⟨n, ?_⟩
+    rw [RingHom.mem_ker, Algebra.algebraMap_eq_smul_one]
+    ext
+    simpa using hn
   obtain ⟨n, hn⟩ := hj ha
-  exact isDerivedCompleteAt_of_isNilpotent ⟨n, by rw [smul_id_pow]; exact hn⟩
+  exact isDerivedCompleteAt_of_isNilpotent ⟨n, by
+    rw [← Algebra.algebraMap_eq_smul_one, ← map_pow]; exact hn⟩
 
 /-- A torsion complex whose derived completion vanishes is zero. -/
 private theorem isZero_of_derivedCompletion_isZero (hI : I.FG)

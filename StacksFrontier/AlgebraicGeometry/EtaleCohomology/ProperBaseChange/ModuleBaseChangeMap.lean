@@ -385,8 +385,8 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 def etaleModuleDerivedInverseImageForgetIso :
     etaleModuleDerivedInverseImageGeneral.{u, r} Λ f ⋙ etaleModuleForgetDerived.{u, r} Λ X ≅
       etaleModuleForgetDerived.{u, r} Λ Y ⋙ etaleAbelianDerivedInverseImage.{u, r} f :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
-    (Functor.mapDerivedCategoryCompIso (asIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (asIso
       (etaleModuleInverseImageForget.{u, r} Λ f).natTrans)).symm
 
 variable {U : Scheme.{u}} (j : U ⟶ X) [Etale j]
@@ -396,8 +396,8 @@ def etaleModuleExtensionByZeroMapDerivedCategoryForgetIso :
     (etaleModuleExtensionByZero.{u, r} Λ j).mapDerivedCategory ⋙
         etaleModuleForgetDerived.{u, r} Λ X ≅
       etaleModuleForgetDerived.{u, r} Λ U ⋙ (extensionByZero.{u, r} j).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
-    (Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (asIso (etaleModuleExtensionByZeroForget.{u, r} Λ j).natTrans)).symm
 
 end Derived
@@ -889,7 +889,7 @@ theorem etaleModuleForgetDerived_map_unit {X₁ Y₁ : Scheme.{u}} (f₁ : X₁ 
             (ComplexShape.up ℤ)).obj M)) ≫
       (forgetQuotientQhIso.{u, r} Λ f₁).hom.app M := by
     simp
-  exact (Category.assoc _ _ _).trans (congrArg (_ ≫ ·) e.symm)
+  exact congrArg (_ ≫ ·) e.symm
 
 
 /-- **The base change map for sheaves of `Λ`-modules is invertible at a K-injective complex as

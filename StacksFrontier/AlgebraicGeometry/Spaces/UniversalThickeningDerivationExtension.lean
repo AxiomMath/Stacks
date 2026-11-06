@@ -202,7 +202,7 @@ section Projection
 
 variable {R : (SmallEtale B S hS X.1)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (smallEtaleRingedSite B S hS X.1 X.2).O.obj}
-  (D : ((modulePushforward B S hS h').obj G).val.Derivation' ψ)
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj G).val ψ)
 
 /-- A derivation of `𝒪_X` with values in `h'_*G`, projected to a square `d` of charts: an additive
 map from the regular functions on the chart of `X` to the sections of `G` over the chart of `Z'`,
@@ -319,7 +319,7 @@ variable (Zcl : ClosedSubspaces B S hS Z'.1)
       (definingIdealAt B S hS Z' Zcl (op d.U)))
   {R : (SmallEtale B S hS X.1)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (smallEtaleRingedSite B S hS X.1 X.2).O.obj}
-  (D : ((modulePushforward B S hS h').obj G).val.Derivation' ψ)
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj G).val ψ)
 
 include hG hKL in
 /-- **The chartwise extension.**  Over an affine square of charts the projected derivation extends
@@ -606,7 +606,7 @@ theorem thickeningLiftValue_chartDiagramFunctionMap (d : ChartDiagram B S hS Z'.
 
 /-- **The extended derivation**, as an absolute derivation of `𝒪_{Z'}` with values in `G`. -/
 noncomputable def thickeningLiftDerivation :
-    G.val.Derivation' (Stacks.Sites.constIntMap (smallEtaleRingedSite B S hS Z'.1 Z'.2).O.obj) where
+    PresheafOfModulesOfCommRing.Derivation' G.val (Stacks.Sites.constIntMap (smallEtaleRingedSite B S hS Z'.1 Z'.2).O.obj) where
   d {T} := AddMonoidHom.mk' (thickeningLiftValue B S hS h' G Zcl hG hKL D T.unop)
     (thickeningLiftValue_add B S hS h' G Zcl hG hKL D T.unop)
   d_mul {T} s t := thickeningLiftValue_mul B S hS h' G Zcl hG hKL D T.unop s t
@@ -638,7 +638,7 @@ variable {Y : AlgebraicSpaces B S hS} (p : X ⟶ Y)
     IsAffine ((BigFppfOver.toScheme B S hS).obj d.V.1.left) →
     (chartDiagramFunctionMap B S hS h' d).IsUniversalFirstOrderThickening
       (definingIdealAt B S hS Z' Zcl (op d.U)))
-  (D : ((modulePushforward B S hS h').obj G).val.Derivation' (structureSharpInverseImage B S hS
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj G).val (structureSharpInverseImage B S hS
       p).hom)
 
 /-- The structure map of `h'` followed by the direct image of the extended derivation is `D`. -/
@@ -684,12 +684,12 @@ theorem structureSharpInverseImageSet_comp_thickeningLiftDerivation :
   have c₂ := structureSharpSet_comp_map B S hS h' p (zeroSetHom B S hS G)
   rw [structureSharpSet_comp_map_thickeningLiftDerivation] at c₁
   rw [structureSharpSet_comp_map_zeroSetHom] at c₂
-  exact (cancel_mono ((smallToposMorphismTypeU_comp B S hS h' p).inv.app _)).1
+  exact (Iso.cancel_iso_inv_right _ _ ((smallToposMorphismTypeU_comp B S hS h' p).app _)).1
     ((Category.assoc _ _ _).trans ((c₁.symm.trans (hY.trans c₂)).trans (Category.assoc _ _ _).symm))
 
 /-- **The extended derivation**, as a `Y`-derivation of `𝒪_{Z'}` with values in `G`. -/
 noncomputable def thickeningLiftDerivationRelative :
-    G.val.Derivation' (structureSharpInverseImage B S hS (h' ≫ p)).hom where
+    PresheafOfModulesOfCommRing.Derivation' G.val (structureSharpInverseImage B S hS (h' ≫ p)).hom where
   d := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d
   d_mul := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d_mul
   d_map := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d_map
@@ -720,7 +720,7 @@ theorem injective_pushforwardUniversalDerivation_postcomp :
         (Category.comp_id (h' ≫ p)).symm).postcomp ((modulePushforward B S hS h').map x).val := by
   intro x₁ x₂ hx
   refine (differentialsHomEquiv B S hS (h' ≫ p) G).injective ?_
-  refine PresheafOfModules.Derivation.ext (funext fun T => AddMonoidHom.ext fun s => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun T => AddMonoidHom.ext fun s => ?_)
   refine sections_eq_of_hasAffineChartDiagram B S hS h' G (T := T.unop) fun T' a ha => ?_
   let d := ha.chartDiagram B S hS h'
   have key : ∀ x : sheafOfDifferentials B S hS (h' ≫ p) ⟶ G, ∀ y : chartFunctionRing B S hS d.V,
@@ -762,12 +762,12 @@ theorem surjective_pushforwardUniversalDerivation_postcomp :
   have hx : (universalDerivation B S hS (h' ≫ p)).postcomp x.val =
       thickeningLiftDerivationRelative B S hS h' G p Zcl hG hKL D :=
     (differentialsHomEquiv B S hS (h' ≫ p) G).apply_symm_apply _
-  refine PresheafOfModules.Derivation.ext (funext fun V => AddMonoidHom.ext fun a => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun V => AddMonoidHom.ext fun a => ?_)
   refine chartDiagramProjection_ext B S hS h' G V.unop fun U g hc => ?_
   let d : ChartDiagram B S hS Z'.1 X.1 h'.hom := ⟨U, V.unop, g, hc⟩
   have e₁ := chartDiagramProjectedDerivation_pushforwardUniversalDerivation_postcomp B S hS h' G p
       x d a
-  have e₂ := PresheafOfModules.Derivation.congr_d hx (X := op d.U)
+  have e₂ := PresheafOfModulesOfCommRing.Derivation.congr_d hx (X := op d.U)
     (chartDiagramFunctionMap B S hS h' d a)
   have e₃ := thickeningLiftValue_chartDiagramFunctionMap B S hS h' G Zcl hG hKL D d a
   exact e₁.trans (e₂.trans e₃)

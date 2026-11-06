@@ -432,20 +432,20 @@ public abbrev ContinuousGSet (G : Type u) [Group G] [TopologicalSpace G] :=
 private theorem continuousGSet_stabilizer_open
     (K L : Type u) [Field K] [Field L] [Algebra K L] [IsSepClosure K L]
     (S : ContinuousGSet.{u, u} Gal(L/K)) (x : S.obj.obj.V) :
-    IsOpen {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ) x = x} := by
+    IsOpen {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = x} := by
   let : IsGalois K L := inferInstance
   let : HasForget₂ (Type u) TopCat.{u} :=
     { forget₂ := TopCat.discrete, forget_comp := rfl }
   let : TopologicalSpace (S.obj.obj.V) := ⊥
   let : DiscreteTopology (S.obj.obj.V) := ⟨rfl⟩
   have hcont : Continuous (fun p : Gal(L/K) × S.obj.obj.V =>
-      ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ p.1)) p.2) :=
+      ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ p.1).asHom) p.2) :=
     (Action.isContinuous_def (V := Type u) (G := Gal(L/K)) S.obj.obj).mp S.obj.property
-  let f : Gal(L/K) → S.obj.obj.V := fun σ => ConcreteCategory.hom (S.obj.obj.ρ σ) x
+  let f : Gal(L/K) → S.obj.obj.V := fun σ => ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x
   have hf : Continuous f := by
-    show Continuous (fun σ => ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ σ)) x)
+    show Continuous (fun σ => ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ σ).asHom) x)
     exact hcont.comp (continuous_id.prodMk continuous_const)
-  have hset : {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ) x = x} =
+  have hset : {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = x} =
       f ⁻¹' {x} := by ext σ; simp [f]
   rw [hset]
   exact (isOpen_discrete {x}).preimage hf
@@ -455,14 +455,14 @@ private theorem continuousGSet_stabilizer_open
 private def continuousGSetMulAction
     (K L : Type u) [Field K] [Field L] [Algebra K L]
     (S : ContinuousGSet.{u, u} Gal(L/K)) : MulAction (Gal(L/K)) S.obj.obj.V where
-  smul σ x := ConcreteCategory.hom (S.obj.obj.ρ σ) x
+  smul σ x := ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x
   one_smul x := by
-    change ConcreteCategory.hom (S.obj.obj.ρ 1) x = x
+    change ConcreteCategory.hom (S.obj.obj.ρ 1).asHom x = x
     simp
   mul_smul σ τ x := by
-    change ConcreteCategory.hom (S.obj.obj.ρ (σ * τ)) x =
-      ConcreteCategory.hom (S.obj.obj.ρ σ)
-        (ConcreteCategory.hom (S.obj.obj.ρ τ) x)
+    change ConcreteCategory.hom (S.obj.obj.ρ (σ * τ)).asHom x =
+      ConcreteCategory.hom (S.obj.obj.ρ σ).asHom
+        (ConcreteCategory.hom (S.obj.obj.ρ τ).asHom x)
     rw [map_mul]
     rfl
 
@@ -473,7 +473,7 @@ private theorem continuousGSet_stabilizer_fixedField_finite
     (S : ContinuousGSet.{u, u} Gal(L/K)) (x : S.obj.obj.V) :
     ∃ E : IntermediateField K L, FiniteDimensional K E ∧
       Algebra.IsSeparable K E ∧
-      {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ) x = x} =
+      {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = x} =
         (E.fixingSubgroup : Set (Gal(L/K))) := by
   classical
   let : IsGalois K L := inferInstance
@@ -496,7 +496,7 @@ private theorem continuousGSet_stabilizer_fixedField_finite
   have hsep : Algebra.IsSeparable K E :=
     Algebra.isSeparable_tower_bot_of_isSeparable K E L
   refine ⟨E, hdim, hsep, ?_⟩
-  have hset : {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ) x = x} =
+  have hset : {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = x} =
       (H : Set (Gal(L/K))) := by
     ext σ
     simp [H, MulAction.mem_stabilizer_iff]
@@ -567,7 +567,7 @@ attached field. -/
 private theorem continuousGSetOrbitField_stabilizer
     (K L : Type u) [Field K] [Field L] [Algebra K L] [IsSepClosure K L]
     (S : ContinuousGSet.{u, u} Gal(L/K)) (i : continuousGSetOrbitIndex K L S) :
-    {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ) (Quotient.out i) =
+    {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom (Quotient.out i) =
         Quotient.out i} =
       (continuousGSetOrbitField K L S i).fixingSubgroup :=
   (Classical.choose_spec (continuousGSet_stabilizer_fixedField_finite
@@ -1058,7 +1058,7 @@ private noncomputable def continuousGSetOrbitPointsEquiv
           apply SetLike.ext
           intro σ
           change σ ∈ {τ : Gal(L/K) |
-            ConcreteCategory.hom (S.obj.obj.ρ τ) (Quotient.out i) = Quotient.out i} ↔
+            ConcreteCategory.hom (S.obj.obj.ρ τ).asHom (Quotient.out i) = Quotient.out i} ↔
               σ ∈ (E i).fixingSubgroup
           rw [continuousGSetOrbitField_stabilizer K L S i]
           rfl))
@@ -1068,7 +1068,7 @@ private noncomputable def continuousGSetOrbitPointsEquiv
 private theorem continuousGSetOrbitPointsEquiv_smul
     (K L : Type u) [Field K] [Field L] [Algebra K L] [IsSepClosure K L]
     (S : ContinuousGSet.{u, u} Gal(L/K)) (σ : Gal(L/K)) (x : S.obj.obj.V) :
-    continuousGSetOrbitPointsEquiv K L S (ConcreteCategory.hom (S.obj.obj.ρ σ) x) =
+    continuousGSetOrbitPointsEquiv K L S (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x) =
       σ • continuousGSetOrbitPointsEquiv K L S x := by
   classical
   let : HasForget₂ (Type u) TopCat :=
@@ -1089,7 +1089,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
     apply SetLike.ext
     intro τ
     show τ ∈ {γ : Gal(L/K) |
-      ConcreteCategory.hom (S.obj.obj.ρ γ) (Quotient.out i) = Quotient.out i} ↔
+      ConcreteCategory.hom (S.obj.obj.ρ γ).asHom (Quotient.out i) = Quotient.out i} ↔
         τ ∈ (E i).fixingSubgroup
     rw [continuousGSetOrbitField_stabilizer K L S i]
     rfl
@@ -1097,11 +1097,11 @@ private theorem continuousGSetOrbitPointsEquiv_smul
     orbitEquivAlgHom K L (Quotient.out i) (E i) (hstab i))
   let θ : S.obj.obj.V ≃ Σ i : I, (F i →ₐ[K] L) :=
     (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V).trans η
-  have hθ : θ (ConcreteCategory.hom (S.obj.obj.ρ σ) x) =
+  have hθ : θ (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x) =
       ⟨(θ x).1, σ.toAlgHom.comp (θ x).2⟩ := by
-    have hsm : ConcreteCategory.hom (S.obj.obj.ρ σ) x = σ • x := rfl
+    have hsm : ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = σ • x := rfl
     show η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V
-        (ConcreteCategory.hom (S.obj.obj.ρ σ) x)) =
+        (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x)) =
       ⟨(η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V x)).1,
         σ.toAlgHom.comp (η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V x)).2⟩
     rw [hsm, selfEquivSigmaOrbits_smul]
@@ -1138,7 +1138,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
   have hinv (q : Σ i : I, (F i →ₐ[K] L)) :
       Ψ.symm ⟨q.1, σ.toAlgHom.comp q.2⟩ = act (Ψ.symm q) :=
     Ψ.symm_apply_eq.mpr (hΨ q).symm
-  show Ψ.symm (θ (ConcreteCategory.hom (S.obj.obj.ρ σ) x)) = _
+  show Ψ.symm (θ (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x)) = _
   apply Over.OverMorphism.ext
   rw [hθ]
   exact (congrArg Over.Hom.left (hinv (θ x))).trans (by rfl)
@@ -1365,7 +1365,7 @@ private theorem geometricPointFunctorUnderlyingEquiv_action
     (x : ((geometricPointFunctor K L).obj X).obj.obj.V) :
     (geometricPointFunctorUnderlyingEquiv K L X
       (ConcreteCategory.hom
-        (((geometricPointFunctor K L).obj X).obj.obj.ρ σ) x)).left =
+        (((geometricPointFunctor K L).obj X).obj.obj.ρ σ).asHom x)).left =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
         (geometricPointFunctorUnderlyingEquiv K L X x).left := by
   rfl
@@ -1386,7 +1386,7 @@ public theorem etaleEquivalenceContinuousGSet
           e Y ((E.functor.map f).hom x) =
             e X x ≫ (Scheme.Etale.forget (Spec (.of K))).map f) ∧
         (∀ X (σ : Gal(L/K)) (x),
-          (e X (ConcreteCategory.hom ((E.functor.obj X).obj.obj.ρ σ) x)).left =
+          (e X (ConcreteCategory.hom ((E.functor.obj X).obj.obj.ρ σ).asHom x)).left =
             Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ (e X x).left) := by
   let : (geometricPointFunctor K L).Faithful := geometricPointFunctor_faithful K L
   let : (geometricPointFunctor K L).Full := geometricPointFunctor_full K L
@@ -1422,8 +1422,8 @@ continuity condition is imposed on it. -/
 @[stacks 04JJ "morphisms of G-sets"]
 public def homEquiv (X Y : ContinuousGSet.{u, v} G) :
     (X ⟶ Y) ≃ {f : X.obj.obj.V → Y.obj.obj.V // ∀ (g : G) (x : X.obj.obj.V),
-      f (ConcreteCategory.hom (X.obj.obj.ρ g) x) =
-        ConcreteCategory.hom (Y.obj.obj.ρ g) (f x)} where
+      f (ConcreteCategory.hom (X.obj.obj.ρ g).asHom x) =
+        ConcreteCategory.hom (Y.obj.obj.ρ g).asHom (f x)} where
   toFun f := ⟨ConcreteCategory.hom f.hom.hom.hom,
     fun g x => ConcreteCategory.congr_hom (f.hom.hom.comm g) x⟩
   invFun f := ObjectProperty.homMk (ObjectProperty.homMk

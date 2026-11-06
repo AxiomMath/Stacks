@@ -3,6 +3,7 @@ module
 public import StacksFrontier.CategoryTheory.Abelian.DeltaFunctor.HomologicalConstructions
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 public import Mathlib.GroupTheory.Coset.Card
+public import Mathlib.SetTheory.Cardinal.NatCard
 
 /-! # Vanishing of `Hₙ₊₁(g)` by counting, for a homological δ-functor with values in modules
 

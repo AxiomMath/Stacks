@@ -82,7 +82,7 @@ namespace AlgebraicGeometry
 -- each constantly, so the chains are made visible to the unifier rather than argued about at every
 -- step.
 attribute [local implicit_reducible] Functor.Fiber Functor.Fiber.fiberInclusion Functor.Fiber.mk
-  finiteEtaleProjection Arrow.rightFunc
+  finiteEtaleProjection
 
 /-! ### Finite étale morphisms of schemes -/
 

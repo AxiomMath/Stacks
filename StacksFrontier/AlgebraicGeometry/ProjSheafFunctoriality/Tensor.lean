@@ -225,15 +225,22 @@ def tensorGradingPairBilin : M →+ N →+
     (⨁ k : ℤ, tensorGrading (S := S) 𝒨 𝒩 k) where
   toFun m := {
     toFun := tensorGradingPairValue (S := S) 𝒨 𝒩 m
-    map_zero' := by simp [tensorGradingPairValue]
+    map_zero' := by
+      simp only [tensorGradingPairValue, LinearEquiv.map_zero, TensorProduct.tmul_zero,
+        AddMonoidHom.map_zero]
     map_add' := by
       intro n n'
-      simp [tensorGradingPairValue, TensorProduct.tmul_add] }
-  map_zero' := by ext n; simp [tensorGradingPairValue]
+      simp only [tensorGradingPairValue, LinearEquiv.map_add, TensorProduct.tmul_add,
+        AddMonoidHom.map_add] }
+  map_zero' := by
+    ext n
+    simp only [tensorGradingPairValue, LinearEquiv.map_zero, TensorProduct.zero_tmul,
+      AddMonoidHom.map_zero, AddMonoidHom.coe_mk, ZeroHom.coe_mk, AddMonoidHom.zero_apply]
   map_add' := by
     intro m m'
     ext n
-    simp [tensorGradingPairValue, TensorProduct.add_tmul]
+    simp only [tensorGradingPairValue, LinearEquiv.map_add, TensorProduct.add_tmul,
+      AddMonoidHom.map_add, AddMonoidHom.coe_mk, ZeroHom.coe_mk, AddMonoidHom.add_apply]
 
 /-- On a pure tensor of homogeneous elements the candidate decomposition is concentrated in
 the degree given by the sum. -/

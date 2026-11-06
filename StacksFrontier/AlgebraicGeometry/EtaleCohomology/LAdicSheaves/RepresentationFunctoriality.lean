@@ -61,8 +61,8 @@ omit [Fact ℓ.Prime] in
 public def levelMapHom (A : Matrix (Fin r') (Fin r) ℤ_[ℓ]) (k : ℕ) :
     ULift.{u + 1} (Fin r → ZMod (ℓ ^ k)) →+ ULift.{u + 1} (Fin r' → ZMod (ℓ ^ k)) where
   toFun y := ULift.up ((A.map (PadicInt.toZModPow k)) *ᵥ y.down)
-  map_zero' := ULift.ext _ _ (Matrix.mulVec_zero (A.map (PadicInt.toZModPow k)))
-  map_add' a b := ULift.ext _ _ (Matrix.mulVec_add (A.map (PadicInt.toZModPow k)) a.down b.down)
+  map_zero' := ULift.ext (Matrix.mulVec_zero (A.map (PadicInt.toZModPow k)))
+  map_add' a b := ULift.ext (Matrix.mulVec_add (A.map (PadicInt.toZModPow k)) a.down b.down)
 
 /-- **The map of level modules `(ℤ/ℓ^kℤ)^r → (ℤ/ℓ^kℤ)^{r'}` induced by an intertwiner** `A` of
 `ρ` and `ρ'` (`A ρ(g) = ρ'(g) A`), as a morphism of finite discrete `G`-modules. -/
@@ -73,7 +73,7 @@ public def levelAbelianMap (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
     { hom := AddCommGrpCat.ofHom (levelMapHom A k)
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ (mulVec_levelRepresentation A hA k g y.down) }))
+        exact ULift.ext (mulVec_levelRepresentation A hA k g y.down) }))
 
 @[simp]
 public theorem levelAbelianMap_apply (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
@@ -86,7 +86,7 @@ public theorem levelAbelianMap_one (k : ℕ) :
     levelAbelianMap hρ hρ 1 (fun g => by rw [one_mul, mul_one]) k = 𝟙 _ := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((1 : Matrix (Fin r) (Fin r) ℤ_[ℓ]).map (PadicInt.toZModPow k)) *ᵥ y.down = y.down
   rw [Matrix.map_one _ (map_zero _) (map_one _), Matrix.one_mulVec]
 
@@ -98,7 +98,7 @@ public theorem levelAbelianMap_mul (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
       levelAbelianMap hρ hρ' A hA k ≫ levelAbelianMap hρ' hρ'' A' hA' k := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((A' * A).map (PadicInt.toZModPow k)) *ᵥ y.down =
     (A'.map (PadicInt.toZModPow k)) *ᵥ ((A.map (PadicInt.toZModPow k)) *ᵥ y.down)
   rw [Matrix.map_mul, Matrix.mulVec_mulVec]
@@ -110,7 +110,7 @@ public theorem levelAbelianMap_add (A B : Matrix (Fin r') (Fin r) ℤ_[ℓ])
       levelAbelianMap hρ hρ' A hA k + levelAbelianMap hρ hρ' B hB k := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((A + B).map (PadicInt.toZModPow k)) *ᵥ y.down =
     (A.map (PadicInt.toZModPow k)) *ᵥ y.down + (B.map (PadicInt.toZModPow k)) *ᵥ y.down
   rw [Matrix.map_add _ (map_add _), Matrix.add_mulVec]
@@ -126,7 +126,7 @@ public theorem finiteContinuousScalarFunctor_map_comp_levelAbelianMap
           (X := SingleObj.star _) (Y := SingleObj.star _) a := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show (A.map (PadicInt.toZModPow k)) *ᵥ (a • y.down) = a • ((A.map (PadicInt.toZModPow k)) *ᵥ
     y.down)
   rw [Matrix.mulVec_smul]
@@ -138,7 +138,7 @@ public theorem levelAbelianReduction_comp_levelAbelianMap (A : Matrix (Fin r') (
       levelAbelianMap hρ hρ' A hA (k + 1) ≫ levelAbelianReduction ρ' hρ' k := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show (A.map (PadicInt.toZModPow k)) *ᵥ (levelReduction k y.down) =
     levelReduction k ((A.map (PadicInt.toZModPow (k + 1))) *ᵥ y.down)
   funext i
@@ -221,7 +221,7 @@ public theorem representationLAdicSheafMap_app_apply (A : Matrix (Fin r') (Fin r
 public theorem representationLAdicSheafMap_one :
     representationLAdicSheafMap B X x e hρ hρ 1 (fun g => by rw [one_mul, mul_one]) =
       𝟙 (representationLAdicSheaf B X x e ρ hρ) := by
-  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
   ext U y
   have h := congrArg (fun g => (g.hom.hom.app U).hom y)
     ((congrArg e.inverse.map (levelAbelianMap_one hρ (n + 1))).trans (e.inverse.map_id _))
@@ -234,7 +234,7 @@ public theorem representationLAdicSheafMap_mul (A : Matrix (Fin r') (Fin r) ℤ_
       (fun g => by rw [Matrix.mul_assoc, hA, ← Matrix.mul_assoc, hA', Matrix.mul_assoc]) =
       representationLAdicSheafMap B X x e hρ hρ' A hA ≫
         representationLAdicSheafMap B X x e hρ' hρ'' A' hA' := by
-  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
   ext U y
   have h := congrArg (fun g => (g.hom.hom.app U).hom y)
     ((congrArg e.inverse.map (levelAbelianMap_mul hρ hρ' hρ'' A hA A' hA' (n + 1))).trans
@@ -247,7 +247,7 @@ public theorem representationLAdicSheafMap_add (A B' : Matrix (Fin r') (Fin r) �
       (fun g => by rw [Matrix.add_mul, Matrix.mul_add, hA, hB]) =
       representationLAdicSheafMap B X x e hρ hρ' A hA +
         representationLAdicSheafMap B X x e hρ hρ' B' hB := by
-  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext.{u, u + 1} B X ℓ fun n => ?_
   ext U y
   have h := congrArg (fun g => (g.hom.hom.app U).hom y)
     ((congrArg e.inverse.map (levelAbelianMap_add hρ hρ' A B' hA hB (n + 1))).trans

@@ -638,7 +638,7 @@ theorem etaleH1MultiplicativeAddEquivPicard_naturality {X Y : Scheme.{u}} (π : 
     exact (Stacks.Picard.pullbackClass_classOf π.toLRSHom.toShHom L hL).symm
   · intro U h s
     rw [multiplicativeInverseImageComparison_transpose]
-    exact ULift.ext _ _ (generatorPullback_unitSmul π L U.unop _ s.down)
+    exact ULift.ext (generatorPullback_unitSmul π L U.unop _ s.down)
 
 /-- Restriction of étale cohomology along a morphism of schemes commutes with morphisms of
 coefficient sheaves. -/

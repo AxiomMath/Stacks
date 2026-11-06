@@ -187,7 +187,8 @@ lemma tmul_tmul_eq_zero_of_mem_diagShift_smul_top
         TensorProduct.zero_tmul]
     | zero =>
       intro n
-      rw [zero_smul, TensorProduct.zero_tmul, map_zero, map_zero]
+      rw [zero_smul, TensorProduct.zero_tmul]
+      exact F.map_zero
     | add a b _ _ ha hb =>
       intro n
       rw [add_smul, TensorProduct.add_tmul, map_add, map_add, ha n, hb n, add_zero]
@@ -224,7 +225,10 @@ theorem exists_relKoszulCompareDegree (j : ℕ) :
         (1 : MvPolynomial E A) ⊗ₜ (g i • w) := by
     intro g
     induction g using Finsupp.induction_linear with
-    | zero => intro w i; simp
+    | zero =>
+      intro w i
+      simp only [LinearMap.map_zero, TensorProduct.zero_tmul, LinearEquiv.map_zero,
+        Finsupp.zero_apply, zero_smul, TensorProduct.tmul_zero]
     | add g₁ g₂ h₁ h₂ =>
       intro w i
       rw [map_add, map_add, TensorProduct.add_tmul, map_add, Finsupp.add_apply, h₁ w i, h₂ w i,

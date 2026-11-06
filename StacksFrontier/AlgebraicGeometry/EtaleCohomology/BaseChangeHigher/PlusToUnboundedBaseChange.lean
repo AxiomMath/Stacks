@@ -83,7 +83,7 @@ theorem isIso_etaleAbelianDerivedBaseChange_app_of_isIso_smallEtaleDerivedBaseCh
   have hys := Stacks.Cohomology.BaseChange.isIso_Q_map_comp_of_isIso_derived
     (smallEtalePushforwardAb f) (smallEtalePushforwardAb f') (smallEtalePullbackAb g)
     (smallEtalePullbackAb g') (smallEtaleBaseChangeAb g f f' g' w.symm)
-    (asIso (smallEtalePullbackAb g).rightDerivedFunctorPlusUnit) K hK L hL' i' hi' hbc
+    (asIso (smallEtalePullbackAb g).rightDerivedFunctorPlusUnith) K hK L hL' i' hi' hbc
   exact isIso_etaleAbelianDerivedBaseChange_app_of_isIso_Q_map_conj_comp.{u, 0} f g g' f' w
     (smallEtalePullbackAb g) (smallEtalePullbackAb g') (smallEtalePullbackAbIsoInverseImage g)
     (smallEtalePullbackAbIsoInverseImage g') (smallEtaleBaseChangeAb g f f' g' w.symm)

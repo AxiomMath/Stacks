@@ -105,13 +105,13 @@ abbrev pushforwardComm : PresheafOfModules.{u} (R ⋙ forget₂ _ _) ⥤
 `F_*N ⊗_S F_*R ⟶ F_*N`, on sections over `X` the action
 `N(F X) ⊗_{S(X)} R(F X) ⟶ N(F X)`, `n ⊗ s ↦ s • n`. -/
 def pushforwardAct (N : PresheafOfModules.{u} (R ⋙ forget₂ _ _)) :
-    Monoidal.tensorObj (R := S) ((pushforwardComm φ).obj N)
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := S) ((pushforwardComm φ).obj N)
         ((pushforwardComm φ).obj (unit _)) ⟶ (pushforwardComm φ).obj N where
   app X := ModuleCat.restrictScalarsAct (φ.app X).hom (N.obj (op (F.obj X.unop)))
   naturality {X X'} k := by
     refine ModuleCat.MonoidalCategory.tensor_ext fun n s => ?_
     exact (congrArg (ModuleCat.restrictScalarsAct (φ.app X').hom (N.obj (op (F.obj X'.unop)))).hom
-      (Monoidal.tensorObj_map_tmul k n s)).trans
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul k n s)).trans
         ((ModuleCat.restrictScalarsAct_tmul (φ.app X').hom (N.obj (op (F.obj X'.unop))) _ _).trans
           ((N.map_smul (F.op.map k) s n).symm.trans (congrArg (N.map (F.op.map k)).hom
             (ModuleCat.restrictScalarsAct_tmul (φ.app X).hom (N.obj (op (F.obj X.unop))) n
@@ -124,7 +124,8 @@ theorem pushforwardAct_app_tmul (N : PresheafOfModules.{u} (R ⋙ forget₂ _ _)
 
 /-- The action is natural in the module. -/
 theorem pushforwardAct_naturality {N N' : PresheafOfModules.{u} (R ⋙ forget₂ _ _)} (ψ : N ⟶ N') :
-    Monoidal.tensorHom (R := S) ((pushforwardComm φ).map ψ) (𝟙 _) ≫ pushforwardAct φ N' =
+    PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := S) ((pushforwardComm φ).map ψ) (𝟙 _) ≫
+        pushforwardAct φ N' =
       pushforwardAct φ N ≫ (pushforwardComm φ).map ψ := by
   refine PresheafOfModules.hom_ext fun X => ModuleCat.MonoidalCategory.tensor_ext fun n s => ?_
   exact (pushforwardAct_app_tmul φ N' X _ s).trans
@@ -164,9 +165,9 @@ out of the tensor product sheaves are compatible with `f ▷ G` and `t`. -/
 theorem whiskerRight_comp_homEquiv_symm
     {M M' G T T' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (t : T ⟶ T')
-    (α : PresheafOfModules.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
-    (α' : PresheafOfModules.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
-    (h : PresheafOfModules.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
+    (α : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
+    (α' : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
+    (h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
     f ▷ G ≫ ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α' =
       ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α ≫ t := by
   refine (congrArg (· ≫ ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).symm α')
@@ -181,16 +182,16 @@ sheafification of the presheaf maps followed by the counit. -/
 theorem whiskerRight_comp_sheafify_map_comp
     {M M' G T T' : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (t : T ⟶ T')
-    (α : PresheafOfModules.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
-    (α' : PresheafOfModules.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
-    (h : PresheafOfModules.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
+    (α : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val ⟶ T.val)
+    (α' : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val ⟶ T'.val)
+    (h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := O) f.val (𝟙 G.val) ≫ α' = α ≫ t.val) :
     f ▷ G ≫ (sheafifyFunctor O hO).map α' ≫ (sheafifyValIso O hO T').hom =
       ((sheafifyFunctor O hO).map α ≫ (sheafifyValIso O hO T).hom) ≫ t :=
   (congrArg (f ▷ G ≫ ·) (Adjunction.homEquiv_counit (TensorSheafification.sheafifyAdjunction O hO)
-      (PresheafOfModules.Monoidal.tensorObj (R := O) M'.val G.val) T' α').symm).trans
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M'.val G.val) T' α').symm).trans
     ((whiskerRight_comp_homEquiv_symm O hO f t α α' h).trans
       (congrArg (· ≫ t) (Adjunction.homEquiv_counit (TensorSheafification.sheafifyAdjunction O hO)
-        (PresheafOfModules.Monoidal.tensorObj (R := O) M.val G.val) T α)))
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) M.val G.val) T α)))
 
 end Strict
 

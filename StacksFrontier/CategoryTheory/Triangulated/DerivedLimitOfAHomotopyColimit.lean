@@ -120,9 +120,9 @@ theorem IsDerivedLimit.of_natIso {F G : ℕᵒᵖ ⥤ D}
     Pi.π (fun n : ℕ ↦ G.obj (op n)) (n + 1) ≫ G.map (homOfLE (Nat.le_succ n)).op
   have hb : bF ≫ e.hom = e.hom ≫ bG := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [bF, bG, Category.assoc, he, Pi.lift_π, Preadditive.comp_sub]
+    simp only [bF, bG, Category.assoc, he, Pi.lift_comp_π, Preadditive.comp_sub]
     rw [← Category.assoc e.hom, he, Category.assoc,
-      ← c.hom.naturality (homOfLE (Nat.le_succ n)).op, ← Category.assoc, Pi.lift_π,
+      ← c.hom.naturality (homOfLE (Nat.le_succ n)).op, ← Category.assoc, Pi.lift_comp_π,
       Preadditive.sub_comp, Category.assoc]
   obtain ⟨p, δ, hδ⟩ := hK
   exact ⟨p ≫ e.hom, e.inv ≫ δ, mk_comp_hom_mem_distTriang e hb hδ⟩
@@ -170,7 +170,7 @@ theorem exists_distTriang_pi_lift_map_coprojections (H : Dᵒᵖ ⥤ D') [H.Addi
     @asIso _ _ _ _ _ hcomp
   have he (n : ℕ) :
       e.hom ≫ Pi.π (fun n : ℕ ↦ (F.op ⋙ H).obj (op n)) n = H.map (Sigma.ι F.obj n).op :=
-    Pi.lift_π _ _
+    Pi.lift_comp_π _ _
   let d : ∐ F.obj ⟶ ∐ F.obj := Sigma.desc fun n ↦ Sigma.ι F.obj n -
     F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1)
   let b := Pi.lift fun n : ℕ ↦ Pi.π (fun n : ℕ ↦ (F.op ⋙ H).obj (op n)) n -
@@ -181,14 +181,14 @@ theorem exists_distTriang_pi_lift_map_coprojections (H : Dᵒᵖ ⥤ D') [H.Addi
     rw [Category.assoc, he, ← H.map_comp, ← op_comp]
     dsimp only [d]
     rw [Sigma.ι_desc, op_sub, op_comp, H.map_sub, H.map_comp]
-    simp only [b, Category.assoc, Pi.lift_π, Preadditive.comp_sub, he]
+    simp only [b, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, he]
     rw [← Category.assoc, he]
     rfl
   have hkey : (Pi.lift (fun n : ℕ ↦ H.map (i n).op) :
         H.obj (op K) ⟶ ∏ᶜ fun n : ℕ ↦ (F.op ⋙ H).obj (op n)) =
       H.map (Sigma.desc i).op ≫ e.hom := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Pi.lift_π, Category.assoc, he n, ← H.map_comp, ← op_comp, Sigma.ι_desc]
+    rw [Pi.lift_comp_π, Category.assoc, he n, ← H.map_comp, ← op_comp, Sigma.ι_desc]
   refine ⟨e.inv ≫ δ, ?_⟩
   rw [hkey]
   exact mk_comp_hom_mem_distTriang e hb hδ

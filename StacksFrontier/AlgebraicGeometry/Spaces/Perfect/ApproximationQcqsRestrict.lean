@@ -52,6 +52,17 @@ attribute [local instance] etaleModulePullback_additive
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ApproximationQcqsRestrict :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ApproximationQcqsRestrict
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Restrict
 
 variable {X Y : AlgebraicSpaces B S hS}
@@ -99,6 +110,8 @@ theorem supportOfSheaf_homology_etaleRestrict (f : X ⟶ Y) (hf : IsEtale B S hS
   rw [← supportOfSheaf_toSheaf_etaleModulePullback B S hS f hf]
   have key : ∀ {F G : Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}} (e : F ≅ G),
       supportOfSheaf B S hS X.1 F = supportOfSheaf B S hS X.1 G := fun e =>
+    haveI := IsIso.mono_of_iso e.hom
+    haveI := IsIso.mono_of_iso e.inv
     Set.eq_of_subset_of_subset (supportOfSheaf_subset_of_mono B S hS X.1 X.2 e.hom)
       (supportOfSheaf_subset_of_mono B S hS X.1 X.2 e.inv)
   exact key ((SheafOfModules.toSheaf _).mapIso
@@ -269,6 +282,7 @@ private theorem isZero_cokernel_of_epi_eds {F G : Modules.{u, u} B S hS W.1 W.2}
       (PreservesCokernel.iso (etaleModulePullback.{u, u} B S hS (edsEtaleHom B S hS hsq)
         (isEtale_edsEtaleHom B S hS hsq)) φ)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Isomorphisms of modules are detected on an elementary distinguished square.** -/
 theorem isIso_of_eds {F G : Modules.{u, u} B S hS W.1 W.2} (φ : F ⟶ G)
     (hU : IsIso ((etaleModulePullback.{u, u} B S hS (edsOpenHom B S hS hsq)
@@ -281,11 +295,13 @@ theorem isIso_of_eds {F G : Modules.{u, u} B S hS W.1 W.2} (φ : F ⟶ G)
     (isEtale_edsEtaleHom B S hS hsq)
   have hK : IsZero (kernel φ) := by
     refine isZero_of_isZero_restrict_eds B S hS hsq _ ?_ ?_
-    · exact (isZero_kernel_of_mono (LU.map φ)).of_iso (PreservesKernel.iso LU φ)
-    · exact (isZero_kernel_of_mono (LV.map φ)).of_iso (PreservesKernel.iso LV φ)
+    · haveI : Mono (LU.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hU
+      exact (isZero_kernel_of_mono (LU.map φ)).of_iso (PreservesKernel.iso LU φ)
+    · haveI : Mono (LV.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hV
+      exact (isZero_kernel_of_mono (LV.map φ)).of_iso (PreservesKernel.iso LV φ)
   have : Mono φ := Preadditive.mono_of_isZero_kernel _ hK
   have : Epi φ := Preadditive.epi_of_isZero_cokernel _ (isZero_cokernel_of_epi_eds B S hS hsq φ
-    inferInstance inferInstance)
+    (@IsIso.epi_of_iso _ _ _ _ _ hU) (@IsIso.epi_of_iso _ _ _ _ _ hV))
   exact isIso_of_mono_of_epi φ
 
 /-- **Epimorphisms of modules are detected on an elementary distinguished square.** -/

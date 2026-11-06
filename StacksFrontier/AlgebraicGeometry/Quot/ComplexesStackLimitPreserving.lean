@@ -547,7 +547,7 @@ def isLimitStageCone [IsCofiltered I]
   let c₂ : Cone (Over.forget i ⋙ Dg ⋙ BigAffineFppf.toScheme B S hS) :=
     (CostructuredArrow.proj (schemeSpaceFunctor B S hS) D.Y ⋙
       BigFppfOver.toScheme B S hS).mapCone (D.stageCone Dg c i g A hA hg)
-  h₁.ofIsoLimit (Cones.ext (c' := c₂)
+  h₁.ofIsoLimit (Cone.ext (c' := c₂)
     ((BigFppfOver.toScheme B S hS).mapIso (eqToIso hA.symm)) (fun j => by
       change (BigFppfOver.toScheme B S hS).map
           ((BigAffineFppf.inclusion B S hS).map (c.π.app j.left)) =
@@ -941,7 +941,7 @@ theorem descentEq (h0DKW : D.RelativelyPerfectColimit)
     rfl)
   have hδm : d.π.app o ≫ mx = (δ : ComplexesHom _ _).base := by
     refine CostructuredArrow.hom_ext _ _ ?_
-    rw [Comma.comp_left, hδb]
+    rw [CostructuredArrow.comp_left, hδb]
     show (eqToHom rfl ≫ _) ≫ 𝟙 _ = _
     rw [eqToHom_refl]
     exact (Category.comp_id _).trans (Category.id_comp _)
@@ -1009,12 +1009,12 @@ theorem descentHom (hY : IsLocallyOfFinitePresentation B S hS (terminal.from D.Y
       (BigAffineFppf.inclusion B S hS).map (c.π.app i) := by
     rw [eqToHom_refl, Category.id_comp, ← Functor.map_comp, c.w s₀]
   have hδm : d.π.app o ≫ mx = (δ : ComplexesHom _ _).base :=
-    CostructuredArrow.hom_ext _ _ (by rw [Comma.comp_left, hδb]; exact hπ)
+    CostructuredArrow.hom_ext _ _ (by rw [CostructuredArrow.comp_left, hδb]; exact hπ)
   let φε := (φ : ComplexesHom _ _).comp (ε : ComplexesHom _ _)
   have hφε : φε.base = (φ : ComplexesHom _ _).base ≫ (ε : ComplexesHom _ _).base := rfl
   have hεm : d.π.app o ≫ my = φε.base :=
     CostructuredArrow.hom_ext _ _ (by
-      rw [hφε, Comma.comp_left, Comma.comp_left, hφb, hεb, Category.id_comp]; exact hπ)
+      rw [hφε, CostructuredArrow.comp_left, CostructuredArrow.comp_left, hφb, hεb, Category.id_comp]; exact hπ)
   let eδ := @asIso _ _ _ _ (δ : ComplexesHom _ _).fibre (δ : ComplexesHom _ _).isIso_fibre
   let eφε := @asIso _ _ _ _ φε.fibre φε.isIso_fibre
   let Φ := (D.triApp hεm yiE).symm ≪≫ eφε ≪≫ eδ.symm ≪≫ D.triApp hδm xiE

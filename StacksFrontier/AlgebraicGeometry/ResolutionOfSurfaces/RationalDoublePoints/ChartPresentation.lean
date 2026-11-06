@@ -472,7 +472,7 @@ public theorem ker_chartPresentation_eq_span_singleton [IsNoetherianRing A]
     (hgood : IsGoodCoordinateForm fun p r => IsLocalRing.residue A (a p r)) :
     RingHom.ker (chartPresentation S hx)
       = Ideal.span {dehomogenizeFirst (ResidueField A) 2
-          (quadraticFormPoly fun p r => IsLocalRing.residue A (a p r))} := by
+                      (quadraticFormPoly fun p r => IsLocalRing.residue A (a p r))} := by
   rw [ker_chartPresentation S hx (fun m w hw hmul =>
       mem_pow_succ_of_mul_mem_pow_of_isGoodCoordinateForm hx hspan hdim a hupper hunit hrel
         hgood hw hmul),
@@ -520,7 +520,7 @@ public def chartQuotientEquivQuadric [IsNoetherianRing A]
     (hgood : IsGoodCoordinateForm fun p r => IsLocalRing.residue A (a p r)) :
     MvPolynomial (Fin 2) (ResidueField A) ⧸
         Ideal.span {dehomogenizeFirst (ResidueField A) 2
-          (quadraticFormPoly fun p r => IsLocalRing.residue A (a p r))}
+                      (quadraticFormPoly fun p r => IsLocalRing.residue A (a p r))}
       ≃+* chartExceptionalQuotient (maximalIdeal A) (x 0) S :=
   (Ideal.quotEquivOfEq (ker_chartPresentation_eq_span_singleton
         S hx hspan hdim a hupper hunit hrel hgood).symm).trans

@@ -699,7 +699,7 @@ theorem not_forall_isIso_smallEtaleDerivedSheafHomBaseChangeMap_of_isPseudoCoher
   not_isIso_baseChangeMap (h (𝟙 (space U₄))
     (isQuasiCompact_of_isIso site base site_contains_four (𝟙 (space U₄) : space U₄ ⟶ space U₄).hom)
     (isQuasiSeparated_of_mono site base site_contains_four
-      (𝟙 (space U₄) : space U₄ ⟶ space U₄).hom inferInstance)
+      (𝟙 (space U₄) : space U₄ ⟶ space U₄).hom (inferInstanceAs (Mono (𝟙 _))))
     E (isPseudoCoherent_quotDerived U₄ two_mul_two_four exists_two_mul_four)
     G (isQuasicoherentOnSite_structureComplex_X U₄) isFlatOver_G
     ⟨0, 0, fun i hi => HomologicalComplex.isZero_single_obj_X _ 0 _ i (by omega)⟩

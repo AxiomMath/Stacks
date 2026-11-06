@@ -133,7 +133,7 @@ public theorem relationIdeal_isHomogeneous :
 /-- Every weight is positive, so a polynomial of weighted degree zero is a constant. -/
 private lemma eq_C_of_mem_weight_zero {p : polynomialRing}
     (hp : p ∈ MvPolynomial.weightedHomogeneousSubmodule baseRing weight 0) :
-    p = MvPolynomial.C (MvPolynomial.coeff 0 p) := by
+    p = MvPolynomial.C (p.coeff 0) := by
   have hnontorsion : MvPolynomial.NonTorsionWeight weight :=
     MvPolynomial.nonTorsionWeight_of fun i => (pow_pos (by norm_num : 0 < 2) i).ne'
   refine MvPolynomial.ext _ _ fun d => ?_

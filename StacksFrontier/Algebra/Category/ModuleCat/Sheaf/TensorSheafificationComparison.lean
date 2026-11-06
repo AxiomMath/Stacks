@@ -74,7 +74,7 @@ def structureSheaf : Sheaf J RingCat.{w} := ⟨structureRingPresheaf 𝒪, h𝒪
     (structureSheaf 𝒪 h𝒪).obj = structureRingPresheaf 𝒪 := rfl
 
 attribute [local implicit_reducible] structureSheaf
-  PresheafOfModules.toPresheaf PresheafOfModules.Monoidal.tensorObj
+  PresheafOfModules.toPresheaf PresheafOfModulesOfCommRing.Monoidal.tensorObj
 
 variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
@@ -165,13 +165,12 @@ theorem W_whiskerRight_isLocallySurjective
     refine ⟨a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x, ?_⟩
     show ((f ▷ X).app (.op V)).hom (a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x)
         = ((B ⊗ X).map φ.op).hom (b ⊗ₜ[𝒪.obj (.op U)] x)
-    rw [PresheafOfModules.whiskerRight_app]
     have imageEquality : (f.app (.op V)).hom a = (B.map φ.op).hom b := ha
     exact (ModuleCat.MonoidalCategory.whiskerRight_apply (f.app (.op V))
       (X.obj (.op V)) a ((X.map φ.op).hom x)).trans
       ((congrArg (fun value : B.obj (.op V) =>
         value ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x) imageEquality).trans
-        (PresheafOfModules.Monoidal.tensorObj_map_tmul φ.op b x).symm)
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul φ.op b x).symm)
   constructor
   intro U t
   show Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map (f ▷ X)) t ∈ J U
@@ -227,7 +226,7 @@ theorem restrict_tmul_ker_eq_zero
     (hψ : (ConcreteCategory.hom (A.map ψ.op)) k = 0) :
     ((A ⊗ X).map ψ.op).hom (k ⊗ₜ[𝒪.obj (.op V)] y) = 0 := by
   have restrictedZero : (A.map ψ.op).hom k = (0 : A.obj (.op W)) := hψ
-  exact (PresheafOfModules.Monoidal.tensorObj_map_tmul ψ.op k y).trans
+  exact (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul ψ.op k y).trans
     ((congrArg (fun value : A.obj (.op W) =>
       value ⊗ₜ[𝒪.obj (.op W)] (X.map ψ.op).hom y) restrictedZero).trans
       (by simp only [TensorProduct.zero_tmul]; rfl))
@@ -429,7 +428,6 @@ theorem exists_locally_ker_decomp
       rw [hzsum, map_sum]
       apply Finset.sum_congr rfl
       intro i _
-      rw [PresheafOfModules.whiskerRight_app]
       exact ModuleCat.MonoidalCategory.whiskerRight_apply
         (f.app (.op U)) (X.obj (.op U)) (aa i) (xx i)
     rw [← hcalc, hz]
@@ -497,7 +495,7 @@ theorem exists_locally_ker_decomp
           (X.restrictₛₗ ψ.op) (xx i) := by
     apply Finset.sum_congr rfl
     intro i _
-    exact PresheafOfModules.Monoidal.tensorObj_map_tmul ψ.op (aa i) (xx i)
+    exact PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul ψ.op (aa i) (xx i)
   exact hterm.trans hSdec
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasWeakSheafify J AddCommGrpCat] in

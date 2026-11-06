@@ -597,15 +597,15 @@ lemma variableIdealPower_smul_mem_filtration
   have hdegree : n ≤ m.degree :=
     (MvPolynomial.mem_pow_idealOfVars_iff n r).mp hr m hm
   have hmon := variableMonomial_smul_mem_filtration A E j n m hdegree x
-  have heq : MvPolynomial.monomial m (MvPolynomial.coeff m r) • x =
-      MvPolynomial.coeff m r • (MvPolynomial.monomial m (1 : A) • x) := by
+  have heq : MvPolynomial.monomial m (r.coeff m) • x =
+      r.coeff m • (MvPolynomial.monomial m (1 : A) • x) := by
     calc
-      _ = (MvPolynomial.C (MvPolynomial.coeff m r) *
+      _ = (MvPolynomial.C (r.coeff m) *
           MvPolynomial.monomial m (1 : A)) • x := by
         simp [MvPolynomial.C_mul_monomial]
       _ = _ := by
         rw [mul_smul]
-        exact algebraMap_smul (MvPolynomial E A) (MvPolynomial.coeff m r) _
+        exact algebraMap_smul (MvPolynomial E A) (r.coeff m) _
   rw [heq]
   exact (variableKoszulFiltration A E j n).smul_mem _ hmon
 

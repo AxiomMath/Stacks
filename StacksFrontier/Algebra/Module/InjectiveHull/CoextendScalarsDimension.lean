@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 public import Mathlib.Algebra.Category.ModuleCat.EnoughInjectives
 public import Mathlib.Algebra.Category.ModuleCat.Ext.Baer
+public import Mathlib.CategoryTheory.Abelian.Injective.Resolution
 
 /-!
 # Injective dimension under coextension of scalars

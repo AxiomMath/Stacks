@@ -110,7 +110,7 @@ theorem restrictFunctor_linear {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion
     Stacks.SheafOfModules.smul_val_app X.ringCatSheaf A ⊤ isTerminalTop
       ((f.appTop).hom.comp φ) a ((Scheme.Modules.restrictFunctor f).map g) (op U) x
   have hsm : ∀ (r : Γ(X, U)) (y : Γ(N, f ''ᵁ U)),
-      (((Scheme.Modules.restrictFunctor f).obj N).smul (U := U) r).hom y =
+      (((Scheme.Modules.restrictFunctor f).obj N).smul (U := U) r).asHom.hom y =
         ((f.appIso U).inv r) • y := fun _ _ => rfl
   have hsm' : (X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (((f.appTop).hom.comp φ) a)) •
         (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctor f).map g) U).hom x =

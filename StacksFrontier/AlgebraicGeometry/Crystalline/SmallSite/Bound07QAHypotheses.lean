@@ -211,7 +211,7 @@ exact `Φ`, read through the two coherence isomorphisms out of which
 theorem isIso_homologyFunctor_singleRightDerivedUnit_app [PreservesFiniteLimits Φ] (M : A) :
     IsIso ((DerivedCategory.Plus.homologyFunctor B 0).map ((singleRightDerivedUnit Φ).app M)) := by
   have := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    Φ Φ.rightDerivedFunctorPlus Φ.rightDerivedFunctorPlusUnit).2.2.2 ‹_› M
+    Φ Φ.rightDerivedFunctorPlus Φ.rightDerivedFunctorPlusUnith).2.2.2 ‹_› M
   rw [singleRightDerivedUnit_app, Functor.map_comp, Functor.map_comp]
   infer_instance
 
@@ -359,10 +359,13 @@ theorem mono_homologyFunctor_derivedZariskiDirectImage_map_iff
   refine ⟨fun h => ?_, fun _ => ?_⟩
   · have : Mono ((higherZariskiDirectImage S' 0).map g) := h
     rw [← NatIso.naturality_1 e g]
-    infer_instance
+    exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (e.app F).isIso_inv) _
+      (@mono_comp _ _ _ _ _ _ this _ (@IsIso.mono_of_iso _ _ _ _ _ (e.app G).isIso_hom))
   · show Mono ((higherZariskiDirectImage S' 0).map g)
     rw [← NatIso.naturality_1 e.symm g]
-    infer_instance
+    exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (e.symm.app F).isIso_inv) _
+      (@mono_comp _ _ _ _ _ _ ‹Mono ((zariskiDirectImage S').map g)› _
+        (@IsIso.mono_of_iso _ _ _ _ _ (e.symm.app G).isIso_hom))
 
 include hf
 

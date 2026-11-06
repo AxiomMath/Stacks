@@ -194,7 +194,7 @@ theorem derivedLimitProjection_comp_map (n : ℕ) :
   have h := comp_distTriang_mor_zero₁₂ _ hT
   have h' := congrArg (· ≫ Pi.π (fun n : ℕ => D.spaceTower.obj ⟨n⟩) n) h
   simp only [Triangle.mk_obj₁, Triangle.mk_obj₂, Triangle.mk_mor₁, Triangle.mk_mor₂,
-    Category.assoc, Pi.lift_π, zero_comp, Preadditive.comp_sub] at h'
+    Category.assoc, Pi.lift_comp_π, zero_comp, Preadditive.comp_sub] at h'
   simp only [derivedLimitProjection, Category.assoc]
   exact (sub_eq_zero.1 h').symm
 

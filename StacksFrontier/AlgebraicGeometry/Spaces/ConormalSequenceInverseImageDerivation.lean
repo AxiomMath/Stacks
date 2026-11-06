@@ -78,7 +78,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X X' Bb : AlgebraicSpaces B S hS} (b : X ⟶ Bb) (f : X' ⟶ X)
   (M : Modules.{u, u} B S hS X'.1 X'.2)
-  (D : ((modulePushforward B S hS f).obj M).val.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj M).val
     (structureSharpInverseImage B S hS b).hom)
 
 /-- Sections over an étale chart `W` of `X'` of the inverse image along `f : X' ⟶ X`, as a

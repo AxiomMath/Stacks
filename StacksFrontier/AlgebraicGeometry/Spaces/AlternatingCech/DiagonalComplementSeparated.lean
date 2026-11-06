@@ -109,7 +109,10 @@ theorem isSeparatedOver_of_mono {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f
 theorem isSeparatedOver_source_of_iso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : F ≅ G)
     (hG : IsSeparatedOver B S hS G) :
     IsSeparatedOver B S hS F :=
-  isSeparatedOver_of_mono B S hS e.hom inferInstance hG
+  isSeparatedOver_of_mono B S hS e.hom
+    ⟨fun g h w => by
+      rw [← Category.comp_id g, ← Category.comp_id h, ← e.hom_inv_id, ← Category.assoc, w,
+        Category.assoc]⟩ hG
 
 /-- **An object of the site whose represented presheaf is separated over `S` has separated
 structure morphism of schemes.** The structure morphism of the object to the terminal object of

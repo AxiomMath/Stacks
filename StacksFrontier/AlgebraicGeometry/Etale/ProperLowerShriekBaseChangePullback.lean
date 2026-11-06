@@ -586,12 +586,13 @@ def derivedFShriekBaseChangeIso {X Y X' Y' : B.Scheme} (p : X' ⟶ X) (f' : X' �
         (etaleModuleLift B Λ (fShriekFunctor.{u, u} B f')).mapDerivedCategory :=
   letI := locallyOfFiniteType_of_isPullback B p f' f g sq
   letI := locallyQuasiFinite_of_isPullback B p f' f g sq
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
       (etaleModuleLiftSquareIso B Λ (fShriekFunctor.{u, u} B f) (abPullback.{u, u} B g)
         (abPullback.{u, u} B p) (fShriekFunctor.{u, u} B f')
         (fShriekProperSupportBaseChangeIso B p f' f g sq)) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl (etaleModuleLift B Λ (abPullback.{u, u} B p) ⋙
-      etaleModuleLift B Λ (fShriekFunctor.{u, u} B f')))).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
+      (Iso.refl (etaleModuleLift B Λ (abPullback.{u, u} B p) ⋙
+        etaleModuleLift B Λ (fShriekFunctor.{u, u} B f')))).symm
 
 /-- The derived isomorphism of Stacks 0F55 at a complex is the underived one, read through the
 comparisons of the four exact functors with the localization functors. -/

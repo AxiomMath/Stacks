@@ -72,6 +72,19 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_groupoidObjectOfSpaces
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_groupoidObjectOfSpaces
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_groupoidObjectOfSpaces.has_limit _
+
 /-- **The composition of a groupoid in algebraic spaces, with the presheaf fibre product of its
 source and target named as the domain.**
 

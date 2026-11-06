@@ -265,8 +265,9 @@ theorem structuralMap_comp_restrictStructureMap :
 /-- The universal relative derivation of `f`, read on the opens of `X` that are images of
 opens of `U`. -/
 noncomputable def pushedDerivation :
-    ((PresheafOfModules.pushforward₀OfCommRingCat U.ι.opensFunctor X.presheaf).obj
-        (Scheme.Hom.relativeDifferentials f).val).Derivation
+    PresheafOfModulesOfCommRing.Derivation
+      ((PresheafOfModules.pushforward₀OfCommRingCat U.ι.opensFunctor X.presheaf).obj
+        (Scheme.Hom.relativeDifferentials f).val)
       (F := 𝟭 (Opens U.toScheme)) (restrictedStructuralMap f U) where
   d {W} := (Scheme.Hom.universalRelativeDerivation f).d (X := U.ι.opensFunctor.op.obj W)
   d_mul := fun {W} a b => (Scheme.Hom.universalRelativeDerivation f).d_mul
@@ -281,10 +282,11 @@ relative to the structural map of the restricted morphism. -/
 noncomputable def restrictedDerivation :
     SheafOfModules.SheafDerivation (inverseImageStructureMap (f.resLE V U e))
       (Scheme.Modules.restrict (Scheme.Hom.relativeDifferentials f) U.ι) := by
-  change ((PresheafOfModules.restrictScalars (Functor.whiskerRight (restrictStructureMap U)
+  change PresheafOfModulesOfCommRing.Derivation'
+    ((PresheafOfModules.restrictScalars (Functor.whiskerRight (restrictStructureMap U)
     (forget₂ CommRingCat RingCat))).obj
       ((PresheafOfModules.pushforward₀OfCommRingCat U.ι.opensFunctor X.presheaf).obj
-        (Scheme.Hom.relativeDifferentials f).val)).Derivation'
+        (Scheme.Hom.relativeDifferentials f).val))
           (inverseImageStructureMap (f.resLE V U e)).hom
   exact SheafDifferentials.compDeriv (pushedDerivation f U) (restrictStructureMap U)
     (basePullbackComparison f V U e).hom (structuralMap_comp_restrictStructureMap f V U e)
@@ -320,7 +322,7 @@ theorem fromRestrict_d (W : U.toScheme.Opens) (x : Γ(U.toScheme, W)) :
     ((fromRestrict f V U e).val.app (op W)).hom
         ((Scheme.Hom.universalRelativeDerivation (f.resLE V U e)).d x) =
       (Scheme.Hom.universalRelativeDerivation f).d (((U.ι.appIso W).inv).hom x) :=
-  PresheafOfModules.Derivation.congr_d (fromRestrict_spec f V U e) x
+  PresheafOfModulesOfCommRing.Derivation.congr_d (fromRestrict_spec f V U e) x
 
 /-- The commutative square formed by `f`, its restriction and the two inclusions. -/
 theorem resLE_square : U.ι ≫ f = f.resLE V U e ≫ V.ι :=
@@ -446,7 +448,7 @@ theorem hom_ext_of_postcomp {F : U.toScheme.Modules}
         (Scheme.Hom.relativeDifferentials f) F) g).val)).unique rfl ?_
   ext W a
   exact ((restrictAdjunction_homEquiv_d f V U e g' W.unop a).trans
-      (PresheafOfModules.Derivation.congr_d h.symm _)).trans
+      (PresheafOfModulesOfCommRing.Derivation.congr_d h.symm _)).trans
     (restrictAdjunction_homEquiv_d f V U e g W.unop a).symm
 
 /-- The two comparison morphisms compose to the identity of the relative differentials of

@@ -87,7 +87,7 @@ theorem rightDerivedFunctorPlus_linear_of_functorLinear (F : C ⥤ D) [F.Additiv
     functorLinear_of_map_smul_id R _ (HomotopyCategory.Plus.ι D) fun _ a =>
       (Functor.linear_iff (R := R) (F.mapHomotopyCategory (.up ℤ))).mp inferInstance _ a
   exact Functor.linear_of_isRightDerivedFunctor R (HomotopyCategory.Plus.quasiIso C)
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
 
 /-- **The homology functors of `D⁺(C)` are `R`-linear.** -/
 theorem plusHomologyFunctor_functorLinear (i : ℤ) :

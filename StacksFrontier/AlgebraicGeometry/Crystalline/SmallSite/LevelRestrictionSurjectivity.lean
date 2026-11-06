@@ -329,7 +329,7 @@ theorem surjective_abelianSheaf_map_of_isIso_toX [IsAffine S.X]
   intro y
   obtain ⟨x, hx⟩ := CohomologyRestriction.surjective_presheaf_map_of_isIso_toX F g hF hM hg hA hB
     y.down
-  exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+  exact ⟨ULift.up x, ULift.ext hx⟩
 
 /-- **The abelian form of hypothesis (2) of [Stacks, Tag 07JN]**, for an abelian sheaf `G` on
 `Cris(X/S)` at the coefficient universe `u + 1`: the transition map

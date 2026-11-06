@@ -51,6 +51,15 @@ attribute [local instance] Space.pointTopology
 
 variable (c : ContractionSituation B S hS)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
+local instance hasPullbacks_fppfSheaf_ContractionFormalObjectCompatibility :
+    HasPullbacks (FormalSpace.FppfSheaf B S hS) := inferInstance
+
+local instance (priority := high) hasPullback_fppfSheaf_ContractionFormalObjectCompatibility
+    {X Y Z : FormalSpace.FppfSheaf B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Algebraization of morphisms from completions of proper spaces over complete local bases
 into `X'`.** For every Noetherian complete local `S`-algebra `R` with residue field of finite type
 over `S`, every closed `Z ⊆ |Spec R|` containing the closed point, every algebraic space `Y`

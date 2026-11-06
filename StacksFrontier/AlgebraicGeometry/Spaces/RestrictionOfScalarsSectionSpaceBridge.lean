@@ -88,6 +88,21 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks in presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_RestrictionOfScalarsSectionSpaceBridge
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_RestrictionOfScalarsSectionSpaceBridge
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 section Bridge
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (U : BigFppfOver B S hS)
@@ -238,10 +253,10 @@ noncomputable def fibreSectionsEquiv {T : BigFppfOver B S hS} (τ : T ⟶ U) :
         have h1 : (fibreProdIso B S hS U Z₀ τ).hom ≫ σ₁.1 =
             (fibreProdIso B S hS U Z₀ τ).hom ≫ σ₂.1 :=
           yonedaEquiv.injective (congrArg Subtype.val h)
-        exact Subtype.ext ((cancel_epi (fibreProdIso B S hS U Z₀ τ).hom).1 h1)
+        exact Subtype.ext ((Iso.cancel_iso_hom_left (fibreProdIso B S hS U Z₀ τ) _ _).1 h1)
       · rintro ⟨t, ht⟩
         refine ⟨⟨(fibreProdIso B S hS U Z₀ τ).inv ≫ yonedaEquiv.symm t, ?_⟩, ?_⟩
-        · refine (cancel_epi (fibreProdIso B S hS U Z₀ τ).hom).1 ?_
+        · refine (Iso.cancel_iso_hom_left (fibreProdIso B S hS U Z₀ τ) _ _).1 ?_
           rw [fibreProdIso_hom_snd, Category.assoc, Iso.hom_inv_id_assoc]
           refine yonedaEquiv.injective ?_
           rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map, Equiv.apply_symm_apply, ht]
@@ -346,7 +361,7 @@ theorem fibreSection_injective {T : BigFppfOver B S hS} (τ : T ⟶ U) :
   intro σ₁ σ₂ h
   have h1 : (fibreProdIso B S hS U Z₀ τ).hom ≫ σ₁.1 =
       (fibreProdIso B S hS U Z₀ τ).hom ≫ σ₂.1 := yonedaEquiv.injective h
-  exact Subtype.ext ((cancel_epi (fibreProdIso B S hS U Z₀ τ).hom).1 h1)
+  exact Subtype.ext ((Iso.cancel_iso_hom_left (fibreProdIso B S hS U Z₀ τ) _ _).1 h1)
 
 /-! ### Functoriality of the fibre product -/
 
@@ -610,8 +625,8 @@ theorem bijective_relocalizedPair (T : (BigFppfOver B S hS)ᵒᵖ) :
       ((sectionSpaceEquiv B U.left.1 U.left.2 Z₀ (Over.mk ψ₁) W₀ w₀).injective
         (fibreSection_injective B S hS U Z₀ W₀ w₀ _
           (fibreLift_injective B S hS U Z₀ W₀ _
-            ((cancel_epi (isPullback_fibre B S hS U Z₀
-              (Over.homMk ψ₁ h₁ : T.unop ⟶ U)).isoPullback.inv).1 hl')))))
+            ((Iso.cancel_iso_inv_left (isPullback_fibre B S hS U Z₀
+              (Over.homMk ψ₁ h₁ : T.unop ⟶ U)).isoPullback _ _).1 hl')))))
   · intro p
     have hb : yoneda.map (yoneda.preimage p.base) = p.base := yoneda.map_preimage p.base
     have hover : p.lift ≫ relocalizedTotalHom B S hS U Z₀ W₀ w₀ =

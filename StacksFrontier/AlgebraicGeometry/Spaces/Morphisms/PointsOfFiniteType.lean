@@ -170,6 +170,17 @@ private theorem exists_affineOpen_isClosed_singleton {Z : Scheme.{u}} {z : Z}
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_finiteTypePoints :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_finiteTypePoints
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The definition -/
 
 /-- **Stacks 06EG.** A point of an algebraic space over `S` is a *finite type point* when some

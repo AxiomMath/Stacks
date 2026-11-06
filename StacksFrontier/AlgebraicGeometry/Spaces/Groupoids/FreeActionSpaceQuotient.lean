@@ -951,13 +951,11 @@ theorem isEtaleEquivalenceRelation_twistRelation (hetale : IsChartEtale φ) :
   have htgt : (relation B S hS (twistRelationSource hnat φ hrep hfree)
         (twistRelationTarget hnat φ hrep hfree)).target =
       (Over.post B.inclusion).map (twistRelationTarget hnat φ hrep hfree) := by
-    simp [Stacks.Groupoids.PreRelation.target]
-    rfl
+    simp only [Stacks.Groupoids.PreRelation.target, relation, prod.lift_fst]
   have hsrc : (relation B S hS (twistRelationSource hnat φ hrep hfree)
         (twistRelationTarget hnat φ hrep hfree)).source =
       (Over.post B.inclusion).map (twistRelationSource hnat φ hrep hfree) := by
-    simp [Stacks.Groupoids.PreRelation.source]
-    rfl
+    simp only [Stacks.Groupoids.PreRelation.source, relation, prod.lift_snd]
   have : IsEquivalenceRelation
       (relation B S hS (twistRelationSource hnat φ hrep hfree)
         (twistRelationTarget hnat φ hrep hfree)).target

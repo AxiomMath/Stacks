@@ -260,7 +260,7 @@ theorem exists_chartLiftSection {Bas : AlgebraicSpaces B S hS}
   refine ⟨yoneda.map ((SmallEtale.toOver B S hS X.1).map n₀) ≫ yoneda.map ψ₀ ≫ V₀.1.hom,
     (hlift V₀ _ ψ₀ hV₀ hψ₀).restrict B S hS n₀, fun V _ j ψ n hψ ↦ ?_, fun K' m s' hs' ↦ ?_⟩
   · exact yoneda_map_thickeningLiftChartSiteHom_eq B S hS Z hZ c a r hbase j j₀ ψ hψ ψ₀ hψ₀ K n n₀
-  · simpa using hs' V₀ _ ψ₀ (m ≫ n₀) hψ₀
+  · rw [← hs' V₀ _ ψ₀ (m ≫ n₀) hψ₀, Functor.map_comp, Functor.map_comp, Category.assoc]
 
 /-! ### The glued morphism -/
 

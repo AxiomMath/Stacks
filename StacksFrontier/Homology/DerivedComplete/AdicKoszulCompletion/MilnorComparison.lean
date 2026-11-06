@@ -108,15 +108,15 @@ private theorem milnor_triangle_transport
     apply Pi.hom_ext
     intro index
     dsimp only [sourceTriangle, targetTriangle, Triangle.mk_mor₁, productIso]
-    rw [Category.assoc, Pi.mapIso_hom_π, ← Category.assoc, Pi.lift_π,
-      Category.assoc, Pi.lift_π, projection_comm]
+    rw [Category.assoc, Pi.mapIso_hom_π, ← Category.assoc, Pi.lift_comp_π,
+      Category.assoc, Pi.lift_comp_π, projection_comm]
   have transitionSquare : sourceTriangle.mor₂ ≫ productIso.hom =
       productIso.hom ≫ targetTriangle.mor₂ := by
     apply Pi.hom_ext
     intro index
     dsimp only [sourceTriangle, targetTriangle, Triangle.mk_mor₂, productIso]
-    rw [Category.assoc, Pi.mapIso_hom_π, ← Category.assoc, Pi.lift_π,
-      Category.assoc, Pi.lift_π, Preadditive.sub_comp, Preadditive.comp_sub,
+    rw [Category.assoc, Pi.mapIso_hom_π, ← Category.assoc, Pi.lift_comp_π,
+      Category.assoc, Pi.lift_comp_π, Preadditive.sub_comp, Preadditive.comp_sub,
       Pi.mapIso_hom_π, ← Category.assoc, Pi.mapIso_hom_π]
     rw [Category.assoc, transition_comm, ← Category.assoc]
   have boundarySquare : sourceTriangle.mor₃ ≫ limitIso.hom⟦(1 : ℤ)⟧' =
@@ -166,21 +166,21 @@ private theorem map_milnor_triangle
     apply Pi.hom_ext
     intro index
     show (functor.map (Pi.lift projection) ≫ piComparison functor objects) ≫ _ = _
-    rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_π]
-    exact (Pi.lift_π (fun index => functor.map (projection index)) index).symm
+    rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_comp_π]
+    exact (Pi.lift_comp_π (fun index => functor.map (projection index)) index).symm
   have transitionSquare : mappedTriangle.mor₂ ≫ productIso.hom =
       productIso.hom ≫ targetTriangle.mor₂ := by
     apply Pi.hom_ext
     intro index
     show (functor.map (Pi.lift fun index => Pi.π objects index -
       Pi.π objects (index + 1) ≫ transition index) ≫ piComparison functor objects) ≫ _ = _
-    rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_π,
+    rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_comp_π,
       functor.map_sub, functor.map_comp]
     show _ = (piComparison functor objects ≫ (Pi.lift fun index =>
       Pi.π (fun index => functor.obj (objects index)) index -
         Pi.π (fun index => functor.obj (objects index)) (index + 1) ≫
           functor.map (transition index))) ≫ _
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, piComparison_comp_π,
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, piComparison_comp_π,
       ← Category.assoc, piComparison_comp_π]
   have boundarySquare : mappedTriangle.mor₃ ≫
       (Iso.refl mappedTriangle.obj₁).hom⟦(1 : ℤ)⟧' = productIso.hom ≫ targetTriangle.mor₃ := by

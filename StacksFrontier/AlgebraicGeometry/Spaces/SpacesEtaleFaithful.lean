@@ -45,6 +45,24 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_spacesEtaleFaithful :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_spacesEtaleFaithful
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_presheaf_spacesEtaleFaithful
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### The equalizer of two morphisms into an étale algebraic space -/
 
 section Equalizer
@@ -105,7 +123,7 @@ theorem eq_of_isSurjective_of_isEtale (h𝒴 : IsAlgebraicSpace B S hS 𝒴)
           (isOpenImmersion_of_isPullback_presheaf B S hS
             (IsPullback.of_hasPullback g _).flip hincl)))
       hsurj
-  exact (cancel_epi _).mp (hα.trans hβ.symm)
+  exact (@cancel_epi _ _ _ _ _ _ (IsIso.epi_of_iso _) _ _).mp (hα.trans hβ.symm)
 
 end Equalizer
 

@@ -87,8 +87,8 @@ theorem eq_zero_of_map_eq_zero_of_mono_unit (Q : ModuleCat.{u + 1} Λ → Prop)
     (hG : Stacks.ConstantSheaf.IsLocallyConstantWith Λ V₀.smallEtaleTopology Q
       ((etaleModuleInverseImage.{u, 0} Λ i).obj G))
     (hη : Mono ((etaleModuleInverseImageAdj.{u, 0} Λ i).unit.app G))
-    {V W : X.Etale} [IsIso V.hom] [Nonempty W.left] (g : W ⟶ V) (t : G.val.obj (op V))
-    (ht : (G.val.map g.op).hom t = 0) : t = 0 := by
+    {V W : X.Etale} [IsIso V.hom] [Nonempty W.left] (g : W ⟶ V) (t : G.obj.obj (op V))
+    (ht : (G.obj.map g.op).hom t = 0) : t = 0 := by
   let M := (etaleModuleInverseImage.{u, 0} Λ i).obj G
   let B := smallEtaleBaseChange i
   have : ConnectedSpace (B.obj V).left := by
@@ -107,13 +107,13 @@ soon as they vanish on a nonempty étale `X`-scheme. -/
 theorem extensionByZero_section_eq_zero_of_forall_map_eq_zero {X Y : Scheme.{u}} (j : X ⟶ Y)
     [IsOpenImmersion j] (hj : ¬ IsClosed (Set.range j)) (G : EtaleModules.{u, 0} Λ X)
     (hZ : ∀ {V W : X.Etale} [IsIso V.hom] [Nonempty W.left] (g : W ⟶ V)
-      (t : G.val.obj (op V)), (G.val.map g.op).hom t = 0 → t = 0)
-    (s : ((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).val.obj
+      (t : G.obj.obj (op V)), (G.obj.map g.op).hom t = 0 → t = 0)
+    (s : ((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).obj.obj
       (op (Scheme.Etale.mk (𝟙 Y)))) : s = 0 := by
   obtain ⟨z, hzc, hzr⟩ : ∃ z, z ∈ closure (Set.range j) ∧ z ∉ Set.range j :=
     Set.not_subset.1 fun h => hj (closure_subset_iff_isClosed.1 h)
   let T : Y.Etale := Scheme.Etale.mk (𝟙 Y)
-  let P := (Scheme.Etale.smallEtaleCompose j).op.lan.obj G.val
+  let P := (Scheme.Etale.smallEtaleCompose j).op.lan.obj G.obj
   have : Y.smallEtaleTopology.WEqualsLocallyBijective (ModuleCat.{u + 1} Λ) :=
     Stacks.ConstantSheaf.wEqualsLocallyBijective_moduleCat.{u, u + 1, u + 1, 0} _ Λ
   have hls : Presheaf.IsLocallySurjective.{u, u + 1, u + 1, u + 2, u + 1, u + 1}
@@ -138,10 +138,10 @@ theorem extensionByZero_section_eq_zero_of_forall_map_eq_zero {X Y : Scheme.{u}}
     have : IsEmpty (W ⟶ Scheme.Etale.smallEtaleSource j) := ⟨fun φ => hzr ⟨φ.left y, by
       rw [← hWz, ← MorphismProperty.Over.w φ]
       rfl⟩⟩
-    refine IsZero.of_iso ?_ (extensionByZeroPresheafSectionIso j G.val W).symm
+    refine IsZero.of_iso ?_ (extensionByZeroPresheafSectionIso j G.obj W).symm
     rw [IsZero.iff_id_eq_zero]
     exact Sigma.hom_ext _ _ fun b => isEmptyElim b
-  have hsW : (((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).val.map g.op).hom s = 0 := by
+  have hsW : (((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).obj.map g.op).hom s = 0 := by
     rw [show p = 0 from (ModuleCat.subsingleton_of_isZero hP).elim p 0, map_zero] at hp
     exact hp.symm
   let ε := (etaleModuleExtensionByZeroToDirectImage.{u, 0} Λ j).app G
@@ -167,7 +167,7 @@ theorem isZero_homology_zero_derivedLowerShriek_of_forall_map_eq_zero
     (j : CompactificationOf (Over.mk f))
     (hj : ¬ IsClosed (Set.range j.immersion)) (G : EtaleModules.{u, 0} Λ X)
     (hZ : ∀ {V W : X.Etale} [IsIso V.hom] [Nonempty W.left] (g : W ⟶ V)
-      (t : G.val.obj (op V)), (G.val.map g.op).hom t = 0 → t = 0) :
+      (t : G.obj.obj (op V)), (G.obj.map g.op).hom t = 0 → t = 0) :
     IsZero ((DerivedCategory.Plus.homologyFunctor _ 0).obj
       ((derivedLowerShriek.{u, 0} f j Λ).obj
         ((DerivedCategory.Plus.singleFunctor _ 0).obj G))) := by

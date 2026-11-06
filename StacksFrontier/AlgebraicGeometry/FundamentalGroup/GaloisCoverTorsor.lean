@@ -37,11 +37,11 @@ variable {G : Type v} [Group G] [Finite G] {P T W : Scheme.{u}} (π : P ⟶ T)
 
 omit [Finite G] in
 /-- Each automorphism `a (op σ)` of `π` lies over `T`. -/
-lemma twist_comp_eq (σ : G) : (a (.op σ)).hom.left ≫ π = π := Over.w (a (.op σ)).hom
+lemma twist_comp_eq (σ : G) : (a (.op σ)).asIso.hom.left ≫ π = π := Over.w (a (.op σ)).asIso.hom
 
 /-- The `σ`-translate of a section `s` of the base change of `π` along `s ≫ π`. -/
 def translateSection (σ : G) : W ⟶ pullback (s ≫ π) π :=
-  pullback.lift (𝟙 W) (s ≫ (a (.op σ)).hom.left) (by
+  pullback.lift (𝟙 W) (s ≫ (a (.op σ)).asIso.hom.left) (by
     rw [Category.id_comp, Category.assoc, twist_comp_eq])
 
 omit [Finite G] in
@@ -49,7 +49,7 @@ omit [Finite G] in
 lemma isPullback_translateSection (σ : G) :
     IsPullback (translateSection π a s σ) s
       (pullback.map (s ≫ π) π π π s (𝟙 P) (𝟙 T) (by simp) (by simp))
-      (pullback.lift (𝟙 P) (a (.op σ)).hom.left (by
+      (pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left (by
         rw [Category.id_comp, twist_comp_eq])) := by
   let m := pullback.map (s ≫ π) π π π s (𝟙 P) (𝟙 T) (by simp) (by simp)
   have hright : IsPullback (pullback.fst (s ≫ π) π) m s (pullback.fst π π) := by
@@ -61,14 +61,14 @@ lemma isPullback_translateSection (σ : G) :
       hm ▸ (IsPullback.of_hasPullback (s ≫ π) π).flip
     exact (IsPullback.of_right hbig hm' (IsPullback.of_hasPullback π π).flip).flip
   have hw : translateSection π a s σ ≫ m =
-      s ≫ pullback.lift (𝟙 P) (a (.op σ)).hom.left (by rw [Category.id_comp, twist_comp_eq]) := by
+      s ≫ pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left (by rw [Category.id_comp, twist_comp_eq]) := by
     apply pullback.hom_ext
     · simp only [translateSection, m, pullback.map, Category.assoc, pullback.lift_fst,
         pullback.lift_fst_assoc, Category.id_comp, Category.comp_id]
     · simp only [translateSection, m, pullback.map, Category.assoc, pullback.lift_snd,
         Category.comp_id]
   have ho : IsPullback (translateSection π a s σ ≫ pullback.fst (s ≫ π) π) s s
-      (pullback.lift (𝟙 P) (a (.op σ)).hom.left (by rw [Category.id_comp, twist_comp_eq]) ≫
+      (pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left (by rw [Category.id_comp, twist_comp_eq]) ≫
         pullback.fst π π) := by
     rw [translateSection, pullback.lift_fst, pullback.lift_fst]
     exact IsPullback.id_horiz s
@@ -80,7 +80,7 @@ change of `π` along `s ≫ π`. -/
 theorem isIso_sigmaDesc_translateSection
     [IsIso (Stacks.Descent.galoisCoverComparison π a)] :
     IsIso (Limits.Sigma.desc (translateSection π a s)) := by
-  let c := Cofan.mk (pullback π π) (fun σ : G ↦ pullback.lift (𝟙 P) (a (.op σ)).hom.left (by
+  let c := Cofan.mk (pullback π π) (fun σ : G ↦ pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left (by
     rw [Category.id_comp, twist_comp_eq]))
   have hc : Nonempty (IsColimit c) := (Cofan.nonempty_isColimit_iff_isIso_sigmaDesc c).mpr
     ‹IsIso (Stacks.Descent.galoisCoverComparison π a)›
@@ -137,7 +137,7 @@ theorem exists_iso_sigma_of_lift [IsIso (Stacks.Descent.galoisCoverComparison π
 point, then every lift `t` of `s ≫ π` through `π` is the translate of `s` by a unique `σ ∈ G`. -/
 theorem existsUnique_comp_twist [IsIso (Stacks.Descent.galoisCoverComparison π a)]
     [Subsingleton W] [Nonempty W] (t : W ⟶ P) (ht : t ≫ π = s ≫ π) :
-    ∃! σ : G, s ≫ (a (.op σ)).hom.left = t := by
+    ∃! σ : G, s ≫ (a (.op σ)).asIso.hom.left = t := by
   classical
   have := isIso_sigmaDesc_translateSection π a s
   let E := asIso (Limits.Sigma.desc (translateSection π a s))

@@ -320,7 +320,7 @@ theorem isDerivedComplete_derivedSectionsOverObject
   intro a ha
   obtain ⟨n, hn⟩ := isNilpotent_of_mem_localIdeal X 𝓘 U f hgen.1 hnil a ha
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow, hn, zero_smul]
+  rw [smul_pow, hn, zero_smul]
 
 end Nilpotent
 

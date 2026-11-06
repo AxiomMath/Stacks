@@ -1,5 +1,6 @@
 module
 
+import Mathlib.Algebra.Module.SpanRankOperations
 import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal

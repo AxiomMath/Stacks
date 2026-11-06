@@ -57,14 +57,15 @@ variable {X Y : AlgebraicSpaces B S hS}
 pointwise addition.  This is `AlgebraicGeometry.SheafOfModules.derivationAddCommGroup`, stated at
 the spelling of the ring sheaf of `Modules`, which instance search does not unfold. -/
 instance derivationAddCommGroupModules.{m} (f : X ⟶ Y) (F : Modules.{u, m} B S hS X.1 X.2) :
-    AddCommGroup (F.val.Derivation' (structureSharpInverseImage B S hS f).hom) :=
+    AddCommGroup
+      (PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom) :=
   AlgebraicGeometry.SheafOfModules.derivationAddCommGroup (M := F.val) _
 
 /-- **The universal property of `Ω_{X/Y}`, additively.**  Postcomposition with the universal
 derivation `d_{X/Y}` is an isomorphism of abelian groups `Hom(Ω_{X/Y}, F) ≃+ Der_Y(𝒪_X, F)`. -/
 def differentialsHomAddEquiv (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
     (sheafOfDifferentials B S hS f ⟶ F) ≃+
-      F.val.Derivation' (structureSharpInverseImage B S hS f).hom :=
+      PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom :=
   { differentialsHomEquiv B S hS f F with
     map_add' := fun g h => by ext U x; rfl }
 
@@ -79,9 +80,10 @@ theorem differentialsHomAddEquiv_apply (f : X ⟶ Y) (F : Modules.{u, u} B S hS 
 the sections of `F` raised to a larger universe is a derivation with values in `F`: both are
 compatible families of additive maps into the same groups, up to `ULift`. -/
 def derivationULiftAddEquiv (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
-    ((Stacks.SheafOfModules.moduleULift.{u + 1, u} _).obj F).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+        ((Stacks.SheafOfModules.moduleULift.{u + 1, u} _).obj F).val
         (structureSharpInverseImage B S hS f).hom ≃+
-      F.val.Derivation' (structureSharpInverseImage B S hS f).hom where
+      PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom where
   toFun D :=
     { d := fun {U} =>
         { toFun := fun x => (D.d (X := U) x).down
@@ -115,7 +117,7 @@ def siteDifferentialsHomAddEquiv (f : X ⟶ Y) (G : NaiveCotangentModules B S hS
     (AlgebraicGeometry.SheafOfModules.moduleOfDifferentialsOfSite.{u, u + 1, u, u}
         (inverseImageStructureSheaf B S hS f) (smallEtaleRingedTopos B S hS X).O
         (structureSharpInverseImage B S hS f) ⟶ G) ≃+
-      G.val.Derivation' (structureSharpInverseImage B S hS f).hom :=
+      PresheafOfModulesOfCommRing.Derivation' G.val (structureSharpInverseImage B S hS f).hom :=
   AddEquiv.ofBijective
     (AddMonoidHom.mk' (fun g => (SheafOfModules.universalDerivationOfSite.{u, u + 1, u, u}
           (inverseImageStructureSheaf B S hS f) (smallEtaleRingedTopos B S hS X).O
@@ -140,7 +142,7 @@ coefficient of the `Ext` group being `F` with its sections raised to the univers
 def naiveCotangentExtZeroAddEquivDerivations (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
     DerivedCategory.Ext (DerivedCategory.Q.obj (naiveCotangentComplex B S hS f))
         ((DerivedCategory.singleFunctor _ 0).obj (naiveCotangentCoefficient B S hS F)) 0 ≃+
-      F.val.Derivation' (structureSharpInverseImage B S hS f).hom :=
+      PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom :=
   ((Stacks.SheafOfModules.naiveCotangentExtZeroAddEquiv.{u, u + 1, u, u, w}
       (SmallEtale.topology B S hS X.1) (inverseImageStructureSheaf B S hS f)
       (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f)

@@ -430,7 +430,7 @@ private theorem replaceOnOpenLift_comp_fst_pi_π {ι : Type v} [Finite ι] [Smal
         (SheafOfModules.pushforwardSections (f i).toRingCatSheafHom (s i)) :=
   ((Category.assoc _ _ _).symm.trans
     (congrArg (· ≫ Pi.π (fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) i)
-      (replaceOnOpenLift_fst (closedCoverSection Z f L s) W))).trans (Pi.lift_π _ _)
+      (replaceOnOpenLift_fst (closedCoverSection Z f L s) W))).trans (Pi.lift_comp_π _ _)
 
 /-- The component comparisons carry the patched section to the prescribed sections. -/
 public theorem patchedClosedCoverComparison_section {ι : Type v} [Finite ι] [Small.{u} ι]
@@ -696,7 +696,7 @@ public theorem isIso_closedCoverSection_over {ι : Type v} [Finite ι] [Small.{u
   have he : closedCoverSection Z f L s ≫ Pi.π A i =
       SheafOfModules.unitToPushforwardObjUnit (f i).toRingCatSheafHom ≫
         (Scheme.Modules.pushforward (f i)).map ((L i).unitHomEquiv.symm (s i)) :=
-    (Pi.lift_π (f := fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) _ i).trans
+    (Pi.lift_comp_π (f := fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) _ i).trans
       (unitHomEquiv_symm_pushforwardSections (f i) (L i) (s i))
   have he' := congrArg (fun a => a.over (U ⊓ W)) he
   change (closedCoverSection Z f L s).over (U ⊓ W) ≫ (Pi.π A i).over (U ⊓ W) =

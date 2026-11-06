@@ -118,8 +118,9 @@ theorem eq_of_twoIso_yoneda {Y : AlgebraicSpaces B S hS} {R : BigFppfOver B S hS
     (ObjectProperty.homMk k₁ :
       (⟨yoneda.obj R, isAlgebraicSpace_yoneda B S hS R⟩ : AlgebraicSpaces B S hS) ⟶ Y)
     (ObjectProperty.homMk k₂) t
-  simpa using congrArg CategoryTheory.InducedCategory.Hom.hom h
+  exact congrArg CategoryTheory.InducedCategory.Hom.hom h
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A morphism out of a surjective étale atlas descends when its two restrictions to a kernel
 pair induce 2-isomorphic morphisms of small étale ringed topoi.**
 
@@ -156,6 +157,7 @@ theorem existsUnique_hom_of_atlas_twoIso {X Y : AlgebraicSpaces B S hS}
   ext : 1
   simpa using hu a.hom ha
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A family of morphisms to an algebraic space `Y`, given on the affine étale charts of a
 sheaf `F` and compatible up to 2-isomorphism, glues to a morphism `F ⟶ Y`.**
 

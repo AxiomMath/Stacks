@@ -445,10 +445,19 @@ theorem isZero_derivedZariskiDirectImageFunctor_obj_of_termwise
     (hzero : ∀ n : ℤ, IsZero ((derivedZariskiDirectImage S).obj (K.obj.X n))) :
     IsZero ((derivedZariskiDirectImageFunctor S).obj
       (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient _).obj K))) := by
-  have hunit : IsIso ((zariskiDirectImage S).rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.quotient _).obj K)) :=
-    Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic (zariskiDirectImage S) K.obj
-      K.property fun n ↦ rightAcyclic_zariskiDirectImage_of_isZero S (hzero n)
+  have hunit : IsIso ((zariskiDirectImage S).rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.quotient _).obj K)) := by
+    have hβ := Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic (zariskiDirectImage S)
+      K.obj K.property fun n ↦ rightAcyclic_zariskiDirectImage_of_isZero S (hzero n)
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      (zariskiDirectImage S).rightDerivedFunctorPlus
+      (zariskiDirectImage S).rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso _) _
+      (((zariskiDirectImage S).mapHomotopyCategoryPlus ⋙
+        DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _))).1 inferInstance
+    rw [← Functor.rightDerived_fac_app (zariskiDirectImage S).rightDerivedFunctorPlus
+      (zariskiDirectImage S).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _)] at hβ
+    rwa [isIso_comp_right_iff] at hβ
   have hmap : IsZero (((zariskiDirectImage S).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj K.obj) := by
     rw [IsZero.iff_id_eq_zero]
@@ -464,7 +473,7 @@ theorem isZero_derivedZariskiDirectImageFunctor_obj_of_termwise
   exact IsZero.of_iso
     (Functor.map_isZero DerivedCategory.Plus.Qh
       (Functor.map_isZero (HomotopyCategory.Plus.quotient _) hplus))
-    (asIso ((zariskiDirectImage S).rightDerivedFunctorPlusUnit.app
+    (asIso ((zariskiDirectImage S).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient _).obj K))).symm
 
 /-! ### The leading assertion of [Stacks, Tag 07LM] -/

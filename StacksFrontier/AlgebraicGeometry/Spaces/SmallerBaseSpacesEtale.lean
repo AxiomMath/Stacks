@@ -124,6 +124,7 @@ theorem smallerBasePresheafEquivalence_obj_hom (F : (BigFppfOver B W hW)ᵒᵖ �
   ext T x
   exact Over.OverMorphism.ext rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **`Λ_h` is full over `h_W`**: a morphism `Λ_h F ⟶ Λ_h G` of presheaves over `S` compatible with
 the structural morphisms to the representable presheaf of `h` is `Λ_h` of a morphism `F ⟶ G`. This
 is the fullness of the equivalence of Stacks 04SG on presheaves. -/
@@ -154,7 +155,7 @@ instance smallerBaseSpacesEtaleFunctor_full : (smallerBaseSpacesEtaleFunctor B h
     have hw : φ.hom.left.hom ≫ Λ.map T'.1.hom.hom ≫ ε.hom = Λ.map T.1.hom.hom ≫ ε.hom :=
       congrArg (fun k => k.hom) (Over.w φ.hom)
     have hw' : φ.hom.left.hom ≫ Λ.map T'.1.hom.hom = Λ.map T.1.hom.hom := by
-      exact (cancel_mono ε.hom).1 ((Category.assoc _ _ _).trans hw)
+      exact (Iso.cancel_iso_hom_right _ _ ε).1 ((Category.assoc _ _ _).trans hw)
     have hφ : φ.hom.left.hom ≫ OverShriek.relocalizeToYoneda h T'.1.left.1 =
         OverShriek.relocalizeToYoneda h T.1.left.1 := by
       exact (congrArg (φ.hom.left.hom ≫ ·)

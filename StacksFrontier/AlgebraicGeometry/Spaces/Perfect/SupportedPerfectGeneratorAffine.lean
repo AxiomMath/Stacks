@@ -518,6 +518,13 @@ section Affine
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_supportedPerfectGeneratorAffine
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0AEC on a represented affine algebraic space** (the case of an affine scheme of
 Stacks 0A9A, carried to the small étale site). -/
 theorem exists_isSupportedPerfectGenerator_represented (V₀ : BigFppfOver B S hS)

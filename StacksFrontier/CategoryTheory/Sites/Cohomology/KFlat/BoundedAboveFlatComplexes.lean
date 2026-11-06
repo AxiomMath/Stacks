@@ -341,6 +341,12 @@ theorem kFlat_of_boundedAbove_of_flat
       (Stacks.SheafOfModules.Tensor.ringSheaf R)
   have : AB5OfSize.{0, 0} A := AB5OfSize_shrink A
   have : HasExactColimitsOfShape ℕ A := inferInstance
+  have : HasColimitsOfSize.{w, w} A := inferInstance
+  have hC0 : HasColimitsOfSize.{0, 0} A := hasColimitsOfSizeShrink.{0, 0, w, w} A
+  have : ∀ K : HomologicalComplex₂ A (ComplexShape.up ℤ) (ComplexShape.up ℤ),
+      K.HasTotal (ComplexShape.up ℤ) :=
+    fun _ _ => (hC0.has_colimits_of_shape _).has_colimit _
+  have : HasCoproducts.{0} A := fun _ => hC0.has_colimits_of_shape _
   let D := truncLESequence L
   let G := (((Stacks.SheafOfModules.Tensor.sheafTensor R).flip.mapBifunctorHomologicalComplex
     (ComplexShape.up ℤ) (ComplexShape.up ℤ)).obj K)

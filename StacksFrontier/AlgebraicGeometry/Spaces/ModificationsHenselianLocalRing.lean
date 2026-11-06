@@ -121,6 +121,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimit_cospan_presheaf_modificationsHenselian
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### Modifications of finite presentation -/
 
 /-- An algebraic space over `W`, of finite presentation over `W` and unchanged over `W₀`. -/

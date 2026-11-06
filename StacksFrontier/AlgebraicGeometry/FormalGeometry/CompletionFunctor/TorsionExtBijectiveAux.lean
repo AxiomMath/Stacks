@@ -96,8 +96,8 @@ naturality of `Stacks.Algebraization.restrictedScalar` needs. -/
 public theorem smulEnd_naturality {X : Scheme.{u}} (M : X.Modules) {A B : X.Opens}
     (g : B ⟶ A) (rA : Γ(X, A)) (rB : Γ(X, B))
     (hr : (X.presheaf.map g.op).hom rA = rB) (x : Γ(M, A)) :
-    (M.smul rB).hom ((M.presheaf.map g.op).hom x) =
-      (M.presheaf.map g.op).hom ((M.smul rA).hom x) := by
+    (M.smul rB).asHom.hom ((M.presheaf.map g.op).hom x) =
+      (M.presheaf.map g.op).hom ((M.smul rA).asHom.hom x) := by
   rw [Scheme.Modules.smul_apply, Scheme.Modules.smul_apply, Scheme.Modules.map_smul, hr]
 
 /-- Multiplication by a section `r` of `𝒪_X` over an open `U`, as an endomorphism of the
@@ -111,10 +111,10 @@ public def restrictedScalar {X : Scheme.{u}} (U : X.Opens) (r : Γ(X, U))
         M.val.obj (op (U.ι ''ᵁ V.unop)) ⟶ M.val.obj (op (U.ι ''ᵁ V.unop)))
   val.naturality {V W} f := by
     ext x
-    change (M.smul (X.presheaf.map (homOfLE (U.ι_image_le W.unop)).op r)).hom
+    change (M.smul (X.presheaf.map (homOfLE (U.ι_image_le W.unop)).op r)).asHom.hom
       (M.presheaf.map (U.ι.opensFunctor.map f.unop).op x) =
       M.presheaf.map (U.ι.opensFunctor.map f.unop).op
-        ((M.smul (X.presheaf.map (homOfLE (U.ι_image_le V.unop)).op r)).hom x)
+        ((M.smul (X.presheaf.map (homOfLE (U.ι_image_le V.unop)).op r)).asHom.hom x)
     exact smulEnd_naturality M ((Scheme.Hom.opensFunctor U.ι).map f.unop) _ _
       (by rw [← CommRingCat.comp_apply, ← X.presheaf.map_comp]; rfl) x
 

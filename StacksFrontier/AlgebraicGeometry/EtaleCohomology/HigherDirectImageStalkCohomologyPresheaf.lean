@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Comparison.HigherDirectImage
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.PullbackStalk.SitePoint

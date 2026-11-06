@@ -180,7 +180,8 @@ theorem isPullback_thickeningImmersion :
     (E.presentation_target_comp_chartInclusionOver P hU hR)
     (E.isPullback_presentation_chartInclusion P hU hR)
   refine sq.of_iso (Iso.refl _) (presentationQuotientIso P) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · simpa using quotientMap_comp_presentationQuotientIso_hom P
+  · simp only [Iso.refl_hom, Category.id_comp]
+    exact (quotientMap_comp_presentationQuotientIso_hom P)
   · simp
   · exact (Category.comp_id _).trans (Iso.hom_inv_id_assoc _ _).symm
   · exact (Category.comp_id _).trans (Category.id_comp _).symm

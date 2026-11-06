@@ -77,6 +77,10 @@ noncomputable abbrev thickeningLiftRingSheafAt :=
 theorem thickeningLiftRingSheafAt_mul_comm {V : (SmallEtale B S hS T.1)ᵒᵖ}
     (s t : (thickeningLiftRingSheafAt B S hS Z T e).obj.obj V) :
     s * t = t * s :=
+  haveI : PreservesFiniteProducts
+      (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X Z)).inverseImage :=
+    haveI := (smallToposMorphismTypeU B S hS (subspaceInclusion B S hS X Z)).preservesFiniteLimits
+    ⟨fun _ => inferInstance⟩
   pullback_sections_mul_comm
     (R := structureRingSheafInverseImage B S hS (subspaceInclusion B S hS X Z))
     (SmallEtale.topology B S hS T.1)

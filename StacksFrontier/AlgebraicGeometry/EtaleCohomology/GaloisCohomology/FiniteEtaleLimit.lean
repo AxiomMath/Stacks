@@ -197,6 +197,9 @@ theorem ofHom_etaleCohomologyPullback_ofCoconeLeg_comp
   ext y
   exact etaleCohomologyPullback_ofCoconeLeg_comp ι hι c g hg a G q y
 
+-- The kernel check of the final step (identifying the zero of `AddCommGrpCat.of (Sheaf.H _ q)`
+-- with that of `Sheaf.H _ q`) needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
 include hι hg in
 /-- **Injectivity on the limit from injectivity at the stages.** If the cohomology of the system of
 inverse images `ι_i⁻¹ G` has the cohomology of `g⁻¹ G` as colimit and every pullback
@@ -216,13 +219,17 @@ theorem injective_etaleCohomologyPullback_of_isSystemColimit [IsDirected I (· �
   rw [injective_iff_map_eq_zero]
   intro x hx
   obtain ⟨i₀⟩ := (inferInstance : Nonempty I)
+  have hx' := (AddCommGrpCat.ofHom_apply (etaleCohomologyPullback (c.π.app (op i₀))
+      (EtaleSheafSystem.ofCoconeLeg ι hι c g hg G (op i₀)) q)
+      (etaleCohomologyPullback (ι (op i₀)) (𝟙 _) q x)).trans
+    ((etaleCohomologyPullback_π_app_etaleCohomologyPullback ι c g hg (op i₀) G q x).trans hx)
   obtain ⟨j, a, ha⟩ := IsSystemColimit.exists_eq_zero
     (fun a b => ofHom_etaleCohomologyPullback_ofCocone_map_comp ι hι G q a b)
     (fun a => ofHom_etaleCohomologyPullback_ofCoconeLeg_comp ι hι c g hg G q a) hcoh
-    (i := op i₀) (etaleCohomologyPullback (ι (op i₀)) (𝟙 _) q x)
-    ((etaleCohomologyPullback_π_app_etaleCohomologyPullback ι c g hg (op i₀) G q x).trans hx)
-  have ha' : etaleCohomologyPullback (D.map a) ((EtaleSheafSystem.ofCocone ι hι G).map a) q
-      (etaleCohomologyPullback (ι (op i₀)) (𝟙 _) q x) = 0 := ha
+    (i := op i₀) _ hx'
+  have ha' := ((AddCommGrpCat.ofHom_apply
+    (etaleCohomologyPullback (D.map a) ((EtaleSheafSystem.ofCocone ι hι G).map a) q)
+      (etaleCohomologyPullback (ι (op i₀)) (𝟙 _) q x)).symm.trans ha)
   rw [etaleCohomologyPullback_ofCocone_map ι hι a G q x] at ha'
   exact (injective_iff_map_eq_zero _).mp (hinj j) x ha'
 

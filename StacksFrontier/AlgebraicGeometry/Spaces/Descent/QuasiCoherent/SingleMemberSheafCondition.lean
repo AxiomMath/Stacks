@@ -207,7 +207,7 @@ theorem isSheaf_of_isSheaf_singleInclusion (Q : (SingleSite B S hS g hg)ᵒᵖ �
       InducedCategory.hom_ext (twist_factorization B S hS g hg k.hom)⟩
   have hj : T.arrows ((singleInclusion B S hS g hg).map h) := by
     simpa using T.downward_closed hk i.inv
-  exact (FunctorToTypes.map_comp_apply Q _ i.hom.op t).trans <|
+  exact (Q.map_comp_apply _ i.hom.op t).trans <|
     (congrArg (Q.map i.hom.op) (ht h hj)).trans
     (hxs ((singleInclusion B S hS g hg).map h) i.hom hj).symm
 

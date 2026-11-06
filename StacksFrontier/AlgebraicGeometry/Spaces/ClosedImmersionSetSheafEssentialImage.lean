@@ -164,13 +164,13 @@ theorem nonempty_isTerminal_presheafFiber_of_chartPreimage_eq_empty (i : Z ⟶ X
     hP V (Set.eq_empty_iff_forall_notMem.2 fun y hy ↦ by
       simpa [hM] using chartPreimage_subset_preimage B S hS i g hy)
   obtain ⟨hterm⟩ := hN M.chart (𝟙 _)
-  let Nel : Φ.fiber.Elements := ⟨M.chart, ⟨M.point, M.point_comp⟩⟩
+  let Nel : Φ.fiber.Elements := Φ.fiber.elementsMk M.chart ⟨M.point, M.point_comp⟩
   let d := (Types.isTerminalEquivUnique _ hterm).default
   refine ⟨(Types.isTerminalEquivUnique _).symm
     ⟨⟨Φ.toPresheafFiber Nel.1 Nel.2 P d⟩, fun a ↦ ?_⟩⟩
   obtain ⟨V, t, y, z, hy, hz⟩ := Φ.toPresheafFiber_jointly_surjective₂ (P := P) a
     (Φ.toPresheafFiber Nel.1 Nel.2 P d)
-  let T : Φ.fiber.Elements := ⟨V, t⟩
+  let T : Φ.fiber.Elements := Φ.fiber.elementsMk V t
   let W := IsCofiltered.min (C := Φ.fiber.Elements) T Nel
   let l : W ⟶ T := IsCofiltered.minToLeft T Nel
   let r : W ⟶ Nel := IsCofiltered.minToRight T Nel
@@ -245,7 +245,7 @@ theorem smallEtalePushforward_essImage_iff_of_isClosedImmersion (i : Z ⟶ X)
         infer_instance
       · exact isIso_of_isTerminal
           ((nonempty_isTerminal_presheafFiber_of_chartPreimage_eq_empty
-            B S hS i hi x hx F.val h).some)
+            B S hS i hi x hx F.obj h).some)
           ((nonempty_isTerminal_presheafFiber_of_chartPreimage_eq_empty
             B S hS i hi x hx _ fun V hV ↦
               nonempty_isTerminal_smallEtaleDirectImage_obj_of_chartPreimage_eq_empty

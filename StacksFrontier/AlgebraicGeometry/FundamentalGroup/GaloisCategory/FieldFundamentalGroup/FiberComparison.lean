@@ -125,7 +125,7 @@ private theorem fieldEtalePointIso_smul
     (x : ((fieldEtaleEquivalence K L).functor.obj X).obj.obj.V) :
     (fieldEtalePointIso K L X
         (ConcreteCategory.hom
-          (((fieldEtaleEquivalence K L).functor.obj X).obj.obj.ρ σ) x)).left =
+          (((fieldEtaleEquivalence K L).functor.obj X).obj.obj.ρ σ).asHom x)).left =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
         (fieldEtalePointIso K L X x).left :=
   (Classical.choose_spec (Classical.choose_spec
@@ -432,7 +432,7 @@ public theorem separableFiberEquiv_smul
     (y : ((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.V) :
     (separableFiberEquiv K L Ω Y
       (ConcreteCategory.hom
-        (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ) y)).1 =
+        (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ).asHom y)).1 =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
         (separableFiberEquiv K L Ω Y y).1 := by
   classical
@@ -445,9 +445,9 @@ public theorem separableFiberEquiv_smul
   have h := fieldEtalePointIso_smul K L Y' σ y'
   have hsmul :
       ConcreteCategory.hom
-          (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ) y =
+          (((finiteEtaleEquivalenceGaloisSets K L Ω).functor.obj Y).obj.ρ σ).asHom y =
         ConcreteCategory.hom
-          (((fieldEtaleEquivalence K L).functor.obj Y').obj.obj.ρ σ) y' := rfl
+          (((fieldEtaleEquivalence K L).functor.obj Y').obj.obj.ρ σ).asHom y' := rfl
   rw [separableFiberEquiv_apply_eq_pointEquiv K L Ω Y, hsmul,
     separableFiberEquiv_apply_eq_pointEquiv K L Ω Y]
   exact h

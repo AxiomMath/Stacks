@@ -140,7 +140,8 @@ variable {T : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf
   {R₁ R₂ : (SmallEtale B S hS (yoneda.obj U))ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ₁ : R₁ ⟶ (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj}
   {ψ₂ : R₂ ⟶ (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj}
-  (D₁ : T.val.Derivation' ψ₁) (D₂ : T.val.Derivation' ψ₂)
+  (D₁ : PresheafOfModulesOfCommRing.Derivation' T.val ψ₁)
+  (D₂ : PresheafOfModulesOfCommRing.Derivation' T.val ψ₂)
 
 /-- **Two derivations of `𝒪_X` agreeing over the charts `ε(Z)` agree over an affine chart
 mapping to the chart of an affine open.**  Their difference is a Leibniz map vanishing on the

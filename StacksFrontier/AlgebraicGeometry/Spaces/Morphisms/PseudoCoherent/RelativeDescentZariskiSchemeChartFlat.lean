@@ -87,7 +87,7 @@ theorem holdsOnEveryEtaleChart_apply_of_isEtale {P : MorphismProperty Scheme.{u}
     P ((BigFppfOver.toScheme B S hS).map t') :=
   hf Z V' (e₀.hom ≫ g) (eV.hom ≫ w) t' (presheaf_etale_iso_comp_of_isEtale e₀ hg)
     (presheaf_etale_iso_comp_of_isEtale eV hw)
-    (by simpa using comp_eq_of_square ht ht')
+    ((comp_eq_of_square ht ht').trans (Category.assoc _ _ _).symm)
 
 namespace RelativeDescentSituation
 

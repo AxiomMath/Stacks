@@ -82,7 +82,7 @@ theorem unit_comp_exactMapDerivedCategoryPlusIso_inv (K : CochainComplex.Plus C)
     ((exactMapDerivedCategoryPlusIso T).inv.naturality
       ((DerivedCategory.Plus.quotientCompQhIso C).hom.app K))
     (exactMapDerivedCategoryPlusIso_inv_app_Qh T _)
-    ((asIso T.rightDerivedFunctorPlusUnit).hom_inv_id_app _)
+    ((asIso T.rightDerivedFunctorPlusUnith).hom_inv_id_app _)
 
 /-- The unit of an exact functor and the comparison with its degreewise action, read in the
 unbounded derived category, invert the factorization of that action through complexes. -/

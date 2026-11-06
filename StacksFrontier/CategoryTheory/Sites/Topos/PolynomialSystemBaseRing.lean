@@ -133,7 +133,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 theorem sections_map_coordinates_comp_π (X : Cᵒᵖ) (i : Fin n)
     (t : (Sheaf.sectionsFunctor J X).obj H) :
     (Sheaf.sectionsFunctor J X).map (coordinates O a ha ≫ Pi.π _ i) t = a X t i :=
-  congrArg (fun m => (Sheaf.sectionsFunctor J X).map m t) (Pi.lift_π _ i)
+  congrArg (fun m => (Sheaf.sectionsFunctor J X).map m t) (Pi.lift_comp_π _ i)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.HasSheafCompose (forget RingCat.{w})] in

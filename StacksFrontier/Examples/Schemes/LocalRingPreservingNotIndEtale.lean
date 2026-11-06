@@ -381,7 +381,7 @@ private lemma etale_of_isLocalIso {R : Type u} {S : Type v}
   let : Algebra R' R := ULift.algebra' R R
   let : Algebra R' S' := ULift.algebra' R S'
   have : IsScalarTower R' R S' :=
-    ⟨fun r a s => ULift.ext _ _ (smul_assoc r.down a s.down)⟩
+    ⟨fun r a s => ULift.ext (smul_assoc r.down a s.down)⟩
   have : Algebra.IsStandardOpenImmersion R' R :=
     Algebra.IsStandardOpenImmersion.of_bijective eR.bijective
   have : Algebra.IsLocalIso R S' := Algebra.IsLocalIso.of_algEquiv ULift.algEquiv.symm

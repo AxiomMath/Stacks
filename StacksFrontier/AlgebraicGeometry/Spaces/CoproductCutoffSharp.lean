@@ -97,21 +97,24 @@ cardinal `κ` which is not a successor there are a type `I` of cardinality `κ.o
 cardinals `ν i < κ` which are cofinal in `κ`: every cardinal below `κ` is strictly below some
 `ν i`.
 
-The family is the one `Ordinal.exists_lsub_cof` provides for `κ.ord`, read through
-`Ordinal.card`. Cofinality is where the hypothesis enters: a cardinal `c < κ` has
-`Order.succ c < κ`, and an ordinal below `Ordinal.lsub` is bounded by one of the family. -/
+The family is a cofinal subset of `κ.ord.ToType` of cardinality `κ.ord.cof`
+(`Order.exists_cof_eq`), read through `Ordinal.ToType.mk` and `Ordinal.card`. Cofinality is where
+the hypothesis enters: a cardinal `c < κ` has `Order.succ c < κ`, and an ordinal below `κ.ord` is
+bounded by a member of the cofinal subset. -/
 theorem exists_cofinal_family_mk_eq_cof {κ : Cardinal.{u}} (hlim : Order.IsSuccPrelimit κ) :
     ∃ (I : Type u) (ν : I → Cardinal.{u}), #I = κ.ord.cof ∧ (∀ i, ν i < κ) ∧
       ∀ c < κ, ∃ i, c < ν i := by
-  obtain ⟨I, f, hlsub, hI⟩ := Ordinal.exists_lsub_cof κ.ord
-  refine ⟨I, fun i => (f i).card, hI, fun i => Cardinal.lt_ord.1 ?_, fun c hc => ?_⟩
-  · rw [← hlsub]
-    exact Ordinal.lt_lsub f i
-  · have h : (Order.succ c).ord < Ordinal.lsub f := by
-      rw [hlsub]
-      exact Cardinal.ord_lt_ord.2 (hlim.succ_lt hc)
-    obtain ⟨i, hi⟩ := Ordinal.lt_lsub_iff.1 h
-    exact ⟨i, (Order.lt_succ c).trans_le (by simpa using Ordinal.card_le_card hi)⟩
+  obtain ⟨s, hs, hs'⟩ := Order.exists_cof_eq κ.ord.ToType
+  refine ⟨s, fun i => ((Ordinal.ToType.mk.symm i.1 : Set.Iio κ.ord) : Ordinal).card,
+    by rw [hs', Ordinal.cof_toType], fun i => Cardinal.lt_ord.1 (Ordinal.ToType.mk.symm i.1).2,
+    fun c hc => ?_⟩
+  have h : (Order.succ c).ord < κ.ord := Cardinal.ord_lt_ord.2 (hlim.succ_lt hc)
+  obtain ⟨b, hb, hle⟩ := hs (Ordinal.ToType.mk ⟨_, h⟩)
+  have hle' : (Order.succ c).ord ≤ ((Ordinal.ToType.mk.symm b : Set.Iio κ.ord) : Ordinal) := by
+    have := Ordinal.ToType.mk.symm.monotone hle
+    rw [OrderIso.symm_apply_apply] at this
+    exact this
+  exact ⟨⟨b, hb⟩, (Order.lt_succ c).trans_le (by simpa using Ordinal.card_le_card hle')⟩
 
 end Cardinal
 

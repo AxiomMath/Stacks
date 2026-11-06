@@ -179,7 +179,7 @@ theorem uliftIntToULiftHom_comp_forget₂_bijective (N : ModuleCat.{u + 1} Λ) :
         (g.hom (ULift.up 1)))) = g.hom (ULift.up n)
     rw [AddEquiv.apply_symm_apply, ← map_zsmul]
     congr 1
-    exact ULift.ext _ _ (by simp)
+    exact ULift.ext (by simp)
 
 /-- **In degree zero, `a ↦ (ℤ_X ⟶ U Λ_X) ≫ U a` is bijective**: by the constant sheaf
 adjunctions both sides are the global sections of `M`. -/

@@ -117,7 +117,7 @@ That ring is `D(n)/(p)^{N + e}` by `...SmallSite.wholeSpaceSystemLevelRingEquiv`
 `N + e = ...SmallSite.wholeSpaceLevelExponent hp e`, and `p^{N + e}` is zero in such a quotient by
 `DividedPowers.cast_pow_pAdicIdeal_pow_eq_zero`. -/
 theorem pow_cast_p_wholeSpaceSystem_eq_zero (n e : ℕ) :
-    ((S.p : ((structureSheaf S).val.obj
+    ((S.p : ((structureSheaf S).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e)) : Type u))) ^
       wholeSpaceLevelExponent hp e = 0 := by
   refine (wholeSpaceSystemLevelRingEquiv hp n e).injective ?_
@@ -135,7 +135,7 @@ its result (07JB): that the level `e` of the system is cut out by `(p)^{N + e}`.
 theorem nsmul_pow_p_wholeSpaceSystem_eq_zero (F : SheafOfModules.{u} (structureSheaf S)) (n e : ℕ)
     (s : (F.val.obj (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e)) : Type u)) :
     S.p ^ wholeSpaceLevelExponent hp e • s = 0 := by
-  rw [← Nat.cast_smul_eq_nsmul ((structureSheaf S).val.obj
+  rw [← Nat.cast_smul_eq_nsmul ((structureSheaf S).obj.obj
     (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e)) : Type u), Nat.cast_pow,
     pow_cast_p_wholeSpaceSystem_eq_zero hp n e, zero_smul]
 
@@ -164,9 +164,9 @@ lift, the `ℕ`-action of `...SmallSite.abelianSheaf` being that of the sheaf of
 componentwise. -/
 theorem nsmul_pow_p_abelianSheaf_wholeSpaceSystem_eq_zero
     (F : SheafOfModules.{u} (structureSheaf S)) (n e : ℕ)
-    (x : (abelianSheaf F).val.obj (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e))) :
+    (x : (abelianSheaf F).obj.obj (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e))) :
     S.p ^ wholeSpaceLevelExponent hp e • x = 0 :=
-  ULift.ext _ _ (nsmul_pow_p_wholeSpaceSystem_eq_zero hp F n e x.down)
+  ULift.ext (nsmul_pow_p_wholeSpaceSystem_eq_zero hp F n e x.down)
 
 /-- **The easy half of the kernel clause of the crystal property**: a `p^{N + e}`-multiple is in
 the kernel of the level restriction `M(n)_{e + 1} ⟶ M(n)_e` of [Stacks, Tag 07JN].
@@ -180,9 +180,9 @@ the crystal condition.
 The converse inclusion is the crystal property proper and is **not** proved anywhere in this
 library; see the module documentation. -/
 theorem levelMap_nsmul_pow_p_eq_zero (F : SheafOfModules.{u} (structureSheaf S)) (n e : ℕ)
-    (y : (abelianSheaf F).val.obj
+    (y : (abelianSheaf F).obj.obj
       (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj (e + 1)))) :
-    levelMap (wholeSpaceSystem S hp) (abelianSheaf F).val n e
+    levelMap (wholeSpaceSystem S hp) (abelianSheaf F).obj n e
         (S.p ^ wholeSpaceLevelExponent hp e • y) = 0 := by
   rw [map_nsmul, nsmul_pow_p_abelianSheaf_wholeSpaceSystem_eq_zero]
 
@@ -205,11 +205,11 @@ theorem isCrystalLevelQuotient_wholeSpaceSystem_of_ker_le
     (F : SheafOfModules.{u} (structureSheaf S)) (hF : IsLocallyQuasiCoherent F)
     (hM : CohomologyRestriction.IsSurjectiveComparison F.val)
     (hker : ∀ (n e : ℕ)
-      (x : (abelianSheaf F).val.obj
+      (x : (abelianSheaf F).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj (e + 1)))),
-      levelMap (wholeSpaceSystem S hp) (abelianSheaf F).val n e x = 0 →
+      levelMap (wholeSpaceSystem S hp) (abelianSheaf F).obj n e x = 0 →
         ∃ y, x = S.p ^ wholeSpaceLevelExponent hp e • y) :
-    IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).val
+    IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).obj
       (wholeSpaceLevelExponent hp) :=
   isCrystalLevelQuotient_wholeSpaceSystem_of_ker hp F hF hM fun n e x =>
     ⟨hker n e x, fun ⟨y, hy⟩ => hy ▸ levelMap_nsmul_pow_p_eq_zero hp F n e y⟩

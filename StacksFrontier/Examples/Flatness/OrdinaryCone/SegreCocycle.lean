@@ -95,8 +95,8 @@ theorem C_mul_monomial_mem_segreComponent {d : ℕ} {g : Cone k} (hg : g ∈ Con
   have hdeg : e.degree = d := by
     rw [Finsupp.degree_eq_weight_one]
     exact hp (mem_support_iff.1 he)
-  have key : C (Ideal.Quotient.mk (Ideal.span {equation k}) (monomial e (coeff e p))) *
-      monomial f 1 = coeff e p •
+  have key : C (Ideal.Quotient.mk (Ideal.span {equation k}) (monomial e (p.coeff e))) *
+      monomial f 1 = p.coeff e •
         (C (Ideal.Quotient.mk (Ideal.span {equation k}) (monomial e 1)) * monomial f 1) := by
     rw [Algebra.smul_def, MvPolynomial.algebraMap_apply, ← mul_assoc, ← map_mul,
       IsScalarTower.algebraMap_apply k (MvPolynomial (Fin 3) k) (Cone k),
@@ -125,7 +125,7 @@ theorem coeff_mem_component_of_mem_segreComponent {d : ℕ} {p : MvPolynomial (F
       | mem r hr =>
         obtain ⟨⟨i, j⟩, rfl⟩ := hr
         refine Submodule.mem_iInf _ |>.mpr fun b ↦ ?_
-        show coeff b (q * segreGen k i j) ∈ Cone.component k (d + 1)
+        show (q * segreGen k i j).coeff b ∈ Cone.component k (d + 1)
         rw [segreGen, mul_left_comm, coeff_C_mul, coeff_mul_X']
         split_ifs
         · rw [add_comm]
@@ -146,7 +146,7 @@ theorem mem_segreComponent_iff {d : ℕ} {p : MvPolynomial (Fin 2) (Cone k)} :
     coeff_mem_component_of_mem_segreComponent hp⟩, fun ⟨hp, hc⟩ ↦ ?_⟩
   rw [p.as_sum]
   refine Submodule.sum_mem _ fun b hb ↦ ?_
-  rw [← mul_one (coeff b p), ← C_mul_monomial]
+  rw [← mul_one (p.coeff b), ← C_mul_monomial]
   refine C_mul_monomial_mem_segreComponent (hc b) ?_
   rw [Finsupp.degree_eq_weight_one]
   exact hp (mem_support_iff.1 hb)

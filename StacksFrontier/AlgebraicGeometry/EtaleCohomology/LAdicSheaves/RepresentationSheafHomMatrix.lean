@@ -263,15 +263,15 @@ public def representationLAdicSheafEndMatrix :
     End (representationLAdicSheaf B X x
       (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ) →+*
       Matrix (Fin r) (Fin r) ℤ_[ℓ] where
-  toFun := representationLAdicSheafHomMatrix B X x hρ hρ
+  toFun θ := representationLAdicSheafHomMatrix B X x hρ hρ θ.asHom
   map_one' := representationLAdicSheafHomMatrix_id B X x hρ
-  map_mul' θ θ' := representationLAdicSheafHomMatrix_comp B X x hρ hρ hρ θ' θ
+  map_mul' θ θ' := representationLAdicSheafHomMatrix_comp B X x hρ hρ hρ θ'.asHom θ.asHom
   map_zero' := by
     have h := representationLAdicSheafHomMatrix_add B X x hρ hρ 0 0
     rw [add_zero] at h
     have h' := congrArg (· - representationLAdicSheafHomMatrix B X x hρ hρ 0) h
     simpa using h'.symm
-  map_add' := representationLAdicSheafHomMatrix_add B X x hρ hρ
+  map_add' θ θ' := representationLAdicSheafHomMatrix_add B X x hρ hρ θ.asHom θ'.asHom
 
 omit [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
     HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
@@ -284,7 +284,7 @@ public theorem representationLAdicSheafEndMatrix_apply
     (θ : End (representationLAdicSheaf B X x
       (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ)) :
     representationLAdicSheafEndMatrix B X x hρ θ =
-      representationLAdicSheafHomMatrix B X x hρ hρ θ :=
+      representationLAdicSheafHomMatrix B X x hρ hρ θ.asHom :=
   rfl
 
 end LAdic

@@ -92,7 +92,7 @@ public theorem isConnected_of_fiber_pretransitive
     intro x
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Aut F) ((F.map i).hom y) x
     refine ⟨g • y, ?_⟩
-    show (F.map i).hom ((g.hom.app Y).hom y) = x
+    show (F.map i).hom ((g.asIso.hom.app Y).hom y) = x
     exact (PreGaloisCategory.mulAction_naturality F g i y).symm.trans hg
   have : IsIso (F.map i) :=
     (ConcreteCategory.isIso_iff_bijective (F.map i)).mpr ⟨hinj, hsurj⟩
@@ -123,8 +123,8 @@ public theorem pretransitive_uSwitch
   let e := FintypeCat.uSwitchEquiv.{uG,w} A.V
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G (e x) (e y)
   refine ⟨g, ?_⟩
-  show (FintypeCat.uSwitch.map (A.ρ g)) x = y
-  exact e.injective ((FintypeCat.uSwitchEquiv_naturality (A.ρ g) x).symm.trans hg)
+  show (FintypeCat.uSwitch.map (A.ρ g).asHom) x = y
+  exact e.injective ((FintypeCat.uSwitchEquiv_naturality (A.ρ g).asHom x).symm.trans hg)
 
 /-- The quotient of a compact topological group by an open subgroup, as a finite continuous action
 of the group. -/
@@ -156,7 +156,7 @@ public noncomputable def quotientContActionSwitch
     (fun X => by
       rw [Action.isContinuous_def]
       change Continuous ((fun p => (FintypeCat.uSwitchEquiv X.obj.V).symm p) ∘
-        (fun p : G × _ => (X.obj.ρ p.1).hom p.2) ∘
+        (fun p : G × _ => (X.obj.ρ p.1).asHom.hom p.2) ∘
         (fun p : G × _ => (p.1, FintypeCat.uSwitchEquiv _ p.2)))
       exact Continuous.comp (by fun_prop) (Continuous.comp X.2.1 (by fun_prop)))).obj
     (quotientContAction U)
@@ -180,7 +180,7 @@ public theorem fixed_quotientSwitch
       (FintypeCat.uSwitchEquiv Q0.obj.V).symm (⟦1⟧ : G ⧸ U.toSubgroup)
     g • q = q := by
   intro Q0 q
-  show (FintypeCat.uSwitch.map (Q0.obj.ρ g)) q = q
+  show (FintypeCat.uSwitch.map (Q0.obj.ρ g).asHom) q = q
   apply (FintypeCat.uSwitchEquiv Q0.obj.V).injective
   rw [← FintypeCat.uSwitchEquiv_naturality]
   have hq : (FintypeCat.uSwitchEquiv Q0.obj.V) q =

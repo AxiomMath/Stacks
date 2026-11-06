@@ -151,6 +151,28 @@ attribute [local instance] Stacks.hasSheafCompose_forget₂_commRingCat
 
 namespace Stacks.Sheaves.DerivedPullback.KFlatPullback
 
+/-- Weak sheafification of abelian presheaves, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the declarations below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+private abbrev hasWeakSheafifyAddCommGrpCatKFlat (X : AlgebraicGeometry.RingedTopos.{u, u, u}) :
+    HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+/-- Sheafification of abelian presheaves, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`, made a local instance of high priority for the
+same reason. -/
+private abbrev hasSheafifyAddCommGrpCatKFlat (X : AlgebraicGeometry.RingedTopos.{u, u, u}) :
+    HasSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatKFlat hasSheafifyAddCommGrpCatKFlat
+
+/- Since Mathlib v4.35.0 instance search would reach the section variable
+`HasSheafify X.J AddCommGrpCat` through `instHasWeakSheafifyOfHasSheafify`, making it a
+hypothesis of the declarations below; erasing the bridge restores the pre-bump behaviour. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 variable {X Y : AlgebraicGeometry.RingedTopos.{u, u, u}}
   [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -244,6 +266,9 @@ def PullbackPreservesShortExact (f : AlgebraicGeometry.RingedToposSiteHom X Y) :
           (Functor.preservesZeroMorphisms_of_additive f.pullbackTopos)).ShortExact
 
 section Cycles
+
+-- `CyclesIsFlat` is stated at arbitrary universes, where only the section bridge applies.
+attribute [local instance] instHasWeakSheafifyOfHasSheafify
 
 universe v₁ u₁ w₁
 

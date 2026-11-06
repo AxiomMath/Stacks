@@ -125,7 +125,6 @@ theorem bijective_liftBaseChange_trans
   have key : ∀ z, ρ.liftBaseChange Cc z = ρ₂.liftBaseChange Cc (Φ z) := by
     intro z
     induction z with
-    | zero => simp
     | tmul c m =>
       rw [LinearMap.liftBaseChange_tmul, hΦ]
       have h0 : Φ (c ⊗ₜ[A] m) = c ⊗ₜ[Bc] ρ₁ m := by
@@ -172,9 +171,6 @@ theorem bijective_liftBaseChange_pi_apply
       ρ.liftBaseChange (∀ i, Bi i) z j = (ρi j).liftBaseChange (Bi j) (E z j) := by
     intro z
     induction z with
-    | zero =>
-      intro j
-      rw [map_zero, Pi.zero_apply, show E 0 j = 0 from congrFun (map_zero E) j, map_zero]
     | tmul b m =>
       intro j
       rw [LinearMap.liftBaseChange_tmul, show (b • ρ m) j = b j • ρ m j from rfl, hρ, hE',

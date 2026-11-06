@@ -67,7 +67,7 @@ which are `O(U)`-modules, and `O(U)` is the sections of `π^{-1}O` over `(n, U)`
 along `(φ, ψ)` is the structure map of `G` at `φ` followed by the restriction of `G_n` along
 `ψ`. -/
 def uncurryModPresheaf (G : CategoryTheory.SimplicialObject (SheafOfModules.{w} O)) :
-    PresheafOfModules.{w} (projectionRing C J O).val where
+    PresheafOfModules.{w} (projectionRing C J O).obj where
   obj X := (G.obj (op X.unop.1)).val.obj (op X.unop.2)
   map {X Y} f := (G.map (f.unop.1).op).val.app (op X.unop.2) ≫
     (G.obj (op Y.unop.1)).val.map (f.unop.2).op

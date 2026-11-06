@@ -412,7 +412,7 @@ universe uU uF2 vF2
 
 variable {C : Type uC} [Category.{vC} C] {F : Type uF2} [Category.{vF2} F]
   {p : F ⥤ C} {U : C ⥤ Type uU} {f : U.Elements ⥤ F}
-  {hOver : f ⋙ p = CategoryOfElements.π U}
+  {hOver : f ⋙ p = Functor.Elements.π U}
 
 /-- A transport cancels against its inverse in the middle of a composite. -/
 private lemma eqToHom_cancel_mid {A : Type*} [Category A] {X Y Z W V : A}
@@ -426,7 +426,7 @@ private lemma eqToHom_cancel_mid {A : Type*} [Category A] {X Y Z W V : A}
 product produces an object of the former whose base is only propositionally equal to the base of
 the given object; the counit of the equivalence transports the point along that identification. -/
 noncomputable def presentationPoint (P : PresentationGroupoid p U f hOver)
-    (q : TwoFibreProductOver (CategoryOfElements.π U) (CategoryOfElements.π U) p f f) :
+    (q : TwoFibreProductOver (Functor.Elements.π U) (Functor.Elements.π U) p f f) :
     P.arrows.obj q.base :=
   let E := P.fibreProductEquivalence
   let j := E.inverse.obj q
@@ -437,7 +437,7 @@ noncomputable def presentationPoint (P : PresentationGroupoid p U f hOver)
 transporting the point of the source along the base map of a morphism gives the point of the
 target. -/
 lemma presentationPoint_naturality (P : PresentationGroupoid p U f hOver)
-    {q r : TwoFibreProductOver (CategoryOfElements.π U) (CategoryOfElements.π U) p f f}
+    {q r : TwoFibreProductOver (Functor.Elements.π U) (Functor.Elements.π U) p f f}
     (a : q ⟶ r) :
     P.arrows.map a.hbase (presentationPoint P q) = presentationPoint P r := by
   let E := P.fibreProductEquivalence
@@ -445,7 +445,7 @@ lemma presentationPoint_naturality (P : PresentationGroupoid p U f hOver)
   have hj := j.2
   have hn := congrArg TwoFibreProductOver.Hom.hbase (E.counitIso.hom.naturality a)
   have ho := Functor.congr_hom P.fibreProductOverBase j
-  dsimp only [Functor.comp_map, CategoryOfElements.π_map] at ho
+  dsimp only [Functor.comp_map, Functor.Elements.π_map] at ho
   change (E.functor.map j).hbase = _ at ho
   change (E.functor.map j).hbase ≫ (E.counitIso.hom.app r).hbase =
     (E.counitIso.hom.app q).hbase ≫ a.hbase at hn
@@ -485,7 +485,7 @@ private lemma projection_map_eq {A : C ⥤ Type (max vF2 uU)}
 /-- The source of the point attached to an object of the two-fibre product is the second of the
 two elements of `U` that object consists of. -/
 lemma presentationPoint_source (P : PresentationGroupoid p U f hOver)
-    (q : TwoFibreProductOver (CategoryOfElements.π U) (CategoryOfElements.π U) p f f) :
+    (q : TwoFibreProductOver (Functor.Elements.π U) (Functor.Elements.π U) p f f) :
     (P.source.app q.base (presentationPoint P q)).down = U.map (eqToHom q.hy) q.y.2 := by
   let E := P.fibreProductEquivalence
   let j := E.inverse.obj q
@@ -495,7 +495,7 @@ lemma presentationPoint_source (P : PresentationGroupoid p U f hOver)
   have hsv := P.sourceProjectionIso_vertical j
   change (P.sourceProjectionIso.hom.app j).1 = _ at hsv
   have := c.hb
-  have hfac := IsHomLift.fac' (CategoryOfElements.π U) c.hbase c.b
+  have hfac := IsHomLift.fac' (Functor.Elements.π U) c.hbase c.b
   change c.b.1 = _ at hfac
   have hk : (P.sourceProjectionIso.hom.app j).1 ≫ kk = c.b.1 ≫ eqToHom q.hy := by
     rw [hsv, hfac]
@@ -509,7 +509,7 @@ lemma presentationPoint_source (P : PresentationGroupoid p U f hOver)
 /-- The target of the point attached to an object of the two-fibre product is the first of the
 two elements of `U` that object consists of. -/
 lemma presentationPoint_target (P : PresentationGroupoid p U f hOver)
-    (q : TwoFibreProductOver (CategoryOfElements.π U) (CategoryOfElements.π U) p f f) :
+    (q : TwoFibreProductOver (Functor.Elements.π U) (Functor.Elements.π U) p f f) :
     (P.target.app q.base (presentationPoint P q)).down = U.map (eqToHom q.hx) q.x.2 := by
   let E := P.fibreProductEquivalence
   let j := E.inverse.obj q
@@ -519,7 +519,7 @@ lemma presentationPoint_target (P : PresentationGroupoid p U f hOver)
   have hsv := P.targetProjectionIso_vertical j
   change (P.targetProjectionIso.hom.app j).1 = _ at hsv
   have := c.ha
-  have hfac := IsHomLift.fac' (CategoryOfElements.π U) c.hbase c.a
+  have hfac := IsHomLift.fac' (Functor.Elements.π U) c.hbase c.a
   change c.a.1 = _ at hfac
   have hk : (P.targetProjectionIso.hom.app j).1 ≫ kk = c.a.1 ≫ eqToHom q.hx := by
     rw [hsv, hfac]
@@ -546,7 +546,7 @@ series coordinates. -/
 private theorem hasPowerSeriesCoordinates_of_presentation
     {p : F ⥤ ArtinianLocalAlgCat.{u, max v v₃ w, w} Λ k}
     {R B : CompleteLocalAlgCat.{u, max v v₃ w, w} Λ k} {f : (restrictedCoyoneda R).Elements ⥤ F}
-    {hOver : f ⋙ p = CategoryOfElements.π (restrictedCoyoneda R)}
+    {hOver : f ⋙ p = Functor.Elements.π (restrictedCoyoneda R)}
     (P : PresentationGroupoid p (restrictedCoyoneda R) f hOver)
     (hP : GroupoidInFunctors.IsSmooth P.toGroupoidInFunctors)
     (e : restrictedCoyoneda B ≅ P.toGroupoidInFunctors.arrows) {s t : R ⟶ B}
@@ -590,12 +590,12 @@ private noncomputable def twoFibreProductObjOfIsos {p : F ⥤ ArtinianLocalAlgCa
     (τb : BasedFunctor.comp (restrictedRepresentableMap b.base)
       (associatedMorphism hp ξ pushforwards).toBasedFunctor ≅
         (associatedMorphism hp η pushforwards).toBasedFunctor) (n : ℕ) :
-    TwoFibreProductOver (CategoryOfElements.π (restrictedCoyoneda ξ.base))
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base)) p
+    TwoFibreProductOver (Functor.Elements.π (restrictedCoyoneda ξ.base))
+      (Functor.Elements.π (restrictedCoyoneda ξ.base)) p
       (associatedMorphism hp ξ pushforwards).toBasedFunctor.toFunctor
       (associatedMorphism hp ξ pushforwards).toBasedFunctor.toFunctor := by
   let α : (restrictedCoyoneda η.base).Elements :=
-    ⟨AdicTruncation.obj η.base n, quotientProjection η.base n⟩
+    Functor.elementsMk _ (AdicTruncation.obj η.base n) (quotientProjection η.base n)
   let ib := ((BasedNatTrans.forgetful _ _).mapIso τb).app α
   let ia := ((BasedNatTrans.forgetful _ _).mapIso τa).app α
   refine ⟨AdicTruncation.obj η.base n, (restrictedRepresentableMap b.base).toFunctor.obj α,
@@ -631,19 +631,19 @@ private theorem exists_adicSection_presentationGroupoid
   obtain ⟨τb, -⟩ := associatedMorphism_map hp b pushforwards
   let U := restrictedCoyoneda ξ.base
   let α : ∀ n : ℕ, (restrictedCoyoneda η.base).Elements :=
-    fun n => ⟨AdicTruncation.obj η.base n, quotientProjection η.base n⟩
+    fun n => Functor.elementsMk _ (AdicTruncation.obj η.base n) (quotientProjection η.base n)
   let αstep : ∀ n : ℕ, α (n + 1) ⟶ α n := fun n =>
-    CategoryOfElements.homMk (α (n + 1)) (α n) (AdicTruncation.transition η.base n)
+    Functor.Elements.homMk (AdicTruncation.transition η.base n)
       (restrictedCoyoneda_map_quotientProjection η.base n)
   let fa := restrictedRepresentableMap a.base
   let fb := restrictedRepresentableMap b.base
   let Y := (associatedMorphism hp η pushforwards).toBasedFunctor.toFunctor
   let Q := twoFibreProductObjOfIsos hp pushforwards τa τb
   let : Category.{max v v₃ w}
-      (TwoFibreProductOver (CategoryOfElements.π U) (CategoryOfElements.π U) p X.toFunctor
+      (TwoFibreProductOver (Functor.Elements.π U) (Functor.Elements.π U) p X.toFunctor
         X.toFunctor) :=
-    CategoryTheory.TwoFibreProductOver.instCategory (p𝒳 := CategoryOfElements.π U)
-      (p𝒴 := CategoryOfElements.π U) (p𝒮 := p) (F := X.toFunctor) (G := X.toFunctor)
+    CategoryTheory.TwoFibreProductOver.instCategory (p𝒳 := Functor.Elements.π U)
+      (p𝒴 := Functor.Elements.π U) (p𝒮 := p) (F := X.toFunctor) (G := X.toFunctor)
   have hQstep (n : ℕ) : ∃ φ : Q (n + 1) ⟶ Q n, φ.hbase = AdicTruncation.transition η.base n := by
     have hstep : (restrictedRepresentable η.base).p.IsHomLift
         (AdicTruncation.transition η.base n) (αstep n) :=
@@ -717,7 +717,7 @@ theorem formallyHomotopic_of_isVersal
     isSmooth_presentationGroupoid p U associated.toBasedFunctor hp.predeformation.cofibered
       hassociated
   have hU : IsProrepresentable U := ⟨ξ.base, ⟨Iso.refl _⟩⟩
-  let y₀ : U.Elements := ⟨residueFieldObject.{u, max v v₃, w} Λ k, residuePoint ξ.base⟩
+  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, max v v₃, w} Λ k) (residuePoint ξ.base)
   let PF := chosenPushforwardsAtOfCofibered hp.predeformation.cofibered
     (associated.toBasedFunctor.toFunctor.obj y₀)
   have hGprorepresentable : GroupoidInFunctors.IsProrepresentable G :=

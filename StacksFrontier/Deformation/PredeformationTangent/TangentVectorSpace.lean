@@ -373,73 +373,73 @@ theorem elements_bijective_of_schlessingerConditionS2
     (hcompat : ∀ x : F.obj A, ∀ y : F.obj B, F.map d x = F.map e y) :
     Function.Bijective (fun z : F.obj P ↦ (F.map g z, F.map h z)) := by
   classical
-  let p := CategoryOfElements.π F
+  let p := Functor.Elements.π F
   constructor
   · intro x y hxy
-    let xA : F.Elements := ⟨A, F.map g x⟩
-    let yB : F.Elements := ⟨B, F.map h x⟩
-    let zX : F.Elements := ⟨X, F.map d (F.map g x)⟩
-    let d' : xA ⟶ zX := CategoryOfElements.homMk xA zX d (by dsimp [xA, zX])
-    let e' : yB ⟶ zX := CategoryOfElements.homMk yB zX e (by
+    let xA : F.Elements := F.elementsMk A (F.map g x)
+    let yB : F.Elements := F.elementsMk B (F.map h x)
+    let zX : F.Elements := F.elementsMk X (F.map d (F.map g x))
+    let d' : xA ⟶ zX := Functor.Elements.homMk (x := xA) (y := zX) d (by dsimp [xA, zX])
+    let e' : yB ⟶ zX := Functor.Elements.homMk (x := yB) (y := zX) e (by
       dsimp [yB, zX]
       rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, hPB.w])
-    let U : F.Elements := ⟨P, x⟩
-    let W : F.Elements := ⟨P, y⟩
-    let toA : U ⟶ xA := CategoryOfElements.homMk U xA g (by dsimp [U, xA])
-    let toB : U ⟶ yB := CategoryOfElements.homMk U yB h (by dsimp [U, yB])
+    let U : F.Elements := F.elementsMk P (x)
+    let W : F.Elements := F.elementsMk P (y)
+    let toA : U ⟶ xA := Functor.Elements.homMk (x := U) (y := xA) g (by dsimp [U, xA])
+    let toB : U ⟶ yB := Functor.Elements.homMk (x := U) (y := yB) h (by dsimp [U, yB])
     have hxy₁ := congrArg Prod.fst hxy
     have hxy₂ := congrArg Prod.snd hxy
-    let fromWtoA : W ⟶ xA := CategoryOfElements.homMk W xA g (by
+    let fromWtoA : W ⟶ xA := Functor.Elements.homMk (x := W) (y := xA) g (by
       dsimp [W, xA]
       exact hxy₁.symm)
-    let fromWtoB : W ⟶ yB := CategoryOfElements.homMk W yB h (by
+    let fromWtoB : W ⟶ yB := Functor.Elements.homMk (x := W) (y := yB) h (by
       dsimp [W, yB]
       exact hxy₂.symm)
     let Pcomp : PullbackCompletion p d' e' g h := by
       refine ⟨U, rfl, toA, toB, ?_, ?_, ?_⟩
-      · apply CategoryOfElements.ext F
+      · apply Functor.Elements.hom_ext
         change (h : P ⟶ B) ≫ e = (g : P ⟶ A) ≫ d
         exact hPB.w
-      · simp [toA, p, CategoryOfElements.π]
-      · simp [toB, p, CategoryOfElements.π]
+      · simp [toA, p, Functor.Elements.π]
+      · simp [toB, p, Functor.Elements.π]
     let Qcomp : PullbackCompletion p d' e' g h := by
       refine ⟨W, rfl, fromWtoA, fromWtoB, ?_, ?_, ?_⟩
-      · apply CategoryOfElements.ext F
+      · apply Functor.Elements.hom_ext
         change (h : P ⟶ B) ≫ e = (g : P ⟶ A) ≫ d
         exact hPB.w
-      · simp [fromWtoA, p, CategoryOfElements.π]
-      · simp [fromWtoB, p, CategoryOfElements.π]
+      · simp [fromWtoA, p, Functor.Elements.π]
+      · simp [fromWtoB, p, Functor.Elements.π]
     obtain ⟨b, hb, hbase⟩ :=
       schlessingerConditionS2_comparison_squareZero
         p hcof hS2 d' e' hsq g h hPB Pcomp Qcomp
-    have hbval := CategoryOfElements.map_snd b
+    have hbval := b.map_val
     have hh := hbval
     change F.map (p.map b) x = y at hh
     rw [hbase] at hh
-    simpa [Pcomp, Qcomp, U, W, p, CategoryOfElements.π, Functor.map_id_apply] using hh
+    simpa [Pcomp, Qcomp, U, W, p, Functor.Elements.π, Functor.map_id_apply] using hh
   · intro xy
     rcases xy with ⟨x, y⟩
-    let zX : F.Elements := ⟨X, F.map d x⟩
-    let xA : F.Elements := ⟨A, x⟩
-    let yB : F.Elements := ⟨B, y⟩
-    let d' : xA ⟶ zX := CategoryOfElements.homMk xA zX d (by dsimp [xA, zX])
-    let e' : yB ⟶ zX := CategoryOfElements.homMk yB zX e (by
+    let zX : F.Elements := F.elementsMk X (F.map d x)
+    let xA : F.Elements := F.elementsMk A (x)
+    let yB : F.Elements := F.elementsMk B (y)
+    let d' : xA ⟶ zX := Functor.Elements.homMk (x := xA) (y := zX) d (by dsimp [xA, zX])
+    let e' : yB ⟶ zX := Functor.Elements.homMk (x := yB) (y := zX) e (by
       dsimp [yB, zX]
       exact (hcompat x y).symm)
     obtain ⟨Pcomp⟩ := schlessingerConditionS2_completion_squareZero
       p hcof hS2 d' e' hsq g h hPB
-    let z : F.obj P := F.map (eqToHom Pcomp.apex_eq) Pcomp.apex.2
+    let z : F.obj P := F.map (eqToHom Pcomp.apex_eq) Pcomp.apex.val
     refine ⟨z, ?_⟩
     apply Prod.ext
-    · have hm := CategoryOfElements.map_snd Pcomp.toFirst
-      change F.map (p.map Pcomp.toFirst) Pcomp.apex.2 = x at hm
+    · have hm := Pcomp.toFirst.map_val
+      change F.map (p.map Pcomp.toFirst) Pcomp.apex.val = x at hm
       rw [Pcomp.map_toFirst] at hm
-      change F.map (eqToHom Pcomp.apex_eq ≫ g) Pcomp.apex.2 = x at hm
+      change F.map (eqToHom Pcomp.apex_eq ≫ g) Pcomp.apex.val = x at hm
       simpa [z, Functor.map_comp] using hm
-    · have hm := CategoryOfElements.map_snd Pcomp.toSecond
-      change F.map (p.map Pcomp.toSecond) Pcomp.apex.2 = y at hm
+    · have hm := Pcomp.toSecond.map_val
+      change F.map (p.map Pcomp.toSecond) Pcomp.apex.val = y at hm
       rw [Pcomp.map_toSecond] at hm
-      change F.map (eqToHom Pcomp.apex_eq ≫ h) Pcomp.apex.2 = y at hm
+      change F.map (eqToHom Pcomp.apex_eq ≫ h) Pcomp.apex.val = y at hm
       simpa [z, Functor.map_comp] using hm
 
 end

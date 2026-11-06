@@ -113,6 +113,13 @@ public abbrev CosimplicialModule (A : CosimplicialObject CommRingCat.{u}) :=
   PresheafOfModules.{u}
     ((unopUnop SimplexCategory ⋙ A) ⋙ forget₂ CommRingCat RingCat)
 
+/-- The rings of the presheaf underlying `CosimplicialModule A` are commutative; instance
+search does not see through the composite functor, so the instance is given by hand. -/
+public instance commRingCosimplicialModuleRingObj
+    (A : CosimplicialObject CommRingCat.{u}) (X : (SimplexCategoryᵒᵖ)ᵒᵖ) :
+    CommRing (((unopUnop SimplexCategory ⋙ A) ⋙ forget₂ CommRingCat RingCat).obj X) :=
+  inferInstanceAs (CommRing (A.obj (unop (unop X))))
+
 variable {A : CosimplicialObject CommRingCat.{u}}
   {K M : CosimplicialModule A}
 
@@ -1063,7 +1070,7 @@ private noncomputable def completedHomotopy
           (U := K.toCosimplicialObject) (V := M.toCosimplicialObject) (K := Δ[1])
           orig).mp
             ⟨h.homotopy.h, fun n =>
-              Pi.hom_ext _ _ fun α => (Pi.lift_π (orig n) α).symm⟩ f α
+              Pi.hom_ext _ _ fun α => (Pi.lift_comp_π (orig n) α).symm⟩ f α
         exact completedComponent_naturality Khat Mhat f (homotopyLinearMap h m α)
           (homotopyLinearMap h n ((Δ[1] : SSet.{0}).map f.op α))
           (fun z => congrArg (fun q => q z) hnat) x)
@@ -1073,7 +1080,7 @@ private noncomputable def completedHomotopy
       (n : SimplexCategory) :
       (Classical.choose hex).app n ≫ Pi.π _ (SSet.stdSimplex.const 1 i (op n)) =
         (completedHom I χ Khat Mhat).hom.app n := by
-    have hc := (hH n) ▸ (Pi.lift_π (c n) (SSet.stdSimplex.const 1 i (op n)))
+    have hc := (hH n) ▸ (Pi.lift_comp_π (c n) (SSet.stdSimplex.const 1 i (op n)))
     refine hc.trans ?_
     ext x
     apply (Mhat.iso n).injective
@@ -1087,7 +1094,7 @@ private noncomputable def completedHomotopy
           h₁ := hh 1 ψ fun n z => congrArg (fun q => q z) (h.homotopy.h₁ n) }
       linear := fun n α r x => ?_ }
   apply (Mhat.iso n).injective
-  have hc := (hH n) ▸ (Pi.lift_π (c n) α)
+  have hc := (hH n) ▸ (Pi.lift_comp_π (c n) α)
   change Mhat.iso n
     (((Classical.choose hex).app n ≫ Pi.π (fun _ => Mhat.obj.obj n) α) (r • x)) =
     Mhat.iso n (r • (((Classical.choose hex).app n ≫

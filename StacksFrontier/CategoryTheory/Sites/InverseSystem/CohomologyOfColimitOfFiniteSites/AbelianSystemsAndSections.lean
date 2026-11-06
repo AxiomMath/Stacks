@@ -593,7 +593,7 @@ private lemma productTransition_π (D : InverseSystemOfFiniteSites.{v, u, w})
       (abelianSheafPullback.{v, u, w, t} D a).map
         (Limits.Pi.π (incomingFactor.{v, u, w, t} D A j) ⟨b.1, b.2 ≫ a⟩) ≫
           incomingRestriction.{v, u, w, t} D A a b :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 private lemma siteFunctor_comp_id (D : InverseSystemOfFiniteSites.{v, u, w})
     {k i : D.I} (b : k ⟶ i) :
@@ -944,8 +944,8 @@ private lemma envelopeMap_naturality (D : InverseSystemOfFiniteSites.{v, u, w})
   intro b
   dsimp only [envelopeMap]
   rw [Category.assoc, productTransition_π, ← Category.assoc,
-    ← Functor.map_comp, Limits.Pi.lift_π]
-  rw [Category.assoc, Limits.Pi.lift_π]
+    ← Functor.map_comp, Limits.Pi.lift_comp_π]
+  rw [Category.assoc, Limits.Pi.lift_comp_π]
   have : EnoughInjectives (Sheaf (D.J b.1) (Ab.{max u v w t})) :=
     enoughInjectives.{v, u, w, t} D b.1
   let adjA := abelianSheafAdjunction.{v, u, w, t} D a
@@ -1025,7 +1025,7 @@ private lemma mono_envelopeMap (D : InverseSystemOfFiniteSites.{v, u, w})
     show (Limits.Pi.lift (envelopeComponent.{v, u, w, t} D F i)) ≫
         Limits.Pi.π (incomingFactor.{v, u, w, t} D
           (injectiveEnvelope.{v, u, w, t} D F) i) b = _
-    rw [Limits.Pi.lift_π]
+    rw [Limits.Pi.lift_comp_π]
     show (abelianSheafAdjunction.{v, u, w, t} D (𝟙 i)).homEquiv
         (F.obj i) (injectiveEnvelope.{v, u, w, t} D F i)
         (F.map (𝟙 i) ≫ Injective.ι (F.obj i)) = _

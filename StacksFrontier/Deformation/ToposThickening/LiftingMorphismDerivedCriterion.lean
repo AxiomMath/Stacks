@@ -319,7 +319,6 @@ private theorem single_comp_degreewise_iso {𝒜 ℬ 𝒞 : Type*} [Category �
   refine Eq.trans ?_ ((congrArg ((CochainComplex.singleFunctor ℬ (-1)).map e.inv ≫ ·) h).trans
     ((CochainComplex.singleFunctor ℬ (-1)).map_comp _ _).symm)
   simp only [Functor.mapIso_inv, Iso.app_inv, Category.assoc, Functor.map_comp]
-  rfl
 
 /-- For a natural transformation `u : I' ⟶ L ⋙ R` and morphisms satisfying the relations `H₂`,
 `H₃`, `H₄` and `H₅`, the composite

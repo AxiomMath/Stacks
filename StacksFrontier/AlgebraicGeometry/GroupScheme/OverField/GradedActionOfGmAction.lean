@@ -64,7 +64,7 @@ private lemma mapDomain_diag_apply {A : Type*} [AddCommGroup A] (f : ℤ →₀ 
   classical
   by_cases h : i = j
   · subst j
-    rw [Finsupp.mapDomain_apply (show Function.Injective (fun n : ℤ => (n,n)) from
+    rw [Finsupp.mapDomain_apply_of_injective (show Function.Injective (fun n : ℤ => (n,n)) from
       fun a b h => congrArg Prod.fst h)]
     simp
   · rw [Finsupp.mapDomain_of_notMem_range]

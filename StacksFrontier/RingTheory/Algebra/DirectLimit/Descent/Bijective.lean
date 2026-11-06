@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Colimit.Ring
 public import Mathlib.LinearAlgebra.TensorProduct.DirectLimit
+public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import Mathlib.RingTheory.FiniteStability
 public import Mathlib.RingTheory.FiniteType
 public import Mathlib.RingTheory.TensorProduct.Maps
@@ -708,7 +709,6 @@ lemma exists_injective_phiAt_of_injective
         rw [AlgEquiv.symm_apply_apply, hψ]
         clear ha hb
         induction x with
-        | zero => simp
         | add a b iha ihb => simp only [add_tmul, map_add, iha, ihb]
         | tmul s b =>
             rw [Algebra.TensorProduct.map_tmul]
@@ -783,8 +783,7 @@ lemma exists_injective_phiAt_of_injective
           ((1 : A i) ⊗ₜ[A j₀] (k.val))
         = LinearMap.rTensor B₀
             (IsScalarTower.toAlgHom (A i₀) (A j₀) (A i)).toLinearMap (k.val) := by
-      induction k.val using TensorProduct.induction_on with
-      | zero => rw [tmul_zero, map_zero, map_zero]
+      induction k.val using TensorProduct.inductionOn with
       | add x y hx hy => rw [tmul_add, map_add, map_add, hx, hy]
       | tmul s b =>
           rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,

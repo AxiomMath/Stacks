@@ -143,13 +143,16 @@ def relocalizePresheafPostFullyFaithful (F : (BigFppfOver B T hT)ᵒᵖ ⥤ Type
     (X := (Over.map (yoneda.map g)).obj
       ((OverShriek.presheafEquivalence (U := B.obj hT)).functor.obj F))
     (OverShriek.presheafEquivalence (U := B.obj hS)).inverse).IsEquivalence)
-  have := Stacks.SheafOfModules.isEquivalence_overPost_overMap (yoneda.map g)
+  have hE := Stacks.SheafOfModules.isEquivalence_overPost_overMap (yoneda.map g)
     ((OverShriek.presheafEquivalence (U := B.obj hT)).functor.obj F)
-  ((Functor.FullyFaithful.ofFullyFaithful (Over.post (X := F)
-      (OverShriek.presheafEquivalence (U := B.obj hT)).functor)).comp
-    ((Functor.FullyFaithful.ofFullyFaithful (Over.post (Over.map (yoneda.map g)))).comp
-      (Functor.FullyFaithful.ofFullyFaithful (Over.post (OverShriek.presheafEquivalence
-        (U := B.obj hS)).inverse))))
+  have h₁ := Functor.FullyFaithful.ofFullyFaithful (Over.post (X := F)
+      (OverShriek.presheafEquivalence (U := B.obj hT)).functor)
+  have h₂ := (@Functor.asEquivalence _ _ _ _ _ hE).fullyFaithfulFunctor
+  have h₃ := Functor.FullyFaithful.ofFullyFaithful (Over.post
+    (X := (Over.map (yoneda.map g)).obj
+      ((OverShriek.presheafEquivalence (U := B.obj hT)).functor.obj F))
+    (OverShriek.presheafEquivalence (U := B.obj hS)).inverse)
+  h₁.comp (h₂.comp h₃)
 
 /-- `Λ` is fully faithful on algebraic spaces over a fixed algebraic space. -/
 def relocalizeSpacesPostFullyFaithful :

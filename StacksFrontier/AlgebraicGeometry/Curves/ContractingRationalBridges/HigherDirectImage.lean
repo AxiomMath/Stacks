@@ -249,7 +249,10 @@ theorem epi_rightDerived_zero_pushforward_map_unionBiprodToIntersection_bridge
   rw [← NatIso.naturality_2
     (Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso c)
     (unionBiprodToIntersection C (complementaryCurveIdeal C) hc.1)]
-  infer_instance
+  exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.app
+      (Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso c) _).isIso_hom)
+    (epi_comp' this (@IsIso.epi_of_iso _ _ _ _ _ (Iso.app
+      (Stacks.AlgebraicGeometry.DerivedPushforward.pushforwardRightDerivedZeroIso c) _).isIso_inv))
 
 /-! ### The vanishing -/
 

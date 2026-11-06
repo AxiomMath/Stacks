@@ -64,6 +64,25 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_NormalizationInConstruction :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_NormalizationInConstruction
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+private instance (priority := high) hasPullback_presheaf_NormalizationInConstruction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The site contains the relative normalization of a quasi-compact quasi-separated morphism
 of its objects.** -/
 theorem contains_normalization (X₀ Y₀ : BigFppfOver B S hS) (f₀ : X₀ ⟶ Y₀)
@@ -361,7 +380,7 @@ noncomputable def ofRepresentableTarget (Y₀ : BigFppfOver B S hS)
     (ofRepresentable B S hS (hrep.pullback (𝟙 (yoneda.obj Y₀))) Y₀
       (hrep.snd (𝟙 (yoneda.obj Y₀))))
   have hw : hrep.fst (𝟙 (yoneda.obj Y₀)) ≫ f =
-      yoneda.map (hrep.snd (𝟙 (yoneda.obj Y₀))) := by simpa using hsq.w
+      yoneda.map (hrep.snd (𝟙 (yoneda.obj Y₀))) := hsq.w.trans (Category.comp_id _)
   rw [Iso.symm_hom, asIso_inv, ← hw, IsIso.inv_hom_id_assoc]
 
 end NormalizationInData

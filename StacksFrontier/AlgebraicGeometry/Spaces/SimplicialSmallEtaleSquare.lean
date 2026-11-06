@@ -304,6 +304,14 @@ variable {X Y : SimplicialObject (AlgebraicSpaces B S hS)} {Z₁ Z₂ : Algebrai
   (h : X ⟶ Y) (a : X ⟶ (Functor.const _).obj Z₁) (b : Y ⟶ (Functor.const _).obj Z₂)
   (f : Z₁ ⟶ Z₂) (w : h ≫ b = a ≫ (Functor.const _).map f)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Right Kan extensions along forgetting the degree exist (cached: instance search for it is
+slow). -/
+instance hasPointwiseRightKanExtension_constForget_simplicialSmallEtaleSquare
+    (Z : AlgebraicSpaces B S hS)
+    (G : (SimplicialSpacesEtaleSite B S hS ((Functor.const _).obj Z))ᵒᵖ ⥤ Type (u + 1)) :
+    (constForget Z).op.HasPointwiseRightKanExtension G := inferInstance
+
 /-- The structure map of forgetting the degree is the unit of the adjunction `ε⁻¹ ⊣ ε_*`. -/
 theorem forgetFSharp_constRingedToposHom (Z : AlgebraicSpaces B S hS) :
     forgetFSharp (constRingedToposHom Z) =
@@ -389,6 +397,7 @@ theorem comp_eq_of_app_zero
     _ = X.map φ ≫ a.app (op ⦋0⦌) ≫ f := by rw [w₀]
     _ = (a ≫ (Functor.const _).map f).app n := by rw [← Category.assoc, map_comp_app_zero a]; rfl
 
+set_option maxHeartbeats 400000 in
 /-- **Stacks 0DE7.** For a morphism `h : X ⟶ Y` of simplicial algebraic spaces with
 augmentations `a : X → X₋₁`, `b : Y → Y₋₁` and a morphism `h₋₁ : X₋₁ ⟶ Y₋₁` with
 `h₋₁ ∘ a₀ = b₀ ∘ h₀`, the square of morphisms of ringed topoi commutes:

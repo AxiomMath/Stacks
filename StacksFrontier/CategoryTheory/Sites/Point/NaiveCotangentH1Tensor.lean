@@ -351,11 +351,11 @@ theorem exists_h1Restrict_eq_zero (X : C) (x : Φ.fiber.obj X) (z : H1X A B a X)
     ∃ (Y : C) (g : Y ⟶ X) (y : Φ.fiber.obj Y), Φ.fiber.map g y = x ∧
       h1Restrict A B a g z = 0 := by
   obtain ⟨j, t, ht⟩ := NaiveCotangent.exists_h1CotangentMapOfSquare_eq_zero_of_isColimit
-    (Functor.whiskerLeft (CategoryOfElements.π Φ.fiber).op a)
+    (Functor.whiskerLeft (Functor.Elements.π Φ.fiber).op a)
     (colimit.isColimit _) (colimit.isColimit _)
     ((Φ.presheafFiber (A := CommRingCat.{w})).map a)
-    (fun i => colimit.ι_desc _ _) (op ⟨X, x⟩) z hz
-  exact ⟨j.unop.1, t.unop.1, j.unop.2, t.unop.2, ht⟩
+    (fun i => colimit.ι_desc _ _) (op (Φ.fiber.elementsMk X x)) z hz
+  exact ⟨j.unop.obj, t.unop.hom, j.unop.val, t.unop.map_val, ht⟩
 
 include hρ hε hsq hρΦ hεΦ in
 /-- **Surjectivity of `τ` near the point**: every class of `H₁(L_{B(X)/A(X)})` lies, on a
@@ -380,7 +380,7 @@ theorem exists_h1Tensor_eq_h1Restrict (X : C) (x : Φ.fiber.obj X) (z : H1X A B 
       germH1_restrict, hy₁, sub_eq_zero, ht₁]
   obtain ⟨Y₂, g₂, y₂, hy₂, hg₂⟩ :=
     exists_h1Restrict_eq_zero A B a Φ Y₁ y₁ z₁ hz₁
-  refine ⟨Y₂, g₂ ≫ g₁, y₂, by rw [FunctorToTypes.map_comp_apply, hy₂, hy₁],
+  refine ⟨Y₂, g₂ ≫ g₁, y₂, by rw [Functor.map_comp_apply, hy₂, hy₁],
     restrictTensor B R Γ ε hε g₂ t₁, ?_⟩
   rw [map_sub, sub_eq_zero] at hg₂
   rw [h1Tensor_restrict A B a R Γ ρ hρ ε hε hsq, hg₂, ← h1Restrict_comp]

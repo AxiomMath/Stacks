@@ -237,14 +237,14 @@ private theorem torPhi_finsupp_exactAt {A : Type u} [CommRing A] (ι S : Type u)
   rw [ShortComplex.moduleCat_exact_iff] at hC
   have hCfun : Function.Exact (LinearMap.lTensor S (ModuleCat.Hom.hom (Pr.d i j)))
       (LinearMap.lTensor S (ModuleCat.Hom.hom (Pr.d j k))) := by
-    rw [← hCdij, ← hCdjk, LinearMap.exact_iff]
-    apply le_antisymm
-    · intro x hx
-      rw [LinearMap.mem_ker] at hx
+    rw [← hCdij, ← hCdjk]
+    intro x
+    constructor
+    · intro hx
       obtain ⟨y, hy⟩ := hC x hx
       exact ⟨y, hy⟩
-    · rintro _ ⟨y, rfl⟩
-      rw [LinearMap.mem_ker, hCdjk, hCdij, ← LinearMap.comp_apply, ← LinearMap.lTensor_comp,
+    · rintro ⟨y, rfl⟩
+      rw [hCdjk, hCdij, ← LinearMap.comp_apply, ← LinearMap.lTensor_comp,
         ← ModuleCat.hom_comp, HomologicalComplex.d_comp_d Pr i j k]
       simp
   have hSfun : Function.Exact

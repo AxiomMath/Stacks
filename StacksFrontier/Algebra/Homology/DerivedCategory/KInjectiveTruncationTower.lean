@@ -305,7 +305,7 @@ lemma isIso_of_eventually_isIso_homology
       apply Pi.hom_ext
       intro n
       show (k ≫ Pi.lift (fun n : ℕ ↦ limit.π (F ⋙ H) ⟨n⟩)) ≫ Pi.π _ n = _
-      rw [Category.assoc, Pi.lift_π, hk, Category.assoc]
+      rw [Category.assoc, Pi.lift_comp_π, hk, Category.assoc]
       show H.map (p ≫ Pi.π _ n) =
         H.map p ≫ piComparison H (fun n : ℕ ↦ F.obj ⟨n⟩) ≫ Pi.π _ n
       rw [piComparison_comp_π, H.map_comp]
@@ -346,7 +346,7 @@ lemma isSplitEpi_difference_of_isSplitEpi
   apply Pi.hom_ext
   intro n
   rw [Category.assoc, inverseSystemDifference_comp_π, Preadditive.comp_sub,
-    Pi.lift_π, ← Category.assoc, Pi.lift_π]
+    Pi.lift_comp_π, ← Category.assoc, Pi.lift_comp_π]
   show k n - (((k n - Pi.π _ n) ≫ σ n) ≫ F.map (homOfLE (Nat.le_succ n)).op) = _
   rw [Category.assoc, show σ n ≫ F.map (homOfLE (Nat.le_succ n)).op = 𝟙 _ from
     @IsSplitEpi.id _ _ _ _ _ (ht n), Category.comp_id, sub_sub_cancel, Category.id_comp]
@@ -406,7 +406,7 @@ lemma exists_distTriang_limit_of_degreewise_isSplitEpi
       change e.hom ≫ Pi.π _ n = Q.map (Pi.π _ n) at he
       rw [he, ← Q.map_comp]
       show Q.map ((Pi.lift (fun n : ℕ ↦ limit.π F ⟨n⟩)) ≫ Pi.π _ n) = _
-      rw [Pi.lift_π, Pi.lift_π]
+      rw [Pi.lift_comp_π, Pi.lift_comp_π]
     rw [← hp, Category.assoc, e.hom_inv_id, Category.comp_id]
   have h2 : inverseSystemDifference (F ⋙ Q) ≫ e.inv = e.inv ≫ Q.map S.g := by
     have he : Q.map S.g ≫ e.hom = e.hom ≫ inverseSystemDifference (F ⋙ Q) :=
@@ -437,7 +437,7 @@ lemma quasiIso_limitLift_of_eventually_quasiIsoAt
     (DerivedCategory.Q.mapCone c) (DerivedCategory.Q.map (limit.lift F c))
     (Pi.lift fun n : ℕ ↦ DerivedCategory.Q.map (limit.π F ⟨n⟩)) δ hδ
   · intro n
-    rw [Pi.lift_π, ← Functor.map_comp, limit.lift_π]
+    rw [Pi.lift_comp_π, ← Functor.map_comp, limit.lift_π]
     rfl
   · intro i
     obtain ⟨N, hN⟩ := h i
@@ -604,8 +604,13 @@ lemma property_truncGE_map
 abelian groups. -/
 lemma presheafModules_hasExactCountableProducts
     {C : Type uC} [Category.{vC} C] (O : Cᵒᵖ ⥤ RingCat.{uD}) :
-    HasExactLimitsOfShape (Discrete ℕ) (PresheafOfModules.{wC} O) :=
-  HasExactLimitsOfShape.domain_of_functor (Discrete ℕ) (PresheafOfModules.toPresheaf O)
+    HasExactLimitsOfShape (Discrete ℕ) (PresheafOfModules.{wC} O) := by
+  have : HasLimitsOfShape (Discrete ℕ) AddCommGrpCat.{wC} := AddCommGrpCat.hasLimitsOfShape
+  have : HasLimitsOfShape (Discrete ℕ) (Cᵒᵖ ⥤ AddCommGrpCat.{wC}) := inferInstance
+  have : HasProducts.{wC} (Cᵒᵖ ⥤ AddCommGrpCat.{wC}) := fun _ =>
+    @functorCategoryHasLimitsOfShape _ _ _ _ _ _ AddCommGrpCat.hasLimitsOfShape
+  have : HasExactLimitsOfShape (Discrete ℕ) (Cᵒᵖ ⥤ AddCommGrpCat.{wC}) := inferInstance
+  exact HasExactLimitsOfShape.domain_of_functor (Discrete ℕ) (PresheafOfModules.toPresheaf O)
 
 end Stacks.TruncationTower
 

@@ -564,6 +564,7 @@ theorem liftActionSheafChart_val_obj (hG : IsThickening C S hS X' G) (q : Y ⟶ 
         (op ((thickeningChartBaseChange C S hS hG).obj U'))) :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The acting sheaf of Stacks 061D, read on the spaces-étale site of the ambient space.**
 For a thickening `X ⊂ X'` of algebraic spaces and `a : X ⟶ Y` over `B`, the sheaf
 `SheafHom_{𝒪_X}(a^*Ω_{Y/B}, 𝒞_{X/X'})` transported to a sheaf of abelian groups on the
@@ -587,6 +588,7 @@ noncomputable def liftActionSheafAmbient (hG : IsThickening C S hS X' G) (q : Y 
       (SmallEtale.topology C S hS X'.1) (SpacesEtale.topology C S hS X')).inv.obj
     (liftActionSheafChart C S hS hG q a)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The restriction of `AlgebraicGeometry.Space.liftActionSheafAmbient` to the small étale site
 of scheme charts of `X'` is `AlgebraicGeometry.Space.liftActionSheafChart`, so the sections of
 the acting sheaf at a chart are computed by

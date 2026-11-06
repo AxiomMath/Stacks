@@ -469,7 +469,7 @@ theorem maximalIdeal_pow_le_map_maximalIdeal :
   have hmax : ((p.under B).under A).IsMaximal :=
     (maximalIdeal.isMaximal A).eq_of_le hprime.ne_top hmle ▸ maximalIdeal.isMaximal A
   have hqmax : (p.under B).IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) (p.under B) hmax
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) (p.under B) hmax
   have hle : p.under B ≤ q.asIdeal := by
     have h : p.under B ≤ (maximalIdeal (Localization.AtPrime q.asIdeal)).under B :=
       Ideal.comap_mono (IsLocalRing.le_maximalIdeal hpp.ne_top)

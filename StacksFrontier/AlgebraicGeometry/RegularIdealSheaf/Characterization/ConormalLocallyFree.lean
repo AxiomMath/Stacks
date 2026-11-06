@@ -664,7 +664,7 @@ private lemma exists_tuplePolynomialMap_of_isHomogeneous {R : Type u} [CommRing 
   classical
   have hdeg : ∀ e ∈ p.support, ∑ i, e i = n := by
     intro e he
-    have hc : MvPolynomial.coeff e p ≠ 0 := MvPolynomial.mem_support_iff.mp he
+    have hc : p.coeff e ≠ 0 := MvPolynomial.mem_support_iff.mp he
     have hwe : (Finsupp.weight (1 : Fin r → ℕ)) e = n := hp hc
     have hsupp : ∑ i, e i = ∑ i ∈ e.support, e i := by
       symm
@@ -675,10 +675,10 @@ private lemma exists_tuplePolynomialMap_of_isHomogeneous {R : Type u} [CommRing 
     simp [Finsupp.weight_apply, Finsupp.sum]
   choose t ht using fun (e : {e : Fin r →₀ ℕ // e ∈ p.support}) =>
     exists_tupleExponent_of_sum n (e : Fin r →₀ ℕ) (hdeg e.1 e.2)
-  refine ⟨∑ e ∈ p.support.attach, Finsupp.single (t e) (MvPolynomial.coeff e.1 p), ?_⟩
+  refine ⟨∑ e ∈ p.support.attach, Finsupp.single (t e) (p.coeff e.1), ?_⟩
   rw [map_sum]
   conv_rhs => rw [p.as_sum, ← Finset.sum_attach p.support
-    (fun e => MvPolynomial.monomial e (MvPolynomial.coeff e p))]
+    (fun e => MvPolynomial.monomial e (p.coeff e))]
   apply Finset.sum_congr rfl
   intro e _
   simp only [tuplePolynomialMap, Finsupp.linearCombination_single, ht e,

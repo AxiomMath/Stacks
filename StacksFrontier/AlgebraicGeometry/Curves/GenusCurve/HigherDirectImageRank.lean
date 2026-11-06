@@ -109,6 +109,7 @@ theorem isFiniteLocallyFreeOfRank_rightDerived_pushforward_unit_of_isProper {X :
   have : FiniteDimensional k (structureSheafCohomology f n) :=
     LinearEquiv.finiteDimensional eH.symm
   have : FiniteDimensional k V := LinearEquiv.finiteDimensional eV.symm
+  have : Module.Free k V := Module.Free.of_divisionRing k V
   let b : Module.Basis (ULift.{u} (Fin (Module.finrank k (structureSheafCohomology f n)))) k V :=
     (Module.finBasisOfFinrankEq k V (LinearEquiv.finrank_eq eV)).reindex Equiv.ulift.symm
   obtain ⟨eFree⟩ := (tilde_fixed_free_iff_basis k V _).2 ⟨b⟩

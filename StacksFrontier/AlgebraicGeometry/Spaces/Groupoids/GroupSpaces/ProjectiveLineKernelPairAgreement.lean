@@ -205,7 +205,7 @@ theorem le_coordinateAgreementSubfunctor_iff (α : Type v) [Small.{u} α] (a b :
         V.ι ≫ Pi.π (fun _ : α => projectiveLineFunctor K B hK) b := by
   rw [coordinateAgreementSubfunctor, le_eqSubfunctor_iff]
   simp only [← Category.assoc]
-  exact cancel_mono (projectiveLineRestrictedYonedaIso K B hK).hom
+  exact Iso.cancel_iso_hom_right _ _ (projectiveLineRestrictedYonedaIso K B hK)
 
 omit [IsAlgClosed K] in
 /-- A morphism into a power of the projective line whose two prescribed coordinates agree has
@@ -280,7 +280,7 @@ theorem range_pointsMap_coordinateAgreementSubfunctor_ne_univ (α : Type v) [Sma
     (eqSubfunctor_eq_top_iff B (Spec (CommRingCat.of K)) hK _ _ _ _).1
       (le_antisymm le_top htop)
   exact hξ (congrArg (fun t => ξ ≫ t)
-    ((cancel_mono (projectiveLineRestrictedYonedaIso K B hK).hom).1 heq))
+    ((Iso.cancel_iso_hom_right _ _ (projectiveLineRestrictedYonedaIso K B hK)).1 heq))
 
 /-! ### The two legs of the kernel pair agree -/
 
@@ -354,7 +354,7 @@ theorem comp_subsetKernelPair_eq_of_comp_matrixAut_eq (m : ℕ)
           x ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) j)
         (fun _ : ↥(Finset.univ : Finset (Fin m)) =>
           y ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) j) b),
-      fun c => Pi.lift_π _ (Sum.inl c), fun i => Pi.lift_π _ (Sum.inr i)⟩
+      fun c => Pi.lift_comp_π _ (Sum.inl c), fun i => Pi.lift_comp_π _ (Sum.inr i)⟩
   -- the point set of the coincidence locus of the paired coordinates at `c`
   let bad := fun c : subsetComplIndex (Finset.univ : Finset (Fin m)) S =>
     Set.range (pointsMap B (Spec (CommRingCat.of K)) hK

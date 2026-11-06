@@ -119,6 +119,17 @@ namespace ClosedPointNeighborhoods
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {n : ℕ}
   (D : ClosedPointNeighborhoods B S hS n)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_ModificationsAtClosedPointsProperties :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ModificationsAtClosedPointsProperties
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The residue field of the distinguished point of a neighborhood -/
 
 /-- The canonical field-valued representative of the distinguished point `uᵢ` of the `i`th
@@ -398,7 +409,7 @@ theorem isQuasiSeparated_iff_forall_restrictionComponent :
   refine prop_of_prop_restrictionComponent hbc ?_ ?_ ?_ M hh
   · intro F G k _ _ hk
     have := hk
-    have : IsIso (pullback.diagonal k) := (pullback.isIso_diagonal_iff k).2 inferInstance
+    have : IsIso (pullback.diagonal k) := (pullback.isIso_diagonal_iff k).2 (IsIso.mono_of_iso k)
     exact isQuasiCompact_of_isClosedImmersion' B S hS
       (isClosedImmersion_of_isIso B S hS (pullback.diagonal k))
   · intro F G k hF hG U q hqs hqe h

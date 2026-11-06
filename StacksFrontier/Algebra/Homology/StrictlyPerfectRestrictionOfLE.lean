@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 public import StacksFrontier.Algebra.Homology.StrictlyPerfectRestriction
 
 /-!
@@ -172,7 +173,6 @@ def restrictSheafOfModulesAdj :
     change 𝟙 _ ≫ R.obj.map _ ≫ R.obj.map _ = 𝟙 _
     rw [Category.id_comp, ← Functor.map_comp]
     convert R.obj.map_id (hf.functor.op.obj W) using 2
-    exact Subsingleton.elim _ _
 
 /-- Restriction of sheaves of modules along an open embedding preserves finite limits. -/
 lemma preservesFiniteLimits_restrictSheafOfModules :
@@ -326,7 +326,6 @@ def restrictSheafOfModulesOfLEAdj (h : V ≤ U) :
     change R.obj.map _ ≫ R.obj.map _ ≫ R.obj.map _ = 𝟙 _
     rw [← Functor.map_comp, ← Functor.map_comp]
     convert R.obj.map_id _ using 2
-    exact Subsingleton.elim _ _
 
 /-- Restriction of sheaves of modules along `V ≤ U` preserves finite limits. -/
 lemma preservesFiniteLimits_restrictSheafOfModulesOfLE (h : V ≤ U) :

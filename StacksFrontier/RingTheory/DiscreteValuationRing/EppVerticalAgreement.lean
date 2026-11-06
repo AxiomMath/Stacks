@@ -140,7 +140,7 @@ theorem ramificationIdx_eq_finrank_of_totallyRamified_under
   have hmP : m.IsPrime := hm.isPrime
   have hintS : Algebra.IsIntegral R S := IsIntegralClosure.isIntegral_algebra R K₂
   have hmaxdown : (m.under R).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) (hI := hm) m
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m
   have hlo : m.LiesOver (IsLocalRing.maximalIdeal R) :=
     ⟨(IsLocalRing.eq_maximalIdeal hmaxdown).symm⟩
   have hRK₂ : Function.Injective (algebraMap R K₂) := by
@@ -224,7 +224,7 @@ theorem isWeakSolution_of_totallyRamified_of_ramificationIdx_le
     exact Module.finrank_pos
   · intro q' hq'
     have : q'.IsPrime := hq'.isPrime
-    exact Ideal.ramificationIdx_pos q' D₁.B₁
+    exact Ideal.ramificationIdx_pos D₁.B₁ q'
   · intro q' hq'
     rw [hAside q' hq']
     exact hle q' hq'

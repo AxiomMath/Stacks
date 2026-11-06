@@ -197,7 +197,7 @@ theorem exists_isHomogeneous_X_one_pow_mul_add (n : ℕ) {P : MvPolynomial (Fin 
   classical
   obtain ⟨d, hd⟩ : ∃ d, d = n * 2 := ⟨_, rfl⟩
   rw [← hd] at hP
-  set a : ℕ → A := fun j => MvPolynomial.coeff (MvPolynomial.binaryExponent d j) P with ha
+  set a : ℕ → A := fun j => P.coeff (MvPolynomial.binaryExponent d j) with ha
   have hPsum := MvPolynomial.eq_sum_binaryMonomial d P hP
   refine ⟨∑ j ∈ (Finset.range (d + 1)).filter (fun j => n ≤ j),
       a j • (MvPolynomial.X 0 ^ (d - j) * MvPolynomial.X 1 ^ (j - n)),

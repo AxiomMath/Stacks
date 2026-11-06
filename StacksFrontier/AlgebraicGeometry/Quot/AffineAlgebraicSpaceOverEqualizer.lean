@@ -88,7 +88,7 @@ theorem isAffineAlgebraicSpaceOver_of_isLimit_predicateSystem
     (c : Cone R) (hc : IsLimit c) : IsAffineAlgebraicSpaceOver Y c.pt :=
   isAffineAlgebraicSpaceOver_of_isLimit B S hS (predicateSystem B S hS R h)
     (predicateSystemProjection B S hS R h) (isAlgebraicSpace_predicateSystem B S hS R h) hlim i₀
-    haff ((Cones.postcompose (predicateSystemIso B S hS R h).inv).obj c)
+    haff ((Cone.postcompose (predicateSystemIso B S hS R h).inv).obj c)
     ((IsLimit.postcomposeInvEquiv (predicateSystemIso B S hS R h) c).symm hc) (Iso.refl _)
 
 end PredicateSystem

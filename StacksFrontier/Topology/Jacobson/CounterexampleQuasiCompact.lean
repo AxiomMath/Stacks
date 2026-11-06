@@ -31,6 +31,7 @@ public import Mathlib.Tactic.NormNum.Parity
 public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Topology.JacobsonSpace
 public import Mathlib.Topology.Spectral.Prespectral
 import StacksCore.Tactic.EgaSgaAttribute
 

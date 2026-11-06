@@ -44,6 +44,17 @@ namespace AlgebraicGeometry
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `integerBase` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_curvesGeometricallyReducedSupplement :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_curvesGeometricallyReducedSupplement
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Geometrically reduced families over an arbitrary base -/
 
 /-- An isomorphism of presheaves on the big fppf site is a surjective chart: it is relatively

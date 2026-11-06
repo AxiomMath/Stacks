@@ -85,7 +85,7 @@ public theorem shift_apply (s : H) (f : H →₀ M) (y : H) : shift s f y = s⁻
   have : y = y * s⁻¹ * s := by rw [inv_mul_cancel_right]
   conv_lhs => rw [this]
   rw [shift, AddMonoidHom.comp_apply, Finsupp.mapDomain.addMonoidHom_apply,
-    Finsupp.mapDomain_apply (mul_left_injective s)]
+    Finsupp.mapDomain_apply_of_injective (mul_left_injective s)]
   simp [DistribSMul.toAddMonoidHom]
   rfl
 

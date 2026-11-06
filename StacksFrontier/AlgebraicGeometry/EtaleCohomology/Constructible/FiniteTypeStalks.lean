@@ -66,6 +66,9 @@ private theorem isFG_of_iso {E E' : ModuleCat.{max (u + 1) r} Λ} (e : E ≅ E')
 
 variable (X : B.Scheme) [IsNoetherianRing Λ]
 
+attribute [local instance] SmallEtale.isRightAdjointPushforward_moduleCat
+  SmallEtale.hasWeakSheafifyOver_moduleCat
+
 omit [IsNoetherianRing Λ] in
 /-- **The geometric stalks of a constructible sheaf of `Λ`-modules are finitely generated.** Let
 `Λ` be a Noetherian ring and `F` a constructible sheaf of `Λ`-modules on the small étale site of a

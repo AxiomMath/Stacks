@@ -3,6 +3,7 @@ module
 public import StacksFrontier.RingTheory.Catenary.Defs
 public import StacksFrontier.Topology.Dimension.DimensionFunctionCatenary
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 import Mathlib.RingTheory.RingHom.FiniteType
 import Mathlib.RingTheory.Finiteness.Small
 import Mathlib.Algebra.Algebra.Shrink
@@ -873,14 +874,13 @@ lemma exists_covchain_top {A : Type*} [CommRing A] [IsNoetherianRing A] [IsLocal
     (p : PrimeSpectrum A) :
     ∃ s : CovChain A, s.head = p ∧ s.last = ⊤ ∧ (s.length : ℕ∞) = Order.coheight p := by
   have : WellFoundedGT (PrimeSpectrum A) := by
-    constructor
     apply WellFounded.onFun (f := PrimeSpectrum.asIdeal) (r := (· > ·))
-    exact (IsWellFounded.wf : WellFounded (· > · : Ideal A → Ideal A → Prop))
+    exact (wellFounded_gt : WellFounded (· > · : Ideal A → Ideal A → Prop))
   have hfd : FiniteDimensionalOrder (PrimeSpectrum A) := by
     rw [Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]
     exact ⟨(Order.bot_lt_krullDim).ne', ringKrullDim_lt_top.ne⟩
   have : WellFoundedLT (PrimeSpectrum A) :=
-    ⟨SetRel.IsWellFounded.of_finiteDimensional {(a, b) : PrimeSpectrum A × PrimeSpectrum A | a < b}⟩
+    SetRel.IsWellFounded.of_finiteDimensional {(a, b) : PrimeSpectrum A × PrimeSpectrum A | a < b}
   have hfin : Order.coheight p < ⊤ := coheight_lt_top_of_noetherianLocal p
   set n := (Order.coheight p).toNat with hndef
   have hn : Order.coheight p = (n : ℕ∞) := by rw [hndef]; exact (ENat.natCast_toNat hfin.ne).symm

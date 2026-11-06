@@ -75,7 +75,6 @@ public theorem evalTensor_tmul (lam : R →ₐ[k] k) (r : R) (v : V) :
 public theorem evalTensor_smul (lam : R →ₐ[k] k) (r : R) (x : R ⊗[k] V) :
     evalTensor lam (r • x) = lam r • evalTensor lam x := by
   induction x with
-  | zero => simp
   | tmul s v =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     simp only [evalTensor_tmul, _root_.map_mul, mul_smul]
@@ -94,7 +93,6 @@ public theorem specializeEnd_apply (lam : R →ₐ[k] k) (G : R ⊗[k] V →ₗ[
 public theorem evalTensor_apply_map (lam : R →ₐ[k] k) (G : R ⊗[k] V →ₗ[R] R ⊗[k] V)
     (x : R ⊗[k] V) : evalTensor lam (G x) = specializeEnd lam G (evalTensor lam x) := by
   induction x with
-  | zero => simp
   | tmul r v =>
     have h : r ⊗ₜ[k] v = r • ((1 : R) ⊗ₜ[k] v) := by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -180,7 +178,6 @@ public theorem symAlgBaseChangeEquiv_symm_ι (x : R ⊗[k] V) :
       LinearMap.baseChange R (SymmetricAlgebra.ι k V) x := by
   rw [AlgEquiv.symm_apply_eq]
   induction x with
-  | zero => simp
   | tmul r v =>
     rw [LinearMap.baseChange_tmul, SymPow.symAlgBaseChangeEquiv_apply,
       SymPow.symAlgBaseChangeHom_tmul, SymmetricAlgebra.lift_ι_apply,
@@ -193,7 +190,6 @@ public theorem tensorEval_baseChange_ι (lam : R →ₐ[k] k) (x : R ⊗[k] V) :
     tensorEval lam (LinearMap.baseChange R (SymmetricAlgebra.ι k V) x) =
       SymmetricAlgebra.ι k V (evalTensor lam x) := by
   induction x with
-  | zero => simp
   | tmul r v =>
     rw [LinearMap.baseChange_tmul, tensorEval_tmul, evalTensor_tmul, map_smul,
       Algebra.smul_def]

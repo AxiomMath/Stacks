@@ -88,6 +88,12 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of the underlying presheaves of algebraic spaces (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_hom_strictTransformChart
+    {X Y Z : AlgebraicSpaces B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasPullback f.hom g.hom :=
+  HasLimitsOfShape.has_limit _
+
 section Chart
 
 variable {Y 𝔅 𝔅' : AlgebraicSpaces B S hS} (f : Y ⟶ 𝔅) (b : 𝔅' ⟶ 𝔅)
@@ -100,23 +106,23 @@ variable {Y 𝔅 𝔅' : AlgebraicSpaces B S hS} (f : Y ⟶ 𝔅) (b : 𝔅' ⟶
 /-- The fibre product `V ×_W W'` of two objects of the big fppf site over a third, built on the
 fibre product of the underlying schemes. -/
 abbrev chartPullbackObj : BigFppfOver B S hS :=
-  Over.mk (Y := B.obj hT) (⟨pullback.fst ((BigFppfOver.toScheme B S hS).map p)
+  Over.mk (Y := B.obj hT) (⟨Limits.pullback.fst ((BigFppfOver.toScheme B S hS).map p)
     ((BigFppfOver.toScheme B S hS).map b₀)⟩ ≫ cV.obj.left.hom)
 
 /-- The first projection `V ×_W W' ⟶ V`. -/
 abbrev chartPullbackFst : chartPullbackObj cV p b₀ hT ⟶ cV.obj.left :=
-  Over.homMk ⟨pullback.fst _ _⟩ rfl
+  Over.homMk ⟨Limits.pullback.fst _ _⟩ rfl
 
 /-- The second projection `V ×_W W' ⟶ W'`. -/
 abbrev chartPullbackSnd : chartPullbackObj cV p b₀ hT ⟶ W' :=
-  Over.homMk ⟨pullback.snd _ _⟩ (by
+  Over.homMk ⟨Limits.pullback.snd _ _⟩ (by
     apply B.inclusion.map_injective
     have hp := Over.w p
     have hb := Over.w b₀
-    change pullback.snd _ _ ≫ B.inclusion.map W'.hom =
-      pullback.fst _ _ ≫ B.inclusion.map cV.obj.left.hom
+    change Limits.pullback.snd _ _ ≫ B.inclusion.map W'.hom =
+      Limits.pullback.fst _ _ ≫ B.inclusion.map cV.obj.left.hom
     rw [← hb, ← hp, Functor.map_comp, Functor.map_comp, ← Category.assoc, ← Category.assoc]
-    exact congrArg (· ≫ B.inclusion.map W.hom) pullback.condition.symm)
+    exact congrArg (· ≫ B.inclusion.map W.hom) Limits.pullback.condition.symm)
 
 /-- The square formed by the two projections of `V ×_W W'` and the morphisms `p : V ⟶ W` and
 `b₀ : W' ⟶ W` is a pullback square. -/
@@ -129,7 +135,7 @@ variable {f b cV cW cW' p b₀} in
 abbrev chartPullbackMap (hp : cV.obj.hom ≫ f.hom = yoneda.map p ≫ cW)
     (hb : yoneda.map b₀ ≫ cW = cW' ≫ b.hom) :
     yoneda.obj (chartPullbackObj cV p b₀ hT) ⟶ (strictTransformPullback B S hS f b).1 :=
-  pullback.lift (yoneda.map (chartPullbackFst cV p b₀ hT) ≫ cV.obj.hom)
+  Limits.pullback.lift (yoneda.map (chartPullbackFst cV p b₀ hT) ≫ cV.obj.hom)
     (yoneda.map (chartPullbackSnd cV p b₀ hT) ≫ cW') (by
       rw [Category.assoc, hp, Category.assoc, ← hb, ← Category.assoc, ← Category.assoc,
         ← Functor.map_comp, ← Functor.map_comp, (isPullback_chartPullback cV p b₀ hT).w])
@@ -141,14 +147,14 @@ variable {f b cV cW cW' p b₀} in
 theorem isPullback_chartPullbackMap (hp : cV.obj.hom ≫ f.hom = yoneda.map p ≫ cW)
     (hb : yoneda.map b₀ ≫ cW = cW' ≫ b.hom) (hsq : IsPullback (yoneda.map b₀) cW' cW b.hom) :
     IsPullback (chartPullbackMap hT hp hb) (yoneda.map (chartPullbackFst cV p b₀ hT))
-      (pullback.fst f.hom b.hom) cV.obj.hom := by
+      (Limits.pullback.fst f.hom b.hom) cV.obj.hom := by
   have A : IsPullback (yoneda.map (chartPullbackSnd cV p b₀ hT))
       (yoneda.map (chartPullbackFst cV p b₀ hT)) (yoneda.map b₀) (yoneda.map p) :=
     ((isPullback_chartPullback cV p b₀ hT).map yoneda).flip
-  refine IsPullback.of_right ?_ (pullback.lift_fst _ _ _)
+  refine IsPullback.of_right ?_ (Limits.pullback.lift_fst _ _ _)
     (IsPullback.of_hasPullback f.hom b.hom).flip
-  have e1 : chartPullbackMap hT hp hb ≫ pullback.snd f.hom b.hom =
-      yoneda.map (chartPullbackSnd cV p b₀ hT) ≫ cW' := pullback.lift_snd _ _ _
+  have e1 : chartPullbackMap hT hp hb ≫ Limits.pullback.snd f.hom b.hom =
+      yoneda.map (chartPullbackSnd cV p b₀ hT) ≫ cW' := Limits.pullback.lift_snd _ _ _
   rw [e1, hp]
   exact A.paste_horiz hsq.flip
 
@@ -438,7 +444,7 @@ theorem nonempty_strictTransformSheaf_iso_restrictToChart (hM : M.IsQuasicoheren
     (eq_zero_of_cokernel_π_restrict_eq_zero _ _ _ Oc hOc hclosed)
   let β := chartRestrictionBaseChangeIso B S hS (strictTransformPullbackToSource B S hS f b) M hM
     cV (strictTransformBaseChangeChart hT hp hb hsq) (chartPullbackFst cV p b₀ hT)
-    (pullback.lift_fst _ _ _).symm
+    (Limits.pullback.lift_fst _ _ _).symm
   let ρ := restrictToChartIsoPushforward B S hS _ (strictTransformBaseChangeChart hT hp hb hsq)
     ((modulePullback B S hS (strictTransformPullbackToSource B S hS f b)).obj M)
   let q := @CategoryStruct.comp (Scheme.Modules (chartScheme
@@ -454,7 +460,7 @@ theorem nonempty_strictTransformSheaf_iso_restrictToChart (hM : M.IsQuasicoheren
     (Stacks.StrictTransform.exceptionalPreimage_eq_compl ((BigFppfOver.toScheme B S hS).map p)
       ((BigFppfOver.toScheme B S hS).map b₀) E₀) _ _ q hq hunit hqm
   have hfst : (BigFppfOver.toScheme B S hS).map (chartPullbackFst cV p b₀ hT) =
-      pullback.fst ((BigFppfOver.toScheme B S hS).map p) ((BigFppfOver.toScheme B S hS).map b₀) :=
+      Limits.pullback.fst ((BigFppfOver.toScheme B S hS).map p) ((BigFppfOver.toScheme B S hS).map b₀) :=
     rfl
   rw [hfst] at e
   exact ⟨e ≪≫ (restrictToChartIsoPushforward B S hS _ _ _).symm⟩

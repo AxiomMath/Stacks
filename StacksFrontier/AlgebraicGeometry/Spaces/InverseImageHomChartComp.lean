@@ -116,13 +116,23 @@ theorem forget_map_compInverseImageRingIso_hom :
           (smallEtaleRingedTopos B S hS Z).O) =
       (smallEtaleRingedToposHom_compInverseImageIso B S hS p q).hom.app
         ((smallEtaleRingedTopos B S hS Z).forgetRing.obj (smallEtaleRingedTopos B S hS Z).O) := by
+  have h₁ := forget_map_inverseImageCommRingComp_hom
+    (smallEtaleRingedToposHom B S hS q).toToposHom
+    (smallEtaleRingedToposHom B S hS p).toToposHom (smallEtaleRingedTopos B S hS Z).O
+  haveI : PreservesFiniteProducts ((smallEtaleRingedToposHom B S hS q).toToposHom.comp
+      (smallEtaleRingedToposHom B S hS p).toToposHom).inverseImage :=
+    ⟨fun n ↦ ((smallEtaleRingedToposHom B S hS q).toToposHom.comp
+      (smallEtaleRingedToposHom B S hS p).toToposHom).preservesFiniteLimits.preservesFiniteLimits
+        (Discrete (Fin n))⟩
+  haveI : PreservesFiniteProducts
+      (smallEtaleRingedToposHom B S hS (p ≫ q)).toToposHom.inverseImage :=
+    ⟨fun n ↦ (smallEtaleRingedToposHom B S hS (p ≫ q)).toToposHom.preservesFiniteLimits
+      |>.preservesFiniteLimits (Discrete (Fin n))⟩
+  have h₂ := underlyingRingSheaf_map_pullbackCommRingSheafFunctorIsoOfNatIso_hom
+    (smallEtaleRingedTopos B S hS X).J (smallEtaleRingedTopos B S hS Z).O
+    (smallEtaleRingedToposHom_compInverseImageIso B S hS p q)
   refine Eq.trans ((smallEtaleRingedTopos B S hS X).forgetRing.map_comp _ _) ?_
-  refine Eq.trans (congrArg₂ (fun a b ↦ a ≫ b)
-    (forget_map_inverseImageCommRingComp_hom (smallEtaleRingedToposHom B S hS q).toToposHom
-      (smallEtaleRingedToposHom B S hS p).toToposHom (smallEtaleRingedTopos B S hS Z).O)
-    (underlyingRingSheaf_map_pullbackCommRingSheafFunctorIsoOfNatIso_hom
-      (smallEtaleRingedTopos B S hS X).J (smallEtaleRingedTopos B S hS Z).O
-      (smallEtaleRingedToposHom_compInverseImageIso B S hS p q))) ?_
+  refine Eq.trans (congrArg₂ (fun a b ↦ a ≫ b) h₁ h₂) ?_
   exact Category.id_comp _
 
 /-- On underlying sheaves of sets the inverse of the comparison `p⁻¹q⁻¹ ≅ (p ≫ q)⁻¹` of inverse

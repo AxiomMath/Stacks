@@ -530,7 +530,7 @@ theorem truncGETowerCone_π (E : _root_.DerivedCategory C)
     truncGETowerCone E ≫ Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower C E).obj ⟨n⟩) n =
       ((DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E :
         E ⟶ (Stacks.DerivedLimit.truncGETower C E).obj ⟨n⟩) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The truncation maps are compatible with the transition maps of the tower. -/
 theorem truncGEπ_comp_truncGETower_map_succ (E : _root_.DerivedCategory C) (n : ℕ) :
@@ -564,7 +564,7 @@ theorem isDerivedLimit_truncGETower_of_forall_isIso (E : _root_.DerivedCategory 
         Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower C E).obj ⟨n⟩) (n + 1) ≫
           (Stacks.DerivedLimit.truncGETower C E).map (homOfLE (Nat.le_succ n)).op) = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [assoc, Pi.lift_π, zero_comp, Preadditive.comp_sub, ← assoc, truncGETowerCone_π,
+    rw [assoc, Pi.lift_comp_π, zero_comp, Preadditive.comp_sub, ← assoc, truncGETowerCone_π,
       truncGETowerCone_π]
     exact sub_eq_zero.mpr (truncGEπ_comp_truncGETower_map_succ E n).symm
   obtain ⟨c, hc⟩ := Triangle.coyoneda_exact₂ _ hT (truncGETowerCone E) hzero

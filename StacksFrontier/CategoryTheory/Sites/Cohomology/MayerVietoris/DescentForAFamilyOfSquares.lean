@@ -146,7 +146,6 @@ attribute [local instance] HasDerivedCategory.standard
 
 attribute [local implicit_reducible] HomologicalComplex.homology
   HomologicalComplex.homologyFunctor HomologicalComplex.shortComplexFunctor
-  HomologicalComplex.shortComplexFunctor'
 
 /-! ### Right derived functors and K-injective complexes -/
 

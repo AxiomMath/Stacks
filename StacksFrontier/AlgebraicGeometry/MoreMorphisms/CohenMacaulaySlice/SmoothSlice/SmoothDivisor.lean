@@ -611,8 +611,8 @@ private theorem exists_smooth_slice_of_openImmersion
       (a : Γ(X, U)) (J : U.toScheme.IdealSheafData),
       (X.presheaf.germ U (j y) hxU).hom a = h ∧
       (∀ V : U.toScheme.affineOpens,
-        J.ideal V = Ideal.span {(U.toScheme.presheaf.map (homOfLE le_top).op).hom
-          (U.topIso.inv.hom a)}) ∧
+        J.ideal V = Ideal.span
+          {(U.toScheme.presheaf.map (homOfLE le_top).op).hom (U.topIso.inv.hom a)}) ∧
       Stacks.Divisors.IsEffectiveCartierDivisor J ∧
       (⟨j y, hxU⟩ : U.toScheme) ∈ J.support ∧
       Smooth (J.subschemeι ≫ U.ι ≫ f) := by

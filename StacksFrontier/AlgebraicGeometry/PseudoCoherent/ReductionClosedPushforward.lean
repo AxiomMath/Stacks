@@ -389,7 +389,7 @@ private theorem isPseudoCoherentFromAfterPushforward_comp_iff_pushforward {X T P
         ((pushforward b).mapDerivedCategory.obj ((pushforward a).mapDerivedCategory.obj E)) m := by
   have := preservesFiniteColimits_pushforward_of_isClosedEmbedding (a ≫ b) (hb.comp ha)
   rw [isPseudoCoherentFromAfterPushforward_iff_of_exact (a ≫ b) E m]
-  have e := (Functor.mapDerivedCategoryCompIso (pushforwardComp a b)).app E
+  have e := (Functor.mapDerivedCategoryCompIsoOfCompIso (pushforwardComp a b)).app E
   exact ⟨fun h => h.of_iso e.symm, fun h => h.of_iso e⟩
 
 /-- If `a : X ⟶ T` and `b : T ⟶ P` are closed embeddings on spaces and `b_*𝒪_T` is pseudo-coherent,
@@ -775,10 +775,10 @@ public def Scheme.Modules.restrictPushforwardMapDerivedCategoryIso {X Y : Scheme
         (Scheme.Modules.restrictFunctor V.ι).mapDerivedCategory ≅
       (Scheme.Modules.restrictFunctor (i ⁻¹ᵁ V).ι).mapDerivedCategory ⋙
         (Scheme.Modules.pushforward (i ∣_ V)).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr
       (Stacks.AlgebraicGeometry.AffinePushforward.restrictPushforwardIso i V) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm
 
 /-- Let `i : X ⟶ Y` be a closed embedding on spaces, let `U` be an open of `Y` and let `b : U ⟶ Z`
 be a closed embedding on spaces. Then the local condition

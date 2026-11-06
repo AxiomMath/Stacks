@@ -258,6 +258,7 @@ public theorem exists_fieldExtension_restrictScalarsRepCoefficientSheaf_linearEq
 
 end Chains
 
+set_option maxHeartbeats 4000000 in
 /-- **The fibre of Laumon's family over the origin**
 ([Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)): `H¹_c(Y_k̄, K|_Y ⊗ ℚ_ℓ) ≃
 H¹_c(U_k̄, ℱ_σ ⊗ ℚ_ℓ)`, `E`-linearly, carrying the Frobenius of `κ(y)` to `(π_U^*) ^ {d_y}`. -/

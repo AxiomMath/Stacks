@@ -155,7 +155,6 @@ public lemma lift_isHomLift (p : X ⥤ C) {U' U : C} (a : U' ⟶ U)
   have h := Over.w (eqToHom t.2)
   have hl : (eqToHom t.2).left = eqToHom (lift_base_obj p a x hx t) := by
     rw [Over.eqToHom_left]
-    congr 1
   rw [hl] at h
   simpa [Lift, Over.post] using h.symm
 
@@ -302,7 +301,6 @@ public def liftHomMk (q : Y ⥤ C) {V' V : C} (d : V' ⟶ V)
   have hfac := IsHomLift.fac' q (𝟙 V') f
   rw [hfac]
   simp only [Over.eqToHom_left, Over.comp_left, Category.id_comp]
-  congr 1
 
 /-- Every morphism of lifts in a category fibred in groupoids is an isomorphism. -/
 public lemma lift_morphism_isIso (q : Y ⥤ C) (hq : q.IsFiberedInGroupoids)
@@ -806,10 +804,10 @@ public noncomputable def compositionMap
     ((infinitesimalAutomorphisms hp t₁ × (t₁ ⟶ t₂)) ×
       infinitesimalAutomorphisms hp t₂) → (t₁ ⟶ t₂) :=
   fun ⟨⟨a, f⟩, b⟩ =>
-    { hom := a.1.hom.val ≫ f.hom ≫ b.1.hom.val
+    { hom := a.1.asIso.hom.val ≫ f.hom ≫ b.1.asIso.hom.val
       isHomLift := by
-        let : p.IsHomLift (𝟙 A') a.1.hom.val := a.1.hom.2
-        let : p.IsHomLift (𝟙 A') b.1.hom.val := b.1.hom.2
+        let : p.IsHomLift (𝟙 A') a.1.asIso.hom.val := a.1.asIso.hom.2
+        let : p.IsHomLift (𝟙 A') b.1.asIso.hom.val := b.1.asIso.hom.2
         infer_instance
       fac := by
         have ha := (Deformation.mem_relativeInfinitesimalAutomorphisms_iff
@@ -817,12 +815,12 @@ public noncomputable def compositionMap
         have hb := (Deformation.mem_relativeInfinitesimalAutomorphisms_iff
           hp g t₂.hom t₂.isHomLift b.1).mp b.2
         calc
-          (a.1.hom.val ≫ f.hom ≫ b.1.hom.val) ≫ t₂.hom =
-              (a.1.hom.val ≫ f.hom) ≫ (b.1.hom.val ≫ t₂.hom) := by
+          (a.1.asIso.hom.val ≫ f.hom ≫ b.1.asIso.hom.val) ≫ t₂.hom =
+              (a.1.asIso.hom.val ≫ f.hom) ≫ (b.1.asIso.hom.val ≫ t₂.hom) := by
                 simp only [Category.assoc]
-          _ = (a.1.hom.val ≫ f.hom) ≫ t₂.hom := by rw [hb]
-          _ = a.1.hom.val ≫ (f.hom ≫ t₂.hom) := by rw [Category.assoc]
-          _ = a.1.hom.val ≫ t₁.hom := by rw [f.fac]
+          _ = (a.1.asIso.hom.val ≫ f.hom) ≫ t₂.hom := by rw [hb]
+          _ = a.1.asIso.hom.val ≫ (f.hom ≫ t₂.hom) := by rw [Category.assoc]
+          _ = a.1.asIso.hom.val ≫ t₁.hom := by rw [f.fac]
           _ = t₁.hom := ha }
 
 private theorem liftHom_isIso
@@ -874,7 +872,7 @@ public noncomputable def rightCompositionAction
   compositionMap hp t₁ t₂ ((1, f), b⁻¹)
 
 private theorem fiberAut_hom_one (z : p.Fiber A') :
-    (1 : Aut z).hom = 𝟙 z := rfl
+    (1 : Aut z).asIso.hom = 𝟙 z := rfl
 
 private theorem fiber_id_val (z : p.Fiber A') :
     (𝟙 z : z ⟶ z).val = 𝟙 z.1 := rfl
@@ -883,7 +881,7 @@ private theorem infinitesimalAut_inv_mul_hom
     (hp : Deformation.IsCofiberedInGroupoids p)
     (t : Deformation.Lift p g x)
     (a b : infinitesimalAutomorphisms hp t) :
-    ((a * b)⁻¹).1.hom.val = (a⁻¹).1.hom.val ≫ (b⁻¹).1.hom.val := rfl
+    ((a * b)⁻¹).1.asIso.hom.val = (a⁻¹).1.asIso.hom.val ≫ (b⁻¹).1.asIso.hom.val := rfl
 
 private noncomputable def leftOrbitInverse
     (hp : Deformation.IsCofiberedInGroupoids p)
@@ -897,7 +895,7 @@ private noncomputable def leftOrbitInverse
     CategoryTheory.Functor.Fiber.homMk p A' (f.hom ≫ inv h.hom)
   let ψ : liftFiber t₁ ⟶ liftFiber t₁ :=
     CategoryTheory.Functor.Fiber.homMk p A' (h.hom ≫ inv f.hom)
-  let c : Aut (liftFiber t₁) := {
+  let c : Aut (liftFiber t₁) := .of {
     hom := φ
     inv := ψ
     hom_inv_id := by
@@ -931,7 +929,7 @@ private noncomputable def rightOrbitInverse
     CategoryTheory.Functor.Fiber.homMk p A' (inv h.hom ≫ f.hom)
   let ψ : liftFiber t₂ ⟶ liftFiber t₂ :=
     CategoryTheory.Functor.Fiber.homMk p A' (inv f.hom ≫ h.hom)
-  let c : Aut (liftFiber t₂) := {
+  let c : Aut (liftFiber t₂) := .of {
     hom := φ
     inv := ψ
     hom_inv_id := by
@@ -955,7 +953,7 @@ private theorem leftCompositionAction_hom
     (hp : Deformation.IsCofiberedInGroupoids p)
     (t₁ t₂ : Deformation.Lift p g x)
     (a : infinitesimalAutomorphisms hp t₁) (f : t₁ ⟶ t₂) :
-    (leftCompositionAction hp t₁ t₂ a f).hom = (a⁻¹).1.hom.val ≫ f.hom := by
+    (leftCompositionAction hp t₁ t₂ a f).hom = (a⁻¹).1.asIso.hom.val ≫ f.hom := by
   simp [leftCompositionAction, compositionMap, fiberAut_hom_one, fiber_id_val]
 
 private theorem leftOrbitInverse_apply
@@ -974,7 +972,7 @@ private theorem rightCompositionAction_hom
     (hp : Deformation.IsCofiberedInGroupoids p)
     (t₁ t₂ : Deformation.Lift p g x)
     (f : t₁ ⟶ t₂) (b : infinitesimalAutomorphisms hp t₂) :
-    (rightCompositionAction hp t₁ t₂ f b).hom = f.hom ≫ (b⁻¹).1.hom.val := by
+    (rightCompositionAction hp t₁ t₂ f b).hom = f.hom ≫ (b⁻¹).1.asIso.hom.val := by
   simp [rightCompositionAction, compositionMap, fiberAut_hom_one, fiber_id_val]
 
 private theorem rightOrbitInverse_apply
@@ -1034,9 +1032,9 @@ private theorem eq_of_inv_hom_eq
     (hp : Deformation.IsCofiberedInGroupoids p)
     (t : Deformation.Lift p g x)
     {a b : infinitesimalAutomorphisms hp t}
-    (h : (a⁻¹).1.hom.val = (b⁻¹).1.hom.val) : a = b := by
+    (h : (a⁻¹).1.asIso.hom.val = (b⁻¹).1.asIso.hom.val) : a = b := by
   have : (a⁻¹).1 = (b⁻¹).1 :=
-    CategoryTheory.Aut.ext (CategoryTheory.Functor.Fiber.hom_ext h)
+    CategoryTheory.Aut.ext (Iso.ext (CategoryTheory.Functor.Fiber.hom_ext h))
   exact inv_injective (Subtype.ext this)
 
 /-- At each morphism of lifts, the orbit map for the left action is a bijection. -/

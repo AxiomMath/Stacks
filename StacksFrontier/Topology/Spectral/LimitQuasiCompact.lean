@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
+public import Mathlib.Topology.Spectral.Basic
 public import StacksFrontier.Topology.Limits.Defs
 public import StacksFrontier.Topology.Spectral.ConstructibleTopology
 

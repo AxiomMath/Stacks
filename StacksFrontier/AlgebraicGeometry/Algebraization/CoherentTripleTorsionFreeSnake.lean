@@ -180,7 +180,7 @@ public noncomputable def smulSnakeInput {M N : X.Modules} (φ : M ⟶ N) [Mono �
     terminalSectionToEnd X.ringCatSheaf (⊤ : X.Opens) isTerminalTop c
   let v : S ⟶ S :=
     ShortComplex.Hom.mk (smulPowHom M c 1) (smulPowHom N c 1) (smulPowHom (cokernel φ) c 1)
-      (((τ ^ 1).naturality φ).symm) (((τ ^ 1).naturality (cokernel.π φ)).symm)
+      (((τ ^ 1).asHom.naturality φ).symm) (((τ ^ 1).asHom.naturality (cokernel.π φ)).symm)
   { L₀ := kernel v
     L₁ := S
     L₂ := S

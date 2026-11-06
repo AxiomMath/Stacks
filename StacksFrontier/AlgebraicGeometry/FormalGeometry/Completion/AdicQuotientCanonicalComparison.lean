@@ -424,7 +424,7 @@ public theorem hom_ext_of_comp_proj
   obtain ⟨δ, hT⟩ := hK
   have hzero : (g - g') ≫ (Pi.lift π) = 0 := by
     refine Limits.Pi.hom_ext _ _ fun n => ?_
-    rw [Category.assoc, Limits.Pi.lift_π, Preadditive.sub_comp, hgg n, sub_self, zero_comp]
+    rw [Category.assoc, Limits.Pi.lift_comp_π, Preadditive.sub_comp, hgg n, sub_self, zero_comp]
   obtain ⟨b, hb⟩ := Pretriangulated.Triangle.coyoneda_exact₂ _
     (Pretriangulated.inv_rot_of_distTriang _ hT) (g - g') hzero
   refine sub_eq_zero.mp ?_

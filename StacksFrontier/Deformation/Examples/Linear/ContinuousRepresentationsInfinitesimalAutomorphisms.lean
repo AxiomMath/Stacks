@@ -242,18 +242,18 @@ public noncomputable def continuousAutEquivInvariants
       (FiniteProjectiveRepresentation.Hom.ext rfl (AddMonoidHom.ext fun mm ↦ ?_))))
     exact epsEndo_zero hfo mm
   let F : Multiplicative ↥((Representation.linHom ρ₀ ρ₀).invariants) →* Aut xε :=
-    { toFun := fun x ↦
+    { toFun := fun x ↦ Aut.of
         { hom := mkFib (Multiplicative.toAdd x)
           inv := mkFib (-Multiplicative.toAdd x)
           hom_inv_id := by rw [hcomp, add_neg_cancel, hzero]
           inv_hom_id := by rw [hcomp, neg_add_cancel, hzero] }
-      map_one' := Iso.ext hzero
-      map_mul' := fun x y ↦ Iso.ext (by
+      map_one' := Aut.ext (Iso.ext hzero)
+      map_mul' := fun x y ↦ Aut.ext (Iso.ext (by
         change mkFib (Multiplicative.toAdd x + Multiplicative.toAdd y) =
           mkFib (Multiplicative.toAdd y) ≫ mkFib (Multiplicative.toAdd x)
-        rw [hcomp, add_comm]) }
+        rw [hcomp, add_comm])) }
   have hFhom : ∀ (x : Multiplicative ↥((Representation.linHom ρ₀ ρ₀).invariants))
-      (mm : xε.1.left.obj.carrier), (F x).hom.1.left.hom.map mm =
+      (mm : xε.1.left.obj.carrier), (F x).asIso.hom.1.left.hom.map mm =
         epsEndo hfo (Multiplicative.toAdd x).1 mm := fun _ _ ↦ rfl
   have hinj : Function.Injective F := by
     intro x y hxy
@@ -261,36 +261,36 @@ public noncomputable def continuousAutEquivInvariants
     rw [← hFhom x mm, ← hFhom y mm, hxy]
   have hsurj : Function.Surjective F := by
     intro a
-    have := a.hom.2
-    have hub : a.hom.1.left.hom.base = 𝟙 xε.1.left.obj.base := by
+    have := a.asIso.hom.2
+    have hub : a.asIso.hom.1.left.hom.base = 𝟙 xε.1.left.obj.base := by
       have hfac := IsHomLift.fac'
-        (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀) (𝟙 Aε) a.hom.1
-      have h2 : (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀).map a.hom.1 =
+        (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀) (𝟙 Aε) a.asIso.hom.1
+      have h2 : (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀).map a.asIso.hom.1 =
           𝟙 ((continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀).obj xε.1) := by
         simp only [Category.id_comp, eqToHom_trans, eqToHom_refl] at hfac
         simpa using hfac
       exact h2
     let χ : xε.1.left.obj.carrier →ₗ[xε.1.left.obj.base] xε.1.left.obj.carrier :=
-      { toFun := a.hom.1.left.hom.map
-        map_add' := a.hom.1.left.hom.map.map_add
+      { toFun := a.asIso.hom.1.left.hom.map
+        map_add' := a.asIso.hom.1.left.hom.map.map_add
         map_smul' := fun r mm ↦ by
-          change a.hom.1.left.hom.map (r • mm) = r • a.hom.1.left.hom.map mm
-          rw [a.hom.1.left.hom.map_smul, hub]
+          change a.asIso.hom.1.left.hom.map (r • mm) = r • a.asIso.hom.1.left.hom.map mm
+          rw [a.asIso.hom.1.left.hom.map_smul, hub]
           rfl }
     have hχψ : ∀ mm, xε.1.hom.hom.map (χ mm) = xε.1.hom.hom.map mm := fun mm ↦
       congrArg
         (fun q : FiniteProjectiveRepresentation.Hom xε.1.left.obj
           (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀).obj ↦ q.map mm)
         (congrArg (fun q : xε.1.left ⟶ (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀) ↦ q.hom)
-          (Over.w a.hom.1))
+          (Over.w a.asIso.hom.1))
     obtain ⟨φ, hφ⟩ := exists_epsEndo hfo χ hχψ
     have hφinv : φ ∈ (Representation.linHom ρ₀ ρ₀).invariants := by
       rw [mem_invariants_linHom_iff]
       refine (epsEndo_equivariant_iff hfo xε.1.left.obj.action ρ₀
         xε.1.hom.hom.equivariant φ).mp fun γ mm ↦ ?_
       rw [← hφ, ← hφ]
-      exact a.hom.1.left.hom.equivariant γ mm
-    refine ⟨Multiplicative.ofAdd ⟨φ, hφinv⟩, Iso.ext (Subtype.ext
+      exact a.asIso.hom.1.left.hom.equivariant γ mm
+    refine ⟨Multiplicative.ofAdd ⟨φ, hφinv⟩, Aut.ext <| Iso.ext (Subtype.ext
       (Over.OverMorphism.ext (ObjectProperty.hom_ext _
         (FiniteProjectiveRepresentation.Hom.ext hub.symm
           (AddMonoidHom.ext fun mm ↦ ?_)))))⟩

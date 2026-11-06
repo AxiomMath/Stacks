@@ -324,7 +324,6 @@ private noncomputable def baseChangeAlgEquiv [Algebra A B] [IsScalarTower R A B]
     intro x
     rw [hT]
     induction x with
-    | zero => simp
     | tmul a r' => simp [Algebra.smul_def, hφ]
     | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -440,7 +439,6 @@ private lemma exists_finite_surjective_tensorMap (φ : A →ₐ[R] B)
   have hrangeT : ∀ x : A ⊗[R] R', ∃ w, X w = T x := by
     intro x
     induction x with
-    | zero => exact ⟨0, by simp⟩
     | tmul α r' =>
         obtain ⟨c, hc⟩ := hsub (Or.inl ⟨α, rfl⟩)
         exact ⟨c ⊗ₜ[R] r', by simp [hX, hTdef, hc]⟩
@@ -659,13 +657,10 @@ private lemma finite_baseChange_ker_of_flat {A P B C : Type*} [CommRing A] [Comm
   have hκ : ∀ x, κ x = ι.rTensor C (e x) := by
     intro x
     induction x with
-    | zero => rw [LinearMap.map_zero, LinearEquiv.map_zero, LinearMap.map_zero]
     | add x y hx hy =>
       rw [LinearMap.map_add, LinearEquiv.map_add, LinearMap.map_add, hx, hy]
     | tmul s i =>
       induction s with
-      | zero =>
-        rw [TensorProduct.zero_tmul, LinearMap.map_zero, LinearEquiv.map_zero, LinearMap.map_zero]
       | add s t hs ht =>
         rw [TensorProduct.add_tmul, LinearMap.map_add, LinearEquiv.map_add, LinearMap.map_add,
           hs, ht]
@@ -684,7 +679,6 @@ private lemma finite_baseChange_ker_of_flat {A P B C : Type*} [CommRing A] [Comm
     show _ ↔ Algebra.TensorProduct.map ψ (AlgHom.id A C) x = 0
     have hmap : Algebra.TensorProduct.map ψ (AlgHom.id A C) x = ψ.toLinearMap.rTensor C x := by
       induction x with
-      | zero => simp
       | add x y hx hy => rw [map_add, map_add, hx, hy]
       | tmul p c => simp
     rw [hmap, hexC x]

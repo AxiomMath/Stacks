@@ -306,6 +306,7 @@ theorem holdsOnSurjectiveEtaleChart (Q : MorphismProperty Scheme.{u}) (hQiso : Q
     d.chartHom_etale, d.projToSpace_surjective, d.isPullback.w.symm,
     d.map_projHom_property Q hQiso hQ⟩
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The projection of the base change of `π` along the chart of the target is, up to the
 canonical isomorphism, the structure morphism of the chart of the source. -/
 private theorem isPullback_pullback_snd :

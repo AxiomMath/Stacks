@@ -151,7 +151,7 @@ def fMapFiberEquiv (F : (Space.SmallEtale B S hS X.obj)ᵒᵖ ⥤ Type v)
     have e := ξ.naturality ⟨U, V, g ≫ (Space.SmallEtale.toOver B S hS Y.obj).map s,
         comm_comp_toOver f g hc s⟩ ⟨U, W, g, hc⟩ (𝟙 U) s
       (by rw [CategoryTheory.Functor.map_id, Category.id_comp]) (𝟙 V)
-    refine ((FunctorToTypes.map_id_apply F _).symm.trans e.symm).trans ?_
+    refine ((F.map_id_apply _ _).symm.trans e.symm).trans ?_
     exact congrArg _ (Category.comp_id s)
   right_inv x := by
     ext U g hg
@@ -252,7 +252,9 @@ theorem pushforwardSectionEquiv_structureSharp
     ((Space.SmallEtale.topology B S hS Y.obj).yoneda.obj V)).symm m).app ⟨U, V, g, hg⟩ (𝟙 V))
     e.symm).trans ?_
   refine (structureFMap_app B S hS f ⟨U, V, g, hg⟩ _).trans ?_
-  exact congrArg _ (FunctorToTypes.map_id_apply _ s)
+  exact congrArg _ (by
+    convert Functor.map_id_apply ((smallEtaleRingedTopos B S hS Y).forgetRing.obj
+      (smallEtaleRingedTopos B S hS Y).O).obj (Opposite.op V) s <;> rfl)
 
 end Pushforward
 

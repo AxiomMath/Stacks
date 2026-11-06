@@ -108,7 +108,10 @@ theorem exists_mono_of_isOpenSubspace {Z : BigFppfOver B S hS} (A : Subfunctor (
   have h1 : ∀ {V : BigFppfOver B S hS} (k : V ⟶ A.toFunctor.reprX),
       k ≫ i = (e.hom.app (op V) k).1 := fun k => congrArg (fun φ => φ.app (op _) k) hi
   refine ⟨_, i, ?_, fun {V} g => ⟨?_, fun hg => ?_⟩⟩
-  · have : Mono (yoneda.map i) := by rw [hi]; infer_instance
+  · have : Mono (yoneda.map i) := by
+      rw [hi]
+      exact mono_comp' ⟨fun g h w => (Iso.cancel_iso_hom_right g h e).1 w⟩
+        (inferInstance : Mono A.ι)
     exact yoneda.mono_of_mono_map this
   · rintro ⟨k, rfl⟩
     rw [h1]

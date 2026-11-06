@@ -260,11 +260,10 @@ public noncomputable def cechCohomologyDeltaFunctor
     {C : Type u} [Category.{v} C] [HasFiniteProducts C]
     (R : Type uR) [Ring R] {ι : Type w} (U : ι → C) :
     { F : DeltaFunctor (Cᵒᵖ ⥤ ModuleCat R) (ModuleCat R) //
-      ∀ n : ℕ, F.functor n = CategoryTheory.cechComplexFunctor U ⋙
+      ∀ n : ℕ, F.functor n = CategoryTheory.cechComplexFunctor (A := ModuleCat.{max w u_1} R) U ⋙
         HomologicalComplex.homologyFunctor (ModuleCat R) (ComplexShape.up ℕ) n } :=
   deltaFunctorOfExactCochainComplex
-    (CategoryTheory.cechComplexFunctor.{w, v, max w u_1, u,
-      max uR (max w u_1 + 1)} U)
+    (CategoryTheory.cechComplexFunctor (A := ModuleCat.{max w u_1} R) U)
     (fixedRingCechComplex_exact.{u, v, w, uR, u_1} R U)
 
 attribute [instance] ModuleCat.hasLimits' ModuleCat.hasLimits

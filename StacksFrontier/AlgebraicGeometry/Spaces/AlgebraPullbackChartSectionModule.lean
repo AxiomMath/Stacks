@@ -177,6 +177,15 @@ def algebraPullbackUnder (f : Y ⟶ X) (A : AlgebraSheaf.{u, u} B S hS X.1 X.2) 
     Under ((ringSheafPullback B S hS f).obj (structureSheaf B S hS X.1 X.2)) :=
   Under.mk ((ringSheafPullback B S hS f).map A.hom)
 
+/-- Small products of presheaves of types (instance search times out without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_AlgebraPullbackChartSectionModule
+    {C : Type*} [Category.{u} C] (J : Type u) :
+    HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u) :=
+  @functorCategoryHasLimitsOfShape _ _ _ _ _ _ inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1000000 in
 /-- **The identification of the inverse image of the `𝒪_X`-module underlying `A` with the
 `f⁻¹𝒪_X`-module underlying `f⁻¹A`.**  This is
 `Stacks.Sheaves.ToposPullback.AnyUniverse.pullbackRestrictUnitIso`, which is the identity on the
@@ -185,7 +194,9 @@ def inverseImageUnderlyingModuleIso (f : Y ⟶ X) (A : AlgebraSheaf.{u, u} B S h
     (inverseImageModules (smallEtaleRingedToposModulesHom B S hS f).toToposHom
           (structureRingSheaf B S hS X)).obj (AlgebraSheaf.underlyingModule A) ≅
       underlyingModule.{u, u, u + 1} (algebraPullbackUnder B S hS f A) :=
-  Stacks.Sheaves.ToposPullback.AnyUniverse.pullbackRestrictUnitIso
+  haveI : PreservesFiniteLimits (smallEtaleRingedToposHom B S hS f).toToposHom.inverseImage :=
+    (smallEtaleRingedToposHom B S hS f).toToposHom.preservesFiniteLimits
+  Stacks.Sheaves.ToposPullback.AnyUniverse.pullbackRestrictUnitIso.{u, u, u + 1, u, u + 1}
     (smallEtaleRingedToposHom B S hS f).toToposHom.inverseImage A.hom
 
 /-- The leg `pushout.inl` of the pushout which defines `f^*A`, read as a morphism of

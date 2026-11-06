@@ -91,7 +91,7 @@ noncomputable abbrev restrictTop (f : Γ(X, ⊤)) (V : X.Opens) : Γ(X, V) :=
 of `𝒪_X`. -/
 noncomputable def smulPowHom (G : X.Modules) (f : Γ(X, ⊤)) (k : ℕ) : G ⟶ G :=
   ((Stacks.SheafOfModules.terminalSectionToEnd X.ringCatSheaf (⊤ : X.Opens)
-    isTerminalTop f) ^ k).app G
+    isTerminalTop f) ^ k).asHom.app G
 
 /-- Multiplication by `fᵏ` reads on sections as multiplication by the restriction of `fᵏ`. -/
 theorem smulPowHom_app (G : X.Modules) (f : Γ(X, ⊤)) (k : ℕ) (V : X.Opens) (g : Γ(G, V)) :

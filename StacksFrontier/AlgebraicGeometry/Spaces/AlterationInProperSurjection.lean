@@ -87,7 +87,19 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
-variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+private instance (priority := high) hasPullbacks_presheaf_AlterationInProperSurjection :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_AlterationInProperSurjection
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_AlterationInProperSurjection B S hS).has_limit _
+
+variable {X Y: (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- The reduced closed subspace supported on the closure of a point `w` of the set-theoretic
 fibre of `f` over a generic point `η` of `|Y|` which is closed in that fibre is integral, and

@@ -135,8 +135,8 @@ private lemma degreeOf_zero_tilt {a : k} (ha : a ≠ 0) : ((tilt f) (monomial v 
 
 /-- The tilt sends distinct monomials of `f` to polynomials of distinct degrees in `X 0`. -/
 private lemma degreeOf_tilt_ne_of_ne (hv : v ∈ f.support) (hw : w ∈ f.support) (ne : v ≠ w) :
-    (tilt f <| monomial v <| coeff v f).degreeOf 0 ≠
-    (tilt f <| monomial w <| coeff w f).degreeOf 0 := by
+    (tilt f <| monomial v <| f.coeff v).degreeOf 0 ≠
+    (tilt f <| monomial w <| f.coeff w).degreeOf 0 := by
   rw [degreeOf_zero_tilt _ _ <| mem_support_iff.mp hv,
     degreeOf_zero_tilt _ _ <| mem_support_iff.mp hw]
   refine sum_r_mul_ne f v w (fun i ↦ ?_) (fun i ↦ ?_) ne <;>
@@ -144,8 +144,8 @@ private lemma degreeOf_tilt_ne_of_ne (hv : v ∈ f.support) (hw : w ∈ f.suppor
     (by lia)
 
 private lemma leadingCoeff_finSuccEquiv_tilt :
-    (finSuccEquiv k n ((tilt f) ((monomial v) (coeff v f)))).leadingCoeff =
-    algebraMap k _ (coeff v f) := by
+    (finSuccEquiv k n ((tilt f) ((monomial v) (f.coeff v)))).leadingCoeff =
+    algebraMap k _ (f.coeff v) := by
   rw [monomial_eq, Finsupp.prod_fintype]
   · simp only [map_mul, map_prod, leadingCoeff_mul, leadingCoeff_prod]
     rw [AlgEquiv.ofAlgHom_apply, algHom_C, algebraMap_eq, finSuccEquiv_apply,
@@ -166,8 +166,8 @@ invertible leading coefficient as a polynomial in `X 0`. -/
 private lemma isUnit_leadingCoeff_finSuccEquiv_tilt (fne : f ≠ 0) :
     IsUnit (finSuccEquiv k n (tilt f f)).leadingCoeff := by
   obtain ⟨v, vin, vs⟩ := Finset.exists_max_image f.support
-    (fun v ↦ (tilt f ((monomial v) (coeff v f))).degreeOf 0) (support_nonempty.mpr fne)
-  set h := fun w ↦ (MvPolynomial.monomial w) (coeff w f)
+    (fun v ↦ (tilt f ((monomial v) (f.coeff v))).degreeOf 0) (support_nonempty.mpr fne)
+  set h := fun w ↦ (MvPolynomial.monomial w) (f.coeff w)
   simp only [← natDegree_finSuccEquiv] at vs
   replace vs : ∀ x ∈ f.support \ {v}, (finSuccEquiv k n ((tilt f) (h x))).degree <
       (finSuccEquiv k n ((tilt f) (h v))).degree := by

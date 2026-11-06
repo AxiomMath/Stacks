@@ -78,13 +78,13 @@ abbrev nodalAlgebra (R : Type u) [CommRing R] (I : Ideal R) :=
 family of ideals `J`. Monotonicity is what makes this an ideal. -/
 private def coefficientIdeal {σ R : Type*} [CommRing R]
     (J : (σ →₀ ℕ) → Ideal R) (hJ : Monotone J) : Ideal (MvPolynomial σ R) where
-  carrier := {p | ∀ d, coeff d p ∈ J d}
+  carrier := {p | ∀ d, p.coeff d ∈ J d}
   zero_mem' := by simp
   add_mem' := fun hp hq d => by simpa using (J d).add_mem (hp d) (hq d)
   smul_mem' := by
     classical
     intro p q hq d
-    change coeff d (p * q) ∈ J d
+    change (p * q).coeff d ∈ J d
     rw [coeff_mul]
     apply Ideal.sum_mem
     intro ab hab
@@ -151,13 +151,13 @@ private lemma nodalRelationIdeal_eq_coefficientIdeal {R : Type*} [CommRing R]
     intro p hp
     rcases hp with rfl | ⟨a, rfl⟩
     · intro d
-      show coeff d (X (0 : Fin 2) * X 1) ∈ nodalCoefficientIdeal I d
+      show (X (0 : Fin 2) * X 1 : MvPolynomial (Fin 2) R).coeff d ∈ nodalCoefficientIdeal I d
       simp only [X, monomial_mul_monomial, one_mul, coeff_monomial]
       split_ifs with h
       · subst d; simp [nodalCoefficientIdeal]
       · exact Ideal.zero_mem _
     · intro d
-      show coeff d (C (a : R) * X (1 : Fin 2)) ∈ nodalCoefficientIdeal I d
+      show (C (a : R) * X (1 : Fin 2) : MvPolynomial (Fin 2) R).coeff d ∈ nodalCoefficientIdeal I d
       simp only [coeff_C_mul, coeff_X]
       split_ifs with h
       · subst d; simp [nodalCoefficientIdeal]
@@ -194,11 +194,11 @@ private lemma coefficientQuotientMap_ker {σ R : Type*} [CommRing R]
     (coefficientQuotientMap J).ker = (coefficientIdeal J hJ).restrictScalars R := by
   classical
   ext p
-  show coefficientQuotientMap J p = 0 ↔ ∀ d, coeff d p ∈ J d
+  show coefficientQuotientMap J p = 0 ↔ ∀ d, p.coeff d ∈ J d
   rw [DFinsupp.ext_iff]
   simp only [coefficientQuotientMap, LinearMap.comp_apply, LinearEquiv.coe_coe,
     DFinsupp.mapRange.linearMap_apply, DFinsupp.mapRange_apply, DFinsupp.zero_apply]
-  show (∀ d, (J d).mkQ (coeff d p) = 0) ↔ _
+  show (∀ d, (J d).mkQ (p.coeff d) = 0) ↔ _
   exact forall_congr' fun d => Ideal.Quotient.eq_zero_iff_mem
 
 /-- The affine nodal algebra is flat over its base ring as soon as `R ⧸ I` is. -/

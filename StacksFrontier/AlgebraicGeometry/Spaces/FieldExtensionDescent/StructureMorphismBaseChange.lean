@@ -83,6 +83,13 @@ private theorem presheaf_inverseImage_etale_id_yoneda (U : BigFppfOver B S hS) :
 
 namespace Space
 
+/-- Pullbacks of presheaves on a big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_structureMorphismBaseChange
+    {T : Scheme.{u}} {hT : B.Contains T} {X Y Z : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X Y : (BigFppfOver B S' hS')ᵒᵖ ⥤ Type u}
 
 /-- **Base change along a morphism of base schemes preserves separatedness.** -/
@@ -97,14 +104,17 @@ theorem isSeparated_relocalizeRestrict_map (f : X ⟶ Y)
         pullback.diagonal_fst, CategoryTheory.Functor.map_id, pullback.diagonal_fst]
     · rw [Category.assoc, PreservesPullback.iso_hom_snd, ← Functor.map_comp,
         pullback.diagonal_snd, CategoryTheory.Functor.map_id, pullback.diagonal_snd]
-  show IsClosedImmersion B S hS (pullback.diagonal ((OverShriek.relocalizeRestrict g).map f))
+  unfold IsSeparated
+  have h1 := presheaf_inverseImage_relocalizeRestrict_map B S S' hS hS' g
+    (@_root_.AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u})
+    inferInstance hf
   rw [← hdiag]
   exact MorphismProperty.RespectsIso.postcomp
     (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@_root_.AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)))
     (PreservesPullback.iso (OverShriek.relocalizeRestrict g) f f).hom _
-    (presheaf_inverseImage_relocalizeRestrict_map B S S' hS hS' g _ inferInstance hf)
+    h1
 
 /-- The base, read as an algebraic space over itself, is the terminal presheaf on the big fppf
 site. -/

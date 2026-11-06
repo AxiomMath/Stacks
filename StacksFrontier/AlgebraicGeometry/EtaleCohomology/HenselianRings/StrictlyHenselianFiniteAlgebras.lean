@@ -98,8 +98,8 @@ theorem isLocalHom_algebraMap_of_finite_local
     IsLocalHom (algebraMap R S) := by
   refine ⟨fun a ha => notMem_maximalIdeal.mp fun h =>
     notMem_maximalIdeal.mpr ha (Ideal.mem_comap.mp ?_)⟩
-  rwa [eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) (maximalIdeal S))]
+  rwa [← Ideal.under_def, eq_maximalIdeal
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) (maximalIdeal S))]
 
 /-- A module-finite algebra over a strictly henselian local ring is a finite product of
 strictly henselian local rings, each finite over the base. -/
@@ -168,8 +168,8 @@ theorem isLocalHom_of_ringHom_to_field_of_finite_local_algebra
   let : (RingHom.ker ψ).IsPrime := RingHom.ker_isPrime ψ
   let : Algebra.IsIntegral R S := Algebra.IsIntegral.of_finite R S
   have hmax : (RingHom.ker ψ).IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) (S := S) (RingHom.ker ψ)
-      (hcomap ▸ maximalIdeal.isMaximal R)
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) (S := S) (RingHom.ker ψ)
+      (Ideal.under_def (A := R) (RingHom.ker ψ) ▸ hcomap ▸ maximalIdeal.isMaximal R)
   refine ⟨fun x hx => notMem_maximalIdeal.mp ?_⟩
   rw [← eq_maximalIdeal hmax, RingHom.mem_ker]
   exact hx.ne_zero

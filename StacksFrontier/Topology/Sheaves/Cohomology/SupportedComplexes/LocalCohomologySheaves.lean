@@ -181,7 +181,7 @@ theorem isZero_localCohomologySheafFunctorInt_of_neg (X : RingedSpace.{u, u})
   (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
     (supportedSectionsOnClosedFunctor X Z hZ)
     (supportedSectionsOnClosedFunctor X Z hZ).rightDerivedFunctorPlus
-    (supportedSectionsOnClosedFunctor X Z hZ).rightDerivedFunctorPlusUnit).1 n hn
+    (supportedSectionsOnClosedFunctor X Z hZ).rightDerivedFunctorPlusUnith).1 n hn
 
 /-- **The degree-zero local cohomology sheaf is the supported-sections functor**, in the
 `ℤ`-indexing. -/

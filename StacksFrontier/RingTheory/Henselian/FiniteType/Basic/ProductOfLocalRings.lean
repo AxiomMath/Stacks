@@ -485,7 +485,8 @@ lemma lifted_factor_isLocalRing
     intro M hM
     have hcomap : Ideal.comap (algebraMap R (A ⧸ I1)) M = IsLocalRing.maximalIdeal R := by
       have := hM
-      exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M)
+      exact IsLocalRing.eq_maximalIdeal
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) M)
     rw [Ideal.map_le_iff_le_comap, hcomap]
   -- mkS of an element of 𝔪A lands in jacobson ⊥
   have hmkSjac : ∀ m ∈ (IsLocalRing.maximalIdeal R).map (algebraMap R A),

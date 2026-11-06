@@ -92,7 +92,7 @@ theorem Scheme.Hom.relativeDifferentials_hom_ext {X S : Scheme.{u}} {f : X ⟶ S
     (inverseImageStructureMap f) T
     ((SheafOfModules.universalDerivation (inverseImageStructureMap f)).postcomp ψ₁.val)
   refine (hu ψ₁ rfl).trans (hu ψ₂ ?_).symm
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U a
   exact (e U.unop a).symm
 
@@ -165,7 +165,7 @@ theorem Scheme.Hom.isIso_toRelativeDifferentials_of_d_inverseImageStructureMap
   have hρd : ∀ (U : X.Opens) (a : Γ(X, U)),
       (ρ.val.app (.op U)).hom ((universalRelativeDerivation f).d a)
         = (universalRelativeDerivation (f ≫ g)).d a := fun U a =>
-    PresheafOfModules.Derivation.congr_d hρ a
+    PresheafOfModulesOfCommRing.Derivation.congr_d hρ a
   refine ⟨ρ, relativeDifferentials_hom_ext fun U a => ?_,
     relativeDifferentials_hom_ext fun U a => ?_⟩
   · exact (congrArg (fun z => (ρ.val.app (.op U)).hom z)

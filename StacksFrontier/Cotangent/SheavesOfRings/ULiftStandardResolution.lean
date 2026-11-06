@@ -49,8 +49,6 @@ standard resolution of a homomorphism `a : A ⟶ B` is the standard resolution o
 open CategoryTheory CategoryTheory.Limits Opposite Simplicial
 open AlgebraicGeometry.SheafOfModules (commRingCatULift)
 
-attribute [local implicit_reducible] CategoryTheory.Under.post
-
 namespace Stacks.UniverseLift
 
 /-- Raising the universe of the section rings preserves sheaves of commutative rings, on any

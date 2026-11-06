@@ -98,8 +98,8 @@ theorem lanObjObjIsoColimit_naturality_presheaf {C D : Type u} [SmallCategory C]
       (lanObjObjIsoColimit L P V).hom ≫
         colimMap (Functor.whiskerLeft (StructuredArrow.proj V L).op β) := by
   have hA := Stacks.PresheafOfModules.Pullback.lke_morphism_naturality L.op β (op V)
-  have hC := colimit.pre_map (F := CostructuredArrow.proj L.op (op V) ⋙ P)
-    (G := CostructuredArrow.proj L.op (op V) ⋙ Q)
+  have hC := colimit.pre_map (G := CostructuredArrow.proj L.op (op V) ⋙ P)
+    (F := CostructuredArrow.proj L.op (op V) ⋙ Q)
     (Functor.whiskerLeft (CostructuredArrow.proj L.op (op V)) β)
     (structuredArrowOpEquivalence L V).functor
   have hB := inv_square_of_square

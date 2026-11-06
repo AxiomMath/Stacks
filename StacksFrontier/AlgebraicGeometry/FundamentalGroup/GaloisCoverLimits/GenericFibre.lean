@@ -198,9 +198,9 @@ private theorem action_comp_lift_baseChange {W S T : Scheme.{u}} {G : Type v} [G
     (hconn : ConnectedSpace ((finiteEtaleBaseChange q).obj V.obj).left)
     (Z : FiniteEtaleGaloisCover W G) (P : Z.obj.left ⟶ V.obj.left) (r : W ⟶ T)
     (h : P ≫ V.obj.hom = (Z.obj.hom ≫ r) ≫ q)
-    (hPact : ∀ g, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left) (g : Gᵐᵒᵖ) :
-    (Z.action g).hom.left ≫ pullback.lift P (Z.obj.hom ≫ r) h =
-      pullback.lift P (Z.obj.hom ≫ r) h ≫ ((V.baseChange q hconn).action g).hom.left := by
+    (hPact : ∀ g, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left) (g : Gᵐᵒᵖ) :
+    (Z.action g).asIso.hom.left ≫ pullback.lift P (Z.obj.hom ≫ r) h =
+      pullback.lift P (Z.obj.hom ≫ r) h ≫ ((V.baseChange q hconn).action g).asIso.hom.left := by
   have hL₁ := pullback.lift_fst P (Z.obj.hom ≫ r) h
   have hL₂ := pullback.lift_snd P (Z.obj.hom ≫ r) h
   apply pullback.hom_ext
@@ -208,10 +208,10 @@ private theorem action_comp_lift_baseChange {W S T : Scheme.{u}} {G : Type v} [G
       ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·)
         (FiniteEtaleGaloisCover.baseChange_action_fst q V hconn g)).trans
           ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hL₁)))).symm
-  · have hV : ((V.baseChange q hconn).action g).hom.left ≫ pullback.snd V.obj.hom q =
-        pullback.snd V.obj.hom q := MorphismProperty.Over.w ((V.baseChange q hconn).action g).hom
-    have hZ : (Z.action g).hom.left ≫ Z.obj.hom = Z.obj.hom :=
-      MorphismProperty.Over.w (Z.action g).hom
+  · have hV : ((V.baseChange q hconn).action g).asIso.hom.left ≫ pullback.snd V.obj.hom q =
+        pullback.snd V.obj.hom q := MorphismProperty.Over.w ((V.baseChange q hconn).action g).asIso.hom
+    have hZ : (Z.action g).asIso.hom.left ≫ Z.obj.hom = Z.obj.hom :=
+      MorphismProperty.Over.w (Z.action g).asIso.hom
     exact ((Category.assoc _ _ _).trans ((congrArg _ hL₂).trans
       ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hZ)))).trans
         ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hV).trans hL₂)).symm
@@ -242,7 +242,7 @@ theorem exists_pointed_galoisCover_model (hA : IsLimit cA) (hB : IsLimit cB)
     ∃ (j : J) (V : FiniteEtaleGaloisCover ((ptFiberDiagram φ cB s).obj j) G)
       (P : Z.obj.left ⟶ V.obj.left) (w : (ptResidueSpecDiagram B cB s).obj j ⟶ V.obj.left),
       IsPullback P Z.obj.hom V.obj.hom (ptFiberConeMap φ cB s cA p hp j) ∧
-      (∀ g, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left) ∧
+      (∀ g, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left) ∧
       w ≫ V.obj.hom = fiberSec φ cB s σA hσA j := by
   let F := ptFiberDiagram φ cB s
   let a := ptFiberCone φ cB s cA p hp

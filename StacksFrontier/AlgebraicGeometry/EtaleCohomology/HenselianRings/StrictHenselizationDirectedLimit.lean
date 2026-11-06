@@ -255,7 +255,7 @@ def strictHenselizationDirectedConeIsLimit :
     ((Functor.Initial.isLimitWhiskerEquiv (etaleNeighborhoodDirectedAffineInclusion B S hS s)
       (strictHenselizationAffineCone B S hS s)).symm
         (strictHenselizationAffineConeIsLimit B S hS s))
-    (Cones.ext (Iso.refl (strictHenselization B S hS s)) fun _ =>
+    (Cone.ext (Iso.refl (strictHenselization B S hS s)) fun _ =>
       Eq.trans (strictHenselizationCone_π_app_eq_neighborhoodLift_elements B S hS s _)
         (Category.id_comp _).symm :
       Cone.whisker (etaleNeighborhoodDirectedAffineInclusion B S hS s)

@@ -535,8 +535,7 @@ private theorem isFinite_representingMap_of_relativeFinite
   have hstruct : j.hom ≫ OverShriek.relocalizeToYoneda Z.hom T =
       (algebraicSpaceMap B S hS Z
         ((spacesOverSmallerBaseFunctor B Z.left.1 S Z.left.2 hS Z.hom).obj ⟨T, hT⟩)).hom := by
-    apply (cancel_epi j.inv).mp
-    simp only [Iso.inv_hom_id_assoc]
+    rw [← Iso.eq_inv_comp]
     ext W s
     exact (spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B Z.left.1 S Z.left.2 hS
       Z.hom ⟨T, hT⟩ W s).symm

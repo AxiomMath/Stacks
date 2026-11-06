@@ -91,12 +91,12 @@ theorem mapDerivedCategoryHomologyIso_hom_app_of_comp_iso (F : A ⥤ D) [F.Addit
     [PreservesFiniteLimits G] [PreservesFiniteColimits G] (H : B ⥤ D) [H.Additive]
     [PreservesFiniteLimits H] [PreservesFiniteColimits H] (e : G ⋙ H ≅ F) (n : ℤ)
     (K : DerivedCategory A) :
-    (DerivedCategory.homologyFunctor D n).map ((Functor.mapDerivedCategoryCompIso e).hom.app K) ≫
+    (DerivedCategory.homologyFunctor D n).map ((Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app K) ≫
       (F.mapDerivedCategoryHomologyIso n).hom.app K =
     (H.mapDerivedCategoryHomologyIso n).hom.app (G.mapDerivedCategory.obj K) ≫
       H.map ((G.mapDerivedCategoryHomologyIso n).hom.app K) ≫
       e.hom.app ((DerivedCategory.homologyFunctor A n).obj K) := by
-  have key : Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e).hom
+  have key : Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom
         (DerivedCategory.homologyFunctor D n) ≫ (F.mapDerivedCategoryHomologyIso n).hom =
       Functor.whiskerLeft G.mapDerivedCategory (H.mapDerivedCategoryHomologyIso n).hom ≫
         Functor.whiskerRight (G.mapDerivedCategoryHomologyIso n).hom H ≫
@@ -104,13 +104,13 @@ theorem mapDerivedCategoryHomologyIso_hom_app_of_comp_iso (F : A ⥤ D) [F.Addit
     refine Localization.natTrans_ext DerivedCategory.Q
       (HomologicalComplex.quasiIso A (ComplexShape.up ℤ)) (fun P => ?_)
     have hc := compat_Q F G H e.inv n P
-    have hΘ : (Functor.mapDerivedCategoryCompIso e).inv.app (DerivedCategory.Q.obj P) =
+    have hΘ : (Functor.mapDerivedCategoryCompIsoOfCompIso e).inv.app (DerivedCategory.Q.obj P) =
         F.mapDerivedCategoryFactors.hom.app P ≫
           DerivedCategory.Q.map ((NatTrans.mapHomologicalComplex e.inv (ComplexShape.up ℤ)).app P) ≫
           H.mapDerivedCategoryFactors.inv.app
             ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj P) ≫
           H.mapDerivedCategory.map (G.mapDerivedCategoryFactors.inv.app P) := by
-      refine (Iso.inv_ext (f := (Functor.mapDerivedCategoryCompIso e).app
+      refine (Iso.inv_ext (f := (Functor.mapDerivedCategoryCompIsoOfCompIso e).app
         (DerivedCategory.Q.obj P)) ?_)
       rw [Iso.app_hom, Functor.mapDerivedCategoryCompIso_hom_app_Q]
       simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
@@ -127,7 +127,7 @@ theorem mapDerivedCategoryHomologyIso_hom_app_of_comp_iso (F : A ⥤ D) [F.Addit
     rw [← hΘ] at hc
     dsimp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app]
     exact hom_comp_of_inv_comp ((DerivedCategory.homologyFunctor D n).mapIso
-      ((Functor.mapDerivedCategoryCompIso e).app (DerivedCategory.Q.obj P))) (e.app _) _ _ hc
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso e).app (DerivedCategory.Q.obj P))) (e.app _) _ _ hc
       |>.trans (Category.assoc _ _ _)
   exact NatTrans.congr_app key K
 

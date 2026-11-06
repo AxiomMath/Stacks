@@ -60,7 +60,7 @@ theorem levelDotPairing_levelModuleMap (A : Matrix (Fin r) (Fin r) ℤ_[ℓ])
       levelDotPairing ρ₀ hρ₀ k v
         ((levelModuleMap (continuous_contragredient hρ₀) Aᵀ (transpose_mul_contragredient hA)
           k).hom.hom.hom.hom.hom w) := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   change (A.map (PadicInt.toZModPow k) *ᵥ (v : ULift.{u + 1} (Fin r → ZMod (ℓ ^ k))).down) ⬝ᵥ
       (w : ULift.{u + 1} (Fin r → ZMod (ℓ ^ k))).down =
     (v : ULift.{u + 1} (Fin r → ZMod (ℓ ^ k))).down ⬝ᵥ

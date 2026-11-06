@@ -83,6 +83,15 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+local instance (priority := high) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W)
+    (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- **The fibre bound at one affine open of one chart.** Let `c : h_A ⟶ X` be an étale chart of
 an algebraic space over `S` whose first self-intersection projection is quasi-compact. Then the
 composite of the inclusion of an affine open of `A` with `c` has universally bounded fibres in

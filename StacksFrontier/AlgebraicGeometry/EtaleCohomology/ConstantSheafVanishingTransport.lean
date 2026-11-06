@@ -120,6 +120,14 @@ public theorem subsingleton_H_constantSheaf_of_isDenseSubsite
     (h : Subsingleton (Sheaf.H.{w'} ((constantSheaf K AddCommGrpCat.{a}).obj M) q)) :
     Subsingleton (Sheaf.H.{w} ((constantSheaf J AddCommGrpCat.{a}).obj M) q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{a}) := by
+    haveI := Abelian.hasFiniteBiproducts (C := Sheaf K AddCommGrpCat.{a})
+    haveI := hasBinaryBiproducts_of_finite_biproducts (Sheaf K AddCommGrpCat.{a})
+    exact hasBinaryProducts_of_hasBinaryBiproducts
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.symm.functor :=
+    have := E.toAdjunction.rightAdjoint_preservesLimits.{0, 0}; inferInstance
+  have : E.symm.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isRightAdjoint _
   have : E.symm.functor.Additive := Functor.additive_of_preserves_binary_products _
   have h₀ : Subsingleton (Abelian.Ext.{w'}
       ((constantSheaf K AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))
@@ -150,6 +158,14 @@ public theorem subsingleton_H_constantSheaf_of_isDenseSubsite'
     (h : Subsingleton (Sheaf.H.{w} ((constantSheaf J AddCommGrpCat.{a}).obj M) q)) :
     Subsingleton (Sheaf.H.{w'} ((constantSheaf K AddCommGrpCat.{a}).obj M) q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{a}) := by
+    haveI := Abelian.hasFiniteBiproducts (C := Sheaf J AddCommGrpCat.{a})
+    haveI := hasBinaryBiproducts_of_finite_biproducts (Sheaf J AddCommGrpCat.{a})
+    exact hasBinaryProducts_of_hasBinaryBiproducts
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.functor :=
+    have := E.symm.toAdjunction.rightAdjoint_preservesLimits.{0, 0}; inferInstance
+  have : E.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isRightAdjoint _
   have : E.functor.Additive := Functor.additive_of_preserves_binary_products _
   have h₀ : Subsingleton (Abelian.Ext.{w}
       ((constantSheaf J AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))

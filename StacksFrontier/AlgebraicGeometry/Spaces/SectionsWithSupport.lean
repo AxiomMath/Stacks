@@ -491,6 +491,9 @@ def sectionsWithSupportInClosedSubspace (i : Z ⟶ X)
     Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} ⥤
       Sheaf (SmallEtale.topology B S hS Z.1) AddCommGrpCat.{u + 1} :=
   letI := (smallBaseChange_isMorphismOfSites B S hS i hi.rep).toIsContinuous
+  letI := (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+    (smallBaseChange B S hS i hi.rep) AddCommGrpCat.{u + 1}
+    (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)).isRightAdjoint
   closedSectionsWithSupport.{u + 1} B S hS i ⋙
     (smallBaseChange B S hS i hi.rep).sheafPullback AddCommGrpCat.{u + 1}
       (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)
@@ -501,6 +504,9 @@ instance sectionsWithSupportInClosedSubspace_additive (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) :
     (sectionsWithSupportInClosedSubspace B S hS i hi).Additive :=
   letI := (smallBaseChange_isMorphismOfSites B S hS i hi.rep).toIsContinuous
+  letI := (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+    (smallBaseChange B S hS i hi.rep) AddCommGrpCat.{u + 1}
+    (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)).isRightAdjoint
   letI : ((smallBaseChange B S hS i hi.rep).sheafPullback AddCommGrpCat.{u + 1}
       (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)).IsLeftAdjoint :=
     ⟨_, ⟨(smallBaseChange B S hS i hi.rep).sheafAdjunctionContinuous AddCommGrpCat.{u + 1}

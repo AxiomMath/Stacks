@@ -194,6 +194,12 @@ end CategoryTheory.Subfunctor
 
 /-! ### Shrinking the open subspace an immersion is closed in -/
 
+/-- Products of presheaves of types, indexed by a type in `Type`, supplied directly (instance
+search times out without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_preimagesAndRepresentations
+    {C : Type*} [Category* C] {J : Type} : HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 namespace AlgebraicGeometry.Space
 
 section Immersion
@@ -470,8 +476,12 @@ lemma exists_representation_of_presheaf
   have : Mono m' := by
     have : Mono m'.left := inferInstanceAs (Mono m)
     exact Over.mono_of_mono_left m'
-  have : Mono (R.map m') := inferInstance
-  have : Mono mR := inferInstance
+  have hRm : Mono (R.map m') := inferInstance
+  have hinv : Mono (restrictedPointsIso F W').inv := ⟨fun g h w => by
+    have := w =≫ (restrictedPointsIso F W').hom
+    rwa [Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id,
+      Category.comp_id] at this⟩
+  have : Mono mR := @mono_comp _ _ _ _ _ _ hinv _ hRm
   have hk : yoneda.map k' ≫ mR = a ≫ f := by
     apply yonedaEquiv.injective
     show F.map k' ≫ m' = yonedaEquiv (a ≫ f)

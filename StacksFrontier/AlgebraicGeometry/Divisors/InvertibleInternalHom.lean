@@ -79,7 +79,7 @@ namespace Stacks.PresheafOfModules.TensorInternalHom
 
 variable {C : Type u} [Category.{w} C] (O : Cᵒᵖ ⥤ CommRingCat.{w})
 
-attribute [local instance] _root_.PresheafOfModules.monoidalCategory
+attribute [local instance] _root_.PresheafOfModulesOfCommRing.monoidalCategory
 
 /-! ### Retyping the sections of a restriction -/
 
@@ -475,11 +475,11 @@ variable {C : Type u} [Category.{w} C] {J : GrothendieckTopology C}
 
 section Pairing
 
-/-- The monoidal structure `PresheafOfModules.monoidalCategory` on presheaves of modules over
-the structure sheaf of rings. -/
+/-- The monoidal structure `PresheafOfModulesOfCommRing.monoidalCategory` on presheaves of
+modules over the structure sheaf of rings. -/
 local instance monoidalCategoryStructureSheaf :
     MonoidalCategory (_root_.PresheafOfModules.{w} (structureSheaf O hO).obj) :=
-  _root_.PresheafOfModules.monoidalCategory (R := O)
+  _root_.PresheafOfModulesOfCommRing.monoidalCategory (R := O)
 
 /-- The underlying presheaf of modules of a sheaf of modules, read over the presheaf of rings
 `Oforget O` that indexes the presheaf-level constructions. -/

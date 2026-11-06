@@ -90,7 +90,7 @@ def homOpLiftExtensionByZeroIso (F : EtaleModules.{u, 0} Λ U)
         (etaleAbelianDirectImage.{u, 0} j)).obj
           (homOpSheaf U.smallEtaleTopology F ((etaleRestriction.{u, 0} j).obj B)) :=
   sheafIsoOfScalarComm.{u + 1} Λᵐᵒᵖ _ (internalHomExtensionByZeroIso j (toAb _ F) B) (fun a =>
-    internalHomExtensionByZeroIso_hom_naturality_left j B (sheafScalarEnd Λ _ F a.unop))
+    internalHomExtensionByZeroIso_hom_naturality_left j B (sheafScalarEnd Λ _ F a.unop).asHom)
 
 /-- `ℋom_ℤ(j_! F, B) ≅ j_* ℋom_ℤ(F, j⁻¹ B)` for the lifted extension by zero is natural in `B`. -/
 lemma homOpLiftExtensionByZeroIso_hom_naturality (F : EtaleModules.{u, 0} Λ U)

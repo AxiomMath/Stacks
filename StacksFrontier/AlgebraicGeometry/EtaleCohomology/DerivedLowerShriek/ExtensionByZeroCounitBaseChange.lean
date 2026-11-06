@@ -342,7 +342,7 @@ lemma etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_whisker_value {W 
       etaleModuleInverseImage.{u, 0} Λ k)
     (K : HomotopyCategory.Plus (EtaleModules.{u, 0} Λ V)) :
     (etaleModuleInverseImage.{u, 0} Λ k).mapDerivedCategoryPlus.map
-        ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnith.app K) ≫
       (Functor.mapDerivedCategoryPlusCompIsoh e).inv.app
         ((etaleModuleDerivedExtensionByZero.{u, 0} Λ c).obj (DerivedCategory.Plus.Qh.obj K)) ≫
       (etaleModuleDerivedInverseImagePlus.{u, 0} Λ g).map
@@ -362,10 +362,10 @@ lemma etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_whisker_value {W 
               ((etaleModuleExtensionByZero.{u, 0} Λ c).mapHomotopyCategoryPlus.obj K) ⟶ K)) ≫
       (etaleModuleInverseImage.{u, 0} Λ g).mapDerivedCategoryPlusFactorsh.inv.app K := by
   have m2 := (Functor.mapDerivedCategoryPlusCompIsoh e).inv.naturality
-    ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnit.app K)
+    ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnith.app K)
   have m3 : (etaleModuleDerivedInverseImagePlus.{u, 0} Λ g).map
         ((etaleModuleDerivedInverseImagePlus.{u, 0} Λ c).map
-          ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnit.app K)) ≫
+          ((etaleModuleExtensionByZero.{u, 0} Λ c).rightDerivedFunctorPlusUnith.app K)) ≫
       (etaleModuleDerivedInverseImagePlus.{u, 0} Λ g).map
         ((etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ c).hom.app
           (DerivedCategory.Plus.Qh.obj K)) =
@@ -480,7 +480,7 @@ theorem etaleModuleDerivedExtensionByZeroCubeIso_inv_counit :
     Functor.associator_inv_app, Category.comp_id, Category.id_comp]
   let E := etaleModuleExtensionByZero.{u, 0} Λ i
   let E' := etaleModuleExtensionByZero.{u, 0} Λ i'
-  let uK := E.rightDerivedFunctorPlusUnit.app K
+  let uK := E.rightDerivedFunctorPlusUnith.app K
   let α₀ := (etaleModuleInverseImageExtensionByZeroIso.{u, 0} Λ sq).inv
   have n1 := (Functor.mapDerivedCategoryPlusCompIsoh
     (etaleModuleInverseImageCompIso.{u, 0} Λ i' hYb).symm).inv.naturality uK
@@ -497,7 +497,7 @@ theorem etaleModuleDerivedExtensionByZeroCubeIso_inv_counit :
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i').map (DerivedCategory.Plus.Qh.map
           (hmap (etaleModuleInverseImage.{u, 0} Λ hYb) (etaleModuleInverseImage.{u, 0} Λ hY)
             α₀ K)) ≫
-        (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i').map (E'.rightDerivedFunctorPlusUnit.app
+        (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i').map (E'.rightDerivedFunctorPlusUnith.app
           ((etaleModuleInverseImage.{u, 0} Λ hY).mapHomotopyCategoryPlus.obj K)) ≫
         (etaleModuleDerivedInverseImagePlus.{u, 0} Λ i').map (E'.rightDerivedFunctorPlus.map
           ((etaleModuleInverseImage.{u, 0} Λ hY).mapDerivedCategoryPlusFactorsh.inv.app K)) := by

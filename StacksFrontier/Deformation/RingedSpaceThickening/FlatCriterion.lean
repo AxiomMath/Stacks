@@ -326,7 +326,8 @@ private theorem idealTensorMultiplication_app_tmul (Y : RingedSpace.{u, u})
         (toTensorSheafSection Y I N (op U) (a ⊗ₜ[Y.presheaf.obj (op U)] n)) =
       (show ((structureSheafRing Y).obj.obj (op U) : Type u) from
         ((j.val.app (op U)).hom a)) • n := by
-  let _mon : MonoidalCategory (PresheafOfModules.{u} (O Y)) := PresheafOfModules.monoidalCategory
+  let _mon : MonoidalCategory (PresheafOfModules.{u} (O Y)) :=
+    PresheafOfModulesOfCommRing.monoidalCategory
   unfold Stacks.IdealTorsion.idealTensorMultiplication
   set adj := PresheafOfModules.sheafificationAdjunction
     (R := structureSheafRing Y) (𝟙 (structureSheafRing Y).obj) with hadj

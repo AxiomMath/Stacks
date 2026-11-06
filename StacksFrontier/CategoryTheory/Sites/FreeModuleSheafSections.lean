@@ -67,7 +67,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C) {R : Type*} 
 
 /-- Multiplication by the scalar `r` on a sheaf of `R`-modules. -/
 def smulEnd (r : R) (F : Sheaf J (ModuleCat.{w} R)) : F ⟶ F :=
-  Sheaf.Hom.mk (r • 𝟙 F.obj)
+  ObjectProperty.homMk (r • 𝟙 F.obj)
 
 /-- The component of `smulEnd J r F` at `U` sends a section `x` to `r • x`. -/
 @[simp]
@@ -288,7 +288,7 @@ theorem epi_sigmaDesc_freeModuleSheaf_map {ι : Type*} {V : C} {W : ι → C} (g
   have hi : ∀ i, (freeModuleSheaf J R).map (g i) ≫ a = (freeModuleSheaf J R).map (g i) ≫ b :=
     fun i ↦ by simpa only [Limits.Sigma.ι_desc_assoc] using Limits.Sigma.ι _ i ≫= hab
   let G' := (sheafCompose J (forget (ModuleCat.{max u v} R))).obj G
-  refine ((isSheaf_iff_isSheaf_of_type J G'.obj).1 G'.cond _ hg).isSeparatedFor.ext ?_
+  refine ((isSheaf_iff_isSheaf_of_type J G'.obj).1 G'.property _ hg).isSeparatedFor.ext ?_
   rintro Y f ⟨Y', h, g', ⟨i⟩, rfl⟩
   show G.obj.map (h ≫ g i).op _ = G.obj.map (h ≫ g i).op _
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply,

@@ -194,7 +194,7 @@ theorem mono_sigmaDesc_of_factorizationCriterion {B : ℕ} (W : ULift.{u} (Fin (
       simp only [Category.assoc, ← Category.assoc c', hc]
     have hA := lift a p O₁ j₁ a₁ ha₁ hj₁
     have hB := (lift b q O₂ j₂ b₂ hb₂ hj₂).trans (congrArg (O.ι ≫ ·) hab.symm)
-    have hpq : p = q := ULift.ext _ _ <| Fin.ext <| D.eq_of_condition_of_condition
+    have hpq : p = q := ULift.ext <| Fin.ext <| D.eq_of_condition_of_condition
       ((hW p (Over.mk (O.ι ≫ a ≫ i))).mpr ⟨j₁ ≫ a₁, hA⟩)
       ((hW q (Over.mk (O.ι ≫ a ≫ i))).mpr ⟨j₂ ≫ b₂, hB⟩) ⟨t, ht₁, ht₂⟩
     subst hpq

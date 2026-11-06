@@ -78,8 +78,8 @@ theorem _root_.PowerSeries.exists_ringEquiv_pi {ι : Type*} {A : ι → Type*}
 theorem nonempty_ringEquiv_quotient_of_algEquiv_prod (k : Type u) [CommRing k] {K : Type*}
     [CommRing K] [Algebra k K] (e : K ≃ₐ[k] k × k) :
     Nonempty (↥(PowerSeries.constantCoeffInBase k K) ≃+*
-      (MvPowerSeries (Fin 2) k ⧸ Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) k) *
-        MvPowerSeries.X 1})) := by
+      (MvPowerSeries (Fin 2) k ⧸
+        Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) k) * MvPowerSeries.X 1})) := by
   obtain ⟨e₁⟩ := PowerSeries.nonempty_ringEquiv_constantCoeffInBase_congr
     (e.trans (AlgEquiv.piFinTwo k fun _ : Fin 2 => k).symm)
   obtain ⟨e₂⟩ := PowerSeries.nonempty_ringEquiv_multicross k 2
@@ -168,8 +168,8 @@ theorem exists_ringEquiv_completedLocalRing_contraction_bridge
               (pushoutScheme (bridgePushoutSituation hdim hnodal hC)) y ≃+*
             (MvPowerSeries (Fin 2) (Γ(C.subscheme, ⊤) : Type u) ⧸
               Ideal.span {(MvPowerSeries.X 0 :
-                  MvPowerSeries (Fin 2) (Γ(C.subscheme, ⊤) : Type u)) *
-                MvPowerSeries.X 1}))) := by
+                              MvPowerSeries (Fin 2) (Γ(C.subscheme, ⊤) : Type u)) *
+                            MvPowerSeries.X 1}))) := by
   let : IsIntegral C.subscheme := hC.isIntegral
   let : Field Γ(C.subscheme, ⊤) :=
     (isField_of_universallyClosed k (C.subschemeι ≫ (X ↘ Spec (.of k)))).toField

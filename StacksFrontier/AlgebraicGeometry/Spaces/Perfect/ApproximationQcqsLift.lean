@@ -87,6 +87,12 @@ attribute [local instance] HasDerivedCategory.standard etaleModulePullback_addit
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Discrete limits of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_approximationQcqsLift
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- **The union of two open subspaces.** For open subspaces `U` and `Y` of an algebraic space
 `W` there is an open subspace `Q` with points `|U| ∪ |Y|`, containing `Y`, through which `U`
 factors by `κ`, and in which `(Y ⊆ Q, κ : U ⟶ Q)` is an elementary distinguished square. -/

@@ -125,9 +125,9 @@ public theorem isSeparable_residueField_strictHenselizationToBase (sbar : Geomet
   have hres := isSeparable_and_isAlgebraic_residueField_of_weaklyEtale A C
     (ProEtale.weaklyEtale_stalkMap f x) p q hpq
   let eY : S.residueField (f x) ≃+* p.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
   let eX : X.residueField x ≃+* q.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)).toRingEquiv
   have hcompat : eX.toRingHom.comp ((f.residueFieldMap x).hom) =
       (Ideal.ResidueField.map p q (f.stalkMap x).hom hpq).comp eY.toRingHom :=
     equivQuotMaximalIdeal_comp_residueFieldMap f x
@@ -191,9 +191,9 @@ public theorem exists_lift_toStrictHenselization_of_specializes
     (ProEtale.weaklyEtale_stalkMap f x) p q hpq
   have : Algebra.IsAlgebraic p.ResidueField q.ResidueField := hres.2
   let eY : S.residueField (f x) ≃+* p.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
   let eX : X.residueField x ≃+* q.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)).toRingEquiv
   let α : p.ResidueField →+* K := a.hom.comp eY.symm.toRingHom
   let : Algebra p.ResidueField K := α.toAlgebra
   let c : q.ResidueField →ₐ[p.ResidueField] K := IsAlgClosed.lift

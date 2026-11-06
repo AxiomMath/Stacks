@@ -87,7 +87,7 @@ that projection followed by the component of `α` at `A`. -/
 theorem mapTerm_comp_pi (α : F ⟶ F') (p : ℤ) (A : Idx r p) :
     mapTerm α p ≫ Pi.π (fun S : Idx r p => F'.obj S.1) A =
       Pi.π (fun S : Idx r p => F.obj S.1) A ≫ α.app A.1 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [Preadditive 𝒜] in
 /-- The map of terms, followed by a transition map out of one factor, is that transition map
@@ -224,9 +224,9 @@ theorem mapTermIso_hom_comp_mapTerm_comp_lift {F' : Finset (Fin r) ⥤ ℬ} (e :
         (mapTermIso G F p).hom ≫ mapTerm e.hom p =
       Pi.lift fun A : Idx r p => a' A.1 := by
   refine Pi.hom_ext _ _ fun A => ?_
-  rw [Pi.lift_π, ← ha, Category.assoc, Category.assoc, mapTerm_comp_pi,
+  rw [Pi.lift_comp_π, ← ha, Category.assoc, Category.assoc, mapTerm_comp_pi,
     ← Category.assoc (mapTermIso G F p).hom, mapTermIso_hom_comp_pi, ← Category.assoc,
-    ← G.map_comp, Pi.lift_π]
+    ← G.map_comp, Pi.lift_comp_π]
 
 end MapFunctor
 

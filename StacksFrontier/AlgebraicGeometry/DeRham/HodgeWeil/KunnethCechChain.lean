@@ -205,7 +205,7 @@ theorem hodgeBidegreePiEquiv_single (rs : ℕ × ℕ)
       · exact congrArg (fun y : {x : (ℕ × ℕ) × (ℕ × ℕ) // hodgeBidegreeAdd x = rs} => y.1.2.2) h
   · rw [Pi.single_eq_of_ne hac]
     refine Pi.single_eq_of_ne (M := M)
-      (fun h => hac (ULift.ext _ _ (Subtype.ext (Prod.ext ?_ ?_)))) v
+      (fun h => hac (ULift.ext (Subtype.ext (Prod.ext ?_ ?_)))) v
     · exact congrArg (fun y : {x : (ℕ × ℕ) × (ℕ × ℕ) // hodgeBidegreeAdd x = rs} => y.1.1.1) h
     · exact congrArg (fun y : {x : (ℕ × ℕ) × (ℕ × ℕ) // hodgeBidegreeAdd x = rs} => y.1.2.1) h
 
@@ -550,7 +550,7 @@ theorem hodgeKunnethSumEquiv_symm_lof (rs : ℕ × ℕ)
   have h₂ := (Pi.single_op (fun ac : ULift.{u} (Idx rs.1) =>
       ⇑(kunnethEquiv CX.U CY.U (hodgeSectionsK f (hodgeScalarsOverField f) ac.down.1.1)
         (hodgeSectionsK g (hodgeScalarsOverField g) ac.down.1.2) rs.2))
-    (fun _ => map_zero _) (⟨⟨(x.1.1.1, x.1.2.1), congrArg Prod.fst x.2⟩⟩ : ULift.{u} (Idx rs.1))
+    (fun _ => LinearEquiv.map_zero _) (⟨⟨(x.1.1.1, x.1.2.1), congrArg Prod.fst x.2⟩⟩ : ULift.{u} (Idx rs.1))
     (Pi.single (⟨(x.1.1.2, x.1.2.2), congrArg Prod.snd x.2⟩ : Idx rs.2) v)).symm
   have h₃ : kunnethEquiv CX.U CY.U (hodgeSectionsK f (hodgeScalarsOverField f) x.1.1.1)
       (hodgeSectionsK g (hodgeScalarsOverField g) x.1.2.1) rs.2

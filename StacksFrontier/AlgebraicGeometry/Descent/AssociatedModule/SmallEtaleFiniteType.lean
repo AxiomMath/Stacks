@@ -507,9 +507,9 @@ theorem mono_unit_app_associatedModuleAdjunction (F : X.Modules) [F.IsQuasicoher
   have h1 : Mono ((SheafOfModules.forget X.ringCatSheaf).map
       ((SheafOfModules.PullbackConstruction.adjunction.{u}
         (structureMap B X hX)).unit.app F)) := by
-    have := hA
-    have := hB2
-    exact mono_of_mono_fac hkey
+    exact @mono_of_mono_fac _ _ _ _ _ _ _ _
+      (@mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ hA) _
+        (@IsIso.mono_of_iso _ _ _ _ _ hB2)) hkey
   exact Adjunction.mono_unit_app_of_mono_unit_app
     (SheafOfModules.pullbackPushforwardAdjunction.{u} (structureMap B X hX))
     (SheafOfModules.PullbackConstruction.adjunction.{u} (structureMap B X hX)) F

@@ -163,7 +163,7 @@ theorem isSheaf_presheaf_comp_additiveCoefficients :
       (Y.presheaf ⋙ CategoryTheory.forget CommRingCat) :=
     (isSheaf_iff_isSheaf_of_type _ _).1
       ((Presheaf.isSheaf_iff_isSheaf_forget _ Y.presheaf (CategoryTheory.forget CommRingCat)).1
-        Y.sheaf.cond)
+        Y.sheaf.property)
   exact (Presieve.isSheaf_iff_of_nat_equiv
     (P₂ := Y.presheaf ⋙ additiveCoefficients.{u, 0} ⋙ CategoryTheory.forget AddCommGrpCat)
     (fun {_} => Equiv.ulift.symm) (fun _ _ _ _ => rfl)).1 h

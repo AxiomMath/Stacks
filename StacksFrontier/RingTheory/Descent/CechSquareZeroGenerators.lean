@@ -145,7 +145,6 @@ theorem exists_addHom_map_of_flat (hg : g.Flat) {X : Type*} [AddCommGroup X] (ρ
         have key : ∀ t' : E ⊗[B] N, mulMap g N (a • t') = a • mulMap g N t' := by
           intro t'
           induction t' with
-          | zero => simp
           | tmul e n =>
             rw [TensorProduct.smul_tmul', mulMap_tmul, mulMap_tmul, smul_eq_mul, smul_eq_mul,
               mul_assoc]
@@ -153,7 +152,6 @@ theorem exists_addHom_map_of_flat (hg : g.Flat) {X : Type*} [AddCommGroup X] (ρ
         exact ⟨a • t, key t⟩
     · rintro ⟨t, rfl⟩
       induction t with
-      | zero => simp
       | tmul e n => rw [mulMap_tmul]; exact Ideal.mul_mem_left _ e (Ideal.mem_map_of_mem g n.2)
       | add x y hx hy => rw [map_add]; exact add_mem hx hy
   let Ψ : E ⊗[B] N →+ ↥(N.map g) :=
@@ -278,7 +276,6 @@ lemma actRight_tmul (n : N) (b b' : B₁) : actRight n (b ⊗ₜ[A₁] b') = b �
 lemma actRight_add (n n' : N) (x : B₁ ⊗[A₁] B₁) :
     actRight (n + n') x = actRight n x + actRight n' x := by
   induction x with
-  | zero => simp
   | tmul b b' => simp [smul_add, TensorProduct.tmul_add]
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]; abel
 
@@ -286,7 +283,6 @@ lemma actRight_add (n n' : N) (x : B₁ ⊗[A₁] B₁) :
 lemma actRight_mul (n : N) (b : B₁) (x : B₁ ⊗[A₁] B₁) :
     actRight n (((1 : B₁) ⊗ₜ[A₁] b) * x) = actRight (b • n) x := by
   induction x with
-  | zero => simp
   | tmul c c' => simp [Algebra.TensorProduct.tmul_mul_tmul, mul_smul, mul_comm b]
   | add x y hx hy => rw [mul_add, map_add, map_add, hx, hy]
 
@@ -303,7 +299,6 @@ lemma actRight₃_tmul (n : N) (b b' b'' : B₁) :
 lemma actRight₃_add (n n' : N) (x : B₁ ⊗[A₁] (B₁ ⊗[A₁] B₁)) :
     actRight₃ (n + n') x = actRight₃ n x + actRight₃ n' x := by
   induction x with
-  | zero => simp
   | tmul b y => simp [actRight₃, actRight_add, TensorProduct.tmul_add]
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]; abel
 
@@ -311,7 +306,6 @@ lemma actRight₃_add (n n' : N) (x : B₁ ⊗[A₁] (B₁ ⊗[A₁] B₁)) :
 lemma actRight₃_mul (n : N) (b : B₁) (x : B₁ ⊗[A₁] (B₁ ⊗[A₁] B₁)) :
     actRight₃ n (((1 : B₁) ⊗ₜ[A₁] ((1 : B₁) ⊗ₜ[A₁] b)) * x) = actRight₃ (b • n) x := by
   induction x with
-  | zero => simp
   | tmul c y =>
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
     simp only [actRight₃, LinearMap.lTensor_tmul, actRight_mul]
@@ -356,7 +350,6 @@ theorem bijective_cechComparison_ideal {p₁ p₂ : B →+* C} (hp₂ : p₂.Fla
   have hleft : ∀ x, Ψ (cechComparison φ₂ x) = x := by
     intro x
     induction x with
-    | zero => simp
     | tmul b n =>
       obtain ⟨β, rfl⟩ := hsB b
       have e : cechComparison φ₂ (πB β ⊗ₜ[A₁] n) =
@@ -368,7 +361,6 @@ theorem bijective_cechComparison_ideal {p₁ p₂ : B →+* C} (hp₂ : p₂.Fla
   have hright : ∀ (n : N) (x : B₁ ⊗[A₁] B₁), cechComparison φ₂ (actRight n x) = x • φ₂ n := by
     intro n x
     induction x with
-    | zero => simp
     | tmul b b' =>
       rw [actRight_tmul, cechComparison_tmul, hφs, smul_smul,
         Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -419,10 +411,8 @@ theorem injective_cechComparison₃_ideal {p₁ p₂ : B →+* C} {e₁₂ e₂�
     rw [hρ, hρ, map_mul, RingHom.comp_apply, hπ₂₃', actRight₃_mul, sB])
   refine Function.LeftInverse.injective (g := Ψ) fun x => ?_
   induction x with
-  | zero => simp
   | tmul b y =>
     induction y with
-    | zero => simp
     | tmul b' n =>
       obtain ⟨β, rfl⟩ := hsB b
       obtain ⟨β', rfl⟩ := hsB b'

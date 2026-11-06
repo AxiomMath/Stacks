@@ -94,7 +94,7 @@ theorem exists_arrowChart (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val)
   have hm : X.map m.op ξ = X.map (r ≫ q).op r₀.1 := by
     have h1 : X.map m.op ξ = aU.app _ (m ≫ s) := (NatTrans.naturality_apply aU m.op s).symm
     have h2 : aU.app _ (r ≫ k) = X.map r.op (aU.app _ k) := NatTrans.naturality_apply aU r.op k
-    rw [h1, hms, h2, hk, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [h1, hms, h2, hk, ← Functor.map_comp_apply, ← op_comp]
   have hmj : m ≫ j₁ = jc := by
     have h := congrArg (π.app (op c)) hm
     rw [app_map_eq, app_map_eq, r₀.2] at h
@@ -115,8 +115,8 @@ theorem exists_arrowChart (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val)
       apply Subtype.ext
       show X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
         X.map (specOverMap f).op r₀.1
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
-        FunctorToTypes.map_comp_apply, hm, ← FunctorToTypes.map_comp_apply, ← op_comp, hf]
+      rw [← Functor.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
+        Functor.map_comp_apply, hm, ← Functor.map_comp_apply, ← op_comp, hf]
     rw [hpt, relToArr_map, hr₀]
     exact Arr.map_idt f w
 

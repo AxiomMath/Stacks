@@ -62,6 +62,17 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
+local instance hasPullbacks_presheaf_EtaleOverClosureOfMonoLocus :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for limits of cospans of presheaves on the big fppf site. -/
+local instance (priority := high) hasPullback_presheaf_EtaleOverClosureOfMonoLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A closed subspace containing a scheme-theoretically dense subspace is everything.** -/
 theorem eq_top_of_isSchemeTheoreticallyDense_le {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) {U C : Subfunctor X}
@@ -92,6 +103,7 @@ private theorem isFlat_and_isLocallyOfFinitePresentation_comp
   ⟨isFlat_comp B S hS hF hG hH _ _ hf.1 hg.1,
     isLocallyOfFinitePresentation_comp B S hS hF hG hH _ _ hf.2 hg.2⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A flat separated morphism locally of finite presentation which is a monomorphism over a
 quasi-compact immersion is étale over the closure of its image.** Let `F : E ⟶ Y` be flat,
 separated and locally of finite presentation and let `h : W ⟶ Y` be a quasi-compact immersion
@@ -175,7 +187,7 @@ theorem isEtaleAt_of_mono_pullback_snd {E Y W : AlgebraicSpaces B S hS} (F : E �
   -- so the dense open lies in the diagonal, which is therefore everything
   have hDΔ : D.ι = (D.ι ≫ pullback.fst f₀ f₀) ≫ pullback.diagonal f₀ := by
     refine pullback.hom_ext ?_ ?_
-    · simp
+    · rw [Category.assoc, pullback.diagonal_fst, Category.comp_id]
     · rw [Category.assoc, pullback.diagonal_snd, Category.comp_id, hsame]
   have hle : D ≤ Subfunctor.range (pullback.diagonal f₀) := by
     rw [← Subfunctor.range_ι D, hDΔ]

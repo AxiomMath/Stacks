@@ -55,11 +55,11 @@ public instance additive_inverseImageFunctor :
 /-- The ring homomorphism `End F → End f⁻¹F`. -/
 public def inverseImageEndRingHom (F : LAdicSheaf.{u, u + 1} B Y ℓ) :
     End F →+* End (inverseImage f F) where
-  toFun a := (inverseImageFunctor f).map a
-  map_one' := (inverseImageFunctor f).map_id F
-  map_mul' a b := (inverseImageFunctor f).map_comp b a
-  map_zero' := (inverseImageFunctor f).map_zero F F
-  map_add' _ _ := (inverseImageFunctor f).map_add
+  toFun a := .of ((inverseImageFunctor f).map a.asHom)
+  map_one' := End.ext ((inverseImageFunctor f).map_id F)
+  map_mul' a b := End.ext ((inverseImageFunctor f).map_comp b.asHom a.asHom)
+  map_zero' := End.ext ((inverseImageFunctor f).map_zero F F)
+  map_add' a b := End.ext ((inverseImageFunctor f).map_add (f := a.asHom) (g := b.asHom))
 
 end LAdicSheaf
 
@@ -92,8 +92,8 @@ public def inverseImage (F : LAdicSheaf.CoefficientSheaf B Y ℓ O) :
 
 /-- An element `o : O` acts on `f⁻¹F` by the inverse image of its action on `F`. -/
 public theorem inverseImage_act (F : LAdicSheaf.CoefficientSheaf B Y ℓ O) (o : O) :
-    (inverseImage f F).act o =
-      AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap f (F.act o) :=
+    ((inverseImage f F).act o).asHom =
+      AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap f (F.act o).asHom :=
   rfl
 
 end Stacks.EtaleCohomology.LAdicSheaf.CoefficientSheaf

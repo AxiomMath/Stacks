@@ -99,7 +99,6 @@ at that level. -/
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 universe u v w
 

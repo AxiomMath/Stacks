@@ -281,6 +281,13 @@ structure PointedOver (P : PrePureSituation.{u, u} B S hS) where
   /-- It lies above the chosen point of the old base. -/
   mapsPoint : pointsMap B S hS Y' g y' = P.y
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_RelativelyPureModules
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace PointedOver
 
 variable {P : PrePureSituation.{u, u} B S hS} (c : PointedOver P)

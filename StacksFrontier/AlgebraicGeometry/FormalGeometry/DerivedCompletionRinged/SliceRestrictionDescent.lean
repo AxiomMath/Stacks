@@ -292,8 +292,8 @@ every sheaf of modules. Both sides act on a section over `V/U` by multiplication
 theorem overFunctor_map_awaySmul_app (U : X.C)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).map
-        ((awaySmul X h).app M) =
-      (overTerminalSmul X h U).app
+        ((awaySmul X h).asHom.app M) =
+      (overTerminalSmul X h U).asHom.app
         ((SheafOfModules.overFunctor.{u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).obj M) := by
   ext V x
@@ -316,12 +316,12 @@ theorem mapHomologicalComplex_map_awaySmul_smul_id (U : X.C)
           (ComplexShape.up ℤ)).obj Z) := by
   ext n : 1
   rw [Functor.mapHomologicalComplex_map_f,
-    show (awaySmul X h • 𝟙 Z).f n = (awaySmul X h).app (Z.X n) from rfl,
+    show (awaySmul X h • 𝟙 Z).f n = (awaySmul X h).asHom.app (Z.X n) from rfl,
     show (overTerminalSmul X h U •
         𝟙 (((SheafOfModules.overFunctor.{u}
             ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj Z)).f n =
-      (overTerminalSmul X h U).app
+      (overTerminalSmul X h U).asHom.app
         ((SheafOfModules.overFunctor.{u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).obj (Z.X n)) from rfl]
   exact overFunctor_map_awaySmul_app X h U (Z.X n)

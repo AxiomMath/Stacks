@@ -263,26 +263,26 @@ unit of `RE'` and `RF'`, read through the comparison of the two readings of the 
 derived-functor unit of `RR₁` preceded by the degreewise comparisons. -/
 theorem unit_comp_pasteSourceTargetIso (cR' : E' ⋙ F' ≅ R₁) (cG : G'' ≅ G₀)
     (K : HomotopyCategory.Plus A₀) :
-    F'.rightDerivedFunctorPlusUnit.app
+    F'.rightDerivedFunctorPlusUnith.app
           (E'.mapHomotopyCategoryPlus.obj (G''.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map
-          (E'.rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K)) ≫
+          (E'.rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map (E'.rightDerivedFunctorPlus.map
-          (G''.rightDerivedFunctorPlusUnit.app K)) ≫
+          (G''.rightDerivedFunctorPlusUnith.app K)) ≫
         (pasteSourceTargetIso E' F' G'' R₁ G₀ cR' cG).hom.app
           (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso cR').hom.app
             (G''.mapHomotopyCategoryPlus.obj K)) ≫
-        R₁.rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K) ≫
+        R₁.rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K) ≫
         R₁.rightDerivedFunctorPlus.map
             (DerivedCategory.Plus.Qh.map ((mapPlus cG.hom).app K)) ≫
-          R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnit.app K) := by
-  have hA : F'.rightDerivedFunctorPlusUnit.app
+          R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnith.app K) := by
+  have hA : F'.rightDerivedFunctorPlusUnith.app
         (E'.mapHomotopyCategoryPlus.obj (G''.mapHomotopyCategoryPlus.obj K)) ≫
       F'.rightDerivedFunctorPlus.map
-        (E'.rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K)) =
-      (E' ⋙ F').rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K) ≫
+        (E'.rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K)) =
+      (E' ⋙ F').rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K) ≫
         (Functor.rightDerivedFunctorPlusComp E' F').app
           (DerivedCategory.Plus.Qh.obj (G''.mapHomotopyCategoryPlus.obj K)) := by
     rw [Functor.rightDerivedFunctorPlusComp_fac_app,
@@ -293,10 +293,10 @@ theorem unit_comp_pasteSourceTargetIso (cR' : E' ⋙ F' ≅ R₁) (cG : G'' ≅ 
   rw [pasteSourceTargetIso_hom_app]
   refine targetChase hA
     ((Functor.rightDerivedFunctorPlusComp E' F').naturality
-      (G''.rightDerivedFunctorPlusUnit.app K)).symm
+      (G''.rightDerivedFunctorPlusUnith.app K)).symm
     ((Functor.rightDerivedFunctorPlusCompIso E' F').hom_inv_id_app _)
     ((Functor.rightDerivedFunctorPlusNatIso cR').hom.naturality
-      (G''.rightDerivedFunctorPlusUnit.app K))
+      (G''.rightDerivedFunctorPlusUnith.app K))
     (unit_comp_rightDerivedFunctorPlusNatIso_hom cR'
       (G''.mapHomotopyCategoryPlus.obj K)) ?_
   rw [← Functor.map_comp, hE, Functor.map_comp]
@@ -373,7 +373,7 @@ variable {A₀ : Type u₀} {A : Type u₁} {B : Type u₂} {C₀ : Type u₃} {
 
 /-- The suffix of the pasting identity: everything after the degreewise comparison of the lower
 square. -/
-private theorem onHomotopy_pasteSource_suffix (hV : eV.hom = G'.rightDerivedFunctorPlusUnit)
+private theorem onHomotopy_pasteSource_suffix (hV : eV.hom = G'.rightDerivedFunctorPlusUnith)
     (K : HomotopyCategory.Plus A₀) :
     DerivedCategory.Plus.Qh.map
           (F'.mapHomotopyCategoryPlus.map ((mapPlus τ').app K)) ≫
@@ -382,35 +382,34 @@ private theorem onHomotopy_pasteSource_suffix (hV : eV.hom = G'.rightDerivedFunc
         DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso cR').hom.app
             (G₀.mapHomotopyCategoryPlus.obj K)) ≫
-        R₁.rightDerivedFunctorPlusUnit.app (G₀.mapHomotopyCategoryPlus.obj K) ≫
-        R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnit.app K) =
-      F'.rightDerivedFunctorPlusUnit.app
+        R₁.rightDerivedFunctorPlusUnith.app (G₀.mapHomotopyCategoryPlus.obj K) ≫
+        R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnith.app K) =
+      F'.rightDerivedFunctorPlusUnith.app
           (G'.mapHomotopyCategoryPlus.obj (E.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map
-          (G'.rightDerivedFunctorPlusUnit.app (E.mapHomotopyCategoryPlus.obj K)) ≫
+          (G'.rightDerivedFunctorPlusUnith.app (E.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map ((onHomotopy E E' G' G'' τ' eV).app K) ≫
         (pasteSourceTargetIso E' F' G'' R₁ G₀ cR' cG).hom.app
           (DerivedCategory.Plus.Qh.obj K) := by
-  have hcancel : G'.rightDerivedFunctorPlusUnit.app (E.mapHomotopyCategoryPlus.obj K) ≫
+  have hcancel : G'.rightDerivedFunctorPlusUnith.app (E.mapHomotopyCategoryPlus.obj K) ≫
       eV.inv.app (E.mapHomotopyCategoryPlus.obj K) = 𝟙 _ := by
     rw [← hV]
     exact eV.hom_inv_id_app _
-  have hmid : G'.rightDerivedFunctorPlusUnit.app (E.mapHomotopyCategoryPlus.obj K) ≫
+  have hmid : G'.rightDerivedFunctorPlusUnith.app (E.mapHomotopyCategoryPlus.obj K) ≫
       (onHomotopy E E' G' G'' τ' eV).app K =
       DerivedCategory.Plus.Qh.map ((mapPlus τ').app K) ≫
-        E'.rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K) ≫
-        E'.rightDerivedFunctorPlus.map (G''.rightDerivedFunctorPlusUnit.app K) := by
+        E'.rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K) ≫
+        E'.rightDerivedFunctorPlus.map (G''.rightDerivedFunctorPlusUnith.app K) := by
     rw [onHomotopy_app, ← Category.assoc, hcancel, Category.id_comp]
-    rfl
   have hwhisker : F'.rightDerivedFunctorPlus.map
-          (G'.rightDerivedFunctorPlusUnit.app (E.mapHomotopyCategoryPlus.obj K)) ≫
+          (G'.rightDerivedFunctorPlusUnith.app (E.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map ((onHomotopy E E' G' G'' τ' eV).app K) =
       F'.rightDerivedFunctorPlus.map
           (DerivedCategory.Plus.Qh.map ((mapPlus τ').app K)) ≫
         F'.rightDerivedFunctorPlus.map
-          (E'.rightDerivedFunctorPlusUnit.app (G''.mapHomotopyCategoryPlus.obj K)) ≫
+          (E'.rightDerivedFunctorPlusUnith.app (G''.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map (E'.rightDerivedFunctorPlus.map
-          (G''.rightDerivedFunctorPlusUnit.app K)) := by
+          (G''.rightDerivedFunctorPlusUnith.app K)) := by
     rw [← Functor.map_comp, hmid]
     exact map_comp₃ _ _ _ _
   have hnat : DerivedCategory.Plus.Qh.map (F'.mapHomotopyCategoryPlus.map
@@ -427,14 +426,14 @@ private theorem onHomotopy_pasteSource_suffix (hV : eV.hom = G'.rightDerivedFunc
     exact congrArg DerivedCategory.Plus.Qh.map
       ((Functor.mapHomotopyCategoryPlusCompIso cR').hom.naturality ((mapPlus cG.hom).app K))
   exact suffixChase hwhisker
-    (F'.rightDerivedFunctorPlusUnit.naturality ((mapPlus τ').app K)).symm
+    (F'.rightDerivedFunctorPlusUnith.naturality ((mapPlus τ').app K)).symm
     (unit_comp_pasteSourceTargetIso E' F' G'' R₁ G₀ cR' cG K) hnat
-    (R₁.rightDerivedFunctorPlusUnit.naturality ((mapPlus cG.hom).app K))
+    (R₁.rightDerivedFunctorPlusUnith.naturality ((mapPlus cG.hom).app K))
 
 /-- **The pasting identity along the fibre for `onHomotopy`.**  It holds at every bounded below
 complex: no injectivity and no acyclicity enter, only naturality, the comparisons of right
 derived functors, and the hypothesis that `eV` is the derived-functor unit of `RG'`. -/
-theorem onHomotopy_pasteSource_app (hV : eV.hom = G'.rightDerivedFunctorPlusUnit)
+theorem onHomotopy_pasteSource_app (hV : eV.hom = G'.rightDerivedFunctorPlusUnith)
     (hρ : ∀ M, ρ.app M = G.map (cR.inv.app M) ≫ τ.app (E.obj M) ≫ F'.map (τ'.app M) ≫
       F'.map (E'.map (cG.hom.app M)) ≫ cR'.hom.app (G₀.obj M))
     (K : HomotopyCategory.Plus A₀) :
@@ -456,11 +455,10 @@ theorem onHomotopy_pasteSource_app (hV : eV.hom = G'.rightDerivedFunctorPlusUnit
               (E'.mapHomotopyCategoryPlus.map ((mapPlus cG.hom).app K)) ≫
             (Functor.mapHomotopyCategoryPlusCompIso cR').hom.app
               (G₀.mapHomotopyCategoryPlus.obj K)) ≫
-        R₁.rightDerivedFunctorPlusUnit.app (G₀.mapHomotopyCategoryPlus.obj K) ≫
-        R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnit.app K) := by
+        R₁.rightDerivedFunctorPlusUnith.app (G₀.mapHomotopyCategoryPlus.obj K) ≫
+        R₁.rightDerivedFunctorPlus.map (G₀.rightDerivedFunctorPlusUnith.app K) := by
     rw [onHomotopy_app R₀ R₁ G G₀ ρ eU K,
       mapPlus_pasteSource_app E F E' F' G G' G'' R₀ R₁ G₀ τ' τ ρ cR cR' cG hρ K]
-    rfl
   exact glueChase p₁ (map_comp₅ DerivedCategory.Plus.Qh _ _ _ _ _)
     (eU.inv.naturality ((Functor.mapHomotopyCategoryPlusCompIso cR).inv.app K)).symm
     (onHomotopy_app F F' G G' τ eU (E.mapHomotopyCategoryPlus.obj K))
@@ -470,7 +468,7 @@ theorem onHomotopy_pasteSource_app (hV : eV.hom = G'.rightDerivedFunctorPlusUnit
 private theorem isIso_unit_app_of_injective {A' B' : Type*} [Category* A'] [Category* B']
     [Abelian A'] [Abelian B'] [EnoughInjectives A'] (Φ : A' ⥤ B') [Φ.Additive]
     (K : HomotopyCategory.Plus A') (hK : ∀ n : ℤ, Injective (K.obj.as.X n)) :
-    IsIso (Φ.rightDerivedFunctorPlusUnit.app K) := by
+    IsIso (Φ.rightDerivedFunctorPlusUnith.app K) := by
   refine Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun n => ?_
   have := hK n
   exact Functor.rightAcyclic_of_injective _ _
@@ -484,12 +482,12 @@ private theorem isIso_onHomotopy_app_iff {A' B' C' D' : Type*} [Category* A'] [C
     [F₁.Additive] [F₂.Additive] [G₁.Additive] [G₂.Additive] (τ₁ : F₁ ⋙ G₁ ⟶ G₂ ⋙ F₂)
     (e₁ : G₁.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ G₁.rightDerivedFunctorPlus)
-    (K : HomotopyCategory.Plus A') [IsIso (F₁.rightDerivedFunctorPlusUnit.app K)] :
+    (K : HomotopyCategory.Plus A') [IsIso (F₁.rightDerivedFunctorPlusUnith.app K)] :
     IsIso ((onHomotopy F₁ F₂ G₁ G₂ τ₁ e₁).app K) ↔
       IsIso ((derived F₁ F₂ G₁ G₂ τ₁ e₁).app (DerivedCategory.Plus.Qh.obj K)) := by
   rw [← derived_fac_app F₁ F₂ G₁ G₂ τ₁ e₁ K]
   exact ⟨fun h => IsIso.of_isIso_comp_left
-    (G₁.rightDerivedFunctorPlus.map (F₁.rightDerivedFunctorPlusUnit.app K)) _,
+    (G₁.rightDerivedFunctorPlus.map (F₁.rightDerivedFunctorPlusUnith.app K)) _,
     fun h => inferInstance⟩
 
 /-- **The transfer of invertibility along the fibre-direction pasting.**  Let `K` be a bounded
@@ -503,7 +501,7 @@ fourfold composite whose factors other than the lower square's `onHomotopy` are 
 corresponding descent, the derived-functor units being invertible on complexes of
 injectives. -/
 theorem isIso_derived_app_pasteSource [E.PreservesInjectiveObjects]
-    (hV : eV.hom = G'.rightDerivedFunctorPlusUnit)
+    (hV : eV.hom = G'.rightDerivedFunctorPlusUnith)
     (hρ : ∀ M, ρ.app M = G.map (cR.inv.app M) ≫ τ.app (E.obj M) ≫ F'.map (τ'.app M) ≫
       F'.map (E'.map (cG.hom.app M)) ≫ cR'.hom.app (G₀.obj M))
     (K : HomotopyCategory.Plus A₀) (hK : ∀ n : ℤ, Injective (K.obj.as.X n))

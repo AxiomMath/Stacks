@@ -137,7 +137,8 @@ instance isFlat_isLocalAtTarget_fpqc
   simp only [eqToHom_refl, Category.id_comp] at hq
   subst q
   have hcomp : (p i).hom ≫ f.hom = (pullback.snd f (g i)).hom ≫ (g i).hom := by
-    simpa [p] using congrArg (·.hom) (pullback.condition (f := f) (g := g i))
+    have hcond : p i ≫ f = pullback.snd f (g i) ≫ g i := pullback.condition
+    exact congrArg (·.hom) hcond
   change IsFlat B S hS ((p i).hom ≫ f.hom)
   rw [hcomp]
   exact isFlat_comp B S hS (Pᵢ i).property (Yi i).property Y.property

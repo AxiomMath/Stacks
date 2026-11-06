@@ -7,6 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.Rank
 public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.BasicProperties
 public import StacksFrontier.Topology.Sheaves.Cohomology.PseudoCoherence.ModuleInDegreeZero
 public import StacksFrontier.AlgebraicGeometry.PseudoCoherent.StructureSheafDegreeZero
+public import StacksFrontier.AlgebraicGeometry.CoherenceCriteria.Basic
 
 /-!
 # The bottom derived-fibre Betti number of the structure sheaf

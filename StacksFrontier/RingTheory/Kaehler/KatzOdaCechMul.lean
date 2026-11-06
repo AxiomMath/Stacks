@@ -954,6 +954,7 @@ theorem unitTensor_single [DecidableEq I] (k : ℕ) (N : ℤ) (i : {i : I // (n 
   exact congrArg _ (unitMap_single D EP n x EQ (N - k) ⟨i.1, _⟩)
 
 include hx in
+set_option maxRecDepth 8000 in
 /-- **The cup product map on the graded pieces is `Ω^k_{A/R} ⊗` the map `1_i ↦ x̄_i`.** -/
 theorem cupHom_graded_comm [DecidableEq I] (k : ℕ) :
     (CochainComplex.SubmoduleFiltration.forgetAb R).map

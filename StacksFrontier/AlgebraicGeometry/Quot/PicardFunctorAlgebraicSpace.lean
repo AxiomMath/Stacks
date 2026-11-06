@@ -134,7 +134,7 @@ theorem overTotalToValue_overTotalMap {U T : SchemesOver Y} (g : U ⟶ T) (a : O
         (f' := CostructuredArrow.mk T.hom) g.left rfl).op r) =
     R.map g.op (R.map (CostructuredArrow.homMk (f := T) (f' := CostructuredArrow.mk T.hom)
       (𝟙 _) _).op r)
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp]
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp]
   exact congrArg (fun k ↦ R.map (Quiver.Hom.op k) r)
     (CostructuredArrow.hom_ext _ _ ((Category.id_comp _).trans (Category.comp_id _).symm))
 
@@ -199,11 +199,11 @@ theorem bijective_modelPointsToValue (hF : IsAlgebraicSpace B S hS F) (T : Schem
     rw [Equiv.apply_symm_apply]
     rfl
   · rw [modelPointsToValue, overTotalToValue_congr R T (Equiv.apply_symm_apply _ a)]
-    simp only [overTotalToValue, a, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    simp only [overTotalToValue, a, ← Functor.map_comp_apply, ← op_comp]
     rw [show CostructuredArrow.homMk (f := T) (f' := CostructuredArrow.mk T.hom) (𝟙 T.left)
         (by simp) ≫ CostructuredArrow.homMk (f := CostructuredArrow.mk T.hom) (f' := T) (𝟙 T.left)
         (by simp) = 𝟙 T from CostructuredArrow.hom_ext _ _ (Category.id_comp _), op_id,
-      FunctorToTypes.map_id_apply]
+      Functor.map_id_apply]
 
 variable {F e he} in
 /-- The comparison from the points of the model over `Y` to the values of `R` is natural. -/

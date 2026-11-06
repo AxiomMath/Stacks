@@ -277,8 +277,8 @@ theorem actionProjection_comp_actionQuotientDesc
     (f : yoneda.obj V ⟶ X)
     (hf : ∀ g : G, yoneda.map (siteActionHom G B hS V a g) ≫ f = f) :
     actionProjection G B hS V a ≫ actionQuotientDesc G B S hS V hR a hX f hf = f := by
-  refine (cancel_epi
-    (pointsYonedaIso (Over.post (X := B.obj hS) B.inclusion) V).hom).1 ?_
+  refine (Iso.cancel_iso_hom_left
+    (pointsYonedaIso (Over.post (X := B.obj hS) B.inclusion) V) _ _).1 ?_
   rw [← Category.assoc, pointsYonedaIso_hom_comp_actionProjection G B S hS V a,
     toQuotientSheaf_comp_actionQuotientDesc G B S hS V hR a hX f hf]
 

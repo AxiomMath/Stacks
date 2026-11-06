@@ -269,7 +269,7 @@ theorem lineSpecIso_inv_over :
     ← CommRingCat.ofHom_comp, uniqueAlgEquiv_comp_C]
 
 theorem translationAction_left_eq (n : ℤ) :
-    ((translationAction k (Multiplicative.ofAdd n)).hom.left) =
+    ((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left) =
       (lineSpecIso k).hom ≫ Spec.map (CommRingCat.ofHom (shiftHom k n)) ≫
         (lineSpecIso k).inv := by
   apply AffineSpace.hom_ext
@@ -278,7 +278,7 @@ theorem translationAction_left_eq (n : ℤ) :
       show (shiftHom k n).comp (Polynomial.C : k →+* Polynomial k) =
           (Polynomial.C : k →+* Polynomial k) from RingHom.ext fun a => shiftHom_C n a,
       ← lineSpecIso_inv_over, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
-    exact Over.w ((translationAction k (Multiplicative.ofAdd n)).hom)
+    exact Over.w ((translationAction k (Multiplicative.ofAdd n)).asIso.hom)
   · intro i
     obtain rfl : i = PUnit.unit := Subsingleton.elim _ _
     rw [translationAction_apply]
@@ -303,7 +303,7 @@ under the integer translations is the whole line. -/
 theorem eq_univ_of_isOpen_of_translation_invariant [CharZero k]
     (V : Set ((affineLine k).left)) (hVopen : IsOpen V) (hVne : V.Nonempty)
     (hinv : ∀ (n : ℤ) (y : (affineLine k).left),
-      ((translationAction k (Multiplicative.ofAdd n)).hom.left) y ∈ V ↔ y ∈ V) :
+      ((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left) y ∈ V ↔ y ∈ V) :
     V = Set.univ := by
   have hinvhom : ∀ y : (affineLine k).left,
       (lineSpecIso k).inv ((lineSpecIso k).hom y) = y := by
@@ -316,7 +316,7 @@ theorem eq_univ_of_isOpen_of_translation_invariant [CharZero k]
     rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
     simp
   have hbase : ∀ (n : ℤ) (w : Spec (.of (Polynomial k))),
-      ((translationAction k (Multiplicative.ofAdd n)).hom.left) ((lineSpecIso k).inv w) =
+      ((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left) ((lineSpecIso k).inv w) =
         (lineSpecIso k).inv (PrimeSpectrum.comap (shiftHom k n) w) := by
     intro n w
     rw [translationAction_left_eq k n, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hhominv]
@@ -408,7 +408,7 @@ theorem surjective_chartPointsMap : Function.Surjective (chartPointsMap k B hS) 
 `𝔸¹_k/ℤ`: the summand of the relation scheme indexed by that integer carries one to the
 other. -/
 theorem chartPointsMap_translate (g : Multiplicative ℤ) (y : (affineLine k).left) :
-    chartPointsMap k B hS ((translationAction k g).hom.left y) = chartPointsMap k B hS y := by
+    chartPointsMap k B hS ((translationAction k g).asIso.hom.left y) = chartPointsMap k B hS y := by
   unfold chartPointsMap
   have : Stacks.Groupoids.IsEtaleEquivalenceRelation
       (Space.relation B (Spec (.of k)) hS (lineRelationSource k B hS)
@@ -432,12 +432,12 @@ theorem chartPointsMap_translate (g : Multiplicative ℤ) (y : (affineLine k).le
             (lineObj k B hS) (contains_lineRelationScheme k B hS) g))
           ((Space.schemePointsHomeomorph B (Spec (.of k)) hS (lineObj k B hS)).symm y)) =
       (Space.schemePointsHomeomorph B (Spec (.of k)) hS (lineObj k B hS)).symm
-        ((translationAction k g).hom.left y)
+        ((translationAction k g).asIso.hom.left y)
     refine Space.injective_pointsToScheme B (Spec (.of k)) hS (lineObj k B hS) ?_
     have hmap : (BigFppfOver.toScheme B (Spec (.of k)) hS).map
         (Space.siteActionRelationInclusion (Multiplicative ℤ) B hS (lineObj k B hS)
             (contains_lineRelationScheme k B hS) g ≫ lineRelationTarget k B hS) =
-        ((translationAction k g).hom.left) :=
+        ((translationAction k g).asIso.hom.left) :=
       Space.toScheme_map_siteActionRelationInclusion_comp_target (Multiplicative ℤ) B hS
         (lineObj k B hS) (contains_lineRelationScheme k B hS) (translationAction k) g
     rw [← Space.pointsMap_comp_apply, ← Functor.map_comp,

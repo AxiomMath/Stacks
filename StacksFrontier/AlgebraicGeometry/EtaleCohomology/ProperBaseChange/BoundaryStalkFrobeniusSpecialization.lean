@@ -791,7 +791,7 @@ theorem representationLevelDirectImageStalkHom_pointSmallEtaleHom [QuasiCompact 
       e.hom)
     (hãg : ã ≫ t.hom ≫ B'.inclusion.map g = t.hom ≫ B'.inclusion.map g)
     (σ : EtaleFundamentalGroup U.1 (t.map (B'.inclusion.map g)))
-    (hσ : σ.hom = finiteEtaleFiberMap
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap
       (⟨ã, hãg⟩ : GeometricPoint.Hom (t.map (B'.inclusion.map g)) (t.map (B'.inclusion.map g))))
     (y : (directImageStalkAb S s B' U j (ZMod (ℓ ^ k))).obj
       (representationLevelSheafMathlib B' U x ρ hρ k)) :

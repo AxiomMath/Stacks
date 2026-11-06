@@ -296,7 +296,6 @@ private theorem finrank_baseChange_eq_of_ringEquiv {A : Type*} [CommRing A] {κ 
     (fun c hc => by simpa using (map_eq_zero_iff _ ψ.injective).mp hc) e.toAddEquiv ?_
   intro c m
   induction m with
-  | zero => simp
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul x n =>
     show e (c • (x ⊗ₜ n)) = ψ c • e (x ⊗ₜ n)
@@ -329,10 +328,11 @@ private theorem finrank_kaehler_baseChange_residueField
   let e3 : ResidueField Sₘ ⊗[Sₘ] (Sₘ ⊗[S] Ω[S⁄k]) ≃ₗ[ResidueField Sₘ]
       ResidueField Sₘ ⊗[S] Ω[S⁄k] :=
     AlgebraTensorModule.cancelBaseChange S Sₘ (ResidueField Sₘ) (ResidueField Sₘ) Ω[S⁄k]
-  have hψ : ∀ a : S, IsLocalization.AtPrime.equivQuotMaximalIdeal 𝔪 Sₘ (algebraMap S (S ⧸ 𝔪) a)
+  have hψ : ∀ a : S,
+      (IsLocalization.AtPrime.equivQuotMaximalIdeal 𝔪 Sₘ).toRingEquiv (algebraMap S (S ⧸ 𝔪) a)
       = algebraMap S (ResidueField Sₘ) a := fun a => rfl
   rw [(e2.trans e3).finrank_eq, ← finrank_baseChange_eq_of_ringEquiv
-    (IsLocalization.AtPrime.equivQuotMaximalIdeal 𝔪 Sₘ) hψ Ω[S⁄k],
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal 𝔪 Sₘ).toRingEquiv hψ Ω[S⁄k],
     finrank_kaehler_baseChange_eq_finrank_cotangent k S 𝔪]
   exact finrank_cotangent_eq_finrank_cotangentSpace 𝔪 Sₘ
 

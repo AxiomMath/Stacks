@@ -74,7 +74,7 @@ theorem isIso_derivedComparison_app_single_of_degreewise (H : IsPullback g' f' f
     (e : DerivedCategory.Plus.Qh.obj L ≅
       (DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hiso : ∀ n : ℤ, IsIso ((underivedComparison H.w G).app (L.obj.as.X n)))
     (hac : ∀ n : ℤ, (modulePushforward f'.toLRSHom.toShHom).rightAcyclic
       ((totalCoefficients g' f' G).obj (L.obj.as.X n))) :

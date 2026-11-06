@@ -68,7 +68,7 @@ theorem compactSupportCanonicalTwistEquiv_galoisCompactSupportGroupForgetIso
           ((((DerivedCategory.Plus.homologyFunctor (GaloisModules Λ k kbar) ((2 : ℕ) : ℤ)).obj
             (galoisDerivedCompactSupport Λ f j kbar
               ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
-                ((representationSheaf B X _ Λ).obj ρ)))).obj.obj.ρ σ).hom x)) =
+                ((representationSheaf B X _ Λ).obj ρ)))).obj.obj.ρ σ).asHom.hom x)) =
       rootsOfUnityHomRepresentation k kbar (Fintype.card Λ) Λ
         (geometricNormalCoinvariantsGaloisRepresentation B X f kbar Λ y ρ) σ
         (compactSupportCanonicalTwistEquiv B X f kbar Λ y j hn ρ
@@ -86,7 +86,6 @@ theorem compactSupportCanonicalTwistEquiv_galoisCompactSupportGroupForgetIso
     ((galoisCompactSupportGroupForgetIso Λ f j kbar
           ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
             ((representationSheaf B X _ Λ).obj ρ)) ((2 : ℕ) : ℤ)).hom x) using 2
-  exact h
 
 end AlgebraicGeometry
 

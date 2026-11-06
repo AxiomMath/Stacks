@@ -621,13 +621,13 @@ def derivedAbIso :
   haveI : PreservesFiniteColimits β :=
     preservesFiniteColimits_inverseImageAb_comp B S hS g G' hG' eG'
   have hK := isKInjective_fstInverseImageAb_comp B S hS f g F' G' hF' hG' eF' eG'
-  exact Functor.isoWhiskerLeft _ (Functor.mapDerivedCategoryCompIso (Iso.refl β)) ≪≫
+  exact Functor.isoWhiskerLeft _ (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl β)) ≪≫
     (derivedBaseChangeIso α β (directImageAb B S hS f)
       (smallDirectImageAb B S hS f g F' G' hF' hG' eF' eG') _ _
       (Space.derivedAbelianDirectImageFibredUnit _ _ _ _ _ _ _ _ _)
       (Space.derivedAbelianDirectImageSpaceUnit _ _ _ _ _ _ _ _ _ _ _ _ _)
       (underivedAbIso B S hS f g F' G' hF' hG' eF' eG') hK).symm ≪≫
-    Functor.isoWhiskerRight (Functor.mapDerivedCategoryCompIso (Iso.refl α)).symm _ ≪≫
+    Functor.isoWhiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl α)).symm _ ≪≫
     Functor.associator _ _ _
 
 end DerivedAb
@@ -1063,8 +1063,8 @@ def derivedModIso :
   have eqF := derivedPushforwardOfExact_projectionF' B S hS f g F' hF' eF'
   have eqG := derivedPushforwardOfExact_projectionG' B S hS G' hG' eG'
   refine Functor.isoWhiskerLeft _ (Functor.isoWhiskerLeft _ (eqToIso eqG) ≪≫
-    Functor.mapDerivedCategoryCompIso (Iso.refl β)) ≪≫ base.symm ≪≫ ?_
-  refine Functor.isoWhiskerRight (Functor.mapDerivedCategoryCompIso (Iso.refl α)).symm _ ≪≫
+    Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl β)) ≪≫ base.symm ≪≫ ?_
+  refine Functor.isoWhiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl α)).symm _ ≪≫
     Functor.associator _ _ _ ≪≫ Functor.isoWhiskerLeft _
       (Functor.isoWhiskerRight (eqToIso eqF).symm _)
 

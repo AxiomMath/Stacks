@@ -117,7 +117,7 @@ public theorem isZero_sheafH'_of_topology_eq {C : Type w} [Category.{v} C]
     (i1 : HasSheafify J AddCommGrpCat.{v}) (i2 : HasExt.{v} (Sheaf J AddCommGrpCat.{v}))
     (i1' : HasSheafify J' AddCommGrpCat.{v}) (i2' : HasExt.{v} (Sheaf J' AddCommGrpCat.{v}))
     (h : J = J') (F : Sheaf J AddCommGrpCat.{v}) (F' : Sheaf J' AddCommGrpCat.{v})
-    (hF : F.val = F'.val) (p : ℕ) (U : C)
+    (hF : F.obj = F'.obj) (p : ℕ) (U : C)
     (hz : IsZero (@Sheaf.H'.{v} C _ J i1 i2 F p U)) :
     IsZero (@Sheaf.H'.{v} C _ J' i1' i2' F' p U) := by
   subst h

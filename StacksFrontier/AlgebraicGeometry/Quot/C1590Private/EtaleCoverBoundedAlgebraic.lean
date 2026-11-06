@@ -60,6 +60,17 @@ namespace AlgebraicGeometry.C1590Private
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of fppf sheaves on `BigFppfOver B S hS`: instance search for them times out under
+Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_EtaleCoverBoundedAlgebraic :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_EtaleCoverBoundedAlgebraic
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The representable sheaf of a coproduct of the site is the coproduct of the representable
 sheaves.** If the underlying scheme of an object `V` of the big fppf site of `S` is the
 coproduct of the underlying schemes of a family `X`, with the injections of the family as

@@ -333,7 +333,7 @@ theorem derivedLimitProjection_comp_map
   have h1 := congrArg (· ≫ Pi.π (fun n : ℕ => D.derivedSystem.obj ⟨n⟩) n)
     (comp_distTriang_mor_zero₁₂ _ hT)
   simp only [Triangle.mk_obj₁, Triangle.mk_obj₂, Triangle.mk_obj₃, Triangle.mk_mor₁,
-    Triangle.mk_mor₂, Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp,
+    Triangle.mk_mor₂, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp,
     sub_eq_zero] at h1
   simp only [derivedLimitProjection, Category.assoc]
   rw [h1]

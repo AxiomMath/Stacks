@@ -71,16 +71,16 @@ def smallEtaleComposeIdIso {X : Scheme.{u}} (W : X.Etale) :
 /-- **Sections of an injective sheaf of modules over an étale `X`-scheme form an injective
 object.** They are the global sections of the restriction to `W`, which is injective. -/
 theorem injective_etaleModule_sections {X : Scheme.{u}} (I : EtaleModules.{u, r} Λ X)
-    [Injective I] (W : X.Etale) : Injective (I.val.obj (op W)) := by
+    [Injective I] (W : X.Etale) : Injective (I.obj.obj (op W)) := by
   have := injective_etaleModuleRestriction Λ W.hom I
   have h := (constantSheafAdj W.left.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)
     (etaleMkIdIsTerminal W.left)).map_injective _ this
-  exact Injective.of_iso (I.val.mapIso (smallEtaleComposeIdIso W).op) h
+  exact Injective.of_iso (I.obj.mapIso (smallEtaleComposeIdIso W).op) h
 
 /-- **Sections of an injective sheaf of modules over an étale `X`-scheme are an injective
 module.** -/
 theorem moduleInjective_etaleModule_sections {X : Scheme.{u}} (I : EtaleModules.{u, r} Λ X)
-    [Injective I] (W : X.Etale) : Module.Injective Λ (I.val.obj (op W)) :=
+    [Injective I] (W : X.Etale) : Module.Injective Λ (I.obj.obj (op W)) :=
   have := injective_etaleModule_sections Λ I W
   Module.injective_module_of_injective_object Λ _
 

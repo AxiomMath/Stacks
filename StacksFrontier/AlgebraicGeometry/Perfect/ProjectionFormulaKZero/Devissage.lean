@@ -732,10 +732,10 @@ theorem parityEulerClass_map_eq (M : DerivedCategory X.Modules)
         (g := fun k => 2 * m k + n) fun a b h => hm (by simp only at h; omega)).subset fun k =>
         (SheafOfModules.supp_eq_of_iso (hsi W m k n)).le.trans (hsupp k _)
   have hV : IsLocallyBoundedCoherent (∐ V) :=
-    hshift W m hWk (fun a b h => ULift.ext _ _ (by simp only [m] at h; omega)) hWz
+    hshift W m hWk (fun a b h => ULift.ext (by simp only [m] at h; omega)) hWz
       fun k n => supp_subset_of_isZero_or_iso (homology_truncLT_truncGE M _ _ _)
   have hV' : IsLocallyBoundedCoherent (∐ V') :=
-    hshift W' m' hW'k (fun a b h => ULift.ext _ _ (by simp only [m'] at h; omega)) hW'z
+    hshift W' m' hW'k (fun a b h => ULift.ext (by simp only [m'] at h; omega)) hW'z
       fun k n => supp_subset_of_isZero_or_iso (homology_truncGE_truncLT M _ _ _)
   have hWs : IsLocallyBoundedCoherent (∐ W) :=
     isLocallyBoundedCoherent_sigma_of_isZero_or_iso _ M hM

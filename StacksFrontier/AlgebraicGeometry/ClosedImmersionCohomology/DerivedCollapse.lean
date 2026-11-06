@@ -34,7 +34,7 @@ for the sections functor while `f_*` genuinely does not preserve injectives.
 ## Implementation notes
 
 Exactness of `F` is used exactly once, to identify `RF` with `F`: the unit
-`F.rightDerivedFunctorPlusUnit` of the bounded below right derived functor is invertible for an
+`F.rightDerivedFunctorPlusUnith` of the bounded below right derived functor is invertible for an
 exact functor (`Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit`), so
 `RF` carries an object placed in degree zero to `F` of it placed in degree zero. Without
 exactness the same acyclicity hypothesis still gives the invertibility of the comparison
@@ -81,11 +81,11 @@ noncomputable def singleFunctorIso [PreservesFiniteLimits F] [PreservesFiniteCol
     DerivedCategory.Plus.singleFunctor A 0 ⋙ F.rightDerivedFunctorPlus ≅
       F ⋙ DerivedCategory.Plus.singleFunctor B 0 :=
   have : F.PreservesHomology := Functor.preservesHomologyOfExact F
-  have : IsIso F.rightDerivedFunctorPlusUnit :=
+  have : IsIso F.rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit F
   Functor.isoWhiskerRight (Functor.singleFunctorPlusIsoCompQh 0) F.rightDerivedFunctorPlus ≪≫
     Functor.isoWhiskerLeft (HomotopyCategory.Plus.singleFunctor A 0)
-      (asIso F.rightDerivedFunctorPlusUnit).symm ≪≫
+      (asIso F.rightDerivedFunctorPlusUnith).symm ≪≫
     Functor.mapSingleFunctorCompQhIso F
 
 /-- **The derived functor of a composite splits along an exact functor with `G`-acyclic values

@@ -212,12 +212,14 @@ noncomputable abbrev closureSnd : (graph π₁ π₂ u a i h).image ⟶ P :=
 @[reassoc (attr := simp)]
 theorem toImage_closureFst : (graph π₁ π₂ u a i h).toImage ≫ closureFst π₁ π₂ u a i h = u := by
   simp [closureFst]
+  rfl
 
 /-- On `U`, the second projection of the closure of the graph is `i ≫ a`. -/
 @[reassoc (attr := simp)]
 theorem toImage_closureSnd :
     (graph π₁ π₂ u a i h).toImage ≫ closureSnd π₁ π₂ u a i h = i ≫ a := by
   simp [closureSnd]
+  rfl
 
 /-- **Over `U` the closure of the graph is `U`**: the inverse image of `U ⊆ Xb` in the closure
 of the graph is the open subscheme `U`. -/

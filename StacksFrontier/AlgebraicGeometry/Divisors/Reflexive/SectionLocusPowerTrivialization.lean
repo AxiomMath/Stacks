@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Divisors.Reflexive.ReflexivePowerSystem
 public import StacksFrontier.AlgebraicGeometry.Divisors.Reflexive.SectionLocusGenericPoint
+public import Mathlib.CategoryTheory.Functor.OfSequence
 import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorPowerCoherence
 import StacksFrontier.Topology.Sheaves.OpenImmersion.ModuleExtensionByZero
 

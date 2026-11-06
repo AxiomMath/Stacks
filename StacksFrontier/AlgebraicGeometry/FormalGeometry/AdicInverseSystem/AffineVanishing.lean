@@ -71,7 +71,7 @@ public theorem epi_inverseLimitDifference_of_surjective (G : ℕᵒᵖ ⥤ AddCo
   have hd : ∀ n : ℕ, inverseLimitDifference G ≫ Pi.π (fun n : ℕ => G.obj ⟨n⟩) n =
       Pi.π (fun n : ℕ => G.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ => G.obj ⟨n⟩) (n + 1) ≫ G.map (homOfLE (Nat.le_succ n)).op :=
-    fun n => Pi.lift_π _ n
+    fun n => Pi.lift_comp_π _ n
   refine ⟨(Concrete.productEquiv (fun n : ℕ => G.obj ⟨n⟩)).symm α, ?_⟩
   refine (Concrete.productEquiv (fun n : ℕ => G.obj ⟨n⟩)).injective (funext fun n => ?_)
   rw [Concrete.productEquiv_apply_apply, Concrete.productEquiv_apply_apply]

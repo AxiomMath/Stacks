@@ -69,6 +69,13 @@ namespace AlgebraicGeometry.Space.SpacesEtale
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X : AlgebraicSpaces B S hS}
 
+/-- `Type (u + 1)` has the limits indexing the right Kan extension along
+`AlgebraicGeometry.Space.SpacesEtale.sliceToSmall`; instance search times out finding it. -/
+instance (priority := high) hasLimitsOfShape_structuredArrow_sliceToSmall_op_type
+    (U : SpacesEtale B S hS X) (W : (SpacesEtale B S hS U.obj.left)ᵒᵖ) :
+    HasLimitsOfShape (StructuredArrow W (sliceToSmall B S hS U).op) (Type (u + 1)) :=
+  Types.hasLimitsOfSize.{u + 1, u + 1, u + 1}.has_limits_of_shape _
+
 /-- Postcomposition along the morphism of algebraic spaces underlying a morphism of the
 spaces-étale site of `X` is continuous for the spaces-étale topologies. -/
 instance isContinuous_spacesEtalePostcomp_toSpaces_map {V U : SpacesEtale B S hS X}

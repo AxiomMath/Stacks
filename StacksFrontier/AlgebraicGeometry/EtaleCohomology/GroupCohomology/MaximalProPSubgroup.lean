@@ -70,7 +70,7 @@ theorem subsingleton_ext_iff_of_isMaximalProPSubgroup (hH : IsMaximalProPSubgrou
       exists_pow_smul_coinduction_eq_zero fun a ↦ ⟨1, by
         show ℓ ^ 1 • (a : ULift.{max v w} (ZMod ℓ)) = 0
         obtain ⟨a⟩ := a
-        exact ULift.ext _ _ (show ℓ ^ 1 • a = 0 by simp)⟩
+        exact ULift.ext (show ℓ ^ 1 • a = 0 by simp)⟩
     have := h _ htors
     exact (shapiroAddEquiv.{v, w} H _ n).injective.subsingleton
   · have : CompactSpace H := compactSpace_of_isClosed hH.prop.1

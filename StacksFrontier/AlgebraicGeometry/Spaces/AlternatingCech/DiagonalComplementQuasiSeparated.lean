@@ -100,7 +100,9 @@ theorem isAbsolutelyQuasiSeparated_of_iso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     (hF : IsAlgebraicSpace B S hS F) (e : F ≅ G)
     (hG : IsAbsolutelyQuasiSeparated B S hS hZ G) :
     IsAbsolutelyQuasiSeparated B S hS hZ F :=
-  isAbsolutelyQuasiSeparated_of_mono B S hS hZ hF e.hom inferInstance hG
+  isAbsolutelyQuasiSeparated_of_mono B S hS hZ hF e.hom
+    ⟨fun g h w => by
+      simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using w =≫ e.inv⟩ hG
 
 /-- **An object of the site with quasi-separated underlying scheme represents a
 quasi-separated algebraic space.** This is the implication `(ι) ⇒ (η)` of [Stacks, Tag 03JX] at

@@ -116,6 +116,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search for `HasLimit (cospan f g)`
+times out without this shortcut). -/
+local instance (priority := high) hasLimit_cospan_presheaf_FiniteType
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism of the big fppf site of `S` whose underlying morphism of schemes is an
 immersion is locally of finite type, Mathlib's `AlgebraicGeometry.IsImmersion` being an
 instance of `AlgebraicGeometry.LocallyOfFiniteType`. -/
@@ -217,7 +224,7 @@ private theorem exists_presheaf_etale_lift_pullback (hX : IsAlgebraicSpace B S h
   have hpb := AlgebraicSpaces.isPullback_fiberProduct B S hS
     (ObjectProperty.homMk b : (⟨yoneda.obj V, hValg⟩ : AlgebraicSpaces B S hS) ⟶ ⟨Y, hY⟩)
     (ObjectProperty.homMk f : (⟨X, hX⟩ : AlgebraicSpaces B S hS) ⟶ ⟨Y, hY⟩)
-  refine ⟨pullback.lift (yoneda.map α) a (by simpa using hsquare), ?_, pullback.lift_fst _ _ _⟩
+  refine ⟨pullback.lift (yoneda.map α) a hsquare, ?_, pullback.lift_fst _ _ _⟩
   exact presheaf_etale_of_isEtale B S hS
     (isEtale_of_isEtale_over B S hS (isAlgebraicSpace_yoneda B S hS U)
       (isAlgebraicSpace_pullback B S hS b f hValg hX hY) hX _ a (pullback.snd b f)

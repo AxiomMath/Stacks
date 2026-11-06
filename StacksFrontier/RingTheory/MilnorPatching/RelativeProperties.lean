@@ -508,7 +508,9 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
         from hj, TensorProduct.tmul_zero]
     exact hle hd
   have lift_fst (n : X.fst) : ∃ p ∈ P, (e X p).1.1 = n := by
-    have hn : cB.symm n ∈ Submodule.span s.D (Set.range y) := by rw [hy]; trivial
+    have hn : cB.symm n ∈ Submodule.span s.D
+        (Set.range (show Fin r → (ModuleCat.extendScalars s.toD).obj (F₀.obj X) from y)) := by
+      rw [hy]; trivial
     obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun s.D).mp hn
     choose d hd using fun ij : Σ i, Fin (kr i) ↦ htoB (a ij.1 * br ij.1 ij.2)
     refine ⟨∑ i, ∑ j, d ⟨i, j⟩ • pr i j, ?_, ?_⟩
@@ -528,7 +530,9 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
       congr 1
   have lift_smul_snd (t : s.C') (ht : s.C'toC t = 0) (m : X.snd) :
       ∃ z ∈ Q, (e X z).1.1 = 0 ∧ (e X z).1.2 = t • m := by
-    have hm : cC.symm m ∈ Submodule.span s.C' (Set.range x) := by rw [hx]; trivial
+    have hm : cC.symm m ∈ Submodule.span s.C'
+        (Set.range (show Fin q → (ModuleCat.extendScalars s.toC').obj (F₀.obj X) from x)) := by
+      rw [hx]; trivial
     obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun s.C').mp hm
     choose d hd using fun ij : Σ i, Fin (kq i) ↦
       liftZero (t * a ij.1 * bq ij.1 ij.2) (by simp [ht])
@@ -873,11 +877,9 @@ public theorem tensorBaseChangeEquiv_natural (f : M →ₗ[S] N)
     tensorBaseChangeEquiv R S T N (f.baseChange (S ⊗[R] T) x) =
       (f.restrictScalars R).lTensor T (tensorBaseChangeEquiv R S T M x) := by
   induction x with
-  | zero => simp
   | add x y hx hy => simp [hx, hy]
   | tmul st m =>
     induction st with
-    | zero => simp
     | add x y hx hy => simpa [add_tmul] using congrArg₂ (· + ·) hx hy
     | tmul s t => simp [tensorBaseChangeEquiv_tmul]
 /-- Base change along `R → T` of an injection of `S`-modules with flat cokernel stays

@@ -38,7 +38,7 @@ unique, this is precisely a corepresentation of the derivations functor, in the 
 convention the source uses for its representability claim.
 
 The representing object is the sheafification of Mathlib's
-`PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`, the presheaf whose
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'`, the presheaf whose
 sections on `U` are the Kähler differentials of `O₂(U)` over `O₁(U)`. Its universal property
 is Mathlib's `isUniversal'` transported along the sheafification adjunction, so this realizes
 the explicit construction of the source rather than an abstract existence argument.
@@ -76,37 +76,37 @@ variable (O₁ O₂ : Sheaf J CommRingCat.{u}) (φ : O₁ ⟶ O₂)
 /-- Relative derivations of `O₂` over `O₁` with values in a sheaf of `O₂`-modules,
 expressed on the underlying presheaf of modules. -/
 abbrev SheafDerivation (F : SheafOfModules.{u} (underlyingRingSheaf O₂)) :=
-  F.val.Derivation' φ.hom
+  PresheafOfModulesOfCommRing.Derivation' F.val φ.hom
 
 /-- The sheaf of relative differentials: the sheafification of the presheaf whose sections
 on `U` are the Kähler differentials of `O₂(U)` over `O₁(U)`. -/
 noncomputable def moduleOfDifferentials :
     SheafOfModules.{u} (underlyingRingSheaf O₂) :=
   (PresheafOfModules.sheafification (𝟙 (underlyingRingSheaf O₂).obj)).obj
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 /-- The universal relative derivation into the sheaf of relative differentials: the
 sectionwise differential followed by the unit of sheafification. -/
 noncomputable def universalDerivation :
     SheafDerivation O₁ O₂ φ (moduleOfDifferentials O₁ O₂ φ) :=
-  (PresheafOfModules.DifferentialsConstruction.derivation' φ.hom).postcomp
+  (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).postcomp
     ((PresheafOfModules.sheafificationAdjunction
       (J := J) (𝟙 (underlyingRingSheaf O₂).obj)).unit.app
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom))
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom))
 
 /-- The universal property of Mathlib's presheaf of sectionwise Kähler differentials, as a
 bijection between morphisms out of it and relative derivations. -/
 noncomputable def presheafDifferentialsEquiv
     {S R : Cᵒᵖ ⥤ CommRingCat.{u}} (φ' : S ⟶ R)
     (M : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)) :
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
-      M.Derivation' φ' where
-  toFun f := (PresheafOfModules.DifferentialsConstruction.derivation' φ').postcomp f
-  invFun := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').desc
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
+      PresheafOfModulesOfCommRing.Derivation' M φ' where
+  toFun f := (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ').postcomp f
+  invFun := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').desc
   left_inv _ :=
-    (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac _)
-  right_inv := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac _)
+  right_inv := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac
 
 /-- Every relative derivation with values in a sheaf of modules factors through the universal
 derivation by a unique morphism of sheaves of modules. -/
@@ -119,7 +119,7 @@ theorem universalDerivation_isUniversal
       (universalDerivation O₁ O₂ φ).postcomp f.val = D := by
   set e := (PresheafOfModules.sheafificationHomEquiv
     (𝟙 (underlyingRingSheaf O₂).obj) (P :=
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
     (F := F)).trans (presheafDifferentialsEquiv φ.hom _) with he
   have key (f : moduleOfDifferentials O₁ O₂ φ ⟶ F) :
       e f = (universalDerivation O₁ O₂ φ).postcomp f.val := by

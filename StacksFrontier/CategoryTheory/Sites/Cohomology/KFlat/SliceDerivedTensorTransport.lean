@@ -44,7 +44,7 @@ as an isomorphism of **bifunctors on the unbounded derived categories**: on arbi
 `Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO`, which has the same underlying
 presheaf of rings as `Stacks.SheafOfModules.Tensor.ringSheaf`; with
 `Stacks.Cohomology.SliceDerivedTensor.siteIsSheaf` for `hO`, `restriction X U` is
-`whiskerRestriction X.O.val (siteIsSheaf X) (Over.forget U)` by `rfl`. The identity factors left
+`whiskerRestriction X.O.obj (siteIsSheaf X) (Over.forget U)` by `rfl`. The identity factors left
 by the naturality lemma of the tensor-power development are not removed by conversion, and are
 rewritten away in `sliceTensorIso_naturality_left` and `sliceTensorIso_naturality_right`.
 
@@ -82,8 +82,8 @@ not-necessarily-commutative rings that
 `Stacks.SheafOfModules.TensorSheafification.structureSheaf` indexes by. -/
 theorem siteIsSheaf :
     Presheaf.IsSheaf X.J
-      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.O.val) :=
-  (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O).cond
+      (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf X.O.obj) :=
+  (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O).property
 
 /-- **`(M ⊗_O L)|_U ≅ M|_U ⊗_{O|_U} L|_U`** for restriction to the slice site `C/U`:
 `Stacks.SheafOfModules.TensorPower.overTensorSheafIso`, at the restriction functor and the tensor
@@ -92,7 +92,7 @@ abbrev sliceTensorIso (M L : Modules X.O) :
     (restriction X U).obj (((sheafTensor X.O).obj M).obj L) ≅
       ((sheafTensor (X.O.over U)).obj ((restriction X U).obj M)).obj
         ((restriction X U).obj L) :=
-  overTensorSheafIso X.O.val (siteIsSheaf X) U M L
+  overTensorSheafIso X.O.obj (siteIsSheaf X) U M L
 
 /-- Joint naturality of `sliceTensorIso` in both variables, with the identity factors of
 `whiskerTensorSheafIso_naturality` left in place. -/
@@ -105,7 +105,7 @@ private theorem sliceTensorIso_naturality {M M' L L' : Modules X.O} (f : M ⟶ M
             ((restriction X U).obj L) ≫
           ((sheafTensor (X.O.over U)).obj ((restriction X U).obj M')).map
             ((restriction X U).map g)) :=
-  whiskerTensorSheafIso_naturality (J' := X.J.over U) X.O.val (siteIsSheaf X)
+  whiskerTensorSheafIso_naturality (J' := X.J.over U) X.O.obj (siteIsSheaf X)
     (Over.forget U) f g
 
 /-- **The comparison `Stacks.Cohomology.SliceDerivedTensor.sliceTensorIso` is natural in the

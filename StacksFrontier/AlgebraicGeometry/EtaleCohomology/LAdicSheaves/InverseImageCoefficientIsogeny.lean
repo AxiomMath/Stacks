@@ -46,18 +46,18 @@ public theorem exists_inverseImage_isogeny (F : LAdicSheaf.CoefficientSheaf B Y 
     (G : LAdicSheaf.CoefficientSheaf B Y ℓ O') (R : O → O' → Prop)
     (φ : F.toLAdicSheaf ⟶ G.toLAdicSheaf) (ψ : G.toLAdicSheaf ⟶ F.toLAdicSheaf) (N : ℕ)
     (h₁ : φ ≫ ψ = (ℓ ^ N) • 𝟙 _) (h₂ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _)
-    (hφ : ∀ o o', R o o' → φ ≫ G.act o' = F.act o ≫ φ) :
+    (hφ : ∀ o o', R o o' → φ ≫ (G.act o').asHom = (F.act o).asHom ≫ φ) :
     ∃ (φ' : (inverseImage f F).toLAdicSheaf ⟶ (inverseImage f G).toLAdicSheaf)
       (ψ' : (inverseImage f G).toLAdicSheaf ⟶ (inverseImage f F).toLAdicSheaf),
       φ' ≫ ψ' = (ℓ ^ N) • 𝟙 _ ∧ ψ' ≫ φ' = (ℓ ^ N) • 𝟙 _ ∧
-      ∀ o o', R o o' → φ' ≫ (inverseImage f G).act o' = (inverseImage f F).act o ≫ φ' := by
+      ∀ o o', R o o' → φ' ≫ ((inverseImage f G).act o').asHom = ((inverseImage f F).act o).asHom ≫ φ' := by
   let Φ := AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageFunctor (ℓ := ℓ) f
   refine ⟨Φ.map φ, Φ.map ψ, ?_, ?_, fun o o' h => ?_⟩
   · show Φ.map φ ≫ Φ.map ψ = (ℓ ^ N) • 𝟙 (Φ.obj F.toLAdicSheaf)
     rw [← Φ.map_comp, h₁, Functor.map_nsmul, Φ.map_id]
   · show Φ.map ψ ≫ Φ.map φ = (ℓ ^ N) • 𝟙 (Φ.obj G.toLAdicSheaf)
     rw [← Φ.map_comp, h₂, Functor.map_nsmul, Φ.map_id]
-  · show Φ.map φ ≫ Φ.map (G.act o') = Φ.map (F.act o) ≫ Φ.map φ
+  · show Φ.map φ ≫ Φ.map (G.act o').asHom = Φ.map (F.act o).asHom ≫ Φ.map φ
     rw [← Φ.map_comp, ← Φ.map_comp, hφ o o' h]
 
 end Stacks.EtaleCohomology.LAdicSheaf.CoefficientSheaf

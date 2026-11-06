@@ -362,7 +362,7 @@ public theorem augmentationMap_projection (n : ℕ) :
         Limits.Pi.π (fun k : ℕ ↦ F.obj ⟨k⟩) n by rfl]
   show (augmentationMap a ≫ CochainComplex.mappingCocone.fst (oneMinusShift F)) ≫
       Limits.Pi.π (fun k : ℕ ↦ F.obj ⟨k⟩) n = a.app n
-  rw [augmentationMap_fst, productLift, Pi.lift_π]
+  rw [augmentationMap_fst, productLift, Pi.lift_comp_π]
 
 private lemma augmentationMap_f (i : ℤ) :
     (augmentationMap a).f i = (productLift a).f i ≫
@@ -510,7 +510,7 @@ public theorem map_quasiIso_and_milnor_triangle :
       rw [Category.assoc, he n, ← Functor.map_comp, oneMinusShift_π,
         Functor.map_sub, Functor.map_comp]
       dsimp [s]
-      rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, he n, ← Category.assoc (f := e.hom)
+      rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, he n, ← Category.assoc (f := e.hom)
         (g := Pi.π (fun n : ℕ ↦ DerivedCategory.Q.obj (K n)) (n + 1)), he (n + 1)]
     have hcomm₃ : N.mor₃ ≫ (Iso.refl N.obj₁).hom⟦(1 : ℤ)⟧' = e.hom ≫ δ := by
       simp [δ]

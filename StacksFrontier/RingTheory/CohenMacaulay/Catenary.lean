@@ -234,7 +234,7 @@ private theorem support_mvPolynomial_tensor_eq_univ {R : Type u} [CommRing R] {M
     fun x hxQ hx => hxQ ?_⟩
   have hx' : (TensorProduct.mk R (MvPolynomial σ R) M x) m = 0 := by
     rw [← hx]; simp [TensorProduct.smul_tmul']
-  have hcoeff : ∀ i, MvPolynomial.coeff i x ∈ p.asIdeal := fun i => by
+  have hcoeff : ∀ i, x.coeff i ∈ p.asIdeal := fun i => by
     by_contra hc
     refine hm _ hc ?_
     have := congrArg

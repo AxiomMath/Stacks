@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.Algebra.Category.Ring.Limits
 public import Mathlib.CategoryTheory.Abelian.ShortExact
 public import Mathlib.CategoryTheory.Limits.IsConnected
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import Mathlib.CategoryTheory.Sites.Pullback
@@ -977,7 +978,7 @@ noncomputable def sourceScalar (O : Sheaf K CommRingCat.{max u v})
   let P := (Over.forget U).op ⋙ F.val.presheaf
   let α : ∀ X : (Over U)ᵒᵖ, P.obj X ⟶ P.obj X := fun X =>
     (ModuleCat.smul (F.val.obj (op X.unop.left)))
-      (((underlyingRingSheaf O).obj.map X.unop.hom.op).hom r)
+      (((underlyingRingSheaf O).obj.map X.unop.hom.op).hom r) |>.asHom
   refine { app := α, naturality := ?_ }
   intro X Y f
   dsimp [P, α]
@@ -1002,7 +1003,7 @@ theorem sourceScalar_app (O : Sheaf K CommRingCat.{max u v})
     (x : ((Over.forget U).op ⋙ F.val.presheaf).obj X) :
     ((sourceScalar O F U r).app X).hom x =
       (ModuleCat.smul (F.val.obj (op X.unop.left))
-        (((underlyingRingSheaf O).obj.map X.unop.hom.op).hom r)).hom x := rfl
+        (((underlyingRingSheaf O).obj.map X.unop.hom.op).hom r)).asHom.hom x := rfl
 
 /-- The action of a section `r` of `O` over `U` on a section of the dual over `U`, namely
 precomposition with multiplication by `r`. -/

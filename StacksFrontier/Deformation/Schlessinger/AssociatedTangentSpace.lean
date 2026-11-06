@@ -355,39 +355,39 @@ private theorem elements_s2_pullback_bijective
     (hcompat : ∀ x : F.obj A, ∀ y : F.obj B, F.map d x = F.map e y) :
     Function.Bijective (fun z : F.obj P ↦ (F.map g z, F.map h z)) := by
   classical
-  let p := CategoryOfElements.π F
+  let p := Functor.Elements.π F
   let d' (x : F.obj A) : F.elementsMk A x ⟶ F.elementsMk X (F.map d x) :=
-    CategoryOfElements.homMk _ _ d rfl
+    Functor.Elements.homMk d rfl
   let e' (x : F.obj A) (y : F.obj B) (hxy : F.map d x = F.map e y) :
-      F.elementsMk B y ⟶ F.elementsMk X (F.map d x) := CategoryOfElements.homMk _ _ e hxy.symm
+      F.elementsMk B y ⟶ F.elementsMk X (F.map d x) := Functor.Elements.homMk e hxy.symm
   constructor
   · intro x y hxy
     have hw : F.map d (F.map g x) = F.map e (F.map h x) := by
       rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, hPB.w]
     let comp (z : F.obj P) (hz : F.map g z = F.map g x) (hz' : F.map h z = F.map h x) :
         PullbackCompletion p (d' (F.map g x)) (e' _ _ hw) g h := by
-      refine ⟨F.elementsMk P z, rfl, CategoryOfElements.homMk _ _ g hz,
-        CategoryOfElements.homMk _ _ h hz', ?_, ?_, ?_⟩
-      · apply CategoryOfElements.ext F
+      refine ⟨F.elementsMk P z, rfl, Functor.Elements.homMk g hz,
+        Functor.Elements.homMk h hz', ?_, ?_, ?_⟩
+      · apply Functor.Elements.hom_ext
         exact hPB.w
-      · simp [p, CategoryOfElements.π]
-      · simp [p, CategoryOfElements.π]
+      · simp [p, Functor.Elements.π]
+      · simp [p, Functor.Elements.π]
     obtain ⟨b, -, hbase⟩ := schlessingerConditionS2_comparison_squareZero
       p hcof hS2 (d' _) (e' _ _ hw) hsq g h hPB (comp x rfl rfl)
       (comp y (congrArg Prod.fst hxy).symm (congrArg Prod.snd hxy).symm)
-    have hh : F.map (p.map b) x = y := CategoryOfElements.map_snd b
+    have hh : F.map (p.map b) x = y := b.map_val
     rw [hbase] at hh
-    simpa [comp, p, CategoryOfElements.π, Functor.map_id_apply] using hh
+    simpa [comp, p, Functor.Elements.π, Functor.map_id_apply] using hh
   · rintro ⟨x, y⟩
     obtain ⟨Pcomp⟩ := schlessingerConditionS2_completion_squareZero
       p hcof hS2 (d' x) (e' x y (hcompat x y)) hsq g h hPB
-    refine ⟨F.map (eqToHom Pcomp.apex_eq) Pcomp.apex.2, Prod.ext ?_ ?_⟩
-    · have hm := CategoryOfElements.map_snd Pcomp.toFirst
-      change F.map (p.map Pcomp.toFirst) Pcomp.apex.2 = x at hm
+    refine ⟨F.map (eqToHom Pcomp.apex_eq) Pcomp.apex.val, Prod.ext ?_ ?_⟩
+    · have hm := Pcomp.toFirst.map_val
+      change F.map (p.map Pcomp.toFirst) Pcomp.apex.val = x at hm
       rw [Pcomp.map_toFirst] at hm
       simpa [Functor.map_comp] using hm
-    · have hm := CategoryOfElements.map_snd Pcomp.toSecond
-      change F.map (p.map Pcomp.toSecond) Pcomp.apex.2 = y at hm
+    · have hm := Pcomp.toSecond.map_val
+      change F.map (p.map Pcomp.toSecond) Pcomp.apex.val = y at hm
       rw [Pcomp.map_toSecond] at hm
       simpa [Functor.map_comp] using hm
 

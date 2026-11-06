@@ -60,6 +60,18 @@ theorem exists_smallEtale_isAffine_surjective {X : AlgebraicSpaces B S hS}
     rwa [CategoryTheory.Functor.map_id, Category.id_comp] at h
   exact ⟨⟨CostructuredArrow.mk u, huet'⟩, hUaff, husurj⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_AffineOverChartSectionCriteria :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_AffineOverChartSectionCriteria
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A morphism of spaces affine over a quasi-compact base which is surjective on direct-image
 sections over the affine étale charts is a closed immersion.** -/
 theorem isClosedImmersion_of_surjective_pushforwardRingMap_app {X : AlgebraicSpaces B S hS}

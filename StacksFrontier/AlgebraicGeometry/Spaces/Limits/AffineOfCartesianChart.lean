@@ -78,6 +78,17 @@ def terminalHomMk {X Y : BigFppfOver B (⊤_ Scheme.{u}) hZ}
 abbrev terminalObj {X : Scheme.{u}} (hX : B.Contains X) : BigFppfOver B (⊤_ Scheme.{u}) hZ :=
   BigFppfOver.mk B _ hZ hX (terminal.from X)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
+times out without this shortcut). -/
+private instance hasPullbacks_presheaf_AffineOfCartesianChart :
+    HasPullbacks ((BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_AffineOfCartesianChart
+    {X Y Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Chart
 
 variable {B hZ} {F : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u}

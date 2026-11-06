@@ -655,7 +655,7 @@ add_to_sga "3 VIIB 2.1" "functoriality in B" LinearMap.algHom_comp_convMul_distr
 add_to_sga "3 VIIB 2.1" "functoriality in B" LinearMap.algHom_comp_convOne
 add_to_sga "3 VIIB 2.1" "partial" LinearMap.convCommRing
 add_to_sga "3 VIIB 2.1" "special case" LinearMap.convMul
-add_to_sga "3 VIIB 2.1" "identity element η_B∘ε_A" LinearMap.convOne
+add_to_sga "3 VIIB 2.1" "identity element η_B∘ε_A" LinearMap.instOneWithConvId
 add_to_sga "3 VIIB 2.1" "special case" LinearMap.convOne_apply
 add_to_sga "3 VIIB 2.1" "identity element η_B∘ε_A" LinearMap.convOne_def
 add_to_sga "3 VIIB 2.1" "partial" LinearMap.convRing

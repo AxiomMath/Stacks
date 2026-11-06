@@ -441,7 +441,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   let J₂ := Ideal.span {b₂ (AdjoinRoot.map φ P (P.map φ) dvd_rfl (AdjoinRoot.of P r))}
   let I₃ := Ideal.span {algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q r)}
   let J₃ := Ideal.span {algebraMap (AdjoinRoot (Q.map φ)) B₃
-    (AdjoinRoot.map φ Q (Q.map φ) dvd_rfl (AdjoinRoot.of Q r))}
+                          (AdjoinRoot.map φ Q (Q.map φ) dvd_rfl (AdjoinRoot.of Q r))}
   have hIJ₂ : I₂ ≤ J₂.comap (algebraMap D₂.A₁ D₂.B₁) := by
     apply Ideal.span_le.mpr
     rintro _ rfl

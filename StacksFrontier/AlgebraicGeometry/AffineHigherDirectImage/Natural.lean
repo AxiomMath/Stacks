@@ -116,6 +116,27 @@ namespace Stacks.AffineCohomologyPushforward
 attribute [local instance] HasDerivedCategory.standard
 attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 
+/-- The unit of `RG` (Mathlib's `rightDerivedFunctorPlusUnith`, whose definition is not exposed)
+is invertible at `K` exactly when the unit of `Functor.totalRightDerived` is: both are units of
+right derived functors of the same functor. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_iff {D : Type*} {E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] (G : D ⥤ E) [G.Additive]
+    [EnoughInjectives D] (K : HomotopyCategory.Plus D) :
+    IsIso (G.rightDerivedFunctorPlusUnith.app K) ↔
+      IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app K) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)) K]
+  exact (isIso_comp_right_iff _ _).symm
+
 /-! ### The comparison, over a morphism of ringed spaces -/
 
 section RingedSpaces
@@ -135,7 +156,7 @@ def singlePushforwardUnit :
   (Functor.mapSingleFunctorCompQhIso (modulePushforward f)).inv ≫
     Functor.whiskerLeft
       (HomotopyCategory.Plus.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0)
-      (modulePushforward f).rightDerivedFunctorPlusUnit ≫
+      (modulePushforward f).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh (A := SheafOfModules.{u}
       (structureSheafRing X)) 0).inv (modulePushforward f).rightDerivedFunctorPlus
 
@@ -145,9 +166,10 @@ isomorphisms. -/
 theorem isIso_singlePushforwardUnit_app {F : SheafOfModules.{u} (structureSheafRing X)}
     (hF : (modulePushforward f).rightAcyclic F) :
     IsIso ((singlePushforwardUnit f).app F) := by
-  have hu : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnit.app
+  have hu : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj
-      F)) := hF
+      F)) :=
+    (isIso_rightDerivedFunctorPlusUnith_app_iff _ _).2 hF
   dsimp only [singlePushforwardUnit, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app]
   infer_instance

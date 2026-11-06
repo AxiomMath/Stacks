@@ -36,6 +36,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_OffDiagonalStepOne
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **`V ×_Y X` is the inverse image of `V` in `X ×_Y X`.** For a morphism `ι : V ⟶ X`, the
 comparison `V ×_Y X ⟶ X ×_Y X` is the base change of `ι` along the first projection. -/
 theorem isPullback_pullbackMap_ι_fst {V X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (ι : V ⟶ X)

@@ -3,6 +3,7 @@ module
 public import Mathlib.FieldTheory.Galois.Infinite
 public import Mathlib.FieldTheory.Galois.Profinite
 public import Mathlib.FieldTheory.KrullTopology
+public import Mathlib.Topology.Algebra.OpenSubgroup
 public import Mathlib.Topology.LocallyConstant.Basic
 
 /-!

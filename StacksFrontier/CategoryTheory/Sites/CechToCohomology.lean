@@ -307,7 +307,7 @@ public noncomputable def cechCohomologyZeroFunctorIso (hE : E.sieve₀ ∈ J U) 
       Stacks.CechComparison.sheafIncl J ⋙ sectionsFunctor U :=
   Functor.isoWhiskerLeft (Stacks.CechComparison.sheafIncl J)
       (eqToIso ((cechCohomologyDeltaFunctor.{u, u, u, u} E).2 0)) ≪≫
-    (cechAugmentationIso E J hE).symm
+    (cechAugmentationIso.{u, u, u, u} E J hE).symm
 
 /-- **The abutment of the Čech-to-cohomology spectral sequence.** The right derived functors
 of `Ȟ⁰(𝒰, -) ∘ i`, where `i : Ab(C) ⥤ PAb(C)` is the inclusion of abelian sheaves into

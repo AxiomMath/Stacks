@@ -714,7 +714,7 @@ private lemma differential_succ_sections (F : X.Modules)
       (((positiveDifferential f F p ≫
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) (p + 1) =>
           restrictedModule f F (p + 1) t) s).app V) x) = _
-  simp only [positiveDifferential, Pi.lift_π]
+  simp only [positiveDifferential, Pi.lift_comp_π]
   simp only [CechCochains.ordD, AddMonoidHom.coe_mk]
   rw [signedSum_app_apply]
   rw [map_sum]
@@ -788,7 +788,7 @@ private lemma differential_zero_sections (F : X.Modules)
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) 0 =>
           (Scheme.Modules.pushforward (equationsOpen f 0 t).ι).obj
             ((Scheme.Modules.pullback (equationsOpen f 0 t).ι).obj F)) s).app V) x) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   rw [restrictedModuleSectionEquiv_openDirectImageSection]
   rw [openDirectImageUnit_section]
   simp only [augmentedOrdCochain]
@@ -924,7 +924,7 @@ private lemma termMap_id (F : X.Modules) (n : ℕ) :
         𝟙 (∏ᶜ fun s : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p s)
       apply Pi.hom_ext
       intro s
-      rw [Pi.lift_π, restrictedModuleMap_id]
+      rw [Pi.lift_comp_π, restrictedModuleMap_id]
       simp only [Category.id_comp, Category.comp_id]
 
 private lemma termMap_comp {F G H : X.Modules}
@@ -944,8 +944,8 @@ private lemma termMap_comp {F G H : X.Modules}
               restrictedModuleMap f ψ p s)
       apply Pi.hom_ext
       intro s
-      rw [Pi.lift_π, restrictedModuleMap_comp]
-      conv_rhs => rw [Category.assoc, Pi.lift_π, ← Category.assoc, Pi.lift_π]
+      rw [Pi.lift_comp_π, restrictedModuleMap_comp]
+      conv_rhs => rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc, Pi.lift_comp_π]
       simp only [Category.assoc]
 
 private lemma termMap_sections {F G : X.Modules}
@@ -959,7 +959,7 @@ private lemma termMap_sections {F G : X.Modules}
   rw [positiveTermSectionsEquiv_apply]
   show restrictedModuleSectionEquiv f G p s V
       (((termMap f φ (p + 1) ≫ Pi.π _ s).app V) x) = _
-  rw [termMap_succ, Pi.lift_π, Scheme.Modules.Hom.comp_app, AddCommGrpCat.comp_apply,
+  rw [termMap_succ, Pi.lift_comp_π, Scheme.Modules.Hom.comp_app, AddCommGrpCat.comp_apply,
     restrictedModuleSectionEquiv_moduleMap, positiveTermSectionsEquiv_apply]
 
 private lemma termMap_comm {F G : X.Modules} (φ : F ⟶ G) (n : ℕ) :

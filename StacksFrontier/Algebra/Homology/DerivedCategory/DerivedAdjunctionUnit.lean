@@ -65,30 +65,30 @@ theorem rightDerivedFunctorPlus_unit_eq :
   let := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have hαR : (L.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlus)
+        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso A) :=
     Functor.isLeftDerivedFunctor_of_inverts _ _
       ((Functor.associator _ _ _).symm ≪≫
-        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnit).symm _)
+        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnith).symm _)
   have hη : adj.rightDerivedFunctorPlus.unit =
       adj.mapHomotopyCategoryPlus.derivedη (HomotopyCategory.Plus.quasiIso A)
-        (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlusUnit := rfl
+        (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlusUnith := rfl
   rw [hη]
   apply Localization.natTrans_ext DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
   intro K
   have h1 := adj.mapHomotopyCategoryPlus.derivedη_fac_app (HomotopyCategory.Plus.quasiIso A)
-    (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlusUnit K
+    (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlusUnith K
   have h2 := Functor.rightDerivedFunctorPlusCompIsoOfExact_fac L R (L ⋙ R) (Iso.refl _) K
   have h3 := mapHomotopyCategoryPlus_unit_app_comp adj K
   rw [Iso.trans_inv, NatTrans.comp_app, ← cancel_mono
     ((Functor.rightDerivedFunctorPlusCompIsoOfExact L R (L ⋙ R) (Iso.refl _)).hom.app _),
     Category.assoc, Iso.inv_hom_id_app, Category.comp_id,
     Functor.rightDerivedFunctorPlusIdIsoOf_inv_app, Functor.mapHomotopyCategoryPlusIdIsoOf_inv_app]
-  have hId : R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnit).inv.app K) ≫
-      R.rightDerivedFunctorPlus.map (L.rightDerivedFunctorPlusUnit.app K) = 𝟙 _ :=
+  have hId : R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnith).inv.app K) ≫
+      R.rightDerivedFunctorPlus.map (L.rightDerivedFunctorPlusUnith.app K) = 𝟙 _ :=
     (R.rightDerivedFunctorPlus.map_comp _ _).symm.trans
       ((congrArg R.rightDerivedFunctorPlus.map
-        (Iso.inv_hom_id_app (asIso L.rightDerivedFunctorPlusUnit) K)).trans
+        (Iso.inv_hom_id_app (asIso L.rightDerivedFunctorPlusUnith) K)).trans
         (CategoryTheory.Functor.map_id _ _))
   rw [Iso.symm_inv, asIso_hom, ← h3, DerivedCategory.Plus.Qh.map_comp, Category.assoc, ← h2,
     ← reassoc_of% h1, reassoc_of% hId]

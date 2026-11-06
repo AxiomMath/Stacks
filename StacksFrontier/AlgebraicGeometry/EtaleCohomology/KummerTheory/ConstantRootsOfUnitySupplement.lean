@@ -261,7 +261,7 @@ theorem constToUnits_isLocallyInjective :
   · have hne : ((zeta k n hn hnk a.down : kˣ) : k) -
         ((zeta k n hn hnk b.down : kˣ) : k) ≠ 0 := by
       intro h
-      exact hab' (ULift.ext _ _ (zeta_injective k n hn hnk (sub_eq_zero.1 h)))
+      exact hab' (ULift.ext (zeta_injective k n hn hnk (sub_eq_zero.1 h)))
     have hval : structHom B k f hX T.unop ((zeta k n hn hnk a.down : kˣ) : k) =
         structHom B k f hX T.unop ((zeta k n hn hnk b.down : kˣ) : k) :=
       (constToUnits_app_val B k f hX n hn hnk T.unop a.down).symm.trans

@@ -11,6 +11,7 @@ public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
 public import Mathlib.NumberTheory.Chebyshev
 public import Mathlib.NumberTheory.Height.NumberField
 public import Mathlib.NumberTheory.Height.Projectivization

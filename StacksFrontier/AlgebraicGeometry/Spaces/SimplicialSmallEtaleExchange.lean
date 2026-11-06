@@ -174,6 +174,7 @@ instance guitartExact_constForgetTwoSquare : (constForgetTwoSquare f).GuitartExa
   exact zigzag_isConnected fun j₁ j₂ ↦
     (zigzag_canonicalObj j₁).trans (zigzag_symmetric.symm _ _ (zigzag_canonicalObj j₂))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0DE7.** The direct image of forgetting the degree commutes with base change:
 `ε_{Z₂,*} ∘ c⁻¹ ≅ f⁻¹ ∘ ε_{Z₁,*}` on sheaves of sets, i.e.
 `Ran_{ε₂}(F ∘ c_étale) ≅ (Ran_{ε₁} F) ∘ f_étale`. -/

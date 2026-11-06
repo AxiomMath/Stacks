@@ -75,8 +75,11 @@ def fShriekCompPushforwardIso (f : X ⟶ Y) (h : Y ⟶ Z) (g : X ⟶ Z) (w : f �
     [IsProper (B.inclusion.map h)] :
     fShriekFunctor.{u, u} B g ≅ fShriekFunctor.{u, u} B f ⋙ etalePushforward.{u, u + 1} B h := by
   subst w
-  exact fShriekCompProperIso B f h ≪≫
-    Functor.isoWhiskerLeft _ (properSupportIsoPushforward.{u, u + 1} B h)
+  have : IsSeparated (B.inclusion.map h) := IsProper.toIsSeparated
+  have : LocallyOfFiniteType (B.inclusion.map h) := IsProper.toLocallyOfFiniteType
+  exact Iso.trans (fShriekCompProperIso.{u, u} B f h)
+    (Functor.isoWhiskerLeft (fShriekFunctor.{u, u} B f)
+      (properSupportIsoPushforward.{u, u + 1} B h))
 
 /-- **`g_! ≅ h_* ∘ f_!` on sheaves of `Λ`-modules**: the `Λ`-linear lift of
 `AlgebraicGeometry.SmallEtale.fShriekCompPushforwardIso`. -/

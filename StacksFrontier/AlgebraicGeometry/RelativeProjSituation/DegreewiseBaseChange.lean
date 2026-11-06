@@ -173,10 +173,8 @@ public theorem irrelevant_le_gradedBaseChange (W : s.base.affineOpens) (W' : s'.
   have hbc : IsBaseChange ↥Γ(s'.base, W'.1) rho :=
     isBaseChange_pieceSectionHom g Φ i (isAffineOpen W) (isAffineOpen W') h (hΦ i)
       (fun _ => rfl) rho (fun _ => rfl)
-  refine hbc.inductionOn a
-    (fun b => DirectSum.of (s'.sectionPieces W'.1) i b ∈
-      (((s.chartGrading W)₊).map (gradedBaseChange g Φ W.1 W'.1 h)).toAddSubmonoid) ?_ ?_ ?_ ?_
-  · exact map_zero (DirectSum.of (s'.sectionPieces W'.1) i) ▸ zero_mem _
+  refine hbc.inductionOn a (motive := fun b => DirectSum.of (s'.sectionPieces W'.1) i b ∈
+      (((s.chartGrading W)₊).map (gradedBaseChange g Φ W.1 W'.1 h)).toAddSubmonoid) ?_ ?_ ?_
   · intro b
     have hm : gradedBaseChange g Φ W.1 W'.1 h (DirectSum.of (s.sectionPieces W.1) i b)
         = DirectSum.of (s'.sectionPieces W'.1) i (pieceSectionHom g Φ i W.1 W'.1 h b) :=

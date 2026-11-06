@@ -5,6 +5,8 @@ public import StacksFrontier.RingTheory.RegularLocalRing.MaximalCohenMacaulay
 public import StacksFrontier.RingTheory.CohenMacaulay.Defs
 public import StacksFrontier.RingTheory.Sequence.QuasiRegular.Basic
 public import StacksFrontier.RingTheory.Module.IdealSmulTop
+public import Mathlib.Algebra.Module.SpanRankOperations
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section
@@ -559,7 +561,7 @@ private theorem exists_mem_pow_notMem_pow_succ {I : Ideal R} (hI : ⨅ n : ℕ, 
 /-- A polynomial has zero image in `(R/I)[X_1, …, X_c]` exactly when all of its coefficients lie
 in `I`. -/
 private theorem map_mk_eq_zero_iff {σ : Type*} (I : Ideal R) (P : MvPolynomial σ R) :
-    P.map (Ideal.Quotient.mk I) = 0 ↔ ∀ e, MvPolynomial.coeff e P ∈ I := by
+    P.map (Ideal.Quotient.mk I) = 0 ↔ ∀ e, P.coeff e ∈ I := by
   simp [MvPolynomial.ext_iff, MvPolynomial.coeff_map, Ideal.Quotient.eq_zero_iff_mem]
 
 /-- Every multi-index in the support of a homogeneous polynomial of degree `n` has total
@@ -575,7 +577,7 @@ private theorem qrMdeg_eq_of_mem_support {c n : ℕ} {P : MvPolynomial (Fin c) R
 coefficients lie in an ideal `I` lies in `I · J^n`, where `J = (f_1, …, f_c)`. -/
 private theorem eval_mem_mul_pow_of_isHomogeneous {c : ℕ} (f : Fin c → R) (I : Ideal R) {n : ℕ}
     {P : MvPolynomial (Fin c) R} (hP : P.IsHomogeneous n)
-    (hc : ∀ e, MvPolynomial.coeff e P ∈ I) : MvPolynomial.eval f P ∈ I * Jid f ^ n := by
+    (hc : ∀ e, P.coeff e ∈ I) : MvPolynomial.eval f P ∈ I * Jid f ^ n := by
   rw [MvPolynomial.eval_eq']
   refine Ideal.sum_mem _ fun e he => Ideal.mul_mem_mul (hc e) ?_
   exact qrMdeg_eq_of_mem_support hP he ▸ fpow_mem f e
@@ -583,7 +585,7 @@ private theorem eval_mem_mul_pow_of_isHomogeneous {c : ℕ} (f : Fin c → R) (I
 /-- The value at `f = (f_1, …, f_c)` of a polynomial, expanded over its support in the shape a
 relation between monomials takes: `P(f) = ∑_e f^e · P_e`. -/
 private theorem sum_fpow_smul_coeff {c : ℕ} (f : Fin c → R) (P : MvPolynomial (Fin c) R) :
-    ∑ e ∈ P.support, fpow f e • MvPolynomial.coeff e P = MvPolynomial.eval f P := by
+    ∑ e ∈ P.support, fpow f e • P.coeff e = MvPolynomial.eval f P := by
   rw [MvPolynomial.eval_eq']
   exact Finset.sum_congr rfl fun e _ => by rw [smul_eq_mul, mul_comm]; rfl
 
@@ -681,9 +683,9 @@ private theorem coeff_mem_of_isHomogeneous_of_eval_mem {c : ℕ} {f : Fin c → 
     (hinj : Function.Injective (quasiRegularCanonicalMap (M := R) f)) {n : ℕ}
     {P : MvPolynomial (Fin c) R} (hP : P.IsHomogeneous n)
     (hev : MvPolynomial.eval f P ∈ Jid f ^ (n + 1)) (e : Fin c →₀ ℕ) :
-    MvPolynomial.coeff e P ∈ Jid f := by
+    P.coeff e ∈ Jid f := by
   by_cases he : e ∈ P.support
-  · have hsum : ∑ e' ∈ P.support, fpow f e' • MvPolynomial.coeff e' P ∈ JpowM R f (n + 1) := by
+  · have hsum : ∑ e' ∈ P.support, fpow f e' • P.coeff e' ∈ JpowM R f (n + 1) := by
       rwa [sum_fpow_smul_coeff,
         show JpowM R f (n + 1) = Jid f ^ (n + 1) from Ideal.smul_top_eq_self _]
     have := mem_smul_top_of_sum_mem hinj (s := P.support)

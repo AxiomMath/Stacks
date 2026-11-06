@@ -257,7 +257,7 @@ theorem exists_comp_abelPowerHom_eq_of_isAlgClosed {Ω : Type u} [Field Ω] [IsA
   refine ⟨Pi.lift x, (representedClass_injective f hdim σ hσ e (Over.mk g)) ?_⟩
   rw [representedClass_comp, abelPowerHom, representedClass_classifyingHom,
     AddEquiv.apply_symm_apply, schemePullbackClass_bcMap_abelPowerClass f σ hσ n]
-  simp only [Pi.lift_π]
+  simp only [Pi.lift_comp_π]
   rw [hx, show Stacks.Hilbert.abelClass Z = c + E from hclass]
   exact add_sub_cancel_right c E
 

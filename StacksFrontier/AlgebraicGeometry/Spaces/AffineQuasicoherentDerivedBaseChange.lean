@@ -377,8 +377,10 @@ def representedAffineComplexPullbackIso :
         (representedAffineAssociated B S hS U').mapHomologicalComplex (ComplexShape.up ℤ) :=
   @Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
       (representedAffineAssociatedPullbackIso B S hS g) _
-      (pullbackModules_smallEtale_additive _)
-      (additive_extendScalars_comp_representedAffineAssociated B S hS g)
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (pullbackModules_smallEtale_additive _))
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (additive_extendScalars_comp_representedAffineAssociated B S hS g))
       (ComplexShape.up ℤ) ≪≫
     (Functor.mapHomologicalComplexCompIso
       (F := ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom)

@@ -127,7 +127,7 @@ theorem sectionsBelowCutoff_changeBigSiteExtend (A : AlgebraSheaf.{u, u} B S hS 
     fun a k => A'.right.obj.map (f k).op a
   have hΦ : Function.Injective Φ := by
     intro a b hab
-    refine A'.right.cond.isSeparated V _ hf a b fun Z g hg => ?_
+    refine A'.right.property.isSeparated V _ hf a b fun Z g hg => ?_
     obtain ⟨k, l, rfl⟩ := Sieve.ofArrows.exists hg
     have hk := congrFun hab k
     simp only [Φ] at hk

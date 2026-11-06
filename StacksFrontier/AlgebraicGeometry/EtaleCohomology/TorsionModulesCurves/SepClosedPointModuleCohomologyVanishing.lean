@@ -58,20 +58,21 @@ still an initial étale neighbourhood of that point.** This is
 `Stacks.EtaleCohomology.isInitialPointSmallEtaleIdElement` on `ULift`-wrapped data. -/
 def isInitial_ulift_pointSmallEtaleIdElement :
     IsInitial (show (((pointSmallEtale (𝟙 (Spec (.of Ω)))).ulift.{max (u + 1) r})).fiber.Elements
-      from ⟨Scheme.Etale.mk (𝟙 (Spec (.of Ω))), ULift.up (pointSmallEtaleIdElement Ω)⟩) := by
+      from (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (ULift.up (pointSmallEtaleIdElement Ω)))) := by
   apply IsInitial.ofUniqueHom
     (fun U : (((pointSmallEtale (𝟙 (Spec (.of Ω)))).ulift.{max (u + 1) r})).fiber.Elements ↦
-      CategoryOfElements.homMk _ U
-      (MorphismProperty.Over.homMk U.2.down.left (CategoryTheory.Over.w U.2.down)) ?_)
+      Functor.Elements.homMk
+      (MorphismProperty.Over.homMk U.val.down.left (CategoryTheory.Over.w U.val.down)) ?_)
     (fun U morphism ↦ ?_)
   · apply ULift.ext
     apply CategoryTheory.Over.OverMorphism.ext
-    exact Category.id_comp U.2.down.left
-  · apply CategoryOfElements.ext
+    exact Category.id_comp U.val.down.left
+  · apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    have h : 𝟙 (Spec (.of Ω)) ≫ morphism.1.left = U.2.down.left :=
-      congrArg (fun b ↦ b.left) (congrArg ULift.down morphism.2)
-    exact (Category.id_comp morphism.1.left).symm.trans h
+    have h : 𝟙 (Spec (.of Ω)) ≫ morphism.hom.left = U.val.down.left :=
+      congrArg (fun b ↦ b.left) (congrArg ULift.down morphism.map_val)
+    exact (Category.id_comp morphism.hom.left).symm.trans h
 
 /-- The germ at the identity lift of the canonical point, raised to the module-coefficient
 universe, of a section of a presheaf of `Λ`-modules over the final object. -/
@@ -92,7 +93,8 @@ def presheafFiberIdIsoSectionsModule :
   letI : ∀ P, IsIso ((sectionsToPresheafFiberIdModule Λ Ω).app P) := fun P ↦
     ((((pointSmallEtale (𝟙 (Spec (.of Ω)))).ulift.{max (u + 1) r})).isColimitPresheafFiberCocone
         P).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of Ω))), ULift.up (pointSmallEtaleIdElement Ω)⟩)
+      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (ULift.up (pointSmallEtaleIdElement Ω))))
       (isInitial_ulift_pointSmallEtaleIdElement Ω).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberIdModule Λ Ω)
   exact asIso (sectionsToPresheafFiberIdModule Λ Ω)

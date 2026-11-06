@@ -83,7 +83,8 @@ theorem constIntMap_app_eq_zero {T : TopCat.{u}} {P : (Opens T)ᵒᵖ ⥤ CommRi
 comorphism of `f : X ⟶ S` is a relative derivation along the structural map `f⁻¹ 𝒪_S ⟶ 𝒪_X`.
 -/
 noncomputable def ofComorphism {X S : Scheme.{u}} (f : X ⟶ S) {M : X.Modules}
-    {R : (Opens ↥X)ᵒᵖ ⥤ CommRingCat.{u}} {ψ : R ⟶ X.presheaf} (D : M.val.Derivation' ψ)
+    {R : (Opens ↥X)ᵒᵖ ⥤ CommRingCat.{u}} {ψ : R ⟶ X.presheaf}
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val ψ)
     (hc : ∀ (W : S.Opens) (b : Γ(S, W)), D.d ((f.app W).hom b) = 0) :
     SheafDerivation (inverseImageStructureMap f) M where
   d := D.d
@@ -106,6 +107,6 @@ theorem d_comorphism_eq_zero {X S : Scheme.{u}} (f : X ⟶ S) {M : X.Modules}
         S.sheaf X.sheaf) ⟨f.c⟩).symm.trans (Adjunction.homEquiv_unit _ _ _ _)
   exact (congrArg D.d (congrArg (fun t : S.sheaf ⟶
     (TopCat.Sheaf.pushforward CommRingCat.{u} f.base).obj X.sheaf =>
-      (t.hom.app (op W)).hom b) e)).trans (PresheafOfModules.Derivation'.d_app D _)
+      (t.hom.app (op W)).hom b) e)).trans (PresheafOfModulesOfCommRing.Derivation'.d_app D _)
 
 end AlgebraicGeometry.SheafOfModules

@@ -101,7 +101,8 @@ theorem exists_comap_integralCoverMap_eq (𝔭 : Ideal A) [𝔭.IsPrime] :
   have hker : RingHom.ker ι ≤ 𝔮 := (RingHom.injective_iff_ker_eq_bot ι).mp
     (absoluteIntegralClosure.algebraMap_injective (MvPolynomial A ℤ)) ▸ bot_le
   obtain ⟨Q, -, hQ, hQc⟩ := Ideal.exists_ideal_over_prime_of_isIntegral
-    (S := absoluteIntegralClosure (MvPolynomial A ℤ)) 𝔮 ⊥ (by rwa [← RingHom.ker_eq_comap_bot])
+    (S := absoluteIntegralClosure (MvPolynomial A ℤ)) 𝔮 ⊥ (by rwa [Ideal.under_def, ← RingHom.ker_eq_comap_bot])
+  rw [Ideal.under_def] at hQc
   have hJQ : integralCoverIdeal A ≤ Q := Ideal.map_le_iff_le_comap.mpr (hQc ▸ h𝔮J)
   refine ⟨Q.map (Ideal.Quotient.mk _), Ideal.map_isPrime_of_surjective
     Ideal.Quotient.mk_surjective (by rwa [Ideal.mk_ker]), ?_⟩

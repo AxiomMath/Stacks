@@ -31,6 +31,8 @@ open Stacks.AlgebraicGeometry.FlatBaseChangeCohomology (pasteBase
 
 universe u
 
+set_option synthInstance.maxHeartbeats 200000
+
 namespace Stacks.Groupoids.GroupoidScheme
 
 /-! ### The hom-set bijection -/

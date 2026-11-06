@@ -36,10 +36,10 @@ def finiteTypeContinuousModuleNormalCoinvariants
   let A : Action (ModuleCat.{v} Λ) G :=
     { V := ModuleCat.of Λ (Stacks.Trace.coinvariants (ρ.comp N.subtype))
       ρ :=
-        { toFun := fun g ↦ ModuleCat.ofHom (normalCoinvariantsRepresentation ρ N g)
-          map_one' := ModuleCat.hom_ext (map_one (normalCoinvariantsRepresentation ρ N))
-          map_mul' := fun g h ↦
-            ModuleCat.hom_ext (map_mul (normalCoinvariantsRepresentation ρ N) g h) } }
+        { toFun := fun g ↦ End.of (ModuleCat.ofHom (normalCoinvariantsRepresentation ρ N g))
+          map_one' := End.ext (ModuleCat.hom_ext (map_one (normalCoinvariantsRepresentation ρ N)))
+          map_mul' := fun g h ↦ End.ext
+            (ModuleCat.hom_ext (map_mul (normalCoinvariantsRepresentation ρ N) g h)) } }
   have hfin : Module.Finite Λ (Stacks.Trace.coinvariants (ρ.comp N.subtype)) := by
     haveI : Module.Finite Λ M.obj.obj.obj.V := M.property
     exact Module.Finite.of_surjective _ (Submodule.mkQ_surjective _)
@@ -47,7 +47,7 @@ def finiteTypeContinuousModuleNormalCoinvariants
     { forget₂ := forget (ModuleCat.{v} Λ) ⋙ TopCat.discrete
       forget_comp := rfl }
   refine ⟨⟨⟨A, ?_⟩, ⟨rfl⟩⟩, hfin⟩
-  rw [Action.isContinuous_def]
+  refine (Action.isContinuous_def _).2 ?_
   have hM := (Action.isContinuous_def M.obj.obj.obj).mp M.obj.obj.property
   haveI : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj A) := ⟨rfl⟩
   haveI : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj

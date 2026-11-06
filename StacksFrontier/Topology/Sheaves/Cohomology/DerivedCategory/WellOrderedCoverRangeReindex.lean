@@ -98,18 +98,18 @@ variable {L : Type u} [CompleteLattice L] {E : Type v} [LinearOrder E] [WellFoun
 
 /-- **The least index at which a family attains a given value of its range.** -/
 noncomputable def leastIndex (W : E → L) (V : ↥(Set.range W)) : E :=
-  (IsWellFounded.wf (r := ((· < ·) : E → E → Prop))).min {β | W β = V.1} V.2
+  (wellFounded_lt (α := E)).min {β | W β = V.1} V.2
 
 omit [CompleteLattice L] in
 /-- The least index attains the value it was chosen for. -/
 theorem apply_leastIndex (W : E → L) (V : ↥(Set.range W)) : W (leastIndex W V) = V.1 :=
-  (IsWellFounded.wf (r := ((· < ·) : E → E → Prop))).min_mem {β | W β = V.1} V.2
+  (wellFounded_lt (α := E)).min_mem {β | W β = V.1} V.2
 
 omit [CompleteLattice L] in
 /-- The least index is least: any index attaining the same value is at least it. -/
 theorem leastIndex_le (W : E → L) (V : ↥(Set.range W)) {β : E} (h : W β = V.1) :
     leastIndex W V ≤ β :=
-  not_lt.mp ((IsWellFounded.wf (r := ((· < ·) : E → E → Prop))).not_lt_min {β | W β = V.1} h)
+  not_lt.mp ((wellFounded_lt (α := E)).not_lt_min {β | W β = V.1} h)
 
 omit [CompleteLattice L] in
 /-- The least index of the value of the family at `α` is at most `α`. -/
@@ -170,7 +170,7 @@ is a subrelation of the pullback of a well founded one. -/
 theorem wellFounded_lt_range {W : E → L} (hmono : ∀ β α : E, β < α → W β ≤ W α) :
     WellFounded ((· < ·) : ↥(Set.range W) → ↥(Set.range W) → Prop) :=
   Subrelation.wf (fun {_ _} h => leastIndex_strictMono hmono (Subtype.coe_lt_coe.mpr h))
-    (InvImage.wf (leastIndex W) IsWellFounded.wf)
+    (InvImage.wf (leastIndex W) (wellFounded_lt (α := E)))
 
 /-- **A value of the range with no immediate predecessor in the range is attained first at an
 index with no immediate predecessor in the index set.**

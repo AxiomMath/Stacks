@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.Grp.AB
 import StacksFrontier.Homology.HomologyColimit
 public import Mathlib.Algebra.Homology.CochainComplexOpposite
+public import Mathlib.Algebra.Homology.Embedding.RestrictionHomology
 public import Mathlib.Algebra.Homology.DerivedCategory.TStructure
 public import Mathlib.Algebra.Homology.ShortComplex.FunctorEquivalence
 public import Mathlib.Algebra.Order.Floor.Extended

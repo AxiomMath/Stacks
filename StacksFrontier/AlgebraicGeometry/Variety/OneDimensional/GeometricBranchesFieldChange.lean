@@ -342,8 +342,7 @@ private theorem tensorMap_pow_mem_range
       (e₂.symm.toRingEquiv.toRingHom.comp (algebraMap B C)) := by
     apply RingHom.ext
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro x y
       simp [e, e₂, B, C, D, Algebra.smul_def]
     · intro z₁ z₂ hz₁ hz₂

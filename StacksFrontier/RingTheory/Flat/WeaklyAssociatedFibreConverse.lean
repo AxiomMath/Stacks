@@ -167,7 +167,6 @@ private theorem smul_eq_zero_of_mem (I : Ideal R) {a : R} (ha : a ∈ I)
     (x : N ⊗[R] (R ⧸ I)) : (algebraMap R S a) • x = 0 := by
   have hR : a • x = 0 := by
     induction x with
-    | zero => simp
     | tmul n b =>
         obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
         rw [TensorProduct.smul_tmul' a n _, TensorProduct.smul_tmul,
@@ -258,7 +257,8 @@ theorem exists_isWeaklyAssociatedPrime_tensorProduct_of_fibre [IsLocalRing R]
     have h0 : Ψ.rTensor (R ⧸ 𝔭) (0 : (A ⊗[R] N) ⊗[A] (R ⧸ 𝔭)) = 0 := map_zero _
     have h2 : ((1 : A) ⊗ₜ[R] z) ⊗ₜ[A] (1 : R ⧸ 𝔭) = 0 := hinj (hker.trans h0.symm)
     have hEz : E (1 ⊗ₜ[A] ((1 : A) ⊗ₜ[R] z)) = 0 := by
-      simpa using congrArg (fun x => E (TensorProduct.comm A (A ⊗[R] N) (R ⧸ 𝔭) x)) h2
+      simpa only [TensorProduct.comm_tmul, map_zero] using
+        congrArg (fun x => E (TensorProduct.comm A (A ⊗[R] N) (R ⧸ 𝔭) x)) h2
     rwa [hE1, Submodule.Quotient.mk_eq_zero] at hEz
   -- Step 4: so `Ψ` itself is not injective.
   have hΨnot : ¬ Function.Injective Ψ :=
@@ -281,7 +281,6 @@ theorem exists_isWeaklyAssociatedPrime_tensorProduct_of_fibre [IsLocalRing R]
         = ((LinearMap.lsmul S N (g i)).restrictScalars R).rTensor A (e x) := by
     intro i x
     induction x with
-    | zero => simp
     | tmul b m => simp [he]
     | add x y hx hy => simp [hx, hy]
   have hcg : ∀ i, g i • c = 0 := by

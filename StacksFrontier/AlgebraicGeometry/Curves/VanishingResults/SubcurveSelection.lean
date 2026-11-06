@@ -717,6 +717,7 @@ theorem Scheme.Modules.noZeroDimensionalImages_inverse_tensorLeft [IsLocallyNoet
     (((Topology.IsEmbedding.inclusion hsub).isInducing.topologicalKrullDim_le).trans hg)
   exact E.functor.map_injective (by
     rw [Functor.map_zero]
+    haveI : Mono (E.counit.app ω) := inferInstanceAs (Mono (E.counitIso.app ω).hom)
     exact (cancel_mono (E.counit.app ω)).mp (by rw [h0, zero_comp]))
 
 open Opposite in

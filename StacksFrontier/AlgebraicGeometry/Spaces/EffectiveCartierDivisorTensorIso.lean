@@ -397,7 +397,7 @@ def tensorCanonicalSection :
           (canonicalSection B S hS X D₂ hD₂).val V :=
         PresheafOfModules.sections_property (canonicalSection B S hS X D₂ hD₂) f
       rw [← h1, ← h2]
-      exact PresheafOfModules.Monoidal.tensorObj_map_tmul f _ _)
+      exact PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul f _ _)
 
 /-- The pure tensor of the two canonical sections pairs with a product of local sections of the
 two defining ideal sheaves to give that product. -/
@@ -549,7 +549,7 @@ theorem canonicalTensorAt_restrict {V W : (SmallEtale B S hS X.1)ᵒᵖ} (k : V 
             ((canonicalSection B S hS X D₁ hD₁).val V) ⊗ₜ
         (modulePresheaf B S hS X (associatedInvertibleSheaf B S hS X D₂ hD₂)).restrictₛₗ k
           ((canonicalSection B S hS X D₂ hD₂).val V) :=
-    PresheafOfModules.Monoidal.tensorObj_map_tmul k _ _
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul k _ _
   rw [e, h1, h2]
   rfl
 

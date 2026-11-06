@@ -52,6 +52,9 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {V W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+attribute [local instance high] hasPullbacks_presheaf_SeparatedEtaleDiagonalComplement
+  hasPullback_presheaf_SeparatedEtaleDiagonalComplement
+
 /-- The range of the relative diagonal of a separated étale morphism of algebraic spaces over
 `S` is an open subspace of the fibre square. -/
 theorem isOpenSubspace_range_diagonal (hV : IsAlgebraicSpace B S hS V)

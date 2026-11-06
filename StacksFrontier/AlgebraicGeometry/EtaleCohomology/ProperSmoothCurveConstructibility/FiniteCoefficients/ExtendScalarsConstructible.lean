@@ -136,21 +136,27 @@ theorem isConstructibleEtaleModule_zmodExtendScalars [IsNoetherianRing Λ]
       HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
         (ModuleCat.{u + 1} Λ) := fun T V ↦
     SmallEtale.hasWeakSheafifyOver_moduleCat.{u, u + 1, u + 1} B Λ T V
-  have : ∀ (S T : B.Scheme) (f : T ⟶ S),
-      ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
-        (SmallEtale.topology B S.obj S.property)
-        (SmallEtale.topology B T.obj T.property)).IsRightAdjoint := fun _ _ _ ↦ inferInstance
-  have : ∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
-      HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
-        AddCommGrpCat.{u + 1} := fun _ _ ↦ inferInstance
   let GB := (etaleModuleToBoundedSite.{u, 0} (ZMod ℓ) B hS).obj G
   have hℤ : IsConstructibleModuleSheaf B X' ℤ
-      ((etaleModuleToBoundedSite.{u, 0} ℤ B hS).obj (zmodToInt S.smallEtaleTopology ℓ G)) :=
-    ObjectProperty.prop_of_iso _
+      ((etaleModuleToBoundedSite.{u, 0} ℤ B hS).obj (zmodToInt S.smallEtaleTopology ℓ G)) := by
+    have : ∀ (T : B.Scheme),
+        HasWeakSheafify (SmallEtale.topology B T.obj T.property) AddCommGrpCat.{u + 1} :=
+      fun _ ↦ inferInstance
+    have : ∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+        HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+          AddCommGrpCat.{u + 1} := fun _ _ ↦ inferInstance
+    have : ∀ (S T : B.Scheme) (f : T ⟶ S),
+        ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+          (SmallEtale.topology B S.obj S.property)
+          (SmallEtale.topology B T.obj T.property)).IsRightAdjoint := fun _ _ f ↦
+      (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+        (AlgebraicGeometry.smallEtaleBaseChange B f)
+        AddCommGrpCat.{u + 1} _ _).isRightAdjoint
+    have h₁ := isConstructibleAbelianSheaf_of_isConstructibleModuleSheaf_zmod.{u, 0} B ℓ X' GB hG
+    have h₂ := isConstructibleModuleSheaf_moduleCatIntEquivalence B X' _ h₁
+    exact ObjectProperty.prop_of_iso _
       ((sheafComposeIsoOfIso (SmallEtale.topology B S hS)
-        (moduleCatIntEquivalenceForgetIso.{u + 1} ℓ)).app GB)
-      (isConstructibleModuleSheaf_moduleCatIntEquivalence B X' _
-        (isConstructibleAbelianSheaf_of_isConstructibleModuleSheaf_zmod.{u, 0} B ℓ X' GB hG))
+        (moduleCatIntEquivalenceForgetIso.{u + 1} ℓ)).app GB) h₂
   exact ObjectProperty.prop_of_iso
     (fun F : Sheaf (SmallEtale.topology B S hS) (ModuleCat.{u + 1} Λ) ↦
       IsConstructibleModuleSheaf B X' Λ F)

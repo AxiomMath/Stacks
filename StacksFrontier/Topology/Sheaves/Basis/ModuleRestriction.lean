@@ -190,8 +190,8 @@ noncomputable def restrictModuleSheaf_preimage {B : Set (Opens X)} (hB : Opens.I
   have hlin : ∀ (V : Opens X), V ∈ B → ∀ (s : 𝒪.obj.obj (op V))
       (x : ((SheafOfModules.toSheaf 𝒪).obj M).obj.obj (op V)),
       ConcreteCategory.hom (g'.hom.app (op V))
-          (ConcreteCategory.hom ((M.val.obj (op V)).smul s) x) =
-        ConcreteCategory.hom ((N.val.obj (op V)).smul s)
+          (ConcreteCategory.hom ((M.val.obj (op V)).smul s).asHom x) =
+        ConcreteCategory.hom ((N.val.obj (op V)).smul s).asHom
           (ConcreteCategory.hom (g'.hom.app (op V)) x) := by
     intro V hVB s x
     have hf : ∀ y : ((SheafOfModules.toSheaf 𝒪).obj M).obj.obj (op V),
@@ -222,8 +222,8 @@ noncomputable def restrictModuleSheaf_preimage {B : Set (Opens X)} (hB : Opens.I
       let res_m := ConcreteCategory.hom
         (((SheafOfModules.toSheaf 𝒪).obj M).obj.map (homOfLE hVU).op) m
       have lhs : ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
-          (ConcreteCategory.hom ((N.val.obj U).smul r) (ConcreteCategory.hom (g'.hom.app U) m)) =
-          ConcreteCategory.hom ((N.val.obj (op V)).smul res_r)
+          (ConcreteCategory.hom ((N.val.obj U).smul r).asHom (ConcreteCategory.hom (g'.hom.app U) m)) =
+          ConcreteCategory.hom ((N.val.obj (op V)).smul res_r).asHom
             (ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
               (ConcreteCategory.hom (g'.hom.app U) m)) :=
         PresheafOfModules.map_smul N.val (homOfLE hVU).op r
@@ -233,15 +233,15 @@ noncomputable def restrictModuleSheaf_preimage {B : Set (Opens X)} (hB : Opens.I
           ConcreteCategory.hom (g'.hom.app (op V)) res_m :=
         (NatTrans.naturality_apply g'.hom (homOfLE hVU).op m).symm
       have rhs : ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
-          (ConcreteCategory.hom (g'.hom.app U) (ConcreteCategory.hom ((M.val.obj U).smul r) m)) =
+          (ConcreteCategory.hom (g'.hom.app U) (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)) =
           ConcreteCategory.hom (g'.hom.app (op V))
             (ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj M).obj.map (homOfLE hVU).op)
-              (ConcreteCategory.hom ((M.val.obj U).smul r) m)) :=
+              (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)) :=
         (NatTrans.naturality_apply g'.hom (homOfLE hVU).op
-          (ConcreteCategory.hom ((M.val.obj U).smul r) m)).symm
+          (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)).symm
       have rhs2 : ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj M).obj.map (homOfLE hVU).op)
-          (ConcreteCategory.hom ((M.val.obj U).smul r) m) =
-          ConcreteCategory.hom ((M.val.obj (op V)).smul res_r) res_m :=
+          (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m) =
+          ConcreteCategory.hom ((M.val.obj (op V)).smul res_r).asHom res_m :=
         PresheafOfModules.map_smul M.val (homOfLE hVU).op r m
       convert lhs.trans ((congrArg _ lhs2).trans
         ((hlin V hVB res_r res_m).symm.trans ((congrArg _ rhs2.symm).trans rhs.symm))) using 1)) (by
@@ -311,7 +311,7 @@ noncomputable def extLocalSmul (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U : (Ope
     (V : { V : Opens X // V ∈ B ∧ V ≤ U.unop }) : ↑((extAb N).obj.obj (op V.1)) :=
   ConcreteCategory.hom ((extCounit N).inv.hom.app (op ⟨V.1, V.2.1⟩))
     (ConcreteCategory.hom ((N.val.obj (op ⟨V.1, V.2.1⟩)).smul
-      (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r))
+      (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)).asHom
       (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨V.1, V.2.1⟩))
         (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) m)))
 
@@ -349,9 +349,9 @@ private lemma extAb_map_extLocalSmul (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U 
     fun x => (NatTrans.naturality_apply (extCounit N).inv.hom g.op x).symm
   have smul_res : ∀ (s : 𝒪.obj.obj (op V)) (y : _),
       ConcreteCategory.hom (((SheafOfModules.toSheaf _).obj N).obj.map g.op)
-        (ConcreteCategory.hom ((N.val.obj (op ⟨V, hVB⟩)).smul s) y) =
+        (ConcreteCategory.hom ((N.val.obj (op ⟨V, hVB⟩)).smul s).asHom y) =
       ConcreteCategory.hom ((N.val.obj (op ⟨W, hWB⟩)).smul
-        (ConcreteCategory.hom (𝒪.obj.map (homOfLE hWV).op) s))
+        (ConcreteCategory.hom (𝒪.obj.map (homOfLE hWV).op) s)).asHom
         (ConcreteCategory.hom (((SheafOfModules.toSheaf _).obj N).obj.map g.op) y) :=
     fun s y => PresheafOfModules.map_smul N.val g.op s y
   have nat_hom : ∀ (x : _),
@@ -415,24 +415,24 @@ noncomputable instance extModule (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U : (O
       rw [map_add (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op)) x y]
       have := congrArg (ConcreteCategory.hom ((extCounit N).inv.hom.app (op ⟨↑V, V.2.1⟩)))
         (congrArg (ConcreteCategory.hom ((N.val.obj (op ⟨↑V, V.2.1⟩)).smul
-          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)))
+          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)).asHom)
           (map_add (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩)))
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) x)
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) y)))
       have h_smul := congrArg (ConcreteCategory.hom ((extCounit N).inv.hom.app (op ⟨↑V, V.2.1⟩)))
         (map_add (ConcreteCategory.hom ((N.val.obj (op ⟨↑V, V.2.1⟩)).smul
-          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)))
+          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)).asHom)
           (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩))
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) x))
           (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩))
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) y)))
       have h_inv := map_add (ConcreteCategory.hom ((extCounit N).inv.hom.app (op ⟨↑V, V.2.1⟩)))
         (ConcreteCategory.hom ((N.val.obj (op ⟨↑V, V.2.1⟩)).smul
-          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r))
+          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)).asHom
           (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩))
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) x)))
         (ConcreteCategory.hom ((N.val.obj (op ⟨↑V, V.2.1⟩)).smul
-          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r))
+          (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)).asHom
           (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩))
             (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) y)))
       exact this.trans (h_smul.trans h_inv))
@@ -447,7 +447,7 @@ noncomputable instance extModule (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U : (O
       have h_smul_add := (N.val.obj (op ⟨↑V, V.2.1⟩)).smul.map_add
         (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)
         (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) s)
-      have h_pt := DFunLike.congr_fun (congrArg ConcreteCategory.hom h_smul_add)
+      have h_pt := DFunLike.congr_fun (congrArg (fun e => ConcreteCategory.hom e.asHom) h_smul_add)
         (ConcreteCategory.hom ((extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩))
           (ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op) x))
       exact (congrArg (ConcreteCategory.hom ((extCounit N).inv.hom.app (op ⟨↑V, V.2.1⟩)))
@@ -474,7 +474,7 @@ noncomputable instance extModule (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U : (O
       have h_mul := (N.val.obj (op ⟨↑V, V.2.1⟩)).smul.map_mul
         (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) r)
         (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op) s)
-      exact DFunLike.congr_fun (congrArg ConcreteCategory.hom h_mul) _)
+      exact DFunLike.congr_fun (congrArg (fun e => ConcreteCategory.hom e.asHom) h_mul) _)
     (fun x => by
       apply TopCat.Sheaf.eq_of_locally_eq' (extAb N) _ U.unop (fun V => homOfLE V.2.2)
         (extCover hB U)
@@ -486,8 +486,8 @@ noncomputable instance extModule (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (U : (O
           ((ConcreteCategory.hom ((extAb N).obj.map (homOfLE V.2.2).op)) x))
       · congr 1
         rw [map_one (ConcreteCategory.hom (𝒪.obj.map (homOfLE V.2.2).op))]
-        have hone : (N.val.obj (op ⟨↑V, V.2.1⟩)).smul 1 = 𝟙 _ :=
-          (N.val.obj (op ⟨↑V, V.2.1⟩)).smul.map_one
+        have hone : ((N.val.obj (op ⟨↑V, V.2.1⟩)).smul 1).asHom = 𝟙 _ := by
+          rw [(N.val.obj (op ⟨↑V, V.2.1⟩)).smul.map_one, End.one_asHom]
         exact DFunLike.congr_fun (congrArg ConcreteCategory.hom hone) _
       · have h : (extCounit N).hom.hom.app (op ⟨↑V, V.2.1⟩) ≫
             (extCounit N).inv.hom.app (op ⟨↑V, V.2.1⟩) = 𝟙 _ :=
@@ -520,7 +520,7 @@ noncomputable def extModuleSheaf (N : ModuleSheafOnBasis.{u, w} hB 𝒪) :
 lemma extCounit_hom_smul (N : ModuleSheafOnBasis.{u, w} hB 𝒪) (V : (BasisCat B)ᵒᵖ)
     (r : ↑(𝒪.obj.obj (op V.unop.obj)))
     (m : ↑((extAb N).obj.obj (op V.unop.obj))) :
-    ConcreteCategory.hom ((N.val.obj V).smul r)
+    ConcreteCategory.hom ((N.val.obj V).smul r).asHom
         (ConcreteCategory.hom ((extCounit N).hom.hom.app V) m) =
       ConcreteCategory.hom ((extCounit N).hom.hom.app V) (r • m) := by
   let W := V.unop.obj

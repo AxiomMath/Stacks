@@ -43,21 +43,21 @@ variable {k : Type u} [CommRing k] (P : FGModuleCat.{u} k ⥤ AddCommGrpCat.{w})
 /-- **The action of `k` on an additive functor of `k`-modules**: `c` acts on `P(V)` by the
 image under `P` of multiplication by `c` on `V`. -/
 def scalarEndAction : k →+* End P where
-  toFun c :=
+  toFun c := .of
     { app V := P.map (c • 𝟙 V)
       naturality V W f := by
         rw [← P.map_comp, ← P.map_comp, Linear.comp_smul, Linear.smul_comp, Category.comp_id,
           Category.id_comp] }
-  map_one' := NatTrans.ext (funext fun V ↦ by
+  map_one' := End.ext <| NatTrans.ext (funext fun V ↦ by
     change P.map ((1 : k) • 𝟙 V) = 𝟙 _
     rw [one_smul, P.map_id])
-  map_mul' a b := NatTrans.ext (funext fun V ↦ by
+  map_mul' a b := End.ext <| NatTrans.ext (funext fun V ↦ by
     change P.map ((a * b) • 𝟙 V) = P.map (b • 𝟙 V) ≫ P.map (a • 𝟙 V)
     rw [← P.map_comp, Linear.smul_comp, Category.id_comp, smul_smul, mul_comm])
-  map_zero' := NatTrans.ext (funext fun V ↦ by
+  map_zero' := End.ext <| NatTrans.ext (funext fun V ↦ by
     change P.map ((0 : k) • 𝟙 V) = 0
     rw [zero_smul, P.map_zero])
-  map_add' a b := NatTrans.ext (funext fun V ↦ by
+  map_add' a b := End.ext <| NatTrans.ext (funext fun V ↦ by
     change P.map ((a + b) • 𝟙 V) = P.map (a • 𝟙 V) + P.map (b • 𝟙 V)
     rw [add_smul, P.map_add])
 
@@ -65,7 +65,7 @@ def scalarEndAction : k →+* End P where
 on `V`. -/
 @[simp]
 theorem scalarEndAction_app (c : k) (V : FGModuleCat.{u} k) :
-    (scalarEndAction P c).app V = P.map (c • 𝟙 V) := rfl
+    (scalarEndAction P c).asHom.app V = P.map (c • 𝟙 V) := rfl
 
 /-- **An additive functor of `k`-modules as a `k`-linear functor**: `P(V)` with `c` acting as
 `P(c · 𝟙_V)`. -/

@@ -174,7 +174,7 @@ public theorem adjugate_localCharMatrix (A : Matrix n n Λ) {d : ℕ} (hd : d �
 omit [Fintype n] in
 /-- The entrywise derivative of `1 - A ⬝ T ^ d`. -/
 public theorem map_derivative_localCharMatrix (A : Matrix n n Λ) (d : ℕ) :
-    (localCharMatrix A d).map (d⁄dX Λ)
+    (localCharMatrix A d).map (PowerSeries.derivative (R := Λ))
       = -(((d : ℕ) : Λ⟦X⟧) * PowerSeries.X ^ (d - 1)) • A.map PowerSeries.C := by
   apply Matrix.ext
   intro i j
@@ -208,7 +208,7 @@ public theorem logDerivative_localCharSeries (A : Matrix n n Λ) {d : ℕ} (hd :
     rw [← pow_succ']
     congr 1
     omega
-  have hder : PowerSeries.X * d⁄dX Λ (localCharSeries A d)
+  have hder : PowerSeries.X * d⁄dX (localCharSeries A d)
       = -(((d : ℕ) : Λ⟦X⟧) * (localCharSeries A d * traceSeries A d)) := by
     rw [localCharSeries, Derivation.map_det, map_derivative_localCharMatrix,
       adjugate_localCharMatrix A hd, Matrix.mul_smul, Matrix.smul_mul, Matrix.trace_smul,

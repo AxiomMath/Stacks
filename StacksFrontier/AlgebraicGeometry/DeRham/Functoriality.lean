@@ -499,7 +499,7 @@ noncomputable def quotDeRhamPushforwardIso :
 noncomputable def deRhamPushforwardToDerived :=
   (plusQIsoOn X (deRhamPushforwardPlus f p')).inv ≫
     DerivedCategory.Plus.Qh.map (quotDeRhamPushforwardIso f p').inv ≫
-    (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnit.app
+    (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (AbelianSheaf X'.toRingedSpace.carrier)).obj
         (SheafOfModules.deRhamAbelianComplexPlus (deRhamAlgebras p')
           (SheafOfModules.deRhamDifferential (deRhamAlgebras p')))) ≫

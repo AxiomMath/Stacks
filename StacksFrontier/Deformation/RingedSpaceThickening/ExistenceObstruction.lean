@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Abelian.CommSq
+public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughInjectives
 public import StacksCore.CategoryTheory.Abelian.CommSq
 public import StacksFrontier.Deformation.RingedSpaceThickening.ExtensionClassification
 public import StacksFrontier.Topology.Sheaves.Functors.Module.EnoughInjectives

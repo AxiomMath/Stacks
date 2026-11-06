@@ -156,8 +156,8 @@ differentiating in `x_{r+i}` and then substituting is substituting and then diff
 `x_i`. -/
 theorem initialVarsAlgHom_pderiv (hr : r ≤ n) (i : Fin (n - r))
     (u : MvPowerSeries (Fin n) R) :
-    initialVarsAlgHom R hr (MvPowerSeries.pderiv R (embedFn hr i) u) =
-      MvPowerSeries.pderiv R i (initialVarsAlgHom R hr u) := by
+    initialVarsAlgHom R hr (MvPowerSeries.pderiv (embedFn hr i) u) =
+      MvPowerSeries.pderiv i (initialVarsAlgHom R hr u) := by
   ext β
   rw [coeff_initialVarsAlgHom, MvPowerSeries.coeff_pderiv, MvPowerSeries.coeff_pderiv,
     coeff_initialVarsAlgHom]
@@ -165,7 +165,7 @@ theorem initialVarsAlgHom_pderiv (hr : r ≤ n) (i : Fin (n - r))
       embedIdx hr β + Finsupp.single (embedFn hr i) 1 := by
     simp only [embedIdx, Finsupp.mapDomain_add, Finsupp.mapDomain_single]
   have happ : embedIdx hr β (embedFn hr i) = β i := by
-    rw [embedIdx, Finsupp.mapDomain_apply (embedFn_injective hr)]
+    rw [embedIdx, Finsupp.mapDomain_apply_of_injective (embedFn_injective hr)]
   rw [hadd, happ]
 
 end Stacks.MvPowerSeries.RegularParameters

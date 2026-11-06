@@ -49,6 +49,19 @@ universe u v
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_etaleChart
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_etaleChart
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_etaleChart B S hS).has_limit _
+
 private theorem pullback_relativeDiagonal
     {C : Type v} [Category.{u} C] [HasPullbacks C]
     {W A B F Y K : C} {i : W ⟶ A} {j : W ⟶ B}
@@ -142,7 +155,8 @@ theorem isEtale_of_isEtale_comp_baseMap
     have hK : IsPullback k₁ (yoneda.map k₂) P' (q ≫ g) :=
       hbase.rep.isPullback (q ≫ g)
     have hcomm : i ≫ P' = yoneda.map j ≫ (q ≫ g) := by
-      simpa [P', Category.assoc] using congrArg (· ≫ g) hW.w
+      change i ≫ p ≫ g = _
+      rw [← Category.assoc, hW.w, Category.assoc]
     let m := hbase.rep.lift i j hcomm
     have hm₂ : m ≫ k₂ = j := hbase.rep.lift_snd i j hcomm
     have heCond : (k₁ ≫ p) ≫ g = (yoneda.map k₂ ≫ q) ≫ g := by

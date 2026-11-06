@@ -303,7 +303,7 @@ public theorem ideal_comap_chart_exceptionalIdeal {a : Γ(Spec (CommRingCat.of A
           (Stacks.Blowup.blowUpAffineChart (centre A) ⟨⊤, isAffineOpen_top _⟩ ha)).ideal
             ⟨⊤, isAffineOpen_top _⟩) =
       Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a} :=
+                    (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a} :=
   ideal_comap_blowUpAffineChart_exceptionalIdeal_eq_span (centre A)
     ⟨⊤, isAffineOpen_top _⟩ ha
 
@@ -321,7 +321,7 @@ public theorem ideal_comap_chart_exceptionalIdeal_pow {a : Γ(Spec (CommRingCat.
           (Stacks.Blowup.blowUpAffineChart (centre A) ⟨⊤, isAffineOpen_top _⟩ ha)).ideal
             ⟨⊤, isAffineOpen_top _⟩) =
       Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d} :=
+                    (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d} :=
   ideal_comap_blowUpAffineChart_exceptionalIdeal_pow_eq_span (centre A)
     ⟨⊤, isAffineOpen_top _⟩ ha d
 

@@ -203,7 +203,7 @@ def presheafFiberClosedPointIsoSections' (A : Type u') [Category.{v'} A]
       (pointSmallEtale x).presheafFiber := by
   let : ∀ P, IsIso ((sectionsToPresheafFiberClosedPoint' x A).app P) := fun P ↦
     ((pointSmallEtale x).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of R))), pointSmallEtaleClosedPointElement x⟩)
+      (op ((pointSmallEtale x).fiber.elementsMk _ (pointSmallEtaleClosedPointElement x)))
       (isInitialPointSmallEtaleClosedPointElement x hx).op
   let := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberClosedPoint' x A)
   exact asIso (sectionsToPresheafFiberClosedPoint' x A)

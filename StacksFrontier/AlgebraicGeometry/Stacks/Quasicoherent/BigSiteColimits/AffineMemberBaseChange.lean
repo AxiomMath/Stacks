@@ -112,7 +112,6 @@ theorem bijective_liftBaseChange_of_comm
   have key : ∀ z, ε (r.liftBaseChange Bc z) = r'.liftBaseChange Bc (d z) := by
     intro z
     induction z with
-    | zero => simp
     | tmul b n =>
       rw [LinearMap.liftBaseChange_tmul, map_smul, hcomm, hd]
       simp [LinearMap.liftBaseChange_tmul]

@@ -105,8 +105,8 @@ def inverseImageRingChartIso (i : Z ⟶ T) (hci : IsClosedImmersion B S hS i.hom
       (@AlgebraicGeometry.Surjective.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf i.hom)
     (O : Sheaf (SmallEtale.topology B S hS T.1) CommRingCat.{u}) :
-    O.val ≅ (smallBaseChange B S hS i hci.rep).op ⋙
-      ((smallEtaleInverseImageRing B S hS i).obj O).val :=
+    O.obj ≅ (smallBaseChange B S hS i hci.rep).op ⋙
+      ((smallEtaleInverseImageRing B S hS i).obj O).obj :=
   letI := (smallBaseChange_isMorphismOfSites B S hS i hci.rep).toIsContinuous
   letI := isIso_smallEtaleRingAdjunction_unit_app B S hS i hci hsurj O
   (sheafToPresheaf _ _).mapIso

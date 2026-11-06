@@ -263,14 +263,14 @@ private def isomSpaceSelfEquivAut (B : BigFppfSite.{u})
   exact
     { toFun := fun a => by
         letI : IsIso a.1 := isIso_isomSpace_coe B S hS 𝒳 U y V a
-        exact asIso a.1
+        exact .of (asIso a.1)
       invFun := fun a => by
-        letI : IsIso a.hom := Iso.isIso_hom a
-        exact ⟨a.hom,
-          (Functor.mem_isomSubpresheaf_obj (p := 𝒳.val.p) (U := U) y y a.hom).2
+        letI : IsIso a.asIso.hom := Iso.isIso_hom a.asIso
+        exact ⟨a.asIso.hom,
+          (Functor.mem_isomSubpresheaf_obj (p := 𝒳.val.p) (U := U) y y a.asIso.hom).2
             (by infer_instance)⟩
       left_inv := fun a => Subtype.ext rfl
-      right_inv := fun a => Aut.ext rfl }
+      right_inv := fun a => Aut.ext (Iso.ext rfl) }
 
 private abbrev isomSpaceSelfGroup (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S)

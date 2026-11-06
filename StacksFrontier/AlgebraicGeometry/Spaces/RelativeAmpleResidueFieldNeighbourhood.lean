@@ -76,6 +76,17 @@ def AmpleSpreadsFromResidueFields : Prop :=
 
 variable {B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_relativeAmpleResidueFieldNeighbourhood :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_relativeAmpleResidueFieldNeighbourhood
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Claim (A) of Stacks 0D3D over affine schemes, from its residue-field form.** Let
 `f : X ⟶ Y` be a proper morphism of algebraic spaces and `L` an invertible `𝒪_X`-module.
 Granted the fpqc case of Stacks 0D3C and

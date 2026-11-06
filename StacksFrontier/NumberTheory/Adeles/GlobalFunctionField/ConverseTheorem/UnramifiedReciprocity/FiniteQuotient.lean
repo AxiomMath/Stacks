@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Topology.Algebra.ClopenNhdofOne
+public import Mathlib.Topology.Separation.Connected
 public import StacksFrontier.NumberTheory.Adeles.GlobalFunctionField.ConverseTheorem.CentralCharacter
 
 /-!
@@ -48,6 +49,9 @@ public theorem finsuppProd_eq_one_of_forall_isOpen_ker {M : Type w} [CommGroup M
   rw [← hg]
   have hker : χ'.ker = χ.ker := χ.ker_rangeRestrict
   suffices g ∈ χ.ker from this
+  have : T1Space G := TotallyDisconnectedSpace.t1Space
+  have : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.2 isClosed_singleton
+  have : ZeroDimensionalSpace G := inferInstance
   have hK : χ.ker = sInf {N : Subgroup G | IsOpen (N : Set G) ∧ χ.ker ≤ N} :=
     ProfiniteGrp.closedSubgroup_eq_sInf_open (⟨χ.ker, hχ⟩ : ClosedSubgroup G)
   rw [hK, Subgroup.mem_sInf]

@@ -52,6 +52,17 @@ attribute [local implicit_reducible] Stack.fibredCategory BasedCategory.ofFuncto
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {P : MorphismProperty (AlgebraicSpaces B S hS)} {T : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_spacesOverSpaceEssSurj :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_spacesOverSpaceEssSurj
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The morphism of algebraic spaces induced by an equality of schemes is an isomorphism. -/
 theorem isIso_schemeSpaceMap_eqToHom {U V : BigFppfOver B S hS} (h : U = V) :
     IsIso (schemeSpaceMap (eqToHom h)) := by
@@ -139,7 +150,7 @@ theorem famMap_comp_famToGlue {a' a : (pointsCategory B S hS T).obj} (u : a' ⟶
     famHom_famMap_apply G u y'
   have h : T.obj.map ((famHom G a).app (op W) ((famMap G u).app (op W) y')).op a.fiber.as =
       T.obj.map (𝟙 W).op (T.obj.map ((famHom G a').app (op W) y').op a'.fiber.as) := by
-    rw [hg, op_id, FunctorToTypes.map_id_apply, fiber_as_eq u, ← FunctorToTypes.map_comp_apply,
+    rw [hg, op_id, Functor.map_id_apply, fiber_as_eq u, ← Functor.map_comp_apply,
       op_comp]
   set p := toPoint ((famHom G a').app (op W) y') rfl
   refine glue_ext G (ptHom (𝟙 W) h) rfl _ _ ?_
@@ -175,6 +186,7 @@ variable [P.IsStableUnderBaseChange]
 abbrev glueObject : SpacesOver B S hS P T :=
   ⟨⟨Over.mk (glueSpaceMap G)⟩, prop_glueSpaceMap G⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The total space of the base change of the glued space along a point of `T` is the total space
 of the family of `G` at the point. -/
 def glueLeftIso (a : (pointsCategory B S hS T).obj) :

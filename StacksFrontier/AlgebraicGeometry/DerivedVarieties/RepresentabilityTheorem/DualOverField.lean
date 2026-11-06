@@ -80,7 +80,7 @@ attribute [local instance] siteModulesLinear
 /-- **A scalar of `k` acts on `𝒪_X`-modules as multiplication by its image in the sections of the
 structure sheaf.** -/
 theorem smul_id_eq_globalSectionToEnd (r : k) (M : SiteModules X) :
-    r • 𝟙 M = (Stacks.SheafOfModules.globalSectionToEnd _ (baseSections X r)).app M := by
+    r • 𝟙 M = (Stacks.SheafOfModules.globalSectionToEnd _ (baseSections X r)).asHom.app M := by
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext
   intro U

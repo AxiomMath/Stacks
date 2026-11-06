@@ -331,7 +331,7 @@ def derivedBaseChangePlus :
   Stacks.Cohomology.BaseChange.derived (ringedToposHom Λ g).pushforwardTopos
     (ringedToposHom Λ h).pushforwardTopos (ringedToposHom Λ f').pullbackTopos
     (ringedToposHom Λ e).pullbackTopos (moduleBaseChange Λ f' g h e w)
-    (asIso (ringedToposHom Λ f').pullbackTopos.rightDerivedFunctorPlusUnit)
+    (asIso (ringedToposHom Λ f').pullbackTopos.rightDerivedFunctorPlusUnith)
 
 variable (m : ℕ)
 

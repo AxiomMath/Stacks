@@ -50,7 +50,7 @@ def addContinuousGModule : ContinuousGModule.{u, u} Gal(Ω/K) :=
 /-- The Galois action on `Stacks.GaloisCohomology.addContinuousGModule` is the Galois action on
 `Ω`. -/
 @[simp] theorem addContinuousGModule_ρ_hom (g : Gal(Ω/K)) (a : Ω) :
-    (((addContinuousGModule K Ω).obj.obj.ρ g).hom a : Ω) = g • a := rfl
+    (((addContinuousGModule K Ω).obj.obj.ρ g).asHom.hom a : Ω) = g • a := rfl
 
 /-- **The discrete Galois module `(Ω, +)` with its coefficient universe raised.** The carrier is
 `ULift Ω` and the action is the Galois action. -/
@@ -62,8 +62,8 @@ def addContinuousGModuleLift.{s, t} (K Ω : Type s) [Field K] [Field Ω] [Algebr
 @[simp] theorem addContinuousGModuleLift_ρ_hom.{s, t} (K Ω : Type s) [Field K] [Field Ω]
     [Algebra K Ω] [IsGalois K Ω] (g : Gal(Ω/K))
     (a : (addContinuousGModuleLift.{s, t} K Ω).obj.obj.V) :
-    (((addContinuousGModuleLift.{s, t} K Ω).obj.obj.ρ g).hom a).down =
-      ((addContinuousGModule K Ω).obj.obj.ρ g).hom a.down := rfl
+    (((addContinuousGModuleLift.{s, t} K Ω).obj.obj.ρ g).asHom.hom a).down =
+      ((addContinuousGModule K Ω).obj.obj.ρ g).asHom.hom a.down := rfl
 
 end Stacks.GaloisCohomology
 

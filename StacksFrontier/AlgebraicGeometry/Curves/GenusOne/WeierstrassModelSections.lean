@@ -271,7 +271,7 @@ theorem topIso_inv_chartFamily_aeval (i : Fin 3) {n : ℕ} {P : MvPolynomial (Fi
     prod_pow_degOneElt_mem_grading (s := s) (L := L) m.support m
   have hmul := Stacks.SectionRingChartMap.chartFamily_mul L (secOf L (twistOneSection L (s i)))
     (nvOpen_secOf_twistOneSection L (s i)).ge 0 _ _ _ (algebraMap_mem_grading_zero L k
-      (MvPolynomial.coeff m P)) hprod
+      (P.coeff m)) hprod
   rw [zero_add] at hmul
   rw [MvPolynomial.aeval_monomial, ← hdeg, hmul, map_mul, chartFamily_zero_algebraMap,
     show (m.prod fun j e => degOneElt L (s j) ^ e) = ∏ j ∈ m.support, degOneElt L (s j) ^ m j

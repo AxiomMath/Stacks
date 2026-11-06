@@ -165,6 +165,7 @@ noncomputable def canonicalRelation (U : Cᵒᵖ)
       (Stacks.Sites.Conormal.hom_of_comp_eq
         (resolutionZeroIsoFreeAlgebra_hom_comp_canonicalPresentation J f)) U y.2⟩
 
+set_option maxHeartbeats 2000000 in
 /-- **The comparison of Tag 08US on a pure differential**: in degree `-1` it sends `d x` to the
 conormal class of `d₀ x - d₁ x`, read in the canonical presentation. -/
 theorem canonicalNaiveComparison_negOne_apply (U : Cᵒᵖ)
@@ -182,8 +183,10 @@ theorem canonicalNaiveComparison_negOne_apply (U : Cᵒᵖ)
     show (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U
       ((naiveComparisonNegOne.{u, v, w} J f).val.app U
         ((cotangentComplex_degreeIso.{u, v, w} J f 1).hom.val.app U _)) = _
-    erw [hom_app_inv_app]
-    rw [naiveComparisonNegOne_conormalClass]
+    exact congrArg (fun y => (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U y)
+      ((congrArg (fun y => (naiveComparisonNegOne.{u, v, w} J f).val.app U y)
+        (hom_app_inv_app J (cotangentComplex_degreeIso.{u, v, w} J f 1) U _)).trans
+          (naiveComparisonNegOne_conormalClass J f U x))
   have h₂ : (naiveConormalIso.{u, v, w} J f).hom.val.app U
       (conormalClassSection J f U (faceDifference J f U x)) =
       Stacks.Sites.Conormal.conormalClass.{v, u, max u v w, u} J A _ B
@@ -253,6 +256,7 @@ theorem canonicalRelation_baseRelation (f : A ⟶ B) (U : Cᵒᵖ) (r : A.obj.ob
         (Stacks.Sites.FreeAlgebra.underlyingPresheaf J B)).hom.app U).hom r :=
   congrArg (fun k => (k.hom.app U).hom r) (resolutionBase_comp_resolutionZeroIsoFreeAlgebra_hom J f)
 
+set_option maxHeartbeats 2000000 in
 /-- **The map `NL_{B/A} ⊗_B D ⟶ NL_{D/A}` on the class of a relation coming from `A`.** For a
 local section `r` of `A` killed by `g`, the map carries the extended conormal class of the
 relation `r` of `A[B] ⟶ B` to the conormal class of the relation `r` of `A[D] ⟶ D`. -/
@@ -289,7 +293,7 @@ theorem baseChangedNaiveMap_extendUnit_canonicalNaiveClass (U : Cᵒᵖ) (r : A.
     refine Subtype.ext ?_
     have hface : ∀ k : Fin 2, faceSections J (g ≫ h) k U ((sq.resolution (op ⦋1⦌)).hom.app U x) =
         (sq.resolution (op ⦋0⦌)).hom.app U (faceSections J g k U x) := fun k =>
-      (congrArg (fun t => t.hom.app U x) (sq.resolution_naturality (SimplexCategory.δ k).op)).symm
+      (sq.resolution_naturality_app (SimplexCategory.δ k).op U x).symm
     have hbase : (sq.resolution (op ⦋0⦌)).hom.app U
         (((resolutionBase.{u, v, w} J g (op ⦋0⦌)).hom.app U).hom r) =
         ((resolutionBase.{u, v, w} J (g ≫ h) (op ⦋0⦌)).hom.app U).hom r :=

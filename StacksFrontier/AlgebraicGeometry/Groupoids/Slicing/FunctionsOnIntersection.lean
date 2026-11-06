@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Ring.Colimits
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiSeparated
 public import Mathlib.CategoryTheory.Limits.Types.Colimits
@@ -142,6 +143,17 @@ private lemma pullbackCostructuredArrow_isFiltered {X : Type u} [TopologicalSpac
       exact ⟨b, 𝟙 _, CostructuredArrow.hom_ext _ _ (Subsingleton.elim _ _)⟩
   exact IsFiltered.mk
 
+/-- Presheaves of commutative rings have pointwise left Kan extensions along the inclusion of a
+subset (instance search no longer finds the colimits of shape `CostructuredArrow` unaided). -/
+private instance hasPointwiseLeftKanExtension_opensMap {X : Type u} [TopologicalSpace X]
+    (E : Set X) (F : (Opens (TopCat.of X))ᵒᵖ ⥤ CommRingCat.{u}) :
+    (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op.HasPointwiseLeftKanExtension F :=
+  fun c ↦
+    have : HasColimitsOfShape (CostructuredArrow
+        (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op c) CommRingCat.{u} :=
+      HasColimitsOfSize.has_colimits_of_shape.{u, u} _
+    HasColimitsOfShape.has_colimit _
+
 /-- The forgetful functor from commutative rings preserves the left Kan extensions computing the
 inverse image of a presheaf along the inclusion of a subset. -/
 private lemma forget_preservesLeftKanExtensions_opensMap {X : Type u} [TopologicalSpace X]
@@ -152,7 +164,16 @@ private lemma forget_preservesLeftKanExtensions_opensMap {X : Type u} [Topologic
   let : ∀ c : (Opens (TopCat.of E))ᵒᵖ, IsFiltered (CostructuredArrow
       (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op c) :=
     fun c ↦ pullbackCostructuredArrow_isFiltered E c.unop
-  infer_instance
+  have : ∀ c : (Opens (TopCat.of E))ᵒᵖ, HasColimitsOfShape (CostructuredArrow
+      (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op c) CommRingCat.{u} :=
+    fun c ↦ HasColimitsOfSize.has_colimits_of_shape.{u, u} _
+  have : ∀ c : (Opens (TopCat.of E))ᵒᵖ, PreservesColimitsOfShape (CostructuredArrow
+      (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op c) (forget CommRingCat.{u}) :=
+    fun c ↦ inferInstance
+  have : (forget CommRingCat.{u}).PreservesPointwiseLeftKanExtension F
+      (Opens.map (Stacks.subsetInclusion (TopCat.of X) E)).op :=
+    fun c ↦ Functor.preservesPointwiseLeftKanExtensionAtOfPreservesColimit _ _ _ c
+  exact Functor.preservesPointwiseLKEOfHasPointwiseAndPreservesPointwise _ _ _
 
 /-- The inverse image of a presheaf of commutative rings along the inclusion of a subset has the
 inverse image of the underlying presheaf of sets as its underlying presheaf of sets. -/

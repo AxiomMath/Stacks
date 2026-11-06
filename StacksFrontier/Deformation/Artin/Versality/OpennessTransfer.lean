@@ -183,7 +183,6 @@ theorem hasOpenVersality_of_equivalenceOver {B : BigFppfSite.{u}} {hS : B.Contai
   apply Over.OverMorphism.ext
   simp [Functor.comp_map, IsHomLift.fac' P (𝟙 (P.obj y₁)) (e.unitIso.hom.app y₁),
     Over.eqToHom_left]
-  rfl
 
 end FullyFaithful
 

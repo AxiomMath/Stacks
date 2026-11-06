@@ -104,14 +104,21 @@ end Nat
 
 /-! ### Torsion-freeness of a free module -/
 
+/-- In a commutative additive monoid, additive torsion-freeness gives unique divisibility. -/
+private theorem hasUniqueDiv_of_isAddTorsionFree {M : Type*} [AddCommMonoid M]
+    [IsAddTorsionFree M] : HasUniqueDiv M :=
+  ⟨fun _ hn a b h ↦ eq_of_nsmul_eq_nsmul_of_addCommute hn (AddCommute.all a b) h⟩
+
 /-- A module admitting a basis over a commutative ring which is torsion-free as an additive group
 is itself torsion-free as an additive group. -/
 public theorem Module.Basis.isAddTorsionFree {R : Type*} [CommRing R] [IsAddTorsionFree R]
     {M : Type*} [AddCommGroup M] [Module R M] {ι : Type*} (b : Module.Basis ι R M) :
     IsAddTorsionFree M := by
+  have : HasUniqueDiv R := hasUniqueDiv_of_isAddTorsionFree
   have h1 : Module.IsTorsionFree R M := b.isTorsionFree
   have h2 : Module.IsTorsionFree ℤ M := Module.IsTorsionFree.trans R
-  exact Module.isTorsionFree_int_iff_isAddTorsionFree.mp h2
+  have : HasUniqueDiv M := Module.isTorsionFree_int_iff_hasUniqueDiv.mp h2
+  infer_instance
 
 /-! ### Extension of an ideal to an algebra, in coordinates -/
 
@@ -252,6 +259,7 @@ public theorem dpMonomial_mem_augIdeal {ι : Type w} (v : ι → M) {k : ι →�
 augmentation ideal admits divided powers. -/
 public theorem nonempty_dividedPowers_augIdeal [IsAddTorsionFree (DividedPowerAlgebra R M)] :
     Nonempty (DividedPowers (augIdeal R M)) := by
+  have : HasUniqueDiv (DividedPowerAlgebra R M) := hasUniqueDiv_of_isAddTorsionFree
   rw [DividedPowers.nonempty_dividedPowers_iff_exists_generators_pow_mem_factorial_mul]
   refine ⟨dpGenerators R M, span_dpGenerators_eq_augIdeal, ?_⟩
   rintro x ⟨n, m, hn, rfl⟩ k hk
@@ -274,6 +282,7 @@ power algebra sends `dp R 1 m` to `dp R n m`. -/
 public theorem dpow_dp_one [IsAddTorsionFree (DividedPowerAlgebra R M)]
     (γ : DividedPowers (augIdeal R M)) (n : ℕ) (m : M) :
     γ.dpow n (dp R 1 m) = dp R n m := by
+  have : HasUniqueDiv (DividedPowerAlgebra R M) := hasUniqueDiv_of_isAddTorsionFree
   refine nsmul_right_injective (M := DividedPowerAlgebra R M)
     (Nat.factorial_ne_zero n) ?_
   show (Nat.factorial n) • γ.dpow n (dp R 1 m) = (Nat.factorial n) • dp R n m

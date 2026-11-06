@@ -222,7 +222,8 @@ theorem relativeFormsRetraction_decompositionGenerator_succ (i j n : ℕ)
     rw [dividedPowerPolynomialFormsEquiv_decompositionGenerator, lof_eq_lof,
       DirectSum.component.of, dif_neg hne]
   simp only [relativeFormsRetraction, LinearMap.coe_comp, Function.comp_apply,
-    LinearMap.coe_restrictScalars, LinearEquiv.coe_coe, hcomp, map_zero]
+    LinearMap.coe_restrictScalars, LinearEquiv.coe_coe, hcomp, LinearEquiv.map_zero,
+    LinearMap.map_zero]
 
 /-- The retraction of a generator with no variable differential reads the slot of the trivial
 monomial. -/

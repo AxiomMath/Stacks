@@ -57,7 +57,7 @@ public theorem injective_map_op_of_isIso {A C : BigHOver B S hS} (g : A ⟶ C) [
 /-- Restricting along a composite is restricting twice. -/
 public theorem map_op_comp_apply {A₁ A₂ A₃ : BigHOver B S hS} (g : A₁ ⟶ A₂) (h : A₂ ⟶ A₃)
     (x : F.obj (op A₃)) : F.map g.op (F.map h.op x) = F.map (g ≫ h).op x :=
-  (FunctorToTypes.map_comp_apply F h.op g.op x).symm
+  (F.map_comp_apply h.op g.op x).symm
 
 /-- **The image of every base change of the square is cartesian over the members of some Zariski
 covering of its base.** The restricted squares are given as data: objects and morphisms whose

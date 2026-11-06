@@ -147,7 +147,7 @@ theorem preservesInjectiveObjects_sheafPushforwardContinuous :
   let hcolim : PreservesFiniteColimits L :=
     Stacks.Sites.LowerShriek.gShriek_preservesFiniteColimits Ab.{a} G J K
   let : R.Additive := Functor.additive_of_preserves_binary_products _
-  let : L.Additive := Functor.additive_of_preserves_binary_products _
+  let : L.Additive := adj.left_adjoint_additive
   exact preservesInjectiveObjects_of_isExact R L adj ⟨hlim, hcolim⟩
 
 end Exactness

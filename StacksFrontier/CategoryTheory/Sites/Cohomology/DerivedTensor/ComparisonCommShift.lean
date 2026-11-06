@@ -266,7 +266,7 @@ instance kFlatComparisonFlipIsoOf_commShift {V : Type*} [Category V] [HasShift V
     NatTrans.CommShift (kFlatComparisonFlipIsoOf ι' hι' N).hom ℤ := by
   -- Mathlib's instances for `ObjectProperty.lift` are not found by instance search here.
   let : ((kFlatComplexes X).lift ι' hι').CommShift ℤ :=
-    ObjectProperty.instCommShiftFullSubcategoryLift _ _ _
+    ObjectProperty.commShiftLift _ _ _
   have : NatTrans.CommShift ((kFlatComplexes X).liftCompιIso ι' hι').hom ℤ :=
     Functor.CommShift.ofComp_compatibility _ _
   dsimp only [kFlatComparisonFlipIsoOf, Iso.trans_hom, Functor.isoWhiskerRight_hom,

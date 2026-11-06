@@ -2,6 +2,10 @@ module
 
 import Mathlib.RingTheory.RegularLocalRing.Polynomial
 import Mathlib.RingTheory.Henselian
+import Mathlib.Algebra.Module.SpanRankOperations
+import Mathlib.LinearAlgebra.TensorProduct.Prod
+import Mathlib.RingTheory.KrullDimension.Polynomial
+import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Topology.Sheaves.Presheaf
@@ -352,7 +356,7 @@ private theorem spanFinrank_ker_map_le_of_gci_away_fin
     intro htop
     rw [htop, show ringKrullDim P.Ring = ringKrullDim (MvPolynomial (Fin n) k) from rfl,
       MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field] at hq'le
-    simp only [zero_add, Nat.card_fin] at hq'le
+    simp only [zero_add, ENat.card_eq_coe_fintype_card, Fintype.card_fin] at hq'le
     have htle : (⊤ : ℕ∞) ≤ (n : ℕ∞) := by exact_mod_cast hq'le
     simp at htle
   have hqne : q.height ≠ ⊤ := by

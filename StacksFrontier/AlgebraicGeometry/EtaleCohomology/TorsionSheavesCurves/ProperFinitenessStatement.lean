@@ -99,6 +99,7 @@ open AlgebraicGeometry AlgebraicGeometry.Scheme
 
 universe u v w
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The direct image of abelian sheaves between small étale sites is a right adjoint**, at the
 coefficient universe `max (u + 1) v`: weak sheafification exists there
 (`Stacks.ConstantSheaf.hasWeakSheafify_addCommGrp_of_univLE`), so the pullback is constructed by
@@ -133,7 +134,9 @@ constructible when its counterpart on the site of Tag 021B is. -/
 def IsConstructibleEtaleAbelianSheaf (B : BigEtaleSite.{u}) (X : Scheme.{u})
     (hX : B.Contains X)
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) : Prop :=
-  AlgebraicGeometry.IsConstructibleAbelianSheaf B (B.obj X hX)
+  @AlgebraicGeometry.IsConstructibleAbelianSheaf B (B.obj X hX)
+    (AlgebraicGeometry.SmallEtale.isRightAdjoint_smallEtalePushforward_addCommGrpCat.{u, v} B)
+    (AlgebraicGeometry.SmallEtale.hasWeakSheafify_over_addCommGrpCat.{u, v} B)
     ((AlgebraicGeometry.SmallEtale.sheafEquiv B X hX
       AddCommGrpCat.{max (u + 1) v}).inverse.obj F)
 

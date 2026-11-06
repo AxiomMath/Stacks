@@ -100,7 +100,7 @@ public theorem fShriekStalkIso_hom_germ_generator {X Y : B.Scheme} (f : X ⟶ Y)
       fiberStalkSum.{u, max (u + 1) v} B f s F V w E a := by
   have h1 := ConcreteCategory.congr_hom (colimit_ι_comp_etaleStalkSheafificationMap B Y.obj
     Y.property s ((finiteSupportPushforward.{u, max (u + 1) v} B f
-      (fun _ => inferInstance)).val.obj F) (op ⟨V, w⟩))
+      (fun _ => inferInstance)).val.obj F) (op (Functor.elementsMk _ V w)))
     ((finiteSupportPushforwardGenerator B f F V E) a)
   have h2 := ConcreteCategory.congr_hom (fShriekStalkIso_comp_sheafification.{u, v} B f s F)
     (finiteSupportStalkGenerator.{u, v} B f F s
@@ -538,7 +538,7 @@ public theorem colim_map_etaleGerm {S : Scheme.{u}} {hS : B.Contains S} (t : Geo
         (geometricPointFiber B S hS t)).op φ)) (etaleGerm B S hS t P W q a) =
       etaleGerm B S hS t Q W q (φ.app (op W) a) :=
   ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π
-    (geometricPointFiber B S hS t)).op φ) (op ⟨W, q⟩)) a
+    (geometricPointFiber B S hS t)).op φ) (op (Functor.elementsMk _ W q))) a
 
 /-- The sheafified piece, before the covariance of Stacks 0F6S, on the germ of a generator: the
 germ of the generator of the image support carrying the restricted section. -/
@@ -549,7 +549,7 @@ public theorem sheafFiber_map_compPieceLift_germ (W : SmallEtale B Z.obj Z.prope
     ((geometricPointSitePoint B Z.obj Z.property s).sheafFiber
         (A := AddCommGrpCat.{max (u + 1) v})).map
       (⟨sheafifyLift (SmallEtale.topology B Z.obj Z.property)
-        (compPiecePresheafMap B g sq hsq F) (Sheaf.cond _)⟩ :
+        (compPiecePresheafMap B g sq hsq F) (ObjectProperty.FullSubcategory.property _)⟩ :
         (openShriekPushforward.{u, v} B jX (f ≫ g)).obj F ⟶ _)
       (etaleGerm B Z.obj Z.property s
         ((fShriekFunctor.{u, v} B (jX ≫ f ≫ g)).obj ((openRestriction.{u, v} B jX).obj F)).obj
@@ -576,7 +576,7 @@ public theorem sheafFiber_map_compPieceLift_germ (W : SmallEtale B Z.obj Z.prope
         ((finiteSupportPushforward.{u, max (u + 1) v} B (jX ≫ f ≫ g)
           (fun _ => inferInstance)).val.obj ((openRestriction.{u, v} B jX).obj F)) ≫
         sheafifyLift (SmallEtale.topology B Z.obj Z.property)
-          (compPiecePresheafMap B g sq hsq F) (Sheaf.cond _) =
+          (compPiecePresheafMap B g sq hsq F) (ObjectProperty.FullSubcategory.property _) =
       compPiecePresheafMap B g sq hsq F := by
     rw [toSheafify_sheafifyLift]
   refine (ConcreteCategory.congr_hom (NatTrans.congr_app hL (op W))
@@ -619,7 +619,7 @@ public theorem compPieceFiberStalksMap_fiberStalkSum (W : SmallEtale B Z.obj Z.p
   refine congrArg
     (fun z => (fShriekStalkIso.{u, v} B g s ((fShriekFunctor.{u, v} B f).obj F)).hom z) ?_
   have hc : compPieceMap B g sq hsq F = (⟨sheafifyLift (SmallEtale.topology B Z.obj Z.property)
-        (compPiecePresheafMap B g sq hsq F) (Sheaf.cond _)⟩ :
+        (compPiecePresheafMap B g sq hsq F) (ObjectProperty.FullSubcategory.property _)⟩ :
         (openShriekPushforward.{u, v} B jX (f ≫ g)).obj F ⟶ _) ≫
       (openCovarianceShriekMap.{u, v} B jY g).app ((fShriekFunctor.{u, v} B f).obj F) := rfl
   rw [hc, Functor.map_comp]

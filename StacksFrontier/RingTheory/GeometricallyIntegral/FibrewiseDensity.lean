@@ -354,7 +354,6 @@ theorem injective_bigPhi_tmul_of_free [Module.Free A' (A' ⊗[A] B)]
             ((_root_.TensorProduct.lid A' (A' ⊗[A] B)).symm x)) := by
       intro x
       induction x with
-      | zero => simp [hrhodef]
       | tmul a b => simp [hrhodef, Algebra.smul_def]
       | add x y hx hy => simp [map_add, hx, hy]
     rw [show (rho : _ → _) = _ from funext hcomp]

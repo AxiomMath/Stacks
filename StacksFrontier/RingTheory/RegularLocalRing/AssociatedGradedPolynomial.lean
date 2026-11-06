@@ -364,13 +364,13 @@ theorem injective_polyGradedHom (I : Ideal A) (x : Fin c → A) (hx : ∀ i, x i
       have hmem : MvPolynomial.eval x (P m) ∈ I ^ (m + 1) := by
         rw [mk, Submodule.Quotient.mk_eq_zero] at hval
         simpa only [Submodule.mem_comap, Submodule.coe_subtype, ring_power_eq] using hval
-      have hcoeff : ∀ e, MvPolynomial.coeff e (P m) ∈ I := fun e => by
+      have hcoeff : ∀ e, (P m).coeff e ∈ I := fun e => by
         have := Stacks.RegularLocalRing.Domain.coeff_mem_of_isHomogeneous_of_eval_mem hqr
           (hPhom m) (by rwa [show Jid x = I from hI]) e
         rwa [show Jid x = I from hI] at this
       rw [← hPmap m]
       refine MvPolynomial.ext _ _ fun e => ?_
-      rw [MvPolynomial.coeff_map, MvPolynomial.coeff_zero,
+      rw [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
         Ideal.Quotient.eq_zero_iff_mem]
       exact hcoeff e
     · exact MvPolynomial.homogeneousComponent_eq_zero _ _ (by

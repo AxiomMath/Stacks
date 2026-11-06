@@ -182,7 +182,7 @@ theorem exists_sections_forall_exists_mem_span_of_isFiniteType [IsAffine X]
   have := Stacks.SheafOfModules.isFiniteTypeSections_of_isFiniteType (J := ProEt.topology X) M
   exists_sections_forall_exists_mem_span_of_isFiniteTypeSections hX M.val
     ((SheafOfModules.toSheaf R ⋙
-      sheafCompose _ (CategoryTheory.forget AddCommGrpCat.{t})).obj M).cond
+      sheafCompose _ (CategoryTheory.forget AddCommGrpCat.{t})).obj M).property
 
 /-- Reindexing a family of global sections by `ULift (Fin n)` does not change the range of its
 values. -/

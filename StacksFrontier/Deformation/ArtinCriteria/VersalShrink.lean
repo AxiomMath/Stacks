@@ -438,11 +438,6 @@ public theorem isVersalAt_open_iff
 
 /-! ### Shrinking the base -/
 
--- The slice functor `CategoryTheory.Over.post` is a plain `def`, so goals reading an object
--- of the site in `Over S` are not type-correct at `implicit` transparency.  Naming it here is
--- what lets `rw`, `change` and instance search see through exactly it and nothing else.
-attribute [local implicit_reducible] CategoryTheory.Over.post
-
 /-- Restricting along a strongly Cartesian arrow over the inclusion of an open `W` of the base of
 `x` gives an open-immersion arrow `r : x' ⟶ x` whose source has base `W`. -/
 private theorem exists_restrict_open

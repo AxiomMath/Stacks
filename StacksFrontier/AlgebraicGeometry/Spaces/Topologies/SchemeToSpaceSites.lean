@@ -1226,6 +1226,7 @@ public theorem etaleSchemeToSpace_isSpecialCocontinuous
   exact specialCocontinuous_of_full_coverDense _ _ _
     (etale_isCoverPreserving T h)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0DFV, fppf case.** The Yoneda inclusion of schemes into
 algebraic spaces is special cocontinuous for the big fppf sites. -/
 @[stacks 0DFV "fppf case"]
@@ -1268,6 +1269,7 @@ public theorem phSchemeToSpace_isSpecialCocontinuous
   have := ph_faithful T
   exact specialCocontinuous_of_full_coverDense _ _ _ (ph_isCoverPreserving T)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0DFV, étale case: the identification of topoi.** The inclusion of schemes into
 algebraic spaces induces an equivalence between the big étale topos of the scheme site and the
 big étale topos of the algebraic-space site. -/
@@ -1281,6 +1283,7 @@ public noncomputable def etaleSchemeToSpaceSheafEquiv {S : Scheme.{u}}
   haveI := (etaleSchemeToSpace_isSpecialCocontinuous T h).2
   Functor.IsDenseSubsite.sheafEquiv _ _ (etaleSchemeToSpace T h) _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0DFV, fppf case: the identification of topoi.** The Yoneda inclusion of schemes
 into algebraic spaces induces an equivalence between the big fppf topos of the scheme site and
 the big fppf topos of the algebraic-space site. -/
@@ -1294,6 +1297,7 @@ public noncomputable def fppfSchemeToSpaceSheafEquiv {S : Scheme.{u}}
   Functor.IsDenseSubsite.sheafEquiv _ _
     (AlgebraicGeometry.schemeSpaceFunctor T.schemeSite S T.scheme_mem) _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0DFV, ph case: the identification of topoi.** The inclusion of schemes into
 algebraic spaces induces an equivalence between the big ph topos of the scheme site and the
 big ph topos of the algebraic-space site. -/

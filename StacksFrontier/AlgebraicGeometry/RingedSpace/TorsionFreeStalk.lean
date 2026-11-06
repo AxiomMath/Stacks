@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.RingedSpace.TorsionFree
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkwiseExactness
+public import Mathlib.Algebra.GroupWithZero.Action.Regular
 
 /-!
 # Torsion freeness over the target, on submodules and from the sections

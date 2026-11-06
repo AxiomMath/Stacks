@@ -77,9 +77,9 @@ noncomputable def polyRecord (ε : A →ₐ[k] k) (I : Ideal A) (hεI : ∀ a : 
     {n : ℕ} (x : Fin n → P) (H : MvPolynomial (Fin n) A)
     (hH : MvPolynomial.map (ε : A →+* k) H = 0) : (↥I) ⊗[k] P :=
   ∑ m ∈ H.support,
-    (⟨MvPolynomial.coeff m H, hεI _ (by
+    (⟨H.coeff m, hεI _ (by
       have hc := MvPolynomial.coeff_map (ε : A →+* k) H m
-      rw [hH, MvPolynomial.coeff_zero] at hc
+      rw [hH, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hc
       exact hc.symm)⟩ : ↥I) ⊗ₜ[k] aeval x ((MvPolynomial.monomial m) (1 : k))
 
 /-- **The defining property of `polyRecord`**, for *every* family of lifts of the generators:
@@ -100,14 +100,14 @@ theorem polyRecord_spec (ε : A →ₐ[k] k) (π : Q →+* P) (I : Ideal A)
         aeval x ((MvPolynomial.monomial m) (1 : k)) := by
     intro m
     rw [MvPolynomial.hom_aeval_eq_aeval_map ε π hconst hq, MvPolynomial.map_monomial, map_one]
-  have hterm : ∀ m : Fin n →₀ ℕ, ∀ hm : MvPolynomial.coeff m H ∈ I,
-      θ ((⟨MvPolynomial.coeff m H, hm⟩ : ↥I) ⊗ₜ[k]
+  have hterm : ∀ m : Fin n →₀ ℕ, ∀ hm : H.coeff m ∈ I,
+      θ ((⟨H.coeff m, hm⟩ : ↥I) ⊗ₜ[k]
           aeval x ((MvPolynomial.monomial m) (1 : k))) =
-        aeval q ((MvPolynomial.monomial m) (MvPolynomial.coeff m H)) := by
+        aeval q ((MvPolynomial.monomial m) (H.coeff m)) := by
     intro m hm
     rw [← hmono m, hθ]
-    rw [show (MvPolynomial.monomial m) (MvPolynomial.coeff m H) =
-        MvPolynomial.C (MvPolynomial.coeff m H) * (MvPolynomial.monomial m) (1 : A) from by
+    rw [show (MvPolynomial.monomial m) (H.coeff m) =
+        MvPolynomial.C (H.coeff m) * (MvPolynomial.monomial m) (1 : A) from by
       rw [MvPolynomial.C_mul_monomial, mul_one]]
     rw [map_mul, MvPolynomial.aeval_C, ← Algebra.smul_def]
   rw [polyRecord, map_sum]

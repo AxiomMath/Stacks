@@ -65,7 +65,7 @@ theorem obj_eq_preimage_of_iso (G : Subfunctor F) {U V : C} (φ : U ≅ V) :
   have h := G.map φ.inv hx
   rw [Set.mem_preimage] at h
   have hid : F.map φ.inv (F.map φ.hom x) = x := by
-    rw [← FunctorToTypes.map_comp_apply, φ.hom_inv_id, FunctorToTypes.map_id_apply]
+    rw [← Functor.map_comp_apply, φ.hom_inv_id, Functor.map_id_apply]
   rwa [hid] at h
 
 /-- **Subfunctors of a presheaf of `w`-types on a category essentially small at `w` form a

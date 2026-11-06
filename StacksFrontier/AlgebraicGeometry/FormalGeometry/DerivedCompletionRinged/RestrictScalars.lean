@@ -250,8 +250,8 @@ theorem restrictScalars_map_globalSectionToEnd
     (g : (R.obj ⋙ forget RingCat).sections) (g' : (R'.obj ⋙ forget RingCat).sections)
     (hg : ∀ U, α.hom.app U (g.val U) = g'.val U) (M : SheafOfModules.{w} R') :
     (SheafOfModules.restrictScalars.{w} α).map
-        ((Stacks.SheafOfModules.globalSectionToEnd R' g').app M) =
-      (Stacks.SheafOfModules.globalSectionToEnd R g).app
+        ((Stacks.SheafOfModules.globalSectionToEnd R' g').asHom.app M) =
+      (Stacks.SheafOfModules.globalSectionToEnd R g).asHom.app
         ((SheafOfModules.restrictScalars.{w} α).obj M) := by
   ext V x
   exact congrArg (fun s : R'.obj.obj V ↦ s • (show M.val.obj V from x)) (hg V).symm
@@ -263,8 +263,8 @@ theorem restrictScalars_map_terminalSectionToEnd
     (T : C) (hT : IsTerminal T) (f : R.obj.obj (op T)) (M : SheafOfModules.{w} R') :
     (SheafOfModules.restrictScalars.{w} α).map
         ((Stacks.SheafOfModules.terminalSectionToEnd R' T hT
-          (α.hom.app (op T) f)).app M) =
-      (Stacks.SheafOfModules.terminalSectionToEnd R T hT f).app
+          (α.hom.app (op T) f)).asHom.app M) =
+      (Stacks.SheafOfModules.terminalSectionToEnd R T hT f).asHom.app
         ((SheafOfModules.restrictScalars.{w} α).obj M) := by
   refine restrictScalars_map_globalSectionToEnd α _ _ (fun U ↦ ?_) M
   show α.hom.app U (R.obj.map (hT.from U.unop).op f)
@@ -507,9 +507,9 @@ theorem isDerivedComplete_restrictScalars_of_extendIdeal (α : O ⟶ O')
     (fun Z => by
       refine HomologicalComplex.hom_ext _ _ fun n => ?_
       show AU.map ((SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
-            Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).app (Z.X n) ≫ 𝟙 (Z.X n)) =
+            Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).asHom.app (Z.X n) ≫ 𝟙 (Z.X n)) =
           (SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal
-            f).app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))
+            f).asHom.app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))
       refine (congrArg (fun g => AU.map g) (Category.comp_id _)).trans ?_
       exact (RingedSite.restrictScalars_map_terminalSectionToEnd φ
         (Over.mk (𝟙 U)) Over.mkIdTerminal f (Z.X n)).trans (Category.comp_id _).symm)

@@ -107,7 +107,7 @@ object of the fibre of the category of elements of `F` over `A`. -/
 public noncomputable def classOfElement (F : C ⥤ Type t)
     (hq : IsCofiberedInGroupoids (CategoryOfElements.π F)) {A : C} (a : F.obj A) :
     (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq).obj A :=
-  classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq ⟨⟨A, a⟩, rfl⟩
+  classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq ⟨F.elementsMk A a, rfl⟩
 
 /-- A category of elements is its own functor of fibrewise isomorphism classes: taking the
 class of an element is a bijection `F(A) → \overline{F}(A)`.
@@ -122,17 +122,19 @@ public theorem bijective_classOfElement (F : C ⥤ Type t)
   · have hcast := congrArg (cast (isomorphismClasses_obj
       (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq A)) hab
     have hqa := classOf_eq (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq
-      (A := A) ⟨⟨A, a⟩, rfl⟩
+      (A := A) ⟨F.elementsMk A a, rfl⟩
     have hqb := classOf_eq (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq
-      (A := A) ⟨⟨A, b⟩, rfl⟩
+      (A := A) ⟨F.elementsMk A b, rfl⟩
     rw [classOfElement, classOfElement, hqa, hqb] at hcast
     obtain ⟨i⟩ := Quotient.exact hcast
-    have hbase : i.hom.1.val = 𝟙 A := by
+    have hbase : i.hom.1.hom = 𝟙 A := by
       have : (CategoryOfElements.π F).IsHomLift (𝟙 A) i.hom.1 := i.hom.2
-      simpa [CategoryOfElements.π] using
-        (IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) i.hom.1).symm
-    simpa [hbase] using i.hom.1.property
-  · obtain ⟨⟨⟨B, b⟩, hB⟩, hx⟩ :=
+      have h := (IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) i.hom.1).symm
+      simp only [CategoryOfElements.π] at h
+      erw [eqToHom_refl, Category.id_comp, Category.comp_id] at h
+      exact h
+    simpa [hbase] using i.hom.1.map_val
+  · obtain ⟨⟨@⟨B, b⟩, hB⟩, hx⟩ :=
       classOf_surjective (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq A z
     change B = A at hB
     cases hB
@@ -155,10 +157,13 @@ public theorem elementsIsomorphismClassesEquiv_naturality (F : C ⥤ Type t)
       (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq).map f
         (elementsIsomorphismClassesEquiv F hq A a) := by
   let g : F.elementsMk A a ⟶ F.elementsMk B (F.map f a) :=
-    CategoryOfElements.homMk (F.elementsMk A a) (F.elementsMk B (F.map f a)) f rfl
+    Functor.Elements.homMk f rfl
   have : (BasedCategory.ofFunctor (CategoryOfElements.π F)).p.IsHomLift f g :=
     IsHomLift.of_fac' (CategoryOfElements.π F) f g rfl rfl
-      (by simp [g, CategoryOfElements.homMk, CategoryOfElements.π])
+      (by
+        simp only [g, Functor.Elements.homMk, CategoryOfElements.π]
+        erw [eqToHom_refl, Category.id_comp, Category.comp_id]
+        rfl)
   exact (map_classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq f
     ⟨F.elementsMk A a, rfl⟩ ⟨F.elementsMk B (F.map f a), rfl⟩ g).symm
 

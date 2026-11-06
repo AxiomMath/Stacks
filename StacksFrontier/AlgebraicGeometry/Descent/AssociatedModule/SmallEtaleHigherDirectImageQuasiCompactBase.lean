@@ -66,8 +66,16 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 
 namespace AlgebraicGeometry.SmallEtale
 
+/-- Products of `𝒪`-modules on the small étale site, supplied directly: instance search for
+them times out under Lean v4.35.0. -/
+private instance (priority := high) hasProducts_smallEtaleHigherDirectImageQuasiCompactBase
+    (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasProducts.{u} (SheafOfModules.{u} (structureSheaf B S hS)) :=
+  fun J => SheafOfModules.hasLimitsOfShape (Discrete J) _
+
 variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (a : X ⟶ Y)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The degree-`q` term of the sheaf-level Čech complex of a covering family `E` is the product,
 over the `(q + 1)`-tuples `i` of members of `E`, of the Čech direct images
 `j_{V_i,*} j_{V_i}^{-1} 𝓕` at the iterated fibre products `V_i`. -/
@@ -92,6 +100,8 @@ public theorem acyclic_pushforward_sheafLevelCechComplex_X_of_isSeparatedHom
     Stacks.RightDerivedComp.acyclic
       (SheafOfModules.pushforward.{u} (smallEtaleStructureMapRing B a))
       (((sheafLevelCechComplex B X.obj X.property E).obj 𝓕).X q) := by
+  have : Finite (Fin (q + 1) → E.I₀) :=
+    @Pi.finite _ _ (Finite.of_fintype (Fin (q + 1))) fun _ ↦ ‹Finite E.I₀›
   exact Stacks.RightDerivedComp.acyclic_pi
     (SheafOfModules.pushforward.{u} (smallEtaleStructureMapRing B a))
     (fun i : Fin (q + 1) → E.I₀ ↦

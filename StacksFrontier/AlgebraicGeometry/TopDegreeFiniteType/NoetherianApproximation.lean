@@ -166,7 +166,12 @@ theorem isFiniteType_rightDerived_of_isFinitePresentation_case
     rw [← Category.assoc, ← hnat, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
   have : Epi (((Scheme.Modules.pushforward f).rightDerivedPlus (d : ℤ)).map φ) := hepi
   have hepi₂ : Epi (((Scheme.Modules.pushforward f).rightDerived d).map φ) := by
-    rw [heq]; infer_instance
+    rw [heq]
+    exact epi_comp'
+      (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((Stacks.DerivedIndexing.rightDerivedIso
+        (Scheme.Modules.pushforward f) d).app A)))
+      (epi_comp' this (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv
+        ((Stacks.DerivedIndexing.rightDerivedIso (Scheme.Modules.pushforward f) d).app F))))
   exact @Stacks.SheafOfModules.isFiniteType_of_epi.{u, u, u} _ _ _ _ _ _ _ _ _
     (((Scheme.Modules.pushforward f).rightDerived d).map φ) hepi₂ (hFP A hA)
 

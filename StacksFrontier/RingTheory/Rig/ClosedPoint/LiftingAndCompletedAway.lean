@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.ENat.SuccOrder
+public import Mathlib.Order.SuccPred.ENat
 public import Mathlib.Data.List.TFAE
 public import Mathlib.LinearAlgebra.TensorProduct.Quotient
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
@@ -193,7 +193,7 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
     let S : Set (Ideal B) := {s | q₀ ≤ s ∧ s.IsPrime ∧
       ¬ topologicalNilradical B ≤ s}
     have hS : S.Nonempty := ⟨q₀, le_rfl, hq₀prime, hbnotq₀⟩
-    have hwf : WellFounded ((· > ·) : Ideal B → Ideal B → Prop) := IsWellFounded.wf
+    have hwf : WellFounded ((· > ·) : Ideal B → Ideal B → Prop) := wellFounded_gt
     obtain ⟨q, hqS, hqmax⟩ := hwf.has_min S hS
     rcases hqS with ⟨hq₀q, hqprime, hbnotq⟩
     have hmaxAvoid : Ideal.IsMaximalAmongPrimesAvoiding

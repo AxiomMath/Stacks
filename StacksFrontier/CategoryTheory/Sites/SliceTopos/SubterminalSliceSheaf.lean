@@ -150,7 +150,7 @@ theorem isSheaf_extend (hF : Presheaf.IsSheaf J F)
           (srcIso hsupp (F.map (j.map g ≫ (srcIso hsupp s₀).hom).op q.1)).hom ≫
             (j.map g ≫ (srcIso hsupp s₀).hom) ≫ (srcIso hsupp s₀).inv = j.map g
       simp
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, hkey]
+    rw [← Functor.map_comp_apply, ← op_comp, hkey]
 
 section Equivalence
 

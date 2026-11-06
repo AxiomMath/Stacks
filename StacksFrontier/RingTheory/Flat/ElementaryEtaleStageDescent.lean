@@ -209,7 +209,6 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
   have hψleft : ψ.toRingHom.comp g = algebraMap (B ⊗[C] E) Q.ResidueField := by
     refine RingHom.ext fun z => ?_
     induction z with
-    | zero => simp
     | tmul b y =>
       show ψ (g (b ⊗ₜ[C] y)) = _
       rw [show g (b ⊗ₜ[C] y) = b ⊗ₜ[C] ρ y from rfl, hψdef]
@@ -268,7 +267,6 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
       algebraMap (B ⊗[C] Λ) P.ResidueField := by
     refine RingHom.ext fun z => ?_
     induction z with
-    | zero => simp
     | tmul b l =>
       show Ideal.ResidueField.map Q P g hQ (ψ (b ⊗ₜ[C] l)) = _
       rw [hψdef, Algebra.TensorProduct.lift_tmul, map_mul, hf₁apply b,

@@ -768,7 +768,7 @@ private lemma closedCoverSection_pi {ι : Type v} [Finite ι]
         Pi.π (fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) i =
       ((Scheme.Modules.pushforward (f i)).obj (L i)).unitHomEquiv.symm
         (SheafOfModules.pushforwardSections (f i).toRingCatSheafHom (s i)) :=
-  Pi.lift_π (f := fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) _ i
+  Pi.lift_comp_π (f := fun j => (Scheme.Modules.pushforward (f j)).obj (L j)) _ i
 
 private alias adjoint_section_eq := StacksTag09NE.adjoint_section_eq
 

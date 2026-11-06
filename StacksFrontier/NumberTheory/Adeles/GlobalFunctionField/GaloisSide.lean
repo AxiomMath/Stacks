@@ -192,7 +192,7 @@ public theorem IsGeometricFrobeniusAt.isConj [ConnectedSpace X] {base : Geometri
   obtain ⟨x, hx, _, t, rfl⟩ := hF
   obtain ⟨x', hx', _, t', rfl⟩ := hF'
   obtain rfl := eq_of_isCentreOf f hx hx'
-  let g : EtaleFundamentalGroup X base := t.symm ≪≫ t'
+  let g : EtaleFundamentalGroup X base := Aut.of (t.symm ≪≫ t')
   have hg : (Stacks.EtaleCohomology.frobeniusDataOfPath base x t').element =
       g * (Stacks.EtaleCohomology.frobeniusDataOfPath base x t).element * g⁻¹ := by
     rw [← FrobeniusData.element_path_trans]

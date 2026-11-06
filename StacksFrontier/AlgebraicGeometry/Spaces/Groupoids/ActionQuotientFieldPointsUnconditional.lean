@@ -85,7 +85,7 @@ theorem exists_galois_equivariant_lift
       (hf : f ≫ (underlyingOver B hS V).hom =
         Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b),
       (∀ h : H,
-        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) ∧
+        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) ∧
       IsQuotientLift B hS V G a K hK b ξ L f hf :=
   exists_galois_equivariant_lift_of_descent B hS V G a K hK b ha ξ
     (isEffectiveDescentAlongCoveringSieve_monomorphisms_inf_lft B S hS)
@@ -112,7 +112,7 @@ theorem exists_galois_equivariant_lift_and_existsUnique_quotientPoint
         (hf : f ≫ (underlyingOver B hS V).hom =
           Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b),
         (∀ h : H,
-          Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) ∧
+          Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) ∧
         IsQuotientLift B hS V G a K hK b ξ L f hf) ∧
     (∀ (L : Type u) [Field L] [Algebra K L] [FiniteDimensional K L] [IsGalois K L]
       (H : Subgroup G) [Finite H] (e : H ≃* (L ≃ₐ[K] L))
@@ -120,7 +120,7 @@ theorem exists_galois_equivariant_lift_and_existsUnique_quotientPoint
       (hf : f ≫ (underlyingOver B hS V).hom =
         Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b),
       (∀ h : H,
-        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) →
+        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) →
       ∃! ξ : (actionQuotient G B hS V a).obj (op (fieldObject (hS := hS) K hK b)),
         IsQuotientLift B hS V G a K hK b ξ L f hf) :=
   ⟨exists_galois_equivariant_lift B hS V G a K hK b ha,

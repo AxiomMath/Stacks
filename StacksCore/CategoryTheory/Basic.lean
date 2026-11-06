@@ -31,8 +31,8 @@ to its endomorphism monoid, which for groupoids is a group by `CategoryTheory.En
 instance CategoryTheory.SingleObj.isEquivalence_functor {C : Type*} [Category* C]
     [Subsingleton C] {X : C} {M : Type*} [Monoid M] (f : M ≃* End X) :
     (functor f.toMonoidHom).IsEquivalence where
-  full := ⟨f.surjective⟩
-  faithful := ⟨fun h ↦ f.injective h⟩
+  full := ⟨End.homEquiv.surjective.comp f.surjective⟩
+  faithful := ⟨fun h ↦ f.injective (End.homEquiv.injective h)⟩
   essSurj := ⟨fun _ ↦ ⟨star M, ⟨eqToIso <| Subsingleton.elim _ _⟩⟩⟩
 
 add_to_stacks 001A CategoryTheory.instGroupoidDiscrete

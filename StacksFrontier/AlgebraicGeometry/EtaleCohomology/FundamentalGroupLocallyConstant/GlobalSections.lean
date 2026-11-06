@@ -51,7 +51,7 @@ variable (Λ : Type r) [Ring Λ] (G : Type u') [Group G] [TopologicalSpace G]
 /-- The invariants of a finite `Λ`-module with a continuous action of `G`, as a submodule. -/
 def finiteTypeContinuousModuleInvariantsSubmodule (M : FiniteTypeContinuousModule.{r, u', w} Λ G) :
     Submodule Λ M.obj.obj.obj.V where
-  carrier := {x | ∀ g : G, ConcreteCategory.hom (M.obj.obj.obj.ρ g) x = x}
+  carrier := {x | ∀ g : G, ConcreteCategory.hom (M.obj.obj.obj.ρ g).asHom x = x}
   zero_mem' := fun _ ↦ map_zero _
   add_mem' := fun ha hb g ↦ by rw [map_add, ha g, hb g]
   smul_mem' := fun a _ hx g ↦ by rw [map_smul, hx g]
@@ -72,7 +72,7 @@ def finiteTypeContinuousModuleInvariants :
 theorem mem_finiteTypeContinuousModuleInvariantsSubmodule
     {M : FiniteTypeContinuousModule.{r, u', w} Λ G} (x : M.obj.obj.obj.V) :
     x ∈ finiteTypeContinuousModuleInvariantsSubmodule Λ G M ↔
-      ∀ g : G, ConcreteCategory.hom (M.obj.obj.obj.ρ g) x = x :=
+      ∀ g : G, ConcreteCategory.hom (M.obj.obj.obj.ρ g).asHom x = x :=
   Iff.rfl
 
 end Stacks.GroupCohomology

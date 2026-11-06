@@ -146,17 +146,30 @@ triple complex: on the summand `A^{p, q, r}` it is `d₁ + (-1)^p d₂ + (-1)^{p
 @[stacks 08BI "the tag's `d₁ + (-1)^p d₂ + (-1)^{p + q} d₃` on `A^{p, q, r}`, over `ℤ`"]
 theorem ιTotal₁₂_d_up_ℤ (p q r n : ℤ) (h : p + q + r = n) :
     A.ιTotal₁₂ (up ℤ) (up ℤ) p q r n h ≫ (A.total₁₂ (up ℤ) (up ℤ)).d n (n + 1) =
-      ((A.d p (p + 1)).f q).f r ≫ A.ιTotal₁₂ (up ℤ) (up ℤ) (p + 1) q r (n + 1) (by dsimp; lia) +
+      ((A.d p (p + 1)).f q).f r ≫ A.ιTotal₁₂ (up ℤ) (up ℤ) (p + 1) q r (n + 1)
+        (by
+          change p + 1 + q + r = n + 1
+          rw [← h, Int.add_right_comm p 1 q, Int.add_right_comm (p + q) 1 r]) +
         p.negOnePow •
           (((A.X p).d q (q + 1)).f r ≫ A.ιTotal₁₂ (up ℤ) (up ℤ) p (q + 1) r (n + 1)
-            (by dsimp; lia)) +
+            (by
+              change p + (q + 1) + r = n + 1
+              rw [← h, ← Int.add_assoc p q 1, Int.add_right_comm (p + q) 1 r])) +
         (p + q).negOnePow •
           (((A.X p).X q).d r (r + 1) ≫ A.ιTotal₁₂ (up ℤ) (up ℤ) p q (r + 1) (n + 1)
-            (by dsimp; lia)) := by
+            (by
+              change p + q + (r + 1) = n + 1
+              rw [← h]; exact (Int.add_assoc (p + q) r 1).symm)) := by
   rw [total₁₂_d, Preadditive.comp_add, Preadditive.comp_add, ι_D₁, ι_D₂, ι_D₃,
-    A.d₁_eq (up ℤ) (up ℤ) (i₁ := p) (i₁' := p + 1) rfl q r (n + 1) (by dsimp; lia),
-    A.d₂_eq (up ℤ) (up ℤ) p (i₂ := q) (i₂' := q + 1) rfl r (n + 1) (by dsimp; lia),
-    A.d₃_eq (up ℤ) (up ℤ) p q (i₃ := r) (i₃' := r + 1) rfl (n + 1) (by dsimp; lia)]
+    A.d₁_eq (up ℤ) (up ℤ) (i₁ := p) (i₁' := p + 1) rfl q r (n + 1) (by
+      change p + 1 + q + r = n + 1
+      rw [← h, Int.add_right_comm p 1 q, Int.add_right_comm (p + q) 1 r]),
+    A.d₂_eq (up ℤ) (up ℤ) p (i₂ := q) (i₂' := q + 1) rfl r (n + 1) (by
+      change p + (q + 1) + r = n + 1
+      rw [← h, ← Int.add_assoc p q 1, Int.add_right_comm (p + q) 1 r]),
+    A.d₃_eq (up ℤ) (up ℤ) p q (i₃ := r) (i₃' := r + 1) rfl (n + 1) (by
+      change p + q + (r + 1) = n + 1
+      rw [← h]; exact (Int.add_assoc (p + q) r 1).symm)]
   simp
 
 end upℤ

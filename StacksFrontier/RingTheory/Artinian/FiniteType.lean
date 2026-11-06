@@ -36,6 +36,8 @@ public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 public import StacksFrontier.RingTheory.Spectrum.Prime.Profinite
+public import Mathlib.RingTheory.Spectrum.Prime.Jacobson
+public import Mathlib.RingTheory.Finiteness.NilpotentKer
 import StacksFrontier.Topology.Dimension.DimensionLEOne
 import StacksCore.Tactic.EgaSgaAttribute
 

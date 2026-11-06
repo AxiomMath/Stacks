@@ -167,7 +167,7 @@ theorem compactSupportFieldExtensionIso_comm (m : ℕ)
           (pullback.fst f (specAlgebraMap k k'))).mapCochainComplexPlus.obj K) ≫
       (compactSupportFieldExtensionIso Λ f j k' kbar K).hom =
     (compactSupportFieldExtensionIso Λ f j k' kbar K).hom ≫
-      (End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) ^ (m + 1) := by
+      ((End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) ^ (m + 1)).asHom := by
   have h₁ := frobeniusRestrictionCohomologyEndo_naturality (Λ := Λ)
     (extensionOver (Over.mk j.toBase) k') kbar p (q * (m + 1)) hcard'
     (compactificationFieldBaseChangeExtensionByZeroComplexIso Λ f j k' K).hom

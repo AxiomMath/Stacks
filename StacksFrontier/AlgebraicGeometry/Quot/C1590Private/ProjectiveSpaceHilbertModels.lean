@@ -82,7 +82,7 @@ def hilbertModelSubfunctorIso (P : Polynomial ℚ) :
             (hilbertSubfunctor (projectiveSpaceFrame n U) P).obj T
         rw [Iso.inv_hom_id_app_apply]
         exact x.2⟩⟩
-      left_inv := fun z => ULift.ext _ _ (Subtype.ext (congrArg ULift.down
+      left_inv := fun z => ULift.ext (Subtype.ext (congrArg ULift.down
         (Iso.hom_inv_id_app_apply (projectiveSpaceQuotModel n U).iso T ⟨z.down.1⟩)))
       right_inv := fun x => Subtype.ext
         (Iso.inv_hom_id_app_apply (projectiveSpaceQuotModel n U).iso T x.1) }) fun {T T'} g => by

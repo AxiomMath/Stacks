@@ -218,7 +218,7 @@ private theorem isSmooth_uliftElementsBasedFunctor'
       (𝟙 y.1) (𝟙 y)
     exact IsHomLift.id rfl
   · apply CategoryOfElements.ext
-    show g.val = (𝟙 y.1) ≫ g.val
+    show g.hom = (𝟙 y.1) ≫ g.hom
     simp only [Category.id_comp]
 
 end Auxiliary
@@ -322,11 +322,11 @@ private theorem surjective_base_of_hom_to_descendedObject
     apply CompleteLocalAlgCat.Hom.ext
     rw [E.quotientPoint_hom n, Ep.quotientPoint_hom n]
   let d (n : ℕ) : (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj :=
-    ⟨AdicTruncation.obj ξ.base n, E.quotientPoint n⟩
+    U.elementsMk (AdicTruncation.obj ξ.base n) (E.quotientPoint n)
   let dP (n : ℕ) : (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj :=
-    ⟨AdicTruncation.obj ξ.base n, Ep.quotientPoint n⟩
+    U.elementsMk (AdicTruncation.obj ξ.base n) (Ep.quotientPoint n)
   have hd (n : ℕ) : d n = dP n :=
-    congrArg (fun z => (⟨AdicTruncation.obj ξ.base n, z⟩ :
+    congrArg (fun z => (U.elementsMk (AdicTruncation.obj ξ.base n) z :
       (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj)) (hpoint n)
   have hε (n : ℕ) : g.obj (α.toFunctor.obj (d n)) = f.toFunctor.obj (dP n) :=
     (Functor.congr_obj hgf (d n)).trans (congrArg f.toFunctor.obj (hd n))
@@ -368,26 +368,22 @@ private theorem surjective_base_of_hom_to_descendedObject
       naturality := by
         intro n
         let cE : d (n + 1) ⟶ d n :=
-          CategoryOfElements.homMk _ _ (AdicTruncation.transition ξ.base n)
+          Functor.Elements.homMk (AdicTruncation.transition ξ.base n)
             (E.projectionPoint n)
         let cP : dP (n + 1) ⟶ dP n :=
-          CategoryOfElements.homMk _ _ (AdicTruncation.transition ξ.base n)
+          Functor.Elements.homMk (AdicTruncation.transition ξ.base n)
             (Ep.projectionPoint n)
         have hval (m : ℕ) :
-            (eqToHom (hd m) : d m ⟶ dP m).val =
+            (eqToHom (hd m) : d m ⟶ dP m).hom =
               𝟙 (AdicTruncation.obj ξ.base m) := by
           have hfst : congrArg (CategoryOfElements.π U).obj (hd m) = rfl := by
             simp [hd, d]
-          calc
-            _ = (CategoryOfElements.π U).map (eqToHom (hd m)) := rfl
-            _ = eqToHom (congrArg (CategoryOfElements.π U).obj (hd m)) := eqToHom_map _ _
-            _ = 𝟙 _ := by rw [hfst]; rfl
+          exact (eqToHom_map (CategoryOfElements.π U) (hd m)).trans (by rw [hfst]; rfl)
         have hc : cE ≫ eqToHom (hd n) = eqToHom (hd (n + 1)) ≫ cP := by
-          apply CategoryOfElements.ext
-          show cE.val ≫ (eqToHom (hd n) : d n ⟶ dP n).val =
-            (eqToHom (hd (n + 1)) : d (n + 1) ⟶ dP (n + 1)).val ≫ cP.val
+          apply Functor.Elements.hom_ext
+          show cE.hom ≫ (eqToHom (hd n) : d n ⟶ dP n).hom =
+            (eqToHom (hd (n + 1)) : d (n + 1) ⟶ dP (n + 1)).hom ≫ cP.hom
           rw [hval, hval, Category.comp_id, Category.id_comp]
-          rfl
         have hE : α.map cE ≫ (E.levelIso α n).hom =
             (E.levelIso α (n + 1)).hom ≫ ξQ.transition n := E.transition_comm α n
         have hEi : ξQ.transition n ≫ (E.levelIso α n).inv =
@@ -546,7 +542,7 @@ private theorem isEquivalence_presentationMorphism [IsNoetherianRing Λ] [Module
   obtain ⟨hUdef, -, -⟩ := (isProrepresentable_iff_isDeformationFunctor U).mp hU
   let K := residueFieldObject.{u, max v v₃, w} Λ k
   let uK : U.obj K := hUdef.1.some.default
-  let x : (CategoryOfElements.π U).Fiber K := ⟨⟨K, uK⟩, rfl⟩
+  let x : (CategoryOfElements.π U).Fiber K := ⟨U.elementsMk K uK, rfl⟩
   have h₀ : (fiberFunctor f K).EssSurj := by
     let Esp := Classical.choice hpre.specialFiber
     refine ⟨fun y => ?_⟩
@@ -599,7 +595,7 @@ public theorem exists_minimalPresentation [IsNoetherianRing Λ] [Module.Finite �
   -- prorepresentability, Tag 06L7
   obtain ⟨hUdef, -, -⟩ := (isProrepresentable_iff_isDeformationFunctor U).mp hU
   let uK : U.obj (residueFieldObject.{u, max v v₃, w} Λ k) := hUdef.1.some.default
-  let y₀ : U.Elements := ⟨residueFieldObject.{u, max v v₃, w} Λ k, uK⟩
+  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, max v v₃, w} Λ k) uK
   have hy₀ : p.obj (f.toFunctor.obj y₀) = residueFieldObject.{u, max v v₃, w} Λ k :=
     f.w_obj y₀
   let PF : ChosenPushforwardsAt p (f.toFunctor.obj y₀) :=

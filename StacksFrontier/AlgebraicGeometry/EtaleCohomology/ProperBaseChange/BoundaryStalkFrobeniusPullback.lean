@@ -316,7 +316,7 @@ theorem subsingleton_pointSmallEtale_fiber_obj_of_isTerminal {T : Scheme.{u}} {�
   refine ⟨fun a b => ?_⟩
   have h : ∀ c, (pointSmallEtale t).fiber.map e.inv ((pointSmallEtale t).fiber.map e.hom c) = c :=
     fun c => by
-      rw [← FunctorToTypes.map_comp_apply, e.hom_inv_id, FunctorToTypes.map_id_apply]
+      rw [← Functor.map_comp_apply, e.hom_inv_id, Functor.map_id_apply]
   rw [← h a, ← h b, Subsingleton.elim ((pointSmallEtale t).fiber.map e.hom a)]
 
 /-- Bookkeeping for `smallEtaleGlobalSectionsComparison_sheafFiberClosedPointIsoGamma_inv`, in an

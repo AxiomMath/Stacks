@@ -393,7 +393,7 @@ theorem LAdicSheaf.CoefficientSheaf.exists_higherDirectImageStalkLinearEquiv
     intro o u
     have h1 := LinearMap.congr_fun (congrArg ModuleCat.Hom.hom
       (LAdicSheaf.higherDirectImageStalkComparison_naturality B ℓ g jg w hB kbar p n hcard
-        F.toLAdicSheaf r hcond jgw jU Ψ (F.act o))) u
+        F.toLAdicSheaf r hcond jgw jU Ψ (F.act o).asHom)) u
     simp only [ModuleCat.hom_comp] at h1
     exact h1
   let := (F.higherDirectImageShriek B ℓ g jg r).rationalStalkModule s E

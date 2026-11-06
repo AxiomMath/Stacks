@@ -76,6 +76,17 @@ public theorem isOpenImmersion_comp_of_isImmersion_of_subset_range {P X : Scheme
   rw [← morphismRestrict_ι]
   infer_instance
 
+/-- `Stacks.ConstantSheaf.hasSheafify_over_moduleCat` with its universes pinned to the small
+étale site and the coefficient universe `u + 1`; instance search leaves the constraint
+`max (u + 1) u ?x =?= u + 1` stuck. -/
+private theorem hasSheafify_over_moduleCat_succ_aux (B : BigEtaleSite.{u}) (Y : B.Scheme)
+    (Λ : Type (u + 1)) [CommRing Λ] (U : SmallEtale B Y.obj Y.property) :
+    HasSheafify ((SmallEtale.topology B Y.obj Y.property).over U) (ModuleCat.{u + 1} Λ) :=
+  Stacks.ConstantSheaf.hasSheafify_over_moduleCat.{u + 1, u, u + 1, u + 1} _ Λ U
+
+attribute [local instance high] hasSheafify_over_moduleCat_succ_aux
+attribute [-instance] Stacks.ConstantSheaf.hasSheafify_over_moduleCat
+
 variable (B : BigEtaleSite.{u}) (Λ : Type (u + 1)) [CommRing Λ] [IsNoetherianRing Λ]
 
 /-- **A constructible sheaf is locally constant of finite type on an open neighbourhood of each
@@ -133,9 +144,9 @@ public theorem exists_isOpenImmersion_isFiniteTypeLocallyConstant_of_isConstruct
     refine ⟨⟨p, show f.base p ∈ O from hp ▸ hηO⟩, ?_⟩
     rw [hmap]
     exact hp
-  · exact Stacks.ConstantSheaf.isFiniteTypeLocallyConstant_congr _ _
-      ((smallEtaleSheafPullbackCompIso B _ _ X ι' (s.inclusion i) (ModuleCat.{u + 1} Λ)).app G)
-      (isFiniteTypeLocallyConstant_smallEtaleSheafPullback B Λ ι' _ (hs i))
+  · refine Stacks.ConstantSheaf.isFiniteTypeLocallyConstant_congr.{_, _, u + 1, u + 1} _ _
+      ((smallEtaleSheafPullbackCompIso B _ _ X ι' (s.inclusion i) (ModuleCat.{u + 1} Λ)).app G) ?_
+    exact isFiniteTypeLocallyConstant_smallEtaleSheafPullback B Λ ι' _ (hs i)
 
 /-- **A sheaf locally constant of finite type is constant on affine étale neighbourhoods.** Let
 `H` be a sheaf of `Λ`-modules on the small étale site of a scheme `O` of a big étale site which is

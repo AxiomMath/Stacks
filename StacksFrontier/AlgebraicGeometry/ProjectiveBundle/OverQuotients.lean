@@ -78,6 +78,28 @@ universe u
 
 namespace Stacks.Modules
 
+/-- The component of the inverse of a natural isomorphism is an epimorphism; stated directly so
+that instance search does not wander into the functor category's (co)limits. -/
+local instance (priority := high) epi_inv_app_overQuotients {C D : Type*} [Category C]
+    [Category D] {F G : C ⥤ D} (e : F ≅ G) (X : C) : Epi (e.inv.app X) :=
+  IsIso.epi_of_iso _
+
+/-- The component of a natural isomorphism is an epimorphism; stated directly so that instance
+search does not wander into the functor category's (co)limits. -/
+local instance (priority := high) epi_hom_app_overQuotients {C D : Type*} [Category C]
+    [Category D] {F G : C ⥤ D} (e : F ≅ G) (X : C) : Epi (e.hom.app X) :=
+  IsIso.epi_of_iso _
+
+/-- The component of the inverse of a natural isomorphism is a monomorphism. -/
+local instance (priority := high) mono_inv_app_overQuotients {C D : Type*} [Category C]
+    [Category D] {F G : C ⥤ D} (e : F ≅ G) (X : C) : Mono (e.inv.app X) :=
+  IsIso.mono_of_iso _
+
+/-- The component of a natural isomorphism is a monomorphism. -/
+local instance (priority := high) mono_hom_app_overQuotients {C D : Type*} [Category C]
+    [Category D] {F G : C ⥤ D} (e : F ≅ G) (X : C) : Mono (e.hom.app X) :=
+  IsIso.mono_of_iso _
+
 section Coherence
 
 variable {A B C D : Scheme.{u}}
@@ -519,7 +541,8 @@ def symGradedOverQuotient (g : T ⟶ (symGradedBundle F).scheme)
     haveI : Epi (Stacks.ProjectiveBundleSplitting.tautologicalMap F
         (isQuasicoherentPieces_of_isQuasicoherent F)) :=
       Stacks.ProjectiveBundleSplitting.epi_tautologicalMap F _
-    inferInstance
+    epi_comp' (IsIso.epi_of_iso _)
+      (epi_comp' (epi_inv_app_overQuotients _ _) (epi_quotientMapAlong _ _ _))
 
 /-- **The morphisms `T ⟶ Proj_X(Sym F)` over `f : T ⟶ X` are the invertible quotients of
 `f^*F`, up to isomorphism**, on the `SheafGradedAlgebra` presentation of the projective bundle. -/

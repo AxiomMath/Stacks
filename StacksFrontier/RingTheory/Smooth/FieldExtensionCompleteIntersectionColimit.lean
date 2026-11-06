@@ -332,7 +332,9 @@ private theorem exists_hasGoodPresentation_of_le (B : Subalgebra k K) {d : ℕ}
       fun x y h ↦ Subtype.ext (by rw [← hΨB x, ← hΨB y, h])
     refine ⟨Ψ.range, d, fun b hb ↦ ⟨algebraMap B _ ⟨b, hb⟩, hΨB _⟩, ?_,
       (hB.localizationQuotient hg hμ hinjB).range Ψ hΨ1⟩
-    exact ⟨Ideal.Quotient.mk I (MvPolynomial.X ()), by simp [Ψ, Ψ1, Ψ0]⟩
+    refine ⟨Ideal.Quotient.mk I (MvPolynomial.X ()), ?_⟩
+    change Ψ0 (MvPolynomial.X ()) = e
+    exact MvPolynomial.eval₂_X _ _ _
   · have htr : Transcendental B e := by
       rintro ⟨p, hp0, hpe⟩
       refine halg ⟨p.map ι, (Polynomial.map_ne_zero_iff hιinj).2 hp0, ?_⟩
@@ -427,7 +429,7 @@ theorem Subalgebra.exists_finset_subset_smooth [Algebra.IsSeparableExtension k K
   have : Algebra.EssFiniteType k L := IntermediateField.essFiniteType_iff.mpr ⟨s, rfl⟩
   have : Algebra.FormallySmooth k L := by
     obtain ⟨t, ht, hts⟩ := (Algebra.IsSeparableExtension.isSeparablyGenerated (k := k)
-      L).exists_isTranscendenceBasis_and_isSeparable
+      L).isSeparable
     have : Algebra.IsSeparable (IntermediateField.adjoin k (Set.range ((↑) : t → L))) L := by
       rwa [Subtype.range_coe]
     exact Algebra.FormallySmooth.of_algebraicIndependent_of_isSeparable ht.1

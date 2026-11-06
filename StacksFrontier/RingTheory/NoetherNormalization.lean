@@ -6,6 +6,7 @@ public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
 public import Mathlib.RingTheory.KrullDimension.Basic
 import Mathlib.Data.List.Indexes
 import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -95,21 +96,21 @@ private lemma isUnit_leadingCoeff_aeval {k : Type*} [Field k] {m : ℕ} {R : Typ
   classical
   set N : (Fin m →₀ ℕ) → ℕ := fun v => ∑ i, v i * D ^ (i : ℕ) with hNdef
   set T : (Fin m →₀ ℕ) → R[X] :=
-    fun v => Polynomial.C (algebraMap k R (MvPolynomial.coeff v f)) * ∏ i, g i ^ v i with hTdef
+    fun v => Polynomial.C (algebraMap k R (f.coeff v)) * ∏ i, g i ^ v i with hTdef
   have hprodmon : ∀ v : Fin m →₀ ℕ, (∏ i, g i ^ v i).Monic := fun v =>
     monic_prod_of_monic _ _ fun i _ => (hmon i).pow _
   have hproddeg : ∀ v : Fin m →₀ ℕ, (∏ i, g i ^ v i).natDegree = N v := by
     intro v
     rw [natDegree_prod_of_monic _ _ fun i _ => (hmon i).pow _]
     exact Finset.sum_congr rfl fun i _ => by rw [(hmon i).natDegree_pow, hdeg i]
-  have hunit : ∀ v ∈ f.support, IsUnit (algebraMap k R (MvPolynomial.coeff v f)) := fun v hv =>
+  have hunit : ∀ v ∈ f.support, IsUnit (algebraMap k R (f.coeff v)) := fun v hv =>
     (isUnit_iff_ne_zero.mpr (MvPolynomial.mem_support_iff.mp hv)).map (algebraMap k R)
   have hTdeg : ∀ v ∈ f.support, (T v).natDegree = N v := by
     intro v hv
     rw [hTdef, natDegree_mul (by simpa using (hunit v hv).ne_zero) (hprodmon v).ne_zero,
       natDegree_C, zero_add, hproddeg]
   have hTlead : ∀ v : Fin m →₀ ℕ,
-      (T v).leadingCoeff = algebraMap k R (MvPolynomial.coeff v f) := by
+      (T v).leadingCoeff = algebraMap k R (f.coeff v) := by
     intro v
     rw [hTdef, leadingCoeff_mul, leadingCoeff_C, (hprodmon v).leadingCoeff, mul_one]
   have hTne : ∀ v ∈ f.support, T v ≠ 0 := by
@@ -347,7 +348,8 @@ public theorem solution (k : Type*) {S : Type*}
       (faithfulSMul_iff_algebraMap_injective _ _).mpr hyinj
     rw [← Algebra.IsIntegral.ringKrullDim_eq (MvPolynomial (Fin r) k) S,
       MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
-      Nat.card_fin, zero_add]
+      zero_add, ENat.card_eq_coe_fintype_card, Fintype.card_fin]
+    rfl
 
 end Stacks.RingTheory.NagataNormalization
 

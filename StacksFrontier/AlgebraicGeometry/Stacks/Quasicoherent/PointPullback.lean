@@ -386,7 +386,7 @@ instance isMonoidal_pointPullbackTransport :
       (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
         (modulesPresheaf B S hS 𝒳 M ⊗ modulesPresheaf B S hS 𝒳 N)) a.inv.op (m ⊗ₜ n)).symm.trans ?_
     exact congrArg (pointTensorMap B S hS 𝒳 y M N).hom
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul _ _ _)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul _ _ _)
 
 include ha in
 /-- The inverse 2-arrow `a.symm` satisfies the compatibility of `pointPullbackTransport`. -/

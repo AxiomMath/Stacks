@@ -64,7 +64,6 @@ theorem mapHomotopyCategorySingleFunctor_hom_app_of_degree (T : C₁ ⥤ C₂) [
       𝟙 _ ≫ 𝟙 _)
     ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map_id _)) ?_
   simp only [Category.comp_id, Category.id_comp]
-  exact Category.id_comp _
 
 variable {F : C₁ ⥤ C₂} {G : C₂ ⥤ C₃} {H : C₁ ⥤ C₃} [F.Additive] [G.Additive] [H.Additive]
 

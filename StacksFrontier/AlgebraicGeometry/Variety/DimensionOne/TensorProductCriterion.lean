@@ -76,11 +76,10 @@ private theorem not_surjective_tensorProduct_of_le_isDiscreteValuationRing {K : 
   have hmap : ∀ z, Algebra.TensorProduct.lift (B := B) A.subtype.toIntAlgHom
       B.subtype.toIntAlgHom (fun _ _ ↦ Commute.all _ _) z ∈ O := by
     intro z
-    refine z.induction_on ?_ ?_ ?_
-    · exact O.zero_mem
-    · intro a b
+    induction z with
+    | tmul a b =>
       simpa [Algebra.TensorProduct.lift_tmul] using O.mul_mem (hAO a.2) (hBO b.2)
-    · intro x y hx hy
+    | add x y hx hy =>
       simpa only [map_add] using O.add_mem hx hy
   have hOtop : O = ⊤ := (Subring.eq_top_iff' O).2 fun x => by
     obtain ⟨z, rfl⟩ := hsurj x

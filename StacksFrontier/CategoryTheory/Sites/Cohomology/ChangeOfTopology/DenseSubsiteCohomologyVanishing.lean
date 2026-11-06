@@ -67,6 +67,11 @@ public theorem subsingleton_H_restriction_of_isDenseSubsite
     Subsingleton (Sheaf.H.{w}
       ((G.sheafPushforwardContinuous AddCommGrpCat.{a} J K).obj F) q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{a}) := inferInstance
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.symm.functor :=
+    E.symm.symm.toAdjunction.rightAdjoint_preservesLimits.preservesLimitsOfShape
+  have : E.symm.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have : E.symm.functor.Additive := Functor.additive_of_preserves_binary_products _
   have h₀ : Subsingleton (Abelian.Ext.{w'}
       ((constantSheaf K AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))

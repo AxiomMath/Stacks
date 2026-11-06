@@ -96,10 +96,10 @@ theorem isSplitOver_of_isGaloisCover {S : Scheme.{u}} [ConnectedSpace Y] [Connec
     (inferInstance : IsGaloisCategory (finiteEtaleFiberFunctor (s.map y))).finite_obj A
   let c₀ : ι := ⟨s.hom ≫ σ₀, by rw [Category.assoc, hσ₀]; rfl⟩
   choose τ hτ using fun b : ι => hA.2.2.2 (s.map y) c₀ b
-  have hw : ∀ b : ι, (τ b).hom.left ≫ A.hom = A.hom := fun b => Over.w (τ b).hom
+  have hw : ∀ b : ι, (τ b).asIso.hom.left ≫ A.hom = A.hom := fun b => Over.w (τ b).asIso.hom
   let sec : ι → (S ⟶ ((finiteEtaleBaseChange y).obj A).left) := fun b =>
-    pullback.lift (σ₀ ≫ (τ b).hom.left) (𝟙 S) (by rw [Category.assoc, hw b, hσ₀, Category.id_comp])
-  have hsec₁ : ∀ b, sec b ≫ finiteEtaleBaseChangeProj y A = σ₀ ≫ (τ b).hom.left := fun b =>
+    pullback.lift (σ₀ ≫ (τ b).asIso.hom.left) (𝟙 S) (by rw [Category.assoc, hw b, hσ₀, Category.id_comp])
+  have hsec₁ : ∀ b, sec b ≫ finiteEtaleBaseChangeProj y A = σ₀ ≫ (τ b).asIso.hom.left := fun b =>
     pullback.lift_fst _ _ _
   let φ : splitCover S ι ⟶ (finiteEtaleBaseChange y).obj A :=
     MorphismProperty.Over.homMk (Sigma.desc sec) (Sigma.hom_ext _ _ fun b =>

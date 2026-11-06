@@ -157,8 +157,22 @@ theorem quasiCompact_of_finite_source {Z Y : Scheme.{u}} (hZ : Finite Z) (f : Z 
 
 namespace Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_relationFibreFieldRepresentative
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_relationFibreFieldRepresentative
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Stacks 03JU, part (2) implies part (3) -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 03JU, part (2) implies part (3).** If every pair of points above a point `x` of an
 algebraic space `F` over `S`, in every étale chart of `F`, has finite relation fibre, then `x`
 has a field-valued representative whose two self-intersection projections are étale and

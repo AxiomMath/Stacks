@@ -249,7 +249,8 @@ theorem comap_exceptionalIdealAtInfinity_chartS (U : X.affineOpens) :
   refine Eq.trans ?_ (congrArg (Ideal.comap _) hk).symm
   refine Eq.trans ?_ (Stacks.Blowup.comap_inv_eq_map_hom
     (Scheme.ΓSpecIso (CommRingCat.of (infinityChartAlgebra (ℐ.ideal U)))).symm _).symm
-  exact ((Ideal.map_span _ _).trans (congrArg Ideal.span Set.image_singleton)).symm
+  refine ((Ideal.map_span _ _).trans ?_).symm
+  exact congrArg Ideal.span Set.image_singleton
 
 /-- **The part of `E` over `D₊(S)`**: the morphism `Spec(Γ(X, U)[s][J/s] ⧸ (s)) ⟶ E`. -/
 def exceptionalChartS (U : X.affineOpens) :

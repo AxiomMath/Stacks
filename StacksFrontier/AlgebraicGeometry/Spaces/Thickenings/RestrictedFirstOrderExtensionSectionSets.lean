@@ -51,6 +51,42 @@ local instance instIsContinuousSmallEtalePostcompRestrictedFirstOrderExtensionSe
     (SmallEtale.topology B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS).1) :=
   smallEtalePostcomp_isContinuous B S hS _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_RestrictedFirstOrderExtensionSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
+search times out without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete₀_RestrictedFirstOrderExtensionSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Discrete limits in presheaves of types, supplied directly: the instance search for them
+times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_RestrictedFirstOrderExtensionSectionSets.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  functorCategoryHasLimitsOfShape
+
+/-- Discrete limits in sheaves of types, supplied directly from those of presheaves: the instance
+search for them times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_sheaf_RestrictedFirstOrderExtensionSectionSets.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] (T : GrothendieckTopology C) {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (Sheaf T (Type u)) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf T (Type u))
+
 /-- **The class of a global section of the ideal in the restricted extension, sectionwise**: for
 a first order thickening `i : Z ⟶ X`, `ρ : U ≅ Z` and a global section `s` of the ideal of `Z`
 whose image in `𝒪_X` is multiplication by `r`, the inclusion into the middle term of the value

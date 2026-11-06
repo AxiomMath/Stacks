@@ -146,7 +146,7 @@ public def constantSheafIsoLocallyConstantMaps_bigSmooth (B : BigSmoothSite.{u})
     ((constantSheaf (BigSmoothOver.topology B S hS) (Type (max (u + 1) v))).obj G).obj ≅
     ((BigSmoothOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigSmoothOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigSmoothOver.toScheme B S hS) G
     (BigSmoothOver.topology B S hS) (bigSmoothOver_openCoverData B S hS)
     (openCoverData_bottom (BigSmoothOver.toScheme B S hS) (BigSmoothOver.topology B S hS)
       (bigSmoothOver_openCoverData B S hS))
@@ -162,7 +162,7 @@ public def zariskiConstantSheafIsoLocallyConstantMaps_bigSmooth (B : BigSmoothSi
       (Type (max (u + 1) v))).obj G).obj ≅
     ((BigSmoothOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigSmoothOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigSmoothOver.toScheme B S hS) G
     ((BigSmoothOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigSmoothOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigSmoothOver.toScheme B S hS)
@@ -179,7 +179,7 @@ public theorem constantSheafIsoLocallyConstantMaps_bigSmooth_unit (B : BigSmooth
     ConstantSheafIso.UnitCompatible (BigSmoothOver.toScheme B S hS)
       (BigSmoothOver.topology B S hS) G
       (constantSheafIsoLocallyConstantMaps_bigSmooth B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigSmoothOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigSmoothOver.toScheme B S hS) G
     (BigSmoothOver.topology B S hS) (bigSmoothOver_openCoverData B S hS)
     (openCoverData_bottom (BigSmoothOver.toScheme B S hS) (BigSmoothOver.topology B S hS)
       (bigSmoothOver_openCoverData B S hS))
@@ -193,7 +193,7 @@ public theorem zariskiConstantSheafIsoLocallyConstantMaps_bigSmooth_unit
     ConstantSheafIso.UnitCompatible (BigSmoothOver.toScheme B S hS)
       ((BigSmoothOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology) G
       (zariskiConstantSheafIsoLocallyConstantMaps_bigSmooth B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigSmoothOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigSmoothOver.toScheme B S hS) G
     ((BigSmoothOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigSmoothOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigSmoothOver.toScheme B S hS)

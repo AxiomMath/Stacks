@@ -168,6 +168,13 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Limits of cospans of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_BlowupTowerEtaleRestriction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The base change of a blowing up at a closed point -/
 
 /-- Replacing the bottom map `b` of a cartesian square by `b₂` with `e.hom ≫ b₂ = b` for an
@@ -356,8 +363,9 @@ theorem exists_preimage_closedPointSubspace {Z P : AlgebraicSpaces B S hS} {i : 
     refine Set.eq_singleton_iff_unique_mem.2 ⟨⟨a₀, rfl⟩, ?_⟩
     rintro y ⟨a, rfl⟩
     exact congrArg _ (hbij.1 (hCsub _ _))
-  have hwclosed : IsClosed ({pointsMap B S hS _
-      ((reducedClosedSubspace B S hS Z.obj Z.property {z} hz).preimage p.hom).ι a₀} :
+  have hwclosed : IsClosed ({
+        pointsMap B S hS _
+          ((reducedClosedSubspace B S hS Z.obj Z.property {z} hz).preimage p.hom).ι a₀} :
       Set (points B S hS P.obj)) := by
     rw [← hrange]
     exact isClosed_range_pointsMap_of_isClosedImmersion B S hS P.property _ hAcl.2

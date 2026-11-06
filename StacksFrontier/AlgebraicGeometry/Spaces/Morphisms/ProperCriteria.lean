@@ -63,6 +63,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_properCriteria
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Exchanging the two projections of a fibre product -/
 
 /-- Separatedness of the first projection `Z ×_Y X ⟶ Z` of a fibre product of presheaves on

@@ -41,6 +41,22 @@ open Stacks.Sheaves.RingedToposModules Stacks.SheafOfModules.ChangeOfRings
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves finite products
+(instance search through the generic paths times out). -/
+local instance (priority := high) preservesFiniteProducts_inverseImage_problemIdealSections
+    {E : Type*} [Category E] {F : Type*} [Category F] (f : MorphismOfTopoi E F) :
+    PreservesFiniteProducts f.inverseImage :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves the terminal
+object (instance search through the generic paths times out). -/
+local instance (priority := high) isIso_terminalComparison_inverseImage_problemIdealSections
+    {E : Type*} [Category E] {F : Type*} [Category F] [HasTerminal E] [HasTerminal F]
+    (f : MorphismOfTopoi E F) : IsIso (terminalComparison f.inverseImage) :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
 universe u
 
 namespace AlgebraicGeometry.Space.FlatThickeningDeformation
@@ -49,6 +65,44 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {Y' : AlgebraicSpaces B S hS} {Z : ClosedSubspaces B S hS Y'.1}
   (hZ : IsFirstOrderThickening B S hS Y' Z.1) {X : AlgebraicSpaces B S hS}
   (g : X ⟶ (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS))
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_ProblemIdealSections
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
+search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete₀_ProblemIdealSections
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of sheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasDiscreteLimits_topos_ProblemIdealSections
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
+  letI : HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+    hasLimitsOfShape_discrete₀_ProblemIdealSections F J
+  letI : CreatesLimitsOfShape (Discrete J)
+      (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u)) :=
+    Sheaf.createsLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u))
+
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_ProblemIdealSections
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  hasDiscreteLimits_topos_ProblemIdealSections F PEmpty
 
 /-- **The section `g⁻¹t` of the ideal of the problem** attached to a global section `t` of the
 conormal module: the inverse image of `t`, read through `g⁻¹𝒪_Z = g⁻¹(1) ⟶ g⁻¹𝒞`. -/

@@ -271,11 +271,11 @@ theorem awayGradingSubmodule_eq_twistWeightSpan (d : ℤ) :
         have hw' : μ.degree = (((m * (r + 1) : ℕ) : ℤ) + d).toNat := by
           rwa [Finsupp.degree_eq_weight_one, ← Pi.one_def]
         rw [← Finsupp.degree_eq_sum, hw', Int.toNat_of_nonneg hj]
-      rw [show a = ∑ μ ∈ a.support, MvPolynomial.monomial μ (MvPolynomial.coeff μ a) from
+      rw [show a = ∑ μ ∈ a.support, MvPolynomial.monomial μ (a.coeff μ) from
         a.as_sum, mk_sum (S := Submonoid.powers _)]
       refine sum_mem fun μ hμ => ?_
-      rw [show MvPolynomial.monomial μ (MvPolynomial.coeff μ a) =
-          MvPolynomial.coeff μ a • MvPolynomial.monomial μ (1 : R) from by
+      rw [show MvPolynomial.monomial μ (a.coeff μ) =
+          a.coeff μ • MvPolynomial.monomial μ (1 : R) from by
         rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one], ← LocalizedModule.smul'_mk]
       refine Submodule.smul_mem _ _ ?_
       have hw : ∀ i, ((μ i : ℤ) - m * (chartExponent s i : ℤ)) +

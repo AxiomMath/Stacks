@@ -2,6 +2,8 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.AlgebraicGeometry.Properties
+public import Mathlib.AlgebraicGeometry.Stalk
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 public import StacksFrontier.AlgebraicGeometry.Divisors.PuncturedSpectrumAffineCriterion.Algebra
 public import StacksFrontier.RingTheory.LocalCohomology.Deps.PuncturedSpectrumAffine

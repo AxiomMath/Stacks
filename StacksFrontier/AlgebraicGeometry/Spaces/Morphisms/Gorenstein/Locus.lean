@@ -79,6 +79,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_GorensteinLocus :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_GorensteinLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_GorensteinLocus B S hS).has_limit _
+
 /-- For a flat morphism of represented presheaves locally of finite presentation, the set of
 points of the source at which it is Gorenstein is open in the canonical topology of Tag 03BX. -/
 theorem isOpen_setOf_isGorensteinAt_yoneda (U V : BigFppfOver B S hS) (h : U ⟶ V)

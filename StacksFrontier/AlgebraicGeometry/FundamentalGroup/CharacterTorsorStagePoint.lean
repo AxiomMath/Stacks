@@ -38,7 +38,7 @@ theorem smul_eq_of_etaleFundamentalGroupMap_eq_one (W : FiniteEtaleOver (Spec (.
     (σ : EtaleFundamentalGroup X x) (hσ : etaleFundamentalGroupMap f x σ = 1)
     (p : (finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj W)) : σ • p = p := by
   apply (finiteEtaleFiberProjectionEquiv f x W).injective
-  show finiteEtaleFiberProjection f x W ((σ.app _).hom p) = finiteEtaleFiberProjection f x W p
+  show finiteEtaleFiberProjection f x W ((σ.asIso.app _).hom p) = finiteEtaleFiberProjection f x W p
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection, hσ]
   rfl
 

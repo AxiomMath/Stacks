@@ -138,7 +138,7 @@ public theorem aeval_quadraticFormPoly (a : Fin m → Fin m → R) (x : Fin m �
 /-! ### The coefficients of the quadratic form -/
 
 public theorem coeff_quadraticFormPoly_eq_sum (a : Fin m → Fin m → R) (c : Fin m →₀ ℕ) :
-    MvPolynomial.coeff c (quadraticFormPoly a)
+    (quadraticFormPoly a).coeff c
       = ∑ p, ∑ r, if Finsupp.single p 1 + Finsupp.single r 1 = c then a p r else 0 := by
   classical
   rw [quadraticFormPoly_eq_sum_monomial]
@@ -147,7 +147,7 @@ public theorem coeff_quadraticFormPoly_eq_sum (a : Fin m → Fin m → R) (c : F
 /-- **The coefficient of `tₚtᵩ` in the quadratic form, for `p ≠ q`:** it is `aₚᵩ + aᵩₚ`. -/
 public theorem coeff_quadraticFormPoly_of_ne (a : Fin m → Fin m → R) {p₀ r₀ : Fin m}
     (hne : p₀ ≠ r₀) :
-    MvPolynomial.coeff (Finsupp.single p₀ 1 + Finsupp.single r₀ 1) (quadraticFormPoly a)
+    (quadraticFormPoly a).coeff (Finsupp.single p₀ 1 + Finsupp.single r₀ 1)
       = a p₀ r₀ + a r₀ p₀ := by
   classical
   rw [coeff_quadraticFormPoly_eq_sum]
@@ -163,7 +163,7 @@ public theorem coeff_quadraticFormPoly_of_ne (a : Fin m → Fin m → R) {p₀ r
 
 /-- **The coefficient of `tₚ²` in the quadratic form:** it is `aₚₚ`. -/
 public theorem coeff_quadraticFormPoly_self (a : Fin m → Fin m → R) (p₀ : Fin m) :
-    MvPolynomial.coeff (Finsupp.single p₀ 1 + Finsupp.single p₀ 1) (quadraticFormPoly a)
+    (quadraticFormPoly a).coeff (Finsupp.single p₀ 1 + Finsupp.single p₀ 1)
       = a p₀ p₀ := by
   classical
   rw [coeff_quadraticFormPoly_eq_sum]
@@ -186,10 +186,10 @@ public theorem quadraticFormPoly_ne_zero {a : Fin m → Fin m → R}
   intro h0
   rcases eq_or_lt_of_le hpr with rfl | hlt
   · have hc := coeff_quadraticFormPoly_self a p
-    rw [h0, MvPolynomial.coeff_zero] at hc
+    rw [h0, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hc
     exact hane hc.symm
   · have hc := coeff_quadraticFormPoly_of_ne a (ne_of_lt hlt)
-    rw [h0, MvPolynomial.coeff_zero, hupper r p hlt, add_zero] at hc
+    rw [h0, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, hupper r p hlt, add_zero] at hc
     exact hane hc.symm
 
 /-! ### A good coordinate's variable does not divide the form -/
@@ -213,8 +213,7 @@ public theorem not_X_zero_dvd_quadraticFormPoly {a : Fin (m + 1) → Fin (m + 1)
     rw [Finsupp.mem_support_iff, not_not, Finsupp.add_apply, Finsupp.single_apply,
       Finsupp.single_apply, if_neg (Fin.succ_ne_zero p), if_neg (Fin.succ_ne_zero r), add_zero]
   have hzero : ∀ p r : Fin m,
-      MvPolynomial.coeff (Finsupp.single p.succ 1 + Finsupp.single r.succ 1)
-        (quadraticFormPoly a) = 0 := by
+      (quadraticFormPoly a).coeff (Finsupp.single p.succ 1 + Finsupp.single r.succ 1) = 0 := by
     intro p r
     rw [hh, MvPolynomial.coeff_X_mul', if_neg (hsupp p r)]
   refine ha ⟨0, 0, fun p => ?_, fun p r hpr => ?_⟩

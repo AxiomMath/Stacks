@@ -339,6 +339,7 @@ public theorem whiskerTensorUnit_comp_braiding
   rw [braiding_hom_eq_sheafify_map O hO M N]
   exact whiskerSheafifyUnit_naturality O hO H (β_ M.val N.val).hom
 
+set_option maxHeartbeats 1600000 in
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The symmetry constraint formed on the smaller site, read on its sheafification unit**, the
@@ -363,6 +364,7 @@ public theorem whiskerTensorUnit'_comp_braiding
       (β_ ((whiskerRestriction (J' := J') O hO H).obj M).val
         ((whiskerRestriction (J' := J') O hO H).obj N).val).hom
 
+set_option maxHeartbeats 1600000 in
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The sheafification unit of the objectwise tensor product with the unit on the left**, in the
@@ -378,12 +380,13 @@ public theorem whiskerTensorUnit'_unit_left
       sheafificationUnit
         (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
           (whiskerStructureIsSheaf (J' := J') O hO H))
-        (PresheafOfModules.Monoidal.tensorObj
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
           (PresheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
               (whiskerStructureIsSheaf (J' := J') O hO H)).obj)
           ((whiskerRestriction (J' := J') O hO H).obj M).val) := rfl
 
+set_option maxHeartbeats 1600000 in
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The sheafification unit of the objectwise tensor product with the unit on the right**, the
@@ -397,7 +400,7 @@ public theorem whiskerTensorUnit'_unit_right
       sheafificationUnit
         (R := Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)
           (whiskerStructureIsSheaf (J' := J') O hO H))
-        (PresheafOfModules.Monoidal.tensorObj
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
           ((whiskerRestriction (J' := J') O hO H).obj M).val
           (PresheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf (H.op ⋙ O)

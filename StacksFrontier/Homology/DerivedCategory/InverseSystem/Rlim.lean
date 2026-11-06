@@ -232,7 +232,7 @@ private lemma shift_comp_π (A : Rlim.InvSystemAb.{u}) (n : ℕ) :
     Rlim.shift A ≫ Pi.π (fun n : ℕ ↦ A.obj (op n)) n =
       Pi.π (fun n : ℕ ↦ A.obj (op n)) (n + 1) ≫
         A.map (homOfLE (Nat.le_succ n)).op := by
-  exact Pi.lift_π _ n
+  exact Pi.lift_comp_π _ n
 
 /-- The shift commutes with maps of inverse systems. -/
 theorem prodMap_shiftMap {A B : Rlim.InvSystemAb.{u}} (f : A ⟶ B) :
@@ -535,7 +535,7 @@ private theorem exists_delta_preimage_of_coords (A : Rlim.InvSystemAb.{u}) (y : 
     Pi.lift (fun n => scalarMap (A.obj (op n)) (xs n))
   have hg (n : ℕ) : prodCoord A (g 1) n = xs n := by
     have hn := congrArg (fun f : AddCommGrpCat.of (ULift.{u} ℤ) ⟶ A.obj (op n) => f 1)
-      (Pi.lift_π (fun n => scalarMap (A.obj (op n)) (xs n)) n)
+      (Pi.lift_comp_π (fun n => scalarMap (A.obj (op n)) (xs n)) n)
     change prodCoord A (g 1) n = scalarMap _ (xs n) 1 at hn
     exact hn.trans (scalarMap_one _ _)
   refine ⟨g 1, ?_⟩
@@ -1189,7 +1189,7 @@ private noncomputable def prefixProductConeIsLimit (G : ℕ → Ab.{u}) (k : ℕ
     funext i
     change Pi.π G i.val ((Pi.lift (fun j => s.π.app (op (j + 1)) ≫
       prefixEvaluation G k (op (j + 1)) ⟨j, by dsimp; omega⟩)) x) = s.π.app n x i
-    rw [← ConcreteCategory.comp_apply, Pi.lift_π]
+    rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
     change s.π.app (op (i.val + 1)) x ⟨i.val, _⟩ = s.π.app n x i
     let m := max (i.val + 1) n.unop
     rw [prefixProductCone_coordinate G k s
@@ -1201,7 +1201,7 @@ private noncomputable def prefixProductConeIsLimit (G : ℕ → Ab.{u}) (k : ℕ
     intro i
     have h := congrArg (fun t => t ≫
       prefixEvaluation G k (op (i + 1)) ⟨i, by dsimp; omega⟩) (hf (op (i + 1)))
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     rw [Category.assoc, prefixProductCone_π_eval] at h
     exact h
 

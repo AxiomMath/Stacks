@@ -51,7 +51,7 @@ theorem cechVertexSection_comp (i : ι) :
   change (Pi.lift (fun _ => 𝟙 ((family f).obj i)) :
     (family f).obj i ⟶ ∏ᶜ ((family f).obj ∘ cechVertex f i)).left ≫
       (Pi.π ((family f).obj ∘ cechVertex f i) 0).left = 𝟙 (U i)
-  rw [← Over.comp_left, Pi.lift_π]
+  rw [← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 /-- The cone over the twofold product given by the two projections of the fibre product. -/
@@ -74,7 +74,7 @@ theorem cechEdgeLift_comp (i j : ι) :
   change (Pi.lift (cechEdgeCone f i j) :
     Over.mk (pullback.fst (f i) (f j) ≫ f i) ⟶ ∏ᶜ ((family f).obj ∘ cechEdge f i j)).left ≫
       (Pi.π ((family f).obj ∘ cechEdge f i j) 0).left = _
-  rw [← Over.comp_left, Pi.lift_π]
+  rw [← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 /-- The face `cechEdgeFace f i j k` followed by the structure arrow of the one-fold product is
@@ -87,7 +87,7 @@ theorem cechEdgeFace_comp (i j : ι) (k : Fin 2) :
     ∏ᶜ ((family f).obj ∘ cechEdge f i j) ⟶ ∏ᶜ ((family f).obj ∘ (fun _ => cechEdge f i j k))).left ≫
       (Pi.π ((family f).obj ∘ (fun _ => cechEdge f i j k)) 0).left = _
   rw [← Over.comp_left]
-  exact congrArg CommaMorphism.left (Pi.lift_π _ _)
+  exact congrArg CommaMorphism.left (Pi.lift_comp_π _ _)
 
 /-- The arrow `cechEdgeLift f i j` followed by the face at `k` is the `k`-th cone projection of
 the fibre product followed by the corresponding vertex section. -/
@@ -105,7 +105,7 @@ private theorem cechEdgeLift_comp_face (i j : ι) (k : Fin 2) :
       Over.mk (pullback.fst (f i) (f j) ≫ f i) ⟶ _).left
   congr 1
   refine Pi.hom_ext _ _ fun x => ?_
-  rw [Category.assoc, Category.assoc, Pi.lift_π, Pi.lift_π, Pi.lift_π]
+  rw [Category.assoc, Category.assoc, Pi.lift_comp_π, Pi.lift_comp_π, Pi.lift_comp_π]
   exact (Category.comp_id _).symm
 
 /-- The arrow `cechEdgeLift f i j` followed by the face at `0` is the first projection of the

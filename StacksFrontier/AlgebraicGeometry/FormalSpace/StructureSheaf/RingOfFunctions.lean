@@ -95,7 +95,7 @@ theorem affinePoints_map_app {F F' : FppfSheaf B S hS} (f : F ⟶ F')
 /-- The diagram of the discrete rings `Γ(T, 𝒪_T)` over the affine points `x ∈ F(T)` of `F`. -/
 noncomputable abbrev functionsDiagram (F : FppfSheaf B S hS) :
     ((affinePoints B S hS).obj F).Elements ⥤ TopCommRingCat.{u + 1} :=
-  CategoryOfElements.π ((affinePoints B S hS).obj F) ⋙ discreteFunctions B S hS
+  Functor.Elements.π ((affinePoints B S hS).obj F) ⋙ discreteFunctions B S hS
 
 /-- **The ring of functions of an fppf sheaf.** The limit, in topological rings, of the discrete
 rings `Γ(T, 𝒪_T)` over the points `x ∈ F(T)` of `F` with values in affine objects `T` of the
@@ -116,16 +116,16 @@ theorem ringOfFunctionsπ_map (F : FppfSheaf B S hS) {T T' : BigAffineFppf B S h
     (x : F.obj.obj (op ((BigAffineFppf.inclusion B S hS).obj T))) :
     ringOfFunctionsπ F T x ≫ (discreteFunctions B S hS).map f.op =
       ringOfFunctionsπ F T' (F.obj.map ((BigAffineFppf.inclusion B S hS).map f).op x) :=
-  limit.w (functionsDiagram F) (CategoryOfElements.homMk
-    (((affinePoints B S hS).obj F).elementsMk (op T) x)
-    (((affinePoints B S hS).obj F).elementsMk (op T')
+  limit.w (functionsDiagram F) (Functor.Elements.homMk
+    (x := ((affinePoints B S hS).obj F).elementsMk (op T) x)
+    (y := ((affinePoints B S hS).obj F).elementsMk (op T')
       (F.obj.map ((BigAffineFppf.inclusion B S hS).map f).op x)) f.op rfl)
 
 /-- A function is determined by its values at the affine points. -/
 theorem ringOfFunctions_hom_ext {F : FppfSheaf B S hS} {E : TopCommRingCat.{u + 1}}
     {φ ψ : E ⟶ ringOfFunctions F}
     (h : ∀ T x, φ ≫ ringOfFunctionsπ F T x = ψ ≫ ringOfFunctionsπ F T x) : φ = ψ :=
-  limit.hom_ext fun p => h p.1.unop p.2
+  limit.hom_ext fun p => h p.obj.unop p.val
 
 /-- A compatible family of continuous ring maps to the rings `Γ(T, 𝒪_T)` of the affine points of
 `F` assembles to a continuous ring map to the ring of functions of `F`. -/
@@ -140,11 +140,11 @@ noncomputable def ringOfFunctionsLift (F : FppfSheaf B S hS) (E : TopCommRingCat
   limit.lift (functionsDiagram F)
     { pt := E
       π :=
-        { app := fun p => c p.1.unop p.2
+        { app := fun p => c p.obj.unop p.val
           naturality := fun p q k => by
-            have h := hc p.1.unop q.1.unop k.1.unop p.2
-            have hk : F.obj.map ((BigAffineFppf.inclusion B S hS).map k.1.unop).op p.2 = q.2 :=
-              k.2
+            have h := hc p.obj.unop q.obj.unop k.hom.unop p.val
+            have hk : F.obj.map ((BigAffineFppf.inclusion B S hS).map k.hom.unop).op p.val = q.val :=
+              k.map_val
             rw [hk] at h
             exact (Category.id_comp _).trans h.symm } }
 
@@ -249,14 +249,10 @@ theorem point_map {i j : P.Index} (f : i ⟶ j) :
 /-- The stage inclusions of a presentation, as a functor into the affine points of `U`. -/
 @[simps]
 noncomputable def elementsFunctor : P.Indexᵒᵖ ⥤ ((affinePoints B S hS).obj U).Elements where
-  obj i := ⟨op (P.diagram.obj i.unop), P.point i.unop⟩
+  obj i := ((affinePoints B S hS).obj U).elementsMk (op (P.diagram.obj i.unop)) (P.point i.unop)
   map f := ⟨(P.diagram.map f.unop).op, P.point_map f.unop⟩
-  map_id i := CategoryOfElements.ext _ _ _ (by
-    refine Eq.trans ?_ CategoryOfElements.id_val.symm
-    simp)
-  map_comp f g := CategoryOfElements.ext _ _ _ (by
-    refine Eq.trans ?_ CategoryOfElements.comp_val.symm
-    simp)
+  map_id i := Functor.Elements.hom_ext (by simp)
+  map_comp f g := Functor.Elements.hom_ext (by simp)
 
 /-- The stages of a presentation, as a diagram of fppf sheaves. -/
 noncomputable abbrev sheafDiagram : P.Index ⥤ FppfSheaf B S hS :=
@@ -342,14 +338,14 @@ theorem exists_eq_comp_map_of_point_eq {T : BigAffineFppf B S hS} {i : P.Index}
 /-- **The stage inclusions of a presentation are initial among the affine points.** -/
 theorem initial_elementsFunctor : P.elementsFunctor.Initial := by
   refine Functor.initial_of_exists_of_isCofiltered _ (fun d => ?_) (fun {d c} s s' => ?_)
-  · obtain ⟨i, t, ht⟩ := P.exists_point_factor d.1.unop d.2
-    exact ⟨op i, ⟨CategoryOfElements.homMk _ _ t.op ht⟩⟩
-  · have h : ((affinePoints B S hS).obj U).map s.1.unop.op (P.point c.unop) =
-        ((affinePoints B S hS).obj U).map s'.1.unop.op (P.point c.unop) :=
-      s.2.trans s'.2.symm
-    obtain ⟨j, f, hf⟩ := P.exists_eq_comp_map_of_point_eq s.1.unop s'.1.unop h
-    refine ⟨op j, f.op, CategoryOfElements.ext _ _ _ ?_⟩
-    rw [CategoryOfElements.comp_val, CategoryOfElements.comp_val]
+  · obtain ⟨i, t, ht⟩ := P.exists_point_factor d.obj.unop d.val
+    exact ⟨op i, ⟨Functor.Elements.homMk t.op ht⟩⟩
+  · have h : ((affinePoints B S hS).obj U).map s.hom.unop.op (P.point c.unop) =
+        ((affinePoints B S hS).obj U).map s'.hom.unop.op (P.point c.unop) :=
+      s.map_val.trans s'.map_val.symm
+    obtain ⟨j, f, hf⟩ := P.exists_eq_comp_map_of_point_eq s.hom.unop s'.hom.unop h
+    refine ⟨op j, f.op, Functor.Elements.hom_ext ?_⟩
+    rw [Functor.Elements.comp_hom, Functor.Elements.comp_hom]
     exact congrArg Quiver.Hom.op hf
 
 /-- The comparison of the diagram of the stages with the inverse system of a presentation. -/

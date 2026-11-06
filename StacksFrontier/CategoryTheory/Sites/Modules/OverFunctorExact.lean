@@ -126,6 +126,8 @@ noncomputable instance overFunctor_preservesFiniteLimits :
 /-- Restriction to a slice is right exact: it preserves finite colimits. -/
 noncomputable instance overFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (overFunctor.{v} R x) :=
+  have : ∀ (J : Type v), HasColimitsOfShape (Discrete J) (PresheafOfModules.{v} R.obj) :=
+    fun J => PresheafOfModules.hasColimitsOfShape R.obj (Discrete J)
   (overFunctor.{v} R x).preservesFiniteColimits_of_preservesHomology
 
 /-- Restriction to a slice is exact: a short exact sequence of sheaves of `R`-modules stays short

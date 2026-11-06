@@ -79,7 +79,6 @@ attribute [local implicit_reducible]
   HomologicalComplex.homologyFunctor
   CategoryTheory.sheafCompose
   CategoryTheory.Functor.sheafPushforwardContinuous
-  CochainComplex.HomComplex
   ModuleCat.restrictScalars
   ModuleCat.RestrictScalars.obj'
   PresheafOfModules.pushforward

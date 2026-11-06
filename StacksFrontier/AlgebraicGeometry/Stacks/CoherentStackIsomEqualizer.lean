@@ -984,7 +984,7 @@ def pointPresheafIso [Mono ι]
       ⟨fun s₁ s₂ h => by
         have h' := congrArg (fun t => (Equiv.cast (D.categoryData.hom_type _ _)) t.down.1) h
         simp only [Equiv.apply_symm_apply] at h'
-        exact ULift.ext _ _ (psiPoint_injective x y ι tA htA tA' p θ a.unop h'),
+        exact ULift.ext (psiPoint_injective x y ι tA htA tA' p θ a.unop h'),
       fun m => by
         obtain ⟨s, hs⟩ :=
           psiPoint_surjective x y ι tA htA tA' p θ htA' hfac a.unop m.down.1 m.down.2

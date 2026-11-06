@@ -132,17 +132,17 @@ theorem nonempty_sheafify_bot {X : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ �
   have hIunique (a b : I.toFunctor ⟶ I.toFunctor) : a = b := by
     apply bot.to_sheafify_lift_unique hI
     ext T x
-    simpa [bot] using x.property
+    exact (Set.notMem_empty _ x.property).elim
   have hEterm : IsTerminal (eE.1.obj (op E0)) := Sheaf.isTerminalOfBotCover eE _ hbot
   have hEunique (a b : eE.1 ⟶ eE.1) : a = b := by
     let : Unique (eE.1.obj (op E0)) := Types.isTerminalEquivUnique _ hEterm
     exact yonedaEquiv.injective (Subsingleton.elim _ _)
   let f0 : bot.toFunctor ⟶ eE.1 :=
-    { app T := ↾fun x => False.elim (by simpa [bot] using x.property)
+    { app T := ↾fun x => (Set.notMem_empty _ x.property).elim
       naturality := by
         intro T T' f
         ext x
-        simpa [bot] using x.property }
+        exact (Set.notMem_empty _ x.property).elim }
   let f : eI.1 ⟶ eE.1 := bot.sheafifyLift f0 hE'
   let x : eI.1.obj (op E0) := by
     let : Unique (eI.1.obj (op E0)) :=

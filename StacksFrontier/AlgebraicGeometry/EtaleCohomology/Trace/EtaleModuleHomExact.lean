@@ -62,25 +62,29 @@ lemma centralSMulHom_apply (N : ModuleCat.{w} R) (a : A) (x : N) :
 
 /-- **The action of `A` on an `R`-module `N`**, by `R`-linear endomorphisms. -/
 def centralScalars (N : ModuleCat.{w} R) : A →+* (End N)ᵐᵒᵖ where
-  toFun a := MulOpposite.op (centralSMulHom N a)
+  toFun a := MulOpposite.op (End.of (centralSMulHom N a))
   map_one' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     change centralSMulHom N 1 = (𝟙 N : N ⟶ N)
     ext x
     simp
   map_mul' a b := by
     apply MulOpposite.unop_injective
+    apply End.ext
     change centralSMulHom N (a * b) = centralSMulHom N a ≫ centralSMulHom N b
     ext x
     change algebraMap A R (a * b) • x = algebraMap A R b • (algebraMap A R a • x)
     rw [smul_smul, ← map_mul, mul_comm]
   map_zero' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     change centralSMulHom N 0 = (0 : N ⟶ N)
     ext x
     simp
   map_add' a b := by
     apply MulOpposite.unop_injective
+    apply End.ext
     change centralSMulHom N (a + b) = centralSMulHom N a + centralSMulHom N b
     ext x
     change algebraMap A R (a + b) • x = algebraMap A R a • x + algebraMap A R b • x

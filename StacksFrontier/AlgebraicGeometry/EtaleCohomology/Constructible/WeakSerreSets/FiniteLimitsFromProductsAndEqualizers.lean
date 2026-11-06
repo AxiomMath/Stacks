@@ -3,6 +3,7 @@ module
 public import Mathlib.CategoryTheory.ObjectProperty.FiniteLimits
 public import Mathlib.CategoryTheory.ObjectProperty.FiniteProducts
 public import Mathlib.CategoryTheory.Limits.Constructions.LimitsOfProductsAndEqualizers
+public import Mathlib.CategoryTheory.Limits.FullSubcategory
 
 /-!
 # Closure under finite limits from closure under finite products and equalizers

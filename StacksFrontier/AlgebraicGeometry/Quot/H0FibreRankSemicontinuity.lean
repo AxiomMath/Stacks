@@ -176,7 +176,7 @@ def uliftStructureSheafModuleSectionsLinearEquiv (Z : AlgebraicSpaces B S hS) :
         (structureSheafModule B S hS Z)).val.sections_property s f)⟩
   invFun s := ⟨fun U => ULift.up (s.1 U), by
     intro U V f
-    exact ULift.ext _ _ (s.2 f)⟩
+    exact ULift.ext (s.2 f)⟩
   left_inv _ := rfl
   right_inv _ := rfl
   map_add' _ _ := rfl

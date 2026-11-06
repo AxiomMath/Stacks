@@ -338,14 +338,14 @@ private lemma exists_eq_map_add_map_of_range_eq
 /-- A functor to modules sends a power of a natural endomorphism to the power of its image. -/
 private lemma map_pow_app_hom {B : Type*} [Ring B] {C : Type*} [Category C]
     (P : C ⥤ ModuleCat.{u} B) (ρ : End (𝟭 C)) (X : C) (n : ℕ) :
-    (P.map ((ρ ^ n).app X)).hom = (P.map (ρ.app X)).hom ^ n := by
+    (P.map ((ρ ^ n).asHom.app X)).hom = (P.map (ρ.asHom.app X)).hom ^ n := by
   induction n with
   | zero =>
     show (P.map (𝟙 X)).hom = 1
     rw [P.map_id]
     rfl
   | succ n ih =>
-    rw [pow_succ, show ρ ^ n * ρ = ρ ≫ ρ ^ n from rfl, NatTrans.comp_app,
+    rw [pow_succ, End.mul_asHom, NatTrans.comp_app,
       P.map_comp, ModuleCat.hom_comp, ih]
     rfl
 
@@ -366,10 +366,10 @@ private lemma imageSubobject_eq_of_range_eq
 /-- If `ι` is monic and `m ≫ ι` is multiplication by `g`, then `ι ≫ m` is multiplication
 by `g` as well. -/
 private lemma comp_eq_app_of_mono {C : Type*} [Category C] (g : End (𝟭 C)) {X Y : C}
-    (ι : X ⟶ Y) (m : Y ⟶ X) [Mono ι] (hf : m ≫ ι = g.app Y) : ι ≫ m = g.app X := by
+    (ι : X ⟶ Y) (m : Y ⟶ X) [Mono ι] (hf : m ≫ ι = g.asHom.app Y) : ι ≫ m = g.asHom.app X := by
   apply (cancel_mono ι).1
   rw [Category.assoc, hf]
-  exact g.naturality ι
+  exact g.asHom.naturality ι
 
 /-- Noetherian boundary images give Mittag-Leffler stabilization for a tower with compatible
 upward maps and a termwise nilpotent natural endomorphism. -/
@@ -378,8 +378,8 @@ private theorem isMittagLeffler_of_boundaries
     (P : C ⥤ ModuleCat.{u} B) [P.Additive]
     (ρ : End (𝟭 C)) (obj : ℕ → C) (map : ∀ n, obj (n + 1) ⟶ obj n)
     (up : ∀ n, obj n ⟶ obj (n + 1))
-    (hup : ∀ n, up n ≫ map n = ρ.app (obj n))
-    (hnil : ∀ n, (ρ ^ (n + 1)).app (obj n) = 0)
+    (hup : ∀ n, up n ≫ map n = ρ.asHom.app (obj n))
+    (hnil : ∀ n, (ρ ^ (n + 1)).asHom.app (obj n) = 0)
     (M : ModuleCat.{u} B) [IsNoetherian B M]
     (d : ∀ n, P.obj (obj n) ⟶ M)
     (hd : ∀ n, LinearMap.range (P.map (map n)).hom = LinearMap.ker (d n).hom)
@@ -400,16 +400,16 @@ private theorem isMittagLeffler_of_boundaries
   let t (n : ℕ) : P.obj (obj (i + n)) ⟶ P.obj (obj i) :=
     T.map (homOfLE (Nat.le_add_right i n)).op
   let I (n : ℕ) := LinearMap.range (t n).hom
-  let a : Module.End B (P.obj (obj i)) := (P.map (ρ.app (obj i))).hom
+  let a : Module.End B (P.obj (obj i)) := (P.map (ρ.asHom.app (obj i))).hom
   have ht (n : ℕ) : P.map (map (i + n)) ≫ t n = t (n + 1) := by
     rw [← Functor.ofOpSequence_map_homOfLE_succ map (i + n)]
     show T.map (homOfLE (Nat.le_succ (i + n))).op ≫
       T.map (homOfLE (Nat.le_add_right i n)).op = _
     rw [← T.map_comp]
     rfl
-  have hnat (n : ℕ) : P.map (ρ.app (obj (i + n))) ≫ t n = t n ≫ P.map (ρ.app (obj i)) := by
+  have hnat (n : ℕ) : P.map (ρ.asHom.app (obj (i + n))) ≫ t n = t n ≫ P.map (ρ.asHom.app (obj i)) := by
     have h := congrArg P.map
-      (ρ.naturality ((Functor.ofOpSequence map).map (homOfLE (Nat.le_add_right i n)).op))
+      (ρ.asHom.naturality ((Functor.ofOpSequence map).map (homOfLE (Nat.le_add_right i n)).op))
     rw [P.map_comp, P.map_comp] at h
     exact h.symm
   have hta (n : ℕ) : (P.map (up (i + n)) ≫ t (n + 1)).hom = a.comp (t n).hom := by
@@ -505,8 +505,8 @@ theorem isMittagLefflerCategorical_of_finite_cohomology
       let := ih
       show Epi (map n ≫ TorsionFreeDivisible.proj obj map n)
       infer_instance
-  have hup (n : ℕ) : up n ≫ map n = ρ.app (obj n) := comp_eq_app_of_mono ρ (up n) (map n) (hf n)
-  have hnil (n : ℕ) : (ρ ^ (n + 1)).app (obj n) = 0 := by
+  have hup (n : ℕ) : up n ≫ map n = ρ.asHom.app (obj n) := comp_eq_app_of_mono ρ (up n) (map n) (hf n)
+  have hnil (n : ℕ) : (ρ ^ (n + 1)).asHom.app (obj n) = 0 := by
     apply (cancel_epi (map n)).1
     rw [← TorsionFreeDivisible.mulF_naturality (ρ ^ (n + 1)) (map n), ← hj, Category.assoc, wj,
       comp_zero, comp_zero]
@@ -516,14 +516,14 @@ theorem isMittagLefflerCategorical_of_finite_cohomology
     apply (cancel_epi (TorsionFreeDivisible.proj obj map (n + 2))).1
     calc
       TorsionFreeDivisible.proj obj map (n + 2) ≫ (j n ≫ up (n + 1)) =
-          map (n + 1) ≫ (ρ ^ (n + 1)).app (obj (n + 1)) ≫ up (n + 1) := by
+          map (n + 1) ≫ (ρ ^ (n + 1)).asHom.app (obj (n + 1)) ≫ up (n + 1) := by
         show (map (n + 1) ≫ TorsionFreeDivisible.proj obj map (n + 1)) ≫
           (j n ≫ up (n + 1)) = _
         rw [Category.assoc, ← Category.assoc
           (TorsionFreeDivisible.proj obj map (n + 1)), hj]
-      _ = (map (n + 1) ≫ up (n + 1)) ≫ (ρ ^ (n + 1)).app (obj (n + 2)) := by
+      _ = (map (n + 1) ≫ up (n + 1)) ≫ (ρ ^ (n + 1)).asHom.app (obj (n + 2)) := by
         rw [TorsionFreeDivisible.mulF_naturality, Category.assoc]
-      _ = (ρ ^ (n + 2)).app (obj (n + 2)) := by
+      _ = (ρ ^ (n + 2)).asHom.app (obj (n + 2)) := by
         rw [hf, TorsionFreeDivisible.mulF_pow_succ]
       _ = TorsionFreeDivisible.proj obj map (n + 2) ≫ j (n + 1) :=
         (hj (n + 1)).symm
@@ -684,10 +684,10 @@ private lemma transDown_epi (hepi : ∀ n, Epi (map n)) {i j : ℕ} (h : i ≤ j
 variable (g : End (𝟭 (SheafOfModules.{u} R)))
 
 /-- Going down and back up the tower is multiplication by a power of `f`. -/
-private lemma transDown_comp_transUp (hf : ∀ n, map n ≫ ι n = g.app (obj (n + 1)))
+private lemma transDown_comp_transUp (hf : ∀ n, map n ≫ ι n = g.asHom.app (obj (n + 1)))
     (i k : ℕ) :
     transDown map (Nat.le_add_right i k) ≫ transUp ι (Nat.le_add_right i k) =
-      (g ^ k).app (obj (i + k)) := by
+      (g ^ k).asHom.app (obj (i + k)) := by
   induction k with
   | zero => simp [transDown_refl, transUp_refl]
   | succ k ih =>
@@ -703,32 +703,32 @@ private lemma transDown_comp_transUp (hf : ∀ n, map n ≫ ι n = g.app (obj (n
     rfl
 
 private lemma transDown_comp_transUp_of_le
-    (hf : ∀ n, map n ≫ ι n = g.app (obj (n + 1))) {i j : ℕ} (h : i ≤ j) :
-    transDown map h ≫ transUp ι h = (g ^ (j - i)).app (obj j) := by
+    (hf : ∀ n, map n ≫ ι n = g.asHom.app (obj (n + 1))) {i j : ℕ} (h : i ≤ j) :
+    transDown map h ≫ transUp ι h = (g ^ (j - i)).asHom.app (obj j) := by
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le h
   simpa using transDown_comp_transUp map ι g hf i k
 
 /-- Going up by `c` and then down by `i` vanishes once the tower is long enough, because
 multiplication by `f^{c+1}` already kills `ℱ_{c+1}`. -/
 private lemma transUp_comp_transDown_eq_zero
-    (hf : ∀ n, map n ≫ ι n = g.app (obj (n + 1)))
+    (hf : ∀ n, map n ≫ ι n = g.asHom.app (obj (n + 1)))
     (hmono : ∀ n, Mono (ι n))
-    (hkill : ∀ n, (g ^ (n + 1)).app (obj n) = 0)
+    (hkill : ∀ n, (g ^ (n + 1)).asHom.app (obj n) = 0)
     (c i n : ℕ) (hc : c ≤ n) (hi : i ≤ n) (hn : i + c + 1 ≤ n) :
     transUp ι hc ≫ transDown map hi = 0 := by
   have := transUp_mono ι hmono hi
   apply (cancel_mono (transUp ι hi)).1
   rw [Category.assoc, transDown_comp_transUp_of_le map ι g hf hi, zero_comp,
     ← TorsionFreeDivisible.mulF_naturality (g ^ (n - i)) (transUp ι hc)]
-  have hz : (g ^ (n - i)).app (obj c) = 0 := by
+  have hz : (g ^ (n - i)).asHom.app (obj c) = 0 := by
     rw [show n - i = (c + 1) + (n - i - (c + 1)) by omega, pow_add]
-    show (g ^ (n - i - (c + 1))).app (obj c) ≫ (g ^ (c + 1)).app (obj c) = 0
+    show (g ^ (n - i - (c + 1))).asHom.app (obj c) ≫ (g ^ (c + 1)).asHom.app (obj c) = 0
     rw [hkill, comp_zero]
   rw [hz, zero_comp]
 
 /-- Up and down maps commute when they move the index by the same amount. -/
 private lemma transUp_comp_transDown_comm
-    (hf : ∀ n, map n ≫ ι n = g.app (obj (n + 1)))
+    (hf : ∀ n, map n ≫ ι n = g.asHom.app (obj (n + 1)))
     (hm : ∀ n, Mono (ι n))
     (i j k l : ℕ) (hij : i ≤ j) (hkl : k ≤ l) (hki : k ≤ i) (hlj : l ≤ j)
     (heq : j - l = i - k) :
@@ -743,11 +743,11 @@ private lemma transUp_comp_transDown_comm
 /-- The long short exact sequences `0 → ℱ_{m+1} → ℱ_{m+n+2} → ℱ_{n+1} → 0` produced by
 condition (1) of Stacks 0H39. -/
 private lemma shortExact_transUp_transDown
-    (hf : ∀ n, map n ≫ ι n = g.app (obj (n + 1)))
+    (hf : ∀ n, map n ≫ ι n = g.asHom.app (obj (n + 1)))
     (w : ∀ n, ι n ≫ Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.proj obj map (n + 1) = 0)
     (hs : ∀ n, (ShortComplex.mk (ι n) (Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.proj
       obj map (n + 1)) (w n)).ShortExact)
-    (hkill : ∀ n, (g ^ (n + 1)).app (obj n) = 0)
+    (hkill : ∀ n, (g ^ (n + 1)).asHom.app (obj n) = 0)
     (hepi : ∀ n, Epi (map n)) (m n t : ℕ) (ht : t = m + n + 1)
     (hmt : m ≤ t) (hnt : n ≤ t) :
     ∃ hz : transUp ι hmt ≫ transDown map hnt = 0,
@@ -764,7 +764,7 @@ private lemma shortExact_transUp_transDown
   have hpow := transDown_comp_transUp_of_le map ι g hf hnt
   rw [show m + n + 1 - n = m + 1 by omega] at hpow
   have hxpow : Abelian.Pseudoelement.pseudoApply
-      ((g ^ (m + 1)).app (obj (m + n + 1))) x = 0 := by
+      ((g ^ (m + 1)).asHom.app (obj (m + n + 1))) x = 0 := by
     rw [← hpow, Abelian.Pseudoelement.comp_apply, hx, Abelian.Pseudoelement.apply_zero]
   obtain ⟨y, hy⟩ :=
     TorsionFreeDivisible.DivColim.stabilization g map ι hf w hs m (n + 1) x hxpow
@@ -836,10 +836,10 @@ theorem isMittagLefflerCategorical_of_finite_cohomology_image
   have := hNnoeth
   choose ι w hf hs using hcondition
   have hm (n : ℕ) : Mono (ι n) := (hs n).mono_f
-  have hback (n : ℕ) : ι n ≫ map n = g.app (obj n) :=
+  have hback (n : ℕ) : ι n ≫ map n = g.asHom.app (obj n) :=
     have := hm n
     comp_eq_app_of_mono g (ι n) (map n) (hf n)
-  have hg0 : g.app (obj 0) = 0 := by
+  have hg0 : g.asHom.app (obj 0) = 0 := by
     rw [← hback 0]
     simpa [TorsionFreeDivisible.proj] using w 0
   have hkill := TorsionFreeDivisible.DivColim.vanishing g map ι hf hback hg0

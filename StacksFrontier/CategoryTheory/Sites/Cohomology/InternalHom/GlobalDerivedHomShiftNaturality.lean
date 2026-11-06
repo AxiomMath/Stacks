@@ -125,9 +125,10 @@ theorem derivedSheafHomTargetShiftIsoOfKInjective_hom_naturality
             (DerivedCategory.Q.map g)) := by
     rw [Iso.eq_inv_comp, ← Category.assoc, ← derivedSheafHomComparison_naturality X f g]
     simp
+  have hc := derivedSheafHomComparison_naturality X f (g⟦n⟧')
   rw [derivedSheafHomTargetShiftIsoOfKInjective_hom,
     derivedSheafHomTargetShiftIsoOfKInjective_hom, Category.assoc,
-    reassoc_of% (derivedSheafHomComparison_naturality X f (g⟦n⟧')),
+    reassoc_of% hc,
     ← Functor.map_comp_assoc, hs, Functor.map_comp_assoc,
     Functor.commShiftIso_hom_naturality_assoc, ← Functor.map_comp, ht]
   simp only [Functor.map_comp, Category.assoc]

@@ -230,7 +230,7 @@ def isLimit_fan_of_split_product_tower (family : ℕ → C)
           = lift cone ≫ legs n ≫ projection n ⟨n, le_rfl⟩ := by rw [hlegs]
       _ = cone.proj n := by
         have heq := congrArg (fun morphism => morphism ≫ Pi.π objects n) (hlift cone)
-        simp only [triangle, Triangle.mk_mor₁, Pi.lift_π, Category.assoc] at heq
+        simp only [triangle, Triangle.mk_mor₁, Pi.lift_comp_π, Category.assoc] at heq
         rw [← Category.assoc, ← heq, stageLift_fac]
   · intro cone morphism hmorphism
     change ∀ n, morphism ≫ coordinates n = cone.proj n at hmorphism
@@ -241,7 +241,7 @@ def isLimit_fan_of_split_product_tower (family : ℕ → C)
       morphism ≫ Pi.lift legs = Pi.lift (stageLift cone) := by
         apply Pi.hom_ext
         intro N
-        simp only [Category.assoc, Pi.lift_π]
+        simp only [Category.assoc, Pi.lift_comp_π]
         apply stage_ext
         intro i
         rw [Category.assoc, hlegs, stageLift_fac]

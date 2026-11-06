@@ -230,6 +230,7 @@ def gradedTensor (k : ℕ) :
   ((LinearEquiv.lTensor _ e0).trans (LinearEquiv.ofBijective
     (gradedMulSigned R A B (k := k) (m := b) rfl) (gradedMulSigned_bijective R A B rfl))).toAddEquiv
 
+set_option maxRecDepth 8000 in
 /-- `gradedTensor` sends `ν ⊗ m` to `(-1)^{kb} [ν ∧ y]` for any `y ∈ ⋀^b Ω[B⁄R]` whose
 projection to `⋀^b Ω[B⁄A]` is the image of `m`. -/
 theorem gradedTensor_tmul (k : ℕ) (ν : ⋀[A]^k ↑(CommRingCat.KaehlerDifferential gR)) (m : M)

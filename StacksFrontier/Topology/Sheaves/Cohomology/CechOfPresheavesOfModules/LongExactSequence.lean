@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.HomologySequence
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Basic
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import StacksFrontier.CategoryTheory.Sites.CechComplex
 import StacksCore.Tactic.EgaSgaAttribute
 

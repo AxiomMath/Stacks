@@ -64,7 +64,9 @@ theorem epi_unitToPushforwardUnit_iso_comp {X' X Y : Scheme.{u}} (e : X' ⟶ X) 
     Epi (Scheme.Modules.unitToPushforwardUnit (e ≫ f)) := by
   have := isIso_unitToPushforwardUnit_of_isIso e
   rw [← Scheme.Modules.unitToPushforwardUnit_comp]
-  infer_instance
+  have h₂ : IsIso ((Scheme.Modules.pushforward f).map (Scheme.Modules.unitToPushforwardUnit e)) :=
+    Functor.map_isIso _ _
+  exact epi_comp' hf (epi_comp' (IsIso.epi_of_iso _) (IsIso.epi_of_iso _))
 
 /-- **The vanishing of `Rⁿf_*𝒪` survives precomposition with an isomorphism.** For `e` an
 isomorphism (in particular affine), `Rⁿ(e ≫ f)_*𝒪 ≅ Rⁿf_*(e_*𝒪)` ([Stacks, Tag 089W]) and

@@ -218,7 +218,6 @@ public theorem exists_fourTerm_exact_supportedSections :
       ((exact_supportedSections_composableArrows₅ B i 0 F).exact' 1 2 3)
     · exact (hβ F).symm
     · simp
-      rfl
   · have : Epi ((supportedSectionsDelta B i 0).app F) :=
       ((exact_supportedSections_composableArrows₅ B i 0 F).exact' 2 3 4).epi_f
         ((CategoryTheory.isZero_rightDerived_id_obj F 0).eq_of_tgt _ 0)

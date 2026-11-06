@@ -95,7 +95,7 @@ def presheafULift : Cᵒᵖ ⥤ Type (max w v) where
     refine (presheafULiftObj_mk_eq.{w} G s _
       ((Over.homMk g.unop rfl : Over.mk (g.unop ≫ f.unop ≫ φ) ⟶ Over.mk (f.unop ≫ φ)) ≫
         (Over.homMk f.unop rfl : Over.mk (f.unop ≫ φ) ⟶ Over.mk φ)) (by simp)).trans ?_
-    simp only [op_comp, FunctorToTypes.map_comp_apply]
+    simp only [op_comp, Functor.map_comp_apply]
     rfl
 
 /-- Restriction in the coproduct presheaf precomposes the first component. -/
@@ -289,7 +289,7 @@ lemma sigmaMk_presheafULiftSection {A : Over U} (p : (presheafULift.{w} G).obj (
   refine (presheafULiftObj_mk_eq.{w} G p.2
     (Over.homMk (𝟙 A.left) (by simpa using h) : Over.mk A.hom ⟶ Over.mk p.1)
     (𝟙 (Over.mk p.1)) (by simp)).trans ?_
-  simp only [op_id, FunctorToTypes.map_id_apply]
+  simp only [op_id, Functor.map_id_apply]
   rfl
 
 /-- The section of `G` carried by a section of the coproduct presheaf is compatible with

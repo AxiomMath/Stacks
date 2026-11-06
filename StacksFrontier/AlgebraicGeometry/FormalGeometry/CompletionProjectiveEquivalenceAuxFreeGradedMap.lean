@@ -174,7 +174,7 @@ public theorem freeGradedModuleOnMap_app_eq (n : ℤ) :
         (PresheafOfModules.unit_naturality_apply
           (α := 𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.presheaf
             (isSheaf_structureRingPresheaf X)).obj)
-          (PresheafOfModules.Monoidal.tensorHom ψ.val
+          (PresheafOfModulesOfCommRing.Monoidal.tensorHom ψ.val
             (𝟙 (((shiftedAlgebraModule P d).piece n).val))) U (x ⊗ₜ a)).symm
 
 /-- **The induced homomorphism is an epimorphism in every homogeneous degree as soon as `ψ`

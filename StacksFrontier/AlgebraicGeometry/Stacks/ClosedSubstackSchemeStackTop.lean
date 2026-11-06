@@ -83,7 +83,7 @@ theorem forall_prop_of_isClosedSubstack_schemeStack {U V : BigFppfOver B S hS}
   have hall : ∀ {T : BigFppfOver B S hS} (t : T ⟶ U), t ∈ G.obj (op T) := by
     intro T t
     have hw := congrArg (fun φ => φ.app (op T) (t ≫ inv i)) hpb.w
-    simp only [FunctorToTypes.comp, Category.comp_id] at hw
+    simp only [NatTrans.comp_app_apply, Category.comp_id] at hw
     have : t = G.ι.app (op T) (hrep.fst (𝟙 (yoneda.obj U)) |>.app (op T) (t ≫ inv i)) := by
       rw [hw]
       simp

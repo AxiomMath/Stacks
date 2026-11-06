@@ -50,6 +50,22 @@ variable {site : BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
 
 variable [HasSheafify (BigFppfOver.topology site S hS) (Type u)]
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_GroupActionQuotientAlgebraic :
+    HasPullbacks ((BigFppfOver site S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- The group structure on `G` pulled back to the quotient `X/G`, carried by the monoidal
+pullback functor (instance search times out without this shortcut). -/
+noncomputable local instance (priority := high)
+    groupOverQuotientGrpObj_GroupActionQuotientAlgebraic
+    (hB : Presheaf.IsSheaf (BigFppfOver.topology site S hS) B) (G X : Over B) [GrpObj G]
+    [ModObj G X] : GrpObj (groupOverQuotient hB G X) :=
+  letI : (Over.pullback (actionQuotientToBase hB G X)).Monoidal :=
+    Over.instBraidedPullback.toMonoidal
+  Functor.grpObjObj
+
 variable (site S hS) in
 /-- The instance of the bootstrap theorem Stacks 04S6 that Stacks 06PH consumes: the quotient
 sheaf of a flat, locally finitely presented equivalence relation of algebraic spaces is an

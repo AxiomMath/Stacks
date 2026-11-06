@@ -346,9 +346,9 @@ theorem exists_trivialization_of_isLocallyConstantWith (N : EtaleModules.{u, 0} 
       (Module.Free Λ E ∧ Module.Finite Λ E) ∧
       Nonempty ((constantSheaf (Y.smallEtaleTopology.over V) (ModuleCat.{u + 1} Λ)).obj E ≅
         (Y.smallEtaleTopology.overPullback (ModuleCat.{u + 1} Λ) V).obj N) := by
-  obtain ⟨⟨X, x⟩⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
-  obtain ⟨I, V, f, hcov, htriv⟩ := hN X
-  obtain ⟨Y₀, g, ⟨Z, p, q, ⟨i⟩, rfl⟩, y₀, -⟩ := Φ.jointly_surjective _ hcov x
+  obtain ⟨xX⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
+  obtain ⟨I, V, f, hcov, htriv⟩ := hN xX.obj
+  obtain ⟨Y₀, g, ⟨Z, p, q, ⟨i⟩, rfl⟩, y₀, -⟩ := Φ.jointly_surjective _ hcov xX.val
   obtain ⟨E, hE, he⟩ := htriv i
   exact ⟨V i, Φ.fiber.map p y₀, E, hE, he⟩
 

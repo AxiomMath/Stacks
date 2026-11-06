@@ -304,6 +304,7 @@ theorem idealPowerMultiple_push_eq_bot (n : ℕ) :
       ((siteChangeModules B X π).obj (push i F n))).ι) := by
     rw [← 𝒯.map_unit_thickeningIso_hom (push i F n) n]
     infer_instance
+  have _hm := @IsIso.mono_of_iso _ _ _ _ _ this
   refine (submodule_ι_eq_zero_iff B (Spec (.of R)) hR (siteChangeSpace B X π).1
     (siteChangeSpace B X π).2 _).1 ?_
   exact (cancel_mono (cokernel.π (idealPowerMultiple B (Spec (.of R)) hR
@@ -399,7 +400,7 @@ theorem exists_iso_of_adicQuotientSystem_iso
         ((modulePullbackAdjunction B S hS (i n)).unit.app N)) := by
       rw [hu]
       have : Epi (pN n) := by rw [hpN]; exact coequalizer.π_epi
-      exact epi_comp _ _
+      exact epi_comp' this (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _))
     have key : (siteChangeModules B X π).map ((modulePushforward B S hS (i n)).map (ψ₀ n)) =
         (𝒯.thickeningIso N n).hom ≫ (θ n).hom := by
       refine (cancel_epi ((siteChangeModules B X π).map

@@ -278,11 +278,11 @@ public theorem not_mono_map_two_nsmul :
   have hcomp : (associatedModuleUnitIso B τ).inv ≫
       (2 • 𝟙 ((associatedModule B τ).obj unitModule.{u})) ≫ (associatedModuleUnitIso B τ).hom
       = 2 • 𝟙 (SheafOfModules.unit (bigStructureSheaf B τ)) := by
-    simp
+    rw [Preadditive.nsmul_comp, Category.id_comp, Preadditive.comp_nsmul, Iso.inv_hom_id]
   rw [hmap] at h
-  have := h
   rw [← hcomp]
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso (associatedModuleUnitIso B τ).inv) _
+    (@mono_comp _ _ _ _ _ _ h _ (IsIso.mono_of_iso (associatedModuleUnitIso B τ).hom))
 
 /-- The functor of Stacks 06VE, `QCoh(𝒪_{Spec(ℤ)}) ⥤ Mod((Sch/Spec(ℤ))_τ, 𝒪)`. -/
 public abbrev associatedModuleQcoh :=

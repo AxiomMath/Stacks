@@ -7,6 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.Glo
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstantCoefficients
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.EtaleModulesCtf
 public import StacksFrontier.Algebra.Homology.DerivedCategory.BoundedAboveResolution
+public import StacksFrontier.CategoryTheory.Sites.LocallyBijectiveUniverse
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -187,6 +188,14 @@ theorem isConstructibleFlatModuleSheaf_composeAndSheafify_copower_of_ring (B : B
       (SmallEtale.topology B X.obj X.property) M
       (SmallEtale.topology B (s.piece i).obj (s.piece i).property)
       (smallEtaleBaseChange B (s.inclusion i))).app F).symm ?_
+  have : EssentiallySmall.{max (u + 1) r} (SmallEtale B (s.piece i).obj (s.piece i).property) :=
+    essentiallySmall_lift.{max (u + 1) r, u, u + 1, u} _
+  have hV : ∀ V : SmallEtale B (s.piece i).obj (s.piece i).property,
+      HasWeakSheafify ((SmallEtale.topology B (s.piece i).obj (s.piece i).property).over V)
+        (Type (max (u + 1) r)) := fun V ↦
+    have : HasSheafify ((SmallEtale.topology B (s.piece i).obj (s.piece i).property).over V)
+        (Type (max (u + 1) r)) := hasSheafifyEssentiallySmallSite _ _
+    inferInstance
   exact Stacks.ConstantSheaf.isFiniteProjectiveLocallyConstant_composeAndSheafify_copower _ Λ M _
     (hs i)
 

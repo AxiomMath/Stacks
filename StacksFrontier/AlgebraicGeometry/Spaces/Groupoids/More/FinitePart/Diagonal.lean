@@ -59,6 +59,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_finitePartDiagonal
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_finitePartDiagonal
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_finitePartDiagonal B S hS).has_limit _
+
 private theorem pointsMap_range_of_isPullback
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {W Z X Y : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -827,6 +840,14 @@ private theorem exists_lift_of_diagonal_app_eq
     _ = fin.toFunctor.map h.op ξ := by simp [h]
     _ = x₂ := hxξ.symm
 
+private instance (priority := high) hasPullback_baseMap_finitePartDiagonal
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) :
+    HasLimit (cospan (finiteOpenSubspacePresheaf B S hS f).baseMap
+      (finiteOpenSubspacePresheaf B S hS f).baseMap) :=
+  hasPullback_presheaf_finitePartDiagonal B S hS _ _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 04PK, the relative diagonal.** For a morphism `f : X ⟶ Y` of algebraic spaces
 over `S`, the diagonal `(X/Y)_fin ⟶ (X/Y)_fin ×_Y (X/Y)_fin` is representable by schemes and
 an open immersion. -/
@@ -868,8 +889,10 @@ theorem isOpenImmersion_diagonal_finiteOpenSubspacePresheaf
       (yonedaEquiv_symm_naturality_left i fin.toFunctor η).symm
   have hcomm : fst ≫ pullback.diagonal a = yoneda.map i ≫ g := by
     apply pullback.hom_ext
-    · simpa [Category.assoc, ξ] using hfst
-    · simpa [Category.assoc, η] using hsnd
+    · rw [Category.assoc, pullback.diagonal_fst, Category.comp_id, hfst, Category.assoc]
+      exact congrArg (yoneda.map i ≫ ·) (yonedaEquiv.symm_apply_apply _)
+    · rw [Category.assoc, pullback.diagonal_snd, Category.comp_id, hsnd, Category.assoc]
+      exact congrArg (yoneda.map i ≫ ·) (yonedaEquiv.symm_apply_apply _)
   refine ⟨Usite, fst, i, ?_,
     isOpenImmersion_toScheme_map_siteObjectOfSchemeOpen_inclusion B S hS T V⟩
   refine IsPullback.of_forall_isPullback_app fun T' => ?_

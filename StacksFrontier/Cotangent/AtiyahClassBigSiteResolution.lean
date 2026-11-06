@@ -83,7 +83,7 @@ the universal property are read off there. -/
 def isTerminal_atiyahBaseObj : IsTerminal (atiyahBaseObj A B) :=
   IsTerminal.ofUniqueHom
     (fun Y => ULift.up ((isTerminal_polynomialBaseObj A B).from (AsSmall.down.obj Y)))
-    fun _ _ => ULift.ext _ _ ((isTerminal_polynomialBaseObj A B).hom_ext _ _)
+    fun _ _ => ULift.ext ((isTerminal_polynomialBaseObj A B).hom_ext _ _)
 
 /-- The category `CommAlgCat.atiyahSite A B` has a terminal object. -/
 instance hasTerminal_atiyahSite : HasTerminal (atiyahSite A B) :=

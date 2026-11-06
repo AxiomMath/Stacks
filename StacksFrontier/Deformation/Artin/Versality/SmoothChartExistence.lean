@@ -315,7 +315,6 @@ theorem exists_isRelativelySmooth_of_isVersalAt [IsLocallyNoetherian S]
   have hmap : B.inclusion.map (p.map ρ).left = eqToHom hy ≫ W'.ι := by
     rw [IsHomLift.fac' p g ρ]
     simp [Over.comp_left, Over.eqToHom_left, g]
-    rfl
   let j := B.inclusion.map (p.map ρ).left
   have hj : IsOpenImmersion j := by
     show IsOpenImmersion (B.inclusion.map (p.map ρ).left)

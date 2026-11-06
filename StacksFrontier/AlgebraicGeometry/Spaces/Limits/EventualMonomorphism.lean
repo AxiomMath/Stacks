@@ -141,6 +141,19 @@ end CategoryTheory.Limits
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_eventualMonomorphism
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (contains : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S contains)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_eventualMonomorphism
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {contains : B.Contains S}
+    {X Y Z : (BigFppfOver B S contains)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0828, part (4).** Let `X = lim Xᵢ` be a directed limit of algebraic spaces over an
 algebraic space `Bspace`, with affine transition morphisms and quasi-separated stages, and let
 `f : Y ⟶ X` be a monomorphism whose source is quasi-compact and locally of finite type over
@@ -211,7 +224,7 @@ theorem eventually_mono_comp_limitπ
     refine isLocallyOfFiniteType_of_comp B S contains algebraic (algebraicStage i₀)
       algebraicBase _ (t.app (op i₀)) ?_
     have hi : c.π.app (op i₀) ≫ t.app (op i₀) = s := by
-      simpa using congrArg (fun η => η.app (op i₀)) commutes
+      exact congrArg (fun η => η.app (op i₀)) commutes
     simpa only [Category.assoc, hi] using finiteType
   -- Part (3) at the tail system.
   have hres := eventually_isIso_comp_limitπ B S contains (Z.obj (op i₀)) (hZalg (op i₀))

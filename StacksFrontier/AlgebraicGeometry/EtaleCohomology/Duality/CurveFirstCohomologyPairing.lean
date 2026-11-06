@@ -87,14 +87,15 @@ theorem one_lt_natCard_hom_unitSheaf_freeTorsor [ConnectedSpace X] :
     ∃ g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w), g ≠ 0 := by
   have hp : ℓ.Prime := Fact.out
   have := isIso_cokernelShiftDesc hS
-  have hcancel := fun (a b : unitSheaf ℓ ⟶ cokernel (shift hS ^ 1)) =>
+  have hcancel := fun (a b : unitSheaf ℓ ⟶ cokernel (shift hS ^ 1).asHom) =>
     (exists_comp_cokernelPowLift_shift_and_cancel hS hp.one_le).2 (A := unitSheaf ℓ) a b
-  refine ⟨(inv (cokernelShiftDesc hS) ≫ (cokernelIsoOfEq (pow_one (shift hS))).inv) ≫
+  have hpow : (shift hS ^ 1).asHom = (shift hS).asHom := by rw [pow_one]
+  refine ⟨(inv (cokernelShiftDesc hS) ≫ (cokernelIsoOfEq hpow).inv) ≫
     Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) hp.one_le, fun h => ?_⟩
   have h0 := hcancel _ 0 (by rw [h, zero_comp])
   have h1 : (𝟙 (unitSheaf (X := X) ℓ) : unitSheaf ℓ ⟶ unitSheaf ℓ) = 0 := by
     simpa using
-      congrArg (· ≫ (cokernelIsoOfEq (pow_one (shift hS))).hom ≫ cokernelShiftDesc hS) h0
+      congrArg (· ≫ (cokernelIsoOfEq hpow).hom ≫ cokernelShiftDesc hS) h0
   have h2 : Nat.card (unitSheaf (X := X) ℓ ⟶ unitSheaf ℓ) ≤ 1 := by
     have : Subsingleton (unitSheaf (X := X) ℓ ⟶ unitSheaf ℓ) := ⟨fun a b => by
       rw [← Category.id_comp a, ← Category.id_comp b, h1, zero_comp, zero_comp]⟩
@@ -193,13 +194,13 @@ theorem exists_comp_ne_zero_of_ne_zero {k : Type u} [Field k] [IsAlgClosed k]
   have := finite_of_natCard_eq_prime hP2
   have h3 : Subsingleton (Ext (unitSheaf (X := X) ℓ) (unitSheaf ℓ) 3) :=
     Stacks.Kummer.subsingleton_ext_constantModuleSheaf_of_smoothCurve f hℓ 3 le_rfl
-  have h3' : Subsingleton (Ext (unitSheaf (X := X) ℓ) (cokernel (shift hS)) 3) :=
+  have h3' : Subsingleton (Ext (unitSheaf (X := X) ℓ) (cokernel (shift hS).asHom) 3) :=
     (Equiv.ofBijective _ (Stacks.ExtAdjunction.postcomp_mk₀_bijective_of_isIso
       (cokernelShiftIso hS).hom (X := unitSheaf ℓ) 3)).subsingleton
   obtain ⟨hfin2, hle2⟩ := Stacks.Abelian.natCard_ext_two_cokernel_pow_le (shift hS)
     (unitSheaf ℓ) (shift_pow_self hS)
     (fun j _ hj => cokernelPowShortComplex_shift_shortExact hS hj) h3' 2 (by norm_num) hp.two_le
-  let eE : Ext (unitSheaf (X := X) ℓ) (cokernel (shift hS ^ 2)) 2 ≃
+  let eE : Ext (unitSheaf (X := X) ℓ) (cokernel (shift hS ^ 2).asHom) 2 ≃
       Ext (unitSheaf (X := X) ℓ) E 2 :=
     Equiv.ofBijective _ (Stacks.ExtAdjunction.postcomp_mk₀_bijective_of_isIso
       (cokernelShiftSqIso hS).hom (X := unitSheaf ℓ) 2)

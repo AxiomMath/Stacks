@@ -36,7 +36,7 @@ sheaf on the thickened space), everything is stated on the small étale site of 
 * `f_*𝒞_{Z/X} ⟶ f_*𝒪_X` is the inclusion of the conormal module as the kernel of
   `i^{-1}𝒪_X ⟶ 𝒪_Z`, the field `ι` of `AlgebraicGeometry.Space.restrictedSquareZeroValues`;
 * `D` is an `𝒪_T`-derivation of `𝒪_{W₀}` with values in `f_*𝒞_{Z/X}`: a
-  `PresheafOfModules.Derivation'` over the structure map
+  `PresheafOfModulesOfCommRing.Derivation'` over the structure map
   `(j ≫ pW)^♯ : (j ≫ pW)^{-1}𝒪_T ⟶ 𝒪_{W₀}`, that is, a derivation killing the functions read
   from `T`.
 
@@ -138,7 +138,8 @@ theorem exists_derivation_restrictedSharpThroughThickening_sub
     {T : AlgebraicSpaces B S hS} (pX : X ⟶ T) (pW : W ⟶ T) (hc : c ≫ pW = pX)
     (hc' : c' ≫ pW = pX)
     (hC : conormalMap B S hS Z W₀ c f hsq = conormalMap B S hS Z W₀ c' f hsq') :
-    ∃ D : ((modulePushforward B S hS f).obj (conormalModule B S hS X Z)).val.Derivation'
+    ∃ D : PresheafOfModulesOfCommRing.Derivation'
+        ((modulePushforward B S hS f).obj (conormalModule B S hS X Z)).val
         (structureSharpInverseImage B S hS (subspaceInclusion B S hS W W₀ ≫ pW)).hom,
       ∀ (V : (SmallEtale B S hS (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1)ᵒᵖ)
         (x : ToType ((structureRingSheafInverseImage B S hS

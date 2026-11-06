@@ -82,7 +82,7 @@ private noncomputable def quotientProductIsLimit {A : DifferentialGradedAlgebra.
   · intro s i
     change q.map (Pi.lift (fun j => q.preimage (s.π.app ⟨j⟩))) ≫
       q.map (Pi.π N i.as) = s.π.app i
-    rw [← q.map_comp, Pi.lift_π]
+    rw [← q.map_comp, Pi.lift_comp_π]
     simp [q]
   · intro s m hm
     let g : s.pt.as ⟶ ∏ᶜ N := Pi.lift (fun i => q.preimage (s.π.app ⟨i⟩))

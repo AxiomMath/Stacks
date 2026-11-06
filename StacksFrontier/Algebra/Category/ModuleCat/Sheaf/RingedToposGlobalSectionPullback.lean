@@ -57,6 +57,12 @@ variable {A : RingedTopos.{v₁, u₁, w}} {B : RingedTopos.{v₂, u₂, w}}
   [A.J.HasSheafCompose (forget CommRingCat.{w})] [B.J.HasSheafCompose (forget CommRingCat.{w})]
   [C.J.HasSheafCompose (forget CommRingCat.{w})]
 
+/-- The inverse image of a morphism of ringed topoi preserves the terminal object. Named here so
+that public statements below find it: there, instance search for it otherwise times out. -/
+instance (priority := high) isIso_terminalComparison_inverseImage
+    (f : RingedToposHom A B) : IsIso (terminalComparison f.toToposHom.inverseImage) :=
+  inferInstance
+
 /-- **The pullback of a global section of the structure sheaf** along a morphism of ringed topoi
 `f`: the inverse image `f⁻¹t` of `t : ⊤ ⟶ O_D` followed by `f^♯ : f⁻¹O_D ⟶ O_C`, on underlying
 sheaves of sets. -/

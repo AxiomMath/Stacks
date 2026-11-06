@@ -65,6 +65,14 @@ open scoped TensorProduct
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_unibranchArrowsTensorSquare
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : AlgebraicGeometry.Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 
 /-- Contracting along a ring isomorphism carries minimal primes to minimal primes. -/

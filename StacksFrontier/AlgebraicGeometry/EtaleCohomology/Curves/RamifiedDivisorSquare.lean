@@ -295,7 +295,7 @@ theorem integerSkyscraperDirectImageMap_integerSkyscraperDivisorOfPoint_ramified
   rw [integerSkyscraperDirectImageMap_app,
     integerSkyscraperSectionsIsoLocallyConstantMaps_integerSkyscraperDivisorOfPoint,
     integerSkyscraperSectionsIsoLocallyConstantMaps_integerSkyscraperDivisorOfPoint]
-  refine LocallyConstant.ext fun w => ULift.ext _ _ ?_
+  refine LocallyConstant.ext fun w => ULift.ext ?_
   rw [LocallyConstant.coe_smul, Pi.smul_apply, LocallyConstant.coe_comap_apply, ULift.smul_down]
   simp only [smul_eq_mul]
   exact (residueFibreOrdOfPoint_apply_ramified.{u, v} π hcoh U x a w).symm

@@ -53,7 +53,7 @@ variable {R : Type u} [CommRing R]
 private theorem coeff_toLaurent_natCast (p : Polynomial R) (n : ℕ) :
     (toLaurent p).coeff (n : ℤ) = p.coeff n := by
   rw [LaurentPolynomial.coeff_toLaurent]
-  exact Finsupp.mapDomain_apply Nat.castEmbedding.injective _ n
+  exact Finsupp.mapDomain_apply_of_injective Nat.castEmbedding.injective _ n
 
 /-- A polynomial whose image in `R[T;T⁻¹]` is the inversion of the image of another polynomial
 is constant. -/

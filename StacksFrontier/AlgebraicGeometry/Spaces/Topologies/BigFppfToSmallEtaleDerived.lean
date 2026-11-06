@@ -69,6 +69,7 @@ abbrev fppfToBigEtaleAbelianPushforward :
   (Over.postEquiv (canonicalSpaceEquivalence T E h).1 (X := X)).inverse.sheafPushforwardContinuous
     AddCommGrpCat.{u + 1} (E.bigEtaleTopology (etaleSpace T E h X)) (BigFppfSpaceOver.topology T X)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The adjunction `ε_X⁻¹ ⊣ ε_{X,*}` on abelian sheaves. -/
 def fppfToBigEtaleAbelianAdjunction :
     CategoryTheory.Sites.abelianInverseImage (fppfToBigEtaleMorphism T E h X) ⊣

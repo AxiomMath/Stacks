@@ -202,6 +202,8 @@ theorem isClosed_singleton_pointsMap_of_isPullback {Z P : AlgebraicSpaces B S hS
   obtain ⟨a, hztz⟩ := exists_pointsMap_ι_eq_of_range_ι_le P.property hz hle
   have hmonoAP : Mono (((D.pointSubspace i).preimage g.hom).preimage p.hom).ι :=
     mono_of_isClosedImmersion B S hS _ hAPcl.2
+  have hmonoInv : Mono (inv (((D.pointSubspace i).preimage g.hom).fromPreimage p.hom)) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (IsIso.inv_isIso (f := _))
   have hwtclosed := isClosed_singleton_of_pointsMap_eq
     (inv (((D.pointSubspace i).preimage g.hom).fromPreimage p.hom))
     (x := pointsMap B S hS _ (((D.pointSubspace i).preimage g.hom).fromPreimage p.hom) a)

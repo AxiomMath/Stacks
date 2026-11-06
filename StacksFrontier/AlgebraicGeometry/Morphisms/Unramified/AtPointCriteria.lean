@@ -156,7 +156,6 @@ private theorem formallyUnramified_stalkMap_iff_residueCriterion
     · have hmax := h'.2
       change (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _ at hmax
       convert hmax using 1
-      rfl
     · let := (f.residueFieldMap x).hom.toAlgebra
       have hsep : Algebra.IsSeparable (S.residueField (f x)) (X.residueField x) := by
         convert! h'.1
@@ -180,7 +179,6 @@ private theorem formallyUnramified_stalkMap_iff_residueCriterion
       exact hsep
     · show (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _
       convert hmax using 1
-      rfl
 
 /-! ### The characterizations of unramifiedness at a point -/
 

@@ -768,14 +768,14 @@ include hτ0 hτadd hfree htrans in
 def schemePseudoTorsor :
     PseudoTorsor.{u + 1} (abelianSheafAsGroupSheaf (rootsOfUnitySheaf.{u, 0} S n)) where
   presheaf := uliftYoneda.{u + 1}.obj (Scheme.Etale.mk p)
-  isSheaf := ((S.smallEtaleTopology.uliftYoneda.{u + 1}).obj (Scheme.Etale.mk p)).cond
+  isSheaf := ((S.smallEtaleTopology.uliftYoneda.{u + 1}).obj (Scheme.Etale.mk p)).property
   act := schemeTorsorAct f hζ p τ hτp
   one_act U σ := by
-    refine ULift.ext _ _ (MorphismProperty.Over.Hom.ext ?_)
+    refine ULift.ext (MorphismProperty.Over.Hom.ext ?_)
     rw [schemeTorsorAct_left]
     exact rootSMul_eq_of_eq_one f hζ τ _ _ _ _ hτ0 (sectionRootVal_one U)
   mul_act U m m' σ := by
-    refine ULift.ext _ _ (MorphismProperty.Over.Hom.ext ?_)
+    refine ULift.ext (MorphismProperty.Over.Hom.ext ?_)
     rw [schemeTorsorAct_left, schemeTorsorAct_left, schemeTorsorAct_left]
     refine (rootSMul_congr f hζ τ rfl _
       (by rw [mul_pow, sectionRootVal_pow, sectionRootVal_pow, one_mul])
@@ -783,7 +783,7 @@ def schemePseudoTorsor :
     exact rootSMul_mul f hζ τ U.unop.hom _ _ (sectionRootVal_pow U m)
       (sectionRootVal_pow U m') σ.down.left hτadd
   naturality {U V} g m σ := by
-    refine ULift.ext _ _ (MorphismProperty.Over.Hom.ext ?_)
+    refine ULift.ext (MorphismProperty.Over.Hom.ext ?_)
     change g.unop.left ≫ (schemeTorsorAct f hζ p τ hτp U m σ).down.left =
       (schemeTorsorAct f hζ p τ hτp V _ _).down.left
     rw [schemeTorsorAct_left, schemeTorsorAct_left]
@@ -796,7 +796,7 @@ def schemePseudoTorsor :
     obtain ⟨m, hm⟩ := (sectionRoot_bijective U).2 ⟨x, hx⟩
     have hmx : sectionRootVal U m = x.val := congrArg (fun z => z.1.val) hm
     refine ⟨m, ?_, fun m' hm' => ?_⟩
-    · refine ULift.ext _ _ (MorphismProperty.Over.Hom.ext ?_)
+    · refine ULift.ext (MorphismProperty.Over.Hom.ext ?_)
       rw [schemeTorsorAct_left]
       exact (rootSMul_congr f hζ τ rfl _ _ hmx rfl).trans hxs
     · apply (sectionRoot_bijective U).1
@@ -863,7 +863,7 @@ theorem exists_hom_of_pseudoTorsorHom {T₁ T₂ : Scheme.{u}} (p₁ : T₁ ⟶ 
     exact (schemeTorsorAct_left_of_eq f hζ p₁ τ₁ hτp₁ U m _ a hm).trans (Category.id_comp _)
   have e2 : schemeTorsorAct f hζ p₁ τ₁ hτp₁ U m x₀ =
       (schemePseudoTorsor f hζ p₁ τ₁ hτp₁ hτ0₁ hτadd₁ hfree₁ htrans₁).presheaf.map τ'.op x₀ :=
-    ULift.ext _ _ (MorphismProperty.Over.Hom.ext (e1.trans (Category.comp_id _).symm))
+    ULift.ext (MorphismProperty.Over.Hom.ext (e1.trans (Category.comp_id _).symm))
   have e3 : (schemeTorsorAct f hζ p₂ τ₂ hτp₂ U m (e.hom.app U x₀)).down.left =
       φ'.left ≫ τ₂ a := by
     exact schemeTorsorAct_left_of_eq f hζ p₂ τ₂ hτp₂ U m _ a hm

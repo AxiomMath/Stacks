@@ -98,6 +98,7 @@ theorem towerFunctorialitySquare_resolution_zero_comp_resolutionZeroIsoFreeAlgeb
               (standardResolutionComonadSquareHom.{u, v, w} J g).app Z := by
         intro X Z u
         simp [Functor.iterateCompHomObj, Functor.iterateCompHom, Functor.iterate]
+        erw [Functor.whiskerRight_app, NatTrans.id_app, Functor.map_id, Category.id_comp]
       have hU : (resolutionZeroIsoFreeAlgebraUnder.{u, v, w} J (g ≫ h)).inv ≫
           squareResolutionTermMap.{u, v, w} J g (𝟙 D) (by simp) 0 ≫
             (squareAlgebras J g).map (resolutionZeroIsoFreeAlgebraUnder.{u, v, w} J h).hom =

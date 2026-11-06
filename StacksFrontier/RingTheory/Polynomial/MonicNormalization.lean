@@ -57,7 +57,7 @@ theorem dvd_of_forall_pderiv_eq_zero {f : MvPolynomial σ R} (h : ∀ i, pderiv 
   have hmi : 1 ≤ m i := Nat.one_le_iff_ne_zero.mpr fun h0 => hp (h0 ▸ dvd_zero p)
   have hle : Finsupp.single i 1 ≤ m := Finsupp.single_le_iff.mpr hmi
   have hc := coeff_pderiv (i := i) f (m - Finsupp.single i 1)
-  rw [h i, coeff_zero, tsub_add_cancel_of_le hle, Finsupp.tsub_apply, Finsupp.single_eq_same,
+  rw [h i, AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply, tsub_add_cancel_of_le hle, Finsupp.tsub_apply, Finsupp.single_eq_same,
     eq_comm, mul_eq_zero] at hc
   rcases hc with hc | hc
   · exact (mem_support_iff.mp hm) hc
@@ -71,7 +71,7 @@ theorem exists_pow_eq_of_forall_pderiv_eq_zero [Fact p.Prime] [PerfectRing R p]
     {f : MvPolynomial σ R} (h : ∀ i, pderiv i f = 0) : ∃ g : MvPolynomial σ R, g ^ p = f := by
   classical
   set g' : MvPolynomial σ R := ∑ m ∈ f.support,
-    monomial (Finsupp.mapRange (· / p) (Nat.zero_div p) m) (coeff m f)
+    monomial (Finsupp.mapRange (· / p) (Nat.zero_div p) m) (f.coeff m)
   have hg' : expand p g' = f := by
     conv_rhs => rw [← support_sum_monomial_coeff f]
     simp only [g', map_sum, expand_monomial]
@@ -157,7 +157,7 @@ theorem eval_aeval_X_one (a : R) (G : MvPolynomial (Fin 2) R) :
 /-- The coefficient of `y ^ d` in a homogeneous polynomial of degree `d` in `x, y` is its value
 at `(0, 1)`. -/
 theorem IsHomogeneous.coeff_single_one_eq_eval {G : MvPolynomial (Fin 2) R} {d : ℕ}
-    (hG : G.IsHomogeneous d) : coeff (Finsupp.single 1 d) G = eval ![0, 1] G := by
+    (hG : G.IsHomogeneous d) : G.coeff (Finsupp.single 1 d) = eval ![0, 1] G := by
   conv_lhs => rw [← Polynomial.homogenize_eq_of_isHomogeneous hG rfl]
   rw [Polynomial.coeff_homogenize]
   simp only [Finsupp.single_eq_of_ne (show (0 : Fin 2) ≠ 1 by decide), Finsupp.single_eq_same,
@@ -166,7 +166,7 @@ theorem IsHomogeneous.coeff_single_one_eq_eval {G : MvPolynomial (Fin 2) R} {d :
 /-- The coefficient of `y ^ d` after the shear is the top homogeneous component evaluated at
 `(a, 1)`. -/
 theorem coeff_single_one_shear (a : R) (f : MvPolynomial (Fin 2) R) (d : ℕ) :
-    coeff (Finsupp.single 1 d) (shear a f) = eval ![a, 1] (homogeneousComponent d f) := by
+    (shear a f).coeff (Finsupp.single 1 d) = eval ![a, 1] (homogeneousComponent d f) := by
   conv_lhs => rw [← sum_homogeneousComponent f]
   rw [map_sum, coeff_sum, Finset.sum_eq_single d]
   · rw [(isHomogeneous_shear a (homogeneousComponent_isHomogeneous d f)).coeff_single_one_eq_eval,
@@ -177,7 +177,7 @@ theorem coeff_single_one_shear (a : R) (f : MvPolynomial (Fin 2) R) (d : ℕ) :
     simpa using Ne.symm hid
   · intro hd'
     rw [homogeneousComponent_eq_zero d f (by simpa [Nat.lt_succ_iff] using hd'), map_zero,
-      coeff_zero]
+      AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply]
 
 end Shear
 
@@ -210,15 +210,15 @@ theorem irreducible_of_irreducible_map {σ K L : Type*} [Field K] [Field L] (φ 
   have hunit : ∀ u : MvPolynomial σ K, IsUnit (map φ u) → IsUnit u := by
     intro u hu
     obtain ⟨c, hc⟩ := isUnit_iff_eq_C_of_isReduced.mp hu
-    have hu' : u = C (coeff 0 u) := by
+    have hu' : u = C (u.coeff 0) := by
       ext m
       by_cases hm : m = 0
       · simp [hm]
       · rw [coeff_C, if_neg (Ne.symm hm)]
-        have := congrArg (coeff m) hc.2
+        have := congrArg (fun q : MvPolynomial _ _ => q.coeff m) hc.2
         rw [coeff_map, coeff_C, if_neg (Ne.symm hm)] at this
         exact (map_eq_zero φ).mp this
-    have h0 := congrArg (coeff 0) hc.2
+    have h0 := congrArg (fun q : MvPolynomial _ _ => q.coeff 0) hc.2
     rw [coeff_map, coeff_C, if_pos rfl] at h0
     rw [hu']
     refine (isUnit_iff_ne_zero.mpr fun h => ?_).map C
@@ -259,7 +259,7 @@ theorem exists_monic_normalization {F : Type*} [Field F] [Fintype F]
     · obtain ⟨a₀, h₀⟩ := hex
       refine ⟨a₀, fun a ha h => ?_⟩
       have h₁ : C (a - a₀) * pderiv 0 f = 0 := by
-        rw [C_sub]; linear_combination h - h₀
+        rw [map_sub]; linear_combination h - h₀
       rcases mul_eq_zero.mp h₁ with h₂ | h₂
       · exact ha (sub_eq_zero.mp (C_eq_zero.mp h₂))
       · rw [h₂, mul_zero, zero_add] at h₀
@@ -271,7 +271,7 @@ theorem exists_monic_normalization {F : Type*} [Field F] [Fintype F]
   have hd0 : d ≠ 0 := by
     intro h0
     rw [totalDegree_eq_zero_iff_eq_C.mp h0, map_C] at hf
-    by_cases hb : φ (coeff 0 f) = 0
+    by_cases hb : φ (f.coeff 0) = 0
     · exact hf.ne_zero (by rw [hb, map_zero])
     · exact hf.not_isUnit ((isUnit_iff_ne_zero.mpr hb).map C)
   -- The top homogeneous component `H` of `f`, and its dehomogenization `P(t) = H(t, 1)`.
@@ -281,9 +281,9 @@ theorem exists_monic_normalization {F : Type*} [Field F] [Fintype F]
     obtain ⟨m, hm, hmd⟩ := Finset.exists_mem_eq_sup f.support (support_nonempty.mpr hf0)
       fun s => s.sum fun _ e => e
     intro h
-    have := congrArg (coeff m) h
+    have := congrArg (fun q : MvPolynomial _ _ => q.coeff m) h
     rw [coeff_homogeneousComponent, if_pos (show m.degree = d from hmd.symm),
-      coeff_zero] at this
+      AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply] at this
     exact mem_support_iff.mp hm this
   set P : Polynomial F := aeval ![Polynomial.X, 1] H
   have hP0 : P ≠ 0 := fun h => hH0 <| by

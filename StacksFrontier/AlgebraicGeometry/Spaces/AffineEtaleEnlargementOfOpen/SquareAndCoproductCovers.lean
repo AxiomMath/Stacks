@@ -164,10 +164,12 @@ theorem elementaryDistinguishedSquare_of_etale_neighborhood
       apply AlgebraicGeometry.Space.pointsMap_injective_of_mono B S hS A.ι
       rw [← pointsMap_comp_apply, ← pointsMap_comp_apply, ha]
       exact ht)
+  have hAι : Mono A.ι := inferInstance
   let P := pullback T.ι f
   let p : P ⟶ T.toFunctor := pullback.fst T.ι f
   let q : P ⟶ Y := pullback.snd T.ι f
   let l : Z.toFunctor ⟶ P := b ≫ inv p
+  have hpmono : Mono p := IsIso.mono_of_iso p
   let g : Z.toFunctor ⟶ Y := l ≫ q
   have hl : l ≫ p = b := by simp [l]
   have hgf : g ≫ f = a := by

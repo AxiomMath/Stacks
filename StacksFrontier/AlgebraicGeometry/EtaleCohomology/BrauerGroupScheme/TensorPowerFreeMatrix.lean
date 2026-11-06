@@ -299,7 +299,7 @@ theorem freeEndMatrixEquiv_reindex {I J : Type} [Finite I] [Finite J] (e : I ≃
       _root_.SheafOfModules.free (R := Tensor.ringSheaf S.sheaf) (ULift.{u, 0} I)) :
     freeEndMatrixEquiv S J ((freeReindexIso S e).inv ≫ g ≫ (freeReindexIso S e).hom) =
       Matrix.reindex e e (freeEndMatrixEquiv S I g) := by
-  ext j j'
+  refine Matrix.ext fun j j' => ?_
   exact freeEndMatrixEquiv_reindex_apply S e g j j'
 
 /-- **One Kronecker step: the matrix of `h ⊗ₘ k` conjugated by `tensorIso a (Iso.refl _)`, the
@@ -447,7 +447,7 @@ theorem freeEndMatrixEquiv_natTensorPowMap (j : ℕ)
         ((natTensorPowFreeIso S d j).inv ≫ natTensorPowMap S f j ≫
           (natTensorPowFreeIso S d j).hom) =
       Matrix.tensorPowIdx (Fin j) (freeEndMatrixEquiv S (Fin d) f) := by
-  ext f' g'
+  refine Matrix.ext fun f' g' => ?_
   rw [Matrix.tensorPowIdx_apply]
   exact freeEndMatrixEquiv_natTensorPowMap_apply S d f j f' g'
 

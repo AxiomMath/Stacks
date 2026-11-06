@@ -96,14 +96,14 @@ variable {S} (I₁ : InjectiveResolution S.X₁) (I₂ : InjectiveResolution S.X
     (congrFun (congrArg HomologicalComplex.Hom.f zero) 1)).Splitting)
   (hFR : ((ShortComplex.mk f g zero).map
     ((sectionsFunctor X ⊤).mapHomologicalComplex (ComplexShape.up ℕ))).ShortExact)
-  (t : S.X₃.val.obj (op ⊤))
+  (t : S.X₃.obj.obj (op ⊤))
   {I : Type u} (Ui : I → Opens X) (hUi : (⊤ : Opens X) = ⨆ i, Ui i)
-  (e : CechCochains.Cochain Ui S.X₂.val 0)
+  (e : CechCochains.Cochain Ui S.X₂.obj 0)
   (he : ∀ i : Fin 1 → I, S.g.hom.app (op (CechCochains.inter Ui i)) (e i) =
-    S.X₃.val.map (homOfLE le_top).op t)
-  (ω : CechCochains.cocycles1 Ui S.X₁.val)
+    S.X₃.obj.map (homOfLE le_top).op t)
+  (ω : CechCochains.cocycles1 Ui S.X₁.obj)
   (hω : ∀ i : Fin 2 → I, S.f.hom.app (op (CechCochains.inter Ui i)) (ω.val i) =
-    CechCochains.cechD Ui S.X₂.val 0 e i)
+    CechCochains.cechD Ui S.X₂.obj 0 e i)
 
 include comm_f comm_g σ₀ σ₁ he hω in
 /-- **The snake-lemma connecting morphism of the global sections of a compatible split sequence
@@ -113,7 +113,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     (I₁.isoRightDerivedObj (sectionsFunctor X ⊤) 1).inv
         (hFR.δ 0 1 rfl ((I₃.isoRightDerivedObj (sectionsFunctor X ⊤) 0).hom
           ((sectionsFunctor X ⊤).toRightDerivedZero.app S.X₃ t))) =
-      cechH1ToRightDerivedSections X ⊤ Ui hUi S.X₁ (CechCochains.cls Ui S.X₁.val ω) := by
+      cechH1ToRightDerivedSections X ⊤ Ui hUi S.X₁ (CechCochains.cls Ui S.X₁.obj ω) := by
   -- the image of `t` in `Γ(I₃⁰)`, its lift to `Γ(I₂⁰)` and the snake-lemma representative,
   -- as morphisms out of `Γ(ℱ₃)`
   let Γ := sectionsFunctor X ⊤
@@ -155,10 +155,10 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     rw [I₃.toRightDerivedZero_eq Γ]
     exact cancel_aux _ _ _ _ _ _ (Iso.inv_hom_id _) hδ
   -- the Čech `0`-cochain of `I₁⁰` of the representative
-  let xs : CechCochains.Cochain Ui (I₂.cocomplex.X 0).val 0 :=
+  let xs : CechCochains.Cochain Ui (I₂.cocomplex.X 0).obj 0 :=
     fun i => CechCochains.restr _ le_top (x₂ t)
-  let y : CechCochains.Cochain Ui (I₂.cocomplex.X 0).val 0 := xs - push Ui (I₂.ι.f 0).hom 0 e
-  let b' : CechCochains.Cochain Ui (I₁.cocomplex.X 0).val 0 := push Ui σ₀.r.hom 0 y
+  let y : CechCochains.Cochain Ui (I₂.cocomplex.X 0).obj 0 := xs - push Ui (I₂.ι.f 0).hom 0 e
+  let b' : CechCochains.Cochain Ui (I₁.cocomplex.X 0).obj 0 := push Ui σ₀.r.hom 0 y
   have hx₂t : (g.f 0).hom.app (op ⊤) (x₂ t) = (I₃.ι.f 0).hom.app (op ⊤) t :=
     ConcreteCategory.congr_hom hx₂ t
   have hgy : push Ui (g.f 0).hom 0 y = 0 := by
@@ -182,14 +182,14 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     have hg0 : (g.f 0).hom.app _ (y i) = 0 := congrFun hgy i
     rwa [hg0, map_zero, add_zero] at hid
   -- the facts the representative is made of
-  have hcob : ∀ i : Fin 2 → I, CechCochains.cechD Ui (I₁.cocomplex.X 0).val 0 (-b') i =
+  have hcob : ∀ i : Fin 2 → I, CechCochains.cechD Ui (I₁.cocomplex.X 0).obj 0 (-b') i =
       (I₁.ι.f 0).hom.app (op (CechCochains.inter Ui i)) (ω.val i) := by
     intro i
     apply injective_app_of_comp_eq_id σ₀.f_r
-    have hxs : CechCochains.cechD Ui (I₂.cocomplex.X 0).val 0 xs = 0 :=
+    have hxs : CechCochains.cechD Ui (I₂.cocomplex.X 0).obj 0 xs = 0 :=
       CechBoundary.cechD_eq_zero_of_restr Ui (x₂ t) (fun _ => le_top) xs (fun _ => rfl)
-    have e1 : (f.f 0).hom.app _ (CechCochains.cechD Ui (I₁.cocomplex.X 0).val 0 (-b') i) =
-        CechCochains.cechD Ui (I₂.cocomplex.X 0).val 0 (push Ui (I₂.ι.f 0).hom 0 e) i := by
+    have e1 : (f.f 0).hom.app _ (CechCochains.cechD Ui (I₁.cocomplex.X 0).obj 0 (-b') i) =
+        CechCochains.cechD Ui (I₂.cocomplex.X 0).obj 0 (push Ui (I₂.ι.f 0).hom 0 e) i := by
       have := congrFun (push_cechD Ui (f.f 0).hom 0 (-b')) i
       rw [push_apply] at this
       rw [this, map_neg, hfb']
@@ -203,7 +203,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
   let cyc := R'.X₁.liftCycles x₁ 2 (by simp) hx₁d t
   have hcyc : R'.X₁.iCycles 1 cyc = x₁ t :=
     ConcreteCategory.congr_hom (R'.X₁.liftCycles_i _ _ _ _) t
-  have hres : ∀ i : Fin 1 → I, (I₁.cocomplex.X 1).val.map
+  have hres : ∀ i : Fin 1 → I, (I₁.cocomplex.X 1).obj.map
       (homOfLE (show CechCochains.inter Ui i ≤ ⊤ from le_top)).op (R'.X₁.iCycles 1 cyc) =
         -((I₁.cocomplex.d 0 1).hom.app (op (CechCochains.inter Ui i))) ((-b') i) := by
     intro i
@@ -243,19 +243,19 @@ sheaves, `t` a global section of `ℱ₃`, `eᵢ` lifts of `t` to `ℱ₂` on an
 morphism `H⁰(X, ℱ₃) ⟶ H¹(X, ℱ₁)` of the derived functor `RΓ(X, -)`, read in the
 injective-resolution convention through `derivedPlusToStandard`, sends `t` to the image of the
 class of `ω` under the comparison of [Stacks, Tag 01EQ]. -/
-theorem rightDerivedPlusδ_toRightDerivedZero (t : S.X₃.val.obj (op ⊤))
+theorem rightDerivedPlusδ_toRightDerivedZero (t : S.X₃.obj.obj (op ⊤))
     {I : Type u} (Ui : I → Opens X) (hUi : (⊤ : Opens X) = ⨆ i, Ui i)
-    (e : CechCochains.Cochain Ui S.X₂.val 0)
+    (e : CechCochains.Cochain Ui S.X₂.obj 0)
     (he : ∀ i : Fin 1 → I, S.g.hom.app (op (CechCochains.inter Ui i)) (e i) =
-      S.X₃.val.map (homOfLE le_top).op t)
-    (ω : CechCochains.cocycles1 Ui S.X₁.val)
+      S.X₃.obj.map (homOfLE le_top).op t)
+    (ω : CechCochains.cocycles1 Ui S.X₁.obj)
     (hω : ∀ i : Fin 2 → I, S.f.hom.app (op (CechCochains.inter Ui i)) (ω.val i) =
-      CechCochains.cechD Ui S.X₂.val 0 e i) :
+      CechCochains.cechD Ui S.X₂.obj 0 e i) :
     (derivedPlusToStandard (sectionsFunctor X ⊤) 1).hom.app S.X₁
         (CechDelta.rightDerivedPlusδ (sectionsFunctor X ⊤) hS 0
           ((derivedPlusToStandard (sectionsFunctor X ⊤) 0).inv.app S.X₃
             ((sectionsFunctor X ⊤).toRightDerivedZero.app S.X₃ t))) =
-      cechH1ToRightDerivedSections X ⊤ Ui hUi S.X₁ (CechCochains.cls Ui S.X₁.val ω) := by
+      cechH1ToRightDerivedSections X ⊤ Ui hUi S.X₁ (CechCochains.cls Ui S.X₁.obj ω) := by
   obtain ⟨I₁, I₂, I₃, f, g, w, hR, cf, cg, hsplit⟩ := hS.exists_injectiveResolution_shortExact
   have hFR : ((ShortComplex.mk f g w).map
       ((sectionsFunctor X ⊤).mapHomologicalComplex (ComplexShape.up ℕ))).ShortExact :=

@@ -296,9 +296,9 @@ private theorem map_eval_genericBoundedPolynomial_ne_zero (k : Type*) [CommSemir
       (genericBoundedPolynomial k (r := r) (e := e) i)) ≠ 0 := by
   obtain ⟨⟨i₀, b₀⟩, hib⟩ := Function.ne_iff.mp ha
   intro hcon
-  have h := congrArg (MvPolynomial.coeff (boxExponent b₀)) (congrFun hcon i₀)
+  have h := congrArg (fun q => q.coeff (boxExponent b₀)) (congrFun hcon i₀)
   simp only [MvPolynomial.coeff_map, coeff_genericBoundedPolynomial, MvPolynomial.eval_X,
-    Pi.zero_apply, MvPolynomial.coeff_zero] at h
+    Pi.zero_apply, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h
   exact hib h
 
 /-- Specialising the coefficients of the coefficients commutes with substituting polynomials
@@ -361,7 +361,7 @@ theorem exists_nonzero_zero_of_isHomogeneous_mvPolynomial
     rw [← hcc, ← hg] at hcl
     have hzero : MvPolynomial.map (MvPolynomial.eval a) g = 0 := by
       refine MvPolynomial.ext _ _ fun ν ↦ ?_
-      rw [MvPolynomial.coeff_map, MvPolynomial.coeff_zero]
+      rw [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
       by_cases hν : g.coeff ν = 0
       · simp [hν]
       · obtain ⟨w, rfl⟩ := hsupp ν hν

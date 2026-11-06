@@ -3,6 +3,7 @@ module
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 
 public import StacksFrontier.RingTheory.CohenRing
 public import StacksFrontier.RingTheory.RegularLocalRing.SystemOfParameters

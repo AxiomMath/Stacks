@@ -87,6 +87,15 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   {F : SheafOfModules.{w} (CategoryTheory.Sheaf.toRingCat J Osharp)}
 
+/-- Countable coproducts of sheaves of modules, stated directly: instance search for
+`HasColimit (Discrete.functor _)` in `SheafOfModules` times out under Lean v4.35.0. -/
+local instance : HasColimitsOfShape (Discrete ℕ)
+    (SheafOfModules.{w} (CategoryTheory.Sheaf.toRingCat J Osharp)) :=
+  haveI := PresheafOfModules.hasColimitsOfShape (CategoryTheory.Sheaf.toRingCat J Osharp).obj
+    (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (CategoryTheory.Sheaf.toRingCat J Osharp) (Discrete ℕ)
+
 section Annihilator
 
 variable (A : TensorExteriorSymmetricAlgebras J F) (n : ℕ)

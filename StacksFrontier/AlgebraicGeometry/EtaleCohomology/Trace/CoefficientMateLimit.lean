@@ -143,7 +143,7 @@ theorem isIso_coefficientMate_of_isLimit {I : Type*} [SmallCategory I] [FinCateg
         ((sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).natTrans.app c) (hF' i))
       (fun f => sheafComposeCoefficientMate_naturality uf J K adjA adjB (F.map f) c)
   have h₃ := (IsLimit.postcomposeHomEquiv e _).symm h₂
-  let φ : (Cones.postcompose e.hom).obj (LB.mapCone (sheafComposeCone F Gf κ c)) ⟶
+  let φ : (Cone.postcompose e.hom).obj (LB.mapCone (sheafComposeCone F Gf κ c)) ⟶
       sheafComposeCone F Gf κ (LA.obj c) :=
     { hom := (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c
       w i := by
@@ -151,7 +151,7 @@ theorem isIso_coefficientMate_of_isLimit {I : Type*} [SmallCategory I] [FinCateg
         exact (sheafComposeCoefficientMate_naturality uf J K adjA adjB
           (Gf := Gf) (Gf' := F.obj i) (κ.app i) c).symm }
   have hφ : IsIso φ := IsLimit.hom_isIso h₃ h₁ φ
-  exact (Cones.forget _).map_isIso φ
+  exact (Cone.forget _).map_isIso φ
 
 end Stacks.EtaleCohomology
 

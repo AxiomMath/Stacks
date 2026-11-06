@@ -251,7 +251,7 @@ private theorem pi_lift_sub_comp_smul_id
     Pi.lift fun n : ℕ => Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1) := by
   apply Pi.hom_ext
   intro n
-  simp only [Pi.lift_π, Linear.comp_smul, Category.comp_id]
+  simp only [Pi.lift_comp_π, Linear.comp_smul, Category.comp_id]
 
 /-- Every object of the derived category is isomorphic to a K-injective complex. -/
 private theorem exists_isKInjective_iso
@@ -357,11 +357,11 @@ private theorem derivedLimit_constantTower_of_iso
   have hProjectionF (n : ℕ) :
       differenceF ≫ Pi.π (fun _ : ℕ => K) n =
         Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1) := by
-    exact Pi.lift_π _ n
+    exact Pi.lift_comp_π _ n
   have hProjectionG (n : ℕ) :
       differenceG ≫ Pi.π (fun _ : ℕ => L) n =
         Pi.π (fun _ : ℕ => L) n - f • Pi.π (fun _ : ℕ => L) (n + 1) := by
-    exact Pi.lift_π _ n
+    exact Pi.lift_comp_π _ n
   have hProductIso (n : ℕ) :
       productIso.hom ≫ Pi.π (fun _ : ℕ => L) n =
         Pi.π (fun _ : ℕ => K) n ≫ e.hom :=

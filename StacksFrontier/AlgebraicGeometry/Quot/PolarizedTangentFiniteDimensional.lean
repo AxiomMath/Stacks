@@ -50,7 +50,7 @@ open CategoryTheory AlgebraicGeometry
 universe u
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Under.post
+  CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.BasedCategory.ofFunctor
 
 @[expose] public noncomputable section

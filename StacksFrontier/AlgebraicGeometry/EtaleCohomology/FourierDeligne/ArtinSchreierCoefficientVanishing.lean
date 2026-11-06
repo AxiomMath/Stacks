@@ -99,7 +99,7 @@ omit [Finite Λ] in
 /-- In the twist of `M` by `χ`, an element `g` acts on `v` as `χ g • v`. -/
 theorem characterTwistContinuousModule_ρ_hom (M : ModuleCat.{u + 1} Λ) [Finite M] (g : G)
     (v : M) :
-    (((characterTwistContinuousModule Λ χ hχ M).obj.obj.obj.ρ g).hom v : M) = (χ g : Λ) • v :=
+    (((characterTwistContinuousModule Λ χ hχ M).obj.obj.obj.ρ g).asHom.hom v : M) = (χ g : Λ) • v :=
   rfl
 
 variable {Λ} in
@@ -111,16 +111,16 @@ def finiteTypeContinuousModuleRestrictScalars {R : Type} [CommRing R] [Finite R]
   haveI : Finite (ToType ((ModuleCat.restrictScalars.{u + 1} ρ).obj P.obj.obj.obj.V)) :=
     inferInstanceAs (Finite (ToType P.obj.obj.obj.V))
   ⟨ofRepresentation (R := R) (M := (ModuleCat.restrictScalars.{u + 1} ρ).obj P.obj.obj.obj.V)
-      { toFun := fun g => ((ModuleCat.restrictScalars.{u + 1} ρ).map (P.obj.obj.obj.ρ g)).hom
+      { toFun := fun g => ((ModuleCat.restrictScalars.{u + 1} ρ).map (P.obj.obj.obj.ρ g).asHom).hom
         map_one' := by
           ext v
-          change (P.obj.obj.obj.ρ 1).hom v = v
+          change (P.obj.obj.obj.ρ 1).asHom.hom v = v
           rw [map_one]
           rfl
         map_mul' := fun g g' => by
           ext v
-          change (P.obj.obj.obj.ρ (g * g')).hom v =
-            (P.obj.obj.obj.ρ g).hom ((P.obj.obj.obj.ρ g').hom v)
+          change (P.obj.obj.obj.ρ (g * g')).asHom.hom v =
+            (P.obj.obj.obj.ρ g).asHom.hom ((P.obj.obj.obj.ρ g').asHom.hom v)
           rw [map_mul]
           rfl }
       ((isContinuous_actionOfRepresentation_iff _).2 fun v => isOpen_stabilizer Λ G P.obj v),
@@ -216,7 +216,7 @@ theorem subsingleton_compactSupportSheafCohomology_affineLine_torsor_character (
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod p) (EtaleFundamentalGroup _ x))
     (ρK : Multiplicative k →* Module.End (ZMod p) M.obj.obj.obj.V)
     (hM : ∀ (σ : EtaleFundamentalGroup _ x) (v : M.obj.obj.obj.V),
-      (M.obj.obj.obj.ρ σ).hom v = ρK ((torsorCover k k[X] Polynomial.X).character x p₀ σ) v)
+      (M.obj.obj.obj.ρ σ).asHom.hom v = ρK ((torsorCover k k[X] Polynomial.X).character x p₀ σ) v)
     (hfix : ∀ v, ∑ a : k, ρK (Multiplicative.ofAdd a) v = 0) (i : ℤ) :
     Subsingleton ((compactSupportSheafCohomology (ZMod p) (affineLineStructureMap k) j
       (AlgebraicClosure k) i).obj
@@ -416,7 +416,7 @@ theorem nonempty_constantSheaf_tensor_affineLineArtinSchreierSheaf_iso (M : Modu
   let Mχ := characterTwistContinuousModule Λ χ hχ M
   obtain ⟨e₁⟩ := nonempty_lisseEtaleSheaf_iso_constantSheaf_of_trivial B 𝕌 (affineLineOrigin k) Λ
     M₁ fun g => by
-      refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+      refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
       change (((1 : G →* Λˣ) g : Λˣ) : Λ) • v = v
       rw [MonoidHom.one_apply, Units.val_one, one_smul]
   let μ : M₁.obj.obj.obj.V →ₗ[Λ] Lχ.obj.obj.obj.V →ₗ[Λ] Mχ.obj.obj.obj.V :=
@@ -427,8 +427,8 @@ theorem nonempty_constantSheaf_tensor_affineLineArtinSchreierSheaf_iso (M : Modu
         change (c * a.down) • v = c • a.down • v
         rw [mul_smul])
   have hμ : ∀ (g : G) (a : M₁.obj.obj.obj.V) (b : Lχ.obj.obj.obj.V),
-      μ ((M₁.obj.obj.obj.ρ g).hom a) ((Lχ.obj.obj.obj.ρ g).hom b) =
-        (Mχ.obj.obj.obj.ρ g).hom (μ a b) := fun g a b => by
+      μ ((M₁.obj.obj.obj.ρ g).asHom.hom a) ((Lχ.obj.obj.obj.ρ g).asHom.hom b) =
+        (Mχ.obj.obj.obj.ρ g).asHom.hom (μ a b) := fun g a b => by
     change ((χ g : Λ) * b.down) • ((((1 : G →* Λˣ) g : Λˣ) : Λ) • (a : M)) =
       (χ g : Λ) • (b.down • (a : M))
     rw [MonoidHom.one_apply, Units.val_one, one_smul, mul_smul]

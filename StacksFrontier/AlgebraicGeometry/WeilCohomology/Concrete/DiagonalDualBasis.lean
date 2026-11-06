@@ -444,8 +444,7 @@ private theorem map_twCoord_assoc (i j m : ℤ) (t : W.grade X i ⊗[F] W.grade 
     TensorProduct.map LinearMap.id (W.twCoord X j m).toLinearMap
         (TensorProduct.assoc F _ _ _ (t ⊗ₜ l)) =
       tateLineCoordinates (tateLineCoordinate W.finrank_tate) m l • t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul u v =>
     rw [TensorProduct.assoc_tmul, TensorProduct.map_tmul, LinearMap.id_apply,
       LinearEquiv.coe_coe, twCoord, tateTwistCoordinates_tmul, TensorProduct.tmul_smul]
@@ -458,8 +457,7 @@ theorem map_twCoord_kunnethComponentTw (n m i j : ℤ)
         (kunnethComponentTw X hBa n m i j z) =
       kunnethComponent X hBa i j (W.twCoord _ n m z : W.H
           (SmoothProjectiveScheme.prod X X)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x l =>
     rw [kunnethComponentTw, LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply,
       LinearEquiv.coe_coe, map_twCoord_assoc, twCoord, tateTwistCoordinates_tmul,
@@ -501,8 +499,7 @@ theorem traceProj_mul_kunnethMap (hK : W.KunnethTrace) {i : ℤ} {a b : W.H X}
       (W.pull (SmoothProjectiveScheme.fst X X) a * W.pull (SmoothProjectiveScheme.snd X X) b *
         W.kunnethMap X X x) =
       TensorProduct.lift (tracePairingProduct hX i a b) (bidegreeComponent X i (2 * d - i) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, mul_add, map_add, hx, hy, map_add, map_add]
   | tmul u v =>
     induction u using DirectSum.Decomposition.inductionOn (W.grade X) with

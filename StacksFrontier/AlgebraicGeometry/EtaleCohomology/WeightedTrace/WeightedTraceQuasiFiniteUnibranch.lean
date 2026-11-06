@@ -259,7 +259,7 @@ public theorem exists_weighting_weightedTrace_of_isGeometricallyUnibranch
                       modPullF (fShriekMod.{u, u + 1, u} B Λ f)).inv ≫
                     NatTrans.mapDerivedCategory
                       (weightedTraceModNatTrans.{u, u + 1, u} B Λ f modPullF hpullF w τ hτ) ≫
-                    Functor.mapDerivedCategoryIdIso.hom) ∧
+                    (Functor.mapDerivedCategoryIdIso _).hom) ∧
               (∀ M : ModuleSheaf.{u, u + 1, u} B Y Λ,
                   (weightedTraceModNatTrans.{u, u + 1, u} B Λ f modPullF hpullF w τ hτ).app M =
                     τ M) ∧

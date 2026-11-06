@@ -488,7 +488,13 @@ theorem conormalMap_sectionTarget_eq_conormalMap_id (δ : Section G)
         δ.2.trans (identityArrow_comp_source G).symm) hsqδs hsqes
     have hchain := e1.symm.trans (ecg.trans e2)
     have := hSiso
-    exact (cancel_epi _).mp ((cancel_epi _).mp hchain)
+    have hmapIso : IsIso ((modulePullback C S hS d).map
+        (conormalMap C S hS R₀ U₀ G.source s₀ hsq_s)) := Functor.map_isIso _ _
+    have : Epi ((modulePullback C S hS d).map
+        (conormalMap C S hS R₀ U₀ G.source s₀ hsq_s)) := IsIso.epi_of_iso _
+    exact (cancel_epi _).mp
+      ((((modulePullbackCompIso C S hS d s₀).app
+        (conormalModule C S hS G.objects U₀)).cancel_iso_inv_left _ _).mp hchain)
   -- Composing with the square over the target turns that into the assertion for `t ∘ δ`.
   have key : ∀ (k : (⟨U₀.1.toFunctor, U₀.2.1⟩ : AlgebraicSpaces C S hS) ⟶
         (⟨U₀.1.toFunctor, U₀.2.1⟩ : AlgebraicSpaces C S hS)) (_ : k = d ≫ t₀)

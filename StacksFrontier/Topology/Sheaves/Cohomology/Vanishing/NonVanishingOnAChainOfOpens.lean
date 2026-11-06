@@ -1060,7 +1060,7 @@ lemma injective_trans_cotruncTower {n m k : ℕ} (hm : n < m) (h : m ≤ k) :
   have hdown : (ZMod.castHom (cotruncMod_dvd (n := n) h) (ZMod (cotruncMod n m))) x.down =
       (ZMod.castHom (cotruncMod_dvd (n := n) h) (ZMod (cotruncMod n m))) y.down :=
     congrArg ULift.down hxy
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   rw [← hretract x.down, ← hretract y.down, hdown]
 
 /-- The reduction of the constant system `ℤ` onto `cotruncTower n`. -/
@@ -1291,7 +1291,7 @@ lemma injective_towerSheafMap_kerIncl_app (n : ℕ) (W : (Opens Chain.{u})ᵒᵖ
   intro s t hst
   refine towerSections_ext _ fun p => ?_
   have h := congrArg (fun z : towerSections constIntTower.{u} W.unop => (z.1 p).down) hst
-  exact ULift.ext _ _ (Subtype.ext h)
+  exact ULift.ext (Subtype.ext h)
 
 /-- The inclusion `𝒦ₙ ⟶ ℤ` is injective on sections over every open: it is a monomorphism of
 sheaves, and `sheafToPresheaf` preserves limits, hence monomorphisms. -/
@@ -1467,12 +1467,12 @@ noncomputable def modelToKerSheaf (n : ℕ) :
   ⟨{ app := fun _ => AddCommGrpCat.ofHom
       { toFun := fun s => ⟨fun p => ULift.up ⟨(s ⟨exists_mem_of_index n p.2⟩).down,
             mem_cotruncKer_of_le (le_of_index_imageOpen n p.2) _⟩,
-          fun _ _ _ => ULift.ext _ _ (Subtype.ext
+          fun _ _ _ => ULift.ext (Subtype.ext
             (congrArg (fun w => (s w).down) (Subsingleton.elim _ _)))⟩
         map_zero' := towerSections_ext _ fun _ => rfl
         map_add' := fun _ _ => towerSections_ext _ fun _ => rfl }
      naturality := fun _ _ _ => AddCommGrpCat.ext fun s =>
-       towerSections_ext _ fun _ => ULift.ext _ _ (Subtype.ext
+       towerSections_ext _ fun _ => ULift.ext (Subtype.ext
          (congrArg (fun w => (s w).down) (Subsingleton.elim _ _))) }⟩
 
 /-- That map is bijective on sections over every open `W` of `U n`: over a nonempty `W` both sides
@@ -1487,7 +1487,7 @@ lemma bijective_modelToKerSheaf_app (n : ℕ) (W : (Opens ↥(basicOpen.{u} n))�
       basicOpen_le_imageOpen n hy
     have h := congrArg (fun σ : towerSections (kerTower.{u} n) (imageOpen.{u} n W.unop) =>
       ((σ.1 ⟨(y.1 : Chain.{u}).down, hp⟩).down : ℤ)) hst
-    exact ULift.ext _ _ <|
+    exact ULift.ext <|
       (congrArg (fun z => (s z).down) (Subsingleton.elim w ⟨exists_mem_of_index n hp⟩)).trans
       (h.trans (congrArg (fun z => (t z).down)
         (Subsingleton.elim ⟨exists_mem_of_index n hp⟩ w)))
@@ -1495,7 +1495,7 @@ lemma bijective_modelToKerSheaf_app (n : ℕ) (W : (Opens ↥(basicOpen.{u} n))�
     · obtain ⟨y, hy⟩ := hW
       refine ⟨fun _ => ULift.up ((σ.1 ⟨(y.1 : Chain.{u}).down,
         basicOpen_le_imageOpen n hy⟩).down : ℤ), towerSections_ext _ fun p => ?_⟩
-      exact ULift.ext _ _ (Subtype.ext (kerTower_sections_down_eq n σ
+      exact ULift.ext (Subtype.ext (kerTower_sections_down_eq n σ
         ⟨(y.1 : Chain.{u}).down, basicOpen_le_imageOpen n hy⟩ p))
     · exact ⟨0, towerSections_ext _ fun p => absurd (exists_mem_of_index n p.2) hW⟩
 
@@ -1525,7 +1525,7 @@ lemma subsingleton_cotruncSequence_X₁_app (n m : ℕ) (h : n < m) :
     intro σ p
     refine (constIntTower_sections_eq
       ((((cotruncSequence.{u} n).f).hom.app (op (basicOpen.{u} m))) σ)
-      p ⟨m, le_rfl⟩ (basicOpen_le_basicOpen_iff.1 p.2)).symm.trans (ULift.ext _ _ ?_)
+      p ⟨m, le_rfl⟩ (basicOpen_le_basicOpen_iff.1 p.2)).symm.trans (ULift.ext ?_)
     exact eq_zero_of_mem_cotruncKer h
       (mem_cotruncKer_cotruncSequence_f.{u} n (op (basicOpen.{u} m)) σ ⟨m, le_rfl⟩)
   refine ⟨fun s t => injective_cotruncSequence_f_app.{u} n _ (towerSections_ext _ fun p => ?_)⟩

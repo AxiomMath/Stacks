@@ -3,6 +3,7 @@ module
 public import StacksFrontier.Topology.Sheaves.Cohomology.CompactSubset.GeneralizationsOfCohomology
 public import StacksFrontier.AlgebraicGeometry.Properties.ExtendFiniteType.LerayDegreewise
 public import StacksFrontier.Topology.Sheaves.RingedSpace.FlatModulePullbackDerived
+public import StacksFrontier.Algebra.Homology.DerivedCategory.BaseChangeBoundedBelow
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechDerived.DerivedDeltaFunctor
 public import StacksFrontier.Cotangent.CohomologyPresheaf.SiteSectionsComparison
 public import Mathlib.Topology.Sheaves.Stalks
@@ -378,7 +379,7 @@ def higherDirectImageStalkIso (hf : IsSpectralMap f) (p : ℕ)
       (restrictionFunctor X (specializationFiber f y))
       (sectionsFunctor (TopCat.of (specializationFiber f y)))
       (fun I _ ↦ rightAcyclic_globalSections_restriction f y hf I) F
-      (Functor.isIso_rightDerivedFunctorPlusUnit_app_of_exact _ _) p
+      (Functor.rightAcyclic_of_exact _ _) p
 
 /-- **Stacks 0A3E in the `Ext`-model of cohomology.** The stalk at `y` of the `p`-th higher
 direct image of `F` is isomorphic to the degree-`p` cohomology of the restriction of `F` to the

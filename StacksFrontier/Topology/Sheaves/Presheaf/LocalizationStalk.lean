@@ -3,6 +3,8 @@ module
 public import Mathlib.CategoryTheory.Limits.ConcreteCategory.Basic
 public import StacksFrontier.Topology.Sheaves.Presheaf.Localization
 public import Mathlib.Topology.Sheaves.Sheafify
+public import Mathlib.Algebra.Category.Ring.FilteredColimits
+public import Mathlib.Algebra.Category.Ring.Limits
 import StacksCore.Tactic.StacksAttribute
 
 /-!

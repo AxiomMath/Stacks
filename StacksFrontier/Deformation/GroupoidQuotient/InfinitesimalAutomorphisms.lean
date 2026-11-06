@@ -314,14 +314,14 @@ public theorem productArrow_map (G : GroupoidInFunctors.{u, v, w} C)
 elements of the arrow functor. -/
 public noncomputable def quotientArrowsFunctor (G : GroupoidInFunctors.{u, v, w} C) :
     QuotientSelfProduct G ⥤ G.arrows.Elements where
-  obj W := ⟨W.base, productArrow G W⟩
-  map g := ⟨g.hbase, productArrow_map G g⟩
-  map_id W := by apply CategoryOfElements.ext; rfl
-  map_comp f g := by apply CategoryOfElements.ext; rfl
+  obj W := G.arrows.elementsMk W.base (productArrow G W)
+  map g := Functor.Elements.homMk g.hbase (productArrow_map G g)
+  map_id W := by apply Functor.Elements.hom_ext; rfl
+  map_comp f g := by apply Functor.Elements.hom_ext; rfl
 
 /-- The comparison lies over the base category. -/
 public theorem quotientArrowsFunctor_over (G : GroupoidInFunctors.{u, v, w} C) :
-    quotientArrowsFunctor G ⋙ CategoryOfElements.π G.arrows =
+    quotientArrowsFunctor G ⋙ Functor.Elements.π G.arrows =
       TwoFibreProductOver.structureFunctor
         (quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G))
         (quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G))
@@ -337,7 +337,7 @@ public noncomputable def quotientArrowsBasedFunctor (G : GroupoidInFunctors.{u, 
           (quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G))
           (Grothendieck.forget (evaluationFunctor G)) (quotientMorphism G)
           (quotientMorphism G)) ⥤ᵇ
-      BasedCategory.ofFunctor (CategoryOfElements.π G.arrows) where
+      BasedCategory.ofFunctor (Functor.Elements.π G.arrows) where
   toFunctor := quotientArrowsFunctor G
   w := quotientArrowsFunctor_over G
 
@@ -370,12 +370,12 @@ public theorem isThin_fiber_quotientSelfProduct (G : GroupoidInFunctors.{u, v, w
   have hfg : (f.1).hbase = (g.1).hbase := by rw [hbase f, hbase g]
   show f.1 = g.1
   refine TwoFibreProductOver.Hom.ext' ?_ ?_
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     have h : (f.1).a.1 ≫ eqToHom (productFstBase G Z'.1) =
         (g.1).a.1 ≫ eqToHom (productFstBase G Z'.1) := by
       rw [← productHom_a_comp G f.1, ← productHom_a_comp G g.1, hfg]
     exact (cancel_mono _).1 h
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     have h : (f.1).b.1 ≫ eqToHom (productSndBase G Z'.1) =
         (g.1).b.1 ≫ eqToHom (productSndBase G Z'.1) := by
       rw [← productHom_b_comp G f.1, ← productHom_b_comp G g.1, hfg]
@@ -474,9 +474,9 @@ public theorem full_fiberFunctor_quotientArrows (G : GroupoidInFunctors.{u, v, w
   refine ⟨fun {Z Z'} m => ?_⟩
   have hm : G.arrows.map (eqToHom (Z.2.trans Z'.2.symm)) (productArrow G Z.1) =
       productArrow G Z'.1 := by
-    let _ : (CategoryOfElements.π G.arrows).IsHomLift (𝟙 A) m.1 := m.2
+    let _ : (Functor.Elements.π G.arrows).IsHomLift (𝟙 A) m.1 := m.2
     have h2 : (m.1).1 = eqToHom Z.2 ≫ 𝟙 A ≫ eqToHom Z'.2.symm :=
-      IsHomLift.fac' (CategoryOfElements.π G.arrows) (𝟙 A) m.1
+      IsHomLift.fac' (Functor.Elements.π G.arrows) (𝟙 A) m.1
     have h3 : G.arrows.map (m.1).1 (productArrow G Z.1) = productArrow G Z'.1 := (m.1).2
     rwa [h2, Category.id_comp, eqToHom_trans] at h3
   obtain ⟨g, hg⟩ := exists_productHom_of_arrow_eq G Z.1 Z'.1 (Z.2.trans Z'.2.symm) hm
@@ -496,7 +496,7 @@ its first component. -/
 public theorem elementsFiberValue_target_productArrow (G : GroupoidInFunctors.{u, v, w} C)
     {A : C} (W : QuotientSelfProduct G) (hW : W.base = A) :
     elementsFiberValue G.objects A
-        ⟨(CategoryOfElements.map G.target).obj ⟨W.base, productArrow G W⟩, hW⟩ =
+        ⟨(NatTrans.mapElements G.target).obj (G.arrows.elementsMk W.base (productArrow G W)), hW⟩ =
       elementsFiberValue G.objects A ⟨W.x, W.hx.trans hW⟩ := by
   show G.objects.map (eqToHom hW) (G.target.app W.base (productArrow G W)) =
     G.objects.map (eqToHom (W.hx.trans hW)) W.x.2
@@ -509,7 +509,7 @@ its second component. -/
 public theorem elementsFiberValue_source_productArrow (G : GroupoidInFunctors.{u, v, w} C)
     {A : C} (W : QuotientSelfProduct G) (hW : W.base = A) :
     elementsFiberValue G.objects A
-        ⟨(CategoryOfElements.map G.source).obj ⟨W.base, productArrow G W⟩, hW⟩ =
+        ⟨(NatTrans.mapElements G.source).obj (G.arrows.elementsMk W.base (productArrow G W)), hW⟩ =
       elementsFiberValue G.objects A ⟨W.y, W.hy.trans hW⟩ := by
   show G.objects.map (eqToHom hW) (G.source.app W.base (productArrow G W)) =
     G.objects.map (eqToHom (W.hy.trans hW)) W.y.2
@@ -523,7 +523,8 @@ arrow as its fibre component. -/
 public noncomputable def quotientIsoOfArrow (G : GroupoidInFunctors.{u, v, w} C) (A : C)
     {x y : G.objects.obj A} (r : G.arrows.obj A) (hs : G.source.app A r = x)
     (ht : G.target.app A r = y) :
-    (quotientMorphism G).obj ⟨A, x⟩ ≅ (quotientMorphism G).obj ⟨A, y⟩ := by
+    (quotientMorphism G).obj (G.objects.elementsMk A x) ≅
+      (quotientMorphism G).obj (G.objects.elementsMk A y) := by
   let _ : Groupoid (G.objects.obj A) := G.evaluationGroupoid A
   let a : x ⟶ y := (G.evaluationArrowEquiv A x y).symm ⟨r, hs, ht⟩
   exact Grothendieck.isoMk (Iso.refl A)
@@ -564,8 +565,8 @@ public theorem essSurj_fiberFunctor_quotientArrows (G : GroupoidInFunctors.{u, v
       IsHomLift.map (Grothendieck.forget (evaluationFunctor G)) ι.inv
   let W : QuotientSelfProduct G :=
     { base := A
-      x := ⟨A, G.target.app A r⟩
-      y := ⟨A, G.source.app A r⟩
+      x := G.objects.elementsMk A (G.target.app A r)
+      y := G.objects.elementsMk A (G.source.app A r)
       hx := rfl
       hy := rfl
       iso := ι.symm
@@ -597,16 +598,16 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 have the same class in the tangent module. -/
 public theorem tangentClassAt_elements_eq_of_value_eq
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t)
-    (hF : IsDeformationCategory.{u, v, w} (CategoryOfElements.π F))
+    (hF : IsDeformationCategory.{u, v, w} (Functor.Elements.π F))
     (M : FGModuleCat.{max v w} k)
-    (z z' : Functor.Fiber (CategoryOfElements.π F)
+    (z z' : Functor.Fiber (Functor.Elements.π F)
       ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M))
     (h : elementsFiberValue F _ z = elementsFiberValue F _ z') :
-    tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (CategoryOfElements.π F)) hF M z =
-      tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (CategoryOfElements.π F)) hF M z' := by
+    tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (Functor.Elements.π F)) hF M z =
+      tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (Functor.Elements.π F)) hF M z' := by
   obtain ⟨e⟩ := elementsFiberIsoOfValueEq F _ z z' h
   exact (tangentClassAt_eq_iff.{u, v, w}
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hF M z z').2 ⟨e⟩
+    (BasedCategory.ofFunctor (Functor.Elements.π F)) hF M z z').2 ⟨e⟩
 
 variable (G : GroupoidInFunctors.{_, max v w, t} (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
 
@@ -623,14 +624,14 @@ public abbrev quotientLeg_isDeformationCategory
 public abbrev objectsBasedDeformationCategory
     (hU : IsDeformationFunctor.{u, v, w} G.objects) :
     IsDeformationCategory.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π G.objects)).p :=
+      (BasedCategory.ofFunctor (Functor.Elements.π G.objects)).p :=
   (isDeformationCategory_iff G.objects).2 hU
 
 /-- The category of elements of the arrow functor is a deformation category. -/
 public abbrev arrowsBasedDeformationCategory
     (hR : IsDeformationFunctor.{u, v, w} G.arrows) :
     IsDeformationCategory.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π G.arrows)).p :=
+      (BasedCategory.ofFunctor (Functor.Elements.π G.arrows)).p :=
   (isDeformationCategory_iff G.arrows).2 hR
 
 /-- The self `2`-fibre product of the quotient morphism is a deformation category. -/
@@ -656,7 +657,7 @@ public noncomputable def quotientSelfProductTangentEquiv
         (productBased.{u, v, w} (Grothendieck.forget (evaluationFunctor G))
           (quotientMorphism G) (quotientMorphism G))
         (quotientSelfProduct_isDeformationCategory G hG hU hR) M) ≃ₗ[k]
-      ↥(tangentModuleAt.{u, v, w} (BasedCategory.ofFunctor (CategoryOfElements.π G.arrows))
+      ↥(tangentModuleAt.{u, v, w} (BasedCategory.ofFunctor (Functor.Elements.π G.arrows))
         (arrowsBasedDeformationCategory G hR) M) :=
   tangentLinearEquivOfFiberEquivalence.{u, v, w}
     (quotientSelfProduct_isDeformationCategory G hG hU hR)
@@ -676,7 +677,7 @@ public noncomputable def quotientInfinitesimalBoundary
     (M : FGModuleCat.{max v w} k) :
     ↥((infinitesimalAutomorphismLinearLift.{u, v, w} PF
         (quotient_isDeformationCategory.{u, v, w, t} G hG hU hR).satisfiesRS).functor.obj M) →ₗ[k]
-      ↥(tangentModuleAt.{u, v, w} (BasedCategory.ofFunctor (CategoryOfElements.π G.arrows))
+      ↥(tangentModuleAt.{u, v, w} (BasedCategory.ofFunctor (Functor.Elements.π G.arrows))
         (arrowsBasedDeformationCategory G hR) M) :=
   (quotientSelfProductTangentEquiv G hG hU hR M).toLinearMap.comp
     (selfBoundaryLinearMap.{u, v, w} (Grothendieck.forget (evaluationFunctor G)) G.objects
@@ -719,7 +720,7 @@ private theorem tangentMapAt_quotientSelfProductTangentEquiv_of_value_eq
       (quotientSelfProductTangentEquiv G hG hU hR M
         (tangentClassAt.{u, v, w} _ (quotientSelfProduct_isDeformationCategory G hG hU hR)
           M X)) =
-      tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+      tangentClassAt.{u, v, w} (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
         (objectsBasedDeformationCategory G hU) M
         ((fiberFunctor (elementsBasedFunctor σ)
           ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)).obj

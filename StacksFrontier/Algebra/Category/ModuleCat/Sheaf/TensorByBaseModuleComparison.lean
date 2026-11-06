@@ -151,8 +151,8 @@ private theorem addHom_apply_eq_of_tmul_tmul {Rr Aa F Mm P : Type*} [CommRing Rr
 
 variable (R : Type w) [CommRing R] (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
-  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.val)
-  (M : ModuleCat.{w} R) (N : PMod O.val) (σ : M → (𝓕.val ⟶ N))
+  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
+  (M : ModuleCat.{w} R) (N : PMod O.obj) (σ : M → (𝓕.val ⟶ N))
   (hadd : ∀ (m₁ m₂ : M) (X : Cᵒᵖ) (x : 𝓕.val.obj X),
     ((σ (m₁ + m₂)).app X).hom x = ((σ m₁).app X).hom x + ((σ m₂).app X).hom x)
   (hsmul : ∀ (r : R) (m : M) (X : Cᵒᵖ) (x : 𝓕.val.obj X),
@@ -176,7 +176,7 @@ def comparisonBilin (X : Cᵒᵖ) :
     letI := coefficientAlgebraOfHom R J O θ X
     letI := sectionsModuleOfHom R J O θ N X
     letI := isScalarTowerOfHom R J O θ N X
-    𝓕.val.obj X →ₗ[O.val.obj X] (M →ₗ[R] N.obj X) :=
+    𝓕.val.obj X →ₗ[O.obj.obj X] (M →ₗ[R] N.obj X) :=
   letI := coefficientAlgebraOfHom R J O θ X
   letI := sectionsModuleOfHom R J O θ N X
   letI := isScalarTowerOfHom R J O θ N X
@@ -197,16 +197,16 @@ def comparisonApp (X : Cᵒᵖ) :
   letI := isScalarTowerOfHom R J O θ N X
   ModuleCat.ofHom (TensorProduct.lift
     ((LinearMap.liftBaseChangeEquiv (R := R) (M := M) (N := N.obj X)
-      (O.val.obj X)).toLinearMap ∘ₗ comparisonBilin R J O 𝓕 θ M N σ hadd hsmul X))
+      (O.obj.obj X)).toLinearMap ∘ₗ comparisonBilin R J O 𝓕 θ M N σ hadd hsmul X))
 
 /-- **The comparison on a generator**: `x ⊗ (a ⊗ m) ↦ a • (σ m)_X x`.  The source is written in
 the spelling of `Stacks.TensorByBaseModule.tensorByBaseModulePresheafOfHom_obj_obj`, which is
 the sections of the presheaf-level tensor product by `rfl`. -/
-theorem comparisonApp_tmul (X : Cᵒᵖ) (x : 𝓕.val.obj X) (a : O.val.obj X) (m : M) :
+theorem comparisonApp_tmul (X : Cᵒᵖ) (x : 𝓕.val.obj X) (a : O.obj.obj X) (m : M) :
     letI := coefficientAlgebraOfHom R J O θ X
     (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom
-        ((x ⊗ₜ[O.val.obj X] (a ⊗ₜ[R] m) :
-          𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)))
+        ((x ⊗ₜ[O.obj.obj X] (a ⊗ₜ[R] m) :
+          𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)))
       = a • ((σ m).app X).hom x :=
   rfl
 
@@ -216,7 +216,7 @@ form `𝓕(X) ⊗_{O(X)} (O(X) ⊗_R M)`: on a generator both sides are
 right by semilinearity of the restriction maps of `N` together with naturality of `σ m`. -/
 theorem comparisonApp_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
     letI := coefficientAlgebraOfHom R J O θ X
-    ∀ t : 𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M),
+    ∀ t : 𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M),
       (comparisonApp R J O 𝓕 θ M N σ hadd hsmul Y).hom
           ((((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).map f).hom t)
         = (N.map f).hom ((comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom t) := by
@@ -224,13 +224,13 @@ theorem comparisonApp_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
   refine addHom_apply_eq_of_tmul_tmul
     (g := ((comparisonApp R J O 𝓕 θ M N σ hadd hsmul Y).hom.toAddMonoidHom.comp
       (((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).map f).hom.toAddMonoidHom :
-        (𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)) →+ N.obj Y))
+        (𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)) →+ N.obj Y))
     (h := (N.map f).hom.toAddMonoidHom.comp
       (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom.toAddMonoidHom) fun x a m => ?_
   show (comparisonApp R J O 𝓕 θ M N σ hadd hsmul Y).hom
       ((((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).map f).hom
-        ((x ⊗ₜ[O.val.obj X] (a ⊗ₜ[R] m) :
-          𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M))))
+        ((x ⊗ₜ[O.obj.obj X] (a ⊗ₜ[R] m) :
+          𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M))))
     = (N.map f).hom (a • ((σ m).app X).hom x)
   rw [PresheafOfModules.map_smul, ← PresheafOfModules.naturality_apply (σ m) f x]
   rfl
@@ -281,9 +281,9 @@ theorem comparisonApp_eq_cancelBaseChange (X : Cᵒᵖ) :
     letI := sectionsModuleOfHom R J O θ 𝓕.val X
     letI := sectionsModuleOfHom R J O θ N X
     letI := isScalarTowerOfHom R J O θ 𝓕.val X
-    ∀ t : 𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M),
+    ∀ t : 𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M),
       comparisonCancelled R J O 𝓕 θ M N σ hadd hsmul X
-          (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.val.obj X) (O.val.obj X)
+          (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
             (𝓕.val.obj X) M t)
         = (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom t := by
   let := coefficientAlgebraOfHom R J O θ X
@@ -292,7 +292,7 @@ theorem comparisonApp_eq_cancelBaseChange (X : Cᵒᵖ) :
   let := isScalarTowerOfHom R J O θ 𝓕.val X
   refine addHom_apply_eq_of_tmul_tmul
     (g := (comparisonCancelled R J O 𝓕 θ M N σ hadd hsmul X).toAddMonoidHom.comp
-      (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.val.obj X) (O.val.obj X)
+      (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
         (𝓕.val.obj X) M).toLinearMap.toAddMonoidHom)
     (h := (comparisonApp R J O 𝓕 θ M N σ hadd hsmul X).hom.toAddMonoidHom) fun x a m => ?_
   show ((σ m).app X).hom (a • x) = a • ((σ m).app X).hom x
@@ -312,7 +312,7 @@ theorem bijective_comparisonApp_iff (X : Cᵒᵖ) :
   let := isScalarTowerOfHom R J O θ 𝓕.val X
   rw [← funext (comparisonApp_eq_cancelBaseChange R J O 𝓕 θ M N σ hadd hsmul X)]
   exact Equiv.bijective_comp
-    (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.val.obj X) (O.val.obj X)
+    (TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
       (𝓕.val.obj X) M).toEquiv _
 
 end Comparison
@@ -323,7 +323,7 @@ section Gluing
 variable (R : Type w) [CommRing R] (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
-  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
   (M : ModuleCat.{w} R) (G : SheafOfModules.{w} (ringSheaf J O))
   (σ : M → (𝓕.val ⟶ (PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj
     ((SheafOfModules.forget (ringSheaf J O)).obj G)))
@@ -365,7 +365,7 @@ variable (R : Type w) [CommRing R] (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (𝓕 : SheafOfModules.{w} (ringSheaf J O)) {U₀ : C} (hU₀ : IsTerminal U₀)
-  (α : R →+* O.val.obj (op U₀))
+  (α : R →+* O.obj.obj (op U₀))
   (M : ModuleCat.{w} R) (G : SheafOfModules.{w} (ringSheaf J O))
   (σ : M → (𝓕.val ⟶ (PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj
     ((SheafOfModules.forget (ringSheaf J O)).obj G)))
@@ -373,7 +373,7 @@ variable (R : Type w) [CommRing R] (J : GrothendieckTopology C)
     ((σ (m₁ + m₂)).app X).hom x = ((σ m₁).app X).hom x + ((σ m₂).app X).hom x)
   (hsmul : ∀ (r : R) (m : M) (X : Cᵒᵖ) (x : 𝓕.val.obj X),
     ((σ (r • m)).app X).hom x
-      = (((coefficientMap R hU₀ (O := O.val) α).app X).hom r) • ((σ m).app X).hom x)
+      = (((coefficientMap R hU₀ (O := O.obj) α).app X).hom r) • ((σ m).app X).hom x)
 
 include hadd hsmul
 
@@ -383,10 +383,10 @@ noncomputable def tensorByBaseModuleIsoOfComparison
     (P : C → Prop)
     (hcov : ∀ X : C, Sieve.generate (fun {W : C} (_ : W ⟶ X) => P W) ∈ J X)
     (hbij : ∀ W : C, P W → Function.Bijective
-      (comparisonApp R J O 𝓕 (coefficientMap R hU₀ (O := O.val) α) M _ σ hadd hsmul (op W)).hom) :
+      (comparisonApp R J O 𝓕 (coefficientMap R hU₀ (O := O.obj) α) M _ σ hadd hsmul (op W)).hom) :
     (tensorByBaseModule R hU₀ J O 𝓕 α).obj M ≅ G :=
   tensorByBaseModuleIsoOfBijectiveApp R hU₀ J O 𝓕 α M G
-    (comparison R J O 𝓕 (coefficientMap R hU₀ (O := O.val) α) M _ σ hadd hsmul) P hcov hbij
+    (comparison R J O 𝓕 (coefficientMap R hU₀ (O := O.obj) α) M _ σ hadd hsmul) P hcov hbij
 
 end GluingTerminal
 

@@ -750,7 +750,7 @@ theorem hasStableFibres_curveFamilyOverFieldOfProper_iff_of
     have : IsIso q' := isIso_of_fully_faithful yoneda q'
     have hq'g : q' ≫ g = v := yoneda.map_injective (by
       rw [Functor.map_comp, hq]
-      simpa using hpb'.w)
+      exact hpb'.w.trans (Category.comp_id _))
     let e := (BigFppfOver.toScheme B integerBase hZ).mapIso (asIso q')
     have he : e.hom ≫ (BigFppfOver.toScheme B integerBase hZ).map g =
         (BigFppfOver.toScheme B integerBase hZ).map v := by

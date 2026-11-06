@@ -521,7 +521,8 @@ theorem formsLFs_injective (p : ℕ) : Function.Injective (c.formsLFs p) :=
 
 /-- The map `formsLFs` sends zero to zero. -/
 theorem formsLFs_zero (p : ℕ) : c.formsLFs p 0 = 0 := by
-  rw [formsLFs, map_zero, map_zero, map_zero]
+  rw [formsLFs, map_zero, map_zero]
+  exact (c.baseChart.toΩB p).map_zero
 
 /-- **Over a chart the restriction of forms from `𝕃` to `L^⋆` is the map of Kähler forms along
 `A[X] → A[T, T⁻¹]`.** -/

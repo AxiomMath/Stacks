@@ -240,14 +240,14 @@ def isColimit_groupRingCokernelCofork :
     let L : (M ⧸ U) →+ W.obj.obj.obj.V :=
       QuotientAddGroup.lift U.toAddSubgroup k.hom.hom.hom.hom.hom.toAddMonoidHom hker
     have key : ∀ (g : G) (y : M), k.hom.hom.hom.hom (of ℤ G g • y) =
-        (W.obj.obj.obj.ρ g).hom (k.hom.hom.hom.hom y) := fun g y =>
+        (W.obj.obj.obj.ρ g).asHom.hom (k.hom.hom.hom.hom y) := fun g y =>
       ConcreteCategory.congr_hom (k.hom.hom.hom.comm g) y
     refine ObjectProperty.homMk ((homEquiv (ZMod n) G _ _).symm
       ⟨L.toZModLinearMap n, fun g x => ?_⟩)
     induction x using Submodule.Quotient.induction_on with
     | H y =>
       change L (Submodule.Quotient.mk (of ℤ G g • y)) =
-        (W.obj.obj.obj.ρ g).hom (L (Submodule.Quotient.mk y))
+        (W.obj.obj.obj.ρ g).asHom.hom (L (Submodule.Quotient.mk y))
       exact key g y
   · exact continuousModule_hom_ext n fun _ => rfl
   · refine continuousModule_hom_ext n fun x => ?_

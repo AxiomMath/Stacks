@@ -133,7 +133,7 @@ theorem exists_pow_le_center_app_homology_twistedDerivedPullback_eq_zero [IsNoet
       QuasiIso gres → ∀ q j : ℤ, j ≤ -((n : ℤ) + 1) → ∀ r ∈ I ^ c,
         (Stacks.SheafOfModules.terminalSectionToEnd
             (structureSheafRing (blowUpSpec I).toRingedSpace) ⊤ isTerminalTop
-            ((toSpec I).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv r))).app
+            ((toSpec I).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv r))).asHom.app
           ((DerivedCategory.homologyFunctor (BlowUpModules I) j).obj
             (((Stacks.Cohomology.TorAmplitude.derTensor (blowUpRingedSpace I)).tensor.obj
                 ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback

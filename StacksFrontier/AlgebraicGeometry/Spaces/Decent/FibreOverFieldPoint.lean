@@ -166,6 +166,17 @@ theorem exists_fieldValuedPoint_presheafPreimmersion (V : BigFppfOver B S hS)
 
 /-! ### Descent of the inducing property to the point space -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_fibreOverFieldPoint :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_fibreOverFieldPoint
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {Z X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- A morphism of the big fppf site of `S` whose underlying map of schemes is topologically

@@ -79,7 +79,7 @@ covers** (Tag 0BND (1)): the fibre functor, with the action of `π₁(S, x)`, is
 def finiteEtaleOverIsoOfFiberEquiv {V W : FiniteEtaleOver S}
     (e : (finiteEtaleFiberFunctor x).obj V ≃ (finiteEtaleFiberFunctor x).obj W)
     (he : ∀ (σ : EtaleFundamentalGroup S x) (p : (finiteEtaleFiberFunctor x).obj V),
-      e ((σ.app V).hom p) = (σ.app W).hom (e p)) : V ≅ W :=
+      e ((σ.asIso.app V).hom p) = (σ.asIso.app W).hom (e p)) : V ≅ W :=
   (finiteEtaleEquivalenceOfIsGaloisCategory S x).fullyFaithfulFunctor.preimageIso
     (ObjectProperty.isoMk _ (Action.mkIso (FintypeCat.equivEquivIso e) fun σ ↦ by
       ext p
@@ -90,7 +90,7 @@ def finiteEtaleOverIsoOfFiberEquiv {V W : FiniteEtaleOver S}
 theorem finiteEtaleOverIsoOfFiberEquiv_hom_apply {V W : FiniteEtaleOver S}
     (e : (finiteEtaleFiberFunctor x).obj V ≃ (finiteEtaleFiberFunctor x).obj W)
     (he : ∀ (σ : EtaleFundamentalGroup S x) (p : (finiteEtaleFiberFunctor x).obj V),
-      e ((σ.app V).hom p) = (σ.app W).hom (e p)) (p : (finiteEtaleFiberFunctor x).obj V) :
+      e ((σ.asIso.app V).hom p) = (σ.asIso.app W).hom (e p)) (p : (finiteEtaleFiberFunctor x).obj V) :
     (finiteEtaleFiberFunctor x).map (finiteEtaleOverIsoOfFiberEquiv x e he).hom p = e p := by
   have h := (finiteEtaleEquivalenceOfIsGaloisCategory S x).fullyFaithfulFunctor.map_preimage
     (ObjectProperty.isoMk _ (Action.mkIso (FintypeCat.equivEquivIso e) fun σ ↦ by
@@ -427,7 +427,7 @@ theorem cyclotomicFiberEquiv_smul
       EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))
     (ζ : _root_.rootsOfUnity n kbar) :
-    (γ.app ((finiteEtaleBaseChange f).obj (cyclotomicCover hnk))).hom
+    (γ.asIso.app ((finiteEtaleBaseChange f).obj (cyclotomicCover hnk))).hom
         (cyclotomicFiberEquiv B X f kbar y hnk ζ) =
       cyclotomicFiberEquiv B X f kbar y hnk
         (galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ) ζ) := by
@@ -481,7 +481,7 @@ theorem cyclotomicContinuousModuleEquiv_ρ
       EtaleFundamentalGroup X.1 (curveGeometricBasePoint B X f kbar y))
     (m : (cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.V) :
     cyclotomicContinuousModuleEquiv B X f kbar y
-        (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ γ).hom m) =
+        (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ γ).asHom.hom m) =
       galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ)
         (cyclotomicContinuousModuleEquiv B X f kbar y m) :=
   rfl
@@ -514,13 +514,16 @@ theorem cyclotomicRepresentationFiberRoot_smul
       (finiteEtaleFiberFunctor (curveGeometricBasePoint B X f kbar y)).obj
         (representationFiniteEtaleCover B X (curveGeometricBasePoint B X f kbar y) (ZMod n)
           (cyclotomicContinuousModule B X f kbar y n))) :
-    cyclotomicRepresentationFiberRoot B X f kbar y ((γ.app _).hom v) =
+    cyclotomicRepresentationFiberRoot B X f kbar y ((γ.asIso.app _).hom v) =
       galoisRootsOfUnity k kbar n (geometricGaloisProjection B X f kbar y γ)
         (cyclotomicRepresentationFiberRoot B X f kbar y v) := by
   let := connectedSpace_of_isCurve B X f
-  exact (congrArg (cyclotomicContinuousModuleEquiv B X f kbar y)
-    (representationFibreEquiv_smul B X _ (ZMod n) (cyclotomicContinuousModule B X f kbar y n) γ
-      v)).trans (cyclotomicContinuousModuleEquiv_ρ B X f kbar y γ _)
+  have h := representationFibreEquiv_smul B X _ (ZMod n) (cyclotomicContinuousModule B X f kbar y n)
+    γ v
+  rw [finiteTypeContinuousModuleRepresentation_apply] at h
+  unfold cyclotomicRepresentationFiberRoot
+  rw [Equiv.trans_apply, Equiv.trans_apply, h]
+  exact cyclotomicContinuousModuleEquiv_ρ B X f kbar y γ _
 
 /-- `AlgebraicGeometry.cyclotomicRepresentationFiberRoot` is natural along morphisms `ρ₂ ⟶ ρ_μ`. -/
 theorem cyclotomicRepresentationFiberRoot_naturality
@@ -576,8 +579,8 @@ theorem cyclotomicRepresentationFiberEquiv_smul
       (finiteEtaleFiberFunctor (curveGeometricBasePoint B X f kbar y)).obj
         (representationFiniteEtaleCover B X (curveGeometricBasePoint B X f kbar y) (ZMod n)
           (cyclotomicContinuousModule B X f kbar y n))) :
-    cyclotomicRepresentationFiberEquiv B X f kbar y hnk ((γ.app _).hom v) =
-      (γ.app _).hom (cyclotomicRepresentationFiberEquiv B X f kbar y hnk v) := by
+    cyclotomicRepresentationFiberEquiv B X f kbar y hnk ((γ.asIso.app _).hom v) =
+      (γ.asIso.app _).hom (cyclotomicRepresentationFiberEquiv B X f kbar y hnk v) := by
   let := connectedSpace_of_isCurve B X f
   simp only [cyclotomicRepresentationFiberEquiv, Equiv.trans_apply]
   rw [cyclotomicRepresentationFiberRoot_smul]

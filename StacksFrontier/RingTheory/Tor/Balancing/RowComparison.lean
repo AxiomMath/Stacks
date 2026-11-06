@@ -189,9 +189,9 @@ theorem descent : ∀ (i : ℕ) (A : DoubleCx R) (_ : A.RowResolution)
           rw [hcyc0]
           simp only [transp_rfl]
         rw [show LinearMap.range (A.shiftR.d 0 i') = LinearMap.range (A.d 1 i') from rfl,
-          ← hrow 0 i', LinearMap.mem_ker, map_sub]
-        show A.d 0 i' (A.δ 1 i' c1) - A.d 0 i' (g' ⟨0, by omega⟩) = 0
-        rw [step, stepg, sub_self]
+          ← hrow 0 i', LinearMap.mem_ker]
+        show A.d 0 i' (A.δ 1 i' c1 - (show A.A 1 i' from g' ⟨0, by omega⟩)) = 0
+        rw [map_sub, step, stepg, sub_self]
       obtain ⟨c', hc'0, hc'rel⟩ := ih A.shiftR (A.shiftR_RowResolution hrow) g' c1 hbase' hcyc'
       refine ⟨Fin.cases (motive := fun k : Fin (i' + 3) => A.A (k : ℕ) (i' + 1 + 1 - (k : ℕ))) c0
         (fun j => transp A ((j : ℕ) + 1) ((j : ℕ) + 1) (i' + 1 - (j : ℕ))

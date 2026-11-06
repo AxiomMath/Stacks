@@ -698,6 +698,14 @@ theorem isHomological_cohomologyQuasicoherent (i : ℤ)
   have hQcolim : PreservesFiniteColimits (quasicoheratorOfStack' B E h S hS 𝒳 hinc hclosed hpres
     hsep) := hQexact.2
   have hQadd : (quasicoheratorOfStack' B E h S hS 𝒳 hinc hclosed hpres hsep).Additive :=
+    letI : HasFiniteLimits (locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS
+        𝒳.val.val.p 𝒳.val.isFiberedInGroupoids) := Abelian.hasFiniteLimits
+    letI : HasBinaryProducts (locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS
+        𝒳.val.val.p 𝒳.val.isFiberedInGroupoids) :=
+      hasLimitsOfShape_of_hasFiniteLimits _ (Discrete WalkingPair)
+    letI : PreservesLimitsOfShape (Discrete WalkingPair)
+        (quasicoheratorOfStack' B E h S hS 𝒳 hinc hclosed hpres hsep) :=
+      PreservesFiniteLimits.preservesFiniteLimits _
     Functor.additive_of_preserves_binary_products _
   exact main_statement_comp_homological_exact
     (cohomologyLocallyQuasicoherentFlatBaseChange' B E h S hS 𝒳 i)

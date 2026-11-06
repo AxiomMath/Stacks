@@ -40,8 +40,7 @@ open CategoryTheory CategoryTheory.Limits
 universe u
 
 attribute [local implicit_reducible] CommRingCat.pullbackCone
-  CategoryTheory.Limits.PullbackCone.mk CategoryTheory.IsPullback.cone
-  CategoryTheory.CommSq.cone
+  CategoryTheory.IsPullback.cone
 
 namespace AlgebraicGeometry
 

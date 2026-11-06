@@ -108,6 +108,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_FiniteTypeTfae
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### Two consequences of étale locality of local finite type -/
 
 /-- Local finite type passes to the morphism induced in a commuting square of étale

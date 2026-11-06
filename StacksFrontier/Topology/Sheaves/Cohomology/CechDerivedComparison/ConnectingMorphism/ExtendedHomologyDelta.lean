@@ -251,7 +251,7 @@ noncomputable def derivedPlusResolutionIso (I : InjectiveResolution M) :
       (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).obj
         ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)) :=
   F.rightDerivedFunctorPlus.mapIso (resolutionDerivedIso I) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)))).symm
 
 /-- **`RF(M[0])`, read in the full derived category `D(ℬ)`, against `Q` of the degreewise

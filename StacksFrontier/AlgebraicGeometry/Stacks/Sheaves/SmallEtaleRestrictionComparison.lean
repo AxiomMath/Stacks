@@ -388,7 +388,7 @@ theorem restrictToSmallEtaleInverseImageIso_app {𝒳 : Type v} [Category.{w} �
       calc
         P.map e.hom ≫ (Q.objObjPreimageIso V).hom =
             (P.objObjPreimageIso V ≪≫ (Q.objObjPreimageIso V).symm).hom ≫
-              (Q.objObjPreimageIso V).hom := by rw [hmap]; rfl
+              (Q.objObjPreimageIso V).hom := by rw [hmap]
         _ = (P.objObjPreimageIso V).hom := by simp
     exact congrArg Over.Hom.left hm
   have hφ : φ = e.hom.left :=

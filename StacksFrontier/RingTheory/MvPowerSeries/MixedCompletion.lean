@@ -202,7 +202,7 @@ is the finite sum of its monomials, and the monomial at `d` is the product of a 
 `I ^ (N - |d|)` with a monomial in the `|d|`-th power of the ideal of variables. -/
 public theorem mem_polyMixed_pow_of_coeff_mem {I : Ideal B} {n N : ℕ}
     {p : MvPolynomial (Fin n) B}
-    (hp : ∀ d : Fin n →₀ ℕ, MvPolynomial.coeff d p ∈ I ^ (N - ∑ i, d i)) :
+    (hp : ∀ d : Fin n →₀ ℕ, p.coeff d ∈ I ^ (N - ∑ i, d i)) :
     p ∈ polyMixed I n ^ N := by
   classical
   rw [MvPolynomial.as_sum p]
@@ -216,15 +216,15 @@ public theorem mem_polyMixed_pow_of_coeff_mem {I : Ideal B} {n N : ℕ}
       rw [hde] at he
       exact lt_irrefl _ he
     rw [MvPolynomial.coeff_monomial, if_neg hne]
-  have hC : (MvPolynomial.C (MvPolynomial.coeff d p)) ∈ polyMixed I n ^ (N - ∑ i, d i) := by
+  have hC : (MvPolynomial.C (p.coeff d)) ∈ polyMixed I n ^ (N - ∑ i, d i) := by
     refine Ideal.pow_right_mono (map_C_le_polyMixed I n) _ ?_
     rw [← Ideal.map_pow]
     exact Ideal.mem_map_of_mem _ (hp d)
-  have hprod : MvPolynomial.C (MvPolynomial.coeff d p) * MvPolynomial.monomial d (1 : B) ∈
+  have hprod : MvPolynomial.C (p.coeff d) * MvPolynomial.monomial d (1 : B) ∈
       polyMixed I n ^ ((N - ∑ i, d i) + ∑ i, d i) := by
     rw [pow_add]
     exact Ideal.mul_mem_mul hC hmon
-  have hmem : MvPolynomial.C (MvPolynomial.coeff d p) * MvPolynomial.monomial d (1 : B) ∈
+  have hmem : MvPolynomial.C (p.coeff d) * MvPolynomial.monomial d (1 : B) ∈
       polyMixed I n ^ N := Ideal.pow_le_pow_right (by omega) hprod
   rwa [MvPolynomial.C_mul_monomial, mul_one] at hmem
 
@@ -254,7 +254,7 @@ public theorem polyMixed_eq_ker_eval (I : Ideal B) (n : ℕ) :
     intro a ha
     simp [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem.2 ha]
   · intro p hp
-    have hsplit : p - MvPolynomial.C (MvPolynomial.coeff 0 p) ∈
+    have hsplit : p - MvPolynomial.C (p.coeff 0) ∈
         Ideal.span (Set.range (MvPolynomial.X : Fin n → MvPolynomial (Fin n) B)) := by
       rw [← pow_one (Ideal.span (Set.range
           (MvPolynomial.X : Fin n → MvPolynomial (Fin n) B))),
@@ -262,15 +262,15 @@ public theorem polyMixed_eq_ker_eval (I : Ideal B) (n : ℕ) :
       intro e he
       obtain rfl := eq_zero_of_sum_eq_zero (by omega : ∑ i, e i = 0)
       simp
-    have hc : MvPolynomial.coeff 0 p ∈ I := by
+    have hc : p.coeff 0 ∈ I := by
       have h2 : (MvPolynomial.eval₂Hom (Ideal.Quotient.mk I) (fun _ : Fin n => (0 : B ⧸ I)))
-          (p - MvPolynomial.C (MvPolynomial.coeff 0 p)) = 0 :=
+          (p - MvPolynomial.C (p.coeff 0)) = 0 :=
         RingHom.mem_ker.1 (span_X_le_ker_eval I n hsplit)
       rw [map_sub, RingHom.mem_ker.1 hp, zero_sub, neg_eq_zero] at h2
       rw [← Ideal.Quotient.eq_zero_iff_mem]
       simpa using h2
-    have hdecomp : p = MvPolynomial.C (MvPolynomial.coeff 0 p) +
-        (p - MvPolynomial.C (MvPolynomial.coeff 0 p)) := by ring
+    have hdecomp : p = MvPolynomial.C (p.coeff 0) +
+        (p - MvPolynomial.C (p.coeff 0)) := by ring
     rw [hdecomp]
     exact Ideal.add_mem _ (map_C_le_polyMixed I n (Ideal.mem_map_of_mem _ hc))
       (span_X_le_polyMixed I n hsplit)
@@ -351,7 +351,7 @@ omit [IsNoetherianRing R] in
 coefficient of `p` at `d`. -/
 @[simp] public theorem coeff_toSeries (p : MvPolynomial (Fin n) R) (d : Fin n →₀ ℕ) :
     MvPowerSeries.coeff d (toSeries R n p) =
-      algebraMap R (AdicCompletion (maximalIdeal R) R) (MvPolynomial.coeff d p) := by
+      algebraMap R (AdicCompletion (maximalIdeal R) R) (p.coeff d) := by
   rw [toSeries_apply, MvPolynomial.coeff_coe, MvPolynomial.coeff_map]
 
 omit [IsNoetherianRing R] in
@@ -430,10 +430,10 @@ private theorem exists_sub_map_mem_map_C (N : ℕ)
   classical
   have hfg : (maximalIdeal R).FG := IsNoetherian.noetherian _
   choose r hr using fun d : Fin n →₀ ℕ =>
-    AdicCompletion.exists_sub_mem_map_pow (maximalIdeal R) hfg N (MvPolynomial.coeff d q)
+    AdicCompletion.exists_sub_mem_map_pow (maximalIdeal R) hfg N (q.coeff d)
   set p : MvPolynomial (Fin n) R := ∑ d ∈ q.support, MvPolynomial.monomial d (r d) with hpdef
   have hcoeffp : ∀ e : Fin n →₀ ℕ,
-      MvPolynomial.coeff e p = if e ∈ q.support then r e else 0 := by
+      p.coeff e = if e ∈ q.support then r e else 0 := by
     intro e
     rw [hpdef, MvPolynomial.coeff_sum]
     simp [MvPolynomial.coeff_monomial, Finset.sum_ite_eq']

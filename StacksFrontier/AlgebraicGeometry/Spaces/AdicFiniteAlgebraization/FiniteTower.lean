@@ -112,12 +112,12 @@ theorem isPullback_adicFibreSuccHom (n : ℕ) :
       (adicFibreSuccHom A I B hA hX f n)
       ((schemeSpaceFunctor B (Spec (.of A)) hA).map
         (adicThickeningSuccMap A I B hA (contains_adicThickening A I B hA) n))
-      (ObjectProperty.homMk (adicFibreSnd A I B hA f (n + 1))) :=
-  IsPullback.of_map_of_faithful
+      (ObjectProperty.homMk (adicFibreSnd A I B hA f (n + 1))) := by
+  refine IsPullback.of_map_of_faithful
     (F := ObjectProperty.ι
       (fun F : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u =>
-        IsAlgebraicSpace B (Spec (.of A)) hA F))
-    (isPullback_adicFibreSucc A I B hA (contains_adicThickening A I B hA) f n).flip
+        IsAlgebraicSpace B (Spec (.of A)) hA F)) ?_
+  exact (isPullback_adicFibreSucc A I B hA (contains_adicThickening A I B hA) f n).flip
 
 /-- **`X_n ⊂ X_{n + 1}` is a first-order thickening**: the base change of the first-order
 thickening `Spec (A / I ^ (n + 1)) ⊂ Spec (A / I ^ (n + 2))`, by Stacks 09ZX. -/

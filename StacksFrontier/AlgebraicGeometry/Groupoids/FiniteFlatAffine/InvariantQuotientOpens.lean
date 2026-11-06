@@ -126,6 +126,7 @@ theorem localizedLift_comp_invariant {T : Scheme.{u}} (g : (quotientPreimage G X
       (by rw [Scheme.Opens.range_ι]; exact range_arrowsProjection_subset G X c hc)
   have ha : a ≫ (quotientPreimageArrows G X).ι = (localizedBaseChange G c).arrowsProjection :=
     IsOpenImmersion.lift_fac _ _ _
+  clear_value a
   have ht : (localizedBaseChange G c).groupoid.target.left ≫ localizedLift G X c hc =
       a ≫ quotientPreimageTarget G X := by
     refine (cancel_mono (quotientPreimage G X).ι).1 ?_
@@ -138,8 +139,9 @@ theorem localizedLift_comp_invariant {T : Scheme.{u}} (g : (quotientPreimage G X
     refine (cancel_mono (quotientPreimage G X).ι).1 ?_
     have e1 : quotientPreimageSource G X ≫ (quotientPreimage G X).ι =
         (quotientPreimageArrows G X).ι ≫ G.source.left := Scheme.Hom.resLE_comp_ι _ _
-    rw [Category.assoc, localizedLift_ι, Category.assoc, e1, ← Category.assoc, ha]
-    exact (localizedBaseChange G c).projection_source.symm
+    rw [Category.assoc, localizedLift_ι, Category.assoc, e1, ← Category.assoc]
+    exact ((congrArg (· ≫ G.source.left) ha).trans
+      (localizedBaseChange G c).projection_source).symm
   calc (localizedBaseChange G c).groupoid.target.left ≫ localizedLift G X c hc ≫ g
       = ((localizedBaseChange G c).groupoid.target.left ≫ localizedLift G X c hc) ≫ g :=
         (Category.assoc _ _ _).symm
@@ -383,12 +385,16 @@ theorem existsUnique_quotientRestrict_comp {T : Scheme.{u}}
   refine ⟨H, hex, fun h hh => ?_⟩
   refine eq_of_localized_factorizations G g X.ι (Scheme.Opens.range_ι X).le h _
     fun c' e' hc' he' => ⟨?_, ?_⟩
-  · rw [← Category.assoc, ← localizedLift_comp_quotientRestrict G X c' hc' e' he',
-      Category.assoc]
-    exact congrArg (localizedLift G X c' hc' ≫ ·) hh
-  · rw [← Category.assoc, ← localizedLift_comp_quotientRestrict G X c' hc' e' he',
-      Category.assoc]
-    exact congrArg (localizedLift G X c' hc' ≫ ·) hex
+  · calc _ = ((localizedBaseChange G c').groupoid.objects.hom ≫ e') ≫ h :=
+          (Category.assoc _ _ _).symm
+      _ = (localizedLift G X c' hc' ≫ quotientRestrict G X) ≫ h :=
+          congrArg (· ≫ h) (localizedLift_comp_quotientRestrict G X c' hc' e' he').symm
+      _ = _ := (Category.assoc _ _ _).trans (congrArg (localizedLift G X c' hc' ≫ ·) hh)
+  · calc _ = ((localizedBaseChange G c').groupoid.objects.hom ≫ e') ≫ H :=
+          (Category.assoc _ _ _).symm
+      _ = (localizedLift G X c' hc' ≫ quotientRestrict G X) ≫ H :=
+          congrArg (· ≫ H) (localizedLift_comp_quotientRestrict G X c' hc' e' he').symm
+      _ = _ := (Category.assoc _ _ _).trans (congrArg (localizedLift G X c' hc' ≫ ·) hex)
 
 omit [IsAffine G.objects.left] [IsAffine G.arrows.left]
   [IsFiniteLocallyFree G.source.left] [IsFiniteLocallyFree G.target.left] in

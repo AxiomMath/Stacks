@@ -351,9 +351,6 @@ theorem flat_and_ker_eq_of_addEquiv_chart
           (TensorProduct.comm R B (RingHom.ker (algebraMap R A)) z) = ψ z := by
       intro z
       induction z with
-      | zero =>
-        simp only [map_zero]
-        rfl
       | add z w hz hw =>
         simp only [map_add, hz, hw]
         rfl

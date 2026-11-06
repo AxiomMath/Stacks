@@ -50,9 +50,8 @@ variable {ℓ : ℕ} [Fact ℓ.Prime] {r : ℕ}
 public theorem matrix_eq_of_map_toZModPow_eq {A B : Matrix (Fin r) (Fin r) ℤ_[ℓ]}
     (h : ∀ n, A.map (PadicInt.toZModPow (n + 1)) = B.map (PadicInt.toZModPow (n + 1))) :
     A = B := by
-  ext i j
-  rw [← PadicInt.ext_of_toZModPow]
-  intro n
+  refine Matrix.ext fun i j => ?_
+  refine (PadicInt.ext_of_toZModPow (p := ℓ)).mp fun n => ?_
   cases n with
   | zero =>
     have : Subsingleton (ZMod (ℓ ^ 0)) := ZMod.subsingleton_iff.2 (pow_zero ℓ)
@@ -85,7 +84,7 @@ variable {G : Type (u + 1)} [Group G] [TopologicalSpace G]
 /-- The set of `g` carrying `v` to `w` in a finite discrete `G`-module is open. -/
 public theorem isOpen_setOf_finiteModule_act_eq
     (M : (ContinuousGAddCommGrp.isFinite.{u + 1, u + 1} G).FullSubcategory)
-    (v w : M.obj.obj.obj.V) : IsOpen {g : G | (M.obj.obj.obj.ρ g).hom v = w} := by
+    (v w : M.obj.obj.obj.V) : IsOpen {g : G | (M.obj.obj.obj.ρ g).asHom.hom v = w} := by
   have : DiscreteTopology ((forget₂ (Action AddCommGrpCat.{u + 1} G) TopCat).obj
       M.obj.obj.obj) := M.obj.property
   have h := continuous_prod_of_discrete_right.mp
@@ -97,14 +96,15 @@ public theorem isOpen_setOf_finiteModule_act_eq
 public theorem finiteModule_act_mul
     (M : (ContinuousGAddCommGrp.isFinite.{u + 1, u + 1} G).FullSubcategory) (g h : G)
     (v : M.obj.obj.obj.V) :
-    (M.obj.obj.obj.ρ (g * h)).hom v = (M.obj.obj.obj.ρ g).hom ((M.obj.obj.obj.ρ h).hom v) := by
+    (M.obj.obj.obj.ρ (g * h)).asHom.hom v =
+      (M.obj.obj.obj.ρ g).asHom.hom ((M.obj.obj.obj.ρ h).asHom.hom v) := by
   rw [map_mul]
   rfl
 
 /-- The action of the unit. -/
 public theorem finiteModule_act_one
     (M : (ContinuousGAddCommGrp.isFinite.{u + 1, u + 1} G).FullSubcategory)
-    (v : M.obj.obj.obj.V) : (M.obj.obj.obj.ρ 1).hom v = v := by
+    (v : M.obj.obj.obj.V) : (M.obj.obj.obj.ρ 1).asHom.hom v = v := by
   rw [map_one]
   rfl
 
@@ -112,8 +112,8 @@ public theorem finiteModule_act_one
 public theorem finiteModule_hom_act
     {M N : (ContinuousGAddCommGrp.isFinite.{u + 1, u + 1} G).FullSubcategory} (f : M ⟶ N)
     (g : G) (v : M.obj.obj.obj.V) :
-    f.hom.hom.hom.hom.hom ((M.obj.obj.obj.ρ g).hom v) =
-      (N.obj.obj.obj.ρ g).hom (f.hom.hom.hom.hom.hom v) :=
+    f.hom.hom.hom.hom.hom ((M.obj.obj.obj.ρ g).asHom.hom v) =
+      (N.obj.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom.hom v) :=
   ConcreteCategory.congr_hom (f.hom.hom.hom.comm g) v
 
 end Action
@@ -134,10 +134,12 @@ additive. -/
 public def trivializationLinearMap (n : ℕ) (g : G) :
     (Fin r → ZMod (ℓ ^ (n + 1))) →ₗ[ZMod (ℓ ^ (n + 1))] (Fin r → ZMod (ℓ ^ (n + 1))) :=
   AddMonoidHom.toZModLinearMap (ℓ ^ (n + 1))
-    ((c n).toAddMonoidHom.comp (((V n).obj.obj.obj.ρ g).hom.comp (c n).symm.toAddMonoidHom))
+    ((c n).toAddMonoidHom.comp
+      (((V n).obj.obj.obj.ρ g).asHom.hom.comp (c n).symm.toAddMonoidHom))
 
 public theorem trivializationLinearMap_apply (n : ℕ) (g : G) (y : Fin r → ZMod (ℓ ^ (n + 1))) :
-    trivializationLinearMap V c n g y = c n (((V n).obj.obj.obj.ρ g).hom ((c n).symm y)) :=
+    trivializationLinearMap V c n g y =
+      c n (((V n).obj.obj.obj.ρ g).asHom.hom ((c n).symm y)) :=
   rfl
 
 public theorem trivializationLinearMap_mul (n : ℕ) (g h : G) :
@@ -187,7 +189,7 @@ public theorem map_trivializationMatrix (n : ℕ) (g : G) :
 /-- The reductions of `ρ(g)` act on the levels as `g`. -/
 public theorem map_trivializationMatrix_mulVec (n : ℕ) (g : G) (v : (V n).obj.obj.obj.V) :
     (trivializationMatrix V T c hc g).map (PadicInt.toZModPow (n + 1)) *ᵥ c n v =
-      c n (((V n).obj.obj.obj.ρ g).hom v) := by
+      c n (((V n).obj.obj.obj.ρ g).asHom.hom v) := by
   rw [map_trivializationMatrix, ← Matrix.toLin'_apply, Matrix.toLin'_toMatrix',
     trivializationLinearMap_apply, AddEquiv.symm_apply_apply]
 
@@ -217,7 +219,7 @@ public theorem continuous_trivializationMatrix :
     continuous_of_isOpen_setOf_toZModPow_eq fun n a => ?_
   have : {g : G | PadicInt.toZModPow (n + 1) (trivializationMatrix V T c hc g i j) = a} =
       ⋃ v ∈ {v : (V n).obj.obj.obj.V | c n v i = a},
-        {g : G | ((V n).obj.obj.obj.ρ g).hom
+        {g : G | ((V n).obj.obj.obj.ρ g).asHom.hom
           ((c n).symm (Pi.single j 1)) = v} := by
     ext g
     have h := congrFun (congrFun (map_trivializationMatrix V T c hc n g) i) j
@@ -244,7 +246,7 @@ public theorem continuous_trivializationRepresentation :
 public theorem levelRepresentation_trivializationRepresentation (n : ℕ) (g : G)
     (v : (V n).obj.obj.obj.V) :
     levelRepresentation (trivializationRepresentation V T c hc) (n + 1) g (c n v) =
-      c n (((V n).obj.obj.obj.ρ g).hom v) := by
+      c n (((V n).obj.obj.obj.ρ g).asHom.hom v) := by
   rw [levelRepresentation_apply, trivializationRepresentation_val,
     map_trivializationMatrix_mulVec]
 
@@ -256,11 +258,11 @@ public def trivializationLevelIso (n : ℕ) :
   hom := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := AddCommGrpCat.ofHom
         { toFun := fun v => ULift.up (c n v)
-          map_zero' := ULift.ext _ _ (map_zero _)
-          map_add' := fun a b => ULift.ext _ _ (map_add _ _ _) }
+          map_zero' := ULift.ext (map_zero _)
+          map_add' := fun a b => ULift.ext (map_add _ _ _) }
       comm := fun g => by
         ext v
-        exact ULift.ext _ _
+        exact ULift.ext
           (levelRepresentation_trivializationRepresentation V T c hc n g v).symm }))
   inv := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := AddCommGrpCat.ofHom
@@ -270,7 +272,7 @@ public def trivializationLevelIso (n : ℕ) :
       comm := fun g => by
         ext y
         change (c n).symm (levelRepresentation (trivializationRepresentation V T c hc) (n + 1) g
-          y.down) = ((V n).obj.obj.obj.ρ g).hom ((c n).symm y.down)
+          y.down) = ((V n).obj.obj.obj.ρ g).asHom.hom ((c n).symm y.down)
         apply (c n).injective
         rw [AddEquiv.apply_symm_apply, ← levelRepresentation_trivializationRepresentation,
           AddEquiv.apply_symm_apply] }))
@@ -281,7 +283,7 @@ public def trivializationLevelIso (n : ℕ) :
   inv_hom_id := by
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ ((c n).apply_symm_apply y.down)
+    exact ULift.ext ((c n).apply_symm_apply y.down)
 
 public theorem trivializationLevelIso_hom_apply (n : ℕ) (v : (V n).obj.obj.obj.V) :
     (trivializationLevelIso V T c hc n).hom.hom.hom.hom.hom.hom v = ULift.up (c n v) :=
@@ -295,7 +297,7 @@ public theorem trivializationLevelIso_hom_comp_levelAbelianReduction (n : ℕ) :
       T n ≫ (trivializationLevelIso V T c hc n).hom := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  exact ULift.ext _ _ (hc n y).symm
+  exact ULift.ext (hc n y).symm
 
 end Representation
 

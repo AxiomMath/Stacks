@@ -516,7 +516,7 @@ theorem exists_map_exteriorPower_isIso_of_smoothAt {S : Scheme.{u}} [IsNoetheria
     refine TopologicalSpace.Opens.coe_disjoint.mp (Set.disjoint_left.2 fun x hxa hxb => hab ?_)
     obtain ⟨h1, h2⟩ := (hmem a.down x).1 hxa
     obtain ⟨h3, h4⟩ := (hmem b.down x).1 hxb
-    exact ULift.ext _ _ (Prod.ext (h2.symm.trans h4) (h1.symm.trans h3))
+    exact ULift.ext (Prod.ext (h2.symm.trans h4) (h1.symm.trans h3))
   obtain ⟨Φ, hΦ⟩ := exists_hom_restrict_eq_of_pairwise_disjoint _ hcover hdisj ψ
   have hΦs : ∀ y : XU.left, InfinitesimalLifting.SmoothAt fU.left y →
       IsIso ((Stacks.ConormalSequenceRight.stalkAb XU.left y).map Φ) := by

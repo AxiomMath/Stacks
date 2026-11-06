@@ -72,6 +72,9 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+attribute [local instance high] hasPullbacks_presheaf_ExcisionPushforwardGluing
+  hasPullback_presheaf_ExcisionPushforwardGluing
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {V W Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : V ⟶ W) (h : Y ⟶ V)
 

@@ -73,7 +73,7 @@ def toposModuleDerivedBaseChangeMap (comm : g' ≫ f = f' ≫ g) :
   Stacks.Cohomology.BaseChange.derived (toposModulePushforward f) (toposModulePushforward f')
     (modulePullback B S hS g) (modulePullback B S hS g')
     (toposModuleBaseChangeMap f g f' g' comm)
-    (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnit)
+    (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnith)
 
 /-- `AlgebraicGeometry.Space.toposModuleDerivedBaseChangeMap` is the base change map
 `Stacks.Cohomology.ToposBaseChange.baseChangeMap` of the square of small étale ringed topoi. -/

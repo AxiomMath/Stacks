@@ -428,22 +428,22 @@ noncomputable abbrev botObject : CrystallineThickening S :=
 The ambient scheme of `Crystalline.GlobalCrystallineSituation.SmallSite.botObject` is the empty
 open subscheme of `X`, whose global sections are the sections of `𝒪_X` over `⊥`. -/
 theorem subsingleton_sections_opensFree_bot :
-    Subsingleton ((structureSheaf S).val.obj (op (botObject S))) :=
+    Subsingleton ((structureSheaf S).obj.obj (op (botObject S))) :=
   (Scheme.Opens.topIso (⊥ : S.X.Opens)).commRingCatIsoToRingEquiv.toEquiv.subsingleton
 
 /-- **If the sections of `𝒪_{X/S}` over an object of `Cris(X/S)` form the zero ring then so do
 the sections over its first-order universal thickening of [Stacks, Tag 07J2]**: the first
 projection of the thickening restricts sections from the one ring to the other. -/
 theorem subsingleton_sections_firstOrderThickening (B : CrystallineThickening S)
-    (hB : Subsingleton ((structureSheaf S).val.obj (op B))) :
-    Subsingleton ((structureSheaf S).val.obj (op (firstOrderThickeningCrysObject S B))) :=
+    (hB : Subsingleton ((structureSheaf S).obj.obj (op B))) :
+    Subsingleton ((structureSheaf S).obj.obj (op (firstOrderThickeningCrysObject S B))) :=
   have := hB
   subsingleton_of_ringHom ((structureSheaf S).obj.map (firstOrderThickeningCrysP₀ S B).op).hom
 
 /-- **The sections of a crystal over an object of `Cris(X/S)` whose section ring is the zero ring
 form the zero module**, being a module over that ring. -/
 theorem subsingleton_crystalSections {B : CrystallineThickening S}
-    (hB : Subsingleton ((structureSheaf S).val.obj (op B))) (F : QuasiCoherentCrystal S) :
+    (hB : Subsingleton ((structureSheaf S).obj.obj (op B))) (F : QuasiCoherentCrystal S) :
     Subsingleton (F.obj.val.obj (op B)) :=
   have := hB
   subsingleton_moduleCat _
@@ -451,7 +451,7 @@ theorem subsingleton_crystalSections {B : CrystallineThickening S}
 /-- **The ring `lim_e Γ(T_e, 𝒪_{T_e})` of a system of levels whose section rings all vanish is
 the zero ring**, being a subring of a product of zero rings. -/
 theorem subsingleton_levelRingLimit (T : ℕ ⥤ CrystallineThickening S)
-    (h : ∀ e : ℕ, Subsingleton ((structureSheaf S).val.obj (op (T.obj e)))) :
+    (h : ∀ e : ℕ, Subsingleton ((structureSheaf S).obj.obj (op (T.obj e)))) :
     Subsingleton (levelRingLimit S T) :=
   have := h
   inferInstance
@@ -515,7 +515,7 @@ This used to be read as the field `ringEquiv` of the reduction datum, available 
 not that field any more: since the datum was reshaped to run over a system of levels, `ringEquiv`
 asks for `D` to be the inverse limit `lim_e Γ(T_e, 𝒪_{T_e})`, which no single object supplies. -/
 noncomputable def sectionsDividedPowerRingEquiv (B : CrystallineThickening S) :
-    (sectionsDividedPowerRing S B : Type u) ≃+* (structureSheaf S).val.obj (op B) :=
+    (sectionsDividedPowerRing S B : Type u) ≃+* (structureSheaf S).obj.obj (op B) :=
   RingEquiv.refl _
 
 /-- **The section ring of the first-order universal thickening of an object of `Cris(X/S)` is the
@@ -537,7 +537,7 @@ divided power envelope `D` of [Stacks, Tag 07J8], and the reshaped `ringEquiv` d
 it. -/
 noncomputable def firstOrderSectionsRingEquiv (B : CrystallineThickening S) :
     firstOrderExtension (sectionsDividedPowerRing S B) (sectionsDifferentials S B) ≃+*
-      (structureSheaf S).val.obj (op (firstOrderThickeningCrysObject S B)) :=
+      (structureSheaf S).obj.obj (op (firstOrderThickeningCrysObject S B)) :=
   RingEquiv.refl _
 
 end RingIdentifications
@@ -554,12 +554,12 @@ noncomputable abbrev botLevelSystem : ℕ ⥤ CrystallineThickening S :=
 /-- **Every level of the constant system at the empty object has the zero ring for its ring of
 sections**, stated in the indexed shape the clauses of the reduction datum ask for. -/
 theorem subsingleton_sections_botLevelSystem (e : ℕ) :
-    Subsingleton ((structureSheaf S).val.obj (op ((botLevelSystem S).obj e))) :=
+    Subsingleton ((structureSheaf S).obj.obj (op ((botLevelSystem S).obj e))) :=
   subsingleton_sections_opensFree_bot S
 
 /-- **And so does the first-order universal thickening of every level of that system.** -/
 theorem subsingleton_sections_firstOrderThickening_botLevelSystem (e : ℕ) :
-    Subsingleton ((structureSheaf S).val.obj
+    Subsingleton ((structureSheaf S).obj.obj
       (op (firstOrderThickeningCrysObject S ((botLevelSystem S).obj e)))) :=
   subsingleton_sections_firstOrderThickening S _ (subsingleton_sections_botLevelSystem S e)
 

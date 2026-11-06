@@ -159,16 +159,19 @@ def IsNewtonPowerSums (c : TotalChowClass C sX) (P : ℕ → TotalChowClass C sX
     ∑ j ∈ range p, ((-1 : ℤ) ^ j) • (TotalChowClass.homComponent (j + 1) c * P (p - j)) +
     ((-1 : ℤ) ^ p * ((p : ℤ) + 1)) • TotalChowClass.homComponent (p + 1) c
 
+open scoped IsMulCommutative in
 /-- Newton's recursion holds for the universal power sums evaluated at the homogeneous parts of a
 class, computed in a commutative subring containing them. -/
 theorem isNewtonPowerSums_of_powerSumEval {s : Set (TotalChowClass C sX)}
     (hs : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) (c : TotalChowClass C sX)
     (hc : ∀ i, TotalChowClass.homComponent i c ∈ Subring.closure s) (P : ℕ → TotalChowClass C sX)
-    (hP : ∀ p, p ≠ 0 → P p = ((@powerSumEval (Subring.closure s) (Subring.closureCommRingOfComm hs)
+    (hP : ∀ p, p ≠ 0 → P p = ((@powerSumEval (Subring.closure s)
+      (haveI := Subring.isMulCommutative_closure (s := s) fun x hx y hy _ => hs x hx y hy
+      inferInstance)
       (fun i => ⟨TotalChowClass.homComponent i c, hc i⟩) p : Subring.closure s) :
         TotalChowClass C sX)) :
     IsNewtonPowerSums c P := by
-  let := Subring.closureCommRingOfComm hs
+  haveI := Subring.isMulCommutative_closure (s := s) fun x hx y hy _ => hs x hx y hy
   intro p
   rw [hP (p + 1) (Nat.succ_ne_zero p), powerSumEval_succ]
   push_cast
@@ -335,9 +338,12 @@ theorem chernUnitSet_commute :
 abbrev chernUnitRing : Subring (TotalChowClass C sX) :=
   Subring.closure (chernUnitSet C sX)
 
+open scoped IsMulCommutative in
 /-- The subring `Stacks.Chow.chernUnitRing` is commutative. -/
 instance : CommRing (chernUnitRing C sX) :=
-  Subring.closureCommRingOfComm (chernUnitSet_commute C sX)
+  haveI := Subring.isMulCommutative_closure (s := chernUnitSet C sX)
+    fun x hx y hy _ => chernUnitSet_commute C sX x hx y hy
+  inferInstance
 
 /-- A total class all of whose homogeneous parts lie in `Stacks.Chow.chernUnitRing`. -/
 def HasChernUnitParts (x : TotalChowClass C sX) : Prop :=

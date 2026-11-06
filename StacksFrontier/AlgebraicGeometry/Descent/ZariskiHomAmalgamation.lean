@@ -191,7 +191,8 @@ lemma restrictHomOfPullbackHom_injective {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpe
       (Scheme.Modules.pullback f).obj B}
     (h : restrictHomOfPullbackHom f θ₁ = restrictHomOfPullbackHom f θ₂) : θ₁ = θ₂ := by
   rw [restrictHomOfPullbackHom, restrictHomOfPullbackHom] at h
-  exact (cancel_mono _).mp ((cancel_epi _).mp h)
+  exact (Iso.cancel_iso_inv_right _ _ ((Scheme.Modules.restrictFunctorIsoPullback f).app B)).mp
+    ((Iso.cancel_iso_hom_left ((Scheme.Modules.restrictFunctorIsoPullback f).app A) _ _).mp h)
 
 /-- `restrictHomOfPullbackHom` carries the pullback map of the presheaf of morphisms along
 `f ≫ g` to the restriction along `f` of the restricted morphism. -/

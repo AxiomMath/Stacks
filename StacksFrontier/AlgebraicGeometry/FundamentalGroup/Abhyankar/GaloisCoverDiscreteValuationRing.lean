@@ -559,7 +559,7 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isDiscreteValuat
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint (Spec (.of R))))).obj Y.obj ≅ Z.obj),
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint (Spec (.of R))))).map
-        (Y.action g).hom ≫ e.hom = e.hom ≫ (Z.action g).hom := by
+        (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   obtain ⟨Y', p, hpf, hpe, a, H⟩ :=
     exists_isPullback_finiteEtale_of_genericFiber f h0BMA h0EYD σ hσ hG Z z hz
   have H' : IsPullback Z.obj.hom a (f.fiberι (genericPoint (Spec (.of R)))) p := by

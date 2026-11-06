@@ -121,7 +121,7 @@ def shrinkAbIso :
     (by
       intros
       ext x
-      exact ULift.ext _ _ (Shrink.addEquiv.apply_symm_apply _))
+      exact ULift.ext (Shrink.addEquiv.apply_symm_apply _))
 
 /-- The shrink of a functor transforming coproducts of shape `Discrete α` into products does the
 same: `AddCommGrpCat.uliftFunctor` preserves and reflects limits, and the lifts of the two

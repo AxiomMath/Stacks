@@ -55,6 +55,26 @@ namespace AlgebraicGeometry.FormalSpace
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Limits of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfSize_presheaf_CompletionEtale :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfSize
+
+local instance (priority := high) hasLimitsOfSize_presheafULift_CompletionEtale :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)) :=
+  Limits.functorCategoryHasLimitsOfSize
+
+local instance (priority := high) hasPullback_presheaf_CompletionEtale
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance (priority := high) hasPullback_presheafULift_CompletionEtale
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- If `f_{/T} : X'_{/|f|⁻¹ T} ⟶ X_{/T}` is étale, then the base change of `f` to the `n`th-order
 infinitesimal neighbourhood of a closed subscheme `Z ⊂ X` is étale for every `n`. -/
 abbrev EtaleCompletionDescendsToInfinitesimalNeighbourhoods

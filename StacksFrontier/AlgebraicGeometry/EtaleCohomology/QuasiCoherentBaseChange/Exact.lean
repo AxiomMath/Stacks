@@ -89,7 +89,7 @@ theorem shortExact_etaleShortComplex (S : ShortComplex Z.Modules) [S.X₁.IsQuas
     (etaleShortComplex S).ShortExact := by
   have hmonoT : ∀ T : Z.Etaleᵒᵖ, Mono ((etaleShortComplex S).f.hom.app T) := fun T =>
     (AddCommGrpCat.mono_iff_injective _).2 fun a b hab =>
-      ULift.ext _ _ (hmono T.unop (congrArg ULift.down hab))
+      ULift.ext (hmono T.unop (congrArg ULift.down hab))
   have hmono' : Mono (etaleShortComplex S).f := by
     have : Mono (etaleShortComplex S).f.hom := NatTrans.mono_of_mono_app _
     exact Sheaf.Hom.mono_of_presheaf_mono _ _ _
@@ -108,7 +108,7 @@ theorem shortExact_etaleShortComplex (S : ShortComplex Z.Modules) [S.X₁.IsQuas
       rw [ShortComplex.ab_exact_iff]
       intro y hy
       obtain ⟨x, hx⟩ := hexact T.unop y.down (congrArg ULift.down hy)
-      exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+      exact ⟨ULift.up x, ULift.ext hx⟩
     exact ((ShortComplex.exact_and_mono_f_iff_f_is_kernel ST).1 ⟨hST, hmonoT T⟩).some
   exact { mono_f := hmono', epi_g := hepi, exact := ShortComplex.exact_of_f_is_kernel _ hlim }
 

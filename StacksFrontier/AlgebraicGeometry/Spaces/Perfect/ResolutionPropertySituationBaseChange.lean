@@ -51,6 +51,13 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ResolutionPropertySituationBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The points of one leg of a cartesian square of algebraic spaces are the preimage of the
 points of the opposite leg.** -/
 theorem preimage_range_pointsMap_of_isPullback' {P X Y Z : AlgebraicSpaces B S hS}

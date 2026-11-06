@@ -232,14 +232,14 @@ theorem constantGroupSchemeTensor_hom_ext {U Y : Over S}
 /-- The action map `G_S ×_S U ⟶ U` of an abstract action: `a g` on the `g`-th summand. -/
 def constantGroupSchemeSMul {U : Over S} (a : G →* Aut U) :
     constantGroupSchemeObj G S ⊗ U ⟶ U :=
-  Cofan.IsColimit.desc (isColimit_constantGroupSchemeTensorCofan U) fun g ↦ (a g).hom
+  Cofan.IsColimit.desc (isColimit_constantGroupSchemeTensorCofan U) fun g ↦ (a g).asIso.hom
 
 /-- On the `g`-th summand of `G_S ×_S U`, the action map `constantGroupSchemeSMul a` is the
 automorphism `a g` of `U`. -/
 @[reassoc (attr := simp)]
 theorem constantGroupSchemeLeg_smulMap {U : Over S} (a : G →* Aut U) (g : G) :
-    constantGroupSchemeLeg U g ≫ constantGroupSchemeSMul a = (a g).hom :=
-  Cofan.IsColimit.fac (isColimit_constantGroupSchemeTensorCofan U) (fun g ↦ (a g).hom) g
+    constantGroupSchemeLeg U g ≫ constantGroupSchemeSMul a = (a g).asIso.hom :=
+  Cofan.IsColimit.fac (isColimit_constantGroupSchemeTensorCofan U) (fun g ↦ (a g).asIso.hom) g
 
 /-- Precomposing the `g`-th summand with `x` is the pair of the constant point `g` and `x`. -/
 private theorem comp_constantGroupSchemeLeg {H : Type v} [Small.{u} H] {T V : Over S}
@@ -266,10 +266,10 @@ private theorem leg_leg_associator_inv_mul (U : Over S) (g h : G) :
 private theorem leg_leg_whiskerLeft {U : Over S} (a : G →* Aut U) (g h : G) :
     constantGroupSchemeLeg U h ≫ constantGroupSchemeLeg (constantGroupSchemeObj G S ⊗ U) g ≫
         constantGroupSchemeObj G S ◁ constantGroupSchemeSMul a =
-      (a h).hom ≫ constantGroupSchemeLeg U g := by
+      (a h).asIso.hom ≫ constantGroupSchemeLeg U g := by
   have hu : constantGroupSchemeLeg U h ≫ toUnit (constantGroupSchemeObj G S ⊗ U) = toUnit U :=
     toUnit_unique _ _
-  have hu' : (a h).hom ≫ toUnit U = toUnit U := toUnit_unique _ _
+  have hu' : (a h).asIso.hom ≫ toUnit U = toUnit U := toUnit_unique _ _
   apply CartesianMonoidalCategory.hom_ext
   · rw [Category.assoc, Category.assoc, whiskerLeft_fst, constantGroupSchemeLeg_fst,
       ← Category.assoc, hu, Category.assoc, constantGroupSchemeLeg_fst, ← Category.assoc, hu']
@@ -304,7 +304,7 @@ def constantGroupSchemeModObj (U : Over S) (a : G →* Aut U) :
 `G_S ×_S U`:** on the summand indexed by `g` the action map of `G_S` is `a g`. -/
 theorem constantGroupSchemeLeg_smul (U : Over S) (a : G →* Aut U) (g : G) :
     let := constantGroupSchemeModObj U a
-    constantGroupSchemeLeg U g ≫ γ[constantGroupSchemeObj G S, U] = (a g).hom :=
+    constantGroupSchemeLeg U g ≫ γ[constantGroupSchemeObj G S, U] = (a g).asIso.hom :=
   constantGroupSchemeLeg_smulMap a g
 
 /-- **The abstract action is recovered on `T`-points:** the constant `T`-point of `G_S` with value
@@ -312,7 +312,7 @@ theorem constantGroupSchemeLeg_smul (U : Over S) (a : G →* Aut U) (g : G) :
 theorem constantGroupSchemePoint_smul (U : Over S) (a : G →* Aut U) (g : G) {T : Over S}
     (x : T ⟶ U) :
     let := constantGroupSchemeModObj U a
-    (toUnit T ≫ constantGroupSchemePoint G S g) • x = x ≫ (a g).hom := by
+    (toUnit T ≫ constantGroupSchemePoint G S g) • x = x ≫ (a g).asIso.hom := by
   intro inst
   rw [Hom.smul_def, ← comp_constantGroupSchemeLeg x g, Category.assoc]
   exact congrArg (x ≫ ·) (constantGroupSchemeLeg_smul U a g)
@@ -321,7 +321,7 @@ theorem constantGroupSchemePoint_smul (U : Over S) (a : G →* Aut U) (g : G) {T
 by `g`, for every `g`, is the action `AlgebraicGeometry.constantGroupSchemeModObj` of `a`. -/
 theorem constantGroupSchemeModObj_unique (U : Over S) (a : G →* Aut U)
     (m : ModObj (constantGroupSchemeObj G S) U)
-    (hm : ∀ g : G, constantGroupSchemeLeg U g ≫ m.smul = (a g).hom) :
+    (hm : ∀ g : G, constantGroupSchemeLeg U g ≫ m.smul = (a g).asIso.hom) :
     m = constantGroupSchemeModObj U a := by
   have : m.smul = (constantGroupSchemeModObj U a).smul :=
     constantGroupSchemeTensor_hom_ext fun g ↦ (hm g).trans (constantGroupSchemeLeg_smulMap a g).symm
@@ -363,7 +363,7 @@ with `T` nonempty is fixed by two distinct elements of `G` — then the action o
 free in the sense of **Stacks 07S1**: for every `T`, the group `G_S(T)` acts freely on `U(T)`. -/
 theorem isFreeAction_constantGroupSchemeModObj (U : Over S) (a : G →* Aut U)
     (ha : ∀ T : Over S, Nonempty T.left → ∀ (x : T ⟶ U) (g g' : G),
-      x ≫ (a g).hom = x ≫ (a g').hom → g = g') :
+      x ≫ (a g).asIso.hom = x ≫ (a g').asIso.hom → g = g') :
     let := constantGroupSchemeModObj U a
     IsFreeAction (constantGroupSchemeObj G S) U := by
   intro inst T
@@ -388,7 +388,7 @@ theorem isFreeAction_constantGroupSchemeModObj (U : Over S) (a : G →* Aut U)
 action of `G_S`: for any two points `u, v` of `U` there is a point of `G_S ×_S U` lying over `u`
 under the projection and over `v` under the action map. -/
 theorem exists_smul_eq_constantGroupSchemeModObj (U : Over S) (a : G →* Aut U)
-    (ha : ∀ u v : U.left, ∃ g : G, (a g).hom.left u = v) (u v : U.left) :
+    (ha : ∀ u v : U.left, ∃ g : G, (a g).asIso.hom.left u = v) (u v : U.left) :
     let := constantGroupSchemeModObj U a
     ∃ z : (constantGroupSchemeObj G S ⊗ U).left,
       (snd (constantGroupSchemeObj G S) U).left z = u ∧

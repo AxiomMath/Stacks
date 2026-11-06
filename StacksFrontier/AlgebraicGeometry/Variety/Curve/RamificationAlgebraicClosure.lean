@@ -250,10 +250,9 @@ public theorem residueField_finite_of_closed_point (k : Type u) [Field k] {X : S
   let : Algebra.FiniteType k (X.residueField x) := by
     change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _
 
 /-- The ramification index at a closed point of a smooth curve after extension to an algebraic

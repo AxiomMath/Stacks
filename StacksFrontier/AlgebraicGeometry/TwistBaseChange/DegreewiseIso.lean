@@ -247,9 +247,9 @@ of `𝒜 d`. -/
 public theorem irrelevant_le_map_of_isBaseChange :
     HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map φ := by
   refine irrelevant_le_map_of_mem_span 𝒜 ℬ φ fun d hd g hg => ?_
-  refine (hfA d).inductionOn (⟨g, hg⟩ : ↥(gradePieceSubmodule ℬ d))
-    (fun x => (x : B) ∈ Ideal.span (φ '' ⋃ n > 0, (𝒜 n : Set A))) ?_ ?_ ?_ ?_
-  · exact zero_mem _
+  refine (hfA d).inductionOn
+    (motive := fun x => (x : B) ∈ Ideal.span (φ '' ⋃ n > 0, (𝒜 n : Set A)))
+    (⟨g, hg⟩ : ↥(gradePieceSubmodule ℬ d)) ?_ ?_ ?_
   · intro m
     exact Ideal.subset_span ⟨m, Set.mem_iUnion₂.mpr ⟨d, hd, m.2⟩, rfl⟩
   · intro s x hx

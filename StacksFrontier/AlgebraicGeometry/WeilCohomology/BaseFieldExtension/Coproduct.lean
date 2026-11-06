@@ -72,7 +72,7 @@ theorem iso_comp_baseChange_pull {X Y : (SmoothProjectiveScheme k).FullSubcatego
     (f : X ⟶ Y) :
     (Φ.iso X).toLinearMap ∘ₗ (𝔇.pull f).toLinearMap.baseChange F' =
       (𝔇'.pull ((baseChange k k').map f)).toLinearMap ∘ₗ (Φ.iso Y).toLinearMap := by
-  refine LinearMap.ext fun x => x.induction_on (by simp) (fun a v => ?_) (fun x y hx hy => ?_)
+  refine LinearMap.ext fun x => x.inductionOn (fun a v => ?_) (fun x y hx hy => ?_)
   · simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.baseChange_tmul,
       AlgHom.toLinearMap_apply, AlgEquiv.toLinearMap_apply]
     rw [iso_tmul Φ X a, iso_tmul Φ Y a, map_smul, Φ.iso_natural]
@@ -95,7 +95,7 @@ theorem coproductAxiom (h : 𝔇'.CoproductAxiom) : 𝔇.CoproductAxiom := by
     have hpr : ∀ x : F' ⊗[F] 𝔇.H Z, TensorProduct.prodRight F F' F' (𝔇.H X) (𝔇.H Y)
         (g.baseChange F' x) = ((𝔇.pull i).toLinearMap.baseChange F' x,
           (𝔇.pull j).toLinearMap.baseChange F' x) := fun x =>
-      x.induction_on (by simp only [map_zero]; rfl) (fun a v => by simp [g])
+      x.inductionOn (fun a v => by simp [g])
         (fun x y hx hy => by simp only [map_add, hx, hy]; rfl)
     have hg : e.toLinearMap ∘ₗ g.baseChange F' =
         ((𝔇'.pull ((baseChange k k').map i)).toLinearMap.prod

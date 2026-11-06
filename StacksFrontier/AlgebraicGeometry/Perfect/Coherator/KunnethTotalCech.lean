@@ -92,13 +92,23 @@ Cech complex evaluates the presheaf at the categorical product of `U (s 0), …,
 @[expose] public noncomputable section
 
 attribute [local instance 2000] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.Limits.hasFiniteLimits_of_hasCountableLimits
 attribute [local instance 2100] Quiver.opposite
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 open Stacks.AlgebraicGeometry.SectionsBaseChange (le_preimage_top baseModule)
 
 universe u
+
+/-- Products in `ModuleCat`, found directly (instance search for them times out). -/
+local instance moduleCatHasProducts {R : Type u} [Ring R] : HasProducts.{u} (ModuleCat.{u} R) :=
+  fun _ => inferInstance
+
+/-- Products of complexes of modules, found directly (instance search for them times out). -/
+local instance homologicalComplexModuleCatHasProducts {R : Type u} [Ring R] {ι : Type*}
+    (c : ComplexShape ι) : HasProducts.{u} (HomologicalComplex (ModuleCat.{u} R) c) :=
+  fun J =>
+    have : HasLimitsOfShape (Discrete J) (ModuleCat.{u} R) := moduleCatHasProducts J
+    ⟨fun F => ⟨⟨⟨_, HomologicalComplex.isLimitConeOfHasLimitEval F⟩⟩⟩⟩
 
 namespace AlgebraicGeometry
 
@@ -389,7 +399,7 @@ private lemma evaluation_boundary (P : X.Presheaf C) (V : Opens X) (p : ℕ)
   simp only [boundary,
     FreeAbelianGroup.lift_apply_of, map_sum, map_zsmul, evaluation,
     face, differential,
-    Pi.lift_π_assoc, Preadditive.sum_comp, Preadditive.zsmul_comp, Category.assoc]
+    Pi.lift_comp_π_assoc, Preadditive.sum_comp, Preadditive.zsmul_comp, Category.assoc]
   apply Finset.sum_congr rfl
   intro vertex _
   rw [← P.map_comp, ← op_comp]
@@ -438,7 +448,7 @@ private lemma evaluation_homotopy (P : X.Presheaf C) (V : Opens X) (p : ℕ)
     homotopy U P p ≫ evaluation U P V p chain =
       evaluation U P V (p + 1) (chainHomotopy U V p chain) :=
   comp_evaluation_of_natural U P _ (fun V => chainHomotopy U V p) (fun h => chainMap_homotopy U h p)
-    (fun _ => Pi.lift_π _ _) V chain
+    (fun _ => Pi.lift_comp_π _ _) V chain
 
 private lemma homotopy_identity (P : X.Presheaf C) (p : ℕ) :
     differential U P (p + 1) ≫ homotopy U P (p + 1) +
@@ -456,7 +466,7 @@ private lemma evaluation_projection (P : X.Presheaf C) (V : Opens X) (p : ℕ)
     sorting U P p ≫ evaluation U P V p chain =
       evaluation U P V p (projection U V p chain) :=
   comp_evaluation_of_natural U P _ (fun V => projection U V p) (fun h => chainMap_projection U h p)
-    (fun _ => Pi.lift_π _ _) V chain
+    (fun _ => Pi.lift_comp_π _ _) V chain
 
 omit [LinearOrder I] in
 private lemma evaluation_self (P : X.Presheaf C) (p : ℕ) (tuple : Fin (p + 1) → I) :
@@ -491,7 +501,7 @@ private lemma sorting_idempotent (P : X.Presheaf C) (p : ℕ) :
 private lemma sorting_zero (P : X.Presheaf C) : sorting U P 0 = 𝟙 _ := by
   apply Pi.hom_ext
   intro tuple
-  simp only [sorting, Pi.lift_π, projection_zero, evaluation_self,
+  simp only [sorting, Pi.lift_comp_π, projection_zero, evaluation_self,
     Category.id_comp]
 
 private lemma sorting_eq_zero [Finite I] (P : X.Presheaf C) (p : ℕ)
@@ -590,7 +600,7 @@ private lemma differential_π (P : X.Presheaf C) (p : ℕ) (tuple : Fin (p + 2) 
         (Pi.π (fun other : Fin (p + 1) → I => P.obj (op (CechCochains.inter U other)))
             (tuple ∘ vertex.succAbove) ≫
           P.map (homOfLE (CechCochains.inter_le_omit U tuple vertex)).op) :=
-  Pi.lift_π _ tuple
+  Pi.lift_comp_π _ tuple
 
 omit [LinearOrder I] in
 /-- The differential of Mathlib's Cech complex is the alternating sum of the maps that omit
@@ -626,9 +636,9 @@ private lemma prodObjectIso_comm (P : X.Presheaf C) (p : ℕ) :
   apply Pi.hom_ext
   intro tuple
   simp only [Category.assoc, Preadditive.sum_comp, Preadditive.comp_sum,
-    Preadditive.zsmul_comp, Preadditive.comp_zsmul, Pi.lift_π,
+    Preadditive.zsmul_comp, Preadditive.comp_zsmul, Pi.lift_comp_π,
     CategoryTheory.Limits.Pi.map_π, CategoryTheory.Limits.Pi.map_π_assoc]
-  rw [← Category.assoc (differential U P p), differential, Pi.lift_π]
+  rw [← Category.assoc (differential U P p), differential, Pi.lift_comp_π]
   simp only [Preadditive.sum_comp, Preadditive.zsmul_comp, Category.assoc]
   refine Finset.sum_congr rfl fun vertex _ => ?_
   congr 1

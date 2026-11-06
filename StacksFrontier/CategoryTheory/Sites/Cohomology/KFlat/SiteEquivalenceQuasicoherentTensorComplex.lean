@@ -94,7 +94,8 @@ theorem isQuasicoherentOnSite_homology_tensorComplex_of_reindex
     ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) n).obj
       (((Tensor.tensorComplex O).obj P).obj L)).IsQuasicoherentOnSite := by
   let Φ := (reindexMod J' e O).functor
-  let ε := TensorPower.whiskerTensorSheafIso (J' := J') O.val (Tensor.ringSheaf.{u, v, w} O).cond
+  let ε := TensorPower.whiskerTensorSheafIso (J' := J') O.obj
+    (Tensor.ringSheaf.{u, v, w} O).property
     e.functor
   have hε₁ := fun {a a'} (f : a ⟶ a') N => reindexTensorIso_naturality_left J' e O f N
   have hε₂ := fun M {b b'} (g : b ⟶ b') => reindexTensorIso_naturality_right J' e O M g

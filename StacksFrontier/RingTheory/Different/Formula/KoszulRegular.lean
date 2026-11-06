@@ -317,7 +317,6 @@ private theorem ker_productMap_toAlgHom_id {R A' C : Type*} [CommRing R] [CommRi
     Ideal.subset_span ⟨a, rfl⟩
   have key (y : A' ⊗[R] C) : y - 1 ⊗ₜ π y ∈ J := by
     induction y with
-    | zero => simp
     | tmul a c =>
         have hval : π (a ⊗ₜ c) = algebraMap A' C a * c := by simp [hπ]
         have hfac : a ⊗ₜ[R] c - 1 ⊗ₜ (algebraMap A' C a * c) =

@@ -35,6 +35,11 @@ import Mathlib.RingTheory.DualNumber
 import Mathlib.RingTheory.Extension.Basic
 import Mathlib.RingTheory.FilteredAlgebra.Basic
 import Mathlib.RingTheory.IsAdjoinRoot
+import Mathlib.RingTheory.Flat.TorsionFree
+import Mathlib.RingTheory.Ideal.AssociatedPrime.Finiteness
+import Mathlib.RingTheory.KrullDimension.Field
+import Mathlib.RingTheory.KrullDimension.PID
+import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.KrullDimension.Regular
 import Mathlib.RingTheory.LocalProperties.InjectiveDimension
 import Mathlib.RingTheory.LocalProperties.ProjectiveDimension
@@ -175,7 +180,7 @@ add_to_ega "0 8.2.1" "partial" CategoryTheory.FunctorToTypes.binaryProductLimitC
 add_to_ega "0 8.2.1" CategoryTheory.FunctorToTypes.prod
 add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.app_naturality
 add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.app_naturality._to_dual_1
-add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.naturality'
+add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.naturality._to_dual_1
 add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.naturality_assoc
 add_to_ega "0 8.2.1" "more general" CategoryTheory.NatTrans.naturality_assoc._to_dual_1
 add_to_ega "0 8.2.2" "special case" CategoryTheory.instIsAddMonHomComp

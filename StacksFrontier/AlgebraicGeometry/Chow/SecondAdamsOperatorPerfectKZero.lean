@@ -86,7 +86,7 @@ variable (X : Scheme.{u})
 
 /-- If `2` is a unit of `Γ(X, 𝒪_X)`, it is a unit in every ring of sections of `𝒪_X`. -/
 theorem isUnit_two_presheaf_obj (h2 : IsUnit (2 : Γ(X, ⊤))) (U : (TopologicalSpace.Opens X)ᵒᵖ) :
-    IsUnit (2 : X.toRingedSpace.sheaf.val.obj U) := by
+    IsUnit (2 : X.toRingedSpace.sheaf.obj.obj U) := by
   have h := h2.map (X.presheaf.map (homOfLE le_top : U.unop ⟶ ⊤).op).hom
   rwa [map_ofNat] at h
 

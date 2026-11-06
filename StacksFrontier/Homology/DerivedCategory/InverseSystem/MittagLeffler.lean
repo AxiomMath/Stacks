@@ -196,7 +196,7 @@ private lemma delta_surjective_equations (A : Rlim.InvSystemAb.{v})
   refine ⟨fun n => Pi.π (fun n : ℕ => A.obj (Opposite.op n)) n z, fun n => ?_⟩
   have hz' := congrArg (fun y => Pi.π (fun n : ℕ => A.obj (Opposite.op n)) n y) hz
   have hp : p ≫ Pi.π (fun n : ℕ => A.obj (Opposite.op n)) n =
-      AddCommGrpCat.ofHom (Pi.evalAddMonoidHom _ n) := Pi.lift_π _ _
+      AddCommGrpCat.ofHom (Pi.evalAddMonoidHom _ n) := Pi.lift_comp_π _ _
   have hd : Rlim.delta A ≫ Pi.π (fun n : ℕ => A.obj (Opposite.op n)) n =
       Pi.π (fun n : ℕ => A.obj (Opposite.op n)) n -
         Pi.π (fun n : ℕ => A.obj (Opposite.op n)) (n + 1) ≫
@@ -211,7 +211,7 @@ private lemma delta_surjective_equations (A : Rlim.InvSystemAb.{v})
             ((Pi.π (fun n : ℕ => A.obj (Opposite.op n)) (n + 1)).hom y)
     erw [map_sub]
     congr 1
-    exact ConcreteCategory.congr_hom (Pi.lift_π
+    exact ConcreteCategory.congr_hom (Pi.lift_comp_π
       (fun n => Pi.π (fun n : ℕ => A.obj (Opposite.op n)) (n + 1) ≫
         A.map (homOfLE (Nat.le_succ n)).op) n) y
   change ((Rlim.delta A ≫ Pi.π _ n) z) = ((p ≫ Pi.π _ n) x) at hz'

@@ -530,7 +530,7 @@ private theorem galois_invariant_section_descends
 private theorem quotient_image_action_invariant (T : BigFppfOver B S hS)
     (t : (Over.post B.inclusion).obj T ⟶ underlyingOver B hS V) (g : G) :
     (toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
-      (actionRelation (underlyingOver B hS V) G a)).app (op T) (t ≫ (a g).hom) =
+      (actionRelation (underlyingOver B hS V) G a)).app (op T) (t ≫ (a g).asIso.hom) =
     (toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
       (actionRelation (underlyingOver B hS V) G a)).app (op T) t := by
   have h := congrArg
@@ -557,7 +557,7 @@ private theorem quotient_image_invariant_of_equivariant (L : Type u) [Field L] [
     (hf : f ≫ (underlyingOver B hS V).hom =
       Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b)
     (he : ∀ h : H,
-      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left)
+      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left)
     (σ : L ≃ₐ[K] L) :
     (actionQuotient G B hS V a).map (fieldExtensionSiteAut B hS K b L hL σ).op
       ((toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
@@ -575,9 +575,9 @@ private theorem quotient_image_invariant_of_equivariant (L : Type u) [Field L] [
   let h : H := (e.symm σ)⁻¹
   have heh : e h⁻¹ = σ := by simp [h]
   have ht : (Over.post B.inclusion).map (fieldExtensionSiteAut B hS K b L hL σ) ≫ t =
-      t ≫ (a h.1).hom := by
+      t ≫ (a h.1).asIso.hom := by
     refine Over.OverMorphism.ext ?_
-    change Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ f = f ≫ (a h.1).hom.left
+    change Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left
     rw [← heh]
     exact he h
   have hn := congrArg (fun φ => φ t)
@@ -604,7 +604,7 @@ theorem quotientPoint_of_galois_equivariant (L : Type u) [Field L] [Algebra K L]
     (hf : f ≫ (underlyingOver B hS V).hom =
       Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b)
     (he : ∀ h : H,
-      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) :
+      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) :
     ∃ ξ : (actionQuotient G B hS V a).obj (op (fieldObject (hS := hS) K hK b)),
       IsQuotientLift B hS V G a K hK b ξ L f hf := by
   let hL := contains_spec_of_finiteDimensional B K hK L
@@ -636,7 +636,7 @@ theorem existsUnique_quotientPoint_of_galois_equivariant (L : Type u) [Field L] 
     (hf : f ≫ (underlyingOver B hS V).hom =
       Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b)
     (he : ∀ h : H,
-      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) :
+      Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) :
     ∃! ξ : (actionQuotient G B hS V a).obj (op (fieldObject (hS := hS) K hK b)),
       IsQuotientLift B hS V G a K hK b ξ L f hf := by
   let hL := contains_spec_of_finiteDimensional B K hK L
@@ -700,11 +700,11 @@ omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- The target map restricted to the copy indexed by `g` is the action of `g`. -/
 private theorem actionCopy_target (g : G) :
     actionCopy B hS V G g ≫ (actionRelationTarget (underlyingOver B hS V) G a).left =
-      (a g).hom.left := by
+      (a g).asIso.hom.left := by
   change (Over.forget S).map (Sigma.ι (fun _ : G => underlyingOver B hS V) g) ≫
       (Over.forget S).map (actionRelationTarget (underlyingOver B hS V) G a) = _
   rw [← (Over.forget S).map_comp]
-  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G => (a g).hom) g)
+  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G => (a g).asIso.hom) g)
 
 omit [Small.{u} G] [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- A group element fixing a field-valued point of `V` together with its residue field is the
@@ -712,22 +712,22 @@ identity. -/
 private theorem eq_one_of_fixes_fieldPoint
     (ha : ActsNontriviallyOnFixedResidueFields (underlyingOver B hS V) G a) {k : Type u}
     [Field k] (z : Spec (.of k) ⟶ (underlyingOver B hS V).left) (g : G)
-    (hfix : z ≫ (a g).hom.left = z) : g = 1 := by
+    (hfix : z ≫ (a g).asIso.hom.left = z) : g = 1 := by
   let U := underlyingOver B hS V
   let E := Scheme.SpecToEquivOfField k U.left
   let x := z (IsLocalRing.closedPoint k)
-  have hpair : E (z ≫ (a g).hom.left) = E z := congrArg E hfix
+  have hpair : E (z ≫ (a g).asIso.hom.left) = E z := congrArg E hfix
   obtain ⟨hx, hres⟩ := Scheme.SpecToEquivOfField_eq_iff.mp hpair
   simp only [Scheme.SpecToEquivOfField, Equiv.coe_fn_mk, Scheme.Hom.comp_base,
     TopCat.hom_comp, ContinuousMap.coe_comp,
     Scheme.descResidueField_stalkClosedPointTo_comp, E] at hx hres
-  have hres' : (a g).hom.left.residueFieldMap x = (U.left.residueFieldCongr hx).hom := by
+  have hres' : (a g).asIso.hom.left.residueFieldMap x = (U.left.residueFieldCongr hx).hom := by
     let lam := (E z).2
     have : Mono lam := ConcreteCategory.mono_of_injective lam (RingHom.injective lam.hom)
     exact (cancel_mono lam).mp hres
   by_contra hne
-  have hx' : (a g).hom.left x = x := by
-    change (TopCat.Hom.hom (a g).hom.left.base) (z (IsLocalRing.closedPoint k)) =
+  have hx' : (a g).asIso.hom.left x = x := by
+    change (TopCat.Hom.hom (a g).asIso.hom.left.base) (z (IsLocalRing.closedPoint k)) =
       z (IsLocalRing.closedPoint k) at hx
     exact hx
   exact (ha g x hx' hne) hres'
@@ -737,17 +737,17 @@ omit [Small.{u} G] [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 private theorem action_injective_on_fieldPoint
     (ha : ActsNontriviallyOnFixedResidueFields (underlyingOver B hS V) G a) {k : Type u}
     [Field k] (z : Spec (.of k) ⟶ (underlyingOver B hS V).left) {g h : G}
-    (heq : z ≫ (a g).hom.left = z ≫ (a h).hom.left) : g = h := by
-  have hfix : z ≫ (a (h⁻¹ * g)).hom.left = z := by
-    have hcancel : (a h).hom.left ≫ ((a h)⁻¹).hom.left = 𝟙 _ := by
-      have hh : (a h).hom ≫ (a h)⁻¹.hom = 𝟙 _ := Iso.hom_inv_id (a h)
+    (heq : z ≫ (a g).asIso.hom.left = z ≫ (a h).asIso.hom.left) : g = h := by
+  have hfix : z ≫ (a (h⁻¹ * g)).asIso.hom.left = z := by
+    have hcancel : (a h).asIso.hom.left ≫ ((a h)⁻¹).asIso.hom.left = 𝟙 _ := by
+      have hh : (a h).asIso.hom ≫ (a h)⁻¹.asIso.hom = 𝟙 _ := (a h).asIso.hom_inv_id
       simpa using congrArg
         (fun m : underlyingOver B hS V ⟶ underlyingOver B hS V => m.left) hh
     calc
-      z ≫ (a (h⁻¹ * g)).hom.left = (z ≫ (a g).hom.left) ≫ (a h⁻¹).hom.left := by
-        simp only [map_mul, CategoryTheory.Aut.Aut_mul_def]
+      z ≫ (a (h⁻¹ * g)).asIso.hom.left = (z ≫ (a g).asIso.hom.left) ≫ (a h⁻¹).asIso.hom.left := by
+        simp only [map_mul, Aut.mul_asIso]
         rfl
-      _ = (z ≫ (a h).hom.left) ≫ (a h⁻¹).hom.left := by rw [heq]
+      _ = (z ≫ (a h).asIso.hom.left) ≫ (a h⁻¹).asIso.hom.left := by rw [heq]
       _ = z := by rw [map_inv a h, Category.assoc, hcancel, Category.comp_id]
   have h₁ := eq_one_of_fixes_fieldPoint B hS V G a ha z (h⁻¹ * g) hfix
   calc
@@ -993,7 +993,7 @@ private theorem action_related_by_quotient_field_points
       (toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
         (actionRelation (underlyingOver B hS V) G a)).app
         (op (fieldObject (hS := hS) k hk c)) (𝟙 _ ≫ Over.homMk q hq)) :
-    ∃ g : G, p = q ≫ (a g).hom.left := by
+    ∃ g : G, p = q ≫ (a g).asIso.hom.left := by
   let T := fieldObject (hS := hS) k hk c
   let pPost : (Over.post B.inclusion).obj T ⟶ (Over.post B.inclusion).obj V :=
     Over.homMk p hp
@@ -1058,7 +1058,7 @@ private theorem action_related_by_quotient_field_points
     _ = z' ≫ (actionCopy B hS V G g ≫
         (actionRelationTarget (underlyingOver B hS V) G a).left) := by
       rw [← Category.assoc, hz']
-    _ = q ≫ (a g).hom.left := by rw [actionCopy_target, hqz]
+    _ = q ≫ (a g).asIso.hom.left := by rw [actionCopy_target, hqz]
 
 /-- The Galois group of a finite Galois extension carrying an equivariant lift acts through a
 homomorphism to the acting group. -/
@@ -1073,9 +1073,9 @@ private theorem exists_galois_action_hom
       Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b)
     (hsec : IsQuotientLift B hS V G a K hK b ξ L f hf) :
     ∃ ρ : (L ≃ₐ[K] L) →* G, ∀ σ,
-      Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f = f ≫ (a (ρ σ)).hom.left := by
+      Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f = f ≫ (a (ρ σ)).asIso.hom.left := by
   have hex (σ : L ≃ₐ[K] L) : ∃ g : G,
-      Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f = f ≫ (a g).hom.left := by
+      Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f = f ≫ (a g).asIso.hom.left := by
     refine action_related_by_quotient_field_points B hS V G a ha hdesc hL
       (Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b)
       (Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f) f
@@ -1092,16 +1092,16 @@ private theorem exists_galois_action_hom
   · intro σ τ
     refine action_injective_on_fieldPoint B hS V G a ha f ?_
     calc
-      f ≫ (a (g (σ * τ))).hom.left =
+      f ≫ (a (g (σ * τ))).asIso.hom.left =
           Spec.map (CommRingCat.ofHom ((σ * τ)⁻¹).toRingHom) ≫ f := (hg _).symm
       _ = Spec.map (CommRingCat.ofHom (τ⁻¹).toRingHom) ≫
           Spec.map (CommRingCat.ofHom (σ⁻¹).toRingHom) ≫ f := by
         rw [mul_inv_rev, ← Category.assoc, ← Spec.map_comp]
         rfl
-      _ = f ≫ (a (g τ)).hom.left ≫ (a (g σ)).hom.left := by
+      _ = f ≫ (a (g τ)).asIso.hom.left ≫ (a (g σ)).asIso.hom.left := by
         rw [hg, ← Category.assoc, hg, Category.assoc]
-      _ = f ≫ (a (g σ * g τ)).hom.left := by
-        simp only [map_mul, Aut.Aut_mul_def]
+      _ = f ≫ (a (g σ * g τ)).asIso.hom.left := by
+        simp only [map_mul, Aut.mul_asIso]
         rfl
 
 /-- **Stacks 02Z5, the Galois-equivariant lift, granted effective descent along the covering
@@ -1130,7 +1130,7 @@ theorem exists_galois_equivariant_lift_of_descent
       (hf : f ≫ (underlyingOver B hS V).hom =
         Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ b),
       (∀ h : H,
-        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).hom.left) ∧
+        Spec.map (CommRingCat.ofHom (e h⁻¹).toRingHom) ≫ f = f ≫ (a h.1).asIso.hom.left) ∧
       IsQuotientLift B hS V G a K hK b ξ L f hf := by
   classical
   obtain ⟨M, hMField, hMAlg, hMFinite, hMGal, hM, fM, hfM, hsecM⟩ :=

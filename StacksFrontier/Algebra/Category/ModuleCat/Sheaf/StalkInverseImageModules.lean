@@ -89,6 +89,13 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 noncomputable section
 
+/- Since Mathlib v4.35.0, instance search for the product of two underlying sheaves of sets of
+sheaves of rings first tries this instance (products of images under the forgetful functor),
+which searches for limits of presheaves of rings and times out; the products are found directly
+without it. -/
+attribute [-instance]
+  CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+
 /-! ### The comparison of stalk rings is a ring isomorphism -/
 
 namespace Stacks.Sheaves.StalkTransport

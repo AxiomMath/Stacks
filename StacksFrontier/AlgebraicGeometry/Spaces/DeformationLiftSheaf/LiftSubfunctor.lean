@@ -48,6 +48,13 @@ noncomputable abbrev spacesEtaleHomPresheaf (X Z : AlgebraicSpaces C S hS) :
 
 variable {X : AlgebraicSpaces C S hS}
 
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_LiftSubfunctor
+    {F G H : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The chosen fibre product of the two underlying algebraic spaces of a pair of morphisms of
 the spaces-étale site of `X` with common target. -/
 private noncomputable abbrev sitePbSpace {V A A' : SpacesEtale C S hS X} (f : A ⟶ V)

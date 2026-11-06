@@ -178,7 +178,7 @@ theorem exists_isIso_kernelLevelMap_of_epi (hZ : B.Contains (⊤_ Scheme.{u}))
     (hker : ∀ k : ℕ, idealPowerMultiple B S hS F hF 𝓘 t (kernel (π.hom.app (op k))) = ⊥) :
     ∃ m₀ : ℕ, ∀ m : ℕ, m₀ ≤ m → ∀ (l : ℕ) (h : m ≤ l),
       IsIso (kernelLevelMap B S hS F hF 𝓘 π m l h) := by
-  obtain ⟨n, rfl⟩ : ∃ n, t = n + 1 := ⟨t - 1, by lia⟩
+  obtain ⟨n, rfl⟩ : ∃ n, t = n + 1 := ⟨t - 1, (Nat.sub_add_cancel ht).symm⟩
   obtain ⟨c, hc⟩ :=
     stableKernelImageQuotientMap_eventually_isIso B S hS F hF 𝓘 hZ hN hIcart π n
   refine ⟨n + c, fun m hm l h => ?_⟩

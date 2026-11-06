@@ -100,8 +100,8 @@ lemma extensionByZeroSectionMap_naturality
   have hUnit : ((adj.unit.app H.val).app (elementObj X F (Opposite.op V) s)) ≫ eH.hom =
       Sigma.ι (extensionByZeroSummands X F H V) s :=
     ((Iso.comp_inv_eq eH).1 hH').symm
-  have hι := (Limits.Sigma.ι_map (f := extensionByZeroSummands X F G V)
-    (g := extensionByZeroSummands X F H V)
+  have hι := (Limits.Sigma.ι_map (g := extensionByZeroSummands X F G V)
+    (f := extensionByZeroSummands X F H V)
     (fun t => (f.val.app (elementObj X F (Opposite.op V) t) :
       extensionByZeroSummands X F G V t ⟶ extensionByZeroSummands X F H V t)) s).symm
   exact (Category.assoc _ _ _).symm.trans

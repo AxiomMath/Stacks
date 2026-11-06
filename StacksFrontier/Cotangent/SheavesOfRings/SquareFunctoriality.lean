@@ -845,7 +845,7 @@ private lemma resolutionDerivations_ext {n : SimplexCategoryᵒᵖ} {M : targetM
     {D₁ D₂ : resolutionDerivations.{u, v, w} J f n M}
     (h : ∀ (U : Cᵒᵖ) (x : (resolutionTerm.{u, v, w} J f n).obj.obj U), D₁.d x = D₂.d x) :
     D₁ = D₂ :=
-  PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext (h U))
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext (h U))
 
 /-- Precomposition of an `A'`-derivation of `P'_n` with the map `P_n ⟶ P'_n` of the standard
 resolutions over a square is an `A`-derivation of `P_n`, valued in the target module read over
@@ -932,7 +932,7 @@ lemma squareCotangentTermMap_d (sq : ResolutionSquareMap.{u, v, w} J f f' a b)
         (squareCotangentTermMap sq n)).d x =
       ((cotangentSimplicialModule.{u, v, w} J f').universalDerivation n).d
         ((sq.resolution n).hom.app U x) :=
-  PresheafOfModules.Derivation.congr_d (X := U) (squareCotangentTermMap_derivation sq n) x
+  PresheafOfModulesOfCommRing.Derivation.congr_d (X := U) (squareCotangentTermMap_derivation sq n) x
 
 /-- The degreewise map is the unique morphism transposing precomposition with `P_n ⟶ P'_n`. -/
 lemma squareCotangentTermMap_unique (sq : ResolutionSquareMap.{u, v, w} J f f' a b)
@@ -1087,7 +1087,7 @@ lemma squareCotangentTermMap_comp_eq_id {a₂ : A' ⟶ A} {b₂ : B' ⟶ B}
   rw [squareCotangentTermMap_comp_derivation sq n
     ((squareRestrict.{u, v, w} J b).map (squareCotangentTermMap sq' n) ≫ c)]
   refine resolutionDerivations_ext fun U x => ?_
-  have hψ := PresheafOfModules.Derivation.congr_d
+  have hψ := PresheafOfModulesOfCommRing.Derivation.congr_d
     (squareCotangentTermMap_derivation sq' n) ((sq.resolution n).hom.app U x)
   rw [(cotangentSimplicialModule.{u, v, w} J f').derivationEquiv_eq_postcomp n
     (squareCotangentTermMap sq' n)] at hψ

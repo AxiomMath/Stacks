@@ -184,7 +184,7 @@ theorem RelativeSpecPoint.map_id {T : BigFppfOver B S hS} (p : RelativeSpecPoint
   obtain ⟨x, α⟩ := p
   rw [RelativeSpecPoint.map_mk]
   have h := RelativeSpecPoint.mk_comp_eq B S hS α
-    (show X.1.map (𝟙 T).op x = x from FunctorToTypes.map_id_apply X.1 x)
+    (show X.1.map (𝟙 T).op x = x from X.1.map_id_apply _ x)
     (specPointOverMap B S hS (𝟙 T) x) (𝟙 _) (ObjectProperty.hom_ext _ (yoneda.map_id T))
   rwa [compPushforwardAlgebraMap_id] at h
 
@@ -197,7 +197,7 @@ theorem RelativeSpecPoint.map_comp {T T' T'' : BigFppfOver B S hS} (g : T' ⟶ T
     ← compPushforwardAlgebraMap_comp]
   exact RelativeSpecPoint.mk_comp_eq B S hS α
     (show X.1.map (k ≫ g).op x = X.1.map k.op (X.1.map g.op x) from
-      FunctorToTypes.map_comp_apply X.1 g.op k.op x) _ _
+      X.1.map_comp_apply g.op k.op x) _ _
     (ObjectProperty.hom_ext _ (yoneda.map_comp k g))
 
 variable (A)

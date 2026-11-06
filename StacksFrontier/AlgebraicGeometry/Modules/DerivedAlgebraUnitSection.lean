@@ -61,7 +61,6 @@ theorem ι_mapBifunctorSingleXZeroIso_hom (h) :
     (F.map (singleObjXSelf (ComplexShape.up ℤ) 0 M).hom).app _ ≫
       (F.obj M).map (singleObjXSelf (ComplexShape.up ℤ) 0 N).hom := by
   simp [mapBifunctorSingleXZeroIso]
-  rfl
 
 omit [HasMapBifunctor ((CochainComplex.singleFunctor C₁ 0).obj M)
     ((CochainComplex.singleFunctor C₂ 0).obj N') F (ComplexShape.up ℤ)] in

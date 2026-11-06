@@ -230,7 +230,7 @@ theorem constantIdealSheaf_ι_comp_constantReduction (I : Ideal Λ) :
 /-- Multiplication by `a̲`, for `a ∈ I`, followed by the projection `Λ̲ ⟶ Λ̲/IΛ̲`, vanishes:
 `a̲` and its multiples are sections of `IΛ̲`. -/
 theorem globalSectionToEnd_comp_cokernelπ {I : Ideal Λ} {a : Λ} (ha : a ∈ I) :
-    (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app
+    (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app
         (SheafOfModules.unit _) ≫ cokernel.π (constantIdealSheaf J Λ I).ι = 0 := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   let R := (Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O).obj.obj U
@@ -385,7 +385,7 @@ theorem constantModuleFunctor_map_idealGeneratorsMap_comp_unitIso {r : ℕ} (g :
         (constantModuleFunctorUnitIso J Λ).hom =
       ∑ k, (constantModuleFunctor J Λ).map (biproduct.π _ k) ≫
         (constantModuleFunctorUnitIso J Λ).hom ≫
-          (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (g k))).app
+          (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (g k))).asHom.app
             (SheafOfModules.unit _) := by
   rw [idealGeneratorsMap, biproduct.desc_eq, Functor.map_sum, Preadditive.sum_comp]
   refine Finset.sum_congr rfl fun k _ => ?_
@@ -395,7 +395,7 @@ theorem constantModuleFunctor_map_idealGeneratorsMap_comp_unitIso {r : ℕ} (g :
 theorem globalSectionToEnd_val_app_mem_span {r : ℕ} (g : Fin r → Λ) (U : Cᵒᵖ) (k : Fin r)
     (w : (SheafOfModules.unit
       (Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O)).val.obj U) :
-    ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (g k))).app
+    ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (g k))).asHom.app
           (SheafOfModules.unit _)).val.app U w ∈
       Submodule.span ((Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O).obj.obj U)
         (Set.range fun k => (show (SheafOfModules.unit

@@ -278,22 +278,22 @@ theorem mapBifunctorMap_eq_totalMapSheafify (f : A ⟶ A') (g : B ⟶ B') :
       (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map_comp _ _).symm
 
+set_option maxHeartbeats 400000 in
 /-- The comparison of the two total tensor-product complexes is natural in both arguments. -/
 theorem tensorTotalIsoTensorComplex_naturality (f : A ⟶ A') (g : B ⟶ B') :
     (tensorTotalIsoTensorComplex X A B).inv ≫ tensorTotalMap X f g =
       HomologicalComplex.mapBifunctorMap f g
           (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
-          (ComplexShape.up ℤ) ≫ (tensorTotalIsoTensorComplex X A' B').inv :=
-  naturality_of_map_eq (tensorTotalIsoTensorComplex X A B).inv
-    (tensorTotalIsoTensorComplex X A' B').inv
-    (tensorTotalMap_eq_sheafifyTotalMap X f g)
-    (mapBifunctorMap_eq_totalMapSheafify X f g)
-    (HomologicalComplex₂.TotalMap.totalIso_naturality (c₁₂ := ComplexShape.up ℤ)
-      (PresheafOfModules.sheafification.{u, u, u, u}
-        (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
-      (presheafTensorBicomplex X A B) (presheafTensorBicomplexMap X f g))
+          (ComplexShape.up ℤ) ≫ (tensorTotalIsoTensorComplex X A' B').inv := by
+  have h := HomologicalComplex₂.TotalMap.totalIso_naturality (c₁₂ := ComplexShape.up ℤ)
+    (PresheafOfModules.sheafification.{u, u, u, u}
+      (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+      (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj))
+    (presheafTensorBicomplex X A B) (presheafTensorBicomplexMap X f g)
+  rw [tensorTotalMap_eq_sheafifyTotalMap X f g, mapBifunctorMap_eq_totalMapSheafify X f g]
+  dsimp only [tensorTotalIsoTensorComplex, Iso.symm_inv]
+  exact h
 
 end AlgebraicGeometry.RingedSite
 

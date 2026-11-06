@@ -130,7 +130,7 @@ variable {A B C : Type u} [CommRing A] [CommRing B] [CommRing C] (ψ : A →+* B
 isomorphism of restrictions of scalars. -/
 theorem derivedRestrictScalarsComp_eq :
     StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp.{u, u} ψ χ (χ.comp ψ) rfl =
-      Functor.mapDerivedCategoryCompIso
+      Functor.mapDerivedCategoryCompIsoOfCompIso
         (ModuleCat.restrictScalarsComp'.{u} ψ χ (χ.comp ψ) rfl).symm := by
   refine Iso.ext (Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso (ModuleCat.{u} C) (ComplexShape.up ℤ)) fun E => ?_)

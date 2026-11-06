@@ -468,6 +468,13 @@ theorem systemColimitFunctor_essImage
   let c : Cocone (H ⋙ K) := (colimit.cocone (H ⋙ K)).extend
     (basisColimitIso B S hS A J Q).hom
   have hc : IsColimit c := (colimit.isColimit (H ⋙ K)).extendIso _
+  haveI : HasLimitsOfShape WalkingCospan
+      (Sheaf (AlgebraicGeometry.BigFppfOver.topology B S hS) (Type (u + 1))) := inferInstance
+  haveI : HasLimitsOfShape WalkingCospan
+      (I ⥤ Sheaf (AlgebraicGeometry.BigFppfOver.topology B S hS) (Type (u + 1))) :=
+    functorCategoryHasLimitsOfShape
+  haveI hpb : HasPullback (c.ι : H ⋙ K ⟶ (Functor.const I).obj X)
+      ((Functor.const I).map f) := HasLimitsOfShape.has_limit _
   let F := pullback c.ι ((Functor.const I).map f)
   let α : F ⟶ H ⋙ K := pullback.fst _ _
   let β : F ⟶ (Functor.const I).obj Y := pullback.snd _ _

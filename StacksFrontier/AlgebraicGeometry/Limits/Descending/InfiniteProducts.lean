@@ -86,7 +86,7 @@ factors. -/
 lemma finiteSubproductπ_naturality {J K : (Finset (Discrete I))ᵒᵖ} (g : J ⟶ K) (y : K.unop) :
     (liftToFinsetObj (Discrete.functor X)).map g ≫ finiteSubproductπ X K y =
       finiteSubproductπ X J ⟨y.1, g.unop.down.down y.2⟩ :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The projection of the product cone of `X` onto the factor at `i`. -/
 noncomputable def finiteSubproductsConeπ [HasProduct X] (i : I) :
@@ -107,7 +107,7 @@ lemma finiteSubproductsCone_π_app_finiteSubproductπ [HasProduct X]
     (J : (Finset (Discrete I))ᵒᵖ) (x : J.unop) :
     (finiteSubproductsCone X).π.app J ≫ finiteSubproductπ X J x =
       finiteSubproductsConeπ X x.1.as :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Every projection of a cone on the system of finite subproducts factors through its
 projection onto a singleton subproduct. -/
@@ -132,7 +132,7 @@ noncomputable def coneFromDiscreteCone (s : Cone (Discrete.functor X)) :
         apply Pi.hom_ext
         intro x
         dsimp [liftToFinsetObj]
-        simp only [Category.assoc, Pi.lift_π, Category.id_comp] }
+        simp only [Category.assoc, Pi.lift_comp_π, Category.id_comp] }
 
 /-- The projections of `coneFromDiscreteCone X s` onto the factors of a finite subproduct are
 the projections of `s`. -/
@@ -140,7 +140,7 @@ the projections of `s`. -/
 lemma coneFromDiscreteCone_π_app_finiteSubproductπ (s : Cone (Discrete.functor X))
     (J : (Finset (Discrete I))ᵒᵖ) (x : J.unop) :
     (coneFromDiscreteCone X s).π.app J ≫ finiteSubproductπ X J x = s.π.app ⟨x.1.as⟩ :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 section HasLimit
 
@@ -195,7 +195,7 @@ lemma finiteSubproductsConeLift_π [HasProduct X]
     finiteSubproductsConeLift X s ≫ finiteSubproductsConeπ X i =
       s.π.app (Opposite.op {Discrete.mk i}) ≫
         finiteSubproductπ X (Opposite.op {Discrete.mk i}) ⟨Discrete.mk i, by simp⟩ :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- A product is canonically the inverse limit of its finite subproducts. -/
 @[stacks 0CNI "limit of finite subproducts"]

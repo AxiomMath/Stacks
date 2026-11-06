@@ -147,7 +147,6 @@ private lemma exists_comp_baseChange (E : Type u) [AddCommGroup E] [Module R E]
     exact ⟨φ, by simpa using hφ⟩
   intro t
   induction t with
-  | zero => exact ⟨0, by simp⟩
   | tmul s h =>
       obtain ⟨h', hh'⟩ := Module.Injective.extension_property R E K A ι hι h
       refine ⟨s • h'.baseChange S, ?_⟩

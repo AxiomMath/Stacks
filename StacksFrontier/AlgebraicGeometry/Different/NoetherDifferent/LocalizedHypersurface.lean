@@ -110,7 +110,6 @@ theorem noetherDifferent_map_of_algEquiv {A : Type u} {B : Type v} {B' : Type w}
   have hcomm (x : B ⊗[A] B) :
       Algebra.TensorProduct.lmul' A (E x) = e (Algebra.TensorProduct.lmul' A x) := by
     induction x with
-    | zero => simp
     | tmul a b => simp [E]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hring : (Algebra.TensorProduct.lmul' (R := A) (S := B')).toRingHom.comp
@@ -216,7 +215,7 @@ theorem noetherDifferent_localization_adjoinRoot (A : Type u) [CommRing A] (f h 
     [Algebra.QuasiFinite A (Localization.Away (AdjoinRoot.mk f h))] :
     noetherDifferent A (Localization.Away (AdjoinRoot.mk f h)) =
       Ideal.span {algebraMap (AdjoinRoot f) (Localization.Away (AdjoinRoot.mk f h))
-        (AdjoinRoot.mk f f.derivative)} := by
+                    (AdjoinRoot.mk f f.derivative)} := by
   classical
   obtain ⟨Ψ, hΨ⟩ := exists_algEquiv_localizedHypersurface A f h
   let : Algebra.QuasiFinite A (localizedCompleteIntersection A 1

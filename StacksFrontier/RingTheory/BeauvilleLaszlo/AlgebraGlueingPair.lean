@@ -112,7 +112,6 @@ private theorem congrAway_comp_tensorAwayDifference (f : R) (ε : A ≃ₗ[R] A�
         congrAway (R' := R') f ε (baseChangeToAway (S := R') A f x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul a s => simp [congrAway]
     | add x y hx hy => simp [hx, hy]
   have hl : ∀ x : TensorProduct R A (Localization.Away f),
@@ -121,7 +120,6 @@ private theorem congrAway_comp_tensorAwayDifference (f : R) (ε : A ≃ₗ[R] A�
         congrAway (R' := R') f ε (localizedBaseChangeToAway (S := R') A f x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul a s => simp [congrAway]
     | add x y hx hy => simp [hx, hy]
   refine LinearMap.ext fun x ↦ ?_

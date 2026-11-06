@@ -114,7 +114,7 @@ def permProd (σ : Equiv.Perm (Fin n)) : (∏ᶜ fun _ : Fin n => U) ⟶ ∏ᶜ 
 @[simp]
 theorem permProd_π (σ : Equiv.Perm (Fin n)) (i : Fin n) :
     permProd U n σ ≫ Pi.π (fun _ : Fin n => U) i = Pi.π (fun _ : Fin n => U) (σ⁻¹ i) :=
-  Pi.lift_π _ i
+  Pi.lift_comp_π _ i
 
 /-- The identity permutation acts as the identity. -/
 @[simp]
@@ -133,18 +133,18 @@ theorem permProd_comp (σ τ : Equiv.Perm (Fin n)) :
 by permuting the factors. -/
 @[sga "3 VIIA 4.2" "partial", sga "3 VIIA 6.3" "partial"]
 def permProdAut : Equiv.Perm (Fin n) →* Aut (∏ᶜ fun _ : Fin n => U) where
-  toFun σ :=
+  toFun σ := .of
     { hom := permProd U n σ
       inv := permProd U n σ⁻¹
       hom_inv_id := by rw [permProd_comp, inv_mul_cancel, permProd_one]
       inv_hom_id := by rw [permProd_comp, mul_inv_cancel, permProd_one] }
-  map_one' := Iso.ext (permProd_one U n)
-  map_mul' σ τ := Iso.ext (permProd_comp U n τ σ).symm
+  map_one' := Aut.ext (Iso.ext (permProd_one U n))
+  map_mul' σ τ := Aut.ext (Iso.ext (permProd_comp U n τ σ).symm)
 
 /-- The automorphism `permProdAut U n σ` has `permProd U n σ` as its underlying morphism. -/
 @[simp]
 theorem permProdAut_hom (σ : Equiv.Perm (Fin n)) :
-    (permProdAut U n σ).hom = permProd U n σ :=
+    (permProdAut U n σ).asIso.hom = permProd U n σ :=
   rfl
 
 end CategoryTheory.Limits
@@ -155,6 +155,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : AlgebraicSpaces B S hS)
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance hasPullbacks_presheaf_diagonalComplement :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_diagonalComplement
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 /-- The image of a closed set of points under an isomorphism of presheaves on the big fppf
 site of `S` is closed: an isomorphism induces a bijection on points whose inverse is
@@ -626,22 +637,22 @@ live in the spaces-étale site of `X`. -/
 def diagonalComplementAut (U : SpacesEtale B S hS X) (n : ℕ)
     (hsep : IsSeparated B S hS U.1.hom.hom) :
     Equiv.Perm (Fin n) →* Aut (diagonalComplement B S hS X U n hsep) where
-  toFun σ :=
+  toFun σ := .of
     { hom := diagonalComplementPerm B S hS X U n hsep σ
       inv := diagonalComplementPerm B S hS X U n hsep σ⁻¹
       hom_inv_id := by
         rw [diagonalComplementPerm_comp, inv_mul_cancel, diagonalComplementPerm_one]
       inv_hom_id := by
         rw [diagonalComplementPerm_comp, mul_inv_cancel, diagonalComplementPerm_one] }
-  map_one' := Iso.ext (diagonalComplementPerm_one B S hS X U n hsep)
-  map_mul' σ τ := Iso.ext (diagonalComplementPerm_comp B S hS X U n hsep τ σ).symm
+  map_one' := Aut.ext (Iso.ext (diagonalComplementPerm_one B S hS X U n hsep))
+  map_mul' σ τ := Aut.ext (Iso.ext (diagonalComplementPerm_comp B S hS X U n hsep τ σ).symm)
 
 /-- The automorphism `diagonalComplementAut U n hsep σ` has `diagonalComplementPerm U n hsep σ`
 as its underlying morphism. -/
 @[simp]
 theorem diagonalComplementAut_hom (U : SpacesEtale B S hS X) (n : ℕ)
     (hsep : IsSeparated B S hS U.1.hom.hom) (σ : Equiv.Perm (Fin n)) :
-    (diagonalComplementAut B S hS X U n hsep σ).hom =
+    (diagonalComplementAut B S hS X U n hsep σ).asIso.hom =
       diagonalComplementPerm B S hS X U n hsep σ :=
   rfl
 
@@ -684,7 +695,7 @@ index `i` and `σ⁻¹ i` agree, whereas the points of `W` avoid all the diagona
 theorem isEmpty_points_of_comp_diagonalComplementAut (U : SpacesEtale B S hS X) (n : ℕ)
     (hsep : IsSeparated B S hS U.1.hom.hom) {V : SpacesEtale B S hS X}
     (φ : V ⟶ diagonalComplement B S hS X U n hsep) (σ : Equiv.Perm (Fin n)) (hσ : σ ≠ 1)
-    (hφ : φ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom = φ) :
+    (hφ : φ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom = φ) :
     IsEmpty (points B S hS (underlying B S hS X V).1) := by
   refine ⟨fun y => ?_⟩
   obtain ⟨i, hi⟩ : ∃ i : Fin n, σ⁻¹ i ≠ i := by
@@ -713,7 +724,7 @@ unless the empty sieve covers `V`. -/
 theorem eq_one_of_comp_diagonalComplementAut (U : SpacesEtale B S hS X) (n : ℕ)
     (hsep : IsSeparated B S hS U.1.hom.hom) {V : SpacesEtale B S hS X}
     (φ : V ⟶ diagonalComplement B S hS X U n hsep) (σ : Equiv.Perm (Fin n))
-    (hφ : φ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom = φ) :
+    (hφ : φ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom = φ) :
     (⊥ : Sieve V) ∈ topology B S hS X V ∨ σ = 1 := by
   by_cases hσ : σ = 1
   · exact Or.inr hσ
@@ -737,7 +748,7 @@ of the translate is the component of index `σ⁻¹ i` of the original. -/
 theorem comp_diagonalComplementAut_comp_π (U : SpacesEtale B S hS X) (n : ℕ)
     (hsep : IsSeparated B S hS U.1.hom.hom) {V : SpacesEtale B S hS X}
     (φ : V ⟶ diagonalComplement B S hS X U n hsep) (σ : Equiv.Perm (Fin n)) (i : Fin n) :
-    (φ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom) ≫
+    (φ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom) ≫
         diagonalComplementι B S hS X U n hsep ≫ Pi.π (fun _ : Fin n => U) i =
       φ ≫ diagonalComplementι B S hS X U n hsep ≫ Pi.π (fun _ : Fin n => U) (σ⁻¹ i) := by
   rw [Category.assoc, diagonalComplementAut_hom, diagonalComplementPerm_comp_ι_π]
@@ -748,10 +759,10 @@ theorem signTwistWedge_comp_diagonalComplementAut (U : SpacesEtale B S hS X) (n 
     (hsep : IsSeparated B S hS U.1.hom.hom) {V : SpacesEtale B S hS X}
     (φ : V ⟶ diagonalComplement B S hS X U n hsep) (σ : Equiv.Perm (Fin n)) :
     signTwistWedge B S hS X U n hsep
-        (φ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom) =
+        (φ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom) =
       ((Equiv.Perm.sign σ : ℤˣ) : ℤ) • signTwistWedge B S hS X U n hsep φ := by
   have hfam : (fun i => FreeAbelianGroup.of
-        ((φ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom) ≫
+        ((φ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom) ≫
           diagonalComplementι B S hS X U n hsep ≫ Pi.π (fun _ : Fin n => U) i)) =
       (fun i => FreeAbelianGroup.of (φ ≫ diagonalComplementι B S hS X U n hsep ≫
         Pi.π (fun _ : Fin n => U) i)) ∘ (σ⁻¹ : Equiv.Perm (Fin n)) :=

@@ -354,6 +354,10 @@ instance hasBinaryBiproducts_coherentAdicSystems :
 biproducts, and a terminal object, namely its zero object. -/
 instance hasFiniteProducts_coherentAdicSystems :
     HasFiniteProducts (CoherentAdicSystems B S hS F hF 𝓘) :=
+  haveI : HasBinaryProducts (CoherentAdicSystems B S hS F hF 𝓘) :=
+    hasBinaryProducts_of_hasBinaryBiproducts
+  haveI : HasTerminal (CoherentAdicSystems B S hS F hF 𝓘) :=
+    (isZero_zero (CoherentAdicSystems B S hS F hF 𝓘)).isTerminal.hasTerminal
   hasFiniteProducts_of_has_binary_and_terminal
 
 /-- **`Coh(F, 𝓘)` has all finite biproducts.** -/

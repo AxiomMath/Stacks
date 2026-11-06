@@ -218,7 +218,6 @@ theorem bijective_rTensor_chowToGradedCoherentKZero (h1 : IsDimensionTriangular 
         (chowToGradedCoherentKZero C f k).toIntLinearMap z) = z := by
     intro z
     induction z with
-    | zero => simp
     | tmul q α =>
       rw [TensorProduct.map_tmul, TensorProduct.lift.tmul]
       show q • ψ (chowToGradedCoherentKZero C f k α) = q ⊗ₜ[ℤ] α
@@ -238,13 +237,11 @@ theorem surjective_liftBaseChange (h1 : IsDimensionTriangular C f ch)
   refine surjective_of_exists_triangular_preimage _ lo ?_ ?_
   · intro j hj m
     induction m with
-    | zero => rfl
     | tmul q α =>
       rw [chowGroup_eq_zero C f (fun x => by have := hlo x; omega) α, TensorProduct.tmul_zero]
     | add a b ha hb => rw [ha, hb, add_zero]
   · intro k m
     induction m with
-    | zero => exact ⟨0, by simp, fun j _ => by simp⟩
     | tmul q α =>
       obtain ⟨x, hx⟩ := toGradedCoherentKZero_surjective C f k (chowToGradedCoherentKZero C f k α)
       refine ⟨q ⊗ₜ[ℤ] (x : CoherentKZero X), ?_, fun j hj => ?_⟩
@@ -441,8 +438,7 @@ theorem span_range_integralComponentRationalClass :
   induction v using DirectSum.induction_on with
   | zero => exact S.zero_mem
   | of j m =>
-    induction m using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact S.zero_mem
+    induction m using TensorProduct.inductionOn with
     | tmul q α =>
       have h := S.smul_mem q (hdeg j α)
       rwa [← DirectSum.of_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one] at h

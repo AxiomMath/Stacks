@@ -285,8 +285,6 @@ theorem cotangentComplex_of_isSymmetricAlgebra
         (Set.range (fun k : K => Algebra.Extension.Cotangent.mk (rel k))) = ⊤ := by
       convert (Algebra.Extension.Cotangent.span_eq_top_of_span_eq_ker
         (P := P) (fun k : K => freeLinear m (i k)) hJ) using 1
-      ext k
-      rfl
     have hle : Submodule.span C
         (Set.range (fun k : K => Algebra.Extension.Cotangent.mk (rel k))) ≤
           eK.range := by

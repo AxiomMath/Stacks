@@ -115,7 +115,7 @@ theorem exists_residueField_hom_of_etaleApproximation {R : Type u} [CommRing R]
   rw [he]
   refine Ideal.Quotient.eq.mpr ?_
   show Φ.symm _ - Φ.symm _ ∈ _
-  rw [← map_sub]
+  rw [← Φ.symm.map_sub]
   refine (IsLocalRing.mem_maximalIdeal _).mpr fun hu => ?_
   have hmem : ofLocalization pD (algebraMap D (Localization.AtPrime pD) (χ e)) - Φ e ∈
       maximalIdeal (Completion pD) := by

@@ -159,7 +159,7 @@ private lemma map_map_of_comp {C : Type*} [Category C] (X : C ⥤ Type*) {a b c 
     {f : a ⟶ b} {g : b ⟶ c} {h : a ⟶ c} (hfg : f ≫ g = h) (x : X.obj a) :
     X.map g (X.map f x) = X.map h x := by
   subst hfg
-  exact (FunctorToTypes.map_comp_apply X f g x).symm
+  exact (Functor.map_comp_apply X f g x).symm
 
 variable {R : Type u} [CommRing R] [IsLocalRing R]
 
@@ -328,8 +328,8 @@ public theorem existsUnique_section_of_compatible_truncations
   have hinj : ∀ n, Function.Injective (X.map (s n).op) := by
     intro n a b hab
     have := hsiso n
-    simpa only [← FunctorToTypes.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply] using congrArg (X.map (inv (s n)).op) hab
+    simpa only [← Functor.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
+      Functor.map_id_apply] using congrArg (X.map (inv (s n)).op) hab
   refine ⟨X.map (inv t).op y₀, fun n => ?_, fun y hy => ?_⟩
   · apply hinj n
     refine (map_map_of_comp X rfl _).trans ?_
@@ -352,7 +352,7 @@ public theorem existsUnique_section_of_compatible_truncations
         exact (map_map_of_comp X rfl y).symm.trans (congrArg (X.map (s n).op) (hy n))
     rw [← key]
     refine ((map_map_of_comp X (f := t.op) (g := (inv t).op) (h := 𝟙 _) ?_ y).trans
-      (FunctorToTypes.map_id_apply X y)).symm
+      (X.map_id_apply _ y)).symm
     rw [← op_comp, IsIso.inv_hom_id, op_id]
 
 end Truncations

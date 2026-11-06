@@ -151,10 +151,10 @@ abbrev galoisGroup := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
 /-- The action of the absolute Galois group of `ℚ` on `Spec ℚ̄` over `Spec ℚ`. Taking spectra
 is contravariant, so an automorphism acts through its inverse. -/
 def galoisAction : galoisGroup →* Aut (Space.underlyingOver B hS (siteCover B hS hU)) where
-  toFun σ := Over.isoMk (Scheme.Spec.mapIso ((σ⁻¹).toRingEquiv.toCommRingCatIso).op)
+  toFun σ := .of <| Over.isoMk (Scheme.Spec.mapIso ((σ⁻¹).toRingEquiv.toCommRingCatIso).op)
     (specMapAlgAut_comp_structureMap ℚ (AlgebraicClosure ℚ) σ⁻¹)
-  map_one' := Aut.ext <| Over.OverMorphism.ext <| specMapAlgAut_one ℚ (AlgebraicClosure ℚ)
-  map_mul' σ τ := Aut.ext <| Over.OverMorphism.ext <|
+  map_one' := Aut.ext <| Iso.ext <| Over.OverMorphism.ext <| specMapAlgAut_one ℚ (AlgebraicClosure ℚ)
+  map_mul' σ τ := Aut.ext <| Iso.ext <| Over.OverMorphism.ext <|
     (congrArg (specMapAlgAut ℚ (AlgebraicClosure ℚ)) (mul_inv_rev σ τ)).trans
       (specMapAlgAut_mul ℚ (AlgebraicClosure ℚ) τ⁻¹ σ⁻¹)
 
@@ -274,7 +274,7 @@ private noncomputable abbrev toGaloisQuotient :
 in the Galois quotient. -/
 private theorem toGaloisQuotient_app_eq_of_orbit (T : BigFppfOver B base hS)
     (f g : (Over.post (X := B.obj hS) B.inclusion).obj T ⟶ galoisCover B hS hU)
-    (σ : galoisGroup) (hfg : g = f ≫ (galoisAction B hS hU σ).hom) :
+    (σ : galoisGroup) (hfg : g = f ≫ (galoisAction B hS hU σ).asIso.hom) :
     (toGaloisQuotient B hS hU).app (Opposite.op T) f =
       (toGaloisQuotient B hS hU).app (Opposite.op T) g := by
   have hsrcEq : (galoisRelation B hS hU).source =
@@ -374,7 +374,7 @@ theorem universallyInjective_galoisQuotientToBase :
   let : Algebra ℚ L₂ := (Spec.preimage s₂).hom.toAlgebra
   obtain ⟨σ, hσ⟩ := exists_galoisGroup_comp L₂ (algHomOfSpecMap L₂ t₁.left)
     (algHomOfSpecMap L₂ v₂.left)
-  have hact : (galoisAction B hS hU σ⁻¹).hom.left =
+  have hact : (galoisAction B hS hU σ⁻¹).asIso.hom.left =
       Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) :=
     rfl
   have hcomp : Spec.map (CommRingCat.ofHom (algHomOfSpecMap L₂ v₂.left).toRingHom) =
@@ -383,7 +383,7 @@ theorem universallyInjective_galoisQuotientToBase :
     rw [← Spec.map_comp]
     exact congrArg (fun φ : AlgebraicClosure ℚ →ₐ[ℚ] L₂ ↦ Spec.map (CommRingCat.ofHom φ.toRingHom))
       hσ
-  have horbit : v₂ = t₁ ≫ (galoisAction B hS hU σ⁻¹).hom := by
+  have horbit : v₂ = t₁ ≫ (galoisAction B hS hU σ⁻¹).asIso.hom := by
     apply Over.OverMorphism.ext
     rw [Over.comp_left, hact, ← specMap_algHomOfSpecMap L₂ v₂.left,
       ← specMap_algHomOfSpecMap L₂ t₁.left]

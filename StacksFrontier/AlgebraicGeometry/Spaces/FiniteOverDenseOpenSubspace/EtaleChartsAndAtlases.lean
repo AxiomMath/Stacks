@@ -26,6 +26,23 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleChartsAndAtlases :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasProducts_presheaf_EtaleChartsAndAtlases :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_EtaleChartsAndAtlases
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem finite_fiber_of_finiteType_of_codimensionZero
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X)

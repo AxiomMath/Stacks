@@ -13,7 +13,7 @@ equivalent, and the equivalence commutes with the projections to `C` on the nose
 equivalence is final, the colimit of a presheaf `F` on `C` restricted along the projection from
 `P.Elements` agrees with the colimit of its restriction along the projection from `Q.Elements`.
 Assembling these over all `F` gives an isomorphism of the "stalk" functors
-`(whiskeringLeft _ _ _).obj (CategoryOfElements.π _).op ⋙ colim`, and restricting along
+`(whiskeringLeft _ _ _).obj (Functor.Elements.π _).op ⋙ colim`, and restricting along
 `sheafToPresheaf` gives the corresponding statement for sheaves. In particular two points of a
 site with isomorphic fibre functors have isomorphic fibre functors on presheaves and on sheaves.
 
@@ -46,17 +46,17 @@ variable {C : Type v} [Category.{w} C] {P Q : C ⥤ Type u}
 /-- An isomorphism of functors to types induces an equivalence of their categories of
 elements. -/
 public def equivalenceOfNatIso (e : P ≅ Q) : P.Elements ≌ Q.Elements where
-  functor := CategoryOfElements.map e.hom
-  inverse := CategoryOfElements.map e.inv
+  functor := NatTrans.mapElements e.hom
+  inverse := NatTrans.mapElements e.inv
   unitIso := NatIso.ofComponents (fun X =>
-    CategoryOfElements.isoMk _ _ (Iso.refl X.1) (by simp)) (by
+    Functor.Elements.isoMk (Iso.refl X.obj) (by simp)) (by
       intro X Y f
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       simp)
   counitIso := NatIso.ofComponents (fun X =>
-    CategoryOfElements.isoMk _ _ (Iso.refl X.1) (by simp)) (by
+    Functor.Elements.isoMk (Iso.refl X.obj) (by simp)) (by
       intro X Y f
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       simp)
 
 variable [HasColimitsOfShape P.Elementsᵒᵖ (Type (u + 1))]
@@ -66,11 +66,11 @@ variable [HasColimitsOfShape P.Elementsᵒᵖ (Type (u + 1))]
 depends on the indexing functor only through its isomorphism class. -/
 public def presheafColimIsoOfNatIso (e : P ≅ Q) :
     (Functor.whiskeringLeft P.Elementsᵒᵖ Cᵒᵖ (Type (u + 1))).obj
-        (CategoryOfElements.π P).op ⋙ colim ≅
+        (Functor.Elements.π P).op ⋙ colim ≅
       (Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ (Type (u + 1))).obj
-        (CategoryOfElements.π Q).op ⋙ colim :=
+        (Functor.Elements.π Q).op ⋙ colim :=
   Functor.isoWhiskerLeft
-    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ (Type (u + 1))).obj (CategoryOfElements.π Q).op)
+    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ (Type (u + 1))).obj (Functor.Elements.π Q).op)
     (Functor.Final.colimIso (equivalenceOfNatIso e).op.functor)
 
 /-- The comparison of stalk functors on presheaves sends the germ of a section at an element to
@@ -78,30 +78,30 @@ its germ at the transported element. -/
 @[reassoc]
 public lemma ι_presheafColimIsoOfNatIso_hom (e : P ≅ Q) (F : Cᵒᵖ ⥤ Type (u + 1))
     (X : P.Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π P).op ⋙ F) X ≫
+    colimit.ι ((Functor.Elements.π P).op ⋙ F) X ≫
         (presheafColimIsoOfNatIso e).hom.app F =
-      colimit.ι ((CategoryOfElements.π Q).op ⋙ F)
+      colimit.ι ((Functor.Elements.π Q).op ⋙ F)
         ((equivalenceOfNatIso e).op.functor.obj X) :=
   Functor.Final.ι_colimitIso_hom (equivalenceOfNatIso e).op.functor
-    ((CategoryOfElements.π Q).op ⋙ F) X
+    ((Functor.Elements.π Q).op ⋙ F) X
 
 /-- The stalk functor on sheaves given by taking the colimit over a category of elements
 depends on the indexing functor only through its isomorphism class. -/
 public def sheafColimIsoOfNatIso (J : GrothendieckTopology C) (e : P ≅ Q) :
     (sheafToPresheaf J (Type (u + 1)) ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π P).op ⋙ colim) ≅
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π P).op ⋙ colim) ≅
     (sheafToPresheaf J (Type (u + 1)) ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π Q).op ⋙ colim) :=
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π Q).op ⋙ colim) :=
   Functor.isoWhiskerLeft (sheafToPresheaf J (Type (u + 1))) (presheafColimIsoOfNatIso e)
 
 /-- The comparison of stalk functors on sheaves sends the germ of a section at an element to
 its germ at the transported element. -/
 public lemma ι_sheafColimIsoOfNatIso_hom (J : GrothendieckTopology C) (e : P ≅ Q)
     (F : Sheaf J (Type (u + 1))) (V : P.Elements) :
-    colimit.ι ((CategoryOfElements.π P).op ⋙ F.obj) (Opposite.op V) ≫
+    colimit.ι ((Functor.Elements.π P).op ⋙ F.obj) (Opposite.op V) ≫
       (sheafColimIsoOfNatIso J e).hom.app F =
-    colimit.ι ((CategoryOfElements.π Q).op ⋙ F.obj)
-      (Opposite.op ((CategoryOfElements.map e.hom).obj V)) :=
+    colimit.ι ((Functor.Elements.π Q).op ⋙ F.obj)
+      (Opposite.op ((NatTrans.mapElements e.hom).obj V)) :=
   ι_presheafColimIsoOfNatIso_hom e F.obj (Opposite.op V)
 
 end CategoryTheory.CategoryOfElements
@@ -120,7 +120,7 @@ presheaves. -/
 public def presheafFiberIsoOfFiberIso (Φ Ψ : Point.{u} J) (e : Φ.fiber ≅ Ψ.fiber) :
     Φ.presheafFiber (A := A) ≅ Ψ.presheafFiber :=
   Functor.isoWhiskerLeft
-    ((Functor.whiskeringLeft Ψ.fiber.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π Ψ.fiber).op)
+    ((Functor.whiskeringLeft Ψ.fiber.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π Ψ.fiber).op)
     (Functor.Final.colimIso (equivalenceOfNatIso e).op.functor)
 
 /-- Two points of a site with isomorphic fibre functors have isomorphic fibre functors on
@@ -136,7 +136,7 @@ public theorem toPresheafFiber_presheafFiberIsoOfFiberIso (Φ Ψ : Point.{u} J)
     Φ.toPresheafFiber V v P ≫ (presheafFiberIsoOfFiberIso Φ Ψ e (A := A)).hom.app P =
       Ψ.toPresheafFiber V (e.hom.app V v) P :=
   Functor.Final.ι_colimitIso_hom (equivalenceOfNatIso e).op.functor
-    ((CategoryOfElements.π Ψ.fiber).op ⋙ P) (Opposite.op ⟨V, v⟩)
+    ((Functor.Elements.π Ψ.fiber).op ⋙ P) (Opposite.op (Φ.fiber.elementsMk V v))
 
 /-- `CategoryTheory.GrothendieckTopology.Point.toPresheafFiber_presheafFiberIsoOfFiberIso` for
 the inverse comparison. -/

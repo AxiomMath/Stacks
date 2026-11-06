@@ -127,6 +127,17 @@ theorem discreteTopology_points_of_isIso (α : F ⟶ G) [IsIso α]
 
 end Transfer
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_FieldFibreEquivalences :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_FieldFibreEquivalences
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_FieldFibreEquivalences B S hS).has_limit _
+
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-! ### Condition (4) implies condition (5) for a decent morphism -/

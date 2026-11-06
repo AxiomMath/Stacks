@@ -38,6 +38,18 @@ open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
 
 attribute [local instance] HasDerivedCategory.standard
 
+-- instances of `Stacks.Models.RegularModelSituation` whose conclusions (`QuasiCompact ?f`, ...)
+-- match every goal and send instance search into a loop; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
+
 universe u
 
 namespace Stacks.EtaleCohomology
@@ -138,7 +150,10 @@ theorem exists_isLE_derivedLowerShriek_of_isTorsionPlus [CompactSpace Y] :
     ∃ N : ℕ, ∀ (K : DerivedCategory.Plus (EtaleModules.{u, 0} Λ X)),
       isTorsionPlus.{u, 0} Λ X K → ∀ b : ℤ, K.IsLE b →
         (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj K)).IsLE (b + N) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have hP : IsProper j.toBase := j.property.2
+  obtain ⟨d, hd⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ j.toBase
+    hP.toLocallyOfFiniteType
+    (@AlgebraicGeometry.instQuasiCompactOfUniversallyClosed _ _ _ hP.toUniversallyClosed) ‹_›
   exact ⟨2 * d, isLE_derivedLowerShriek_of_isTorsionPlus Λ f j d hd⟩
 
 /-- **Part (2) of Stacks 0G2A on `D⁺_tors`.** If `Y` is quasi-compact there is `N` such that for
@@ -176,7 +191,10 @@ theorem exists_isIso_homology_derivedLowerShriek_map_truncGEπ_of_isTorsionPlus 
       ∀ (b i : ℤ), b ≤ i →
       IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map ((derivedLowerShriek.{u, 0} f j Λ).map
         ((DerivedCategory.Plus.TStructure.t.truncGEπ (b - N)).app E))) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have hP : IsProper j.toBase := j.property.2
+  obtain ⟨d, hd⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ j.toBase
+    hP.toLocallyOfFiniteType
+    (@AlgebraicGeometry.instQuasiCompactOfUniversallyClosed _ _ _ hP.toUniversallyClosed) ‹_›
   exact ⟨2 * d, isIso_homology_derivedLowerShriek_map_truncGEπ_of_isTorsionPlus Λ f j d hd⟩
 
 end Stacks.EtaleCohomology

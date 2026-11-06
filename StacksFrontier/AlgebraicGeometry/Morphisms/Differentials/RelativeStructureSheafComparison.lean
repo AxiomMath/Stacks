@@ -81,6 +81,7 @@ noncomputable def inverseImageRingSheafComparison :
           ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj Y.sheaf) :=
   TopCat.Sheaf.pullbackForget₂Iso f.base Y.sheaf
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The forward map of `inverseImageRingSheafComparison f` is the general comparison
 `CategoryTheory.Functor.sheafPullbackSheafComposeHom` for `Opens.map f.base` and the forgetful
 functor `CommRingCat ⥤ RingCat`. -/
@@ -114,6 +115,7 @@ theorem sheafCompose_map_toCommRingCatSheafHom :
   simp only [Functor.sheafComposeSheafPushforwardIso, Iso.refl_inv]
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The comparison carries the relative structure sheaf map formed in sheaves of commutative
 rings to the relative structure sheaf map formed in sheaves of rings. -/
 theorem inverseImageRingSheafComparison_hom_comp :

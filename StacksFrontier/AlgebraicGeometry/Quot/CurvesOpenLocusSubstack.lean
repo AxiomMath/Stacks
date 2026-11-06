@@ -386,7 +386,8 @@ theorem exists_open_over_iff_of_exists_isOpenSubspace (U : BigFppfOver B integer
   have hj : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j) :=
     hW.2.property_snd (𝟙 (yoneda.obj G.base))
   let e : yoneda.obj V₀ ≅ W.toFunctor := asIso eMap
-  have he : e.hom ≫ W.ι = yoneda.map j := by simpa [e, eMap, j] using hpb.w
+  have he : e.hom ≫ W.ι = yoneda.map j := by
+    simpa only [e, eMap, j, asIso_hom, Category.comp_id] using hpb.w
   have he' : e.inv ≫ yoneda.map j = W.ι := by
     rw [← he, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
   let j' : V₀ ⟶ U := j ≫ β.hom

@@ -117,7 +117,7 @@ theorem isDerivedComplete_derivedModuleEquiv_inverse_obj (I : Ideal Λ)
       fun f ↦ coefficientSectionsMap_restrict X Λ f.unop l⟩
   have hab : ∀ P, Φ.functor.map (l • 𝟙 P) = aT • 𝟙 (Φ.functor.obj P) := fun P ↦ by
     have hE : E.functor.map (l • 𝟙 P) =
-        (Stacks.SheafOfModules.globalSectionToEnd R s).app (E.functor.obj P) := by
+        (Stacks.SheafOfModules.globalSectionToEnd R s).asHom.app (E.functor.obj P) := by
       ext W z
       exact constantCoefficientModuleEquiv_functor_map_smul_id_val_app X P l W.unop z
     show F.map (E.functor.map (l • 𝟙 P)) = aT.app _ ≫ 𝟙 _

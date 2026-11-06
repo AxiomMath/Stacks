@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Abelian.Exact
+public import Mathlib.CategoryTheory.Abelian.Subobject
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Subobject
 public import StacksCore.CategoryTheory.Subobject.Limits
 public import StacksCore.Tactic.StacksAttribute
@@ -453,7 +454,7 @@ private lemma le_gen {s : Set (HomIdx M)} {i : HomIdx M} (hi : i ∈ s) :
   exact imageSubobject_comp_le _ _
 
 omit [IsGrothendieckAbelian.{max u v a w} (SheafOfModules.{max u v a w} R)] in
-private lemma gen_le {s : Set (HomIdx M)} {T : Subobject M}
+private lemma gen_le {s : Set (HomIdx.{w, a, t, v, u} M)} {T : Subobject M}
     (h : ∀ i ∈ s, imageSubobject (hom M i) ≤ T) : gen M s ≤ T := by
   refine imageSubobject_le _ (Sigma.desc (fun i : s =>
     factorThruImageSubobject (hom M i.1) ≫ Subobject.ofLE _ _ (h i.1 i.2))) ?_
@@ -462,11 +463,11 @@ private lemma gen_le {s : Set (HomIdx M)} {T : Subobject M}
     imageSubobject_arrow_comp]
 
 omit [IsGrothendieckAbelian.{max u v a w} (SheafOfModules.{max u v a w} R)] in
-private lemma gen_mono {s s' : Set (HomIdx M)} (h : s ⊆ s') : gen M s ≤ gen M s' :=
+private lemma gen_mono {s s' : Set (HomIdx.{w, a, t, v, u} M)} (h : s ⊆ s') : gen M s ≤ gen M s' :=
   gen_le M fun _ hi => le_gen M (h hi)
 
 omit [IsGrothendieckAbelian.{max u v a w} (SheafOfModules.{max u v a w} R)] in
-private lemma gen_iUnion {K : Type*} (s : K → Set (HomIdx M)) :
+private lemma gen_iUnion {K : Type*} (s : K → Set (HomIdx.{w, a, t, v, u} M)) :
     gen M (⋃ k, s k) = ⨆ k, gen M (s k) := by
   refine le_antisymm (gen_le M fun i hi => ?_)
     (iSup_le fun k => gen_mono M (Set.subset_iUnion s k))
@@ -485,17 +486,18 @@ private noncomputable def cyc (G : Subobject M) (n : ℤ) : Subobject (M.complex
   imageSubobject ((G : DifferentialGradedModule.{t, a, max u v a w} A).complex.iCycles (n + 1) ≫
     G.arrow.toHomologicalComplex.f (n + 1))
 
+
 /-- The morphisms from the separator are jointly epimorphic, and remain so in each degree. -/
 private lemma iSup_imageSubobject_hom_f (n : ℤ) :
-    (⨆ i : HomIdx M, imageSubobject ((hom M i).toHomologicalComplex.f n)) = ⊤ := by
-  let e : (∐ fun (_ : HomIdx M) =>
+    (⨆ i : HomIdx.{w, a, t, v, u} M, imageSubobject ((hom M i).toHomologicalComplex.f n)) = ⊤ := by
+  let e : (∐ fun (_ : HomIdx.{w, a, t, v, u} M) =>
       separator (DifferentialGradedModule.{t, a, max u v a w} A)) ⟶ M :=
     Sigma.desc (fun i => hom M i)
   have hepi : Epi e := by
     refine ⟨fun g h hgh => ?_⟩
     refine (isSeparator_separator
       (DifferentialGradedModule.{t, a, max u v a w} A)).def _ _ fun φ => ?_
-    have h1 : Sigma.ι (fun (_ : HomIdx M) =>
+    have h1 : Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
         separator (DifferentialGradedModule.{t, a, max u v a w} A))
         ((equivShrink _) φ) ≫ e = φ := by
       rw [Sigma.ι_desc]
@@ -507,24 +509,26 @@ private lemma iSup_imageSubobject_hom_f (n : ℤ) :
   refine imageSubobject_le _ (Cofan.IsColimit.desc (coproductIsColimit_degree A _ n)
     (fun i => factorThruImageSubobject ((hom M i).toHomologicalComplex.f n) ≫
       Subobject.ofLE _ _ (le_iSup
-        (fun i : HomIdx M => imageSubobject ((hom M i).toHomologicalComplex.f n)) i))) ?_
+        (fun i : HomIdx.{w, a, t, v, u} M =>
+          imageSubobject ((hom M i).toHomologicalComplex.f n)) i))) ?_
   refine Cofan.IsColimit.hom_ext (coproductIsColimit_degree A _ n) _ _ fun i => ?_
   rw [Cofan.IsColimit.fac_assoc, Category.assoc, Subobject.ofLE_arrow,
     imageSubobject_arrow_comp]
   symm
-  show ((Sigma.ι (fun (_ : HomIdx M) =>
+  show ((Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
       separator (DifferentialGradedModule.{t, a, max u v a w} A)) i).toHomologicalComplex.f n) ≫
     e.toHomologicalComplex.f n = _
   rw [← HomologicalComplex.comp_f]
-  show (Sigma.ι (fun (_ : HomIdx M) =>
+  show (Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
     separator (DifferentialGradedModule.{t, a, max u v a w} A)) i ≫ e).toHomologicalComplex.f n = _
   rw [Sigma.ι_desc]
 
 /-- In an acyclic module every cycle of every submodule is covered by the boundaries coming
 from the morphisms out of the separator. -/
 private lemma cyc_le_iSup_bdry (hM : M.complex.Acyclic) (G : Subobject M) (n : ℤ) :
-    cyc M G n ≤ ⨆ i : HomIdx M, bdry M i n := by
-  have hb : imageSubobject (M.complex.d n (n + 1)) = ⨆ i : HomIdx M, bdry M i n := by
+    cyc M G n ≤ ⨆ i : HomIdx.{w, a, t, v, u} M, bdry M i n := by
+  have hb : imageSubobject (M.complex.d n (n + 1)) =
+      ⨆ i : HomIdx.{w, a, t, v, u} M, bdry M i n := by
     rw [← Subobject.exists_obj_top (M.complex.d n (n + 1)), ← iSup_imageSubobject_hom_f M n,
       Stacks.Injectives.exists_obj_iSup]
     exact iSup_congr fun i => (Subobject.imageSubobject_comp_eq_exists _ _).symm
@@ -573,7 +577,7 @@ private lemma size_gen_complex_X_le {s : Set (HomIdx M)} {c : Cardinal.{max u v 
 
 /-- The cycles of a generated submodule, seen inside `M`, have at most `degBound A c`
 subobjects. -/
-private lemma size_cyc_le {s : Set (HomIdx M)} {c : Cardinal.{max u v a w}}
+private lemma size_cyc_le {s : Set (HomIdx.{w, a, t, v, u} M)} {c : Cardinal.{max u v a w}}
     (hs : HasCardinalLT s c) (n : ℤ) :
     size.{max u v a w} ((cyc M (gen M s) n : SheafOfModules.{max u v a w} R)) ≤ degBound A c := by
   refine le_trans ?_ (size_gen_complex_X_le M hs (n + 1))
@@ -587,7 +591,7 @@ omit [IsGrothendieckAbelian.{max u v a w} (SheafOfModules.{max u v a w} R)] in
 /-- A morphism out of the separator that factors through a differential graded submodule has
 its boundaries among the boundaries of that submodule. The submodule is kept abstract: naming
 it `gen M s` here would make the statement's image require unfolding that definition. -/
-private lemma bdry_le_of_le {G : Subobject M} {i : HomIdx M}
+private lemma bdry_le_of_le {G : Subobject M} {i : HomIdx.{w, a, t, v, u} M}
     (hi : imageSubobject (hom M i) ≤ G) (n : ℤ) :
     bdry M i n ≤ imageSubobject
       ((G : DifferentialGradedModule.{t, a, max u v a w} A).complex.d n (n + 1) ≫
@@ -606,7 +610,7 @@ private lemma bdry_le_of_le {G : Subobject M} {i : HomIdx M}
 
 /-- **If the cycles of a submodule are covered by the boundaries generated by `s'`, then the
 inclusion into the submodule generated by `s'` is zero on cohomology.** -/
-private lemma homologyMap_ofLE_eq_zero {G : Subobject M} {s' : Set (HomIdx M)}
+private lemma homologyMap_ofLE_eq_zero {G : Subobject M} {s' : Set (HomIdx.{w, a, t, v, u} M)}
     (h : G ≤ gen M s') (n : ℤ) (hcyc : cyc M G n ≤ ⨆ i : s', bdry M i.1 n) :
     HomologicalComplex.homologyMap
       (Subobject.ofLE G (gen M s') h).toHomologicalComplex (n + 1) = 0 := by
@@ -622,7 +626,7 @@ private lemma homologyMap_ofLE_eq_zero {G : Subobject M} {s' : Set (HomIdx M)}
   rw [Category.assoc, hoa]
   exact hcyc.trans (iSup_le fun i => bdry_le_of_le M (le_gen M i.2) n)
 
-private lemma hasCardinalLT_subobject_cyc {s : Set (HomIdx M)} (k : ℕ)
+private lemma hasCardinalLT_subobject_cyc {s : Set (HomIdx.{w, a, t, v, u} M)} (k : ℕ)
     (hs : HasCardinalLT s (kap A k)) (n : ℤ) :
     HasCardinalLT (Subobject (cyc M (gen M s) n : SheafOfModules.{max u v a w} R))
       (kap A (k + 1)) :=
@@ -632,18 +636,18 @@ private lemma hasCardinalLT_subobject_cyc {s : Set (HomIdx M)} (k : ℕ)
 /-- **One step of the source's tower.** Enlarging a set of morphisms out of the separator by a
 small subfamily in each degree makes the boundaries it generates cover the cycles of the
 submodule generated by the original set. -/
-private lemma exists_step (hM : M.complex.Acyclic) (k : ℕ) (s : Set (HomIdx M)) :
-    ∃ s' : Set (HomIdx M), s ⊆ s' ∧
+private lemma exists_step (hM : M.complex.Acyclic) (k : ℕ) (s : Set (HomIdx.{w, a, t, v, u} M)) :
+    ∃ s' : Set (HomIdx.{w, a, t, v, u} M), s ⊆ s' ∧
       (HasCardinalLT s (kap A k) →
         HasCardinalLT s' (kap A (k + 1)) ∧
           ∀ n : ℤ, cyc M (gen M s) n ≤ ⨆ i : s', bdry M i.1 n) := by
   classical
   by_cases hs : HasCardinalLT s (kap A k)
   · have hreg : Fact (kap A (k + 1)).IsRegular := ⟨kap_isRegular A (k + 1)⟩
-    have hsub : ∀ n : ℤ, ∃ T : Set (HomIdx M), HasCardinalLT T (kap A (k + 1)) ∧
+    have hsub : ∀ n : ℤ, ∃ T : Set (HomIdx.{w, a, t, v, u} M), HasCardinalLT T (kap A (k + 1)) ∧
         cyc M (gen M s) n ≤ ⨆ i : T, bdry M i.1 n := fun n =>
       Stacks.Injectives.exists_small_subfamily_le (kap A (k + 1))
-        (fun i : HomIdx M => bdry M i n) (cyc M (gen M s) n)
+        (fun i : HomIdx.{w, a, t, v, u} M => bdry M i n) (cyc M (gen M s) n)
         (hasCardinalLT_subobject_cyc M k hs n) (cyc_le_iSup_bdry M hM _ n)
     choose T hT1 hT2 using hsub
     have hZ : HasCardinalLT (ULift.{max u v a w} ℤ) (kap A (k + 1)) := by
@@ -664,46 +668,46 @@ private lemma exists_step (hM : M.complex.Acyclic) (k : ℕ) (s : Set (HomIdx M)
 /-! #### The tower and its union -/
 
 /-- The tower of the source: the `k`-th stage of the set of morphisms out of the separator. -/
-private noncomputable def sig (hM : M.complex.Acyclic) (i₀ : HomIdx M) :
-    ℕ → Set (HomIdx M)
+private noncomputable def sig (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) :
+    ℕ → Set (HomIdx.{w, a, t, v, u} M)
   | 0 => {i₀}
   | k + 1 => (exists_step M hM k (sig hM i₀ k)).choose
 
-private lemma sig_subset_succ (hM : M.complex.Acyclic) (i₀ : HomIdx M) (k : ℕ) :
+private lemma sig_subset_succ (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) (k : ℕ) :
     sig M hM i₀ k ⊆ sig M hM i₀ (k + 1) :=
   (exists_step M hM k (sig M hM i₀ k)).choose_spec.1
 
-private lemma sig_monotone (hM : M.complex.Acyclic) (i₀ : HomIdx M) :
+private lemma sig_monotone (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) :
     Monotone (fun k => sig M hM i₀ k) :=
   monotone_nat_of_le_succ (sig_subset_succ M hM i₀)
 
-private lemma sig_hasCardinalLT (hM : M.complex.Acyclic) (i₀ : HomIdx M) (k : ℕ) :
+private lemma sig_hasCardinalLT (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) (k : ℕ) :
     HasCardinalLT (sig M hM i₀ k) (kap A k) := by
   induction k with
   | zero =>
     have h0 : sig M hM i₀ 0 = {i₀} := rfl
-    have : Finite ((({i₀} : Set (HomIdx M))) : Type max u v a w) :=
+    have : Finite ((({i₀} : Set (HomIdx.{w, a, t, v, u} M))) : Type max u v a w) :=
       (Set.finite_singleton i₀).to_subtype
     rw [h0]
     exact hasCardinalLT_of_finite _ _ (kap_isRegular A 0).aleph0_le
   | succ k ih =>
     exact ((exists_step M hM k (sig M hM i₀ k)).choose_spec.2 ih).1
 
-private lemma sig_step (hM : M.complex.Acyclic) (i₀ : HomIdx M) (k : ℕ) (n : ℤ) :
-    cyc M (gen M (sig M hM i₀ k)) n ≤ ⨆ i : sig M hM i₀ (k + 1), bdry M i.1 n :=
+private lemma sig_step (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) (k : ℕ) (n : ℤ) :
+    cyc M (gen M (sig M hM i₀ k)) n ≤ ⨆ i : sig M hM i₀ (k + 1), bdry.{w, a, t, v, u} M i.1 n :=
   ((exists_step M hM k (sig M hM i₀ k)).choose_spec.2 (sig_hasCardinalLT M hM i₀ k)).2 n
 
 /-- The union of the tower. -/
 private noncomputable def genTop (hM : M.complex.Acyclic) (i₀ : HomIdx M) : Subobject M :=
   gen M (⋃ k : ULift.{max u v a w} ℕ, sig M hM i₀ k.down)
 
-private lemma genTop_eq_iSup (hM : M.complex.Acyclic) (i₀ : HomIdx M) :
+private lemma genTop_eq_iSup (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) :
     genTop M hM i₀ = ⨆ k : ULift.{max u v a w} ℕ, gen M (sig M hM i₀ k.down) :=
   gen_iUnion M _
 
 /-- **The union of the tower is acyclic.** Its cohomology sheaves are the filtered colimits of
 those of the stages, and each transition map is zero. -/
-private lemma acyclic_genTop (hM : M.complex.Acyclic) (i₀ : HomIdx M) :
+private lemma acyclic_genTop (hM : M.complex.Acyclic) (i₀ : HomIdx.{w, a, t, v, u} M) :
     (genTop M hM i₀ :
       DifferentialGradedModule.{t, a, max u v a w} A).complex.Acyclic := by
   set Jdx := ULift.{max u v a w} ℕ
@@ -761,7 +765,7 @@ private lemma exists_hom_ne_zero (hM₀ : ¬ IsZero M.complex) : ∃ i : HomIdx 
   have hφ : φ = 0 := by simpa using hc ((equivShrink _) φ)
   rw [Category.comp_id, comp_zero, hφ]
 
-private lemma not_isZero_genTop (hM : M.complex.Acyclic) {i₀ : HomIdx M}
+private lemma not_isZero_genTop (hM : M.complex.Acyclic) {i₀ : HomIdx.{w, a, t, v, u} M}
     (hi₀ : hom M i₀ ≠ 0) :
     ¬ IsZero (genTop M hM i₀ :
       DifferentialGradedModule.{t, a, max u v a w} A).complex := by

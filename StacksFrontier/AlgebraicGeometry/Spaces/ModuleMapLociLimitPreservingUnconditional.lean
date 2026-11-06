@@ -149,6 +149,13 @@ namespace ModuleMapSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_ModuleMapLociLimitPreservingUnconditional
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### Clause (2) -/
 
 /-- **Stacks 083J, clause (2).**  In the situation of Stacks 083F, if `ℱ` is of finite type and

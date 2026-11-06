@@ -349,13 +349,14 @@ noncomputable abbrev sectionsResolutionRestrict (i : SimplexCategoryᵒᵖ) :
 its `P'_i`-module structure coming from the augmentation `P'_i ⟶ B`. -/
 noncomputable abbrev sectionsResolutionDerivations (i : SimplexCategoryᵒᵖ)
     (M : targetModules J B) :=
-  ((sectionsResolutionRestrict J f i).obj M.val).Derivation' (sectionsResolutionBase J f i)
+  PresheafOfModulesOfCommRing.Derivation' ((sectionsResolutionRestrict J f i).obj M.val)
+    (sectionsResolutionBase J f i)
 
 /-- **The tautological `A`-derivation of `P'_n`** with values in the degree-`-n` term of the
 sectionwise cotangent complex: it sends `p` to the pure differential `1 ⊗ d p`. -/
 noncomputable def sectionwiseUniversalDerivation (n : ℕ) :
-    ((sectionsResolutionRestrict J f (op ⦋n⦌)).obj
-        (sectionwiseCotangentModules J f (-(n : ℤ)))).Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((sectionsResolutionRestrict J f (op ⦋n⦌)).obj
+        (sectionwiseCotangentModules J f (-(n : ℤ))))
       (sectionsResolutionBase J f (op ⦋n⦌)) where
   d {U} := sectionwiseDifferentialAddHom J f n U
   d_mul {U} x y := sectionwiseDifferential_mul J f n U x y
@@ -443,7 +444,7 @@ noncomputable def sectionwiseCotangentModulesHomEquiv (n : ℕ) (M : targetModul
     exact sectionwiseCotangentModulesDescApp_differential J f n M
       (sectionwiseCotangentModulesDerivation J f n M h) U p
   right_inv d := by
-    refine PresheafOfModules.Derivation.ext ?_
+    refine PresheafOfModulesOfCommRing.Derivation.ext ?_
     funext U
     refine AddMonoidHom.ext fun p => ?_
     exact sectionwiseCotangentModulesDescApp_differential J f n M d U p

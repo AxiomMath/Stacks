@@ -103,7 +103,7 @@ public def modFiniteSupportFiberIso (F : ModuleSheaf.{u, v, max (u + 1) v} B X �
       Stacks.ModuleCatLift.presheafFiber_map_presheafModuleSmul] at hnat
     exact Stacks.comp_intertwine _ _ _ _ _ hnat
       (finiteSupportStalkToFiberStalks_natural.{u, max (u + 1) v} B f s (fun _ => inferInstance)
-        (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B X.obj X.property) F r))
+        (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B X.obj X.property) F r).asHom)
 
 /-- **The `Λ`-linear germ decomposition on a generator** is the family of germs of the supported
 section: this is `AlgebraicGeometry.SmallEtale.modFiniteSupportGenerator_comp_presheafFiber`,

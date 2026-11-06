@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Limits
 public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Algebra.Homology.ShortComplex.Ab
 public import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
@@ -144,7 +145,7 @@ def compactOpens (X : Type u) [TopologicalSpace X] : Set (Opens X) :=
 /-- Vanishing in degree `n` of the Čech cohomology of an open cover with coefficients in a
 sheaf of modules. -/
 noncomputable def CechCohomologyIsZero
-    (R : Sheaf (Opens.grothendieckTopology X) RingCat) (F : SheafOfModules R)
+    (R : Sheaf (Opens.grothendieckTopology X) RingCat) (F : SheafOfModules.{max u w} R)
     (U : OpenCover X) (n : ℕ) : Prop :=
   IsZero (((cechComplexFunctor U.obj).obj ((SheafOfModules.toSheaf R).obj F).obj).homology n)
 
@@ -301,7 +302,7 @@ theorem hom_ext_of_ulift_int {A : AddCommGrpCat.{v}}
     {f g : AddCommGrpCat.of (ULift.{v} ℤ) ⟶ A}
     (h : ConcreteCategory.hom f (ULift.up 1) = ConcreteCategory.hom g (ULift.up 1)) : f = g := by
   ext m
-  have hm : m = m.down • (ULift.up 1 : ULift.{v} ℤ) := ULift.ext _ _ (by simp)
+  have hm : m = m.down • (ULift.up 1 : ULift.{v} ℤ) := ULift.ext (by simp)
   rw [hm, map_zsmul, map_zsmul, h]
 
 /-- `ofElt` is natural: composing with a morphism applies it to the section. -/
@@ -538,6 +539,8 @@ theorem exists_cover_res_eq_d {F : 𝒜} (I : InjectiveResolution F) (U : Opens 
 omit [PreservesFiniteColimits T]
   [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{max u w}]
   [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{max u w}] in
+set_option synthInstance.maxHeartbeats 200000 in
+set_option maxHeartbeats 1600000 in
 /-- **Čech-to-cohomology in degree one.** Let `ιG : G ⟶ A` be a kernel of `dA : A ⟶ A'`, let `W`
 be an open cover of an open subset, let `z` be a section of `A'` over `W.carrier`, and suppose
 that on each member of `W` the section `z` is the image under `dA` of a section `u k` of `A`.
@@ -670,6 +673,7 @@ noncomputable abbrev secComplex {F : 𝒜} (I : InjectiveResolution F) (W : Open
     CochainComplex AddCommGrpCat.{max u w} ℕ :=
   ((secFunctor T W).mapHomologicalComplex _).obj I.cocomplex
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Vanishing of `Hᵐ⁺¹` from degree-one Čech vanishing for the `m`-cocycles.**
 Fix an injective resolution `I` of `F` and a coefficient object `G` realized as a kernel of the
 `m`-th differential of `I`, so that `G` is the object of `m`-cocycles of the resolution.  If every
@@ -721,6 +725,7 @@ theorem isZero_Hobj_succ_of_cech_isZero {F : 𝒜} (I : InjectiveResolution F)
     (secComplex T I W.carrier).toCycles_comp_homologyπ]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Vanishing of `H¹` from Čech vanishing.** If every open cover of an open subset `U` in `B`
 is refined by a member of `Cov` covering `U`, and the degree-one Čech cohomology of `F` vanishes
 for every member of `Cov`, then `H¹(U, F)` vanishes. -/
@@ -734,6 +739,7 @@ theorem isZero_Hobj_one_of_cech_isZero (F : 𝒜) (B : Set (Opens X))
   isZero_Hobj_succ_of_cech_isZero T (.of F) 0 _ _ (isLimitKernelForkι _) B Cov hCovCofinal
     hCech U hU
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The degree-one case of Stacks Tag 01EW**, stated with the hypotheses of the general
 result.  Neither the basis hypothesis on `B` nor the closure of `B` under the intersections
 occurring in the Čech complexes is needed in degree one; they are kept so that this is literally
@@ -751,6 +757,7 @@ theorem isZero_Hobj_one_of_cech_isZero_on_basis (F : 𝒜) (B : Set (Opens X))
   isZero_Hobj_one_of_cech_isZero T F B Cov hCovCofinal
     (fun W hW => hCech W hW 1 Nat.one_pos) U hU
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks Tag 01EW, modulo the degree-one Čech vanishing for the cocycles of an injective
 resolution.**  Assume the hypotheses of Tag 01EW, and in addition that for every `m > 0` and
 every cover in `Cov` the degree-one Čech cohomology of the object of `m`-cocycles

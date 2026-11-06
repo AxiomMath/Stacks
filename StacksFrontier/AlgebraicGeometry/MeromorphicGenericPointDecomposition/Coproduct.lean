@@ -86,7 +86,7 @@ noncomputable def toPiSingle (M : ι → C) [HasProduct M] (i : ι) : M i ⟶ �
 @[reassoc (attr := simp)]
 lemma toPiSingle_comp_π (M : ι → C) [HasProduct M] (i j : ι) :
     toPiSingle M i ≫ Pi.π M j = if h : i = j then eqToHom (congrArg M h) else 0 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The canonical morphism from the coproduct of a family to its product. -/
 noncomputable def sigmaPiComparison (M : ι → C) [HasProduct M] [HasCoproduct M] :

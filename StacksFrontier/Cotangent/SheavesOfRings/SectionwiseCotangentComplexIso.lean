@@ -212,7 +212,7 @@ theorem sectionwiseDegreeComparison_comm (n : ℕ) :
         (cotangentComplex J f).d (-((n + 1 : ℕ) : ℤ)) (-(n : ℤ)) := by
   apply (sheafifiedSectionwiseModulesHomEquiv J f (n + 1)
     ((cotangentComplex J f).X (-(n : ℤ)))).injective
-  refine PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun p => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun p => ?_)
   rw [sheafifiedSectionwiseModulesHomEquiv_unit_d, sheafifiedSectionwiseModulesHomEquiv_unit_d]
   exact sectionwiseDegreeComparison_comm_apply J f n U (sectionwiseDifferential J f (n + 1) U p)
 

@@ -151,7 +151,7 @@ theorem property_of_iso (X : AlgebraicSpaces B S hS)
     (IsCoherent.of_isZero B S hS X.1 X.2 hZobj) h (hzero _ hZobj)
   refine ShortComplex.ShortExact.mk' ?_ inferInstance (hZobj.epi _)
   exact ShortComplex.exact_of_g_is_cokernel _
-    (CokernelCofork.IsColimit.ofEpiOfIsZero _ inferInstance hZobj)
+    (CokernelCofork.IsColimit.ofEpiOfIsZero _ (SplitEpi.epi ⟨e.inv, e.inv_hom_id⟩) hZobj)
 
 /-- **The dévissage induction along the filtration of Stacks 07UR.**  Let `P` be a property of
 `𝒪_X`-modules which holds for zero modules, is closed under extensions of coherent modules, and

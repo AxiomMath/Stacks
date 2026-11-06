@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.LinearAlgebra.TensorProduct.Pi
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import Mathlib.RingTheory.Finiteness.Basic
 public import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation

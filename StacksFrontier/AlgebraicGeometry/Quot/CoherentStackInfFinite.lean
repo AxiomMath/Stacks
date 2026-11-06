@@ -469,7 +469,7 @@ automorphism. -/
 abbrev infEndo (a : infinitesimalAutomorphismKernel PF
     (tangentReduction (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x))) :
     D.dualPoint iΛ x₀ hx₀ PF ⟶ D.dualPoint iΛ x₀ hx₀ PF :=
-  a.val.hom.1
+  a.val.asIso.hom.1
 
 /-- The endomorphism underlying a product `a * b` is the composite of those of `b` and `a`. -/
 theorem infEndo_mul (a b : infinitesimalAutomorphismKernel PF
@@ -484,7 +484,7 @@ theorem ringHom_infEndo (a : infinitesimalAutomorphismKernel PF
     ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a)).ringHom = 𝟙 _ :=
   haveI : (D.cohDef iΛ x₀ hx₀).projection.IsHomLift
       (𝟙 (dualNumbersUnder (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x)).right)
-      (D.infEndo iΛ x₀ hx₀ PF a) := a.val.hom.2
+      (D.infEndo iΛ x₀ hx₀ PF a) := a.val.asIso.hom.2
   D.ringHom_eq_id_of_isHomLift iΛ x₀ hx₀
     (A := (dualNumbersUnder (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x)).right) _
 
@@ -512,7 +512,7 @@ def infAut (a : infinitesimalAutomorphismKernel PF
     (tangentReduction (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x))) :
     Aut ((retractionPushforward B S hS (D.relativeMap hT.choose) (D.splitRep hT.choose)).obj
       ((D.cohDef iΛ x₀ hx₀).objects (D.dualPoint iΛ x₀ hx₀ PF)).point.F) :=
-  @asIso _ _ _ _
+  Aut.of <| @asIso _ _ _ _
     (D.kernelAut hT.choose ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a))
       (D.ringHom_infEndo iΛ x₀ hx₀ PF a))
     (D.isIso_kernelAut hT.choose ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a))
@@ -521,7 +521,7 @@ def infAut (a : infinitesimalAutomorphismKernel PF
 /-- The underlying morphism of `infAut c` is `r_*α` for the module automorphism `α` of `c`. -/
 theorem infAut_hom (c : infinitesimalAutomorphismKernel PF
     (tangentReduction (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x))) :
-    (D.infAut iΛ x₀ hx₀ PF hT c).hom =
+    (D.infAut iΛ x₀ hx₀ PF hT c).asIso.hom =
       D.kernelAut hT.choose ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF c))
         (D.ringHom_infEndo iΛ x₀ hx₀ PF c) :=
   rfl
@@ -530,8 +530,9 @@ theorem infAut_hom (c : infinitesimalAutomorphismKernel PF
 theorem infAut_mul (a b : infinitesimalAutomorphismKernel PF
     (tangentReduction (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x))) :
     D.infAut iΛ x₀ hx₀ PF hT (a * b) = D.infAut iΛ x₀ hx₀ PF hT a * D.infAut iΛ x₀ hx₀ PF hT b := by
-  rw [Aut.Aut_mul_def]
-  exact Iso.ext ((D.infAut_hom iΛ x₀ hx₀ PF hT (a * b)).trans
+  refine Aut.ext (Iso.ext ?_)
+  rw [Aut.mul_asIso]
+  exact ((D.infAut_hom iΛ x₀ hx₀ PF hT (a * b)).trans
     ((D.kernelAut_infEndo_mul iΛ x₀ hx₀ PF hT a b).trans
       (congrArg₂ (· ≫ ·) (D.infAut_hom iΛ x₀ hx₀ PF hT b).symm
         (D.infAut_hom iΛ x₀ hx₀ PF hT a).symm)))
@@ -548,7 +549,7 @@ def infAction :
 -/
 theorem infAction_hom (a : infinitesimalAutomorphismKernel PF
     (tangentReduction (p := (D.cohDef iΛ x₀ hx₀).projection) (x := x))) :
-    (D.infAction iΛ x₀ hx₀ PF hT a).hom =
+    (D.infAction iΛ x₀ hx₀ PF hT a).asIso.hom =
       D.kernelAut hT.choose ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a))
       (D.ringHom_infEndo iΛ x₀ hx₀ PF a) :=
   rfl
@@ -557,10 +558,10 @@ theorem infAction_hom (a : infinitesimalAutomorphismKernel PF
 theorem infAction_injective : Function.Injective (D.infAction iΛ x₀ hx₀ PF hT) := by
   intro a b h
   have hn := D.eq_of_kernelAut_eq (D.algebra_dualPoint iΛ x₀ hx₀ PF) hT.choose _ _
-    (D.ringHom_infEndo iΛ x₀ hx₀ PF a) (D.ringHom_infEndo iΛ x₀ hx₀ PF b) (congrArg Iso.hom h)
+    (D.ringHom_infEndo iΛ x₀ hx₀ PF a) (D.ringHom_infEndo iΛ x₀ hx₀ PF b) (congrArg (fun t => t.asIso.hom) h)
   have hφ : D.infEndo iΛ x₀ hx₀ PF a = D.infEndo iΛ x₀ hx₀ PF b :=
     ((D.cohDef iΛ x₀ hx₀).morphisms _ _).injective hn
-  exact Subtype.ext (Iso.ext (Functor.Fiber.hom_ext hφ))
+  exact Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext hφ)))
 
 /-- The reversed arrow of the transport along the scaling `ε ↦ c ε`. -/
 abbrev scalingMorphism (c : k) :=
@@ -600,7 +601,7 @@ theorem kernelAut_comp_kernelTransfer_scaling (c : k)
   let nb := (D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF b)
   let mc := D.scalingMorphism iΛ x₀ hx₀ PF c
   have hb' : D.infEndo iΛ x₀ hx₀ PF b = PF.transportHom f a.val :=
-    congrArg (fun t => t.hom.1) hab
+    congrArg (fun t => t.asIso.hom.1) hab
   have he : PF.map f ≫ D.infEndo iΛ x₀ hx₀ PF b = D.infEndo iΛ x₀ hx₀ PF a ≫ PF.map f := by
     rw [hb']
     exact PF.map_transportHom f a.val
@@ -644,12 +645,12 @@ theorem finiteDimensional_infinitesimalAutomorphism_cohDef
     hT.choose_spec
   have : FiniteDimensional k (E.shortComplex.X₃ ⟶ E.shortComplex.X₁) :=
     D.finiteDimensional_hom_copowerObj_basePoint iΛ x₀ hx₀ _
-  have hi : ∀ a, E.shortComplex.f ≫ (D.infAction iΛ x₀ hx₀ PF hT a).hom =
+  have hi : ∀ a, E.shortComplex.f ≫ (D.infAction iΛ x₀ hx₀ PF hT a).asIso.hom =
       E.shortComplex.f := fun a =>
     D.f_comp_kernelAut (D.algebra_dualPoint iΛ x₀ hx₀ PF) hT.choose hT.choose_spec
       ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a))
       (D.ringHom_infEndo iΛ x₀ hx₀ PF a)
-  have hq : ∀ a, (D.infAction iΛ x₀ hx₀ PF hT a).hom ≫ E.shortComplex.g =
+  have hq : ∀ a, (D.infAction iΛ x₀ hx₀ PF hT a).asIso.hom ≫ E.shortComplex.g =
       E.shortComplex.g := fun a =>
     D.kernelAut_comp_p (D.algebra_dualPoint iΛ x₀ hx₀ PF) hT.choose hT.choose_spec
       ((D.cohDef iΛ x₀ hx₀).morphisms _ _ (D.infEndo iΛ x₀ hx₀ PF a))

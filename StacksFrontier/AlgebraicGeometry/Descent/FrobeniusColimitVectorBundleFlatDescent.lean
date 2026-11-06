@@ -96,8 +96,8 @@ lemma frobeniusModulesPullbackIso_id_inv_comp (X : Scheme.{u}) (hX : IsInCharact
           ((Scheme.Modules.pullback (absoluteFrobenius X p hX)).obj N) =
       (Scheme.Modules.pullback (absoluteFrobenius X p hX)).map
         ((Scheme.Modules.pullbackId X).hom.app N) := by
-  rw [← cancel_epi ((frobeniusModulesPullbackIso (𝟙 X) p hX hX).hom.app N),
-    Iso.hom_inv_id_app_assoc, frobeniusModulesPullbackIso_id_hom_app]
+  refine (Iso.inv_comp_eq ((frobeniusModulesPullbackIso (𝟙 X) p hX hX).app N)).2 ?_
+  rw [Iso.app_hom, frobeniusModulesPullbackIso_id_hom_app]
   simp only [Category.assoc]
   rw [← CategoryTheory.Functor.map_comp, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id]
   exact (Category.comp_id _).symm

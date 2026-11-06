@@ -55,6 +55,16 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] MorphismProperty.relative_isStableUnderBaseChange
 
+/-- Pullbacks in the big fppf category over `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_bigFppfOver_etaleStageOfCutoffBoundedSystem :
+    HasPullbacks (BigFppfOver B S hS) :=
+  hasPullbacks_bigFppfOver B S hS
+
+local instance (priority := high) hasPullback_bigFppfOver_etaleStageOfCutoffBoundedSystem
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism `f₀ : X₀ ⟶ Y₀` of algebraic spaces over `S`, locally of finite presentation, with
 `X₀` and `Y₀` quasi-compact and `Y₀` quasi-separated, has a square of affine étale charts: an
 étale `b : U ⟶ Y₀` and an étale surjective `a : V ⟶ X₀` from affine objects, with a

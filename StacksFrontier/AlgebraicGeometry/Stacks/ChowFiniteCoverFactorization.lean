@@ -214,7 +214,7 @@ theorem exists_iso_yoneda_of_isOpenSubspace {Y₀ : BigFppfOver B S hS}
   have : IsIso i₀ := hpb.isIso_fst_of_isIso
   refine ⟨V₀, k, asIso i₀, hV.2.2 _ i₀ k hpb, ?_⟩
   show i₀ ≫ V.ι = _
-  simpa using hpb.w
+  simpa only [Category.comp_id, Category.id_comp] using hpb.w
 
 /-- **A flat surjection of algebraic stacks onto an algebraic space, locally of finite
 presentation, is reached from a scheme by a flat surjection locally of finite presentation.**

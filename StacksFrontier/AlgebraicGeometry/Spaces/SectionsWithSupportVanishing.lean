@@ -78,8 +78,11 @@ representable underlying morphism preserves monomorphisms, being left exact. -/
 theorem preservesMonomorphisms_smallEtaleAbelianInverseImage (i : Z ⟶ X)
     (hr : yoneda.relativelyRepresentable i.hom) :
     (smallEtaleAbelianInverseImage B S hS i hr).PreservesMonomorphisms :=
-  have := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS i hr
-  inferInstance
+  have : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS i hr) :=
+    preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS i hr
+  have : PreservesLimitsOfShape WalkingCospan (smallEtaleAbelianInverseImage B S hS i hr) :=
+    PreservesFiniteLimits.preservesFiniteLimits WalkingCospan
+  preservesMonomorphisms_of_preservesLimitsOfShape _
 
 /-- **Stacks 015Z for the small étale direct image.** The direct image of abelian sheaves along
 a morphism of algebraic spaces with representable underlying morphism carries injective abelian

@@ -46,7 +46,7 @@ theorem isSheaf_of_isSheaf_comp_of_factor (P : Cᵒᵖ ⥤ Type w)
     obtain ⟨Y₀, θ, g, hθ, rfl⟩ := hfac f
     have hg : S.arrows (F.map g) := by simpa using S.downward_closed hf (inv θ)
     have h₁ : P.map (F.map g).op s = x (F.map g) hg := hs g hg
-    rw [op_comp, FunctorToTypes.map_comp_apply, h₁]
+    rw [op_comp, Functor.map_comp_apply, h₁]
     exact (hx.to_sieveCompatible (F.map g) θ hg).symm
   · intro s' hs'
     exact hsu s' fun _ g hg => hs' (F.map g) hg

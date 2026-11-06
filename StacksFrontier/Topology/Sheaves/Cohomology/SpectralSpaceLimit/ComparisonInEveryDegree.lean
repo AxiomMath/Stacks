@@ -118,7 +118,7 @@ presentation.** -/
 def isColimitOfIsColimit (P Q : CohomologyCocone E c O p) (hP : IsColimit P.cocone) :
     IsColimit Q.cocone :=
   ((IsColimit.precomposeInvEquiv (P.diagramIso Q) _).symm hP).ofIsoColimit
-    (Cocones.ext (P.vertexDerivedIso ≪≫ Q.vertexDerivedIso.symm) fun k =>
+    (Cocone.ext (P.vertexDerivedIso ≪≫ Q.vertexDerivedIso.symm) fun k =>
       leg_of_comm _ _ _ _ _ _ _ (P.ι_comp_vertexDerivedIso k.unop)
         (Q.ι_comp_vertexDerivedIso k.unop))
 
@@ -223,7 +223,7 @@ theorem isColimit_transferCocone
     (e : Sheaf.H'.{u, u, u} c.pt.sheaf p (S.stageOpenCone c i U).pt ≅
       ((sections.{u, u} c.pt (S.stageOpenCone c i U).pt).rightDerived p).obj c.pt.sheaf)
     (hP : IsColimit P.cocone) : Nonempty (IsColimit (S.transferCocone φ hφ i U p P e).cocone) :=
-  ⟨hP.ofIsoColimit (Cocones.ext (@asIso _ _ _ _ (S.vertexTransfer φ hφ i U p P.vertexDerivedIso e)
+  ⟨hP.ofIsoColimit (Cocone.ext (@asIso _ _ _ _ (S.vertexTransfer φ hφ i U p P.vertexDerivedIso e)
     (S.isIso_vertexTransfer φ hφ i U p P.vertexDerivedIso e)) fun _ => rfl)⟩
 
 end Transfer

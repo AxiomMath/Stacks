@@ -82,7 +82,7 @@ variable (A : Type u) [CommRing A] (B : CommAlgCat.{u} A)
 over `(P, α)` is the module of Kähler differentials of the universe lift of `A → P`. -/
 def atiyahRelativeDifferentialsPresheaf :
     PresheafOfModules.{u + 1} (atiyahRingSheaf A B).obj :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
     (atiyahBaseHom A B).hom
 
 /-- **The sheaf of relative differentials `Ω_{𝒪/A}` on `CommAlgCat.atiyahSite`**, a sheaf of
@@ -95,8 +95,9 @@ def atiyahRelativeDifferentials :
 
 /-- The universal relative derivation of `𝒪` over `A̲` with values in `Ω_{𝒪/A}`. -/
 def atiyahUniversalDerivation :
-    (atiyahRelativeDifferentials A B).val.Derivation' (atiyahBaseHom A B).hom :=
-  PresheafOfModules.DifferentialsConstruction.derivation' (atiyahBaseHom A B).hom
+    PresheafOfModulesOfCommRing.Derivation' (atiyahRelativeDifferentials A B).val
+      (atiyahBaseHom A B).hom :=
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' (atiyahBaseHom A B).hom
 
 /-- **[Stacks, Tag 04BL] for `CommAlgCat.atiyahSite`.** `Ω_{𝒪/A}` corepresents the functor
 sending a sheaf of `𝒪`-modules to the relative derivations of `𝒪` over `A̲` with values in it, so
@@ -111,14 +112,14 @@ def atiyahRelativeDifferentialsCorepresentableBy :
       (atiyahRelativeDifferentials A B) := by
   refine AlgebraicGeometry.SheafOfModules.universalDerivationCorepresentableBy.{u + 1, u + 1,
     u + 1, u + 1} _ _ _ (atiyahUniversalDerivation A B) (fun F D => ?_)
-  refine ⟨⟨(PresheafOfModules.DifferentialsConstruction.isUniversal'
+  refine ⟨⟨(PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
     (atiyahBaseHom A B).hom).desc D⟩, ?_, fun g hg => ?_⟩
-  · exact (PresheafOfModules.DifferentialsConstruction.isUniversal'
+  · exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
       (atiyahBaseHom A B).hom).fac D
   · exact SheafOfModules.hom_ext
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
         (atiyahBaseHom A B).hom).postcomp_injective _ _
-          (hg.trans ((PresheafOfModules.DifferentialsConstruction.isUniversal'
+          (hg.trans ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'
             (atiyahBaseHom A B).hom).fac D).symm))
 
 /-- **The first vertex of the Atiyah triangle is formed with `Ω_{𝒪/A}`.** The corepresenting

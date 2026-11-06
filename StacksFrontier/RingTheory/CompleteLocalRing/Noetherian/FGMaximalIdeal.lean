@@ -24,7 +24,7 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 
 /-- `c * f` as the sum over the monomials of `c` of (monomial) `* f`. -/
 private theorem mul_eq_sum_monomial_mul {σ K : Type*} [CommSemiring K] (c f : MvPolynomial σ K) :
-    c * f = ∑ β ∈ c.support, MvPolynomial.monomial β (MvPolynomial.coeff β c) * f := by
+    c * f = ∑ β ∈ c.support, MvPolynomial.monomial β (c.coeff β) * f := by
   conv_lhs => rw [c.as_sum]; rw [Finset.sum_mul]
 
 /-- A homogeneous polynomial of degree `n` is in `leadingMem` once its representative is
@@ -60,7 +60,7 @@ theorem exists_leadingIdeal
     rw [mul_eq_sum_monomial_mul]
     exact Finset.sum_induction _ (leadingMem R ω J)
       (fun a b ha hb => leadingMem_add R ω hω J a b ha hb) (leadingMem_zero R ω J)
-      fun β _ => leadingMem_monomial_mul R ω hω J β (MvPolynomial.coeff β c) f hf
+      fun β _ => leadingMem_monomial_mul R ω hω J β (c.coeff β) f hf
   let 𝓛 : Ideal (MvPolynomial (Fin t) (IsLocalRing.ResidueField R)) :=
   { carrier := {f | leadingMem R ω J f}
     add_mem' := fun {a b} ha hb => leadingMem_add R ω hω J a b ha hb
@@ -140,12 +140,12 @@ private theorem homogeneousComponent_mul_of_isHomogeneous {K : Type*} [CommRing 
       = if D ≤ n then MvPolynomial.homogeneousComponent (n - D) p * g else 0 := by
   classical
   ext γ
-  rw [MvPolynomial.coeff_homogeneousComponent, apply_ite (MvPolynomial.coeff γ),
-    MvPolynomial.coeff_zero, MvPolynomial.coeff_mul]
+  rw [MvPolynomial.coeff_homogeneousComponent, apply_ite (fun q : MvPolynomial (Fin t) K => q.coeff γ),
+    AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, MvPolynomial.coeff_mul]
   have hterm : ∀ x ∈ Finset.antidiagonal γ,
-      (if γ.degree = n then MvPolynomial.coeff x.1 p * MvPolynomial.coeff x.2 g else 0)
-        = if D ≤ n then MvPolynomial.coeff x.1 (MvPolynomial.homogeneousComponent (n - D) p)
-          * MvPolynomial.coeff x.2 g else 0 := by
+      (if γ.degree = n then p.coeff x.1 * g.coeff x.2 else 0)
+        = if D ≤ n then (MvPolynomial.homogeneousComponent (n - D) p).coeff x.1
+          * g.coeff x.2 else 0 := by
     rintro ⟨α, β⟩ hx
     have hadd := map_add Finsupp.degree α β
     rw [Finset.mem_antidiagonal.mp hx] at hadd
@@ -233,7 +233,7 @@ theorem singleStep_of_leadingData
       have hde : (γ e).degree = n := by rw [Finsupp.degree_eq_sum]; exact hγdeg e
       exact MvPolynomial.isHomogeneous_monomial _ hde
     have hcoeff : ∀ e₀ ∈ cc.support,
-        MvPolynomial.coeff (γ e₀) f = IsLocalRing.residue R (cc e₀) := by
+        f.coeff (γ e₀) = IsLocalRing.residue R (cc e₀) := by
       intro e₀ he₀
       rw [hf, MvPolynomial.coeff_sum]
       rw [Finset.sum_eq_single e₀]
@@ -264,7 +264,7 @@ theorem singleStep_of_leadingData
       rw [hs, Finset.mem_image]
       exact ⟨e, he, hα.symm⟩
     have e1 := reprMap_eq_sum_on R ω hω f s hfsub hsdeg
-    have hsum_s : (∑ α ∈ s, residueSection R (MvPolynomial.coeff α f) * ∏ j, ω j ^ (α j))
+    have hsum_s : (∑ α ∈ s, residueSection R (f.coeff α) * ∏ j, ω j ^ (α j))
         = ∑ e ∈ cc.support, residueSection R (IsLocalRing.residue R (cc e))
             * ∏ j, ω j ^ (e.val j) := by
       rw [hs, Finset.sum_image hγinj]
@@ -308,30 +308,30 @@ theorem singleStep_of_leadingData
       classical
       rw [mul_eq_sum_monomial_mul u v]
       have hterm : ∀ β ∈ u.support,
-          (MvPolynomial.monomial β (MvPolynomial.coeff β u) * v).IsHomogeneous (e + D) := by
+          (MvPolynomial.monomial β (u.coeff β) * v).IsHomogeneous (e + D) := by
         intro β hβ
         have hβdeg : β.degree = e := by
           rw [Finsupp.degree_eq_sum]; exact sum_eq_of_isHomogeneous_of_mem_support R hu hβ
         exact (MvPolynomial.isHomogeneous_monomial _ hβdeg).mul hv
       have hsplit := reprMap_sum_defect R ω hω u.support
-        (fun β => MvPolynomial.monomial β (MvPolynomial.coeff β u) * v) hterm
+        (fun β => MvPolynomial.monomial β (u.coeff β) * v) hterm
       have hpart : (∑ β ∈ u.support,
-            reprMap R ω (MvPolynomial.monomial β (MvPolynomial.coeff β u) * v))
+            reprMap R ω (MvPolynomial.monomial β (u.coeff β) * v))
           - reprMap R ω u * reprMap R ω v ∈ m ^ (e + D + 1) := by
         have hru : reprMap R ω u * reprMap R ω v
-            = ∑ β ∈ u.support, residueSection R (MvPolynomial.coeff β u) * (∏ j, ω j ^ (β j))
+            = ∑ β ∈ u.support, residueSection R (u.coeff β) * (∏ j, ω j ^ (β j))
               * reprMap R ω v := by
           rw [reprMap, Finset.sum_mul]
         rw [hru, ← Finset.sum_sub_distrib]
         apply Ideal.sum_mem
         intro β hβ
         have hβdeg : ∑ j, β j = e := sum_eq_of_isHomogeneous_of_mem_support R hu hβ
-        exact reprMap_monomial_mul R ω hω β hβdeg (MvPolynomial.coeff β u) v hv
-      have key : reprMap R ω (∑ β ∈ u.support, MvPolynomial.monomial β (MvPolynomial.coeff β u) * v)
+        exact reprMap_monomial_mul R ω hω β hβdeg (u.coeff β) v hv
+      have key : reprMap R ω (∑ β ∈ u.support, MvPolynomial.monomial β (u.coeff β) * v)
           - reprMap R ω u * reprMap R ω v
-          = (reprMap R ω (∑ β ∈ u.support, MvPolynomial.monomial β (MvPolynomial.coeff β u) * v)
-              - ∑ β ∈ u.support, reprMap R ω (MvPolynomial.monomial β (MvPolynomial.coeff β u) * v))
-            + ((∑ β ∈ u.support, reprMap R ω (MvPolynomial.monomial β (MvPolynomial.coeff β u) * v))
+          = (reprMap R ω (∑ β ∈ u.support, MvPolynomial.monomial β (u.coeff β) * v)
+              - ∑ β ∈ u.support, reprMap R ω (MvPolynomial.monomial β (u.coeff β) * v))
+            + ((∑ β ∈ u.support, reprMap R ω (MvPolynomial.monomial β (u.coeff β) * v))
                 - reprMap R ω u * reprMap R ω v) := by ring
       rw [key]
       exact Ideal.add_mem _ hsplit hpart

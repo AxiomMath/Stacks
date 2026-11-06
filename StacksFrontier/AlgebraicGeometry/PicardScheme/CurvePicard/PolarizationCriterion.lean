@@ -196,7 +196,6 @@ theorem polarization_of_translates (g : ℤ)
     rw [classifyingMap_neg B hX hk f σ hσ _ (hz x' hx'), hzc, hzc] at hsub
     refine (classifyingMap_congr B hX hk f σ hσ (sub_eq_add_neg _ _) _).trans (hsub.trans ?_)
     rw [mul_inv, inv_inv, mul_comm]
-    rfl
   refine ⟨hpt, ?_⟩
   obtain ⟨x, hx, -, -, -⟩ := hS 1
   obtain ⟨h, hc⟩ := hpt x⁻¹

@@ -48,8 +48,9 @@ lemma neighborhoodFunctor_comp_obj (a : GeometricPoint.Hom s t) (b : GeometricPo
     (U : (geometricPointFiber B S hS r).Elements) :
     (neighborhoodFunctor B S hS (a.comp b)).obj U =
       (neighborhoodFunctor B S hS a).obj ((neighborhoodFunctor B S hS b).obj U) := by
-  refine Sigma.ext rfl (heq_of_eq (Subtype.ext ?_))
-  exact Category.assoc _ _ _
+  exact congrArg (fun v => (Functor.Elements.mk (F := geometricPointFiber B S hS s)
+    (obj := ((neighborhoodFunctor B S hS (a.comp b)).obj U).obj) v))
+    (Subtype.ext (Category.assoc _ _ _))
 
 /-- **The stalk maps of morphisms of geometric points compose contravariantly.** -/
 theorem geometricPointStalkMap_comp (a : GeometricPoint.Hom s t) (b : GeometricPoint.Hom t r)

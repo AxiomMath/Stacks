@@ -154,10 +154,11 @@ variable (B : BigEtaleSite.{u}) (Λ : Type r) [Ring Λ] {X Y : B.Scheme} (f : X 
 under the abelian `f_! f^{-1}` of multiplication by that scalar on the abelian sheaf underlying
 `M`. -/
 public lemma sheafScalarEnd_fShriekMod_pullbackMod (M : ModuleSheaf.{u, v, r} B Y Λ) (a : Λ) :
-    Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property)
-        ((fShriekMod.{u, v, r} B Λ f).obj ((pullbackMod.{u, v, r} B Λ f).obj M)) a =
+    (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property)
+        ((fShriekMod.{u, v, r} B Λ f).obj ((pullbackMod.{u, v, r} B Λ f).obj M)) a).asHom =
       (fShriekFunctor.{u, max v r} B f).map ((abPullback.{u, max v r} B f).map
-        (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M a)) :=
+        (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M
+          a).asHom) :=
   rfl
 
 include hw in
@@ -165,14 +166,15 @@ include hw in
 sheaf underlying a sheaf of `Λ`-modules `M`, multiplication by `a` on `f_! f^{-1}M` followed by
 the trace map is the trace map followed by multiplication by `a` on `M`. -/
 public theorem weightedTrace_sheafScalarEnd_comm (M : ModuleSheaf.{u, v, r} B Y Λ) (a : Λ) :
-    Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property)
-          ((fShriekMod.{u, v, r} B Λ f).obj ((pullbackMod.{u, v, r} B Λ f).obj M)) a ≫
+    (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property)
+          ((fShriekMod.{u, v, r} B Λ f).obj ((pullbackMod.{u, v, r} B Λ f).obj M)) a).asHom ≫
         weightedTrace.{u, max v r} B f hw ((forgetModuleSheaf.{u, v, r} B Y Λ).obj M) =
       weightedTrace.{u, max v r} B f hw ((forgetModuleSheaf.{u, v, r} B Y Λ).obj M) ≫
-        Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M a := by
+        (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M
+          a).asHom := by
   rw [sheafScalarEnd_fShriekMod_pullbackMod.{u, v, r} B Λ f M a]
   exact hasWeightedTraceStalks_naturality.{u, max v r} B f w
-    (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M a)
+    (Stacks.ModuleCatLift.sheafScalarEnd Λ (SmallEtale.topology B Y.obj Y.property) M a).asHom
     (weightedTrace_hasWeightedTraceStalks.{u, max v r} B f hw _)
     (weightedTrace_hasWeightedTraceStalks.{u, max v r} B f hw _)
 
@@ -474,7 +476,7 @@ public theorem derivedWeightedTraceMod_spec {w : X.obj → ℤ}
               (pullbackMod.{u, u + 1, u} B Λ f) (fShriekMod.{u, u + 1, u} B Λ f)).inv ≫
             NatTrans.mapDerivedCategory
               (weightedTraceModTrans.{u, u + 1, u} B Λ f hw) ≫
-            Functor.mapDerivedCategoryIdIso.hom) ∧
+            (Functor.mapDerivedCategoryIdIso _).hom) ∧
       (∀ M : ModuleSheaf.{u, u + 1, u} B Y Λ,
           (weightedTraceModTrans.{u, u + 1, u} B Λ f hw).app M =
             weightedTraceMod.{u, u + 1, u} B Λ f hw M) ∧

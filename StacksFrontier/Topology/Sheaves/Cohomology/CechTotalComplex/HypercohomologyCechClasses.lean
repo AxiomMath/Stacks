@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.HypercohomologyBoundary
 public import StacksFrontier.Algebra.Homology.CupProductBoundaryClass
+public import Mathlib.Algebra.Category.ModuleCat.Projective
 
 /-!
 # Čech classes in hypercohomology

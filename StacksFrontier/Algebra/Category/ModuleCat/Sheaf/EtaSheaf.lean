@@ -282,14 +282,25 @@ theorem tensorProductRightUnitor_naturality
       adj.counit.app N = adj.counit.app M ≫ a at h
   rw [ha] at h
   rw [Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map]
-  change S.map (a.val ▷ _) ≫ (S.map (ρ_ N.val).hom ≫ adj.counit.app N) =
-    (S.map (ρ_ M.val).hom ≫ adj.counit.app M) ≫ a
-  -- Reassociate, insert `key`, insert `h`, reassociate: every step is a term, so each is
-  -- elaborated at `default` transparency.
-  exact (Category.assoc _ _ _).symm.trans
+  have hN : (tensorProductRightUnitor O hO N).hom = S.map (ρ_ N.val).hom ≫ adj.counit.app N :=
+    rfl
+  have hM : (tensorProductRightUnitor O hO M).hom = S.map (ρ_ M.val).hom ≫ adj.counit.app M :=
+    rfl
+  have hw : (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj)).map
+        (PresheafOfModules.tensorHom a.val (𝟙 (SheafOfModules.unit
+          (Stacks.SheafOfModules.Tensor.ringSheaf
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩)).val)) =
+      S.map (a.val ▷ _) :=
+    rfl
+  rw [hN, hM]
+  -- Replace the tensor map by the whiskering, reassociate, insert `key`, insert `h`,
+  -- reassociate: every step is a term, so each is elaborated at `default` transparency.
+  exact (congrArg (fun k => k ≫ (S.map (ρ_ N.val).hom ≫ adj.counit.app N)) hw).trans
+    ((Category.assoc _ _ _).symm.trans
     ((congrArg (fun k => k ≫ adj.counit.app N) key).trans
       ((Category.assoc _ _ _).trans
-        ((congrArg (S.map (ρ_ M.val).hom ≫ ·) h).trans (Category.assoc _ _ _).symm)))
+        ((congrArg (S.map (ρ_ M.val).hom ≫ ·) h).trans (Category.assoc _ _ _).symm))))
 
 /-- The inclusion `I^{⊗ (n+1)} ⊗ M ⟶ I^{⊗ n} ⊗ M` is natural in `M`. -/
 lemma idealPowerIncl_natural
@@ -1077,8 +1088,9 @@ public theorem idealPowerIncl_mono
   have h2 := (Preadditive.mono_iff_cancel_zero
         (idealPowerIncl X I ι 0 (idealPowerTerm X I n M))).1
       (idealPowerIncl_zero_power_mono X I ι M n) _ _ h1
-  exact @zero_of_comp_mono _ _ _ _ _ _ _ (powSuccIso T.asEquivalence n M).inv
-    (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_inv _)) h2
+  haveI : Mono (powSuccIso T.asEquivalence n M).inv :=
+    @IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_inv _)
+  exact zero_of_comp_mono (powSuccIso T.asEquivalence n M).inv h2
 
 /-- The image of `idealStalkMap` lies in the stalk ideal `I_x ⊆ O_{X,x}`. -/
 public lemma idealStalkMap_mem_stalkIdeal

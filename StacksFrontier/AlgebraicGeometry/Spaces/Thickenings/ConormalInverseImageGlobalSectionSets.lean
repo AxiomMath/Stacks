@@ -289,6 +289,44 @@ theorem moduleSheafFunctor_map_thickeningTransport_map_comp
       ((moduleSheafFunctor (structureRingSheafInverseImage B S hS
         (subspaceInclusion B S hS X Z))).map_comp a b).symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_ConormalInverseImageGlobalSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
+search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete₀_ConormalInverseImageGlobalSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of sheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasDiscreteLimits_topos_ConormalInverseImageGlobalSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
+  letI : HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+    hasLimitsOfShape_discrete₀_ConormalInverseImageGlobalSectionSets B S hS F J
+  letI : CreatesLimitsOfShape (Discrete J)
+      (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u)) :=
+    Sheaf.createsLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u))
+
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_ConormalInverseImageGlobalSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  hasDiscreteLimits_topos_ConormalInverseImageGlobalSectionSets B S hS F PEmpty
+
 /-- **The inclusion of the conormal module on the class of an ideal section, on sheaves of
 sets**: for a first-order thickening `i : Z ⟶ X` and a global section `s` of its defining ideal
 `𝓘`, the unit section followed by `i^*s` and `𝒞_{Z/X} ⟶ i⁻¹𝒪_X` is the image along `i⁻¹` of the
@@ -314,6 +352,17 @@ theorem ringOneHom_comp_map_conormalInverseImageι_modulePullbackGlobalSection
       eqToIso (restrictScalars_comp_thickeningTransport B S hS Z) ≪≫
         modulePushforwardIso B S hS (subspaceInclusion B S hS X Z) := rfl
   rw [ht] at key
+  haveI : HasTerminal (smallEtaleRingedTopos B S hS X).Topos :=
+    hasTerminal_topos_ConormalInverseImageGlobalSectionSets B S hS X.1
+  haveI : HasTerminal
+      (smallEtaleRingedTopos B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS)).Topos :=
+    hasTerminal_topos_ConormalInverseImageGlobalSectionSets B S hS _
+  haveI : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).inverseImage :=
+    have := (thickeningToposHom B S hS Z).preservesFiniteLimits
+    inferInstance
+  haveI : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).pushforward :=
+    have := (thickeningToposHom B S hS Z).adj.rightAdjoint_preservesLimits
+    inferInstance
   refine Adjunction.eq_globalSectionMap_of_comp_map_eq (thickeningToposHom B S hS Z).adj _ _
     (CategoryTheory.inv (terminalComparison (thickeningToposHom B S hS Z).pushforward)) ?_
   refine CategoryTheory.comp_map_comp_eq_of_comp_map_eq _ _ _ _ _ _ _

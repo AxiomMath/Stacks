@@ -52,6 +52,19 @@ attribute [local instance] Space.pointTopology
 
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_presheaf_CurvesOpenSubstackRelative
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    Limits.HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Discrete limits of universe-`0` shape of presheaves on the big fppf site. -/
+local instance (priority := high) hasLimitsOfShapeDiscrete_presheaf_CurvesOpenSubstackRelative
+    {S : Scheme.{u}} {hS : B.Contains S} (J : Type) :
+    Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  (Limits.hasLimitsOfSizeShrink.{0, 0, u, u} _).has_limits_of_shape _
+
 /-- **Condition (o) over an open substack.** Let `P` satisfy condition (o) of Stacks 0E0E, and let
 `Q` be the condition that a locus `L` of points of the base be everything, where `L` commutes with
 base change along morphisms of families of curves. If `L(G)` is open for every family `G` with

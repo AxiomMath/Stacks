@@ -686,12 +686,12 @@ private theorem graded_naturality {r : ℕ} {f : Fin r → A} (h : FormulaLaws.{
       h.gradedProjection p hp n K ≫ (coefficientKoszulGradedPiece (A := A) r p).map g := by
   apply Limits.Pi.hom_ext
   intro S
-  simp only [Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_π]
+  simp only [Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π]
   show _ = h.gradedProjection p hp n K ≫
     (Limits.Pi.map (fun _ : KoszulBasis r p.natAbs ↦
       (shiftFunctor (CochainComplex (ModuleCat.{v} A) ℤ) (-p)).map g)) ≫
         Limits.Pi.π (fun _ : KoszulBasis r p.natAbs ↦ L⟦-p⟧) S
-  rw [Limits.Pi.map_π, ← Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_π]
+  rw [Limits.Pi.map_π, ← Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π]
   exact HomologicalComplex.hom_ext _ _ (gradedComponentTerm_naturality p hp g S)
 
 private theorem coefficientKoszulTransitionTerm_proj {r : ℕ} (f : Fin r → A)
@@ -721,8 +721,8 @@ private theorem graded_transition {r : ℕ} {f : Fin r → A} (h : FormulaLaws.{
   apply Limits.Pi.hom_ext
   intro S
   simp only [Category.assoc, coefficientKoszulGradedTransition, Limits.Pi.map_π,
-    FormulaLaws.gradedProjection, Limits.Pi.lift_π]
-  rw [← Category.assoc, Limits.Pi.lift_π]
+    FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π]
+  rw [← Category.assoc, Limits.Pi.lift_comp_π]
   exact HomologicalComplex.hom_ext _ _ (gradedComponentTerm_transition f p hp n K S)
 
 

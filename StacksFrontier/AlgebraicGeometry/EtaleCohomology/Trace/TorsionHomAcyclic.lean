@@ -144,7 +144,7 @@ def zmodHomFunctorZModIso :
          change φ.toLinearMap (c • ULift.up x) =
            φ.toLinearMap (ULift.up ((show ZMod N from x) * ZMod.castHom hN.out (ZMod N) c))
          congr 1
-         exact ULift.ext _ _ (mul_comm (ZMod.castHom hN.out (ZMod N) c) (show ZMod N from x))
+         exact ULift.ext (mul_comm (ZMod.castHom hN.out (ZMod N) c) (show ZMod N from x))
        left_inv := fun _ => rfl
        right_inv := fun _ => rfl } :
       SourceHom (ZMod (ℓ ^ M)) (ZMod (ℓ ^ M)) (ZModLift.{u} N) P ≃ₗ[ZMod (ℓ ^ M)]

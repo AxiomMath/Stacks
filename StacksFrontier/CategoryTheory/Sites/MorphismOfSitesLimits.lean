@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.MorphismOfSites
 public import Mathlib.CategoryTheory.Limits.Constructions.LimitsOfProductsAndEqualizers
+public import Mathlib.CategoryTheory.Sites.LeftExact
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

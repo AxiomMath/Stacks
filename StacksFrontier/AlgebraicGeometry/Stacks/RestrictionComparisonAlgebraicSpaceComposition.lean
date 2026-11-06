@@ -136,7 +136,7 @@ theorem ModuleFMap.ext_of_app_chartDiagram_comp {ζ₁ ζ₂ : ModuleFMap B S hS
   refine (modulePushforwardHomEquiv B S hS (f ≫ g) F H).symm.injective
     (?_ : moduleFMapHom B S hS (f ≫ g) F H ζ₁ = moduleFMapHom B S hS (f ≫ g) F H ζ₂)
   have hι := moduleSheafFunctor_map_modulePushforwardCompIso_hom_app B S hS f g F
-  refine (cancel_mono ((modulePushforwardCompIso B S hS f g).inv.app F)).mp ?_
+  refine (NatIso.cancel_natIso_inv_right (modulePushforwardCompIso B S hS f g) _ _).mp ?_
   refine modulePushforward_comp_hom_ext B S hS f g F H (fun e j s ↦ ?_)
   have h₁ := modulePushforwardHomFMap_app_chartDiagram_comp B S hS f g F H
     (modulePushforwardCompIso B S hS f g) hι (moduleFMapHom B S hS (f ≫ g) F H ζ₁)

@@ -503,9 +503,9 @@ public theorem hasTorAmplitude_restrictModules_iff_forall_stalk (W : RingedSpace
     have hbij : Function.Bijective (RingedSpace.restrictModulesStalkRingIso W U hy).hom.hom :=
       (ConcreteCategory.isIso_iff_bijective
         (RingedSpace.restrictModulesStalkRingIso W U hy).hom).mp inferInstance
-    have eobj := ((Functor.mapDerivedCategoryCompIso
+    have eobj := ((Functor.mapDerivedCategoryCompIsoOfCompIso
         (RingedSpace.restrictModulesStalkNatIso W U hy) ≪≫
-      (Functor.mapDerivedCategoryCompIso (Iso.refl
+      (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl
         (AlgebraicGeometry.SheafOfModules.stalkFunctor (structureSheafOfRings.{u} W) y ⋙
           ModuleCat.restrictScalars.{u}
             (RingedSpace.restrictModulesStalkRingIso W U hy).hom.hom))).symm).app G)

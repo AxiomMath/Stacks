@@ -158,6 +158,17 @@ section SchemeSystem
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {I : Type u} [Category.{u} I] [IsCofiltered I] {D : I ⥤ BigFppfOver B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_PresentedNoetherianApproximation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_PresentedNoetherianApproximation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Two morphisms out of a stage of a cofiltered system of quasi-compact objects of the site,
 into an algebraic space locally of finite presentation over `S`, which agree over the limit agree
 at a later stage.** The system has affine transition morphisms and its limit is realised in the

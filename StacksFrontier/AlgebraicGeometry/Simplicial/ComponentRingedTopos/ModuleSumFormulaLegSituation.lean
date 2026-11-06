@@ -62,6 +62,10 @@ namespace CategoryTheory.SimplicialSiteSituation
 
 variable (S : SimplicialSiteSituation.{u}) (O : Sheaf S.totalTopology CommRingCat.{u})
 
+-- Sheafifiability of abelian sheaves on a component, which is what makes the direct sum of
+-- sheaves of modules on a component available.
+attribute [local instance] hasWeakSheafifyComponent
+
 /-- **The leg equation of Stacks 0D72 (6), for an arbitrary simplicial-site situation**: for every
 simplex map `φ : [n] ⟶ [m]`, the `φ`th summand inclusion of the componentwise direct-sum formula
 `CategoryTheory.SimplicialSiteSituation.moduleSumFormula`, followed by the inverse of that

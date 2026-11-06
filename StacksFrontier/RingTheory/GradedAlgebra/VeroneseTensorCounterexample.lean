@@ -142,7 +142,7 @@ public def coeffDegreeOne (i : Fin 2) : degOne k →ₗ[k] k :=
 
 /-- `coeffDegreeOne k i a` is the coefficient of the variable `i` in `a`. -/
 @[simp] public theorem coeffDegreeOne_apply (i : Fin 2) (a : degOne k) :
-    coeffDegreeOne k i a = MvPolynomial.coeff (Finsupp.single i 1) (a : MvPolynomial (Fin 2) k) :=
+    coeffDegreeOne k i a = (a : MvPolynomial (Fin 2) k).coeff (Finsupp.single i 1) :=
   rfl
 
 /-- The functional on `S₁ ⊗_k S₁` sending `a ⊗ b` to the coefficient of `x` in `a` times the
@@ -238,8 +238,8 @@ public abbrev twistOneGrading : ℤ → AddSubgroup (MvPolynomial (Fin 2) k) :=
 
 /-- The coefficient of a degree-one monomial in a product. -/
 public theorem coeff_single_one_mul (i : Fin 2) (p q : MvPolynomial (Fin 2) k) :
-    coeff (Finsupp.single i 1) (p * q) =
-      coeff 0 p * coeff (Finsupp.single i 1) q + coeff (Finsupp.single i 1) p * coeff 0 q := by
+    (p * q).coeff (Finsupp.single i 1) =
+      p.coeff 0 * q.coeff (Finsupp.single i 1) + p.coeff (Finsupp.single i 1) * q.coeff 0 := by
   classical
   rw [coeff_mul, Finsupp.antidiagonal_single, Finset.sum_map, Finset.Nat.antidiagonal_succ]
   simp
@@ -247,7 +247,7 @@ public theorem coeff_single_one_mul (i : Fin 2) (p q : MvPolynomial (Fin 2) k) :
 /-- An element of the Veronese subring `S⁽²⁾` has no degree-one terms. -/
 public theorem coeff_single_one_eq_zero_of_mem_veroneseSubring (i : Fin 2)
     {s : MvPolynomial (Fin 2) k} (hs : s ∈ veroneseSubring (polyGrading k) 2) :
-    coeff (Finsupp.single i 1) s = 0 := by
+    s.coeff (Finsupp.single i 1) = 0 := by
   rw [mem_veroneseSubring_iff] at hs
   induction hs using AddSubgroup.closure_induction with
   | mem x hx =>
@@ -256,7 +256,7 @@ public theorem coeff_single_one_eq_zero_of_mem_veroneseSubring (i : Fin 2)
     rw [Finsupp.degree_single]
     omega
   | zero => simp
-  | add x y _ _ hx hy => rw [coeff_add, hx, hy, add_zero]
+  | add x y _ _ hx hy => simp [hx, hy]
   | neg x _ hx => rw [coeff_neg, hx, neg_zero]
 
 /-- The variables of `k[x, y]` lie in degree zero of `S(1)`. -/
@@ -287,20 +287,20 @@ element of `S⁽²⁾` has no degree-one terms. -/
 public def veroneseCoeff (i : Fin 2) :
     veroneseSubmodule (polyGrading k) (twistOneGrading k) 2 →ₗ[veroneseSubring (polyGrading k) 2]
       k where
-  toFun m := coeff (Finsupp.single i 1) (m : MvPolynomial (Fin 2) k)
+  toFun m := (m : MvPolynomial (Fin 2) k).coeff (Finsupp.single i 1)
   map_add' m n := by simp
   map_smul' s m := by
-    change coeff (Finsupp.single i 1)
-        ((s : MvPolynomial (Fin 2) k) * (m : MvPolynomial (Fin 2) k)) =
-      constantCoeff (s : MvPolynomial (Fin 2) k) * coeff (Finsupp.single i 1)
-        (m : MvPolynomial (Fin 2) k)
+    change ((s : MvPolynomial (Fin 2) k) * (m : MvPolynomial (Fin 2) k)).coeff
+        (Finsupp.single i 1) =
+      constantCoeff (s : MvPolynomial (Fin 2) k) *
+        (m : MvPolynomial (Fin 2) k).coeff (Finsupp.single i 1)
     rw [coeff_single_one_mul, coeff_single_one_eq_zero_of_mem_veroneseSubring k i s.2, zero_mul,
       add_zero, constantCoeff_eq]
 
 /-- `veroneseCoeff k i m` is the coefficient of the variable `i` in `m`. -/
 @[simp] public theorem veroneseCoeff_apply (i : Fin 2)
     (m : veroneseSubmodule (polyGrading k) (twistOneGrading k) 2) :
-    veroneseCoeff k i m = coeff (Finsupp.single i 1) (m : MvPolynomial (Fin 2) k) :=
+    veroneseCoeff k i m = (m : MvPolynomial (Fin 2) k).coeff (Finsupp.single i 1) :=
   rfl
 
 /-- The `S⁽²⁾`-balanced functional on `S(1)⁽²⁾ ⊗_{S⁽²⁾} S(1)⁽²⁾` sending `m ⊗ n` to the
@@ -318,8 +318,8 @@ coefficient of `y` in `n`. -/
 @[simp] public theorem veroneseSeparatingFunctional_tmul
     (m n : veroneseSubmodule (polyGrading k) (twistOneGrading k) 2) :
     veroneseSeparatingFunctional k (m ⊗ₜ[veroneseSubring (polyGrading k) 2] n) =
-      coeff (Finsupp.single 0 1) (m : MvPolynomial (Fin 2) k) *
-        coeff (Finsupp.single 1 1) (n : MvPolynomial (Fin 2) k) :=
+      (m : MvPolynomial (Fin 2) k).coeff (Finsupp.single 0 1) *
+        (n : MvPolynomial (Fin 2) k).coeff (Finsupp.single 1 1) :=
   rfl
 
 /-- The variable `x`, as an element of degree zero of `S(1)⁽²⁾`. -/
@@ -357,7 +357,7 @@ public theorem veroneseAntisymmetrizer_ne_zero [Nontrivial k] : veroneseAntisymm
   have h1 := congrArg (veroneseSeparatingFunctional k) h
   rw [map_zero, veroneseAntisymmetrizer, map_sub, veroneseSeparatingFunctional_tmul,
     veroneseSeparatingFunctional_tmul] at h1
-  simp only [xVeronese, yVeronese, coeff_X', if_neg hne, if_neg hne.symm] at h1
+  simp only [xVeronese, yVeronese, coeff_X, if_neg hne, if_neg hne.symm] at h1
   simp at h1
 
 variable [DirectSum.Decomposition (tensorGrading (S := MvPolynomial (Fin 2) k)

@@ -287,7 +287,6 @@ theorem braiding_app_eq_id (P : PresheafOfModulesOfCommRing.{w} 𝒪) (U : Cᵒ�
     (h : ∀ a b : P.obj U, a ⊗ₜ[(structureRingPresheaf 𝒪).obj U] b
       = b ⊗ₜ[(structureRingPresheaf 𝒪).obj U] a) :
     (β_ P P).hom.app U = 𝟙 ((P ⊗ P).obj U) := by
-  rw [PresheafOfModules.braiding_hom_app]
   exact braiding_eq_id_of_tmul_comm (P.obj U) h
 
 /-- **The self-braiding of a locally symmetric presheaf of modules is the identity after the

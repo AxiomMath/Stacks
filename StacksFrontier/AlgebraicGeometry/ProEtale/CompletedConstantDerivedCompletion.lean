@@ -76,7 +76,7 @@ theorem isDerivedLimitWithProjections_singleFunctor_limit_of_epi
     hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf _ _)
   have : HasProductsOfShape ℕ
       (CochainComplex (Sheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)) ℤ) :=
-    inferInstance
+    HomologicalComplex.instHasLimitsOfShape
   let F := G ⋙ CochainComplex.singleFunctor _ 0
   have hc := isLimitMapConeSingle (limit.isLimit G)
   have : HasLimit F := ⟨⟨⟨_, hc⟩⟩⟩

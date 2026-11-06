@@ -215,10 +215,11 @@ public theorem coeff_mem_one_of_sum_genMonomial_mem {x y : formalNeighborhoodRin
     rw [hE.formalNeighborhoodSymbol_add 1 hax hby, hE.formalNeighborhoodSymbol_smul 1 a hx,
       hE.formalNeighborhoodSymbol_smul 1 b hy, hsx, hsy, hE.formalNeighborhoodSymbol_zero,
       hE.formalNeighborhoodSymbol_zero] at hsym
-    have h0 := congrArg (MvPolynomial.coeff (Finsupp.single 0 1)) hsym
-    have h1 := congrArg (MvPolynomial.coeff (Finsupp.single 1 1)) hsym
-    simp only [MvPolynomial.coeff_add, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X',
-      MvPolynomial.coeff_zero, Finsupp.single_eq_single_iff] at h0 h1
+    have h0 := congrArg (fun q => q.coeff (Finsupp.single 0 1)) hsym
+    have h1 := congrArg (fun q => q.coeff (Finsupp.single 1 1)) hsym
+    simp only [AddMonoidAlgebra.coeff_add, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X',
+      AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finsupp.add_apply,
+      Finsupp.single_eq_single_iff] at h0 h1
     simp only [↓reduceIte, mul_one, Fin.isValue, one_ne_zero, and_true,
       subRegular_zero_right_iff_rightRegular, isRegular_one, IsRegular.right, SubRegular.ne,
       and_self, or_self, mul_zero, add_zero, zero_ne_one, zero_add] at h0 h1

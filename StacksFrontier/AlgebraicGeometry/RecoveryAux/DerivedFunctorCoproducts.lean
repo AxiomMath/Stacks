@@ -117,7 +117,7 @@ private lemma rightAcyclic_iff_computesRightDerived
   have hres (K : HomotopyCategory.Plus A) :
       ∃ (Y : HomotopyCategory.Plus A) (f : K ⟶ Y)
         (_ : HomotopyCategory.Plus.quasiIso A f),
-        IsIso (F.rightDerivedFunctorPlusUnit.app Y) := by
+        IsIso (F.rightDerivedFunctorPlusUnith.app Y) := by
     obtain ⟨a, ha⟩ := (HomotopyCategory.plus_quotient_obj_iff K.obj.as).1 K.property
     let P : ObjectProperty A := Injective
     have : P.ContainsZero := ⟨0, isZero_zero A, inferInstance⟩
@@ -128,7 +128,7 @@ private lemma rightAcyclic_iff_computesRightDerived
     let Y : HomotopyCategory.Plus A :=
       (HomotopyCategory.Plus.quotient A).obj ⟨L, ⟨a, hge⟩⟩
     have hY : ∀ i : ℤ, Injective (Y.obj.as.X i) := fun i => hL i
-    have hunit : IsIso (F.rightDerivedFunctorPlusUnit.app Y) := by
+    have hunit : IsIso (F.rightDerivedFunctorPlusUnith.app Y) := by
       let (i : ℤ) : Injective (Y.obj.as.X i) := hY i
       infer_instance
     exact ⟨Y, ObjectProperty.homMk ((HomotopyCategory.quotient A _).map f),
@@ -136,10 +136,26 @@ private lemma rightAcyclic_iff_computesRightDerived
   have : (HomotopyCategory.Plus.quasiIso A).HasLeftCalculusOfFractions := by
     rw [HomotopyCategory.Plus.quasiIso_eq_subcategoryAcyclic_trW]
     infer_instance
+  have key : F.rightAcyclic X ↔ IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+    let tU := (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
+    let e := Functor.rightDerivedUnique _ F.rightDerivedFunctorPlus tU
+      F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)
+    have h : tU.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
+        e.hom.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) =
+        F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) := by
+      refine (Functor.rightDerivedNatTrans_app _ F.rightDerivedFunctorPlus tU
+        F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) (Iso.refl _).hom
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj X)).trans ?_
+      simp
+    rw [← h, isIso_comp_right_iff]
+    exact Iff.rfl
+  rw [key]
   exact (Functor.computesRightDerived_iff_isIso_app
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)
     DerivedCategory.Plus.Qh F.rightDerivedFunctorPlus
-    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlusUnit
+    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlusUnith
     ((HomotopyCategory.Plus.singleFunctor A 0).obj X) hres).symm
 
 private lemma isIso_alpha_of_rightAcyclic_terms
@@ -161,7 +177,7 @@ private lemma isIso_alpha_of_rightAcyclic_terms
     show IsZero ((F.rightDerivedPlus (n : ℤ)).obj X)
     exact (hvanish X).of_iso (CategoryTheory.rightDerivedPlusObjIso F X n)
   have h := Functor.hasRightDerivedFunctor_of_isZero_rightDerived
-    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit F.rightAcyclic
+    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith F.rightAcyclic
     (rightAcyclic_iff_computesRightDerived F) hmono n hn
   exact (h.2.2 RF α).1 K hK
 

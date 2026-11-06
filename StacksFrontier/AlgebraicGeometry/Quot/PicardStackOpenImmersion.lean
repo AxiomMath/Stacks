@@ -59,6 +59,17 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_picardStackOpenImmersion :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_picardStackOpenImmersion
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : P ⟶ R) (b : Q ⟶ R) :
+    HasLimit (cospan a b) :=
+  (hasPullbacks_presheaf_picardStackOpenImmersion (B := B) (S := S) (hS := hS)).has_limit _
+
 /-! ### The natural map as a 1-morphism of categories fibred in groupoids -/
 
 /-- `Coh_{X/Y}` at its canonical category structure (Stacks 08W5), as an object of the

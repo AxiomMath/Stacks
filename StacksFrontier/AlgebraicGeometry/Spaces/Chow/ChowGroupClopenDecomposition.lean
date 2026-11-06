@@ -236,7 +236,7 @@ theorem isClopenSubspaceDecomposition_rankSubspace :
   disjoint r r' hrr' := by
     rw [pieceRange_rankSubspace D sX hX E r, pieceRange_rankSubspace D sX hX E r']
     exact Set.disjoint_left.2 fun _ h h' =>
-      hrr' (ULift.ext _ _ (eq_of_mem_rankLocus_of_mem_rankLocus h h'))
+      hrr' (ULift.ext (eq_of_mem_rankLocus_of_mem_rankLocus h h'))
   iUnion_pieceRange_eq_univ := by
     refine Set.eq_univ_of_forall fun p => Set.mem_iUnion.2 ?_
     obtain ⟨n, hn⟩ := exists_mem_rankLocus (Y := ⟨X, hX.1⟩) hE p

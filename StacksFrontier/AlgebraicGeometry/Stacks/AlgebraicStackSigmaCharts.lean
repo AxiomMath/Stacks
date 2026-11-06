@@ -186,7 +186,7 @@ theorem exists_fiber_sigmaOver {D : Type w} [Category.{v} D] (p : D ⥤ BigFppfO
   obtain ⟨x, hx⟩ := exists_fiber_of_disjoint_cover hp X' j' hj'
     (fun i => mono_sigmaOverι B S hS W hW i.down)
     (fun {i k} hik {Y} a b hab => bot_mem_topology_of_sigmaOverι B S hS W hW
-      (fun hh => hik (ULift.ext _ _ hh)) a b hab) (fun i => xs i.down)
+      (fun hh => hik (ULift.ext hh)) a b hab) (fun i => xs i.down)
   exact ⟨x, fun i => hx (ULift.up i)⟩
 
 end Sigma

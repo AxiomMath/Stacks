@@ -273,7 +273,7 @@ in the proof, for arbitrary coefficient modules in place of `B̲`; the derived i
 is used to prove is not covered"]
 def externalTensorFreeYonedaIso (U : C₁) (V : C₂)
     (P Q : ModuleCat.{max u₁ u₂ w} B) :
-    externalTensor (Presheaf.freeYoneda U P) (Presheaf.freeYoneda V Q) ≅
+    externalTensor (C₂ := C₂) (Presheaf.freeYoneda U P) (Presheaf.freeYoneda V Q) ≅
       Presheaf.freeYoneda ((U, V) : C₁ × C₂) (P ⊗ Q) :=
   (NatIso.ofComponents (fun _ ↦ sigmaTensorSigmaIso P Q) (by
     intro _ _ f

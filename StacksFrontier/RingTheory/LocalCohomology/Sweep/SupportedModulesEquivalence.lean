@@ -361,8 +361,8 @@ private lemma supportedSections_rightDerivedPlus_isZero
   have : ∀ n : ℤ, Injective (qK.obj.as.X n) := fun n ↦ by
     dsimp [qK, K]
     infer_instance
-  let : IsIso (F.rightDerivedFunctorPlusUnit.app qK) := by infer_instance
-  let unitIso := asIso (F.rightDerivedFunctorPlusUnit.app qK)
+  let : IsIso (F.rightDerivedFunctorPlusUnith.app qK) := by infer_instance
+  let unitIso := asIso (F.rightDerivedFunctorPlusUnith.app qK)
   let e₁ : Plus.Q.obj (F.mapCochainComplexPlus.obj K) ≅ F.rightDerivedFunctorPlus.obj X :=
     (plusQuotientCompQhIso (F.mapCochainComplexPlus.obj K)).symm ≪≫
       unitIso ≪≫
@@ -383,7 +383,7 @@ private lemma isIso_unit_iff_computesRightDerived
     [HasDerivedCategory C]
     {D : Type x} [Category.{y} D] [Abelian D] [HasDerivedCategory D]
     (F : C ⥤ D) [F.Additive] (X : C) :
-    IsIso (F.rightDerivedFunctorPlusUnit.app
+    IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ↔
       (F.mapHomotopyCategoryPlus ⋙ Plus.Qh).ComputesRightDerived
         (HomotopyCategory.Plus.quasiIso C)
@@ -392,7 +392,7 @@ private lemma isIso_unit_iff_computesRightDerived
   have hres (K : HomotopyCategory.Plus C) :
       ∃ (Y : HomotopyCategory.Plus C) (f : K ⟶ Y)
         (_ : HomotopyCategory.Plus.quasiIso C f),
-        IsIso (F.rightDerivedFunctorPlusUnit.app Y) := by
+        IsIso (F.rightDerivedFunctorPlusUnith.app Y) := by
     let r : (HomotopyCategory.Plus.localizerMorphism C).RightResolution K :=
       Classical.arbitrary _
     exact ⟨_, r.w, r.hw, inferInstance⟩
@@ -401,7 +401,7 @@ private lemma isIso_unit_iff_computesRightDerived
     infer_instance
   exact (Functor.computesRightDerived_iff_isIso_app
     (F.mapHomotopyCategoryPlus ⋙ Plus.Qh) Plus.Qh F.rightDerivedFunctorPlus
-    (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlusUnit
+    (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlusUnith
     ((HomotopyCategory.Plus.singleFunctor C 0).obj X) hres).symm
 
 /-- **Derived supported sections commutes with a deep enough truncation.** For every object `K`
@@ -427,11 +427,11 @@ private lemma supportedSections_truncGE_comparison
   have : F.IsRightAdjoint := (inclusion_adj_supportedSectionsFunctor.{u, v} A T).isRightAdjoint
   have : PreservesFiniteLimits F := inferInstance
   let n := ((ringKrullDim A).unbotD 0).toNat + 1
-  let P : ObjectProperty C := fun Y ↦ IsIso (F.rightDerivedFunctorPlusUnit.app
+  let P : ObjectProperty C := fun Y ↦ IsIso (F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.singleFunctor C 0).obj Y))
   have hmono (Y : C) : ∃ (Z : C) (f : Y ⟶ Z) (_ : Mono f), P Z := by
     refine ⟨Injective.under Y, Injective.ι Y, inferInstance, ?_⟩
-    show IsIso (F.rightDerivedFunctorPlusUnit.app
+    show IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj (Injective.under Y)))
     have : ∀ m : ℤ, Injective
         (((HomotopyCategory.Plus.singleFunctor C 0).obj (Injective.under Y)).obj.as.X m) :=
@@ -439,7 +439,7 @@ private lemma supportedSections_truncGE_comparison
         (((HomologicalComplex.single C (ComplexShape.up ℤ) 0).obj (Injective.under Y)).X m))
     infer_instance
   have h07 := Functor.hasRightDerivedFunctor_of_isZero_rightDerived F
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit P
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith P
     (isIso_unit_iff_computesRightDerived F) hmono n
     (fun N ↦ supportedSections_rightDerivedPlus_isZero.{u, v} A hdim T N n (by
       dsimp [n]

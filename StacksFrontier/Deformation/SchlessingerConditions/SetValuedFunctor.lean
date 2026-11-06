@@ -31,7 +31,7 @@ whenever `A₂ → A` is surjective, and (S2) says that
 
 A category cofibered in sets over `𝒞_Λ` is represented, as for Stacks 06HJ, by the category
 of elements `F.Elements` of a set-valued functor together with its projection
-`CategoryOfElements.π F`. A cospan in that category lying over a cospan of the base is
+`Functor.Elements.π F`. A cospan in that category lying over a cospan of the base is
 precisely a point of the set-theoretic fibre product, which is what turns the completion
 clauses of the two conditions into surjectivity statements. The target of the comparison map
 is the subtype of the product cut out by the defining equality, because `𝒞_Λ` has no chosen
@@ -81,34 +81,34 @@ theorem fibreProductComparison_val {C : Type u₁} [Category.{v₁} C] (F : C �
 apex element to the first element of the cospan. -/
 private theorem PullbackCompletion.map_apex_fst {C : Type u₁} [Category.{v₁} C] {F : C ⥤ Type t}
     {x₁ x₂ x : F.Elements} {f₁ : x₁ ⟶ x} {f₂ : x₂ ⟶ x} {A₁₂ : C}
-    {g₁ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₁} {g₂ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₂}
-    (P : PullbackCompletion (CategoryOfElements.π F) f₁ f₂ g₁ g₂) :
+    {g₁ : A₁₂ ⟶ (Functor.Elements.π F).obj x₁} {g₂ : A₁₂ ⟶ (Functor.Elements.π F).obj x₂}
+    (P : PullbackCompletion (Functor.Elements.π F) f₁ f₂ g₁ g₂) :
     F.map g₁ (F.map (eqToHom P.apex_eq) P.apex.2) = x₁.2 := by
-  have hP : P.toFirst.val = eqToHom P.apex_eq ≫ g₁ := P.map_toFirst
+  have hP : P.toFirst.hom = eqToHom P.apex_eq ≫ g₁ := P.map_toFirst
   rw [← Functor.map_comp_apply, ← hP]
-  exact P.toFirst.property
+  exact P.toFirst.map_val
 
 /-- The second projection of a completion in a category of elements carries the transported
 apex element to the second element of the cospan. -/
 private theorem PullbackCompletion.map_apex_snd {C : Type u₁} [Category.{v₁} C] {F : C ⥤ Type t}
     {x₁ x₂ x : F.Elements} {f₁ : x₁ ⟶ x} {f₂ : x₂ ⟶ x} {A₁₂ : C}
-    {g₁ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₁} {g₂ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₂}
-    (P : PullbackCompletion (CategoryOfElements.π F) f₁ f₂ g₁ g₂) :
+    {g₁ : A₁₂ ⟶ (Functor.Elements.π F).obj x₁} {g₂ : A₁₂ ⟶ (Functor.Elements.π F).obj x₂}
+    (P : PullbackCompletion (Functor.Elements.π F) f₁ f₂ g₁ g₂) :
     F.map g₂ (F.map (eqToHom P.apex_eq) P.apex.2) = x₂.2 := by
-  have hP : P.toSecond.val = eqToHom P.apex_eq ≫ g₂ := P.map_toSecond
+  have hP : P.toSecond.hom = eqToHom P.apex_eq ≫ g₂ := P.map_toSecond
   rw [← Functor.map_comp_apply, ← hP]
-  exact P.toSecond.property
+  exact P.toSecond.map_val
 
 /-- The completion of a cospan in a category of elements given by an element over the apex
 whose two images are the elements of the cospan. -/
 private def PullbackCompletion.ofElement {C : Type u₁} [Category.{v₁} C] {F : C ⥤ Type t}
     {x₁ x₂ x : F.Elements} (f₁ : x₁ ⟶ x) (f₂ : x₂ ⟶ x) {A₁₂ : C}
-    (g₁ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₁) (g₂ : A₁₂ ⟶ (CategoryOfElements.π F).obj x₂)
-    (hw : g₂ ≫ (CategoryOfElements.π F).map f₂ = g₁ ≫ (CategoryOfElements.π F).map f₁)
+    (g₁ : A₁₂ ⟶ (Functor.Elements.π F).obj x₁) (g₂ : A₁₂ ⟶ (Functor.Elements.π F).obj x₂)
+    (hw : g₂ ≫ (Functor.Elements.π F).map f₂ = g₁ ≫ (Functor.Elements.π F).map f₁)
     (a : F.obj A₁₂) (h₁ : F.map g₁ a = x₁.2) (h₂ : F.map g₂ a = x₂.2) :
-    PullbackCompletion (CategoryOfElements.π F) f₁ f₂ g₁ g₂ :=
-  ⟨F.elementsMk A₁₂ a, rfl, CategoryOfElements.homMk _ x₁ g₁ h₁,
-    CategoryOfElements.homMk _ x₂ g₂ h₂, Subtype.ext hw, by simp, by simp⟩
+    PullbackCompletion (Functor.Elements.π F) f₁ f₂ g₁ g₂ :=
+  ⟨F.elementsMk A₁₂ a, rfl, Functor.Elements.homMk (y := x₁) g₁ h₁,
+    Functor.Elements.homMk (y := x₂) g₂ h₂, Functor.Elements.hom_ext hw, by simp, by simp⟩
 
 variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 
@@ -118,21 +118,20 @@ surjective. -/
 @[stacks 06HY "condition (S1)"]
 theorem schlessingerConditionS1_elements_iff
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type t) :
-    SchlessingerConditionS1 (CategoryOfElements.π F) ↔
+    SchlessingerConditionS1 (Functor.Elements.π F) ↔
       ∀ ⦃A₁ A₂ A A₁₂ : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f₁ : A₁ ⟶ A) (f₂ : A₂ ⟶ A),
         Function.Surjective f₂.hom →
           ∀ (g₁ : A₁₂ ⟶ A₁) (g₂ : A₁₂ ⟶ A₂) (hPB : IsPullback g₂ g₁ f₂ f₁),
             Function.Surjective (fibreProductComparison F g₁ g₂ f₁ f₂ hPB.w) := by
   refine ⟨fun hS1 A₁ A₂ A A₁₂ f₁ f₂ hf g₁ g₂ hPB ⟨⟨a₁, a₂⟩, hq⟩ => ?_, fun h => ⟨?_⟩⟩
   · obtain ⟨P⟩ := hS1.completion
-      (CategoryOfElements.homMk (F.elementsMk A₁ a₁)
-        (F.elementsMk A (F.map f₁ a₁)) f₁ rfl)
-      (CategoryOfElements.homMk (F.elementsMk A₂ a₂)
-        (F.elementsMk A (F.map f₁ a₁)) f₂ hq.symm) hf g₁ g₂ hPB
+      (Functor.Elements.homMk (x := F.elementsMk A₁ a₁) (y := F.elementsMk A (F.map f₁ a₁)) f₁ rfl)
+      (Functor.Elements.homMk (x := F.elementsMk A₂ a₂)
+        (y := F.elementsMk A (F.map f₁ a₁)) f₂ hq.symm) hf g₁ g₂ hPB
     exact ⟨F.map (eqToHom P.apex_eq) P.apex.2, Subtype.ext (Prod.ext P.map_apex_fst P.map_apex_snd)⟩
   · intro x₁ x₂ x u₁ u₂ hf A₁₂ g₁ g₂ hPB
-    obtain ⟨a, ha⟩ := h u₁.val u₂.val hf g₁ g₂ hPB
-      ⟨(x₁.2, x₂.2), u₁.property.trans u₂.property.symm⟩
+    obtain ⟨a, ha⟩ := h u₁.hom u₂.hom hf g₁ g₂ hPB
+      ⟨(x₁.2, x₂.2), u₁.map_val.trans u₂.map_val.symm⟩
     exact ⟨.ofElement u₁ u₂ g₁ g₂ hPB.w a (congrArg (·.1.1) ha) (congrArg (·.1.2) ha)⟩
 
 /-- For the category of elements of `F : 𝒞_Λ ⥤ Type t`, Schlessinger's condition (S2) says
@@ -140,7 +139,7 @@ that the map `F(A ×_k k[ε]) → F(A) ×_{F(k)} F(k[ε])` is bijective. -/
 @[stacks 06HY "condition (S2)"]
 theorem schlessingerConditionS2_elements_iff
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type t) :
-    SchlessingerConditionS2 (CategoryOfElements.π F) ↔
+    SchlessingerConditionS2 (Functor.Elements.π F) ↔
       ∀ ⦃A A₀ Aε B : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (d : A ⟶ A₀) (e : Aε ⟶ A₀),
         IsDualNumberProjection e →
           ∀ (g : B ⟶ A) (gε : B ⟶ Aε) (hPB : IsPullback gε g e d),
@@ -153,44 +152,45 @@ theorem schlessingerConditionS2_elements_iff
       have hw : F.map e (F.map gε b) = F.map d (F.map g b) := by
         rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, hPB.w]
       obtain ⟨β, -, hmap⟩ := hS2.comparison
-        (CategoryOfElements.homMk (F.elementsMk A (F.map g b))
-          (F.elementsMk A₀ (F.map d (F.map g b))) d rfl)
-        (CategoryOfElements.homMk (F.elementsMk Aε (F.map gε b))
-          (F.elementsMk A₀ (F.map d (F.map g b))) e hw) hdual g gε hPB
+        (Functor.Elements.homMk (x := F.elementsMk A (F.map g b))
+          (y := F.elementsMk A₀ (F.map d (F.map g b))) d rfl)
+        (Functor.Elements.homMk (x := F.elementsMk Aε (F.map gε b))
+          (y := F.elementsMk A₀ (F.map d (F.map g b))) e hw) hdual g gε hPB
         ⟨F.elementsMk B b, rfl,
-          CategoryOfElements.homMk (F.elementsMk B b) (F.elementsMk A (F.map g b)) g rfl,
-          CategoryOfElements.homMk (F.elementsMk B b) (F.elementsMk Aε (F.map gε b)) gε rfl,
-          Subtype.ext hPB.w, by simp, by simp⟩
+          Functor.Elements.homMk (x := F.elementsMk B b) (y := F.elementsMk A (F.map g b)) g rfl,
+          Functor.Elements.homMk (x := F.elementsMk B b) (y := F.elementsMk Aε (F.map gε b)) gε rfl,
+          Functor.Elements.hom_ext hPB.w, by simp, by simp⟩
         ⟨F.elementsMk B b', rfl,
-          CategoryOfElements.homMk (F.elementsMk B b') (F.elementsMk A (F.map g b)) g hg,
-          CategoryOfElements.homMk (F.elementsMk B b') (F.elementsMk Aε (F.map gε b)) gε hgε,
-          Subtype.ext hPB.w, by simp, by simp⟩
-      have hval : β.val = 𝟙 B := by simpa using (hmap : β.val = eqToHom rfl ≫ eqToHom rfl)
-      simpa [hval] using β.property
+          Functor.Elements.homMk (x := F.elementsMk B b') (y := F.elementsMk A (F.map g b)) g hg,
+          Functor.Elements.homMk (x := F.elementsMk B b')
+            (y := F.elementsMk Aε (F.map gε b)) gε hgε,
+          Functor.Elements.hom_ext hPB.w, by simp, by simp⟩
+      have hval : β.hom = 𝟙 B := by simpa using (hmap : β.hom = eqToHom rfl ≫ eqToHom rfl)
+      simpa [hval] using β.map_val
     · obtain ⟨P⟩ := hS2.completion
-        (CategoryOfElements.homMk (F.elementsMk A a) (F.elementsMk A₀ (F.map d a)) d rfl)
-        (CategoryOfElements.homMk (F.elementsMk Aε aε) (F.elementsMk A₀ (F.map d a)) e
+        (Functor.Elements.homMk (x := F.elementsMk A a) (y := F.elementsMk A₀ (F.map d a)) d rfl)
+        (Functor.Elements.homMk (x := F.elementsMk Aε aε) (y := F.elementsMk A₀ (F.map d a)) e
           hq.symm) hdual g gε hPB
       exact ⟨F.map (eqToHom P.apex_eq) P.apex.2,
         Subtype.ext (Prod.ext P.map_apex_fst P.map_apex_snd)⟩
   · intro h
     refine ⟨?_, ?_⟩
     · intro x xε x₀ ud ue hdual B g gε hPB
-      obtain ⟨a, ha⟩ := (h ud.val ue.val hdual g gε hPB).2
-        ⟨(x.2, xε.2), ud.property.trans ue.property.symm⟩
+      obtain ⟨a, ha⟩ := (h ud.hom ue.hom hdual g gε hPB).2
+        ⟨(x.2, xε.2), ud.map_val.trans ue.map_val.symm⟩
       exact ⟨.ofElement ud ue g gε hPB.w a (congrArg (·.1.1) ha) (congrArg (·.1.2) ha)⟩
     · intro x xε x₀ ud ue hdual B g gε hPB P Q
-      have hPv : P.toFirst.val = eqToHom P.apex_eq ≫ g := P.map_toFirst
-      have hQv : Q.toFirst.val = eqToHom Q.apex_eq ≫ g := Q.map_toFirst
+      have hPv : P.toFirst.hom = eqToHom P.apex_eq ≫ g := P.map_toFirst
+      have hQv : Q.toFirst.hom = eqToHom Q.apex_eq ≫ g := Q.map_toFirst
       have hbb : F.map (eqToHom P.apex_eq) P.apex.2 = F.map (eqToHom Q.apex_eq) Q.apex.2 :=
-        (h ud.val ue.val hdual g gε hPB).1 (Subtype.ext (Prod.ext
+        (h ud.hom ue.hom hdual g gε hPB).1 (Subtype.ext (Prod.ext
           (P.map_apex_fst.trans Q.map_apex_fst.symm)
           (P.map_apex_snd.trans Q.map_apex_snd.symm)))
       refine ⟨⟨eqToHom P.apex_eq ≫ eqToHom Q.apex_eq.symm, ?_⟩, ?_, rfl⟩
       · rw [Functor.map_comp_apply, hbb, ← Functor.map_comp_apply]
         simp
-      · refine Subtype.ext ?_
-        simp only [CategoryOfElements.comp_val, hPv, hQv]
+      · refine Functor.Elements.hom_ext ?_
+        simp only [Functor.Elements.comp_hom, hPv, hQv]
         simp
 
 end

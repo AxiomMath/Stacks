@@ -347,7 +347,6 @@ private lemma exists_shortExact_mul (p : Ideal R) [p.IsPrime] (f : R) (hf : f âˆ
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun x => ?_
   simp [f', ModuleCat.hom_smul]
-  rfl
 
 omit [IsNoetherianRing R] in
 /-- A shrunk cyclic module `R/J` is finite. -/

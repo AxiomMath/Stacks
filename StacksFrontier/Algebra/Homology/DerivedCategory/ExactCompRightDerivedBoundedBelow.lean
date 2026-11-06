@@ -72,12 +72,33 @@ private theorem isIso_map_of_isIso_app {D E : Type*} [Category* D] [Category* E]
     [IsIso (Ψ.map f)] : IsIso (Φ.map f) :=
   IsIso.of_isIso_fac_right (α.naturality f)
 
+/-- An object is right acyclic for `G` exactly when the unit of `RG` (Mathlib's
+`rightDerivedFunctorPlusUnith`, whose definition is not exposed) is invertible at the single
+complex on it in degree zero: both are units of right derived functors of the same functor. -/
+private lemma rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app {D E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [EnoughInjectives D] (G : D ⥤ E)
+    [G.Additive] (X : D) :
+    G.rightAcyclic X ↔ IsIso (G.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor D 0).obj X)) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  change IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app _) ↔ _
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))]
+  exact isIso_comp_right_iff _ _
+
 omit [EnoughInjectives B] [G.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
   [PreservesFiniteLimits H] in
 include Θ in
 /-- The unit of `R(H ∘ F)` is invertible, `H ∘ F ≅ G` being exact. -/
 lemma isIso_rightDerivedFunctorPlusUnit_comp :
-    IsIso (F ⋙ H).rightDerivedFunctorPlusUnit := by
+    IsIso (F ⋙ H).rightDerivedFunctorPlusUnith := by
   have : PreservesFiniteLimits (F ⋙ H) := preservesFiniteLimits_of_natIso Θ
   have : PreservesFiniteColimits (F ⋙ H) := preservesFiniteColimits_of_natIso Θ
   have : (F ⋙ H).PreservesHomology := Functor.preservesHomologyOfExact _
@@ -92,23 +113,24 @@ lemma isIso_rightDerivedFunctorPlusComp_app_single (M : A)
     IsIso ((rightDerivedFunctorPlusComp F H).app
       ((DerivedCategory.Plus.singleFunctor A 0).obj M)) := by
   let Xs := (HomotopyCategory.Plus.singleFunctor A 0).obj M
-  have hF : IsIso (F.rightDerivedFunctorPlusUnit.app Xs) :=
-    rightAcyclic_of_exact F M
-  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs) :=
+  have hF : IsIso (F.rightDerivedFunctorPlusUnith.app Xs) :=
+    (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app F M).1 (rightAcyclic_of_exact F M)
+  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs) :=
     have := isIso_rightDerivedFunctorPlusUnit_comp F G H Θ
     NatIso.isIso_app_of_isIso _ _
-  have hH : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Xs)) := by
+  have hH : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Xs)) := by
     let e := Stacks.Cohomology.LerayDegreewise.mapHomotopyCategoryPlusSingleObjIso F 0 M
-    have : IsIso (H.rightDerivedFunctorPlusUnit.app
+    have : IsIso (H.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor _ 0).obj (F.obj M))) :=
-      (Stacks.Cohomology.LerayDegreewise.rightAcyclic_iff_isZero_rightDerived H (F.obj M)).2 hM
-    exact IsIso.of_isIso_fac_right (H.rightDerivedFunctorPlusUnit.naturality e.hom).symm
-  have key : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs ≫
+      (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app H (F.obj M)).1
+        ((Stacks.Cohomology.LerayDegreewise.rightAcyclic_iff_isZero_rightDerived H (F.obj M)).2 hM)
+    exact IsIso.of_isIso_fac_right (H.rightDerivedFunctorPlusUnith.naturality e.hom).symm
+  have key : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs ≫
       (rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj Xs)) := by
     rw [unit_comp_rightDerivedFunctorPlusComp_app F H Xs]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ hH (Functor.map_isIso _ _)
   have ht : IsIso ((rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj Xs)) :=
-    @IsIso.of_isIso_comp_left _ _ _ _ _ ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs) _ hFH key
+    @IsIso.of_isIso_comp_left _ _ _ _ _ ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs) _ hFH key
   let e := (DerivedCategory.Plus.singleFunctorIsoCompQh A 0).app M
   have ht' : IsIso ((rightDerivedFunctorPlusComp F H).app
       ((HomotopyCategory.Plus.singleFunctor _ 0 ⋙ DerivedCategory.Plus.Qh).obj M)) := ht
@@ -160,23 +182,23 @@ theorem quasiIso_map_of_isStrictlyGE (K : CochainComplex A ℤ) (n : ℤ)
       have hM := isIso_rightDerivedFunctorPlusComp_app_single F G H Θ (K.homology q) (hK q)
       exact (NatTrans.isIso_app_iff_of_iso η
         ((DerivedCategory.Plus.singleFunctor A 0).mapIso e)).2 hM
-  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Kp) :=
+  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Kp) :=
     have := isIso_rightDerivedFunctorPlusUnit_comp F G H Θ
     NatIso.isIso_app_of_isIso _ _
-  have hF : IsIso (F.rightDerivedFunctorPlusUnit.app Kp) :=
+  have hF : IsIso (F.rightDerivedFunctorPlusUnith.app Kp) :=
     have : F.PreservesHomology := Functor.preservesHomologyOfExact F
     have := isIso_rightDerivedFunctorPlusUnit_of_preservesHomology F
     NatIso.isIso_app_of_isIso _ _
-  have hH : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Kp)) := by
-    have : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Kp) ≫
-        H.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app Kp)) := by
+  have hH : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Kp)) := by
+    have : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Kp) ≫
+        H.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app Kp)) := by
       rw [← unit_comp_rightDerivedFunctorPlusComp_app F H Kp]
       exact @IsIso.comp_isIso _ _ _ _ _ _ _ hFH hη
     exact IsIso.of_isIso_comp_right _ (H.rightDerivedFunctorPlus.map
-      (F.rightDerivedFunctorPlusUnit.app Kp))
+      (F.rightDerivedFunctorPlusUnith.app Kp))
   let sp : F.mapHomotopyCategoryPlus.obj Kp ⟶ Jp :=
     ObjectProperty.homMk ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map s)
-  have hJ : IsIso (H.rightDerivedFunctorPlusUnit.app Jp) :=
+  have hJ : IsIso (H.rightDerivedFunctorPlusUnith.app Jp) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic H Jp
       (fun i => by
         show H.rightAcyclic (J.X i)
@@ -191,7 +213,7 @@ theorem quasiIso_map_of_isStrictlyGE (K : CochainComplex A ℤ) (n : ℤ)
       Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso B) sp hsp
     exact Functor.map_isIso H.rightDerivedFunctorPlus (DerivedCategory.Plus.Qh.map sp)
   have h₁ : IsIso (DerivedCategory.Plus.Qh.map (H.mapHomotopyCategoryPlus.map sp)) :=
-    isIso_map_of_isIso_app H.rightDerivedFunctorPlusUnit sp
+    isIso_map_of_isIso_app H.rightDerivedFunctorPlusUnith sp
   have h₂ : IsIso (DerivedCategory.Qh.map
       ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
         ((H.mapHomologicalComplex (ComplexShape.up ℤ)).map s))) :=
@@ -236,14 +258,14 @@ theorem quasiIso_map_of_rightAcyclic_of_bounded [IsGrothendieckAbelian.{w} B] (d
       rw [HomotopyCategory.Plus.quasiIso_eq_subcategoryAcyclic_trW]
       infer_instance
     rw [Functor.computesRightDerived_iff_isIso_app _ DerivedCategory.Plus.Qh
-      H.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso _) H.rightDerivedFunctorPlusUnit _
+      H.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso _) H.rightDerivedFunctorPlusUnith _
       (fun K => ?_)]
-    · exact hZ
+    · exact (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app H Z).1 hZ
     · let r : (HomotopyCategory.Plus.localizerMorphism _).RightResolution K :=
         Classical.arbitrary _
       exact ⟨_, r.w, r.hw, inferInstance⟩
   obtain ⟨hRF, -, h3⟩ := Functor.hasRightDerivedFunctor_of_isZero_rightDerived H
-    H.rightDerivedFunctorPlus H.rightDerivedFunctorPlusUnit
+    H.rightDerivedFunctorPlus H.rightDerivedFunctorPlusUnith
     (fun Z => (H.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
       (HomotopyCategory.Plus.quasiIso _) ((HomotopyCategory.Plus.singleFunctor _ 0).obj Z))
     (fun _ => Iff.rfl)

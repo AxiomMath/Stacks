@@ -219,7 +219,7 @@ theorem idealRelationsVanish_of_mono {π : O ⟶ R}
   intro U n d e hd hde
   choose b hb using fun k => hker (op U) (d k) (hd k)
   let IU := ((SheafOfModules.restrictScalars (ringMap π)).obj I).val
-  let P := PresheafOfModules.Monoidal.tensorObj IU F'.val
+  let P := PresheafOfModulesOfCommRing.Monoidal.tensorObj IU F'.val
   let ξ : ToType (P.obj (op U)) := ∑ k, (b k : ToType (IU.obj (op U))) ⊗ₜ[O.obj.obj (op U)] e k
   let η := (PresheafOfModules.sheafificationAdjunction.{w, v, w, u}
     (R := Stacks.SheafOfModules.Tensor.ringSheaf O)

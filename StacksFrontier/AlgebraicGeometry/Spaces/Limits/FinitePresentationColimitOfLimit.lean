@@ -189,7 +189,8 @@ theorem faithful_of_isLimit (i : I) (X Y : FinitePresentationSpacesOver B S hS (
     have hf := (baseChangeLimitIso hlim i).hom.naturality f.hom
     have hg := (baseChangeLimitIso hlim i).hom.naturality g.hom
     simp only [Functor.comp_map] at hf hg
-    rw [← cancel_epi ((baseChangeLimitIso hlim i).hom.app X.obj), ← hf, ← hg, h₁]
+    rw [← Iso.cancel_iso_hom_left ((baseChangeLimitIso hlim i).app X.obj), Iso.app_hom, ← hf,
+      ← hg, h₁]
   have h₃ := (Over.pullback (limitIso hlim).hom).map_injective h₂
   obtain ⟨j, e, he⟩ := Space.eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ
     (W ⋙ yoneda) (fun i => isAlgebraicSpace_yoneda B S hS (W.obj i)) hAffine hQc hQs hSizeB hν

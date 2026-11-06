@@ -492,6 +492,8 @@ def ιPullSummand
 
 variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
+-- The kernel check of the `rw` below exceeds the default heartbeats under Lean v4.35.0.
+set_option maxHeartbeats 1000000 in
 /-- **The module-level right-unitor coherence, read at the module of degree `n` of a complex.**
 This is `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` at `A = K^n`, with the
 comparison of Stacks 03EL spelled at the degrees of the pullback complexes, as

@@ -69,7 +69,7 @@ variable {A A' B B' : Type*} [Category* A] [Category* A'] [Category* B] [Categor
 abbrev derivedBaseChangePlusUnit :
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙ G.mapDerivedCategoryPlus ⟶
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ G.mapDerivedCategoryPlus) :=
-  Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.mapDerivedCategoryPlus
+  Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.mapDerivedCategoryPlus
 
 /-- The degreewise `α : F ⋙ G ⟶ G' ⋙ F'` on bounded below complexes, localized, followed by the
 derived-functor unit of `RF'`; read on the source of the derived-functor unit of `RF ⋙ G`. -/
@@ -85,7 +85,7 @@ def derivedBaseChangePlusAux :
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv
       DerivedCategory.Plus.Qh ≫
     (Functor.associator _ _ _).hom ≫
-    Functor.whiskerLeft G'.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnit ≫
+    Functor.whiskerLeft G'.mapHomotopyCategoryPlus F'.rightDerivedFunctorPlusUnith ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight G'.mapDerivedCategoryPlusFactorsh.inv F'.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom
@@ -102,7 +102,7 @@ def derivedBaseChangePlus :
 /-- **The characterization of the base change map on bounded below complexes**: precomposed with
 `G` of the derived-functor unit of `RF` at `K`, it is `derivedBaseChangePlusAux` at `K`. -/
 theorem derivedBaseChangePlus_fac (K : HomotopyCategory.Plus A) :
-    G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
       (derivedBaseChangePlus F F' G G' α).app (DerivedCategory.Plus.Qh.obj K) =
     (derivedBaseChangePlusAux F F' G G' α).app K :=
   (F.rightDerivedFunctorPlus ⋙ G.mapDerivedCategoryPlus).rightDerived_fac_app
@@ -120,7 +120,7 @@ theorem derivedBaseChangePlusAux_app (K : HomotopyCategory.Plus A) :
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans α).app K) ≫
         DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app K) ≫
-        F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+        F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
         F'.rightDerivedFunctorPlus.map (G'.mapDerivedCategoryPlusFactorsh.inv.app K) := by
   simp [derivedBaseChangePlusAux]
 
@@ -161,7 +161,7 @@ theorem isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app (I : CochainComplex.Pl
           ((HomotopyCategory.Plus.quotient A).obj I)) ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
         (Iso.refl (G' ⋙ F'))).inv.app ((HomotopyCategory.Plus.quotient A).obj I)) ≫
-      F'.rightDerivedFunctorPlusUnit.app
+      F'.rightDerivedFunctorPlusUnith.app
         (G'.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.quotient A).obj I))) := by
   let K := (HomotopyCategory.Plus.quotient A).obj I
   let φ : G'.mapHomotopyCategoryPlus.obj K ⟶ (HomotopyCategory.Plus.quotient A').obj L :=
@@ -171,7 +171,7 @@ theorem isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app (I : CochainComplex.Pl
       Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _) φ
         ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 hi)
     infer_instance
-  have hnat := F'.rightDerivedFunctorPlusUnit.naturality φ
+  have hnat := F'.rightDerivedFunctorPlusUnith.naturality φ
   simp only [Functor.comp_map] at hnat
   let ψ := (Functor.mapHomotopyCategoryPlusNatTrans α).app K ≫
     (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app K ≫
@@ -190,7 +190,6 @@ theorem isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app (I : CochainComplex.Pl
           ((F'.mapHomologicalComplex (ComplexShape.up ℤ)).map i.hom) = _
       rw [mapHomologicalComplexCompIso_refl_inv_app_eq_id, CategoryTheory.Functor.map_id,
         Category.id_comp, ← Functor.map_comp]
-      rfl
     rw [e]
     exact (HomotopyCategory.quotient_map_mem_quasiIso_iff _).2
       ((DerivedCategory.isIso_Q_map_iff_quasiIso _ _).1 hx)
@@ -199,16 +198,16 @@ theorem isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app (I : CochainComplex.Pl
   have e : (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans α).app K) ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
         (Iso.refl (G' ⋙ F'))).inv.app K) ≫
-      F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
+      F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) ≫
         F'.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map φ) =
       DerivedCategory.Plus.Qh.map ψ ≫
-        F'.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A').obj L) := by
+        F'.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A').obj L) := by
     simp only [ψ, Functor.map_comp, Category.assoc]
     exact congrArg (fun t => DerivedCategory.Plus.Qh.map
       ((Functor.mapHomotopyCategoryPlusNatTrans α).app K) ≫ DerivedCategory.Plus.Qh.map
         ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app K) ≫ t) hnat.symm
   have h' : IsIso (DerivedCategory.Plus.Qh.map ψ ≫
-      F'.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A').obj L)) :=
+      F'.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A').obj L)) :=
     inferInstance
   rw [← e] at h'
   exact IsIso.of_isIso_comp_right _ (F'.rightDerivedFunctorPlus.map
@@ -231,14 +230,14 @@ theorem isIso_derivedBaseChangePlus_app_of_quasiIso (I : CochainComplex.Plus A)
   rw [derivedBaseChangePlusAux_app] at hfac
   have hgen := isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app F F' G G' α I L i hi hx
   have hR : IsIso (G.mapDerivedCategoryPlus.map
-      (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj I)) ≫
+      (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj I)) ≫
         (derivedBaseChangePlus F F' G G' α).app
           (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient A).obj I))) := by
     rw [hfac]
     refine IsIso.comp_isIso' inferInstance (IsIso.comp_isIso' inferInstance ?_)
     simpa only [Category.assoc] using IsIso.comp_isIso' hgen inferInstance
   exact IsIso.of_isIso_comp_left (G.mapDerivedCategoryPlus.map
-    (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj I))) _
+    (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj I))) _
 
 section Comparison
 

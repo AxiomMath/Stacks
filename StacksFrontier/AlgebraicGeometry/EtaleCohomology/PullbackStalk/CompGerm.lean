@@ -303,9 +303,9 @@ public theorem etaleGerm_pullbackSectionAlongHom
         (x.map (B.inclusion.map q)) F.obj V w τ := by
   have h := ConcreteCategory.congr_hom
     (etaleStalkSmallEtalePullObjIso_germ B q x AddCommGrpCat.{max (u + 1) v} F
-      (⟨U, u⟩ : (geometricPointFiber B T.obj T.property x).Elements)
-      (⟨V, w⟩ : (geometricPointFiber B S.obj S.property
-        (x.map (B.inclusion.map q))).Elements) a ha) τ
+      ((geometricPointFiber B T.obj T.property x).elementsMk U u)
+      ((geometricPointFiber B S.obj S.property
+        (x.map (B.inclusion.map q))).elementsMk V w) a ha) τ
   simp only [ConcreteCategory.comp_apply] at h
   exact h
 
@@ -371,8 +371,7 @@ public theorem etaleStalkPresheafFunctor_map_etaleGerm (B : BigEtaleSite.{u}) (S
       SmallEtale.etaleGerm B S hS t Q W p (φ.app (op W) σ) := by
   have h := ConcreteCategory.congr_hom
     (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B S hS t)).op φ)
-      (op (⟨W, p⟩ : (geometricPointFiber B S hS t).Elements))) σ
-  simp only [ConcreteCategory.comp_apply] at h
+      (op ((geometricPointFiber B S hS t).elementsMk W p))) σ
   exact h
 
 end StalkFunctor

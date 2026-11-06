@@ -165,7 +165,7 @@ theorem problemStep {X : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u}
       atlas := f
       etale_atlas := (isEtale_iff_presheaf_of_yoneda B (⊤_ Scheme.{u}) hZ f).1 hfet
       baseIncl := eU.inv ≫ U.ι
-      mono_baseIncl := inferInstance
+      mono_baseIncl := @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ (inferInstance : Mono U.ι)
       isPullback_baseIncl := hsqWs.of_iso (Iso.refl _) eU (Iso.refl _) (Iso.refl _)
         (Category.id_comp _).symm ((Category.comp_id _).trans (Category.id_comp _).symm)
         (by simp) ((Category.comp_id _).trans (Category.id_comp _).symm)

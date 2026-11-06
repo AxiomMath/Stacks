@@ -53,7 +53,8 @@ def hypercoverCochainNatFunctor
     (K : SimplicialObject (FormalCoproduct.{w} (Over X))) :
     Sheaf J.toGrothendieck AddCommGrpCat.{max u v w} ⥤
       CochainComplex AddCommGrpCat.{max u v w} ℕ :=
-  sectionsOnOverFunctor J X ⋙ FormalCoproduct.cochainComplexFunctor K
+  sectionsOnOverFunctor J X ⋙
+    FormalCoproduct.cochainComplexFunctor (A := AddCommGrpCat.{max u v w}) K
 
 /-- The complex `s(F(K))`, extended by zero to integer degrees. -/
 def hypercoverCochainIntFunctor

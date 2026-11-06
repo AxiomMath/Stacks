@@ -209,7 +209,7 @@ def isLimitFgSubalgebraSchemeCone (hK : B.Contains (Spec (.of K))) :
   apply isLimitOfReflects B.inclusion
   exact IsLimit.ofIsoLimit (isLimitOfPreserves (Over.forget (Spec (.of k)))
     (specLimitCone k K).isLimit)
-    (Cones.ext (Iso.refl _) fun i => by
+    (Cone.ext (Iso.refl _) fun i => by
       simp only [Iso.refl_hom]
       rfl)
 
@@ -244,6 +244,21 @@ def isLimitFgSubalgebraSiteCone (hk : B.Contains (Spec (.of k)))
 
 /-! ### The system of base changes -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on a big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_AlgClosureFGSubalgebraDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_AlgClosureFGSubalgebraDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_AlgClosureFGSubalgebraDescent.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000
+
 /-- The diagram of the presheaves represented by the spectra of the finitely generated
 `k`-subalgebras of `K`. -/
 def fgSubalgebraPresheafDiagram (hk : B.Contains (Spec (.of k)))
@@ -269,16 +284,18 @@ def fgSubalgebraSystem (hk : B.Contains (Spec (.of k))) (hK : B.Contains (Spec (
   Over.lift (fgSubalgebraPresheafDiagram k K B hk hK) (fgSubalgebraPresheafToBase k K B hk hK) ⋙
     Over.pullback ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) ⋙ Over.forget X
 
+set_option maxHeartbeats 1000000 in
 /-- A stage of the system is the fibre product of the presheaf represented by `Spec A` with
 `X` over the terminal presheaf. -/
 theorem fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
     (A : FGSubalgebra k K) :
     (fgSubalgebraSystem k K B hk hK X).obj (op A) =
-      pullback (yoneda.map (Over.mkIdTerminal.from (fgSubalgebraSiteObj k K B hk hK A)))
+      Limits.pullback (yoneda.map (Over.mkIdTerminal.from (fgSubalgebraSiteObj k K B hk hK A)))
         ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) :=
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- **A stage of the system is the base change `X_A`**, in the form of the product with the
 presheaf represented by `Spec A` — which is what
 `AlgebraicGeometry.Space.extensionBaseChange` is for a field extension. -/
@@ -312,15 +329,17 @@ def fgSubalgebraSystemLimitCone (hk : B.Contains (Spec (.of k)))
         (yoneda.map (Over.mkIdTerminal.from (specExtension k K B hk hK))) _
         (isLimitOfPreserves yoneda (isLimitFgSubalgebraSiteCone k K B hk hK))))
 
+set_option maxHeartbeats 1000000 in
 /-- The apex of the chosen limit cone is the fibre product of the presheaf represented by
 `Spec K` with `X` over the terminal presheaf. -/
 theorem fgSubalgebraSystemLimitCone_pt (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u) :
     (fgSubalgebraSystemLimitCone k K B hk hK X).cone.pt =
-      pullback (yoneda.map (Over.mkIdTerminal.from (specExtension k K B hk hK)))
+      Limits.pullback (yoneda.map (Over.mkIdTerminal.from (specExtension k K B hk hK)))
         ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) :=
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- **The limit of the system is the base change `X_K`**, in the form
 `AlgebraicGeometry.Space.extensionBaseChange` uses. -/
 def extensionBaseChangeIsoLimitConePt (hk : B.Contains (Spec (.of k)))

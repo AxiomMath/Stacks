@@ -82,7 +82,7 @@ theorem homologyPullIsoOfOpenImmersion_comp {A B C : Scheme.{u}} (a : A ⟶ B) (
     (((Scheme.Modules.restrictFunctor a).mapDerivedCategoryHomologyIso 0).app ((pull b).obj K))
     ((Scheme.Modules.derivedRestrictIsoDerivedPullback b).app K)
     (((Scheme.Modules.restrictFunctor b).mapDerivedCategoryHomologyIso 0).app K)
-    ((Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorComp a b).symm).hom.app K)
+    ((Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorComp a b).symm).hom.app K)
     (((Scheme.Modules.restrictFunctor a).mapDerivedCategoryHomologyIso 0).app
       ((Scheme.Modules.restrictFunctor b).mapDerivedCategory.obj K))
     ((Scheme.Modules.restrictFunctorComp a b).inv.app _)

@@ -192,8 +192,8 @@ variable {Y Z : Scheme.{u}} (g : Y ⟶ Z) (F : Z.Modules) (b : Γ(Y, ⊤))
 subscheme is scalar multiplication on its sections over that open. -/
 lemma smul_restrictOpens_apply {Y : Scheme.{u}} (W : Y.Opens) (M : Y.Modules)
     (r : Γ(W.toScheme, ⊤)) (t : Γ(M.restrict W.ι, ⊤)) :
-    (Scheme.Modules.smul (M := M.restrict W.ι) (U := ⊤) r).hom t =
-      (Scheme.Modules.smul (M := M) (U := W.ι ''ᵁ ⊤) r).hom t := by
+    (Scheme.Modules.smul (M := M.restrict W.ι) (U := ⊤) r).asHom.hom t =
+      (Scheme.Modules.smul (M := M) (U := W.ι ''ᵁ ⊤) r).asHom.hom t := by
   rw [show Scheme.Modules.smul (M := M.restrict W.ι) (U := ⊤) r =
       Scheme.Modules.smul (M := M) (U := W.ι ''ᵁ ⊤) ((W.ι.appIso ⊤).inv r) from rfl,
     Scheme.Opens.ι_appIso]

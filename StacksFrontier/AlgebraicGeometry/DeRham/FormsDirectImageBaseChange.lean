@@ -173,8 +173,8 @@ theorem formsDirectImageComparison_baseChange (d : ℤ) :
         (Scheme.Modules.pushforward g).map
           (formsDirectImageComparisonOver b' p' (b' ≫ p') (𝟙 S') e3 d) :=
     rfl
-  rw [hR, ← cancel_mono ((Scheme.Modules.pushforwardComp b' g).hom.app _)]
-  simp only [Category.assoc]
+  rw [hR, ← Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pushforwardComp b' g).app _)]
+  simp only [Category.assoc, Iso.app_hom]
   rw [← formsDirectImageComparisonOver_comp g b' p p' (b' ≫ p') s (𝟙 S') s hs e3 e4 d,
     ← formsDirectImageComparisonOver_congr p (b' ≫ p') s e2 e4 w d,
     formsDirectImageComparisonOver_comp b h p (b ≫ p) (b' ≫ p') (𝟙 S) s s e0 e1 e2 d]

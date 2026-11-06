@@ -61,6 +61,12 @@ section Extend
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G]
 
+/-- A compact totally disconnected topological group is zero-dimensional. -/
+private instance : ZeroDimensionalSpace G :=
+  haveI : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.mpr
+    (connectedComponent_eq_singleton (1 : G) ▸ isClosed_connectedComponent)
+  inferInstance
+
 /-- An open subgroup of a closed subgroup `N` of a profinite group contains the trace on `N` of an
 open normal subgroup of the group. -/
 theorem exists_openNormalSubgroup_inf_le {N : Subgroup G} (V : OpenSubgroup N) :

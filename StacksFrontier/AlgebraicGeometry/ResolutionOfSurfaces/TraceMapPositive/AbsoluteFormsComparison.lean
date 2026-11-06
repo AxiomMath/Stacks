@@ -338,7 +338,7 @@ theorem ker_absoluteToRelative_le_ker_comp
     have hz : (exteriorPower.ιMulti R 1 fun _ => D Λ R (algebraMap Λ R l)) = 0 := by
       rw [Derivation.map_algebraMap]
       exact (exteriorPower.ιMulti R 1).map_coord_zero 0 rfl
-    rw [hz, LinearMap.map_zero₂, map_zero]
+    rw [hz, LinearMap.map_zero₂, LinearEquiv.map_zero]
   suffices h : ∀ c : S, absoluteToRelative Λ R (k + 1) (Θ (k + 1) (c • x)) = 0 by
     simpa only [one_smul] using h 1
   clear hx

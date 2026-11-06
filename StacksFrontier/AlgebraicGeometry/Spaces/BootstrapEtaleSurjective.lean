@@ -101,6 +101,25 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_BootstrapEtaleSurjective :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Fibre products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_BootstrapEtaleSurjective
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small discrete limits of presheaves on the big fppf site over `S` (instance search times
+out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_BootstrapEtaleSurjective
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
 
 /-! ### Transport of surjectivity and étaleness across an isomorphism of the source -/
 

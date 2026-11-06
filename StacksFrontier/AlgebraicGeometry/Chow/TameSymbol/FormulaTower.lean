@@ -191,7 +191,7 @@ theorem exists_factorization_semilocalization {r : ℕ} {a : Fin r → A}
             (algebraMap A (Localization.AtPrime q.asIdeal) (a i))) = u i * π ^ e i := by
   have : (v.asIdeal.under C).IsMaximal := (maximalSpectrumSigmaEquiv B C ⟨q, v⟩).isMaximal
   have : ((v.asIdeal.under C).under B').IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B') _
   let g : Localization.AtPrime ((v.asIdeal.under C).under B') →+*
       Localization.AtPrime (v.asIdeal.under C) :=
     Localization.localRingHom _ (v.asIdeal.under C) (algebraMap B' C) rfl
@@ -359,12 +359,6 @@ theorem tameSymbolFormula_eq_finprod_norm (hdim : ringKrullDim A = 1)
         (Localization.AtPrime (s.asIdeal.under (TorsionCommonRefinement A B E.extension))) :=
     fun q s ↦ Localization.AtPrime.algebraOfLiesOver q.asIdeal
       (s.asIdeal.under (TorsionCommonRefinement A B E.extension))
-  have hLies : ∀ (q : MaximalSpectrum B)
-      (s : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid
-        (TorsionCommonRefinement A B E.extension) q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal
-        (s.asIdeal.under (TorsionCommonRefinement A B E.extension)) :=
-    fun _ _ ↦ ⟨rfl⟩
   obtain ⟨t, htm, ht⟩ :=
     exists_mem_maximalIdeal_mem_nonZeroDivisors (not_isAssociatedPrime_self hinj hass)
   have hfibre : ∀ q : MaximalSpectrum B,

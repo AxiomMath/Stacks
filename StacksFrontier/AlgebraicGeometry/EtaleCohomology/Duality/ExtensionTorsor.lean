@@ -141,10 +141,11 @@ theorem isFiniteLocallyConstant_torsor [NeZero ℓ] :
 
 /-- **The translation of the torsor by the constant section `1`.** -/
 def translation : End (torsor i ε w) :=
-  ⟨{ app := fun V => TypeCat.ofHom fun p =>
+  End.of <| ObjectProperty.homMk
+  { app := fun V => TypeCat.ofHom fun p =>
         fiberSheafAct (abelianComplex i ε w) (oneHom i ε w) (abelianComplex_shortExact hS)
           (oneSectionAb V.unop) p
-     naturality := fun {V W} f => by
+    naturality := fun {V W} f => by
         ext p
         change fiberSheafAct _ _ (abelianComplex_shortExact hS) (oneSectionAb W.unop)
             ((fiberSheaf (abelianComplex i ε w) (oneHom i ε w)).obj.map f.unop.op p) =
@@ -152,18 +153,18 @@ def translation : End (torsor i ε w) :=
             (fiberSheafAct _ _ (abelianComplex_shortExact hS) (oneSectionAb V.unop) p)
         rw [fiberSheaf_map_fiberSheafAct _ _ (abelianComplex_shortExact hS) f.unop]
         congr 1
-        exact (map_oneSectionAb f.unop).symm }⟩
+        exact (map_oneSectionAb f.unop).symm }
 
 /-- `τ` acts on sections by translation by `1`. -/
 theorem translation_app {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
-    (translation hS).hom.app (op V) p =
+    (translation hS).asHom.hom.app (op V) p =
       fiberSheafAct (abelianComplex i ε w) (oneHom i ε w) (abelianComplex_shortExact hS)
         (oneSectionAb V) p :=
   rfl
 
 /-- **`τⁿ` is the translation by `n`.** -/
 theorem translation_pow_app (n : ℕ) {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
-    (translation hS ^ n).hom.app (op V) p =
+    (translation hS ^ n).asHom.hom.app (op V) p =
       fiberSheafAct (abelianComplex i ε w) (oneHom i ε w) (abelianComplex_shortExact hS)
         (n • oneSectionAb V) p := by
   induction n generalizing p with
@@ -171,15 +172,16 @@ theorem translation_pow_app (n : ℕ) {V : X.Etale} (p : (torsor i ε w).obj.obj
     rw [zero_smul, fiberSheafAct_zero]
     rfl
   | succ n ih =>
-    rw [pow_succ, End.mul_def]
-    show (translation hS ^ n).hom.app (op V) ((translation hS).hom.app (op V) p) = _
+    rw [pow_succ, End.mul_asHom]
+    show (translation hS ^ n).asHom.hom.app (op V) ((translation hS).asHom.hom.app (op V) p) = _
     rw [ih, translation_app, ← fiberSheafAct_add, succ_nsmul, add_comm]
 
 /-- **`τ^ℓ = 1`.** -/
-theorem translation_pow_self : translation hS ^ ℓ = 𝟙 _ := by
+theorem translation_pow_self : translation hS ^ ℓ = 1 := by
+  ext : 1
   apply Sheaf.hom_ext
   ext V p
-  show (translation hS ^ ℓ).hom.app (op V.unop) p = p
+  show (translation hS ^ ℓ).asHom.hom.app (op V.unop) p = p
   rw [translation_pow_app, nsmul_oneSectionAb_self, fiberSheafAct_zero]
 
 section Fibre
@@ -268,22 +270,23 @@ omit [NeZero ℓ] in
 /-- The action of `τⁿ` on the fibre of the torsor is the `n`-th iterate of the action of `τ`. -/
 theorem presheafFiber_map_pow_apply (n : ℕ)
     (t : (Φ.presheafFiber (A := Type (u + 1))).obj (torsor i ε w).obj) :
-    (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS ^ n).hom) t =
-      ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).hom)^[n] t := by
+    (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS ^ n).asHom.hom) t =
+      ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).asHom.hom)^[n] t := by
   induction n generalizing t with
   | zero =>
     show (Φ.presheafFiber (A := Type (u + 1))).map (𝟙 _) t = t
     rw [CategoryTheory.Functor.map_id]
     rfl
   | succ n ih =>
-    rw [pow_succ, End.mul_def]
-    show (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS).hom ≫
-      (translation hS ^ n).hom) t = _
+    rw [pow_succ, End.mul_asHom]
+    show (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS).asHom.hom ≫
+      (translation hS ^ n).asHom.hom) t = _
     rw [Functor.map_comp, types_comp_apply, ih, Function.iterate_succ_apply]
 
 /-- **The translation acts transitively on the fibre of the torsor.** -/
 theorem exists_iterate_eq (t t' : (Φ.presheafFiber (A := Type (u + 1))).obj (torsor i ε w).obj) :
-    ∃ k : ℕ, ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).hom)^[k] t = t' := by
+    ∃ k : ℕ,
+      ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).asHom.hom)^[k] t = t' := by
   obtain ⟨V, y, p, p', rfl, rfl⟩ :=
     Φ.toPresheafFiber_jointly_surjective₂ (A := Type (u + 1)) (P := (torsor i ε w).obj) t t'
   obtain ⟨a, ha⟩ := (bijective_fiberSheafAct (abelianComplex i ε w) (oneHom i ε w)
@@ -314,7 +317,7 @@ omit [NeZero ℓ] in
 fibre then `k = 0` in `ℤ/ℓ`. -/
 theorem natCast_eq_zero_of_iterate_eq
     (t : (Φ.presheafFiber (A := Type (u + 1))).obj (torsor i ε w).obj) (k : ℕ)
-    (hk : ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).hom)^[k] t = t) :
+    (hk : ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).asHom.hom)^[k] t = t) :
     (k : ZMod ℓ) = 0 := by
   obtain ⟨V, y, p, rfl⟩ :=
     Φ.toPresheafFiber_jointly_surjective (A := Type (u + 1)) (P := (torsor i ε w).obj) t

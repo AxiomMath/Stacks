@@ -183,8 +183,9 @@ theorem idealSquareCompatible_of_transpose
     hf'₁ hstrict₁
   have L₂ := basePullbackIdealReduction_comp_basePullbackIdealIsoIdeal i₂ t₂ f₂ f'₂ hi₂ ht₂ comm₂
     hf'₂ hstrict₂
-  have := (MorphismOfThickenings.ofFirstOrderThickenings i₁ t₁ f₁ f'₁ hi₁ ht₁
+  have hiso := (MorphismOfThickenings.ofFirstOrderThickenings i₁ t₁ f₁ f'₁ hi₁ ht₁
     comm₁).isIso_idealMap hf'₁ hstrict₁
+  have hepi := @IsIso.epi_of_iso _ _ _ _ _ hiso
   have h₁ := ((Iso.eq_comp_inv ((SheafOfModules.restrictScalars (structureRingMap i₁)).mapIso _)).2
     L₁).symm
   have h₂ := ((Iso.eq_comp_inv ((SheafOfModules.restrictScalars (structureRingMap i₂)).mapIso _)).2

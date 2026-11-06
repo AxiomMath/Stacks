@@ -101,7 +101,8 @@ variable (F : C₁ ⥤ C₂) (G : C₂ ⥤ C₃) (H : C₁ ⥤ C₃)
 categories. -/
 def mapDerivedCategoryIsoComp (e : F ⋙ G ≅ H) :
     H.mapDerivedCategory ≅ F.mapDerivedCategory ⋙ G.mapDerivedCategory :=
-  mapDerivedCategoryIsoOfNatIso H (F ⋙ G) e.symm ≪≫ mapDerivedCategoryCompIso F G
+  mapDerivedCategoryIsoOfNatIso H (F ⋙ G) e.symm ≪≫
+    Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G
 
 /-- The isomorphism `mapDerivedCategoryIsoComp` commutes with the shifts by `ℤ`. -/
 instance commShift_mapDerivedCategoryIsoComp_hom (e : F ⋙ G ≅ H) :
@@ -117,12 +118,14 @@ lemma mapDerivedCategoryIsoComp_hom_app_Q (e : F ⋙ G ≅ H) (P : CochainComple
           G.mapDerivedCategoryFactors.hom.app ((F.mapHomologicalComplex _).obj P) =
       H.mapDerivedCategoryFactors.hom.app P ≫
         DerivedCategory.Q.map ((NatIso.mapHomologicalComplex e (ComplexShape.up ℤ)).inv.app P) := by
-  have h₃ : (mapDerivedCategoryCompIso F G).hom.app (DerivedCategory.Q.obj P) ≫
+  have h₃ : (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).hom.app
+        (DerivedCategory.Q.obj P) ≫
       G.mapDerivedCategory.map (F.mapDerivedCategoryFactors.hom.app P) ≫
         G.mapDerivedCategoryFactors.hom.app ((F.mapHomologicalComplex _).obj P) =
       (F ⋙ G).mapDerivedCategoryFactors.hom.app P := by
     rw [← cancel_mono ((F ⋙ G).mapDerivedCategoryFactors.inv.app P), assoc, assoc,
-      ← mapDerivedCategoryCompIso_inv_app_Q F G P, Iso.hom_inv_id_app, Iso.hom_inv_id_app]
+      ← Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_app_Q F G P,
+      Iso.hom_inv_id_app, Iso.hom_inv_id_app]
     rfl
   simp only [mapDerivedCategoryIsoComp, Iso.trans_hom, NatTrans.comp_app, assoc, h₃,
     mapDerivedCategoryIsoOfNatIso_hom_app_Q H (F ⋙ G) e.symm P, Iso.inv_hom_id_app]

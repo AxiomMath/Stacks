@@ -190,7 +190,6 @@ theorem universallyInjectivePoly_of_isLocalizedModule {M' : Type w'} [AddCommGro
         ((LinearMap.lsmul S M (c : S)).restrictScalars R).rTensor Q z = (c : S) • z := by
       intro z
       induction z with
-      | zero => simp
       | add a b ha hb => rw [map_add, ha, hb, smul_add]
       | tmul m q => rfl
     rw [hsmul, hsmul]

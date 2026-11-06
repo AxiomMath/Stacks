@@ -62,16 +62,16 @@ theorem not_isZero_of_nontrivial (M : SheafOfModules.{w} R) (X : Cᵒᵖ)
   fun h => (not_subsingleton _) (Stacks.subsingleton_of_isZero h X)
 
 /-- **The unit sheaf of modules is not a zero object as soon as one of its rings of sections is
-nontrivial.**  The sections of `SheafOfModules.unit R` over `X` are `R.val.obj X` acting on
+nontrivial.**  The sections of `SheafOfModules.unit R` over `X` are `R.obj.obj X` acting on
 itself, so `1 ≠ 0` there is exactly a nonzero section. -/
 theorem not_isZero_unit_of_one_ne_zero (R : Sheaf J RingCat.{w}) (X : Cᵒᵖ)
-    (h : (1 : R.val.obj X) ≠ 0) : ¬ IsZero (SheafOfModules.unit R) :=
-  not_isZero_of_section_ne_zero (M := SheafOfModules.unit R) (X := X) (1 : R.val.obj X) h
+    (h : (1 : R.obj.obj X) ≠ 0) : ¬ IsZero (SheafOfModules.unit R) :=
+  not_isZero_of_section_ne_zero (M := SheafOfModules.unit R) (X := X) (1 : R.obj.obj X) h
 
 /-- **The unit sheaf of modules is not a zero object as soon as one of its rings of sections is
 nontrivial**, read off a `Nontrivial` instance. -/
 theorem not_isZero_unit_of_nontrivial (R : Sheaf J RingCat.{w}) (X : Cᵒᵖ)
-    [Nontrivial (R.val.obj X)] : ¬ IsZero (SheafOfModules.unit R) :=
+    [Nontrivial (R.obj.obj X)] : ¬ IsZero (SheafOfModules.unit R) :=
   not_isZero_unit_of_one_ne_zero R X one_ne_zero
 
 end SheafOfModules

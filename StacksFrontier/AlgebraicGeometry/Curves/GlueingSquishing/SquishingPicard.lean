@@ -114,8 +114,7 @@ theorem surjective_schemePullbackClassHom {k : Type u} [Field k] [IsAlgClosed k]
   have : IsIso (f ∣_ U) := hUiso
   have : DiscreteTopology ((U : Set X)ᶜ : Set X) := by
     rw [hU, compl_compl]
-    have : Subsingleton {y : X // y ∈ ({(θ ≫ f).base
-        (IsLocalRing.closedPoint (DualNumber k))} : Set X)} :=
+    have : Subsingleton ({(θ ≫ f).base (IsLocalRing.closedPoint (DualNumber k))} : Set X) :=
       Set.subsingleton_singleton.coe_sort
     infer_instance
   intro y

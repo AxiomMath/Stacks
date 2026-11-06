@@ -7,7 +7,7 @@ public import Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories with `𝒜` having enough
 injectives, and let `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` be its right derived functor
 `CategoryTheory.Functor.rightDerivedFunctorPlus`, with unit
-`CategoryTheory.Functor.rightDerivedFunctorPlusUnit`. This file shows that for an arbitrary
+`CategoryTheory.Functor.rightDerivedFunctorPlusUnith`. This file shows that for an arbitrary
 functor `G : D⁺(ℬ) ⥤ ℋ` the composite `RF ⋙ G` is the right derived functor of
 `K⁺(𝒜) ⥤ ℋ` along the localization `Qh : K⁺(𝒜) ⥤ D⁺(𝒜)` at the quasi-isomorphisms, with the
 unit of `RF` whiskered by `G` as its unit.
@@ -39,18 +39,18 @@ variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
   (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
   {H : Type u''} [Category.{v''} H]
 
-/-- The unit of `RF ⋙ G`: the unit `CategoryTheory.Functor.rightDerivedFunctorPlusUnit` of
+/-- The unit of `RF ⋙ G`: the unit `CategoryTheory.Functor.rightDerivedFunctorPlusUnith` of
 `RF = CategoryTheory.Functor.rightDerivedFunctorPlus`, whiskered on the right by `G`. -/
 noncomputable def rightDerivedFunctorPlusCompUnit (G : DerivedCategory.Plus D ⥤ H) :
     F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⋙ G ⟶
       DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus ⋙ G :=
-  Functor.whiskerRight F.rightDerivedFunctorPlusUnit G
+  Functor.whiskerRight F.rightDerivedFunctorPlusUnith G
 
 /-- At `K : K⁺(𝒜)`, the unit of `RF ⋙ G` is `G.map` of the unit of `RF` at `K`. -/
 theorem rightDerivedFunctorPlusCompUnit_app (G : DerivedCategory.Plus D ⥤ H)
     (K : HomotopyCategory.Plus C) :
     (rightDerivedFunctorPlusCompUnit F G).app K =
-      G.map (F.rightDerivedFunctorPlusUnit.app K) :=
+      G.map (F.rightDerivedFunctorPlusUnith.app K) :=
   rfl
 
 /-- **Right-derivedness on the bounded below derived category is absolute.** For `F : 𝒜 ⥤ ℬ`

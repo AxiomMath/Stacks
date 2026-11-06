@@ -102,12 +102,12 @@ theorem exists_map_eq_of_isLimit_baseChange (G : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     (G.map (pullback.snd (E.map (𝟙 i)) q).op w₂) (by
       have e1 : (overBaseChangeCone E κ' i q).π.app (Over.mk (𝟙 i)) ≫
           pullback.snd (E.map (𝟙 i)) q = pullback.snd (κ'.π.app i) q := pullback.lift_snd _ _ _
-      rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, e1]
+      rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, e1]
       exact h)
   refine ⟨k.left, k.hom, ?_⟩
   have e2 : (CategoryTheory.Limits.overBaseChangeDiagram E i q).map g ≫
       pullback.snd (E.map (𝟙 i)) q = pullback.snd (E.map k.hom) q := pullback.lift_snd _ _ _
-  rwa [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, e2] at hg
+  rwa [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, e2] at hg
 
 /-- Every point of the vanishing locus of an ideal `I` of the ring of global sections of an affine
 object `V` of the site lies in the image of the closed subscheme `Spec (A / Iⁿ)`, `n ≥ 1`. -/
@@ -311,7 +311,7 @@ theorem exists_reduction_comp_eq_of_isLimit
     intro xx
     have e := hsec φ ((Space.reducedClosedSubspace B S hS _ hVj _ hZj).ι.app U s.down)
       (t ≫ pullback.snd φ q) htr hs xx
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← e]
+    rw [← Functor.map_comp_apply, ← op_comp, ← e]
     rfl
   exact (key x₁).trans ((congrArg (c.W.obj.map t.op) hjf).trans (key x₂).symm)
 

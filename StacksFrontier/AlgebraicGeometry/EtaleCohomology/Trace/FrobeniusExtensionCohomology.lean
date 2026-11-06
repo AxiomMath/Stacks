@@ -326,7 +326,7 @@ theorem frobeniusExtensionCohomologyIso_comm (m : ℕ) (hcard' : Fintype.card k'
         ((etaleModuleInverseImage.{u, r} Λ (extensionProj Y k')).mapCochainComplexPlus.obj C) ≫
       (frobeniusExtensionCohomologyIso Λ Y k' kbar C).hom =
     (frobeniusExtensionCohomologyIso Λ Y k' kbar C).hom ≫
-      (End.of (frobeniusRestrictionCohomologyEndo.{u, r} Λ Y kbar p q hcard C)) ^ (m + 1) := by
+      ((End.of (frobeniusRestrictionCohomologyEndo.{u, r} Λ Y kbar p q hcard C)) ^ (m + 1)).asHom := by
   have hqm := mul_ne_zero_of_card_extension k' p q (m + 1) hcard'
   rw [frobeniusRestrictionCohomologyEndo_pow Λ Y kbar p q hcard C m (q * (m + 1)) hqm rfl
     (geometricFrobeniusBaseChangePow_fst Y kbar p q hcard (m + 1))

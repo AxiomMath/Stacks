@@ -169,8 +169,8 @@ theorem app_map_eq_mul_baseSection {P : SchemeDeformationCategory (Λ := Λ) (k 
   have hgen : ∀ (W : P.scheme.affineOpens) (hW : W.1 ≤ φ.map ⁻¹ᵁ V),
       RingHom.ker (P.specialMap.app W.1).hom
         = Ideal.span {(P.scheme.presheaf.map
-            (homOfLE (hW.trans (preimage_map_self hsq φ V).le)).op).hom
-              (baseSection P.toBase t V)} := by
+                            (homOfLE (hW.trans (preimage_map_self hsq φ V).le)).op).hom
+                          (baseSection P.toBase t V)} := by
     intro W hW
     rw [baseSection_map P.toBase t (hW.trans (preimage_map_self hsq φ V).le)]
     exact ker_app_specialMap_eq_span P ht W

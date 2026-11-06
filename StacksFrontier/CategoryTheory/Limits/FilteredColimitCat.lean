@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicTopology.SimplicialSet.HomotopyCat
+public import Mathlib.AlgebraicTopology.SimplicialSet.NerveAdjunction
 public import Mathlib.CategoryTheory.Category.Cat.Colimit
 public import Mathlib.CategoryTheory.Limits.Types.ColimitTypeFiltered
 public import Mathlib.CategoryTheory.Limits.Types.Filtered

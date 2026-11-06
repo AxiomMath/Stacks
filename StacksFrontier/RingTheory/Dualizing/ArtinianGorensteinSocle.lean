@@ -127,8 +127,8 @@ theorem IsGorensteinLocalRing.mem_span_singleton_of_mul_eq_zero (hC : IsGorenste
   -- the image of the residue field is one-dimensional
   obtain ⟨c, hc⟩ : ∃ c : C, c • u = u' := by
     obtain ⟨c, hc⟩ := residue_surjective (u'.down * u.down⁻¹)
-    refine ⟨c, ULift.ext _ _ ?_⟩
-    have hu0' : u.down ≠ 0 := fun h => hu0 (ULift.ext _ _ h)
+    refine ⟨c, ULift.ext ?_⟩
+    have hu0' : u.down ≠ 0 := fun h => hu0 (ULift.ext h)
     show residue C c * u.down = u'.down
     rw [hc, mul_assoc, inv_mul_cancel₀ hu0', mul_one]
   have hmem : ψ y ∈ Submodule.span C {ψ x} := by

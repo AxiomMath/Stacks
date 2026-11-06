@@ -121,7 +121,7 @@ theorem fixed_geometricComponent_iff_exists_geometricallyIrreducible_component
     (Tbar : (galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).V) :
     (∀ σ : MulOpposite (ksep ≃ₐ[k] ksep),
       ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ) Tbar =
+        ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ).asHom Tbar =
         Tbar) ↔
       ∃ T : irreducibleComponents X,
         GeometricallyIrreducible
@@ -141,7 +141,7 @@ theorem fixed_geometricComponent_iff_exists_geometricallyIrreducible_component
       have himage : g '' Tbar.1 = Tbar.1 := congrArg Subtype.val (hfixed (MulOpposite.op σ))
       have hbij : Function.Bijective g.base :=
         (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso
-          ((galoisActionOnBaseChange k ksep (Over.mk f)).ρAut (MulOpposite.op σ)))).bijective
+          ((galoisActionOnBaseChange k ksep (Over.mk f)).ρAut (MulOpposite.op σ)).asIso)).bijective
       exact (Set.preimage_eq_iff_eq_image hbij).mpr himage.symm
     obtain ⟨T, hTclosed, hpre⟩ :=
       exists_closed_subset_with_preimage_eq_of_galois_invariant
@@ -152,13 +152,13 @@ theorem fixed_geometricComponent_iff_exists_geometricallyIrreducible_component
     exact ⟨⟨T, hT⟩, geometricallyIrreducible_vanishingIdeal_subschemeι_comp k ksep f
       ⟨T, hTclosed⟩ Tbar.2.1 hpre, hpre⟩
   · rintro ⟨T, -, hpre⟩ σ
-    let a := (galoisActionOnBaseChange k ksep (Over.mk f)).ρ σ
+    let a := ((galoisActionOnBaseChange k ksep (Over.mk f)).ρ σ).asHom
     have hcommute : a ≫ p = p := by
       dsimp [a, p, galoisActionOnBaseChange, pullback.map]
       rw [pullback.lift_fst]
       simp
     let e := Scheme.homeoOfIso
-      ((galoisActionOnBaseChange k ksep (Over.mk f)).ρAut σ)
+      ((galoisActionOnBaseChange k ksep (Over.mk f)).ρAut σ).asIso
     have hbar : e ⁻¹' Tbar.1 = Tbar.1 := by
       rw [← hpre]
       ext x

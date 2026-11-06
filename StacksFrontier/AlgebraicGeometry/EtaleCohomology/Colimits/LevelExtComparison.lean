@@ -152,6 +152,14 @@ theorem nonempty_isColimit_levelFirstVariable (i₀ : (sys D c B hD hX hc).I)
 
 section Compare
 
+universe w in
+/-- Sheafification on the small étale site of `X : Scheme.{w}` at the coefficient universe
+`w + 1`, supplied ahead of Mathlib's instance at `AddCommGrpCat.{w}`, whose universe constraint is
+otherwise left unsolved. -/
+local instance (priority := high) hasSheafify_smallEtaleTopology_succ (X : Scheme.{w}) :
+    HasSheafify X.smallEtaleTopology AddCommGrpCat.{w + 1} :=
+  Scheme.hasSheafify_smallEtaleTopology.{w, w + 1} X
+
 variable (𝓝 𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
 
 /-- The left adjoint of restriction to a level, with its adjunction. -/

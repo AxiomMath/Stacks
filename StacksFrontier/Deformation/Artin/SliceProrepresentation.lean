@@ -36,7 +36,7 @@ namespace Deformation.Artin.SliceTangent
 
 universe u
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
@@ -99,10 +99,13 @@ theorem chartPointOf_map {a b : (sliceDeformations iΛ v₀ hv₀).carrier} (f :
 /-- **The comparison functor** from the deformations of `v₀` to the points of the chart. -/
 noncomputable def sliceToChartPoints :
     (sliceDeformations iΛ v₀ hv₀).carrier ⥤ (chartPoints c).Elements where
-  obj a := ⟨(sliceDeformations iΛ v₀ hv₀).projection.obj a, chartPointOf c a⟩
-  map f := ⟨(sliceDeformations iΛ v₀ hv₀).projection.map f, chartPointOf_map c f⟩
-  map_id a := Subtype.ext ((sliceDeformations iΛ v₀ hv₀).projection.map_id a)
-  map_comp f g := Subtype.ext ((sliceDeformations iΛ v₀ hv₀).projection.map_comp f g)
+  obj a := (chartPoints c).elementsMk ((sliceDeformations iΛ v₀ hv₀).projection.obj a)
+    (chartPointOf c a)
+  map f := Functor.Elements.homMk ((sliceDeformations iΛ v₀ hv₀).projection.map f)
+    (chartPointOf_map c f)
+  map_id a := Functor.Elements.hom_ext ((sliceDeformations iΛ v₀ hv₀).projection.map_id a)
+  map_comp f g :=
+    Functor.Elements.hom_ext ((sliceDeformations iΛ v₀ hv₀).projection.map_comp f g)
 
 /-- The comparison functor commutes with the projections to `𝒞_Λ`. -/
 theorem sliceToChartPoints_comp_π :
@@ -113,7 +116,7 @@ theorem sliceToChartPoints_comp_π :
 instance : (sliceToChartPoints c).Faithful where
   map_injective {a b} f g h := by
     have h1 : (sliceDeformations iΛ v₀ hv₀).projection.map f =
-        (sliceDeformations iΛ v₀ hv₀).projection.map g := congrArg Subtype.val h
+        (sliceDeformations iΛ v₀ hv₀).projection.map g := congrArg Functor.Elements.Hom.hom h
     apply ((sliceDeformations iΛ v₀ hv₀).morphisms a b).injective
     apply deformationMorphism_ext_of_ringHom
     rw [← (sliceDeformations iΛ v₀ hv₀).morphism_projection f,
@@ -168,7 +171,7 @@ theorem full_sliceToChartPoints
       exact comp_ofHom_eqToHom_symm_comp ha' _
     obtain ⟨m, hm⟩ := exists_morphism_of_chartValue_eq c hx hx' heq
     refine ⟨ι ≫ (C.morphisms a' b).symm m, ?_⟩
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     change C.projection.map (ι ≫ (C.morphisms a' b).symm m) = β
     have hm' := C.morphism_projection ((C.morphisms a' b).symm m)
     rw [Equiv.apply_symm_apply, hm] at hm'
@@ -285,7 +288,7 @@ theorem essSurj_sliceToChartPoints
     (sliceToChartPoints c).EssSurj where
   mem_essImage y := by
     let C := sliceDeformations iΛ v₀ hv₀
-    obtain ⟨A, ψ⟩ := y
+    obtain @⟨A, ψ⟩ := y
     let d := chartPointDeformation c hfin hqc A ψ
     let a := C.objects.symm d
     have hd : C.objects a = d := Equiv.apply_symm_apply _ _
@@ -301,7 +304,7 @@ theorem essSurj_sliceToChartPoints
         subst hx
         exact chartValue_chartPointDeformation c hfin hqc A ψ
       exact key _ hd _
-    let m : (sliceToChartPoints c).obj a ⟶ ⟨A, ψ⟩ := ⟨eqToHom hA, hval⟩
+    let m : (sliceToChartPoints c).obj a ⟶ (chartPoints c).elementsMk A ψ := ⟨eqToHom hA, hval⟩
     have : IsIso ((CategoryOfElements.π (chartPoints c)).map m) :=
       inferInstanceAs (IsIso (eqToHom hA))
     have : IsIso m := isIso_of_isCofiberedInGroupoids_of_map_isIso
@@ -339,6 +342,17 @@ variable [IsNoetherianRing Λ] [Module.Finite Λ k]
   c.structureMap.hom.toAlgebra
 
 attribute [local instance] chartAlgebra
+
+/-- The chart ring as an algebra over the base ring of `chartTower`. -/
+noncomputable local instance chartTowerAlgebra :
+    Algebra (chartTower (Λ := Λ) (k := k) (K := K)).Λ c.ring :=
+  chartAlgebra c
+
+/-- An object of `𝒞` of `chartTower` as a `Λ`-algebra. -/
+local instance chartTowerObjAlgebra
+    (T : ArtinianLocalAlgCat.{u, u, u} (chartTower (Λ := Λ) (k := k) (K := K)).Λ
+      (chartTower (Λ := Λ) (k := k) (K := K)).k) : Algebra Λ T :=
+  inferInstanceAs (Algebra (chartTower (Λ := Λ) (k := k) (K := K)).Λ T)
 
 omit [Module.Finite Λ k] in
 /-- A point of the chart has residue the image of `q`, when `R → k` factors through `q`. -/
@@ -499,20 +513,19 @@ of elements. -/
 noncomputable def elementsEquivalenceOverOfIso {C : Type*} [Category C] {P Q : C ⥤ Type u}
     (e : P ≅ Q) :
     StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π P) (CategoryOfElements.π Q) :=
-  haveI : (CategoryOfElements.map e.hom).Faithful := ⟨fun {a b} f g h => Subtype.ext <|
-    congrArg (fun m : (CategoryOfElements.map e.hom).obj a ⟶
-      (CategoryOfElements.map e.hom).obj b => m.1) h⟩
-  haveI : (CategoryOfElements.map e.hom).Full := ⟨fun {a b} f => by
+  haveI : (NatTrans.mapElements e.hom).Faithful := ⟨fun {a b} f g h =>
+    Functor.Elements.hom_ext <| congrArg (fun m : (NatTrans.mapElements e.hom).obj a ⟶
+      (NatTrans.mapElements e.hom).obj b => m.hom) h⟩
+  haveI : (NatTrans.mapElements e.hom).Full := ⟨fun {a b} f => by
     refine ⟨⟨f.1, ?_⟩, rfl⟩
     have h : Q.map f.1 (e.hom.app a.1 a.2) = e.hom.app b.1 b.2 := f.2
     exact (e.app b.1).toEquiv.injective ((NatTrans.naturality_apply e.hom f.1 a.2).trans h)⟩
-  haveI : (CategoryOfElements.map e.hom).EssSurj := ⟨fun y => by
-    refine ⟨⟨y.1, e.inv.app y.1 y.2⟩, ⟨eqToIso ?_⟩⟩
-    change (⟨y.1, e.hom.app y.1 (e.inv.app y.1 y.2)⟩ : Q.Elements) = y
-    rw [Iso.inv_hom_id_app_apply]
-    rfl⟩
+  haveI : (NatTrans.mapElements e.hom).EssSurj := ⟨fun y => by
+    refine ⟨P.elementsMk y.1 (e.inv.app y.1 y.2), ⟨eqToIso ?_⟩⟩
+    change Q.elementsMk y.1 (e.hom.app y.1 (e.inv.app y.1 y.2)) = y
+    rw [Iso.inv_hom_id_app_apply]⟩
   Deformation.equivalenceOverOfCofibered
-    (Deformation.isCofiberedInGroupoids_elementsProjection P) (CategoryOfElements.map e.hom) rfl
+    (Deformation.isCofiberedInGroupoids_elementsProjection P) (NatTrans.mapElements e.hom) rfl
 
 omit [Module.Finite Λ k] in
 /-- **The deformations of a point of a scheme are prorepresented by a completion of a chart.**

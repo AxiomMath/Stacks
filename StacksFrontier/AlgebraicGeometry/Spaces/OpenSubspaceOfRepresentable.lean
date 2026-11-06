@@ -194,7 +194,7 @@ theorem exists_openImmersion_of_isOpenSubspace (U : BigFppfOver B S hS)
       e.hom ≫ A.ι = yoneda.map j := by
   obtain ⟨V, j, e, hj, he⟩ :=
     exists_openImmersion_of_isOpenImmersion_ι B S hS A hA.2 (Iso.refl (yoneda.obj U))
-  exact ⟨V, j, e, hj, by simpa using he⟩
+  exact ⟨V, j, e, hj, he.trans (Category.comp_id _)⟩
 
 end AlgebraicGeometry.Space
 

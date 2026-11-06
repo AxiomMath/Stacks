@@ -76,6 +76,17 @@ namespace AlgebraicGeometry
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+private instance (priority := high) hasPullbacks_presheaf_CompletionSeparated :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_CompletionSeparated
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_CompletionSeparated B S hS).has_limit _
+
 namespace Space
 
 /-- The relative diagonal of the completed morphism `f_{/T}` is the diagonal

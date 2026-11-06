@@ -157,7 +157,7 @@ theorem epi_moduleBaseChangeMap_fibre_of_isZero_cohomology_one (X : CurveFamily 
       (schemeSpaceMap (CurveFamily.residuePointMap B hZ X s)) (schemeSpaceMap v)
       (ObjectProperty.homMk q : schemeSpace V ⟶ X.total) (isPullback_fibre hq).w).app L) :=
   have := isIso_moduleBaseChangeMap_fibre_of_isZero_cohomology_one X L hL s hq h1
-  inferInstance
+  IsIso.epi_of_iso _
 
 end C1764Prereq
 

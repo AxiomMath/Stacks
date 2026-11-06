@@ -833,7 +833,7 @@ public lemma deltaInvariant_stalk_baseChange
       rw [← hb']
       rfl
     have hmb : (q.asIdeal.comap (algebraMap B C)).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q.asIdeal
     have hbclosed : b = IsLocalRing.closedPoint (CommRingCat.of B) := by
       apply PrimeSpectrum.ext
       rw [hb]

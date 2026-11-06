@@ -113,7 +113,7 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 
 attribute [local implicit_reducible] Stacks.TensorPowers.natTensorPow
   Stacks.SheafOfModules.TensorSheafification.structureSheaf
-  PresheafOfModules.toPresheaf PresheafOfModules.Monoidal.tensorObj
+  PresheafOfModules.toPresheaf PresheafOfModulesOfCommRing.Monoidal.tensorObj
   TopCat.Sheaf TopCat.Presheaf.IsSheaf AlgebraicGeometry.SheafedSpace.sheaf
 
 /-! ### The tensor product sheaf, and Stacks Tag 01CD, named again -/

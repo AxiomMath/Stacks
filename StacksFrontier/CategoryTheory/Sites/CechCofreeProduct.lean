@@ -96,7 +96,7 @@ theorem cofreeToPi_app_comp_piComparison (W : Cᵒᵖ) :
       𝟙 _ :=
   Pi.hom_ext _ _ fun k ↦ by
     rw [Category.assoc, piComparison_comp_π, ← CategoryTheory.Functor.map_comp, cofreeToPi,
-      Pi.lift_π]
+      Pi.lift_comp_π]
     exact (Category.id_comp (cofreeOuterπ obj val W k)).symm
 
 /-- **`cofree obj val` is the product of the cofree presheaves on the single objects `obj k`.** -/

@@ -108,7 +108,7 @@ theorem exists_iso_yoneda_of_relocalize_iso {F : (Over A)ᵒᵖ ⥤ Type v} {Y :
     have hid : (Over.homMk (𝟙 W.left) (by simpa using hz) : W ⟶ Over.mk (z₀ W x).1.1) =
         𝟙 W := by ext; simp
     rw [hid, op_id]
-    exact FunctorToTypes.map_id_apply F _
+    exact Functor.map_id_apply F _ _
   have hz₀back : ∀ (W : Over A) (z) (hz : z.1.1 = W.hom), z₀ W (back W z hz) = z :=
     fun W z hz => Subtype.ext (sigmaMk_eq_self F z.1.2 _ rfl)
   refine ⟨Over.mk y.left, rfl, ⟨NatIso.ofComponents (fun W => Equiv.toIso
@@ -196,8 +196,8 @@ theorem isPullback_relocalizeOfRestricted {P F : (Over A)ᵒᵖ ⥤ Type v}
     have hl' : left.app _ p₁ = left.app _ p₂ := eq_of_heq hl''
     have ht' : top.app _ p₁ = top.app _ p₂ := by
       have := congrArg (Y'.map (m' ψ₁ h₁).op) ht
-      rwa [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
-        hm'm ψ₁ h₁, op_id, FunctorToTypes.map_id_apply, FunctorToTypes.map_id_apply] at this
+      rwa [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
+        hm'm ψ₁ h₁, op_id, Functor.map_id_apply, Functor.map_id_apply] at this
     have := Types.ext_of_isPullback (hpt (Over.mk ψ₁)) ht' hl'
     subst this
     rfl
@@ -207,12 +207,12 @@ theorem isPullback_relocalizeOfRestricted {P F : (Over A)ᵒᵖ ⥤ Type v}
     obtain ⟨p, hp₁, hp₂⟩ := Types.exists_of_isPullback (hpt (Over.mk ψ₀))
       (Y'.map (m' ψ₀ h₀).op x₂) f (by
         show e.app _ (Y'.map (m' ψ₀ h₀).op x₂) = ψ.app _ f
-        rw [NatTrans.naturality_apply, hx, ← FunctorToTypes.map_comp_apply, ← op_comp,
-          hm'm ψ₀ h₀, op_id, FunctorToTypes.map_id_apply])
+        rw [NatTrans.naturality_apply, hx, ← Functor.map_comp_apply, ← op_comp,
+          hm'm ψ₀ h₀, op_id, Functor.map_id_apply])
     refine ⟨⟨⟨ψ₀, p⟩, h₀⟩, ?_, ?_⟩
     · show Y'.map (m ψ₀ h₀).op (top.app _ p) = x₂
-      rw [hp₁, ← FunctorToTypes.map_comp_apply, ← op_comp, hmm' ψ₀ h₀, op_id,
-        FunctorToTypes.map_id_apply]
+      rw [hp₁, ← Functor.map_comp_apply, ← op_comp, hmm' ψ₀ h₀, op_id,
+        Functor.map_id_apply]
     · show (⟨⟨ψ₀, left.app _ p⟩, h₀⟩ : ((relocalizePresheafFunctor a).obj F).obj W) = _
       rw [hp₂]
 

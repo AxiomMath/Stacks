@@ -152,19 +152,19 @@ either order, the rings of sections of `𝒪` being commutative. -/
 def globalSectionMulEnd :
     RingCat.sectionsSubring ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj →+*
       (End (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))ᵐᵒᵖ where
-  toFun s := MulOpposite.op
+  toFun s := MulOpposite.op <| End.of
     ((Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-        ⟨s.1, s.2⟩).app
+        ⟨s.1, s.2⟩).asHom.app
       (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
   map_one' := by
-    refine congrArg MulOpposite.op ?_
+    refine congrArg MulOpposite.op (End.ext ?_)
     change (_ : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ _) = _
     ext U
     change (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) •
         (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) = _
     simp; rfl
   map_mul' s t := by
-    refine congrArg MulOpposite.op ?_
+    refine congrArg MulOpposite.op (End.ext ?_)
     change (_ : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ _) = _
     ext U
     change (s.1 U * t.1 U) • (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) =
@@ -173,14 +173,14 @@ def globalSectionMulEnd :
     exact congrArg (fun r ↦ r • (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U))
         (mul_comm _ _)
   map_zero' := by
-    refine congrArg MulOpposite.op ?_
+    refine congrArg MulOpposite.op (End.ext ?_)
     change (_ : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ _) = _
     ext U
     change (0 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) •
         (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) = _
     rw [zero_smul]; rfl
   map_add' s t := by
-    refine congrArg MulOpposite.op ?_
+    refine congrArg MulOpposite.op (End.ext ?_)
     change (_ : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ _) = _
     ext U
     change (s.1 U + t.1 U) • (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U) = _
@@ -218,7 +218,7 @@ scalar multiplication by `(ρ a)|_U` on sections over `U`. So the `A`-module str
 theorem smul_moduleGlobalSectionsOver (F : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (a : A)
     (s : (moduleGlobalSectionsOver X A ρ).obj F) :
     (a • s : (moduleGlobalSectionsOver X A ρ).obj F) =
-      (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟨(ρ a).1, (ρ a).2⟩).app
+      (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟨(ρ a).1, (ρ a).2⟩).asHom.app
           (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ≫
         (s : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ F) :=
   rfl

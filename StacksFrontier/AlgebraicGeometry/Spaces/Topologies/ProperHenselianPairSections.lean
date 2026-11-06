@@ -57,6 +57,7 @@ section Restriction
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Restriction of global sections along a morphism of algebraic spaces.** For `i : X ⟶ Y`
 and a sheaf of sets `ℱ` on `Y_étale`, the map `Γ(Y, ℱ) ⟶ Γ(Y, i_* i⁻¹ ℱ) = Γ(X, i⁻¹ ℱ)` induced
 by the unit of the adjunction `i⁻¹ ⊣ i_*`, natural in `ℱ`. -/
@@ -73,6 +74,7 @@ def globalSectionsRestriction {X Y : AlgebraicSpaces B S hS} (i : X ⟶ Y) :
       (Stacks.Sites.globalSectionsIsoOfAdjunctionOfPreservesTerminal.{u, u + 1}
         (smallToposMorphism B S hS i).adj).hom
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Every natural transformation `Γ(Y, -) ⟶ Γ(X, i⁻¹ -)` is restriction of global sections: the
 inverse image carries the final sheaf to a final sheaf, whose global sections are a single
 point, and global sections are corepresented by the final sheaf. -/
@@ -115,6 +117,7 @@ abbrev closedFibreProjection :
   ObjectProperty.homMk (pullback.snd f.hom
     (schemeSpaceMap (quotientSpecOverHom A I hA)).hom)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Global sections of a proper algebraic space over a henselian pair are those of its closed
 fibre**, as an isomorphism of functors `Γ(X, -) ≅ Γ(X₀, i⁻¹ -)` on sheaves of sets on
 `X_étale`. It is the composite of the identification of global sections of `f_* ℱ` with those of
@@ -149,6 +152,7 @@ def globalSectionsClosedFibreIso (hI : HenselianPair A I)
       (Stacks.Sites.globalSectionsIsoOfAdjunctionOfPreservesTerminal.{u, u + 1}
         (smallToposMorphism B (Spec (.of A)) hA (closedFibreProjection A I hA X f)).adj)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **[Stacks, Tag 0DFY].** Let `(A, I)` be a henselian pair, let `X` be an algebraic space over
 `A` whose structure morphism `f : X ⟶ Spec A` is proper, and let `i : X₀ ⟶ X` be the inclusion of
 `X₀ = X ×_{Spec A} Spec (A ⧸ I)`. For every sheaf of sets `ℱ` on `X_étale`,

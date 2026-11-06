@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
+public import Mathlib.CategoryTheory.Limits.Final.Type
 public import StacksFrontier.CategoryTheory.Sites.MorphismOfSites
 
 /-!

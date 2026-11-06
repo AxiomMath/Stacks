@@ -1194,7 +1194,6 @@ theorem not_hasFlatModuleLift_Nshift : ¬ HasFlatModuleLift bAmb.{u} sMid.{u} Ns
     have hz : ∀ w : Mid.{u} ⊗[Amb.{u}] (W : Type u), w = 0 := by
       intro w
       induction w with
-      | zero => rfl
       | add a b ha hb => rw [ha, hb, add_zero]
       | tmul c n => rw [hW n, TensorProduct.tmul_zero]
     rw [hz x, hz y]

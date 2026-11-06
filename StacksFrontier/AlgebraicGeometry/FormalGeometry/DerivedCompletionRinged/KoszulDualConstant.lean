@@ -157,7 +157,7 @@ instance isIso_piLift_ringKoszulCoord (n : ℕ) (j : ℤ) :
         (show (Pi.lift fun S : AlternatingCech.Idx r (-(-(a : ℤ))) => ringKoszulCoord g n S) ≫
           (ModuleCat.piIsoPi _).hom ≫ ModuleCat.ofHom (LinearMap.proj S) =
             ringKoszulCoord g n S by
-          rw [ModuleCat.piIsoPi_hom_ker_subtype, Pi.lift_π]))).trans ?_
+          rw [ModuleCat.piIsoPi_hom_ker_subtype, Pi.lift_comp_π]))).trans ?_
       rw [ringKoszulCoord_eq g n a rfl S (by have := S.2; omega)]
       rfl
     exact IsIso.of_isIso_comp_right _ (ModuleCat.piIsoPi _).hom
@@ -325,7 +325,7 @@ theorem constantKoszulDualX_π (n : ℕ) (j : ℤ) (S : AlternatingCech.Idx r (-
         S =
       (constantModuleFunctor J Λ).map (ringKoszulCoord g n S) ≫
         (constantModuleFunctorUnitIsoSign J Λ (koszulDualSign S.1.card)).hom :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The degreewise comparison `constantKoszulDualX` is an isomorphism. -/
 instance isIso_constantKoszulDualX (n : ℕ) (j : ℤ) : IsIso (constantKoszulDualX J Λ g n j) := by

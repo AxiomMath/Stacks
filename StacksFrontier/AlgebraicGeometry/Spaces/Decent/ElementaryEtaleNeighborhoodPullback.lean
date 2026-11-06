@@ -60,6 +60,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ElementaryEtaleNeighborhoodPullback :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ElementaryEtaleNeighborhoodPullback
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Precomposing the morphism of a field-valued point with a factorisation of its value. -/
 private theorem yoneda_map_comp_fieldMorphism {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {p r : FieldValuedPoint B S hS F} {e : p.siteObject B S hS F ⟶ r.siteObject B S hS F}

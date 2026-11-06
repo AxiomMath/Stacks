@@ -327,7 +327,7 @@ private theorem fibre_tensorProduct_integral
   have : m'.asIdeal.IsMaximal := m'.isMaximal
   have hm : maximalIdeal A = m'.asIdeal.comap (algebraMap A B) :=
     (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m'.asIdeal)).symm
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m'.asIdeal)).symm
   have hf_integral :
       (Ideal.quotientMap m'.asIdeal (algebraMap A B) (le_of_eq hm)).IsIntegral :=
     quotientMap_isIntegral_of_eq_comap (algebraMap A B)

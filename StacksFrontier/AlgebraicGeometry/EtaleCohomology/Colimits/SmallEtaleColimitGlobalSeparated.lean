@@ -227,7 +227,7 @@ theorem levelDirTransition_restrict_eq_zero_of_eq_on_datum
       (SmallEtale.topology B (D.obj (levelIndex D c B hD hX hc m)) (hD _))
       ((levelAmbientSheaf D c B hD hX hc F m).obj ⋙ forget AddCommGrpCat.{max u v + 1}) :=
     ((sheafCompose (SmallEtale.topology B (D.obj (levelIndex D c B hD hX hc m)) (hD _))
-      (forget AddCommGrpCat.{max u v + 1})).obj (levelAmbientSheaf D c B hD hX hc F m)).cond
+      (forget AddCommGrpCat.{max u v + 1})).obj (levelAmbientSheaf D c B hD hX hc F m)).property
   refine Stacks.WeakSites.ColimitGlobalSections.sectionOver_eq_of_eq_on_oneHypercoverOf
     (E.isLevelDatum m (b ≫ a)) hsheaf (fun k => ?_)
   have hpin := levelCocycleMap_app_apply D c B hD hX hc F b

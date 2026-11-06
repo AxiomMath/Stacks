@@ -380,15 +380,15 @@ private lemma weaklyEtale_of_isLocalization (A : Type u) (B : Type v)
       simp
     refine ⟨?_, ?_⟩
     · exact Function.LeftInverse.injective (g := i) (f := l) (fun x ↦ by
-        refine TensorProduct.induction_on x ?_ (fun x y ↦ ?_) (fun x y hx hy ↦ ?_)
-        · simp [l, i]
-        · rw [show i (l (x ⊗ₜ[A] y)) = i (x * y) by simp [l]]
+        induction x with
+        | tmul x y =>
+          rw [show i (l (x ⊗ₜ[A] y)) = i (x * y) by simp [l]]
           rw [map_mul]
           have hiy : i y = (Algebra.TensorProduct.includeRight :
               B →ₐ[A] B ⊗[A] B) y := congrArg (fun h : B →ₐ[A] B ⊗[A] B => h y) hii
           rw [hiy]
           simp [i]
-        · simp only [map_add, hx, hy])
+        | add x y hx hy => simp only [map_add, hx, hy])
     · exact Function.RightInverse.surjective (g := i) (f := l) (fun x ↦ by simp [l, i])
 
 /-- The equational flatness proof works for an index in any universe as soon as the

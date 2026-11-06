@@ -134,14 +134,14 @@ theorem isHomLift_comp₂ {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜] (p
 
 /-- An automorphism lying over an identity of the base is a vertical automorphism. -/
 theorem mem_verticalAut_of_isHomLift {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜] (p : 𝒜 ⥤ 𝒞)
-    {R : 𝒞} {a : 𝒜} (τ : Aut a) (h : p.IsHomLift (𝟙 R) τ.hom) : τ ∈ p.verticalAut a := by
-  rw [Functor.mem_verticalAut_iff, IsHomLift.fac' p (𝟙 R) τ.hom]
+    {R : 𝒞} {a : 𝒜} (τ : Aut a) (h : p.IsHomLift (𝟙 R) τ.asIso.hom) : τ ∈ p.verticalAut a := by
+  rw [Functor.mem_verticalAut_iff, IsHomLift.fac' p (𝟙 R) τ.asIso.hom]
   simp
 
 /-- A vertical automorphism lies over the identity of any object its object lies over. -/
 theorem isHomLift_of_mem_verticalAut {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜] (p : 𝒜 ⥤ 𝒞)
     {R : 𝒞} {a : 𝒜} (ha : p.obj a = R) (σ : p.verticalAut a) :
-    p.IsHomLift (𝟙 R) (σ : Aut a).hom := by
+    p.IsHomLift (𝟙 R) (σ : Aut a).asIso.hom := by
   subst ha
   refine IsHomLift.of_fac' p _ _ rfl rfl ?_
   rw [Functor.verticalAut.cond σ]
@@ -671,21 +671,21 @@ theorem relationTarget_eq_relationSource
     exact isHomLift_comp₃ _ _ _ _ h₁ (isHomLift_homFunctor_map x.hom (𝟙 W) ε.hom)
       (isHomLift_comp₂ _ _ _ (isHomLift_inv_of_eq _ e₂ (K.obj r.y).iso (K.obj r.y).vertical)
         (isHomLift_homFunctor_map h.hom (𝟙 W) r.iso.inv))
-  obtain ⟨σ, hσ⟩ := hAut (K.obj r.x).x ⟨τ, mem_verticalAut_of_isHomLift _ τ hτ⟩
-  have hσh : (CatFiberedInGroupoids.homFunctor h.hom).map (σ : Aut (K.obj r.x).x).hom =
+  obtain ⟨σ, hσ⟩ := hAut (K.obj r.x).x ⟨Aut.of τ, mem_verticalAut_of_isHomLift _ (Aut.of τ) hτ⟩
+  have hσh : (CatFiberedInGroupoids.homFunctor h.hom).map (σ : Aut (K.obj r.x).x).asIso.hom =
       (K.obj r.x).iso.hom ≫ (CatFiberedInGroupoids.homFunctor x.hom).map ε.hom ≫
         (K.obj r.y).iso.inv ≫ (CatFiberedInGroupoids.homFunctor h.hom).map r.iso.inv :=
-    congrArg (fun g : 𝒳.val.val.p.verticalAut _ => g.1.hom) hσ
-  have hσL : 𝒳'.val.val.p.IsHomLift (𝟙 W) (σ : Aut (K.obj r.x).x).hom :=
+    congrArg (fun g : 𝒳.val.val.p.verticalAut _ => g.1.asIso.hom) hσ
+  have hσL : 𝒳'.val.val.p.IsHomLift (𝟙 W) (σ : Aut (K.obj r.x).x).asIso.hom :=
     isHomLift_of_mem_verticalAut _ ((K.obj r.x).hx.trans e₁) σ
   have hrh : 𝒳'.val.val.p.IsHomLift (𝟙 W) r.iso.hom := by rw [← hb]; exact r.vertical
   let m : K.obj r.x ⟶ K.obj r.y :=
     { hbase := eqToHom e₁ ≫ 𝟙 W ≫ eqToHom e₂.symm
-      a := (σ : Aut (K.obj r.x).x).hom ≫ r.iso.hom
+      a := (σ : Aut (K.obj r.x).x).asIso.hom ≫ r.iso.hom
       b := ε.hom
       ha := isHomLift_eqToHom_conj _ e₁ e₂ _ (isHomLift_comp₂ _ _ _ hσL hrh)
       hb := isHomLift_eqToHom_conj _ e₁ e₂ _ hεW
-      w := algebra₇ (CatFiberedInGroupoids.homFunctor h.hom) r.iso (σ : Aut (K.obj r.x).x).hom
+      w := algebra₇ (CatFiberedInGroupoids.homFunctor h.hom) r.iso (σ : Aut (K.obj r.x).x).asIso.hom
         (K.obj r.x).iso (K.obj r.y).iso ((CatFiberedInGroupoids.homFunctor x.hom).map ε.hom) hσh }
   have : K.Full := eK.toEquivalence.full_functor
   obtain ⟨θ, -, hθL⟩ := exists_preimage_isHomLift eK.hom.w m (IsHomLift.of_fac' _ _ _ e₁ e₂ rfl)

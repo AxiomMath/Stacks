@@ -66,6 +66,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ProjectiveBundleBaseChangeSquare
+    (D : BaseSpaceDimensionSituation.{u}) :
+    HasPullbacks ((BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProjectiveBundleBaseChangeSquare
+    (D : BaseSpaceDimensionSituation.{u})
+    {X Y Z : (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (D : BaseSpaceDimensionSituation.{u})
   {X X' : (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u} (sX : X ⟶ D.space)
   (hX : D.IsGood sX) (E : Modules.{u, u} D.site D.base D.base_mem X hX.1)

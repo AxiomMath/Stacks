@@ -56,15 +56,16 @@ universe u c
 variable {C : Type c} [Category.{u} C] (K : Cᵒᵖ ⥤ Type u)
 
 /-- The projection of the site of elements of `K` to `C`: the pair `(X, t)` goes to `X`. -/
-abbrev proj : (K.Elements)ᵒᵖ ⥤ C := (CategoryOfElements.π K).leftOp
+abbrev proj : (K.Elements)ᵒᵖ ⥤ C := (Functor.Elements.π K).leftOp
 
 /-- The object of the site of elements of `K` given by a section `t` of `K` over `X`. -/
-abbrev elt (X : Cᵒᵖ) (t : K.obj X) : (K.Elements)ᵒᵖ := op ⟨X, t⟩
+abbrev elt (X : Cᵒᵖ) (t : K.obj X) : (K.Elements)ᵒᵖ := op (K.elementsMk X t)
 
 /-- The morphism of the site of elements of `K` over `f : X ⟶ Y` in `Cᵒᵖ`, from the object of
 the restricted section `K.map f t` to the object of `t`. -/
 def eltHom {X Y : Cᵒᵖ} (f : X ⟶ Y) (t : K.obj X) : elt K Y (K.map f t) ⟶ elt K X t :=
-  Quiver.Hom.op (CategoryOfElements.homMk (⟨X, t⟩ : K.Elements) ⟨Y, K.map f t⟩ f rfl)
+  Quiver.Hom.op (Functor.Elements.homMk (x := K.elementsMk X t) (y := K.elementsMk Y (K.map f t))
+    f rfl)
 
 variable (S : Cᵒᵖ ⥤ RingCat.{u})
 
@@ -111,8 +112,8 @@ lemma presheafRestriction_ι_apply (G : PresheafOfModules.{u} ((proj K).op ⋙ S
     (h : K.map f t = s) (x : G.obj (op (elt K X t))) :
     presheafRestriction K S G f (Sigma.ι (presheafSummands K S G X) t x) =
       Sigma.ι (presheafSummands K S G Y) s
-        (G.restrictₛₗ (Quiver.Hom.op (CategoryOfElements.homMk (⟨X, t⟩ : K.Elements)
-          ⟨Y, s⟩ f h)).op x) := by
+        (G.restrictₛₗ (Quiver.Hom.op (Functor.Elements.homMk (x := K.elementsMk X t)
+          (y := K.elementsMk Y s) f h)).op x) := by
   subst h
   exact congrArg (fun k => k x) (ι_comp_presheafRestriction K S G f t)
 
@@ -162,9 +163,9 @@ noncomputable def descComponent {G : PresheafOfModules.{u} ((proj K).op ⋙ S)}
 `(X, t)` by the inclusion of the summand indexed by `t`. -/
 noncomputable def directSumInclusion (G : PresheafOfModules.{u} ((proj K).op ⋙ S)) :
     G ⟶ (restrictionFunctor K S).obj (directSumPresheaf K S G) where
-  app := fun ⟨⟨X, t⟩⟩ => Sigma.ι (presheafSummands K S G X) t
+  app := fun x => Sigma.ι (presheafSummands K S G x.unop.unop.obj) x.unop.unop.val
   naturality := by
-    rintro ⟨⟨X, t⟩⟩ ⟨⟨Y, s⟩⟩ ⟨g, hg⟩
+    rintro ⟨@⟨X, t⟩⟩ ⟨@⟨Y, s⟩⟩ ⟨g, hg⟩
     ext x
     change Sigma.ι (presheafSummands K S G Y) s (G.restrictₛₗ _ x) =
       presheafRestriction K S G g (Sigma.ι (presheafSummands K S G X) t x)
@@ -245,7 +246,7 @@ noncomputable def directSumPresheafIso (G : PresheafOfModules.{u} ((proj K).op �
         (restrictionFunctor K S).map (directSumComparison K S G) = _
     rw [Equiv.apply_symm_apply, (restrictionAdjunction K S).homEquiv_id]
     apply PresheafOfModules.hom_ext
-    rintro ⟨⟨X, t⟩⟩
+    rintro ⟨@⟨X, t⟩⟩
     change Sigma.ι (presheafSummands K S G X) t ≫
       Sigma.desc (descComponent K S ((restrictionAdjunction K S).unit.app G) X) =
       ((restrictionAdjunction K S).unit.app G).app (op (elt K X t))
@@ -347,8 +348,8 @@ noncomputable def extensionByZeroSummandsMap
     {G H : SheafOfModules.{u} (restrictedRingSheaf K J JD R)} (f : G ⟶ H) (V : C) :
     (∐ extensionByZeroSummands K J JD R G V) ⟶ (∐ extensionByZeroSummands K J JD R H V) :=
   Limits.Sigma.map
-    (f := extensionByZeroSummands K J JD R G V)
-    (g := extensionByZeroSummands K J JD R H V)
+    (g := extensionByZeroSummands K J JD R G V)
+    (f := extensionByZeroSummands K J JD R H V)
     (fun t => (f.val.app (op (elt K (op V) t)) :
       extensionByZeroSummands K J JD R G V t ⟶ extensionByZeroSummands K J JD R H V t))
 
@@ -410,8 +411,8 @@ lemma extensionByZeroSectionMap_naturality
       Sigma.ι (extensionByZeroSummands K J JD R H V) t =
       Sigma.ι (extensionByZeroSummands K J JD R G V) t ≫
         extensionByZeroSummandsMap K J JD R f V :=
-    (Limits.Sigma.ι_map (f := extensionByZeroSummands K J JD R G V)
-      (g := extensionByZeroSummands K J JD R H V)
+    (Limits.Sigma.ι_map (g := extensionByZeroSummands K J JD R G V)
+      (f := extensionByZeroSummands K J JD R H V)
       (fun s => (f.val.app (op (elt K (op V) s)) :
         extensionByZeroSummands K J JD R G V s ⟶
           extensionByZeroSummands K J JD R H V s)) t).symm

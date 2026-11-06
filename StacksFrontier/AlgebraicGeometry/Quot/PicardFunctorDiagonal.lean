@@ -152,6 +152,8 @@ theorem isImmersion_diagonal_iff :
   have _ : MorphismProperty.RespectsIso
       (@AlgebraicGeometry.IsImmersion.{u} : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
+  have _ : Mono (pullback.diagonal q) := IsSplitMono.mono _
+  have _ : IsIso (Subfunctor.toRange (pullback.diagonal q)) := inferInstance
   have hiso : Arrow.mk (pullback.diagonal q) ≅
       Arrow.mk (Subfunctor.range (pullback.diagonal q)).ι :=
     Arrow.isoMk (asIso (Subfunctor.toRange (pullback.diagonal q))) (Iso.refl _) (by simp)
@@ -224,7 +226,7 @@ theorem isSheaf_picardEqualizer (T : s.SchemesOver) (x y : s.picardFunctor.obj (
       ((s.mem_picardEqualizer_iff x y (n ≫ m)).1 hk)
   refine (hsep R hR).ext fun V n hn => ?_
   change s.picardFunctor.map (n ≫ m).op x = s.picardFunctor.map (n ≫ m).op y at hn
-  simpa only [op_comp, FunctorToTypes.map_comp_apply] using hn
+  simpa only [op_comp, Functor.map_comp_apply] using hn
 
 /-- **The inverse image of the equalizer of `x` and `y` along `g : U ⟶ T` is the equalizer of
 `g^*x` and `g^*y`.** -/
@@ -242,7 +244,7 @@ theorem picardEqualizer_preimage (T : s.SchemesOver) (x y : s.picardFunctor.obj 
     (CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map g ≫ T.hom)) k
   refine (s.mem_picardEqualizer_iff x y (n ≫ m)).trans (Iff.trans ?_
     (s.mem_picardEqualizer_iff _ _ n).symm)
-  simp only [op_comp, FunctorToTypes.map_comp_apply]
+  simp only [op_comp, Functor.map_comp_apply]
   exact Iff.rfl
 
 /-- **Two classes of `Pic(X_T)` agree in `Pic_{X/B}` after pulling back along `g : U ⟶ T`

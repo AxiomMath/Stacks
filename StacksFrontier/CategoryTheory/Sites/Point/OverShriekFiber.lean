@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Sites.Point.Over
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import StacksFrontier.CategoryTheory.Sites.Localization.LowerShriekCoproductSheaf
 public import StacksFrontier.CategoryTheory.Sites.Localization.LowerShriekCoproducts
 

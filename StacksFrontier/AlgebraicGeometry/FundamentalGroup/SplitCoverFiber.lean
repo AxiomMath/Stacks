@@ -101,11 +101,11 @@ theorem smul_eq_self_splitCover [ConnectedSpace X]
     σ • y = y := by
   obtain ⟨i, rfl⟩ := exists_splitCoverFiberPoint_eq x ι y
   have hnat := ConcreteCategory.congr_hom
-    (σ.hom.naturality (splitCoverInj X ι i)) (topFiberPoint x)
+    (σ.asIso.hom.naturality (splitCoverInj X ι i)) (topFiberPoint x)
   simp only [ConcreteCategory.comp_apply] at hnat
   have h1 : σ • splitCoverFiberPoint x ι i =
-      (σ.hom.app (splitCover X ι)) (splitCoverFiberPoint x ι i) := rfl
-  have h2 : (σ.hom.app (fEtTop X)) (topFiberPoint x) = topFiberPoint x :=
+      (σ.asIso.hom.app (splitCover X ι)) (splitCoverFiberPoint x ι i) := rfl
+  have h2 : (σ.asIso.hom.app (fEtTop X)) (topFiberPoint x) = topFiberPoint x :=
     (subsingleton_finiteEtaleFiber_finiteEtaleOverTerminal x).allEq _ _
   rw [h1, splitCoverFiberPoint, hnat, h2]
 

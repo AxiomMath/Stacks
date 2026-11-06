@@ -79,16 +79,16 @@ theorem exists_isAmalgamation_of_locally {J K : GrothendieckTopology C}
     refine hK _ (K.pullback_stable (k ≫ h) hS) (x.pullback (k ≫ h)) _ _
       (ht (R.downward_closed hh k)) ?_
     intro W g hg
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     exact (ht hh (g ≫ k) (by simpa using hg)).trans
       (by dsimp only [FamilyOfElements.pullback]; congr 1; simp)
   obtain ⟨u, hu, -⟩ := hJ R hR y hy
   refine ⟨u, fun Z s hs => ?_⟩
   refine (hJ _ (J.pullback_stable s hR)).isSeparatedFor.ext fun W k hk => ?_
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, hu (k ≫ s) hk,
+  rw [← Functor.map_comp_apply, ← op_comp, hu (k ≫ s) hk,
     ← hx.to_sieveCompatible s k hs]
   have h1 := ht hk (𝟙 W) (by simpa using S.downward_closed hs k)
-  rw [op_id, FunctorToTypes.map_id_apply] at h1
+  rw [op_id, Functor.map_id_apply] at h1
   exact h1.trans (by dsimp only [FamilyOfElements.pullback]; congr 1; simp)
 
 end CategoryTheory.Presieve

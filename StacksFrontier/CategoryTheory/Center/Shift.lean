@@ -87,8 +87,8 @@ variable {C : Type u₁} [Category.{v₁} C] {A : Type w} [AddMonoid A] [HasShif
 `CategoryTheory.NatTrans.CommShift`, says that applying it to a shifted object is the shift of
 applying it. -/
 lemma commShift_iff_app (z : CatCenter C) :
-    NatTrans.CommShift z A ↔ ∀ (a : A) (X : C), (z.app X)⟦a⟧' = z.app (X⟦a⟧) := by
-  refine ⟨fun _ a X => by simpa using NatTrans.shift_app_comm z a X, fun h => ?_⟩
+    NatTrans.CommShift z.asHom A ↔ ∀ (a : A) (X : C), (z.app X)⟦a⟧' = z.app (X⟦a⟧) := by
+  refine ⟨fun _ a X => by simpa using NatTrans.shift_app_comm z.asHom a X, fun h => ?_⟩
   exact ⟨fun a => by ext X; simpa using h a X⟩
 
 /-- Shift-compatibility of a central element at a single object only depends on the isomorphism
@@ -102,7 +102,7 @@ lemma shift_app_of_iso (z : CatCenter C) {X Y : C} (e : X ≅ Y) (a : A)
 functor which is essentially surjective on objects. -/
 lemma commShift_of_essSurj {D : Type u₂} [Category.{v₂} D] (F : D ⥤ C) [F.EssSurj]
     (z : CatCenter C) (h : ∀ (a : A) (X : D), (z.app (F.obj X))⟦a⟧' = z.app ((F.obj X)⟦a⟧)) :
-    NatTrans.CommShift z A :=
+    NatTrans.CommShift z.asHom A :=
   (commShift_iff_app z).2 fun a Y =>
     shift_app_of_iso z (F.objObjPreimageIso Y) a (h a _)
 
@@ -152,7 +152,7 @@ def shiftSubalgebra : Subalgebra R (CatCenter C) where
     rw [mul_app, Functor.map_comp, hx, hy, mul_app]
   one_mem' := by
     intro a X
-    simp [End.one_def]
+    simp
   add_mem' hx hy := by
     intro a X
     rw [app_add, Functor.map_add, hx, hy, app_add]
@@ -174,7 +174,7 @@ lemma mem_shiftSubalgebra (z : CatCenter C) :
 /-- Membership in the shift-compatible centre is Mathlib's compatibility of a natural
 transformation with the shift. -/
 lemma mem_shiftSubalgebra_iff_commShift (z : CatCenter C) :
-    z ∈ shiftSubalgebra R C A ↔ NatTrans.CommShift z A :=
+    z ∈ shiftSubalgebra R C A ↔ NatTrans.CommShift z.asHom A :=
   (commShift_iff_app z).symm
 
 variable (R C A)
@@ -195,7 +195,7 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 
 /-- Conjugation by an equivalence preserves and reflects compatibility with the shift. -/
 lemma commShift_transport_iff (z : CatCenter C) :
-    NatTrans.CommShift (transport E z) A ↔ NatTrans.CommShift z A := by
+    NatTrans.CommShift (transport E z).asHom A ↔ NatTrans.CommShift z.asHom A := by
   have hw := transport_app_functor E z
   rw [commShift_iff_app, commShift_iff_app]
   refine ⟨fun h a X =>
@@ -245,11 +245,12 @@ variable {C : Type u₁} [Category.{v₁} C] [Preadditive C] {ι : Type*} (c : C
 
 /-- A central element of `C` acts degreewise on homological complexes, giving a central element
 of `HomologicalComplex C c`. -/
-def homologicalComplex (z : CatCenter C) : CatCenter (HomologicalComplex C c) where
-  app K :=
-    { f i := z.app (K.X i)
-      comm' _ _ _ := (CatCenter.naturality z _).symm }
-  naturality _ _ φ := by ext i; exact CatCenter.naturality z (φ.f i)
+def homologicalComplex (z : CatCenter C) : CatCenter (HomologicalComplex C c) :=
+  End.of
+    { app K :=
+        { f i := z.app (K.X i)
+          comm' _ _ _ := (CatCenter.naturality z _).symm }
+      naturality _ _ φ := by ext i; exact CatCenter.naturality z (φ.f i) }
 
 /-- The degree `i` component of `CategoryTheory.CatCenter.homologicalComplex c z` at a complex `K`
 is the component of `z` at `K.X i`. -/
@@ -263,8 +264,8 @@ variable (R : Type t) [CommRing R] [Linear R C]
 an `R`-linear category `C` on `HomologicalComplex C c` is a morphism of `R`-algebras. -/
 def homologicalComplexAlgHom : CatCenter C →ₐ[R] CatCenter (HomologicalComplex C c) where
   toFun z := z.homologicalComplex c
-  map_one' := CatCenter.ext _ _ fun K => by ext i; simp [End.one_def]
-  map_mul' x y := CatCenter.ext _ _ fun K => by ext i; simp
+  map_one' := CatCenter.ext _ _ fun K => by ext i; simp
+  map_mul' x y := CatCenter.ext _ _ fun K => by ext i; simp [mul_app]
   map_zero' := CatCenter.ext _ _ fun K => by ext i; simp
   map_add' x y := CatCenter.ext _ _ fun K => by ext i; simp [app_add]
   commutes' r := CatCenter.ext _ _ fun K => by
@@ -302,7 +303,7 @@ variable {C : Type u₁} [Category.{v₁} C] [Preadditive C]
 /-- The degreewise action of a central element on cochain complexes commutes with the shift:
 both sides have component `z.app (K.X (p + n))` in degree `p`. -/
 lemma commShift_homologicalComplex_up (z : CatCenter C) :
-    NatTrans.CommShift (z.homologicalComplex (ComplexShape.up ℤ)) ℤ :=
+    NatTrans.CommShift (z.homologicalComplex (ComplexShape.up ℤ)).asHom ℤ :=
   (commShift_iff_app _).2 fun n K => by ext p; rfl
 
 end CochainComplex
@@ -314,8 +315,8 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 
 variable {A : Type w} [AddMonoid A] [HasShift C A] [HasShift D A] [L.CommShift A] [L.EssSurj] in
 /-- The localization of a shift-compatible central element is shift-compatible. -/
-lemma commShift_localization (z : CatCenter C) (hz : NatTrans.CommShift z A) :
-    NatTrans.CommShift (z.localization L W) A :=
+lemma commShift_localization (z : CatCenter C) (hz : NatTrans.CommShift z.asHom A) :
+    NatTrans.CommShift (z.localization L W).asHom A :=
   commShift_of_essSurj L _ fun a X =>
     (shift_app_image_iff L (fun X => localization_app z L W X) a X).2
       (congrArg L.map ((commShift_iff_app z).1 hz a X))

@@ -148,6 +148,34 @@ lemma eq_of_liftedSheafification_map_eq
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_quasiFiniteRepresentable :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_quasiFiniteRepresentable
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasBinaryProducts_presheaf_quasiFiniteRepresentable :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasBinaryProduct_presheaf_quasiFiniteRepresentable
+    (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : HasBinaryProduct X Y :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_quasiFiniteRepresentable
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- A monomorphism of algebraic spaces over `S` into a representable presheaf which is
 locally quasi-finite has representable source. -/
 private theorem isRepresentable_of_mono_isLocallyQuasiFinite_to_stage

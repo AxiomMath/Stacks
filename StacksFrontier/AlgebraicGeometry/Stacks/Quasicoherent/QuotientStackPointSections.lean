@@ -257,6 +257,18 @@ theorem yoneda_map_comp_yonedaEquiv_symm {T T' : BigFppfOver C S hS}
   yonedaEquiv.injective (by
     rw [yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]; rfl)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_QuotientStackPointSections :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, found directly from `HasLimitsOfShape`. -/
+local instance (priority := high) hasPullback_presheaf_QuotientStackPointSections
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The map into the space of composable pairs classifying `(h₁^*r₂, r₁)`. -/
 def pairMap {X Y Z : PointwiseFibration G} (m₁ : X ⟶ Y) (m₂ : Y ⟶ Z) :
     Space.yonedaSpace C S hS X.base ⟶ AlgebraicSpaces.fiberProduct C S hS G.source G.target :=

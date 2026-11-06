@@ -778,7 +778,7 @@ private theorem exists_fiber_of_coproduct
     rwa [show Sieve.ofArrows X' j' = Sieve.ofArrows X j from ofArrows_ulift_eq X j]
   obtain ⟨x, hx⟩ := exists_fiber_of_disjoint_cover hp X' j' hj'
     (fun i => hm i.down) (fun {i k} hik {Y} a b hab =>
-      hd (fun hh => hik (ULift.ext _ _ hh)) a b hab) (fun i => xs i.down)
+      hd (fun hh => hik (ULift.ext hh)) a b hab) (fun i => xs i.down)
   exact ⟨x, fun i => hx (ULift.up i)⟩
 
 end DisjointCover

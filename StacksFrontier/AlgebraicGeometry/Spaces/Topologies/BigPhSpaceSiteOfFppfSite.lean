@@ -49,6 +49,14 @@ universe u
 namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+private instance (priority := high) hasPullback_presheaf_bigPhSpaceSiteOfFppfSite
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The ph covering families of algebraic spaces satisfy the site axioms of Stacks 000X**: an
 isomorphism is a ph covering, and ph coverings are stable under composition and base change
 (Stacks 0DFJ). -/

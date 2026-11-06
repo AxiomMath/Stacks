@@ -101,16 +101,16 @@ private theorem app_hom_eq_whiskerRight_eqToHom {a b : C ⥤ E}
 /-- The comparison at a sheaf is the presheaf-level transport along `h`. -/
 theorem sheafPushforwardContinuousIsoOfCompEq_hom_app_hom (F : Sheaf L A) :
     (((sheafPushforwardContinuousIsoOfCompEq u v h A J K L).hom.app F).hom :
-        w.op ⋙ F.val ⟶ u.op ⋙ v.op ⋙ F.val) =
-      Functor.whiskerRight (NatTrans.op (eqToHom h)) F.val := by
+        w.op ⋙ F.obj ⟶ u.op ⋙ v.op ⋙ F.obj) =
+      Functor.whiskerRight (NatTrans.op (eqToHom h)) F.obj := by
   have : (u ⋙ v).IsContinuous J L := isContinuous_comp u v J K L
   exact app_hom_eq_whiskerRight_eqToHom A J L h _ (Category.comp_id _) F
 
 /-- The inverse of the comparison at a sheaf is the presheaf-level transport along `h.symm`. -/
 theorem sheafPushforwardContinuousIsoOfCompEq_inv_app_hom (F : Sheaf L A) :
     (((sheafPushforwardContinuousIsoOfCompEq u v h A J K L).inv.app F).hom :
-        u.op ⋙ v.op ⋙ F.val ⟶ w.op ⋙ F.val) =
-      Functor.whiskerRight (NatTrans.op (eqToHom h.symm)) F.val := by
+        u.op ⋙ v.op ⋙ F.obj ⟶ w.op ⋙ F.obj) =
+      Functor.whiskerRight (NatTrans.op (eqToHom h.symm)) F.obj := by
   have : (u ⋙ v).IsContinuous J L := isContinuous_comp u v J K L
   exact app_hom_eq_whiskerRight_eqToHom A J L h.symm _ (Category.id_comp _) F
 
@@ -120,8 +120,8 @@ theorem sheafPushforwardContinuousIsoOfCompEq_rfl [(u ⋙ v).IsContinuous J L] :
   refine Iso.ext (NatTrans.ext (funext fun F => Sheaf.hom_ext ?_))
   refine Eq.trans (sheafPushforwardContinuousIsoOfCompEq_hom_app_hom u v rfl A J K L F) ?_
   refine NatTrans.ext (funext fun X => ?_)
-  change F.val.map (𝟙 (Opposite.op (v.obj (u.obj X.unop)))) = 𝟙 _
-  exact F.val.map_id _
+  change F.obj.map (𝟙 (Opposite.op (v.obj (u.obj X.unop)))) = 𝟙 _
+  exact F.obj.map_id _
 
 section NatTrans
 

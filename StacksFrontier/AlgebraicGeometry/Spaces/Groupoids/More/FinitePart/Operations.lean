@@ -118,6 +118,17 @@ theorem isOpenImmersion_homOfLe (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.C
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) {T : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_finitePartOperations :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_finitePartOperations
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 04PI.** A section of the finite part `(X/Y)_fin` over `T` whose image in `Y` is a
 prescribed morphism `a : T ⟶ Y`: an open subspace of `T ×_Y X` whose projection to `T` is
 finite.

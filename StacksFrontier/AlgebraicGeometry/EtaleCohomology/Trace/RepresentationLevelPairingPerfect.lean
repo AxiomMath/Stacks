@@ -82,10 +82,10 @@ def levelDotPairing :
   LinearMap.mk₂ (ZMod (ℓ ^ k))
     (fun (a b : ULift.{u + 1} (Fin r → ZMod (ℓ ^ k))) ↦
       (ULift.up (a.down ⬝ᵥ b.down) : ULift.{u + 1} (ZMod (ℓ ^ k))))
-    (fun a₁ a₂ b ↦ ULift.ext _ _ (add_dotProduct a₁.down a₂.down b.down))
-    (fun c a b ↦ ULift.ext _ _ (smul_dotProduct c a.down b.down))
-    (fun a b₁ b₂ ↦ ULift.ext _ _ (dotProduct_add a.down b₁.down b₂.down))
-    (fun c a b ↦ ULift.ext _ _ (dotProduct_smul c a.down b.down))
+    (fun a₁ a₂ b ↦ ULift.ext (add_dotProduct a₁.down a₂.down b.down))
+    (fun c a b ↦ ULift.ext (smul_dotProduct c a.down b.down))
+    (fun a b₁ b₂ ↦ ULift.ext (dotProduct_add a.down b₁.down b₂.down))
+    (fun c a b ↦ ULift.ext (dotProduct_smul c a.down b.down))
 
 omit [NeZero (ℓ ^ k)] in
 /-- The value of `levelDotPairing` at `a` and `b` is the dot product of the underlying vectors. -/
@@ -99,18 +99,19 @@ omit [NeZero (ℓ ^ k)] in
 /-- The dot product of the level modules is `π₁`-equivariant. -/
 theorem levelDotPairing_equivariant (g : EtaleFundamentalGroup X x) (a b) :
     levelDotPairing ρ₀ hρ₀ k
-        (((levelModule.{u + 1, u + 1} ρ₀ hρ₀ k).obj.obj.obj.ρ g).hom a)
+        (((levelModule.{u + 1, u + 1} ρ₀ hρ₀ k).obj.obj.obj.ρ g).asHom.hom a)
         (((levelModule.{u + 1, u + 1} (contragredient ρ₀) (continuous_contragredient hρ₀)
-          k).obj.obj.obj.ρ g).hom b) =
-      ((trivialContinuousModule (G := EtaleFundamentalGroup X x) (ℓ ^ k)).obj.obj.obj.ρ g).hom
+          k).obj.obj.obj.ρ g).asHom.hom b) =
+      ((trivialContinuousModule (G := EtaleFundamentalGroup X x) (ℓ ^ k)).obj.obj.obj.ρ
+        g).asHom.hom
         (levelDotPairing ρ₀ hρ₀ k a b) :=
-  ULift.ext _ _ (levelRepresentation_dotProduct_contragredient ρ₀ k g _ _)
+  ULift.ext (levelRepresentation_dotProduct_contragredient ρ₀ k g _ _)
 
 omit [NeZero (ℓ ^ k)] in
 /-- **The dot product is nondegenerate** in the first variable. -/
 theorem levelDotPairing_eq_zero_of_forall (a)
     (h : ∀ b, levelDotPairing ρ₀ hρ₀ k a b = 0) : a = 0 := by
-  refine ULift.ext _ _ (funext fun i ↦ ?_)
+  refine ULift.ext (funext fun i ↦ ?_)
   have := congrArg ULift.down (h (ULift.up (Pi.single i 1)))
   change (a : ULift.{u + 1} (Fin r → ZMod (ℓ ^ k))).down ⬝ᵥ Pi.single i 1 = 0 at this
   rwa [dotProduct_single, mul_one] at this

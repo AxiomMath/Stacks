@@ -253,6 +253,12 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] Space.pointTopology
 
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut in Lean v4.35.0). -/
+local instance (priority := high) hasLimitsOfShape_discrete_affineRigEtaleAlgebraization
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-- A continuous homomorphism over the base between two topological `R`-algebras whose quotient
 systems have the structure morphisms induced by a fixed `Spec R ⟶ S`, given by an `R`-algebra
 map. -/

@@ -71,10 +71,10 @@ def homSectionHom {W : U.Etale} (t : G.equivariantMaps Λ N ρ W) :
         (G.equivariantMaps R (ULift.{u + 1} R) (rightRegularRepULift.{u} (ZMod n) H) W) :=
   ModuleCat.ofHom
     { toFun := G.homSection ρ t
-      map_add' := fun φ φ' => Subtype.ext (LocallyConstant.ext fun z => ULift.ext _ _ (by
+      map_add' := fun φ φ' => Subtype.ext (LocallyConstant.ext fun z => ULift.ext (by
         change dualRepHom _ (t.1 z) (φ + φ') = dualRepHom _ (t.1 z) φ + dualRepHom _ (t.1 z) φ'
         exact map_add _ _ _))
-      map_smul' := fun r φ => Subtype.ext (LocallyConstant.ext fun z => ULift.ext _ _ (by
+      map_smul' := fun r φ => Subtype.ext (LocallyConstant.ext fun z => ULift.ext (by
         change dualRepHom _ (t.1 z) (r • φ) = r * dualRepHom _ (t.1 z) φ
         exact (dualRepHom _ (t.1 z)).map_smul r φ)) }
 
@@ -87,13 +87,13 @@ def homSectionLinear (W : U.Etale) :
             (rightRegularRepULift.{u} (ZMod n) H) W)) where
   toFun t := G.homSectionHom ρ t
   map_add' t t' := ModuleCat.hom_ext (LinearMap.ext fun φ =>
-    Subtype.ext (LocallyConstant.ext fun z => ULift.ext _ _ (by
+    Subtype.ext (LocallyConstant.ext fun z => ULift.ext (by
       change ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (t.1 z + t'.1 z))) =
         ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (t.1 z))) +
           ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (t'.1 z)))
       simp only [map_add, single_add, sum_add_distrib])))
   map_smul' l t := ModuleCat.hom_ext (LinearMap.ext fun φ =>
-    Subtype.ext (LocallyConstant.ext fun z => ULift.ext _ _ (by
+    Subtype.ext (LocallyConstant.ext fun z => ULift.ext (by
       change ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (l • t.1 z))) =
         ∑ g : H, single g (DualRep.equiv _ (dualRepRightMul (A := ZMod n) ρ l φ) ((ρ g) (t.1 z)))
       simp only [map_smul]
@@ -132,7 +132,7 @@ theorem bijective_homSectionLinear [Finite N] (W : U.Etale) :
     have : L ⁻¹' {f₀} = ⋂ φ, {z | (Φ'.hom φ).1 z = ULift.up (f₀ φ)} := by
       ext z
       simp only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_iInter, Set.mem_ofPred_eq]
-      refine ⟨fun h φ => ULift.ext _ _ (by rw [← h]; rfl), fun h => LinearMap.ext fun φ => ?_⟩
+      refine ⟨fun h φ => ULift.ext (by rw [← h]; rfl), fun h => LinearMap.ext fun φ => ?_⟩
       exact congrArg ULift.down (h φ)
     rw [this]
     exact isOpen_iInter_of_finite fun φ => (Φ'.hom φ).1.isLocallyConstant.isOpen_fiber _
@@ -148,7 +148,7 @@ theorem bijective_homSectionLinear [Finite N] (W : U.Etale) :
     rw [(Φ'.hom φ).2 h z, dualRepHom_act, h2]
     rfl
   refine ⟨⟨t₀, ht₀⟩, ModuleCat.hom_ext (LinearMap.ext fun φ =>
-    Subtype.ext (LocallyConstant.ext fun z => ULift.ext _ _ ?_))⟩
+    Subtype.ext (LocallyConstant.ext fun z => ULift.ext ?_))⟩
   show ψ (ψinv (L z)) φ = ((Φ'.hom φ).1 z).down
   rw [hψ]
   rfl

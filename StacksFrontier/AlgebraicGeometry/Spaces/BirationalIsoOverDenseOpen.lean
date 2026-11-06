@@ -150,6 +150,8 @@ private theorem preimage_codimensionZeroPoints_of_isBirational
     obtain ⟨w, hwx, hwz⟩ := exists_points_of_isPullback B S hS sq x z (by rw [hz])
     obtain ⟨w', hw'η, hw'z⟩ := exists_points_of_isPullback B S hS sq η z (by rw [hz, hηy])
     obtain rfl : x = η := by
+      have := IsIso.mono_of_iso (pullback.snd f
+        (fromGenericStalk B S hS hY hdenseY hfiniteY _ hygen))
       rw [← hwx, pointsMap_injective_of_mono B S hS _ (hwz.trans hw'z.symm), hw'η]
     exact (mem_genericPoints_iff_localRingDimension_eq_zero B S hS hX hdecentX _).1 hη
   · exact localRingDimension_eq_zero_of_isBirational B S hS hX hY
@@ -223,7 +225,8 @@ private theorem isIso_pullback_snd_of_isIso_restriction
       (MorphismProperty.RespectsIso.precomp _ (inv ψ) U.ι hU.2)
   have : Mono (U.ι ≫ f) := by
     rw [← hψ]
-    infer_instance
+    have := IsIso.mono_of_iso ψ
+    exact mono_comp _ _
   have outer : IsPullback (Subfunctor.homOfLe hWV ≫ inv ψ) (𝟙 W.toFunctor) (U.ι ≫ f) W.ι :=
     IsPullback.of_vert_isIso_mono ⟨by simpa only [Category.assoc] using hcond⟩
   have sq : IsPullback (Subfunctor.homOfLe hWV ≫ inv ψ) t U.ι (pullback.fst f W.ι) := by

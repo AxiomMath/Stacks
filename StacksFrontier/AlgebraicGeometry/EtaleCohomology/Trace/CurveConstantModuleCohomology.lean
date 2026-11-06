@@ -111,7 +111,7 @@ theorem underlyingConstantSheafIso_hom_smul (E : ModuleCat.{u + 1} Λ) {E₀ : T
       (underlyingConstantSheafIso Y E e).hom ≫
         etaleConstantSheafMap Y (e.toAddMonoidHom.comp
           ((DistribSMul.toAddMonoidHom E a).comp e.symm.toAddMonoidHom)) := by
-  show Stacks.ModuleCatLift.sheafScalarEnd.{u + 1} Λ Y.smallEtaleTopology _ a ≫ _ = _
+  show (Stacks.ModuleCatLift.sheafScalarEnd.{u + 1} Λ Y.smallEtaleTopology _ a).asHom ≫ _ = _
   refine (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _)
     (Stacks.ModuleCatLift.constantSheafForget₂Iso_hom_app_scalar.{u + 1} Λ
       Y.smallEtaleTopology E a)).trans ?_)

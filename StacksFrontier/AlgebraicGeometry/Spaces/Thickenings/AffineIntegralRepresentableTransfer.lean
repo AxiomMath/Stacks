@@ -119,6 +119,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_AffineIntegralRepresentableTransfer :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- The limit of a cospan of presheaves on the big fppf site over `S`, found directly. -/
+local instance (priority := high) hasPullback_presheaf_AffineIntegralRepresentableTransfer
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### From an isomorphism with a representable presheaf to a cartesian square -/
 
 /-- An isomorphism of the fibre product of `f : F ⟶ G` and `g : yoneda.obj T ⟶ G` with the

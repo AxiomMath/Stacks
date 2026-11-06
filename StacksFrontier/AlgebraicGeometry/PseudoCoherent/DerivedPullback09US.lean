@@ -760,7 +760,7 @@ public alias range_eq_preimage_range_of_isPullback :=
   Stacks.Cohomology.ClosedImmersionBaseChange.range_eq_preimage_range_of_isPullback
 
 /-- `smul_zero` at the carrier of an object of `ModuleCat`, where the module instance is found;
-after `TensorProduct.induction_on` the goal is stated at the unfolded carrier and instance search
+after `TensorProduct.inductionOn` the goal is stated at the unfolded carrier and instance search
 no longer finds it. -/
 public theorem smul_zero_moduleCat {S : Type u} [Ring S] (A : ModuleCat.{u} S) (t : S) :
     t • (0 : A) = 0 := smul_zero t
@@ -784,8 +784,8 @@ private theorem smul_extendScalars_eq_zero_of_smul_tmul_eq_zero {R S : Type u} [
     (h : ∀ (s : (ModuleCat.restrictScalars φ).obj (ModuleCat.of S S)) (p : P),
       t • (show (ModuleCat.extendScalars φ).obj P from s ⊗ₜ[R] p) = 0)
     (z : (ModuleCat.extendScalars φ).obj P) : t • z = 0 := by
-  refine TensorProduct.induction_on z (smul_zero_moduleCat ((ModuleCat.extendScalars φ).obj P) t)
-    h fun u v hu hv => ?_
+  refine TensorProduct.inductionOn
+    (motive := fun z : (ModuleCat.extendScalars φ).obj P => t • z = 0) z h fun u v hu hv => ?_
   exact (smul_add_moduleCat ((ModuleCat.extendScalars φ).obj P) t u v).trans
     (by rw [hu, hv]; exact add_zero 0)
 

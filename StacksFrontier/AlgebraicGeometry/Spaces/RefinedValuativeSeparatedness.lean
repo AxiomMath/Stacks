@@ -100,6 +100,17 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {X Y U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_RefinedValuativeSeparatedness :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RefinedValuativeSeparatedness
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 open TopologicalSpace in
 /-- The dotted arrows of the chart of the diagonal. Let `atlas` be a chart of `X ×_Y X`, let
 `s : W ⟶ C` be the base change of the relative diagonal of `f` along it, and let `τ : T ⟶ W` be

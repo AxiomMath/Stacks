@@ -199,7 +199,7 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero (A : Type u) [CommRing A]
   -- `P` vanishes at `0`
   have hzero : P.eval 0 = 0 := by
     have hq := hP ((0 : ℕ) : ℤ)
-    rw [(hkey 0).2 (by simp)] at hq
+    rw [(hkey 0).2 (by rw [Nat.cast_zero, zero_zsmul])] at hq
     simpa using hq.symm
   -- `P` is nonnegative at every integer
   have hnonneg : ∀ n : ℤ, 0 ≤ P.eval (n : ℚ) := by
@@ -226,7 +226,7 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero (A : Type u) [CommRing A]
     have hq := hP ((1 : ℕ) : ℤ)
     rw [hP0, Polynomial.eval_zero] at hq
     exact_mod_cast hq
-  simpa using hone
+  rwa [Nat.cast_one, one_zsmul] at hone
 
 /-! ### The injectivity -/
 

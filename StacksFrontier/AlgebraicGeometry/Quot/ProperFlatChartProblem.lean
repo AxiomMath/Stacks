@@ -73,14 +73,25 @@ abbrev isoRingRes :=
   Deformation.AlgebraExtension.ringRes (J := SmallEtale.topology B S hS Z.1)
     (SmallEtale.topology B S hS Y.1) (smallEtalePostcomp B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ))
 
+set_option maxHeartbeats 400000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along the isomorphism `ρ : Y ≅ Z` of small étale sites
+preserves finite products (found once here, so that later uses do not repeat the search). -/
+local instance preservesFiniteProducts_isoSheafRes_properFlatChartProblem :
+    PreservesFiniteProducts ((smallEtalePostcomp B S hS ρ.hom
+      (isEtale_hom_of_iso B S hS ρ)).sheafPushforwardContinuous (Type u)
+        (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Z.1)) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- `ρ⁻¹F ≅ F|_Y` for the isomorphism `ρ : Y ≅ Z`: the inverse image along an étale morphism is
 restriction (Stacks 03LV). -/
 abbrev isoInverseImageRestrictionIso (F : Sheaf (SmallEtale.topology B S hS Z.1) CommRingCat.{u}) :
     (smallEtaleInverseImageRing B S hS ρ.hom).obj F ≅ (isoRingRes ρ).obj F :=
-  inverseImageCommRingRestrictionIso (SmallEtale.topology B S hS Y.1)
+  (inverseImageCommRingRestrictionIso (SmallEtale.topology B S hS Y.1)
     (SmallEtale.topology B S hS Z.1) (smallEtalePostcomp B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ))
     (smallEtaleRingedToposHom B S hS ρ.hom).toToposHom
-    (smallToposMorphismTypeU_inverseImageIso B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ)) F
+    (smallToposMorphismTypeU_inverseImageIso B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ)) F :)
 
 /-- **`(g ≫ ρ)⁻¹F ≅ g⁻¹(F|_Y)`** on the small étale site of `X`, for `ρ : Y ≅ Z`: the composition
 law of inverse images followed by `g⁻¹` of `ρ⁻¹F ≅ F|_Y`. -/
@@ -91,6 +102,7 @@ def inverseImageRestrictionIsoOfCompIso
   ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS g ρ.hom).app F).symm ≪≫
     (smallEtaleInverseImageRing B S hS g).mapIso (isoInverseImageRestrictionIso ρ F)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The identification `inverseImageRestrictionIsoOfCompIso` is compatible with a map
 `m : F ⟶ 𝒪_Z` and its restriction followed by `𝒪_Z|_Y ≅ 𝒪_Y`, against
 `(g ≫ ρ)⁻¹𝒪_Z ≅ g⁻¹𝒪_Y`. -/

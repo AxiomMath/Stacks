@@ -81,13 +81,13 @@ theorem isIso_homology_zero_pushforwardSingleToDerived {X Y : Scheme.{u}} (g : X
     (structureSheafRing (ringedSpace X))) 0).obj N
   have hu := boundedDerivedPushforwardIso_hom_app (hom g) K
   have h₀ : IsIso ((DerivedCategory.Plus.homologyFunctor _ 0).map
-      ((RingedSpaceModuleAdjunction.modulePushforward (hom g)).rightDerivedFunctorPlusUnit.app
+      ((RingedSpaceModuleAdjunction.modulePushforward (hom g)).rightDerivedFunctorPlusUnith.app
         K)) :=
     (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
       (A := SheafOfModules.{u} (structureSheafRing (ringedSpace X)))
       (B := SheafOfModules.{u} (structureSheafRing (ringedSpace Y)))
       (RingedSpaceModuleAdjunction.modulePushforward (hom g)) _
-      (RingedSpaceModuleAdjunction.modulePushforward (hom g)).rightDerivedFunctorPlusUnit).2.2.mpr
+      (RingedSpaceModuleAdjunction.modulePushforward (hom g)).rightDerivedFunctorPlusUnith).2.2.mpr
       inferInstance N
   have h₁ : IsIso ((DerivedCategory.homologyFunctor Y.Modules 0).map
       ((schemeDerivedPushforwardUnit g).app

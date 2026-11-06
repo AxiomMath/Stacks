@@ -377,6 +377,7 @@ theorem isZariskiLocallyQuasiSeparatedOver_of_hasAffineQuasiCompactEtaleCoverInt
   exact isQuasiSeparatedOver_of_isQuasiCompact_affineEtaleAtlas B S hS (hcover.1 i).1 U f hU
     (isAffine_prod_of_mapsTo_isAffineOpen B S hS U hU V hV hbase) hqc hsurj hetale
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 03W7, (3) implies (2).** Each member of a condition-(3) covering is
 quasi-separated by Stacks 07S4: its atlas has affine, hence quasi-separated, source, and the
 kernel-pair projection is quasi-compact because the atlas is. A quasi-separated algebraic

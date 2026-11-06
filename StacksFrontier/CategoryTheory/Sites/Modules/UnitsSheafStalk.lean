@@ -80,6 +80,16 @@ namespace AlgebraicGeometry.RingedTopos
 
 universe t w v u
 
+/-- Binary products of sheaves of sets, created by the inclusion into presheaves. Stated
+directly: instance search for them otherwise wanders into limits of presheaves of rings and
+times out. -/
+noncomputable local instance (priority := high) hasBinaryProduct_sheaf_type'
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (A B : Sheaf J (Type w)) :
+    HasBinaryProduct A B :=
+  haveI : HasLimitsOfShape (Discrete WalkingPair) (Sheaf J (Type w)) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type w))
+  HasLimitsOfShape.has_limit _
+
 variable (X : RingedTopos.{v, u, w}) [X.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 

@@ -276,7 +276,7 @@ def replacementDegreeIso (C : Type u) [SmallCategory C] (n : ℕ) :
         fun y : ComposableArrows C n ↦ G.obj (Opposite.op y.left)).isLimit.conePointUniqueUpToIso
           (limit.isLimit (Discrete.functor
             fun y : ComposableArrows C n ↦ G.obj (Opposite.op y.left)))).hom ≫
-        limit.π ((replacementFamily C n).obj G) x =
+        limit.π ((replacementFamily.{u, v} C n).obj G) x =
       (AddCommGrpCat.HasLimit.productLimitCone
         fun y : ComposableArrows C n ↦ G.obj (Opposite.op y.left)).cone.π.app x :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ x
@@ -284,18 +284,18 @@ def replacementDegreeIso (C : Type u) [SmallCategory C] (n : ℕ) :
         fun y : ComposableArrows C n ↦ F.obj (Opposite.op y.left)).isLimit.conePointUniqueUpToIso
           (limit.isLimit (Discrete.functor
             fun y : ComposableArrows C n ↦ F.obj (Opposite.op y.left)))).hom ≫
-        limit.π ((replacementFamily C n).obj F) x =
+        limit.π ((replacementFamily.{u, v} C n).obj F) x =
       (AddCommGrpCat.HasLimit.productLimitCone
         fun y : ComposableArrows C n ↦ F.obj (Opposite.op y.left)).cone.π.app x :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ x
-  have hp : (replacementFamily C n ⋙ lim).map f ≫ limit.π ((replacementFamily C n).obj G) x =
-      limit.π ((replacementFamily C n).obj F) x ≫ ((replacementFamily C n).map f).app x :=
+  have hp : (replacementFamily.{u, v} C n ⋙ lim).map f ≫ limit.π ((replacementFamily.{u, v} C n).obj G) x =
+      limit.π ((replacementFamily.{u, v} C n).obj F) x ≫ ((replacementFamily.{u, v} C n).map f).app x :=
     limMap_π _ x
   rw [Category.assoc, Category.assoc]
   refine (congrArg (fun t ↦ _ ≫ t) hG).trans (Eq.trans ?_
     ((congrArg (fun t ↦ _ ≫ t) hp).trans
       ((Category.assoc _ _ _).symm.trans
-        (congrArg (fun t ↦ t ≫ ((replacementFamily C n).map f).app x) hF))).symm)
+        (congrArg (fun t ↦ t ≫ ((replacementFamily.{u, v} C n).map f).app x) hF))).symm)
   rfl
 
 /-- Each degree of the cochain replacement preserves limits of shape `J`, when abelian groups
@@ -890,13 +890,13 @@ theorem cochainReplacementPointAcyclic
         ((nerve (Under U)) ⋙ functionsFunctor A) i := by
       simp [L, AlgebraicTopology.AlternatingFaceMapComplex.obj]
     have hK : K.d i (i + 1) = AlgebraicTopology.AlternatingCofaceMapComplex.objD
-        (replacementObj ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)) i := by
+        (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)) i := by
       change (AlgebraicTopology.AlternatingCofaceMapComplex.obj
-        (replacementObj ((GrothendieckTopology.pointBot U).skyscraperPresheaf A))).d i (i + 1) = _
+        (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A))).d i (i + 1) = _
       simp [AlgebraicTopology.AlternatingCofaceMapComplex.obj]
     have key : ∀ k : Fin (i + 2),
         (e i).hom ≫ (SimplicialObject.δ ((nerve (Under U)) ⋙ functionsFunctor A) k).unop =
-          (replacementObj ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)).δ k ≫
+          (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)).δ k ≫
             (e (i + 1)).hom := by
       intro k
       apply ConcreteCategory.hom_ext
@@ -909,7 +909,7 @@ theorem cochainReplacementPointAcyclic
       AlgebraicTopology.AlternatingCofaceMapComplex.objD, unop_sum, unop_zsmul]
     exact comp_sum_zsmul_eq_sum_zsmul_comp (e i).hom (e (i + 1)).hom
       (fun k ↦ (SimplicialObject.δ ((nerve (Under U)) ⋙ functionsFunctor A) k).unop)
-      (fun k ↦ (replacementObj
+      (fun k ↦ (replacementObj.{u, v}
         ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)).δ k)
       (fun k ↦ (-1 : ℤ) ^ (k : ℕ)) key)
   have hL : IsZero (L.homology n) :=
@@ -976,7 +976,7 @@ theorem cochainReplacementPointProductAcyclic
       ((GrothendieckTopology.pointBot (U i)).skyscraperSheafFunctor.obj (A i))
   have : PreservesLimitsOfShape (Discrete I) (cochainReplacementComplex.{u, v} C) :=
     HomologicalComplex.preservesLimitsOfShape_of_eval _ fun k ↦
-      replacementDegree_preservesLimitsOfShape C k (Discrete I)
+      replacementDegree_preservesLimitsOfShape.{u, v} C k (Discrete I)
   have : AB4StarOfSize.{u} AddCommGrpCat.{max u v} := AB4StarOfSize_shrink _
   let e := (HomologicalComplex.homologyFunctor _ (ComplexShape.up ℕ) n).mapIso
     (PreservesProduct.iso (cochainReplacementComplex C) P) ≪≫
@@ -1009,7 +1009,7 @@ theorem presheafEmbedsInPointProduct
         (shrinkYonedaObjObjEquiv.symm (𝟙 V.unop))
   have h1 : (Pi.lift ι).app V ≫ (Pi.π P V.unop).app V = (ι V.unop).app V :=
     (NatTrans.comp_app (Pi.lift ι) (Pi.π P V.unop) V).symm.trans
-      (congrArg (fun α : F ⟶ P V.unop ↦ α.app V) (Pi.lift_π ι V.unop))
+      (congrArg (fun α : F ⟶ P V.unop ↦ α.app V) (Pi.lift_comp_π ι V.unop))
   have hr : (Pi.lift ι).app V ≫ r = 𝟙 _ := by
     dsimp [r]
     refine (Category.assoc _ _ _).symm.trans ((congrArg (fun t ↦ t ≫ _) h1).trans ?_)

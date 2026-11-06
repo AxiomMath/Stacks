@@ -81,7 +81,7 @@ def directImageAct (N : Stack.fppfModules B S hS 𝒰) :
 variable {g hg} in
 /-- The objectwise action is natural in the module. -/
 theorem directImageActPresheaf_naturality {N N' : Stack.fppfModules B S hS 𝒰} (ψ : N ⟶ N') :
-    PresheafOfModules.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
+    PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
         ((affinePushforward.{u, w, u} g hg).map ψ).val
         (𝟙 (affinePushforwardStructureSheaf g hg).val) ≫
       PresheafOfModules.pushforwardAct (pushforwardCommRingHom g hg) N'.val =
@@ -99,6 +99,7 @@ theorem directImageAct_naturality {N N' : Stack.fppfModules B S hS 𝒰} (ψ : N
     (fppfStructurePresheaf_isSheaf B S hS 𝒳) ((affinePushforward.{u, w, u} g hg).map ψ)
     ((affinePushforward.{u, w, u} g hg).map ψ) _ _ (directImageActPresheaf_naturality ψ)
 
+set_option maxHeartbeats 1000000 in
 attribute [local instance] AlgebraicStacks.modulesMonoidalCategory in
 /-- **On `g_*𝒪_𝒰` the action is the multiplication of the algebra `g_*𝒪_𝒰`** of Stacks 0GRK
 (`AlgebraicGeometry.Stack.monObjAffinePushforwardStructureSheaf`, for the localized monoidal
@@ -124,10 +125,10 @@ section Projection
 /-- The objectwise projection map `M(x) ⊗ 𝒪_𝒰(r x) ⟶ M(g(r x))`, `m ⊗ s ↦ s • m|_{g(r x)}`: the
 objectwise unit followed by the objectwise action. -/
 def directImageProjectionPresheaf (M : Stack.fppfModules B S hS 𝒳) :
-    PresheafOfModules.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳) M.val
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳) M.val
         (affinePushforwardStructureSheaf g hg).val ⟶
       ((affinePushforward.{u, w, u} g hg).obj ((stackModulePullback.{u, w, u} g).obj M)).val :=
-  PresheafOfModules.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
+  PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
       ((affinePullbackPushforwardAdjunction.{u, w, u} g hg).unit.app M).val
       (𝟙 (affinePushforwardStructureSheaf g hg).val) ≫
     PresheafOfModules.pushforwardAct (pushforwardCommRingHom g hg)
@@ -267,7 +268,7 @@ theorem isIso_whiskerRight_unit_comp_directImageAct (M : quasicoherentModules B 
   have e2 := Adjunction.homEquiv_counit
     (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction
       (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳))
-    (PresheafOfModules.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳) M.obj.val
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳) M.obj.val
       (affinePushforwardStructureSheaf g hg).val)
     ((affinePushforward.{u, w, u} g hg).obj ((stackModulePullback.{u, w, u} g).obj M.obj))
     (directImageProjectionPresheaf g hg M.obj)

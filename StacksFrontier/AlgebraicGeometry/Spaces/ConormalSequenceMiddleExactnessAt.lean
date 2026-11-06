@@ -167,7 +167,8 @@ the counit followed by the sheaf hom of the derivation. -/
 theorem derivationSheafHom_derivationEquivOfRingDataIso_symm (i : Zs ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Zs.1 Zs.2)
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom) :
     derivationSheafHom
         ((smallEtaleRingedToposHom B S hS i).toToposHom.inverseImageRing.map
           (directImageBase B S hS i b))
@@ -185,7 +186,8 @@ theorem derivationSheafHom_derivationEquivOfRingDataIso_symm (i : Zs ⟶ X)
 it is the adjunct of the sheaf hom of the transported derivation. -/
 theorem directImageDerivationEquiv_symm_d (i : Zs ⟶ X) (hi : IsClosedImmersion B S hS i.hom)
     (b : X ⟶ Bb) (W : Modules.{u, u} B S hS Zs.1 Zs.2)
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom)
     (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (y : ToType (((pushforwardCommRingFunctor (smallToposMorphismTypeU B S hS i)).obj
       (smallEtaleRingedTopos B S hS Zs).O).obj.obj U)) :
@@ -223,7 +225,8 @@ by the unit of `i^{-1} ⊣ i_*`, by the triangle identity. -/
 theorem homEquiv_derivationSheafHom_ringDataIso_symm (i : Zs ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Zs.1 Zs.2)
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom) :
     (smallEtaleRingedToposHom B S hS i).toToposHom.adj.homEquiv _ _
         (derivationSheafHom
           ((smallEtaleRingedToposHom B S hS i).toToposHom.inverseImageRing.map
@@ -256,7 +259,8 @@ of `i_*𝒪_Z` it transposes a `B`-derivation `D` of `𝒪_Z` back to is the dir
 theorem directImageDerivationEquiv_symm_d_apply (i : Zs ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Zs.1 Zs.2)
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom)
     (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (y : ToType (((pushforwardCommRingFunctor (smallToposMorphismTypeU B S hS i)).obj
       (smallEtaleRingedTopos B S hS Zs).O).obj.obj U)) :
@@ -271,7 +275,8 @@ derivation.** -/
 theorem directImageDerivationKernelEquiv_coe_d_apply (i : Zs ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Zs.1 Zs.2)
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom)
     (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (t : ToType ((structureRingSheaf B S hS X).obj.obj U)) :
     ((directImageDerivationKernelEquiv B S hS i hi b W D).1).d t =
@@ -279,7 +284,7 @@ theorem directImageDerivationKernelEquiv_coe_d_apply (i : Zs ⟶ X)
           (derivationSheafHom (structureSharpInverseImage B S hS (i ≫ b)) W D)).hom.app U
         ((structureSharpSet B S hS i).hom.app U t) := by
   refine (directImageDerivationKernelEquiv_coe_d B S hS i hi b W D U t).trans ?_
-  refine (PresheafOfModules.Derivation.postcomp_d_apply _ _ _).trans ?_
+  refine (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply _ _ _).trans ?_
   refine (directImageCoefficientIso_inv_val_app_apply B S hS i hi W U _).trans ?_
   refine (directImageDerivationEquiv_symm_d_apply B S hS i hi b W D U _).trans ?_
   exact congrArg (fun z ↦ ((smallEtaleDirectImage B S hS i).map
@@ -292,7 +297,7 @@ theorem pushforwardUniversalDerivation_eq_descent (i : Zs ⟶ X)
     pushforwardUniversalDerivation B S hS i b (i ≫ b) (𝟙 Bb) (by simp) =
       (directImageDerivationKernelEquiv B S hS i hi b (sheafOfDifferentials B S hS (i ≫ b))
         (universalDerivation B S hS (i ≫ b))).1 :=
-  PresheafOfModules.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun t ↦
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun t ↦
     (directImageDerivationKernelEquiv_coe_d_apply B S hS i hi b
       (sheafOfDifferentials B S hS (i ≫ b)) (universalDerivation B S hS (i ≫ b)) U t).symm)
 
@@ -307,7 +312,7 @@ theorem derivationDirectImageEquiv_comp (a : Zs ⟶ X) (b : X ⟶ Bb)
   refine Eq.trans (congrArg
     (fun m ↦ (universalDerivation B S hS b).postcomp (_root_.SheafOfModules.Hom.val m))
     (Adjunction.homEquiv_naturality_right (modulePullbackAdjunction B S hS a) k g)) ?_
-  refine (PresheafOfModules.Derivation'.postcomp_comp (universalDerivation B S hS b)
+  refine (PresheafOfModulesOfCommRing.Derivation'.postcomp_comp (universalDerivation B S hS b)
     (((modulePullbackAdjunction B S hS a).homEquiv (sheafOfDifferentials B S hS b) C) k).val
     ((modulePushforward B S hS a).map g).val).trans ?_
   exact congrArg (fun m ↦ m.postcomp ((modulePushforward B S hS a).map g).val)
@@ -318,11 +323,12 @@ coefficient module.** -/
 theorem directImageDerivationKernelEquiv_coe_postcomp (i : Zs ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     {W W' : Modules.{u, u} B S hS Zs.1 Zs.2} (k : W ⟶ W')
-    (D : W.val.Derivation' (structureSharpInverseImage B S hS (i ≫ b)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      (structureSharpInverseImage B S hS (i ≫ b)).hom) :
     ((directImageDerivationKernelEquiv B S hS i hi b W' (D.postcomp k.val)).1) =
       ((directImageDerivationKernelEquiv B S hS i hi b W D).1).postcomp
         ((modulePushforward B S hS i).map k).val := by
-  refine PresheafOfModules.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun t ↦ ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun t ↦ ?_)
   refine (directImageDerivationKernelEquiv_coe_d_apply B S hS i hi b W'
     (D.postcomp k.val) U t).trans ?_
   refine Eq.trans (congrArg
@@ -330,7 +336,7 @@ theorem directImageDerivationKernelEquiv_coe_postcomp (i : Zs ⟶ X)
     ((congrArg (smallEtaleDirectImage B S hS i).map
         (derivationSheafHom_postcomp (structureSharpInverseImage B S hS (i ≫ b)) k D)).trans
       ((smallEtaleDirectImage B S hS i).map_comp _ _))) ?_
-  refine Eq.trans ?_ (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans ?_ (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
       ((directImageDerivationKernelEquiv B S hS i hi b W D).1)
       ((modulePushforward B S hS i).map k).val t).symm
   exact congrArg (fun z ↦ ((((modulePushforward B S hS i).map k).val.app U).hom) z)

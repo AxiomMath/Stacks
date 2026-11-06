@@ -79,7 +79,7 @@ variable {A : Type u} {B : Type v} [Ring A] [Category.{w} B] [Preadditive B]
 public structure Hom (X Y : ModuleAction A B) where
   /-- The underlying morphism. -/
   hom : X.carrier ⟶ Y.carrier
-  comm : ∀ a : A, X.action a ≫ hom = hom ≫ Y.action a := by aesop_cat
+  comm : ∀ a : A, (X.action a).asHom ≫ hom = hom ≫ (Y.action a).asHom := by aesop_cat
 
 /-- Objects with `A`-action form a category, with equivariant morphisms as morphisms. -/
 public instance : Category.{w} (ModuleAction A B) where
@@ -199,27 +199,31 @@ public abbrev regularModule (A : Type u) [Ring A] : FPModule A := by
 
 /-- Multiplication by an element of `A` on the rank-one free module. -/
 public def regularEnd (A : Type u) [Ring A] (a : A) : End (regularModule A) :=
-  InducedCategory.homMk (ModuleCat.ofHom (LinearMap.mulLeft Aᵐᵒᵖ a))
+  .of (InducedCategory.homMk (ModuleCat.ofHom (LinearMap.mulLeft Aᵐᵒᵖ a)))
 
 /-- The natural action of `A` on its rank-one free module. -/
 public def regularAction (A : Type u) [Ring A] : A →+* End (regularModule A) where
   toFun := regularEnd A
   map_one' := by
+    apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd]
+    simp [regularEnd, End.one_asHom, End.mul_asHom]
   map_mul' a b := by
+    apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd]
+    simp [regularEnd, End.one_asHom, End.mul_asHom]
   map_zero' := by
+    apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     ext
-    simp [regularEnd]
+    simp [regularEnd, End.one_asHom, End.mul_asHom]
   map_add' a b := by
+    apply End.ext
     apply InducedCategory.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
@@ -250,15 +254,15 @@ public def evaluationFunctor (A : Type u) (B : Type v) [Ring A]
     { carrier := G.obj (regularModule A)
       action :=
         ({ G.mapEnd (regularModule A) with
-            map_zero' := G.map_zero _ _
-            map_add' := fun _ _ ↦ G.map_add } :
+            map_zero' := End.ext (G.map_zero _ _)
+            map_add' := fun _ _ ↦ End.ext G.map_add } :
           End (regularModule A) →+* End (G.obj (regularModule A))).comp
             (regularAction A) }
   map η :=
     { hom := η.hom.app (regularModule A)
       comm := fun a ↦ by
         dsimp
-        exact η.hom.naturality (regularEnd A a) }
+        exact η.hom.naturality (regularEnd A a).asHom }
   map_id F := by
     apply ModuleAction.Hom.ext
     rfl

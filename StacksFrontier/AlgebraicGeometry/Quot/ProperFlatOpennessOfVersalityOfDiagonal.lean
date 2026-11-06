@@ -63,8 +63,9 @@ effective. This is the body of the proof of Stacks 0D3X. -/
 theorem isSquareZeroEffective_cartesianProperFlat :
     IsSquareZeroEffective B S hS (cartesianProperFlatProjection B S hS)
       (cartesianProperFlatProjection_isFiberedInGroupoids B S hS) :=
-  isSquareZeroEffective_cartesianProperFlat_of_towerConormal B S hS
-    fun _ _ _ _ _ _ _ _ _ _ _ _ P' X' => ProperFlatFibre.isIso_towerRealizationConormalMap P' X'
+  isSquareZeroEffective_cartesianProperFlat_of_towerConormal B S hS (by
+    intro _ _ _ _ _ _ _ _ _ _ _ _ P' X'
+    exact ProperFlatFibre.isIso_towerRealizationConormalMap P' X')
 
 /-- **Stacks 0D3X, from the diagonal.** Over a locally Noetherian base `S`, if the diagonal of
 `Spaces'_{fp, flat, proper}` is representable by algebraic spaces (Stacks 0D1F), the stack

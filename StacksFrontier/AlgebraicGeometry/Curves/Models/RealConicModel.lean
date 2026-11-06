@@ -115,14 +115,14 @@ theorem dehomCoeff_equation_two :
 
 /-- The coefficient of `Y₀²` in `Y₀² + Y₁² - a` is `1`. -/
 theorem coeff_chart_zero (a : R) :
-    coeff (Finsupp.single 0 2) (X 0 ^ 2 + X 1 ^ 2 - C a : MvPolynomial (Fin 2) R) = 1 := by
+    (X 0 ^ 2 + X 1 ^ 2 - C a : MvPolynomial (Fin 2) R).coeff (Finsupp.single 0 2) = 1 := by
   have h : (0 : Fin 2 →₀ ℕ) ≠ Finsupp.single 0 2 :=
     (Finsupp.single_ne_zero.mpr two_ne_zero).symm
   simp [coeff_X_pow, coeff_C, Finsupp.single_eq_single_iff, h]
 
 /-- The coefficient of `Y₁²` in `1 + Y₁² - aY₀²` is `1`. -/
 theorem coeff_chart_one (a : R) :
-    coeff (Finsupp.single 1 2) (1 + X 1 ^ 2 - C a * X 0 ^ 2 : MvPolynomial (Fin 2) R) = 1 := by
+    (1 + X 1 ^ 2 - C a * X 0 ^ 2 : MvPolynomial (Fin 2) R).coeff (Finsupp.single 1 2) = 1 := by
   have h : (0 : Fin 2 →₀ ℕ) ≠ Finsupp.single 1 2 :=
     (Finsupp.single_ne_zero.mpr two_ne_zero).symm
   simp [coeff_X_pow, coeff_C_mul, coeff_one, Finsupp.single_eq_single_iff, h]
@@ -233,7 +233,7 @@ theorem isRegularRing_chart_one (h2 : IsUnit (2 : R)) :
 
 /-- If some coefficient of `f` is a unit, `π ^ n * g ∈ (f)` implies `g ∈ (f)`. -/
 private theorem mem_span_singleton_of_C_pow_mul_mem (hπ : Irreducible π)
-    {f : MvPolynomial (Fin 2) R} {m : Fin 2 →₀ ℕ} (hm : IsUnit (coeff m f)) (n : ℕ)
+    {f : MvPolynomial (Fin 2) R} {m : Fin 2 →₀ ℕ} (hm : IsUnit (f.coeff m)) (n : ℕ)
     {g : MvPolynomial (Fin 2) R}
     (hg : C (π ^ n) * g ∈ Ideal.span {f}) : g ∈ Ideal.span {f} := by
   have hmax : (Ideal.span {π}).IsMaximal := PrincipalIdealRing.isMaximal_of_irreducible hπ
@@ -241,8 +241,8 @@ private theorem mem_span_singleton_of_C_pow_mul_mem (hπ : Irreducible π)
   set q := Ideal.Quotient.mk (Ideal.span {π})
   have hf : MvPolynomial.map q f ≠ 0 := by
     intro h
-    have hc := congrArg (coeff m) h
-    rw [coeff_map, coeff_zero] at hc
+    have hc := congrArg (fun p => p.coeff m) h
+    simp only [coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hc
     exact (hm.map q).ne_zero hc
   have hCπ : (C π : MvPolynomial (Fin 2) R) ≠ 0 := fun h => hπ.ne_zero (C_eq_zero.mp h)
   -- `π` is a nonzerodivisor modulo `f`.
@@ -268,7 +268,7 @@ private theorem mem_span_singleton_of_C_pow_mul_mem (hπ : Irreducible π)
 coefficient of `f` is a unit. It is torsion-free: if `πg ∈ (f)`, say `πg = fh`, then `f h ≡ 0`
 modulo `π` with `f ≢ 0`, so `π ∣ h` and `g ∈ (f)`. -/
 theorem flat_quotient_of_isUnit_coeff (hπ : Irreducible π) (f : MvPolynomial (Fin 2) R)
-    {m : Fin 2 →₀ ℕ} (hm : IsUnit (coeff m f)) :
+    {m : Fin 2 →₀ ℕ} (hm : IsUnit (f.coeff m)) :
     Module.Flat R (MvPolynomial (Fin 2) R ⧸ Ideal.span {f}) := by
   rw [Module.Flat.flat_iff_torsion_eq_bot_of_isBezout,
     ← Submodule.isTorsionFree_iff_torsion_eq_bot]
@@ -387,7 +387,7 @@ theorem not_isRegular_spec_chart :
       (nodalOriginIdeal k 0).primeCompl_le_nonZeroDivisors
       (mem_nonZeroDivisors_of_ne_zero ?_))
     intro h
-    have h' := congrArg (MvPolynomial.coeff (Finsupp.single 0 2)) h
+    have h' := congrArg (fun p => p.coeff (Finsupp.single 0 2)) h
     simp [MvPolynomial.coeff_X_pow, Finsupp.single_eq_single_iff] at h'
   · rw [← IsLocalization.AtPrime.map_eq_maximalIdeal (nodalOriginIdeal k 0), ← Ideal.map_pow]
     exact Ideal.mem_map_of_mem _ (sum_sq_mem_origin_sq k)

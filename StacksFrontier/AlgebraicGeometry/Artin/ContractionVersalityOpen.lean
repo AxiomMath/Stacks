@@ -322,7 +322,7 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
           Deformation.Artin.schemeMap
             ((Stack.fibredCategory B S hS c.X').val.p ⋙ Over.post B.inclusion) hy𝒳 rfl a𝒳 :
             Spec (.of k) ⟶ ((Over.post B.inclusion).obj t.openObj).left) ≫ j = κ ≫ j := by
-        rw [← ha']
+        refine Eq.trans ?_ ha'
         simp only [Deformation.Artin.schemeMap, Category.assoc]
         congr 2
         show ((Over.post B.inclusion).map φ₀ ≫ (Over.post B.inclusion).map t.openHom).left =
@@ -371,8 +371,8 @@ theorem liftsAtResiduePoint_openObject_iff {Λ k : Type u} [CommRing Λ] [Field 
     have hu : (yonedaEquiv u : c.U'.toFunctor.obj (op T')).1 = sz := by rw [hu']
     let TN : LocallyNoetherianOver B S hS := ⟨T, isLocallyNoetherian_of_over_spec hy⟩
     let T'N : LocallyNoetherianOver B S hS := ⟨T', isLocallyNoetherian_of_over_spec hz⟩
-    let yF : (contractionFunctor c).Elementsᵒᵖ := op ⟨op TN, mapTriple c φ t⟩
-    let zF : (contractionFunctor c).Elementsᵒᵖ := op ⟨op T'N, c.emptyTriple T' u⟩
+    let yF : (contractionFunctor c).Elementsᵒᵖ := op ((contractionFunctor c).elementsMk (op TN) (mapTriple c φ t))
+    let zF : (contractionFunctor c).Elementsᵒᵖ := op ((contractionFunctor c).elementsMk (op T'N) (c.emptyTriple T' u))
     have hyZ : (mapTriple c φ t).Z = ∅ := (mapTriple_Z_eq_empty_iff c φ t).2 hmem
     have hiF : mapTriple c ι (c.emptyTriple T' u) = mapTriple c φ t := by
       refine Triple.ext_of_Z_eq_empty

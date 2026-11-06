@@ -103,7 +103,7 @@ theorem exists_fromNormalization_genericExtensionHom_eq {S : Scheme.{u}} [IsInte
     exact IsFractionRing.injective Γ(S, U) S.functionField ((algebraMap _ L).injective h)
   obtain ⟨Q, -, hQ, hQa⟩ := Ideal.exists_ideal_over_prime_of_isIntegral a.asIdeal
     (⊥ : Ideal ↥(integralClosure Γ(S, U) L)) (by
-      rw [← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).mp hinj]
+      rw [Ideal.under_def, ← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).mp hinj]
       exact bot_le)
   let q : Spec (.of ↥(integralClosure Γ(S, U) L)) := ⟨Q, hQ⟩
   refine ⟨ψ q, (congrArg (fun φ : Spec (.of ↥(integralClosure Γ(S, U) L)) ⟶ S ↦ φ q)

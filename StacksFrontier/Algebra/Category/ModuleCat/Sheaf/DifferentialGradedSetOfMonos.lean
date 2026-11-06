@@ -582,6 +582,12 @@ private lemma differentialGradedModuleCoproductAcyclic
   let : AB5OfSize.{q, q} C := inferInstance
   let : HasFiniteProducts C := inferInstance
   let : HasFiniteBiproducts C := HasFiniteBiproducts.of_hasFiniteProducts
+  let _ : ∀ J : Type q, HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{q} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) := fun J =>
+    PresheafOfModules.hasColimitsOfShape _ _
+  let : HasCoproducts.{q} C := fun J =>
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (Discrete J)
   let : AB4OfSize.{q} C :=
     AB4.of_AB5.{q, max u q, max u (q + 1)} C
   let : HasColimitsOfShape (Discrete I) C := inferInstance

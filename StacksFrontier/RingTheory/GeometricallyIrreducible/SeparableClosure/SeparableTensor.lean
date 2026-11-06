@@ -241,8 +241,7 @@ theorem finite_separableClosure_kernel (k K : Type*) [Field k] [Field K] [Algebr
       (↥F₀) ↥E :=
     LinearMap.rank_le_of_injective (IntermediateField.inclusion hle).toLinearMap
       (IntermediateField.inclusion_injective hle)
-  have hE_fin : Module.rank (↥F₀) ↥E < Cardinal.aleph0 := Module.rank_lt_aleph0_iff.mpr
-      inferInstance
+  have hE_fin : Module.rank (↥F₀) ↥E < Cardinal.aleph0 := Module.rank_lt_aleph0 _ _
   have hkk'_fin : Module.rank k ↥k' < Cardinal.aleph0 := by
     rw [← hrank]
     exact hle_rank.trans_lt hE_fin

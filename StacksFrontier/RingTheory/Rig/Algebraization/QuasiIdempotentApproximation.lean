@@ -149,7 +149,7 @@ private theorem exists_quasiIdempotent_approx_aux {A : Type u} [CommRing A] [IsN
     exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ haJ)
   have hunit : IsUnit (μ₁ g) := by
     have h0 : μ₁ (g - 1) ∈ J.map (algebraMap D (AdicCompletion J D)) := hle hg
-    rw [map_sub, map_one] at h0
+    rw [μ₁.map_sub, μ₁.map_one] at h0
     exact Ideal.isUnit_of_sub_one_mem_jacobson_bot _ (IsAdicComplete.le_jacobson_bot _ h0)
   let μ : Localization.Away g →+* AdicCompletion J D := IsLocalization.Away.lift g hunit
   have hμ : ∀ w, μ (algebraMap (qlift a N c).W (Localization.Away g) w) = μ₁ w :=

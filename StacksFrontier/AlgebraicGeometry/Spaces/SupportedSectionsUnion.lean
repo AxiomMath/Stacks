@@ -100,8 +100,11 @@ theorem hasNoSectionsSupportedIn_of_iso
     (hN : HasNoSectionsSupportedIn B S hS X T N) :
     HasNoSectionsSupportedIn B S hS X T M :=
   hasNoSectionsSupportedIn_of_injective T ψ.hom
-    (fun W => PresheafOfModules.injective_of_mono
-      ((SheafOfModules.forget _).map ψ.hom) (op W)) hN
+    (fun W => by
+      letI : Mono ((SheafOfModules.forget _).mapIso ψ).hom :=
+        @IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom _)
+      exact PresheafOfModules.injective_of_mono ((SheafOfModules.forget _).mapIso ψ).hom
+        (op W)) hN
 
 /-- **The étale pullback of a pullback is the pullback along the composite.**  For an étale
 `j : V ⟶ Q`, a morphism `q : Q ⟶ X` whose composite with `j` is étale, and an `𝒪_X`-module `M`,

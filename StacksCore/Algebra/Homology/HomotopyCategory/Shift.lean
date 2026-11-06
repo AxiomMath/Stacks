@@ -210,14 +210,6 @@ lemma shiftFunctorZero_eq :
   ext
   rw [shiftFunctorZero_hom_app_f, shiftFunctorZero'_hom_app_f]
 
--- `shortComplexFunctor'` is semireducible, so a `K.XIsoOfEq` supplied where a
--- `(shiftFunctor n ⋙ eval i).obj K ≅ _` is expected leaves a goal that is not type-correct at
--- `implicit` transparency, and every `rw`/`simp only` below stalls on it. Making it unfold is
--- what lets the rest of the section go through with no `set_option backward.*`. `eval` needs the
--- same and used to be set here too; Mathlib now marks it `@[implicit_reducible]` itself, and
--- re-setting a status a declaration already has is an error.
-attribute [local implicit_reducible] HomologicalComplex.shortComplexFunctor'
-
 /-- Shifting chain complexes by `n` and evaluating in a degree `i` identifies
 to the evaluation in degree `i'` when `i + n = i'`.
 
@@ -339,8 +331,8 @@ lemma homologyShiftIso_hom (K : ChainComplex C ℤ) (n a a' : ℤ) (ha' : a + n 
   -- the arrow carries the `sc` one. `exact` unifies at default transparency.
   exact (Category.id_comp _).trans (Category.comp_id _)
 
--- the unprimed `shortComplexFunctor` is a separate declaration from the `'` one made
--- `implicit_reducible` at the top of this section, and is needed here as well
+-- the unprimed `shortComplexFunctor` is a separate declaration from the `'` one, which Mathlib
+-- marks `@[implicit_reducible]` itself; the unprimed one is needed here as well
 attribute [local implicit_reducible] HomologicalComplex.shortComplexFunctor in
 /-- The identification of 011B carries the class of a cycle of `K⟦n⟧` to the class of its
 transport to `K`. This is the chain twin of `CochainComplex.liftCycles_shift_homologyπ`, turned to

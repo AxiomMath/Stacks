@@ -1039,11 +1039,11 @@ private def rightDerivedPlusIso (F : C ⥤ D) [F.Additive] (p : ℕ) :
     F.rightDerivedPlus (p : ℤ) ≅ F.rightDerived p := by
   let R := injectiveResolutionsPlus C
   let H := DerivedCategory.Plus.homologyFunctor D (p : ℤ)
-  let η := whiskerLeft R F.rightDerivedFunctorPlusUnit
+  let η := whiskerLeft R F.rightDerivedFunctorPlusUnith
   have (X : C) : IsIso (η.app X) := by
     have : ∀ n : ℤ, Injective (((R.obj X).obj).as.X n) := fun n =>
       inferInstanceAs (Injective ((injectiveResolution X).cochainComplex.X n))
-    exact inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnit.app (R.obj X)))
+    exact inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnith.app (R.obj X)))
   have : IsIso η := NatIso.isIso_of_isIso_app η
   change DerivedCategory.Plus.singleFunctor C 0 ⋙ F.rightDerivedFunctorPlus ⋙ H ≅ _
   refine isoWhiskerRight (singleIsoInjectiveResolutionsPlus C)

@@ -163,7 +163,7 @@ theorem rightDerivedIso_inv_app_eq (n : ℕ) (M : A) :
   set I := injectiveResolution M
   set L := (F.mapHomologicalComplex (up ℤ)).obj (I.cocomplex.extend ComplexShape.embeddingUpNat)
   have hunit : (resDerivedIso F).inv.app M =
-      inv (F.rightDerivedFunctorPlusUnit.app (resPlus.obj M)) :=
+      inv (F.rightDerivedFunctorPlusUnith.app (resPlus.obj M)) :=
     IsIso.eq_inv_of_hom_inv_id ((resDerivedIso F).hom_inv_id_app M)
   have hplus : (plusHomologyIso (D := B) (n : ℤ)).hom.app
       (F.mapHomotopyCategoryPlus.obj (resPlus.obj M)) =
@@ -180,7 +180,7 @@ theorem rightDerivedIso_inv_app_eq (n : ℕ) (M : A) :
       (DerivedCategory.Plus.homologyFunctor B (n : ℤ)).map
           (F.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom) ≫
         (DerivedCategory.Plus.homologyFunctor B (n : ℤ)).map
-          (inv (F.rightDerivedFunctorPlusUnit.app
+          (inv (F.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)))) :=
     CategoryTheory.Functor.map_comp _ _ _
   exact assemble_aux _ _ _ _ _ _ _ _ _ _ _ _ _ _ _

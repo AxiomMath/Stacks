@@ -208,7 +208,7 @@ theorem limitPreserving_openSubspaceOfPoints [IsLocallyNoetherian S]
       (by rw [hy]; exact s.2)
     refine ⟨j, ⟨X.map (D.map f).op y, hf⟩, Subtype.ext ?_⟩
     show X.map (c.π.app j).op (X.map (D.map f).op y) = s.1
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, c.w f, hy]
+    rw [← Functor.map_comp_apply, ← op_comp, c.w f, hy]
   · intro i x y hxy
     obtain ⟨j, f, hf⟩ := eventually_eq_of_isColimit_mapCocone X D c hXc i x.1 y.1
       (congrArg Subtype.val hxy)

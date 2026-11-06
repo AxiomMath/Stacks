@@ -231,7 +231,7 @@ private theorem exists_of_isPullback_baseChange {X X' Z E V : BigHOver B S hS}
         = pullback.snd (pullback.fst g z) (pullback.fst g b) ≫ pullback.fst g b :=
       pullback.condition
     rw [Category.assoc, ← c₁, ← Category.assoc, c₃, Category.assoc, c₂, ← Category.assoc]
-  simpa only [op_comp, FunctorToTypes.map_comp_apply] using
+  simpa only [op_comp, Functor.map_comp_apply] using
     hsq.map_op_eq_map_op F hc hcomm
 
 /-! ### One generator -/
@@ -371,15 +371,15 @@ private theorem isCartesianAt_of_eq_span_singleton (hZsh : IsZariskiSheaf B S hS
   refine ⟨?_, fun s₁ s₂ h ↦ ?_, fun t₀ s' hc ↦ ?_⟩
   · rw [← Functor.map_comp, ← Functor.map_comp, ← op_comp, ← op_comp, hsq'.w]
   · refine Types.ext_of_isPullback hF1 h.1 ?_
-    simp only [op_comp, FunctorToTypes.map_comp_apply, h.2]
+    simp only [op_comp, Functor.map_comp_apply, h.2]
   · obtain ⟨s, hs₁, hs₂⟩ := Types.exists_of_isPullback hF1 t₀ (F.map io.op s') (by
-      simp only [op_comp, FunctorToTypes.map_comp_apply, hc]
-      simp only [← FunctorToTypes.map_comp_apply, ← op_comp, hS2.w])
+      simp only [op_comp, Functor.map_comp_apply, hc]
+      simp only [← Functor.map_comp_apply, ← op_comp, hS2.w])
     refine ⟨s, hs₁, eq_of_map_exceptional_of_map_closedImmersion hZsh h3 I hb hZ hsq io hi₁ker
       ?_ ?_⟩
-    · rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← hsq'.w, op_comp,
-        FunctorToTypes.map_comp_apply, hs₁, hc]
-    · rw [← FunctorToTypes.map_comp_apply, ← op_comp, hs₂]
+    · rw [← Functor.map_comp_apply, ← op_comp, ← hsq'.w, op_comp,
+        Functor.map_comp_apply, hs₁, hc]
+    · rw [← Functor.map_comp_apply, ← op_comp, hs₂]
 
 /-! ### From affine bases to local generation -/
 
@@ -638,14 +638,14 @@ private theorem isPullback_of_isPullback_baseChange {X X' Z E Y Z1 : BigHOver B 
       symm
       refine eq_of_isPullback_baseChange b z (pullback.snd z1 b1 ≫ b1) hC ?_ ?_
       · intro T t₀ a ht₀
-        rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← FunctorToTypes.map_comp_apply,
+        rw [← Functor.map_comp_apply, ← op_comp, ← Functor.map_comp_apply,
           ← op_comp,
           map_op_eq_of_map_fst_eq b1 htY₁ (t₀ ≫ pullback.snd z1 b1) a
             (by rw [Category.assoc]; exact ht₀),
           map_op_eq_of_map_fst_eq z1 ht1₁ (t₀ ≫ pullback.fst z1 b1) a
             (by rw [Category.assoc, pullback.condition]; exact ht₀)]
       · intro T t₀ a ht₀
-        rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← FunctorToTypes.map_comp_apply,
+        rw [← Functor.map_comp_apply, ← op_comp, ← Functor.map_comp_apply,
           ← op_comp,
           map_op_eq_of_map_fst_eq b1 htY₂ (t₀ ≫ pullback.snd z1 b1) a
             (by rw [Category.assoc]; exact ht₀),

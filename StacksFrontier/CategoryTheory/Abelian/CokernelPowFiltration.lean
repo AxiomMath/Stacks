@@ -46,33 +46,33 @@ section Defs
 variable {C : Type*} [Category C] [Abelian C] {M : C} (s : End M)
 
 /-- The map `coker s → coker s^{j+1}` induced by `s^j`. -/
-def cokernelPowι (j : ℕ) : cokernel s ⟶ cokernel (s ^ (j + 1)) :=
-  cokernel.desc s ((s ^ j) ≫ cokernel.π (s ^ (j + 1))) (by
-    rw [← Category.assoc, ← End.mul_def, ← pow_succ, cokernel.condition])
+def cokernelPowι (j : ℕ) : cokernel s.asHom ⟶ cokernel (s ^ (j + 1)).asHom :=
+  cokernel.desc s.asHom ((s ^ j).asHom ≫ cokernel.π (s ^ (j + 1)).asHom) (by
+    rw [← Category.assoc, ← End.mul_asHom, ← pow_succ, cokernel.condition])
 
 /-- The projection `coker s^{j+1} → coker s^j`. -/
 def cokernelPowq (j : ℕ) :
-    cokernel (s ^ (j + 1)) ⟶ cokernel (s ^ j) :=
-  cokernel.desc _ (cokernel.π (s ^ j)) (by
-    rw [pow_succ, End.mul_def, Category.assoc, cokernel.condition, comp_zero])
+    cokernel (s ^ (j + 1)).asHom ⟶ cokernel (s ^ j).asHom :=
+  cokernel.desc _ (cokernel.π (s ^ j).asHom) (by
+    rw [pow_succ, End.mul_asHom, Category.assoc, cokernel.condition, comp_zero])
 
 /-- The composite `M → coker s → coker s^{j+1}` of the projection with `cokernelPowι s j` is `s^j`
 followed by the projection onto `coker s^{j+1}`. -/
 @[reassoc (attr := simp)]
 theorem π_cokernelPowι (j : ℕ) :
-    cokernel.π s ≫ cokernelPowι s j = (s ^ j) ≫ cokernel.π (s ^ (j + 1)) :=
+    cokernel.π s.asHom ≫ cokernelPowι s j = (s ^ j).asHom ≫ cokernel.π (s ^ (j + 1)).asHom :=
   cokernel.π_desc _ _ _
 
 /-- The composite `M → coker s^{j+1} → coker s^j` is the projection onto `coker s^j`. -/
 @[reassoc (attr := simp)]
 theorem π_cokernelPowq (j : ℕ) :
-    cokernel.π (s ^ (j + 1)) ≫ cokernelPowq s j = cokernel.π (s ^ j) :=
+    cokernel.π (s ^ (j + 1)).asHom ≫ cokernelPowq s j = cokernel.π (s ^ j).asHom :=
   cokernel.π_desc _ _ _
 
 /-- The composite `coker s → coker s^{j+1} → coker s^j` is zero. -/
 theorem cokernelPowι_comp_cokernelPowq (j : ℕ) :
     cokernelPowι s j ≫ cokernelPowq s j = 0 := by
-  rw [← cancel_epi (cokernel.π s), π_cokernelPowι_assoc, π_cokernelPowq, comp_zero,
+  rw [← cancel_epi (cokernel.π s.asHom), π_cokernelPowι_assoc, π_cokernelPowq, comp_zero,
     cokernel.condition]
 
 /-- The short complex `coker s → coker s^{j+1} → coker s^j`. -/
@@ -84,11 +84,11 @@ end Defs
 /-- A functor to modules carries `s ^ j` to the `j`-th power of the linear map of `s`. -/
 private theorem hom_map_pow {C : Type*} [Category C] {K : Type*} [Ring K]
     (F : C ⥤ ModuleCat.{w} K) {M : C} (s : End M) (j : ℕ) :
-    (F.map (s ^ j)).hom = (F.map s).hom ^ j := by
+    (F.map (s ^ j).asHom).hom = (F.map s.asHom).hom ^ j := by
   induction j with
-  | zero => rw [pow_zero, pow_zero, End.one_def, F.map_id]; rfl
+  | zero => rw [pow_zero, pow_zero, End.one_asHom, F.map_id]; rfl
   | succ j ih =>
-    rw [pow_succ, End.mul_def, F.map_comp, ModuleCat.hom_comp, ih, pow_succ]
+    rw [pow_succ, End.mul_asHom, F.map_comp, ModuleCat.hom_comp, ih, pow_succ]
     rfl
 
 /-- If `s ^ n = 0` and the fibre has dimension `n`, the linear map of `s` on it is nilpotent of
@@ -96,8 +96,8 @@ order its dimension. -/
 private theorem hom_map_pow_finrank_eq_zero {C : Type*} [Category C] [Preadditive C]
     {K : Type*} [Ring K] (F : C ⥤ ModuleCat.{w} K) [F.Additive] {M : C} (s : End M) {n : ℕ}
     (hdim : Module.finrank K (F.obj M) = n) (hs : s ^ n = 0) :
-    (F.map s).hom ^ Module.finrank K (F.obj M) = 0 := by
-  rw [hdim, ← hom_map_pow, hs, Functor.map_zero]
+    (F.map s.asHom).hom ^ Module.finrank K (F.obj M) = 0 := by
+  rw [hdim, ← hom_map_pow, hs, End.zero_asHom, Functor.map_zero]
   rfl
 
 variable {C : Type*} [Category C] [Abelian C] {K : Type*} [Ring K] {ι : Type*}
@@ -151,25 +151,27 @@ omit hΦ [Abelian C] [∀ i, (Φ i).Additive] [∀ i, PreservesFiniteLimits (Φ 
 /-- On the fibre `Φ_i M`, the map induced by `s^j` is the `j`-th iterate of the map induced by
 `s`. -/
 theorem map_pow_apply (i : ι) (j : ℕ) (x : (Φ i).obj M) :
-    (Φ i).map (s ^ j) x = ((Φ i).map s).hom^[j] x := by
+    (Φ i).map (s ^ j).asHom x = ((Φ i).map s.asHom).hom^[j] x := by
   rw [← Module.End.pow_apply, ← hom_map_pow]
 
 /-- **The cokernels of the powers of `s` form a filtration with steps `coker s`**: if on every
 fibre the kernel of the `j`-th power of `s` lies in the image of `s`, then
 `0 → coker s --s^j--> coker s^{j+1} → coker s^j → 0` is short exact. -/
 theorem cokernelPowShortComplex_shortExact (j : ℕ)
-    (hker : ∀ i (x : (Φ i).obj M), ((Φ i).map s).hom^[j] x = 0 → ∃ y, (Φ i).map s y = x) :
+    (hker : ∀ i (x : (Φ i).obj M), ((Φ i).map s.asHom).hom^[j] x = 0 →
+      ∃ y, (Φ i).map s.asHom y = x) :
     (cokernelPowShortComplex s j).ShortExact where
   exact := by
     refine exact_of_exact_map Φ hΦ fun i => (ShortComplex.moduleCat_exact_iff _).2 ?_
     intro y hy
     obtain ⟨x, rfl⟩ := surjective_map_cokernel_π Φ i _ y
-    have hx : (Φ i).map (cokernel.π (s ^ j)) x = 0 := by
-      change ((Φ i).map (cokernel.π (s ^ (j + 1))) ≫ (Φ i).map (cokernelPowq s j)) x = 0 at hy
+    have hx : (Φ i).map (cokernel.π (s ^ j).asHom) x = 0 := by
+      change ((Φ i).map (cokernel.π (s ^ (j + 1)).asHom) ≫ (Φ i).map (cokernelPowq s j)) x = 0
+        at hy
       rwa [← Functor.map_comp, π_cokernelPowq] at hy
     obtain ⟨z, rfl⟩ := exists_eq_of_map_cokernel_π_eq_zero Φ i _ x hx
-    refine ⟨(Φ i).map (cokernel.π s) z, ?_⟩
-    show ((Φ i).map (cokernel.π s) ≫ (Φ i).map (cokernelPowι s j)) z = _
+    refine ⟨(Φ i).map (cokernel.π s.asHom) z, ?_⟩
+    show ((Φ i).map (cokernel.π s.asHom) ≫ (Φ i).map (cokernelPowι s j)) z = _
     rw [← Functor.map_comp, π_cokernelPowι, Functor.map_comp]
     rfl
   mono_f := by
@@ -177,25 +179,25 @@ theorem cokernelPowShortComplex_shortExact (j : ℕ)
     rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
     intro y hy
     obtain ⟨x, rfl⟩ := surjective_map_cokernel_π Φ i _ y
-    have h1 : (Φ i).map (cokernel.π (s ^ (j + 1))) ((Φ i).map (s ^ j) x) = 0 := by
-      change ((Φ i).map (cokernel.π s) ≫ (Φ i).map (cokernelPowι s j)) x = 0 at hy
+    have h1 : (Φ i).map (cokernel.π (s ^ (j + 1)).asHom) ((Φ i).map (s ^ j).asHom x) = 0 := by
+      change ((Φ i).map (cokernel.π s.asHom) ≫ (Φ i).map (cokernelPowι s j)) x = 0 at hy
       rwa [← Functor.map_comp, π_cokernelPowι, Functor.map_comp] at hy
     obtain ⟨z, hz⟩ := exists_eq_of_map_cokernel_π_eq_zero Φ i _ _ h1
-    have h2 : ((Φ i).map s).hom^[j] (x - (Φ i).map s z) = 0 := by
+    have h2 : ((Φ i).map s.asHom).hom^[j] (x - (Φ i).map s.asHom z) = 0 := by
       have e1 := map_pow_apply Φ s i j x
       have e2 := map_pow_apply Φ s i (j + 1) z
       rw [Function.iterate_succ_apply] at e2
       rw [← map_pow_apply Φ s i j, map_sub, map_pow_apply Φ s i j, map_pow_apply Φ s i j,
         ← e1, ← hz, e2, sub_self]
     obtain ⟨w, hw⟩ := hker i _ h2
-    have hx : x = (Φ i).map s (w + z) := by
+    have hx : x = (Φ i).map s.asHom (w + z) := by
       rw [map_add, hw, sub_add_cancel]
     rw [hx]
-    show ((Φ i).map s ≫ (Φ i).map (cokernel.π s)) (w + z) = 0
+    show ((Φ i).map s.asHom ≫ (Φ i).map (cokernel.π s.asHom)) (w + z) = 0
     rw [← Functor.map_comp, cokernel.condition, Functor.map_zero]
     rfl
   epi_g := by
-    have : Epi (cokernel.π (s ^ (j + 1)) ≫ cokernelPowq s j) := by
+    have : Epi (cokernel.π (s ^ (j + 1)).asHom ≫ cokernelPowq s j) := by
       rw [π_cokernelPowq]
       infer_instance
     exact epi_of_epi (cokernel.π _) (cokernelPowq s j)
@@ -209,9 +211,10 @@ theorem exists_map_eq_of_finrank {K : Type*} [Field K] {ι : Type*} {C : Type*} 
     [∀ i, PreservesFiniteLimits (Φ i)] [∀ i, PreservesFiniteColimits (Φ i)] {M : C} (s : End M)
     {n : ℕ} [∀ i, FiniteDimensional K ((Φ i).obj M)]
     (hdim : ∀ i, Module.finrank K ((Φ i).obj M) = n) (hs : s ^ n = 0)
-    (hker : ∀ i, Module.finrank K (LinearMap.ker ((Φ i).map s).hom) = 1) {j : ℕ} (hj : j < n)
-    (i : ι) (x : (Φ i).obj M) (hx : ((Φ i).map s).hom^[j] x = 0) :
-    ∃ y, (Φ i).map s y = x := by
+    (hker : ∀ i, Module.finrank K (LinearMap.ker ((Φ i).map s.asHom).hom) = 1) {j : ℕ}
+    (hj : j < n)
+    (i : ι) (x : (Φ i).obj M) (hx : ((Φ i).map s.asHom).hom^[j] x = 0) :
+    ∃ y, (Φ i).map s.asHom y = x := by
   exact Module.End.exists_apply_eq_of_pow_apply_eq_zero_of_finrank_ker_eq_one
     (hom_map_pow_finrank_eq_zero (Φ i) s (hdim i) hs) (hker i)
     (by rwa [hdim i]) (by rwa [Module.End.pow_apply])
@@ -227,14 +230,14 @@ omit hΦ in
 `1 ≤ j ≤ n`. -/
 theorem natCard_ext_two_cokernel_pow_le (O : C) {n : ℕ} (hs : s ^ n = 0)
     (hSES : ∀ j, 1 ≤ j → j < n → (cokernelPowShortComplex s j).ShortExact)
-    (h3 : Subsingleton (CategoryTheory.Abelian.Ext O (cokernel s) 3))
+    (h3 : Subsingleton (CategoryTheory.Abelian.Ext O (cokernel s.asHom) 3))
     [Finite (CategoryTheory.Abelian.Ext O M 2)] :
-    ∀ j, 1 ≤ j → j ≤ n → Finite (CategoryTheory.Abelian.Ext O (cokernel (s ^ j)) 2) ∧
-      Nat.card (CategoryTheory.Abelian.Ext O (cokernel (s ^ j)) 2) ≤
+    ∀ j, 1 ≤ j → j ≤ n → Finite (CategoryTheory.Abelian.Ext O (cokernel (s ^ j).asHom) 2) ∧
+      Nat.card (CategoryTheory.Abelian.Ext O (cokernel (s ^ j).asHom) 2) ≤
         Nat.card (CategoryTheory.Abelian.Ext O M 2) := by
   have hn : ∀ m, m ≤ n - 1 →
-      Finite (CategoryTheory.Abelian.Ext O (cokernel (s ^ (n - m))) 2) ∧
-      Nat.card (CategoryTheory.Abelian.Ext O (cokernel (s ^ (n - m))) 2) ≤
+      Finite (CategoryTheory.Abelian.Ext O (cokernel (s ^ (n - m)).asHom) 2) ∧
+      Nat.card (CategoryTheory.Abelian.Ext O (cokernel (s ^ (n - m)).asHom) 2) ≤
         Nat.card (CategoryTheory.Abelian.Ext O M 2) := by
     intro m
     induction m with
@@ -270,32 +273,33 @@ section Lift
 variable {C : Type*} [Category C] [Abelian C] {M : C} (s : End M)
 
 /-- For `j ≤ n` and `sⁿ = 0`, the map `coker s^j → M` induced by `s^{n-j}`. -/
-def cokernelPowLift {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n) : cokernel (s ^ j) ⟶ M :=
-  cokernel.desc _ (s ^ (n - j)) (by rw [← End.mul_def, ← pow_add, Nat.sub_add_cancel hj, hs])
+def cokernelPowLift {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n) : cokernel (s ^ j).asHom ⟶ M :=
+  cokernel.desc _ (s ^ (n - j)).asHom (by
+    rw [← End.mul_asHom, ← pow_add, Nat.sub_add_cancel hj, hs, End.zero_asHom])
 
 /-- The composite `M → coker s^j → M` of the projection with `cokernelPowLift s hs hj` is
 `s^{n-j}`. -/
 @[reassoc (attr := simp)]
 theorem π_cokernelPowLift {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n) :
-    cokernel.π (s ^ j) ≫ cokernelPowLift s hs hj = s ^ (n - j) :=
+    cokernel.π (s ^ j).asHom ≫ cokernelPowLift s hs hj = (s ^ (n - j)).asHom :=
   cokernel.π_desc _ _ _
 
 /-- The composite `coker s^j → M → M` of `cokernelPowLift s hs hj` with `s^j` is zero. -/
 theorem cokernelPowLift_comp_pow {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n) :
-    cokernelPowLift s hs hj ≫ s ^ j = 0 := by
-  rw [← cancel_epi (cokernel.π (s ^ j)), π_cokernelPowLift_assoc, ← End.mul_def, ← pow_add,
-    Nat.add_sub_cancel' hj, hs, comp_zero]
+    cokernelPowLift s hs hj ≫ (s ^ j).asHom = 0 := by
+  rw [← cancel_epi (cokernel.π (s ^ j).asHom), π_cokernelPowLift_assoc, ← End.mul_asHom,
+    ← pow_add, Nat.add_sub_cancel' hj, hs, End.zero_asHom, comp_zero]
 
 /-- The short complex `coker s^j --s^{n-j}--> M --s^j--> M`. -/
 def cokernelPowLiftShortComplex {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n) : ShortComplex C :=
-  ShortComplex.mk (cokernelPowLift s hs hj) (s ^ j) (cokernelPowLift_comp_pow s hs hj)
+  ShortComplex.mk (cokernelPowLift s hs hj) (s ^ j).asHom (cokernelPowLift_comp_pow s hs hj)
 
 end Lift
 
 /-- `(Φ s^j)` is the `j`-th power of `Φ s` as a linear map. -/
 theorem map_pow_hom {C : Type*} [Category C] [Preadditive C] {K : Type*} [Ring K]
     (F : C ⥤ ModuleCat.{w} K) {M : C} (s : End M) (j : ℕ) :
-    (F.map (s ^ j)).hom = (F.map s).hom ^ j := by
+    (F.map (s ^ j).asHom).hom = (F.map s.asHom).hom ^ j := by
   exact hom_map_pow F s j
 
 /-- **`s^{n-j}` identifies `coker s^j` with the kernel of `s^j`**: if on every fibre `Φ_i s` is
@@ -307,30 +311,32 @@ theorem cokernelPowLiftShortComplex_exact_and_mono {K : Type*} [Field K] {ι : T
     (hΦ : ∀ {X Y : C} (f g : X ⟶ Y), (∀ i, (Φ i).map f = (Φ i).map g) → f = g)
     {M : C} (s : End M) {n : ℕ} [∀ i, FiniteDimensional K ((Φ i).obj M)]
     (hdim : ∀ i, Module.finrank K ((Φ i).obj M) = n) (hs : s ^ n = 0)
-    (hker : ∀ i, Module.finrank K (LinearMap.ker ((Φ i).map s).hom) = 1) {j : ℕ} (hj : j ≤ n) :
+    (hker : ∀ i, Module.finrank K (LinearMap.ker ((Φ i).map s.asHom).hom) = 1) {j : ℕ}
+    (hj : j ≤ n) :
     (cokernelPowLiftShortComplex s hs hj).Exact ∧ Mono (cokernelPowLift s hs hj) := by
   have hpow := fun i => hom_map_pow_finrank_eq_zero (Φ i) s (hdim i) hs
-  have hrange : ∀ i m, m ≤ n → LinearMap.range (((Φ i).map s).hom ^ (n - m)) =
-      LinearMap.ker (((Φ i).map s).hom ^ m) := fun i m hm => by
+  have hrange : ∀ i m, m ≤ n → LinearMap.range (((Φ i).map s.asHom).hom ^ (n - m)) =
+      LinearMap.ker (((Φ i).map s.asHom).hom ^ m) := fun i m hm => by
     have := Module.End.range_pow_eq_ker_pow_of_finrank_ker_eq_one (hpow i) (hker i)
       (m := m) (by rwa [hdim i])
     rwa [hdim i] at this
   have hfac : ∀ i (x : (Φ i).obj M), (Φ i).map (cokernelPowLift s hs hj)
-      ((Φ i).map (cokernel.π (s ^ j)) x) = (((Φ i).map s).hom ^ (n - j)) x := fun i x => by
+      ((Φ i).map (cokernel.π (s ^ j).asHom) x) = (((Φ i).map s.asHom).hom ^ (n - j)) x :=
+      fun i x => by
     rw [← ModuleCat.comp_apply, ← Functor.map_comp, π_cokernelPowLift, ← map_pow_hom]
   refine ⟨exact_of_exact_map Φ hΦ fun i => (ShortComplex.moduleCat_exact_iff _).2 ?_,
     mono_of_injective_map Φ hΦ _ fun i => ?_⟩
   · intro (x : (Φ i).obj M) hx
-    have hx' : x ∈ LinearMap.ker (((Φ i).map s).hom ^ j) := by
+    have hx' : x ∈ LinearMap.ker (((Φ i).map s.asHom).hom ^ j) := by
       rwa [LinearMap.mem_ker, ← map_pow_hom]
     rw [← hrange i j hj] at hx'
     obtain ⟨z, rfl⟩ := hx'
-    exact ⟨(Φ i).map (cokernel.π (s ^ j)) z, hfac i z⟩
+    exact ⟨(Φ i).map (cokernel.π (s ^ j).asHom) z, hfac i z⟩
   · rw [injective_iff_map_eq_zero]
     intro y hy
     obtain ⟨x, rfl⟩ := surjective_map_cokernel_π Φ i _ y
     rw [hfac] at hy
-    have hx : x ∈ LinearMap.ker (((Φ i).map s).hom ^ (n - j)) := hy
+    have hx : x ∈ LinearMap.ker (((Φ i).map s.asHom).hom ^ (n - j)) := hy
     rw [← hrange i (n - j) (Nat.sub_le n j), Nat.sub_sub_self hj] at hx
     obtain ⟨z, rfl⟩ := hx
     rw [← map_pow_hom, ← ModuleCat.comp_apply, ← Functor.map_comp, cokernel.condition,
@@ -342,8 +348,8 @@ theorem cokernelPowLiftShortComplex_exact_and_mono {K : Type*} [Field K] {ι : T
 theorem exists_comp_cokernelPowLift_and_cancel {C : Type*} [Category C] [Abelian C] {M : C}
     (s : End M) {n : ℕ} (hs : s ^ n = 0) {j : ℕ} (hj : j ≤ n)
     (h : (cokernelPowLiftShortComplex s hs hj).Exact ∧ Mono (cokernelPowLift s hs hj)) :
-    (∀ {A : C} (k : A ⟶ M), k ≫ s ^ j = 0 → ∃ k', k' ≫ cokernelPowLift s hs hj = k) ∧
-      ∀ {A : C} (a b : A ⟶ cokernel (s ^ j)),
+    (∀ {A : C} (k : A ⟶ M), k ≫ (s ^ j).asHom = 0 → ∃ k', k' ≫ cokernelPowLift s hs hj = k) ∧
+      ∀ {A : C} (a b : A ⟶ cokernel (s ^ j).asHom),
         a ≫ cokernelPowLift s hs hj = b ≫ cokernelPowLift s hs hj → a = b := by
   obtain ⟨hex, hmono⟩ := h
   have : Mono (cokernelPowLiftShortComplex s hs hj).f := hmono

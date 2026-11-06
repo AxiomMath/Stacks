@@ -286,7 +286,7 @@ theorem preimage_eq_range_yoneda_map_of_le {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     rw [← range_yoneda_snd_eq_preimage B S hS φ r] at hgU
     obtain ⟨h, rfl⟩ := hgU
     have hw := congrArg (fun m => m.app A h) (r.isPullback φ).w
-    simp only [FunctorToTypes.comp] at hw
+    simp only [NatTrans.comp_app_apply] at hw
     have hhC : h ∈ ((T.preimage U.ι).preimage (r.fst φ)).obj A := by
       show (U.ι.app A ((r.fst φ).app A h)) ∈ T.obj A
       rw [hw]
@@ -301,7 +301,7 @@ theorem preimage_eq_range_yoneda_map_of_le {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ T
       exact ⟨k, rfl⟩
     have hw := congrArg (fun m => m.app A ((k : A.unop ⟶ c.pullback (r.fst φ)) ≫
       c.snd (r.fst φ))) (r.isPullback φ).w
-    simp only [FunctorToTypes.comp] at hw
+    simp only [NatTrans.comp_app_apply] at hw
     show (φ.app A ((yoneda.map (c.snd (r.fst φ) ≫ r.snd φ)).app A k)) ∈ T.obj A
     have hk' : U.ι.app A ((r.fst φ).app A ((k : A.unop ⟶ c.pullback (r.fst φ)) ≫
         c.snd (r.fst φ))) ∈ T.obj A := hk

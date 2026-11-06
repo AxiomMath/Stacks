@@ -119,7 +119,7 @@ theorem exists_closedSubspace_algebraization_of_existence [IsNoetherianRing A]
         ((modulePullbackUnitIso B (Spec (.of A)) hA (adicFibreFstHom A I B hA hP g n)).hom ≫
           AlgebraSheaf.unitToUnderlyingModule
             (pushforwardAlgebra B (Spec (.of A)) hA (Over.mk (z n)))) :=
-      @epi_comp _ _ _ _ _ _ inferInstance _
+      @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso _) _
         (epi_unitToUnderlyingModule_pushforwardAlgebra B (Spec (.of A)) hA (z n) (hci n))
     exact hσapp n ▸ h
   obtain ⟨M, s, eM, hM, hs, hsσ⟩ := exists_epi_of_epi_adicFibreRestriction A I B hA hP g hft.1

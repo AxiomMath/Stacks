@@ -18,6 +18,19 @@ universe u v w
 
 namespace AlgebraicGeometry
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance hasPullbacks_presheaf_bigFppfOver
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_bigFppfOver
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- A morphism of the site whose induced morphism of represented algebraic spaces is smooth is
 smooth on underlying schemes. -/
 private theorem smooth_of_yoneda_map

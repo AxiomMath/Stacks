@@ -249,7 +249,7 @@ theorem mem_range_powStage_of_eq
     ((formalSpectrum D').obj.map (kk j).op y)
     (by rw [NatTrans.naturality_apply, hxy, ← NatTrans.naturality_apply])
   show (formalSpectrum D').obj.map (g ≫ kk j).op y ∈ Rg.obj (op T')
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
   exact Rg.map g.op hj
 
 end AlgebraicGeometry.FormalSpace

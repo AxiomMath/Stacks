@@ -262,7 +262,7 @@ private lemma uliftMkQ_comp_uliftLiftQ {A : Type u} [CommRing A] (I : Ideal A) (
     (hs : I ≤ LinearMap.ker (LinearMap.lsmul A A s)) :
     uliftMkQ I ≫ uliftLiftQ I s hs = s • 𝟙 (ModuleCat.of A (ULift.{v} A)) :=
   ModuleCat.hom_ext <| LinearMap.ext fun y =>
-    ULift.ext _ _ (LinearMap.congr_fun (I.liftQ_mkQ _ hs) y.down)
+    ULift.ext (LinearMap.congr_fun (I.liftQ_mkQ _ hs) y.down)
 
 /-- Multiplication by an element `s` killing an ideal `I` factors through `A / I`; applying
 `Ext^i(-, K)` therefore makes `s` kill `Ext^i(A[0], K)` whenever `Ext^i((A/I)[0], K)` vanishes. -/

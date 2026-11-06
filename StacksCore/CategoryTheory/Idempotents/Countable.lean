@@ -63,7 +63,7 @@ noncomputable def idempotentTelescope : (∏ᶜ fun _ : ℕ => Z) ⟶ ∏ᶜ fun
 @[reassoc (attr := simp)]
 lemma idempotentTelescope_π (n : ℕ) :
     idempotentTelescope p ≫ Pi.π _ n = Pi.π _ n ≫ p + Pi.π _ (n + 1) ≫ (𝟙 Z - p) :=
-  Pi.lift_π _ n
+  Pi.lift_comp_π _ n
 
 /-- Precomposing the telescope with `g` and reading the `n`-th projection. -/
 private lemma comp_idempotentTelescope_π {A : C} (g : A ⟶ ∏ᶜ fun _ : ℕ => Z) (n : ℕ) :
@@ -78,7 +78,7 @@ lemma isSplitEpi_idempotentTelescope (hp : p ≫ p = p) : IsSplitEpi (idempotent
       σ ≫ Pi.π _ 0 = Pi.π _ 0 ∧
       ∀ m, σ ≫ Pi.π _ (m + 1) = Pi.π _ m ≫ (𝟙 Z - p) + Pi.π _ (m + 1) ≫ p :=
     ⟨Pi.lift fun n => n.casesOn (Pi.π _ 0) fun m => Pi.π _ m ≫ (𝟙 Z - p) + Pi.π _ (m + 1) ≫ p,
-      Pi.lift_π _ 0, fun m => Pi.lift_π _ (m + 1)⟩
+      Pi.lift_comp_π _ 0, fun m => Pi.lift_comp_π _ (m + 1)⟩
   refine .mk' ⟨σ, Pi.hom_ext _ _ fun n => ?_⟩
   rw [comp_idempotentTelescope_π, Category.id_comp]
   cases n with
@@ -132,7 +132,7 @@ lemma hasKernel_of_hasKernel_idempotentTelescope (hp : p ≫ p = p)
   refine ⟨kernel.lift _ ψ (Pi.hom_ext _ _ fun n => ?_), by simp [ψ]⟩
   rw [comp_idempotentTelescope_π, zero_comp]
   cases n with
-  | zero => simpa [ψ, Pi.lift_π]
+  | zero => simpa [ψ, Pi.lift_comp_π]
   | succ m => simp +zetaDelta
 
 end CategoryTheory.Idempotents

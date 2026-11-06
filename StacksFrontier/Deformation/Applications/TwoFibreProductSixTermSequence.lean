@@ -271,14 +271,14 @@ public theorem inducedInfinitesimalLinearMapOfEq_spec (Φ : F ⥤ G) {x₀ : F}
         Q.inclusion (dualNumbersUnder (p := q) (x := Φ.obj x₀)) ≫ H =
           Φ.map (P.inclusion (dualNumbersUnder (p := p) (x := x₀))) ∧
         ∀ a, (localizedTangentEquivKernel Q
-            (inducedInfinitesimalLinearMapOfEq Φ hw hp hq P Q a)).1.hom.val ≫ H =
-          H ≫ Φ.map (localizedTangentEquivKernel P a).1.hom.val := by
+            (inducedInfinitesimalLinearMapOfEq Φ hw hp hq P Q a)).1.asIso.hom.val ≫ H =
+          H ≫ Φ.map (localizedTangentEquivKernel P a).1.asIso.hom.val := by
   subst hw
   refine ⟨comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)),
     comparisonPushforward_isHomLift Φ P Q _,
     inclusion_comp_comparisonPushforward Φ P Q _, fun a => ?_⟩
   show (localizedTangentEquivKernel Q
-    (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.hom.val ≫ _ = _
+    (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.asIso.hom.val ≫ _ = _
   rw [inducedInfinitesimalLinearMap_apply Φ P Q hp hq a]
   rw [Category.assoc, Category.assoc, comparisonPushforwardInv_comp, Category.comp_id]
 
@@ -542,15 +542,15 @@ public noncomputable def boundaryObject
   hx := (PH.obj (squareZeroCrossUnder.{u, v, w} ((f ⋙ pF).obj y₀) M)).2
   hy := (PG.obj (squareZeroCrossUnder.{u, v, w} ((g ⋙ pF).obj z₀) M)).2
   iso := (boundaryCompareFst.{u, v, w} f PH PF hcofF M).symm ≪≫
-    Functor.Fiber.fiberInclusion.mapIso α ≪≫
+    Functor.Fiber.fiberInclusion.mapIso α.asIso ≪≫
       boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hcofF M
   vertical := by
     have h1 := (isHomLift_boundaryCompareFst.{u, v, w} f PH PF hcofF M).2
     have h2 := (isHomLift_boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hcofF M).1
     have h3 : pF.IsHomLift (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M))
-        (Functor.Fiber.fiberInclusion.map α.hom) := α.hom.2
+        (Functor.Fiber.fiberInclusion.map α.asIso.hom) := α.asIso.hom.2
     have h4 : pF.IsHomLift (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M))
-        (Functor.Fiber.fiberInclusion.map α.hom ≫
+        (Functor.Fiber.fiberInclusion.map α.asIso.hom ≫
           (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hcofF M).hom) :=
       @IsHomLift.comp_of_lift_id _ _ _ _ pF _ _ _ _ _ _ h3 h2
     exact @IsHomLift.comp_of_lift_id _ _ _ _ pF _ _ _ _ _ _ h1 h4

@@ -230,7 +230,7 @@ def isoYonedaOfBijective {C : Type (u + 1)} [Category.{u} C] (F : Cᵒᵖ ⥤ Ty
       congr 1
       have h1 : (Equiv.ofBijective _ (hτ T₁.unop)).symm (F.map k.op τ) = k :=
         Equiv.ofBijective_symm_apply_apply _ _ _
-      rw [h1, Equiv.symm_apply_eq, Equiv.ofBijective_apply, op_comp, FunctorToTypes.map_comp_apply]
+      rw [h1, Equiv.symm_apply_eq, Equiv.ofBijective_apply, op_comp, Functor.map_comp_apply]
       rfl)
 
 /-- **The trivialisations of an invertible module, along a functor isomorphic to the

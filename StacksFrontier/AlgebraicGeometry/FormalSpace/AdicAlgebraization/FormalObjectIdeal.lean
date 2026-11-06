@@ -255,7 +255,7 @@ theorem formalObjectIdeal_le_maximalIdeal :
     infer_instance
   obtain ⟨r, hr⟩ := (hred.bijective_app _ hred0).2 (w 0)
   have hK := (isReductionIdeal_truncationReductionIdeal hred A hA w 0 _ (𝟙 _)).1
-    ⟨r, by rw [hr, op_id, FunctorToTypes.map_id_apply]⟩
+    ⟨r, by rw [hr, op_id, Functor.map_id_apply]⟩
   have hK0 : truncationReductionIdeal hred A hA w 0 = ⊥ := by
     rw [eq_bot_iff]
     refine hK.trans fun ξ hξ => ?_

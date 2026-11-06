@@ -278,6 +278,7 @@ public theorem unit_comp_map_smallEtaleModulePullbackIdIso
     (SheafOfModules.pullbackPushforwardAdjunction.{u} (smallEtaleStructureMapRing B (𝟙 X)))
     (smallEtaleModulePullbackIdIso B X).hom N
   rw [Adjunction.conjugateEquiv_leftAdjointIdIso_hom] at h
+  set_option synthInstance.maxHeartbeats 200000 in
   simpa using h.symm
 
 /-- The unit along `ε_{𝟙 X}` over the final object, followed by the sections of the

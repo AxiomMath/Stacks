@@ -226,7 +226,7 @@ private theorem surjective_mapRelativeInfinitesimalAutomorphisms_baseProjection
   have hsub : Subsingleton (Aut ((fiberFunctor (baseProjection 𝓖.p) B).obj z)) := by
     obtain ⟨hu⟩ := unique_hom_fiber_id B ((fiberFunctor (baseProjection 𝓖.p) B).obj z)
       ((fiberFunctor (baseProjection 𝓖.p) B).obj z)
-    exact ⟨fun a b => Aut.ext ((hu.uniq a.hom).trans (hu.uniq b.hom).symm)⟩
+    exact ⟨fun a b => Aut.ext (Iso.ext ((hu.uniq a.asIso.hom).trans (hu.uniq b.asIso.hom).symm))⟩
   exact ⟨1, Subtype.ext (hsub.elim _ _)⟩
 
 /-! ### Smoothness over the product of the two chart deformation categories -/

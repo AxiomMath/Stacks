@@ -127,17 +127,26 @@ private def scalarRingHom
     {C : Type uC} [Category.{vC} C] [Preadditive C] [Linear R C]
     (G : C ⥤ AddCommGrpCat.{uM}) [G.Additive] (X : C) :
     R →+* End (G.obj X) where
-  toFun r := G.map (r • 𝟙 X)
-  map_one' := by simp
+  toFun r := .of (G.map (r • 𝟙 X))
+  map_one' := by
+    ext1
+    change G.map ((1 : R) • 𝟙 X) = 𝟙 _
+    simp
   map_mul' r s := by
+    ext1
     change G.map ((r * s) • (𝟙 X)) =
       G.map (s • (𝟙 X)) ≫ G.map (r • (𝟙 X))
     rw [← Functor.map_comp]
     congr 1
     rw [Linear.smul_comp, Linear.comp_smul]
     simp [smul_smul, mul_comm]
-  map_zero' := by simp
+  map_zero' := by
+    ext1
+    change G.map ((0 : R) • 𝟙 X) = 0
+    simp
   map_add' r s := by
+    ext1
+    change G.map ((r + s) • 𝟙 X) = G.map (r • 𝟙 X) + G.map (s • 𝟙 X)
     rw [add_smul, Functor.map_add]
 
 private lemma scalarRingHom_natural
@@ -145,7 +154,7 @@ private lemma scalarRingHom_natural
     {C : Type uC} [Category.{vC} C] [Preadditive C] [Linear R C]
     (G : C ⥤ AddCommGrpCat.{uM}) [G.Additive] {X Y : C}
     (f : X ⟶ Y) (r : R) :
-    G.map f ≫ scalarRingHom G Y r = scalarRingHom G X r ≫ G.map f := by
+    G.map f ≫ (scalarRingHom G Y r).asHom = (scalarRingHom G X r).asHom ≫ G.map f := by
   show G.map f ≫ G.map (r • 𝟙 Y) = G.map (r • 𝟙 X) ≫ G.map f
   rw [← Functor.map_comp, ← Functor.map_comp,
     Linear.comp_smul, Linear.smul_comp]
@@ -155,23 +164,24 @@ private lemma scalarRingHom_natural
 private def moduleOfSMul
     {R : Type uR} [CommRing R] {A : AddCommGrpCat.{uM}}
     (φ : R →+* End A) : Module R A where
-  smul r x := ConcreteCategory.hom (φ r) x
-  smul_zero r := (ConcreteCategory.hom (φ r)).map_zero
-  smul_add r x y := (ConcreteCategory.hom (φ r)).map_add x y
+  smul r x := ConcreteCategory.hom (φ r).asHom x
+  smul_zero r := (ConcreteCategory.hom (φ r).asHom).map_zero
+  smul_add r x y := (ConcreteCategory.hom (φ r).asHom).map_add x y
   one_smul x := by
-    change ConcreteCategory.hom (φ 1) x = x
+    change ConcreteCategory.hom (φ 1).asHom x = x
     simp
   mul_smul r s x := by
-    change ConcreteCategory.hom (φ (r * s)) x =
-      ConcreteCategory.hom (φ r) (ConcreteCategory.hom (φ s) x)
-    simp [End.mul_def]
+    change ConcreteCategory.hom (φ (r * s)).asHom x =
+      ConcreteCategory.hom (φ r).asHom (ConcreteCategory.hom (φ s).asHom x)
+    simp [End.mul_asHom]
   zero_smul x := by
-    change ConcreteCategory.hom (φ 0) x = 0
+    change ConcreteCategory.hom (φ 0).asHom x = 0
     simp
   add_smul r s x := by
-    change ConcreteCategory.hom (φ (r + s)) x =
-      ConcreteCategory.hom (φ r) x + ConcreteCategory.hom (φ s) x
+    change ConcreteCategory.hom (φ (r + s)).asHom x =
+      ConcreteCategory.hom (φ r).asHom x + ConcreteCategory.hom (φ s).asHom x
     rw [map_add]
+    change ConcreteCategory.hom ((φ r).asHom + (φ s).asHom) x = _
     rw [AddCommGrpCat.hom_add_apply]
 
 private lemma moduleOfSMul_smul
@@ -180,6 +190,7 @@ private lemma moduleOfSMul_smul
     letI : Module R A := moduleOfSMul φ
     (ModuleCat.of R A).smul r = φ r := by
   let : Module R A := moduleOfSMul φ
+  ext1
   apply AddCommGrpCat.hom_ext
   ext x
   rfl
@@ -460,7 +471,7 @@ private theorem moduleFunctorLift_linear
   ext x
   simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
   show (G.map (r • (𝟙 X)) : G.obj X ⟶ G.obj X) x =
-    AddCommGrpCat.Hom.hom (scalarRingHom (R := R) G X r) x
+    AddCommGrpCat.Hom.hom (scalarRingHom (R := R) G X r).asHom x
   rfl
 
 /-- An additive, `R`-linear lift of a set-valued functor `F` is a module-valued functor whose

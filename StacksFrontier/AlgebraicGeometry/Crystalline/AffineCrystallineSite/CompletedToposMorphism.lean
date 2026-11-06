@@ -231,7 +231,6 @@ public noncomputable def abelianSheafPushforwardIsoDirectImage
         completedAbelianSheafEquivalence, Equivalence.congrLeft,
         Functor.sheafPushforwardContinuous, sheafBotEquivalence,
         Functor.comp_obj, Functor.comp_map, opOp, unopUnop]
-      rfl
   let adj₁ := (eD.symm.toAdjunction.comp
     (i.op.sheafAdjunctionCocontinuous Ab.{max u v (w + 1)} ⊥ ⊥)).comp eC.toAdjunction
   exact (eC.funInvIdAssoc (abelianSheafPushforward S ⋙ eD.functor)).symm ≪≫

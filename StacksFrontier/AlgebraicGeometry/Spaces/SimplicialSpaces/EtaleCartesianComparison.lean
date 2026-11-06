@@ -331,6 +331,7 @@ theorem transitionF_inverseImage {m n : SimplexCategory} (φ : m ⟶ n)
   exact (spacesTransition_inverseImage F φ (map_comp_augF φ)).trans
     (congrArg (_ ≫ ·) (Category.assoc _ _ _).symm)
 
+set_option maxHeartbeats 1000000 in
 /-- **The comparison isomorphism of `a⁻¹F` is the canonical comparison of the descent datum of
 `F` along `a_0`**, under the identification of the degree-zero component with `a_0^* F`. -/
 theorem cartesianComparison_inverseImage
@@ -359,8 +360,7 @@ theorem cartesianComparison_inverseImage
     dsimp only [face₁]
     rw [map_mapComp'_inv_hom_map, Iso.hom_inv_id]
     exact ((spacesEtalePseudofunctor B S hS).map (face₁ A 0).op.toLoc).toFunctor.map_id _
-  rw [show cartesianComparison _ hF = transitionF _ (vertex₁ 1) ≫
-    (transitionIso _ hF (vertex₁ 0)).inv from rfl, hτ1, hinv]
+  rw [cartesianComparison, hτ1, hinv]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
 
 end InverseImage

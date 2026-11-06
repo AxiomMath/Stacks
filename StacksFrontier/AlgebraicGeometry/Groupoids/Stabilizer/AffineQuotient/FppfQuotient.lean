@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Groupoids.Stabilizer.AffineQuotient.LocalInvariants
+public import Mathlib.RingTheory.Finiteness.Descent
 
 /-!
 # Finite flat equivalence relations on affine schemes

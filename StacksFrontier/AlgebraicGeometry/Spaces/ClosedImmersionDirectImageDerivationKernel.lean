@@ -239,7 +239,7 @@ universe t₀ w₀ v₀ u₀
 variable {E : Type u₀} [Category.{v₀} E] {S₀ R₀ : Eᵒᵖ ⥤ CommRingCat.{w₀}} {φ : S₀ ⟶ R₀}
   {A : Type t₀}
   {P : ∀ _K : PresheafOfModules.{w₀} (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀}),
-    _K.Derivation' φ → Prop}
+    PresheafOfModulesOfCommRing.Derivation' _K φ → Prop}
 
 /-- **Transport, along an equality of the coefficient presheaf of modules, of a bijection onto
 the derivations satisfying a condition.**
@@ -250,7 +250,8 @@ that description leaves behind is between the sections of two presheaves of modu
 only in their scalar action, so at a concrete transport it disappears by `rfl`. -/
 noncomputable def derivationSubtypeTransport
     {M N : PresheafOfModules.{w₀} (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀})} (h : M = N)
-    (e : A ≃ {D : M.Derivation' φ // P M D}) : A ≃ {D : N.Derivation' φ // P N D} :=
+    (e : A ≃ {D : PresheafOfModulesOfCommRing.Derivation' M φ // P M D}) :
+    A ≃ {D : PresheafOfModulesOfCommRing.Derivation' N φ // P N D} :=
   h ▸ e
 
 /-- **The transport of `AlgebraicGeometry.Space.derivationSubtypeTransport` acts on the value of
@@ -258,7 +259,8 @@ a derivation on a local section by a cast**, the cast being the one the equality
 coefficients induces on sections. -/
 theorem derivationSubtypeTransport_coe_d
     {M N : PresheafOfModules.{w₀} (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀})} (h : M = N)
-    (e : A ≃ {D : M.Derivation' φ // P M D}) (x : A) (Y : Eᵒᵖ) (y : ToType (R₀.obj Y)) :
+    (e : A ≃ {D : PresheafOfModulesOfCommRing.Derivation' M φ // P M D}) (x : A) (Y : Eᵒᵖ)
+    (y : ToType (R₀.obj Y)) :
     ((derivationSubtypeTransport (P := P) h e x).1).d y =
       cast (congrArg (fun K : PresheafOfModules.{w₀}
           (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀}) ↦ ToType (K.obj Y)) h)
@@ -288,8 +290,9 @@ image to a derivation of `𝒪_Z`. -/
 noncomputable def directImageDerivationKernelEquiv (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Z.1 Z.2) :
-    W.val.Derivation' ((smallEtaleRingedToposHom B S hS (i ≫ b)).fSharpInverseImage).hom ≃
-      {D : ((modulePushforward B S hS i).obj W).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' W.val
+      ((smallEtaleRingedToposHom B S hS (i ≫ b)).fSharpInverseImage).hom ≃
+      {D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS i).obj W).val
             (structureSharpInverseImage B S hS b).hom //
         ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
           (x : ToType ((structureRingSheaf B S hS X).obj.obj U)),
@@ -322,7 +325,8 @@ two coefficient presheaves differ only in their scalar action. -/
 theorem directImageDerivationKernelEquiv_coe_d (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Z.1 Z.2)
-    (D : W.val.Derivation' ((smallEtaleRingedToposHom B S hS (i ≫ b)).fSharpInverseImage).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' W.val
+      ((smallEtaleRingedToposHom B S hS (i ≫ b)).fSharpInverseImage).hom)
     (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (t : ToType ((structureRingSheaf B S hS X).obj.obj U)) :
     ((directImageDerivationKernelEquiv B S hS i hi b W D).1).d t =

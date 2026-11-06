@@ -73,7 +73,7 @@ private lemma homMk_twist_comp_map_singlePlusIso {A B : Type*} [Category* A] [Ca
     simp only [mapCochainComplexPlusSinglePlusIso, Functor.singleTwist,
       ObjectProperty.FullSubcategory.comp_hom, HomologicalComplex.comp_f]
     dsimp [Stacks.DerivedIndexing.mapSinglePlus, Stacks.DerivedIndexing.singlePlusFunctor]
-    simp only [Functor.mapCochainComplexPlus_map_hom_f]
+    dsimp only [Functor.mapCochainComplexPlus, ObjectProperty.lift_map, Functor.comp_map]
     show ((NatTrans.mapHomologicalComplex t (ComplexShape.up ℤ)).app
           ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M)).f 0 ≫
         P.map (((HomologicalComplex.singleMapHomologicalComplex I (ComplexShape.up ℤ) 0).app

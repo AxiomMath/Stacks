@@ -70,6 +70,7 @@ attribute [local instance] BigEtaleSpaceSite.bigToSmallAbelianInverseImage_addit
 variable {S : Scheme.{u}} (P : BigPHSpaceSite S) (E : BigEtaleSpaceSite S)
   (h : P.fppfSite = E.fppfSite) {X Y : P.Spaces} (f : Y ⟶ X)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The direct image `f_{big,ph,*}` of abelian sheaves on the big ph sites, as the right
 adjoint attached to cocontinuity of `Over.map f`. -/
 abbrev phAbelianPushforward :
@@ -78,6 +79,7 @@ abbrev phAbelianPushforward :
   (Over.map f).sheafPushforwardCocontinuous AddCommGrpCat.{u + 1}
     (BigPHSpaceOver.topology P Y) (BigPHSpaceOver.topology P X)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The big square of Stacks 0DGW on abelian sheaves**:
 `ε_{X,*} ∘ f_{big,ph,*} = f_{big,étale,*} ∘ ε_{Y,*}`. -/
 def phToBigEtale_comp_phAbelianPushforwardIso :

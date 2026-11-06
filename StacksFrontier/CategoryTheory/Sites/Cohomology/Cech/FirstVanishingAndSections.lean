@@ -433,10 +433,10 @@ private lemma cochainDifferentialZero_π {C : Type u} [Category.{v} C]
         F.map (Pi.lift (fun j : Fin 1 ↦
           Pi.π (fun b : Fin 2 ↦ Over.mk (E.f (l b))) ((1 : Fin 2).succAbove j))).left.op))
       (familyToCochain E F s)) = _
-  simp only [hom_sub_apply, map_sub, ← ConcreteCategory.comp_apply, Pi.lift_π]
+  simp only [hom_sub_apply, map_sub, ← ConcreteCategory.comp_apply, Pi.lift_comp_π]
   simp only [ConcreteCategory.comp_apply, familyToCochain_π]
   simp only [← Functor.map_comp_apply, ← op_comp, ← Over.comp_left]
-  simp only [Function.comp_def, Pi.lift_π]
+  simp only [Function.comp_def, Pi.lift_comp_π]
   rfl
 
 /-- A morphism out of `ℤ` composed with `f` is the morphism determined by the image of `1`. -/
@@ -576,11 +576,11 @@ public theorem surjective_on_sections_of_isZero_cechCohomology
         Pi.lift (fun m ↦ Fin.cases A (fun _ ↦ B) m)
       have hv0 : v.left ≫ pairProj k 0 = a := by
         change (v ≫ Pi.π G 0).left = a
-        rw [Pi.lift_π]
+        rw [Pi.lift_comp_π]
         rfl
       have hv1 : v.left ≫ pairProj k 1 = b := by
         change (v ≫ Pi.π G 1).left = b
-        rw [Pi.lift_π]
+        rw [Pi.lift_comp_π]
         rfl
       have hpull := congrArg (fun q ↦ P₂.map v.left.op q) (hcorrected k)
       rw [← Functor.map_comp_apply, ← op_comp, hv1, ← Functor.map_comp_apply, ← op_comp,

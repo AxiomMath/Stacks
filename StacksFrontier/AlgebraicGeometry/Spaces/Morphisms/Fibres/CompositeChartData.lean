@@ -171,6 +171,12 @@ public noncomputable def CompositeChartData.chartComp
 
 variable (B S hS)
 
+/-- Pullbacks of presheaves on the big fppf site, supplied directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasPullback f g :=
+  (Limits.functorCategoryHasLimitsOfShape (J := WalkingCospan)).has_limit _
+
 /-- An étale atlas of the fibre product of `f` with a surjective étale chart `b` whose first
 projection is again a surjective étale chart. -/
 private theorem exists_etale_atlas_pullback_fst
@@ -181,7 +187,7 @@ private theorem exists_etale_atlas_pullback_fst
       (BigFppfOver.toScheme B S hS)).presheaf b)
     (hbE : (MorphismProperty.inverseImage (@Etale.{u})
       (BigFppfOver.toScheme B S hS)).presheaf b) :
-    ∃ (U : BigFppfOver B S hS) (a₀ : yoneda.obj U ⟶ pullback f b),
+    ∃ (U : BigFppfOver B S hS) (a₀ : yoneda.obj U ⟶ Limits.pullback f b),
       (MorphismProperty.inverseImage (@Etale.{u})
         (BigFppfOver.toScheme B S hS)).presheaf a₀ ∧
       (MorphismProperty.inverseImage (@Surjective.{u})
@@ -212,7 +218,7 @@ public theorem exists_compositeChartData
   let a := a₀ ≫ pullback.fst f b
   let α := yoneda.preimage (a₀ ≫ pullback.snd f b)
   have hα : yoneda.map α = a₀ ≫ pullback.snd f b := yoneda.map_preimage _
-  let m : pullback f b ⟶ pullback f (pullback.fst g c) :=
+  let m : Limits.pullback f b ⟶ Limits.pullback f (pullback.fst g c) :=
     pullback.lift (f := f) (g := pullback.fst g c) (pullback.fst f b)
       (pullback.snd f b ≫ b₀) (by simp only [Category.assoc]; exact pullback.condition)
   have hm : IsPullback m (pullback.snd f b) (pullback.snd f (pullback.fst g c)) b₀ := by

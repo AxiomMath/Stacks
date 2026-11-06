@@ -204,19 +204,19 @@ private noncomputable def productComplexFanIsLimit
         change (Pi.lift fun n : ℕ ↦ (s.proj n).f i) ≫ Rlim.prodMap (L.d i j) ≫
           Pi.π (fun n : ℕ ↦ (L.X j).obj (op n)) n = _
         rw [Category.assoc, prodMap_π, ← Category.assoc]
-        erw [Pi.lift_π]
-        simp only [Pi.lift_π]
+        erw [Pi.lift_comp_π]
+        simp only [Pi.lift_comp_π]
         exact (s.proj n).comm i j })
     (fun s n ↦ by
       ext p : 1
       change (Pi.lift (fun n ↦ (s.proj n).f p)) ≫
         Pi.π (fun n ↦ (L.X p).obj (op n)) n = _
-      exact Pi.lift_π _ n)
+      exact Pi.lift_comp_π _ n)
     (fun s m hm ↦ by
       ext p : 1
       apply Pi.hom_ext
       intro n
-      simpa only [Category.assoc, Pi.lift_π, HomologicalComplex.comp_f,
+      simpa only [Category.assoc, Pi.lift_comp_π, HomologicalComplex.comp_f,
         productComplexFan, fan_mk_proj, productComplexπ] using
         congrArg (fun k ↦ k.f p) (hm n))
 
@@ -342,7 +342,7 @@ private lemma isDerivedLimit_of_isLimit_fan
   · dsimp
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub]
     rw [heP, ← Category.assoc, heP]
     exact hd n
   · dsimp
@@ -440,7 +440,7 @@ private lemma map_pi_lift_comp_piComparison {A : Type u'} {D : Type u}
     H.map (Pi.lift w) ≫ piComparison H X = Pi.lift fun n => H.map (w n) := by
   apply Pi.hom_ext
   intro n
-  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
 
 private lemma map_pi_lift_sub_comp_piComparison {A : Type u'} {D : Type u}
     [Category.{v'} A] [Preadditive A] [Category.{v} D] [Preadditive D]
@@ -452,7 +452,7 @@ private lemma map_pi_lift_sub_comp_piComparison {A : Type u'} {D : Type u}
   rw [map_pi_lift_comp_piComparison]
   apply Pi.hom_ext
   intro n
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, H.map_sub, H.map_comp, ← Category.assoc,
     piComparison_comp_π]
 
@@ -482,9 +482,9 @@ private lemma isDerivedLimit_of_iso {D : Type u} [Category.{v} D]
     apply Pi.hom_ext
     intro n
     dsimp only [d', d]
-    rw [Category.assoc, peπ, ← Category.assoc, Pi.lift_π,
+    rw [Category.assoc, peπ, ← Category.assoc, Pi.lift_comp_π,
       Preadditive.sub_comp]
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub]
     congr 1
     · rw [peπ]
     · have hn : E'.map (homOfLE (Nat.le_succ n)).op ≫

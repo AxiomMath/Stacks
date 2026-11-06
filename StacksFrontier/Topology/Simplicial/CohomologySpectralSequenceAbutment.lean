@@ -170,6 +170,14 @@ variable [HasSheafify (SimplicialOpen.grothendieckTopology X) Ab.{w}]
 instance additive_sheafΓ : (Sheaf.Γ (SimplicialOpen.grothendieckTopology X) Ab.{w}).Additive :=
   haveI : PreservesLimitsOfSize.{0, 0} (Sheaf.Γ (SimplicialOpen.grothendieckTopology X) Ab.{w}) :=
     (constantSheafΓAdj (SimplicialOpen.grothendieckTopology X) Ab.{w}).rightAdjoint_preservesLimits
+  haveI : HasBinaryProducts ((SimplicialOpen X)ᵒᵖ ⥤ Ab.{w}) := functorCategoryHasLimitsOfShape
+  haveI : HasBinaryProducts (Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{w}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+      (sheafToPresheaf (SimplicialOpen.grothendieckTopology X) Ab.{w})
+  haveI : (Sheaf.Γ (SimplicialOpen.grothendieckTopology X) Ab.{w}).IsRightAdjoint :=
+    ⟨_, ⟨constantSheafΓAdj (SimplicialOpen.grothendieckTopology X) Ab.{w}⟩⟩
+  haveI : (Sheaf.Γ (SimplicialOpen.grothendieckTopology X) Ab.{w}).PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isRightAdjoint _
   Functor.additive_of_preserves_binary_products _
 
 /-- The whole space `X_0` in simplicial degree zero, as an object of the opposite of the site. -/
@@ -345,7 +353,7 @@ def freeRepresentableHomIso (P : (SimplicialOpen X)ᵒᵖ ⥤ Ab.{w}) :
     (fun U => ((freeRepresentableHomEquiv U.unop P).trans AddEquiv.ulift.symm).toAddCommGrpIso)
     (fun {U U'} f => by
       ext φ
-      refine ULift.ext _ _ ?_
+      refine ULift.ext ?_
       change (φ.app (op U'.unop)).hom
           ((((freeRepresentable.{u, w} X).map f.unop).app (op U'.unop)).hom
             (freeRepresentableGen U'.unop)) =

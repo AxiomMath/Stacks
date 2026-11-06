@@ -68,11 +68,11 @@ theorem nonempty_etaleModuleDerivedGlobalSectionsIso_of_injective (X : Scheme.{u
       show IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ))
       exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 hφ
     exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
-  have : IsIso (Γ.rightDerivedFunctorPlusUnit.app
+  have : IsIso (Γ.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient _).obj I)) := inferInstance
   have : IsIso (Γ.mapHomologicalComplexDerivedUnit I.property) :=
     inferInstanceAs (IsIso ((Γ.mapHomologicalComplexQhIso I.property).inv ≫
-      DerivedCategory.Plus.ι.map (Γ.rightDerivedFunctorPlusUnit.app
+      DerivedCategory.Plus.ι.map (Γ.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient _).obj I))))
   exact ⟨DerivedCategory.Plus.ι.mapIso (Γ.rightDerivedFunctorPlus.mapIso
       (asIso (DerivedCategory.Plus.Q.map φ) ≪≫
@@ -309,6 +309,9 @@ theorem exists_derivedEtaleModuleStalk_directImage_iso (B : BigEtaleSite.{u}) [F
             (DerivedCategory.Plus.Q.obj ⟨D, ⟨a, inferInstance⟩⟩))) := by
   classical
   let f := jU ≫ h
+  have : LocallyOfFiniteType f :=
+    @locallyOfFiniteType_comp _ _ _ jU h (locallyOfFiniteType_of_isOpenImmersion jU)
+      IsProper.toLocallyOfFiniteType
   let jX := compactificationOfOpenImmersionProper jU h
   let s := GeometricPoint.ofPoint Y.obj y
   let Ω := s.residueField

@@ -47,7 +47,6 @@ theorem exists_tmul_one_eq_pow_expChar_tensorAdjoinPthRoots
     expChar_of_injective_algebraMap (algebraMap k _).injective p
   have hp : p ≠ 0 := (expChar_pos k p).ne'
   induction t with
-  | zero => exact ⟨0, by simp [zero_pow hp]⟩
   | tmul x a =>
       refine ⟨(AdjoinPthRoots.root k).symm a • x ^ p, ?_⟩
       rw [Algebra.TensorProduct.tmul_pow, AdjoinPthRoots.algebraMap_root_symm (p := p) a |>.symm,

@@ -369,7 +369,7 @@ theorem zeroScheme_ideal_tensorSection (U : X.affineOpens)
     (a : Γ(M, ⊤)) (b : Γ(N, ⊤)) :
     (zeroScheme X (tensorModules M N) (tensorSection M N ⊤ a b)).ideal U =
       Ideal.span ({eM (M.presheaf.map (homOfLE le_top).op a) *
-        eN (N.presheaf.map (homOfLE le_top).op b)} : Set Γ(X, U.1)) :=
+                    eN (N.presheaf.map (homOfLE le_top).op b)} : Set Γ(X, U.1)) :=
   zeroScheme_ideal_of_trivialization X (tensorModules M N) (tensorSection M N ⊤ a b) U
     (tensorTrivialization M N U.2 eM eN) _
     (tensorTrivialization_map_tensorSection M N U eM eN a b)
@@ -509,7 +509,7 @@ theorem zeroScheme_ideal_pullbackGlobalSections {X' : Scheme.{u}} (g : X' ⟶ X)
     (zeroScheme X' ((Scheme.Modules.pullback g).obj M)
         (pullbackGlobalSections g M a)).ideal U' =
       Ideal.span ({g.appLE U.1 U'.1 hU'
-        (e (M.presheaf.map (homOfLE (le_top : U.1 ≤ ⊤)).op a))} : Set Γ(X', U'.1)) := by
+                    (e (M.presheaf.map (homOfLE (le_top : U.1 ≤ ⊤)).op a))} : Set Γ(X', U'.1)) := by
   have : M.IsQuasicoherent := isQuasicoherent_of_isInvertible M
   obtain ⟨e', he'⟩ := exists_linearEquiv_pullbackGlobalSections g M U.2 U'.2 hU' e a
   exact zeroScheme_ideal_of_trivialization X' ((Scheme.Modules.pullback g).obj M)

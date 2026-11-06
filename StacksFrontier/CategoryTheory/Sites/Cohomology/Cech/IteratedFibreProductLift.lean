@@ -49,7 +49,7 @@ noncomputable def cechProductLift {W : C} (w : W ⟶ U) (y : ∀ a, W ⟶ E.X (t
 theorem cechProductLift_π_left {W : C} (w : W ⟶ U) (y : ∀ a, W ⟶ E.X (t a))
     (hy : ∀ a, y a ≫ E.f (t a) = w) (b : Fin (n + 1)) :
     cechProductLift E n t w y hy ≫ (Pi.π (fun a ↦ Over.mk (E.f (t a))) b).left = y b := by
-  rw [cechProductLift, ← Over.comp_left, Pi.lift_π]
+  rw [cechProductLift, ← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 /-- `Stacks.CechSite.cechProductLift` lies over the common composite. -/

@@ -115,6 +115,7 @@ abbrev etaleTopology (Y : P.Spaces) :
     GrothendieckTopology (Space.SpacesEtale E.fppfSite S E.fppf_mem (etaleSpace P E h Y)) :=
   Space.SpacesEtale.topology E.fppfSite S E.fppf_mem (etaleSpace P E h Y)
 
+set_option maxHeartbeats 400000 in
 /-- **`H^q_ph(Y, a_Y⁻¹𝓖) = H^q_étale(Y, 𝓖)` for a torsion sheaf `𝓖` on `Y_étale`**: Stacks 0DGV,
 part (1), with ph cohomology the right derived functors of `Γ((Spaces/Y)_ph, -)` and étale
 cohomology Mathlib's sheaf cohomology. -/

@@ -154,12 +154,26 @@ theorem moduleSheafFunctor_map_eqToHom_pushforwardModules_eq_modulePushforward_a
     (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).map
         ((eqToHom (pushforwardModules_eq_modulePushforward B S hS f)).app F) =
       𝟙 ((smallToposMorphismTypeU B S hS f).pushforward.obj
-        ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).obj F)) :=
-  ((congrArg (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).map
-        (eqToHom_app (pushforwardModules_eq_modulePushforward B S hS f) F)).trans
-      (eqToHom_map (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y))
-        (Functor.congr_obj (pushforwardModules_eq_modulePushforward B S hS f) F))).trans
-    (eqToHom_refl _ _)
+        ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).obj F)) := by
+  -- Both objects are identified with the common target separately, so the kernel never
+  -- compares the two restriction-of-scalars maps.
+  have h₁ : (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).obj
+      ((smallEtaleRingedToposHom B S hS f).pushforwardModules.obj F) =
+      (smallToposMorphismTypeU B S hS f).pushforward.obj
+        ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).obj F) := rfl
+  have h₂ : (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).obj
+      ((modulePushforward B S hS f).obj F) =
+      (smallToposMorphismTypeU B S hS f).pushforward.obj
+        ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).obj F) := rfl
+  have e₁ : eqToHom h₁ = 𝟙 _ := eqToHom_refl _ rfl
+  have e₂ : eqToHom h₂.symm = 𝟙 _ := eqToHom_refl _ rfl
+  refine ((congrArg (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).map
+      (eqToHom_app (pushforwardModules_eq_modulePushforward B S hS f) F)).trans
+    (eqToHom_map (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y))
+      (Functor.congr_obj (pushforwardModules_eq_modulePushforward B S hS f) F))).trans ?_
+  refine (eqToHom_trans h₁ h₂.symm).symm.trans ?_
+  rw [e₁, e₂]
+  exact Category.comp_id _
 
 /-- The transport along `AlgebraicGeometry.Space.pushforwardModules_eq_modulePushforward` is
 `AlgebraicGeometry.Space.pushforwardModulesIsoModulePushforward`. -/

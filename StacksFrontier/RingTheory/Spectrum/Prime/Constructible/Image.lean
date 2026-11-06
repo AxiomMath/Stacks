@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Descent.MorphismProperty.RingHomPi
 public import StacksFrontier.RingTheory.Spectrum.Prime.Constructible.Defs
+public import Mathlib.RingTheory.Localization.Away.AdjoinRoot
 
 import StacksCore.Tactic.StacksAttribute
 

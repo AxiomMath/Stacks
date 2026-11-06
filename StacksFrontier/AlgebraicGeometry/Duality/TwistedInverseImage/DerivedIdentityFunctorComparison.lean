@@ -157,19 +157,19 @@ theorem Functor.mapDerivedCategoryId_hom_app_Q_comp_quotientCompQhIso (K : Cocha
 `CategoryTheory.Functor.mapDerivedCategoryId`, lifted through `DerivedCategory.Q`, and
 `CategoryTheory.Functor.mapDerivedCategoryIdIso`, lifted through `DerivedCategory.Qh`. -/
 theorem Functor.mapDerivedCategoryId_hom_eq_mapDerivedCategoryIdIso :
-    (Functor.mapDerivedCategoryId C).hom = Functor.mapDerivedCategoryIdIso.hom := by
+    (Functor.mapDerivedCategoryId C).hom = (Functor.mapDerivedCategoryIdIso C).hom := by
   refine Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)) fun K ↦ ?_
   refine (cancel_epi ((𝟭 C).mapDerivedCategory.map
     ((DerivedCategory.quotientCompQhIso C).hom.app K))).mp ?_
   have hnat : (𝟭 C).mapDerivedCategory.map
           ((DerivedCategory.quotientCompQhIso C).hom.app K) ≫
-        Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj K) =
-      Functor.mapDerivedCategoryIdIso.hom.app
+        (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Q.obj K) =
+      (Functor.mapDerivedCategoryIdIso C).hom.app
           (DerivedCategory.Qh.obj
             ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj K)) ≫
         (DerivedCategory.quotientCompQhIso C).hom.app K :=
-    Functor.mapDerivedCategoryIdIso.hom.naturality _
+    (Functor.mapDerivedCategoryIdIso C).hom.naturality _
   refine Eq.trans ?_ hnat.symm
   rw [Functor.mapDerivedCategoryIdIso_hom_app_Qh, Functor.mapDerivedCategoryId_hom_app_Q]
   exact Functor.mapDerivedCategoryId_hom_app_Q_comp_quotientCompQhIso K

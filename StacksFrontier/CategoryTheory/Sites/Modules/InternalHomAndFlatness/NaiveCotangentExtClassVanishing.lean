@@ -102,7 +102,6 @@ theorem singleFunctors_shiftIso_inv_app :
         (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
           ((single C (ComplexShape.up ℤ) 0).obj G) := by
   simp [DerivedCategory.singleFunctors, SingleFunctors.postcomp]
-  rfl
 
 /-- **The class of the chain map given by `f` in degree `-1` is minus the class of `f`.** In the
 derived category of an abelian category, the chain map `double d ⟶ G[1]` that is `f` in degree

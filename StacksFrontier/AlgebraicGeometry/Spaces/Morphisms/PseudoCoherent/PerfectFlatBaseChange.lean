@@ -194,6 +194,7 @@ theorem isPerfect_of_isPullback_of_isFlat
       exact _root_.AlgebraicGeometry.perfect_pullback_snd a c)
     sq hflat hf
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- Flat base change of a perfect morphism of algebraic spaces in the `pullback` spelling: if
 `f : X ⟶ Y` is a perfect morphism of algebraic spaces and `g : Y' ⟶ Y` is flat, then the
 projection `X ×_Y Y' ⟶ Y'` is perfect.

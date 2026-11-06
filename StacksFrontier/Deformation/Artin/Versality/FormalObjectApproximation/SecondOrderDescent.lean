@@ -18,7 +18,6 @@ object at a finite type point
 open AlgebraicGeometry CategoryTheory IsLocalRing
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber.fiberInclusion
 attribute [local implicit_reducible] Deformation.Artin.baseOver
@@ -697,7 +696,6 @@ public theorem exists_completeLocalObject_of_isFiniteTypePoint
     have hmap : (eqToHom hbb).left.hom = eqToHom (congrArg Over.left hbbpost) := by
       show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom hbb) = _
       simp only [eqToHom_map]
-      rfl
     have her' : Spec.map (CommRingCat.ofHom er.toRingHom) =
         eqToHom (congrArg Over.left hbbpost) := by
       rw [her, ← hmap, eqToHom_trans]

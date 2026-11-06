@@ -443,8 +443,8 @@ private theorem traceFromPresentation_apply_snoc [CharP R p]
     LinearEquiv.coe_coe, exteriorPower.oneEquiv_ιMulti,
     TensorProduct.rid_tmul, map_smul, exteriorPower.map_apply_ιMulti]
   have ht : (tensorQuotientSpanEquiv (R := R) (S := S) (KaehlerDifferential.D Λ R a)) ∘
-      (fun j : Fin t => (Submodule.span S {(1 : S) ⊗ₜ[R]
-        KaehlerDifferential.D Λ R a}).mkQ ((1 : S) ⊗ₜ[R] η j)) =
+      (fun j : Fin t => (Submodule.span S {((1 : S) ⊗ₜ[R]
+        KaehlerDifferential.D Λ R a)}).mkQ ((1 : S) ⊗ₜ[R] η j)) =
       (fun j => (1 : S) ⊗ₜ[R] (Submodule.span R
         {KaehlerDifferential.D Λ R a}).mkQ (η j)) := by
     funext j

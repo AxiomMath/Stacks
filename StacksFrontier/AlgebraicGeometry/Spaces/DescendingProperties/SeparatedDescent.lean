@@ -112,6 +112,19 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). It is a `local instance` with a file-unique name, not `private`:
+a private instance is invisible in the public statements below. -/
+local instance hasPullbacks_presheaf_separatedDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_separatedDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Separatedness over an affine base is absolute separatedness -/
 
 section AbsoluteOverAffine

@@ -671,7 +671,6 @@ public theorem exists_dividedPowerPolynomialDifferentialsEquiv :
       F (dividedPowerPolynomialTensorLift (A := A) B W x) = (x, 0) := by
     intro x
     induction x with
-    | zero => rw [map_zero, map_zero]; rfl
     | tmul p om =>
         rw [dividedPowerPolynomialTensorLift_tmul, map_smul, hFcoeffLift]
         refine Prod.ext ?_ (smul_zero p)

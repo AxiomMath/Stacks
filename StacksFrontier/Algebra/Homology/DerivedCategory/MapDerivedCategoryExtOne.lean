@@ -82,11 +82,10 @@ private theorem singleFunctors_shiftIso_inv_app {A : Type*} [Category A] [Abelia
         (by decide)).inv.app M) ≫ (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
           ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M) := by
   simp [DerivedCategory.singleFunctors, SingleFunctors.postcomp]
-  rfl
 
 /-- `mapDerivedCategorySingleFunctor` is `mapDerivedCategoryFactors` followed by the image of the
 comparison of single complexes. -/
-private theorem mapDerivedCategorySingleFunctor_hom_app (n : ℤ) (M : C) :
+private theorem mapDerivedCategorySingleFunctor_hom_app_eq (n : ℤ) (M : C) :
     (F.mapDerivedCategorySingleFunctor n).hom.app M =
       F.mapDerivedCategoryFactors.hom.app ((HomologicalComplex.single C (ComplexShape.up ℤ) n).obj
         M) ≫ DerivedCategory.Q.map
@@ -145,14 +144,14 @@ theorem mapDerivedCategory_map_singleShiftIso_inv (M : C) :
           ((HomologicalComplex.single C (ComplexShape.up ℤ) 0).obj M))⟦(1 : ℤ)⟧') ≫
         (DerivedCategory.Q.map ((HomologicalComplex.singleMapHomologicalComplex F
           (ComplexShape.up ℤ) 0).hom.app M))⟦(1 : ℤ)⟧' := by
-        rw [singleFunctors_shiftIso_inv_app, F.mapDerivedCategorySingleFunctor_hom_app]
+        rw [singleFunctors_shiftIso_inv_app, F.mapDerivedCategorySingleFunctor_hom_app_eq]
         simp only [Functor.map_comp, Category.assoc]
         rfl
     _ = _ := by
         rw [hc]
         simp only [Category.assoc]
         rw [reassoc_of% hn, ← hQ, singleFunctors_shiftIso_inv_app,
-          F.mapDerivedCategorySingleFunctor_hom_app]
+          F.mapDerivedCategorySingleFunctor_hom_app_eq]
         simp only [Category.assoc]
         congr 1
         have hd' := congrArg (· ≫ (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
@@ -173,7 +172,7 @@ theorem mapExtOne_Q_map_shiftIso {K : CochainComplex C ℤ} {M : C}
           (F.obj M) := by
   simp only [mapExtOne, Functor.map_comp, Category.assoc]
   rw [F.mapDerivedCategory_map_singleShiftIso_inv M,
-    F.mapDerivedCategorySingleFunctor_hom_app, Category.assoc,
+    F.mapDerivedCategorySingleFunctor_hom_app_eq, Category.assoc,
     F.mapDerivedCategoryFactors_hom_naturality_assoc ψ, Iso.inv_hom_id_app_assoc]
 
 /-- An exact functor carries chain maps which become invertible in the derived category to chain

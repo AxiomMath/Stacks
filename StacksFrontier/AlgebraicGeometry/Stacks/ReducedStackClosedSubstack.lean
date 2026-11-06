@@ -62,6 +62,17 @@ universe u w
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ReducedStackClosedSubstack :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ReducedStackClosedSubstack
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- **A substack property is inherited by the domain of a morphism over the base.** Every
 morphism of a category fibred in groupoids is strongly cartesian, and the full subcategory cut
 out by the property is again fibred in groupoids, so a morphism to an object of the substack
@@ -140,7 +151,7 @@ theorem prop_of_isReduced_fiber {𝒳 : AlgebraicStacks.{u, w} B S hS}
   set q := hciU.rep.snd g₀
   set pr := hciU.rep.fst g₀
   have hsq := hciU.rep.isPullback g₀
-  have hprw : pr ≫ h = yoneda.map q := by simpa [hg₀] using hsq.w
+  have hprw : pr ≫ h = yoneda.map q := by simpa only [hg₀, Category.id_comp, Category.comp_id] using hsq.w
   have hpriso : IsIso pr := hsq.isIso_fst_of_isIso
   -- It is a closed immersion of schemes, and it is surjective.
   have hqCI : AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map q) :=

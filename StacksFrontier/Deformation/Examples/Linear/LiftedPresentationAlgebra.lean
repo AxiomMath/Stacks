@@ -210,11 +210,11 @@ theorem exists_isWeightedHomogeneous_map_eq {f : A →+* k} (hf : Function.Surje
 /-- A polynomial all of whose coefficients lie in an ideal of the base ring is a combination of
 that ideal with polynomials: it is the sum of its monomials. -/
 theorem mem_smul_top_of_coeff_mem (I : Ideal A) {u : MvPolynomial ι A}
-    (hu : ∀ m, coeff m u ∈ I) : u ∈ I • (⊤ : Submodule A (MvPolynomial ι A)) := by
+    (hu : ∀ m, u.coeff m ∈ I) : u ∈ I • (⊤ : Submodule A (MvPolynomial ι A)) := by
   classical
   rw [as_sum u]
   refine sum_mem fun m _ ↦ ?_
-  have h : monomial m (coeff m u) = coeff m u • monomial m (1 : A) := by
+  have h : monomial m (u.coeff m) = u.coeff m • monomial m (1 : A) := by
     rw [smul_monomial, smul_eq_mul, mul_one]
   rw [h]
   exact Submodule.smul_mem_smul (hu m) Submodule.mem_top
@@ -719,10 +719,10 @@ theorem mem_smul_liftedGrading_of_reduction_eq_zero
     rw [map_mul, hĝ j, hRmap j, smul_eq_mul]
   have hdiff : MvPolynomial.map (algebraMap A k) (u - ∑ j, ĝ j * R j) = 0 := by
     rw [map_sub, hmapr, sub_self]
-  have hcoeff : ∀ m, MvPolynomial.coeff m (u - ∑ j, ĝ j * R j) ∈
+  have hcoeff : ∀ m, (u - ∑ j, ĝ j * R j).coeff m ∈
       RingHom.ker (algebraMap A k) := by
     intro m
-    rw [RingHom.mem_ker, ← MvPolynomial.coeff_map, hdiff, MvPolynomial.coeff_zero]
+    rw [RingHom.mem_ker, ← MvPolynomial.coeff_map, hdiff, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   have hsmall : u - ∑ j, ĝ j * R j ∈
       RingHom.ker (algebraMap A k) • (⊤ : Submodule A (MvPolynomial ι A)) :=
     MvPolynomial.mem_smul_top_of_coeff_mem _ hcoeff

@@ -293,6 +293,15 @@ theorem componentRestrictionAb_preservesInjectiveObjects
     (SimplicialOpen.grothendieckTopology X)
   have := adj.rightAdjoint_preservesLimits
   have := adj.isLeftAdjoint
+  have : HasBinaryProducts Ab.{w} := inferInstance
+  have : HasBinaryProducts ((SimplicialOpen X)ᵒᵖ ⥤ Ab.{w}) := inferInstance
+  have : HasBinaryProducts
+      ((Opens (X.obj (op (SimplexCategory.mk n))))ᵒᵖ ⥤ Ab.{w}) := inferInstance
+  have : HasBinaryProducts (Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{w}) :=
+    inferInstance
+  have : HasBinaryProducts
+      (Sheaf (Opens.grothendieckTopology (X.obj (op (SimplexCategory.mk n)))) Ab.{w}) :=
+    inferInstance
   have := Functor.additive_of_preserves_binary_products
     ((levelFunctor X (op (SimplexCategory.mk n))).sheafPushforwardContinuous Ab.{w}
       (Opens.grothendieckTopology (X.obj (op (SimplexCategory.mk n))))

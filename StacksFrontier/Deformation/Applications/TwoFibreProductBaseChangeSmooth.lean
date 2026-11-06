@@ -343,7 +343,7 @@ private lemma exists_iso_lift_of_mapRelativeInfinitesimalAutomorphisms_surjectiv
     isHomLift_basedFunctor_map q (𝟙 B) c.inv (IsHomLift.lift_id_inv 𝓖.p B c)
   have hqchom : 𝓕.p.IsHomLift (𝟙 B) (q.map c.hom) :=
     isHomLift_basedFunctor_map q (𝟙 B) c.hom hc
-  let difference : Aut ((fiberFunctor q B).obj z₂) :=
+  let difference : Aut ((fiberFunctor q B).obj z₂) := Aut.of
     { hom := ⟨q.map c.inv ≫ a.hom, IsHomLift.comp_of_lift_id 𝓕.p B (q.map c.inv) a.hom⟩
       inv := ⟨a.inv ≫ q.map c.hom, IsHomLift.comp_of_lift_id 𝓕.p B a.inv (q.map c.hom)⟩
       hom_inv_id := by
@@ -366,21 +366,22 @@ private lemma exists_iso_lift_of_mapRelativeInfinitesimalAutomorphisms_surjectiv
     rw [Category.assoc, ← hw, ← q.map_comp, hcomm, q.map_comp, ← Category.assoc,
       ← q.map_comp, c.inv_hom_id, q.map_id, Category.id_comp]
   obtain ⟨correction, hcorrection⟩ := hsurj ⟨difference, hdifference⟩
-  have hfix : correction.1.hom.val ≫ r₂ = r₂ :=
+  have hfix : correction.1.asIso.hom.val ≫ r₂ = r₂ :=
     (mem_relativeInfinitesimalAutomorphisms_iff h𝓖 f r₂ hr₂ correction.1).mp correction.2
-  have hmap : q.map correction.1.hom.val = q.map c.inv ≫ a.hom := by
+  have hmap : q.map correction.1.asIso.hom.val = q.map c.inv ≫ a.hom := by
     have h := mapRelativeInfinitesimalAutomorphisms_hom q h𝓖 h𝓕 f r₂ hr₂ correction
     rw [hcorrection] at h
     exact h.symm
-  have hvert : 𝓖.p.IsHomLift (𝟙 B) correction.1.hom.val := correction.1.hom.property
-  let correctionIso : z₂.1 ≅ z₂.1 := isoOfIsHomLiftId h𝓖 correction.1.hom.val hvert
+  have hvert : 𝓖.p.IsHomLift (𝟙 B) correction.1.asIso.hom.val :=
+    correction.1.asIso.hom.property
+  let correctionIso : z₂.1 ≅ z₂.1 := isoOfIsHomLiftId h𝓖 correction.1.asIso.hom.val hvert
   refine ⟨c ≪≫ correctionIso, ?_, ?_, ?_⟩
-  · show 𝓖.p.IsHomLift (𝟙 B) (c.hom ≫ correction.1.hom.val)
-    exact IsHomLift.comp_of_lift_id 𝓖.p B c.hom correction.1.hom.val
-  · show r₁ ≫ b.hom = (c.hom ≫ correction.1.hom.val) ≫ r₂
+  · show 𝓖.p.IsHomLift (𝟙 B) (c.hom ≫ correction.1.asIso.hom.val)
+    exact IsHomLift.comp_of_lift_id 𝓖.p B c.hom correction.1.asIso.hom.val
+  · show r₁ ≫ b.hom = (c.hom ≫ correction.1.asIso.hom.val) ≫ r₂
     rwa [Category.assoc, hfix]
   · apply Iso.ext
-    show q.map (c.hom ≫ correction.1.hom.val) = a.hom
+    show q.map (c.hom ≫ correction.1.asIso.hom.val) = a.hom
     rw [q.map_comp, hmap, ← Category.assoc, ← q.map_comp, c.hom_inv_id, q.map_id,
       Category.id_comp]
 

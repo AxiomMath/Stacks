@@ -317,7 +317,7 @@ reduction along `q` of the coefficient of `B` at `μ`. -/
 public theorem reduceCoeff_apply (c : (GB.Variable →₀ ℕ) →₀ MvPolynomial σ R')
     (μ : GB.Variable →₀ ℕ) :
     h.reduceCoeff c (h.exponentEquiv.symm μ) = MvPolynomial.map q (c μ) := by
-  rw [reduceCoeff, Finsupp.mapDomain_apply h.exponentEquiv.symm.injective,
+  rw [reduceCoeff, Finsupp.mapDomain_apply_of_injective h.exponentEquiv.symm.injective,
     Finsupp.mapRange_apply]
 
 /-- The attached coefficient family of `A` is supported on the monomials of the same degree. -/
@@ -467,11 +467,11 @@ public theorem map_mem_annihilatorSMul_of_mem_grade {n : ℕ} {b : B} (hb : b �
     have hμ := congrArg (fun g : (GB.Variable →₀ ℕ) →₀ MvPolynomial σ R' => g μ) hvan
     simpa using hμ
   have hann : ∀ (μ : GB.Variable →₀ ℕ) (ex : σ →₀ ℕ),
-      MvPolynomial.coeff ex (c μ) ∈ (Ideal.span {f}).annihilator := by
+      (c μ).coeff ex ∈ (Ideal.span {f}).annihilator := by
     intro μ ex
     refine (Submodule.mem_annihilator_span_singleton f _).2 ?_
-    have hco := congrArg (MvPolynomial.coeff ex) (hCf μ)
-    rw [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_zero] at hco
+    have hco := congrArg (fun p : MvPolynomial σ R' => p.coeff ex) (hCf μ)
+    rw [MvPolynomial.coeff_C_mul, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hco
     rw [smul_eq_mul, mul_comm]
     exact hco
   rw [← hcb, h.map_monomialSumMap_sum hmono]

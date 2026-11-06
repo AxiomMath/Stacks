@@ -151,7 +151,9 @@ def pullbackFreeYonedaIso (U : C) :
 /-- Restriction along a dense subsite is additive, being an equivalence. -/
 private instance sheafEquiv_functor_additive :
     (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}).functor.Additive :=
-  Functor.additive_of_preserves_binary_products _
+  have : (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}).symm.functor.Additive :=
+    { map_add := by intro X Y f g; ext U; exact rfl }
+  Equivalence.inverse_additive (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}).symm
 
 private instance sheafEquiv_symm_functor_additive :
     (Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}).symm.functor.Additive :=

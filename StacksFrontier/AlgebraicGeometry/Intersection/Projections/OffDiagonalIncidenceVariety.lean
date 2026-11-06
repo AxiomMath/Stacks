@@ -331,7 +331,8 @@ public theorem topologicalKrullDimAt_fiber_offDiagIncidenceVarietyToBase_le_one 
       (offDiagIncidenceVarietyToBase k V Y Z hY hZ)
       (offDiagIncidenceVarietyToSpec k V Y Z hY hZ) (offDiagBaseToSpec k V Y Z hY hZ) rfl t ht
   have hq : IsClosed ({(offDiagBaseToProdTwo k V Y Z hY hZ).base
-      ((offDiagIncidenceVarietyToBase k V Y Z hY hZ).base t)} : Set (prodTwo k V)) :=
+                        ((offDiagIncidenceVarietyToBase k V Y Z hY hZ).base t)} :
+      Set (prodTwo k V)) :=
     isClosed_singleton_image_of_locallyOfFiniteType k (offDiagBaseToProdTwo k V Y Z hY hZ)
       (offDiagBaseToSpec k V Y Z hY hZ) (prodTwoToSpec k V) rfl _ hb
   have hcl₁ := isClosed_singleton_image_of_locallyOfFiniteType k (prodTwoFst k V)

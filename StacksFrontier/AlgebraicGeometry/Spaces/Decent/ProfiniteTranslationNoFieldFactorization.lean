@@ -468,7 +468,7 @@ def translationSpecIso (g : G) :
 
 /-- Translation by `g` as an automorphism of `Y` over `Spec k`. -/
 def translationAut (g : G) : Aut (profiniteSpec k G) :=
-  Over.isoMk (translationSpecIso k G g)
+  .of <| Over.isoMk (translationSpecIso k G g)
     (by
       change Spec.map _ ≫ Spec.map _ = Spec.map _
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, translationRingEquiv_comp_algebraMap])
@@ -476,19 +476,21 @@ def translationAut (g : G) : Aut (profiniteSpec k G) :=
 /-- The underlying morphism of schemes of `translationAut k G g` is the spectrum of translation by
 `g`. -/
 theorem translationAut_hom_left (g : G) :
-    (translationAut k G g).hom.left =
+    (translationAut k G g).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (translationRingEquiv k G g).toRingHom) := rfl
 
 /-- The translation action of `G` on `Y = Spec (LocallyConstant G k)` over `Spec k`. -/
 def translationAction : G →* Aut (profiniteSpec k G) where
   toFun := translationAut k G
   map_one' := by
+    apply Aut.ext
     apply Iso.ext
     apply Over.OverMorphism.ext
     change Spec.map (CommRingCat.ofHom (translationRingEquiv k G 1).toRingHom) = _
     rw [translationRingEquiv_one_eq, CommRingCat.ofHom_id, Spec.map_id]
     rfl
   map_mul' g h := by
+    apply Aut.ext
     apply Iso.ext
     apply Over.OverMorphism.ext
     change Spec.map (CommRingCat.ofHom (translationRingEquiv k G (g * h)).toRingHom) =
@@ -498,13 +500,13 @@ def translationAction : G →* Aut (profiniteSpec k G) where
 /-- The underlying morphism of schemes of the translation action of `g` is the spectrum of
 translation by `g`. -/
 theorem translationAction_hom_left (g : G) :
-    (translationAction k G g).hom.left =
+    (translationAction k G g).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (translationRingEquiv k G g).toRingHom) := rfl
 
 /-- Translation by `g` carries the evaluation prime at `w` to the evaluation prime at
 `g * w`. -/
 theorem translationAction_base_evaluationPrime (g w : G) :
-    (translationAction k G g).hom.left (evaluationPrime k G w) =
+    (translationAction k G g).asIso.hom.left (evaluationPrime k G w) =
       evaluationPrime k G (g * w) :=
   comap_translationRingEquiv_evaluationPrime k G g w
 
@@ -516,10 +518,10 @@ theorem actsFreelyOnNonemptyPoints_translationAction [CompactSpace G] [T2Space G
     Space.ActsFreelyOnNonemptyPoints (profiniteSpec k G) G (translationAction k G) := by
   intro T hT x g g' hgg
   obtain ⟨t⟩ := hT
-  have hleft : x.left ≫ (translationAction k G g).hom.left =
-      x.left ≫ (translationAction k G g').hom.left := congrArg CommaMorphism.left hgg
-  have hbase : (translationAction k G g).hom.left.base (x.left.base t) =
-      (translationAction k G g').hom.left.base (x.left.base t) := by
+  have hleft : x.left ≫ (translationAction k G g).asIso.hom.left =
+      x.left ≫ (translationAction k G g').asIso.hom.left := congrArg CommaMorphism.left hgg
+  have hbase : (translationAction k G g).asIso.hom.left.base (x.left.base t) =
+      (translationAction k G g').asIso.hom.left.base (x.left.base t) := by
     simpa using congrArg (fun m : T.left ⟶ (profiniteSpec k G).left => m.base t) hleft
   obtain ⟨w, hw⟩ := evaluationPrime_surjective k G (x.left.base t)
   rw [← hw, translationAction_base_evaluationPrime,
@@ -615,7 +617,7 @@ def summandInclusion (g : G) :
 def siteTranslation (g : G) :
     profiniteChart k G B hS hY ⟶ profiniteChart k G B hS hY :=
   Over.homMk (ObjectProperty.homMk (translationSpecIso k G g).hom)
-    (ObjectProperty.hom_ext _ (translationAut k G g).hom.w)
+    (ObjectProperty.hom_ext _ (translationAut k G g).asIso.hom.w)
 
 /-- The summand inclusion splits the source map of the relation. -/
 theorem summandInclusion_comp_source (g : G) :
@@ -691,7 +693,7 @@ induced by the individual translations. -/
 theorem actionRelationTarget_left_eq :
     (Space.actionRelationTarget (profiniteOver k G B hS hY) G (translationAction k G)).left =
       (Space.actionRelationUnderlyingIso (profiniteOver k G B hS hY) G).hom ≫
-        Sigma.desc fun g : G => ((translationAction k G g).hom.left :
+        Sigma.desc fun g : G => ((translationAction k G g).asIso.hom.left :
           (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left) :=
   relation_left_eq_iso_hom_comp_desc _ _ _ fun g =>
     congrArg Over.Hom.left (Sigma.ι_desc _ g)
@@ -825,7 +827,7 @@ theorem not_exists_comp_evalPoint_comp_quotientMap_eq [IsTopologicalGroup G] [In
   obtain ⟨ρt, hsp, htg⟩ : ∃ r : (profiniteOver k G B hS hY).left ⟶
       ∐ fun _ : G => (profiniteOver k G B hS hY).left,
       (r ≫ Sigma.desc fun _ : G => 𝟙 (profiniteOver k G B hS hY).left) = 𝟙 _ ∧
-      (r ≫ Sigma.desc fun g : G => ((translationAction k G g).hom.left :
+      (r ≫ Sigma.desc fun g : G => ((translationAction k G g).asIso.hom.left :
           (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left)) =
         σ.left.hom ≫
           Spec.map (CommRingCat.ofHom (LocallyConstant.evalRingHom (Y := k) (1 : G))) :=
@@ -836,7 +838,7 @@ theorem not_exists_comp_evalPoint_comp_quotientMap_eq [IsTopologicalGroup G] [In
     intro w
     have hbase := base_eq_sigmaMk_sigmaIndexOf ρt hsp (evaluationPrime k G w)
     have hLHS := Scheme.Hom.comp_apply ρt
-      (Sigma.desc fun g : G => ((translationAction k G g).hom.left :
+      (Sigma.desc fun g : G => ((translationAction k G g).asIso.hom.left :
         (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left))
       (evaluationPrime k G w)
     have hRHS := Scheme.Hom.comp_apply σ.left.hom
@@ -847,10 +849,10 @@ theorem not_exists_comp_evalPoint_comp_quotientMap_eq [IsTopologicalGroup G] [In
     have h2 := hLHS.symm.trans (heq.trans hRHS)
     have e1 := congrArg
       (fun z : ↥(∐ fun _ : G => (profiniteOver k G B hS hY).left) =>
-        (Sigma.desc fun g : G => ((translationAction k G g).hom.left :
+        (Sigma.desc fun g : G => ((translationAction k G g).asIso.hom.left :
           (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left)) z) hbase
     have e2 := sigmaDesc_base_sigmaMk (fun _ : G => (profiniteOver k G B hS hY).left)
-      (fun g : G => ((translationAction k G g).hom.left :
+      (fun g : G => ((translationAction k G g).asIso.hom.left :
         (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left))
       (sigmaIndexOf (fun _ : G => (profiniteOver k G B hS hY).left) ρt
         (evaluationPrime k G w))
@@ -901,7 +903,7 @@ theorem mono_fieldMorphism_originQuotientPoint :
   have : IsSplitMono (Space.fieldMorphism B (Spec (.of k)) hS _
       (originQuotientPoint k G B hS hY)) :=
     IsSplitMono.mk' ⟨hT.from _, hT.hom_ext _ _⟩
-  infer_instance
+  exact IsSplitMono.mono _
 
 end Quotient
 
@@ -961,6 +963,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ProfiniteTranslationNoFieldFactorization :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ProfiniteTranslationNoFieldFactorization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ProfiniteTranslationNoFieldFactorization B S hS).has_limit _
 
 /-- The conclusion of Stacks 0H1S and of Stacks 0H1T fails at every residual space: if
 `q : Y ⟶ X` factors through no field-valued point of `X`, and the point `x` of `|X|` has a

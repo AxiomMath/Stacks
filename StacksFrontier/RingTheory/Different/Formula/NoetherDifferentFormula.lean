@@ -272,9 +272,10 @@ theorem free_rank_eq_one_diagonalAnnihilator_localizedCompleteIntersection :
 @[stacks 0BWD "noether_different"]
 theorem noetherDifferent_localizedCompleteIntersection :
     noetherDifferent A (localizedCompleteIntersection A n h f) =
-      Ideal.span ({Matrix.det fun i j : Fin n ↦
-        algebraMap (MvPolynomial (Fin n) A) (localizedCompleteIntersection A n h f)
-          (MvPolynomial.pderiv j (f i))} : Set _) := by
+      Ideal.span ({
+        Matrix.det fun i j : Fin n ↦
+          algebraMap (MvPolynomial (Fin n) A) (localizedCompleteIntersection A n h f)
+            (MvPolynomial.pderiv j (f i))} : Set _) := by
   obtain ⟨gij, hcoeff, hdiag⟩ := exists_coefficientMatrix A n h f
   have : Module.Flat A (localizedCompleteIntersection A n h f) :=
     flat_localizedCompleteIntersection A n h f

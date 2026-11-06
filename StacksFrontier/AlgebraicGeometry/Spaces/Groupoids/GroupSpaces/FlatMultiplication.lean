@@ -95,6 +95,28 @@ private noncomputable def pullbackIsoTensorOfIsTerminal {D : Type w} [Category.{
 
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FlatMultiplication :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FlatMultiplication
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in a slice of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_over_FlatMultiplication (B : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :
+    HasPullbacks (Over B) := inferInstance
+
+local instance (priority := high) hasPullback_over_FlatMultiplication
+    {B : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} {X Y Z : Over B} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Flatness of a morphism of presheaves depends only on the isomorphism class of its arrow:
 an isomorphism of arrows turns one commuting square of étale charts into another with the same
 underlying morphism of schemes. -/

@@ -92,7 +92,7 @@ theorem preimage_puncturedSpectrum_eq [Algebra.IsIntegral A B] [IsLocalHom (alge
     exact IsLocalRing.maximalIdeal.isMaximal A
   have : x.asIdeal.IsPrime := x.isPrime
   exact PrimeSpectrum.ext (IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_of_isIntegral_of_isMaximal_comap x.asIdeal hmax))
+    (Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) x.asIdeal hmax))
 
 omit [IsLocalRing A] [IsLocalRing B] in
 /-- The generic point of the spectrum of a domain maps to the generic point under an injective

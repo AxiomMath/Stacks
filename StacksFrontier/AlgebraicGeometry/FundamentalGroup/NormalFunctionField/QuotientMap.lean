@@ -115,7 +115,7 @@ private theorem finiteEtale_exists_equivariant_fiber
     ∃ (Y : FiniteEtaleOver X)
       (e : A.obj.V ≃ finiteEtaleFiber sbar Y),
       ∀ (σ : AlgebraicGeometry.EtaleFundamentalGroup X sbar) (a : A.obj.V),
-        e ((A.obj.ρ σ).hom a) = (σ.app Y).hom (e a) := by
+        e ((A.obj.ρ σ).asHom.hom a) = (σ.asIso.app Y).hom (e a) := by
   obtain ⟨E, α, hα⟩ :=
     exists_finiteEtaleEquivalence_of_isGaloisCategory X sbar
   let Y := E.inverse.obj A
@@ -124,8 +124,8 @@ private theorem finiteEtale_exists_equivariant_fiber
     FintypeCat.{u} ⋙ FintypeCat.incl
   let e := ((U.mapIso i).symm ≪≫ α.app Y).toEquiv
   refine ⟨Y, e, fun σ a => ?_⟩
-  show (α.hom.app Y) (i.inv.hom.hom ((A.obj.ρ σ).hom a)) =
-    (σ.app Y).hom ((α.hom.app Y) (i.inv.hom.hom a))
+  show (α.hom.app Y) (i.inv.hom.hom ((A.obj.ρ σ).asHom.hom a)) =
+    (σ.asIso.app Y).hom ((α.hom.app Y) (i.inv.hom.hom a))
   rw [← hα]
   congr 1
   exact ConcreteCategory.congr_hom (i.inv.hom.comm σ) a
@@ -137,13 +137,14 @@ private theorem exists_embedding_action
     (h : G →ₜ* Gal(M/K)) :
     ∃ A : ContAction FintypeCat.{u} G,
       ∃ e : A.obj.V ≃ (L →ₐ[K] M),
-        ∀ σ a, e ((A.obj.ρ σ).hom a) = (h σ).toAlgHom.comp (e a) := by
+        ∀ σ a, e ((A.obj.ρ σ).asHom.hom a) = (h σ).toAlgHom.comp (e a) := by
   let V := FintypeCat.of (L →ₐ[K] M)
   let A : Action FintypeCat G :=
     { V := V
       ρ :=
-        { toFun := fun σ => FintypeCat.homMk (fun a => (h σ).toAlgHom.comp a)
+        { toFun := fun σ => End.of <| FintypeCat.homMk (fun a => (h σ).toAlgHom.comp a)
           map_one' := by
+            apply End.ext
             apply ConcreteCategory.hom_ext
             intro a
             apply AlgHom.ext
@@ -152,6 +153,7 @@ private theorem exists_embedding_action
             simp
           map_mul' := by
             intro σ τ
+            apply End.ext
             apply ConcreteCategory.hom_ext
             intro a
             apply AlgHom.ext
@@ -261,11 +263,11 @@ public theorem finiteEtaleNormalization_of_le_maximalEtaleExtension
     have hτ : h τ = AlgEquiv.restrictNormalHom M σ :=
       fundamentalGroupIsoGalMaximalEtaleExtension_apply X sbar hs hgeneric σ
     calc
-      σ ∈ E.fixingSubgroup ↔ ((τ.app Y).hom p = p) :=
+      σ ∈ E.fixingSubgroup ↔ ((τ.asIso.app Y).hom p = p) :=
         (fiber_stabilizer_of_mono_factor X sbar Y p E j hj σ).symm
-      _ ↔ eY ((A.obj.ρ τ).hom a) = eY a := by rw [heY]
-      _ ↔ (A.obj.ρ τ).hom a = a := eY.injective.eq_iff
-      _ ↔ eA ((A.obj.ρ τ).hom a) = eA a := eA.injective.eq_iff.symm
+      _ ↔ eY ((A.obj.ρ τ).asHom.hom a) = eY a := by rw [heY]
+      _ ↔ (A.obj.ρ τ).asHom.hom a = a := eY.injective.eq_iff
+      _ ↔ eA ((A.obj.ρ τ).asHom.hom a) = eA a := eA.injective.eq_iff.symm
       _ ↔ (h τ).toAlgHom.comp incl = incl := by
         rw [heA]
         simp only [a, eA.apply_symm_apply]

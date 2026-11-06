@@ -188,22 +188,22 @@ component of the inverse automorphism. The composition of arrows of families is 
 sources, so the two identities of the automorphism give the two identities of the component in
 the opposite order. -/
 theorem morphismFiberAut_source_isIso (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
-    IsIso a.hom.val.left.source :=
-  ⟨a.inv.val.left.source,
+    IsIso a.asIso.hom.val.left.source :=
+  ⟨a.asIso.inv.val.left.source,
     congrArg (fun g : morphismDeformationFiberObj f pX pY hf M ⟶
-      morphismDeformationFiberObj f pX pY hf M => g.val.left.source) a.inv_hom_id,
+      morphismDeformationFiberObj f pX pY hf M => g.val.left.source) a.asIso.inv_hom_id,
     congrArg (fun g : morphismDeformationFiberObj f pX pY hf M ⟶
-      morphismDeformationFiberObj f pX pY hf M => g.val.left.source) a.hom_inv_id⟩
+      morphismDeformationFiberObj f pX pY hf M => g.val.left.source) a.asIso.hom_inv_id⟩
 
 /-- The target component of a fibre automorphism is invertible, its inverse being the target
 component of the inverse automorphism. -/
 theorem morphismFiberAut_target_isIso (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
-    IsIso a.hom.val.left.target :=
-  ⟨a.inv.val.left.target,
+    IsIso a.asIso.hom.val.left.target :=
+  ⟨a.asIso.inv.val.left.target,
     congrArg (fun g : morphismDeformationFiberObj f pX pY hf M ⟶
-      morphismDeformationFiberObj f pX pY hf M => g.val.left.target) a.inv_hom_id,
+      morphismDeformationFiberObj f pX pY hf M => g.val.left.target) a.asIso.inv_hom_id,
     congrArg (fun g : morphismDeformationFiberObj f pX pY hf M ⟶
-      morphismDeformationFiberObj f pX pY hf M => g.val.left.target) a.hom_inv_id⟩
+      morphismDeformationFiberObj f pX pY hf M => g.val.left.target) a.asIso.hom_inv_id⟩
 
 /-- The source component of a compatible pair is over the base: it is not part of the data of
 `Deformation.Examples.morphismFiberAutEquivSelfMapPairs`, because the commuting square and the
@@ -241,12 +241,12 @@ def morphismFiberAutEquivSelfMapPairs (M : schemeMorphismDeformationCategory f p
           M.hom.target ≫ p.2 = M.hom.target ∧
           M.left.morphism ≫ p.2 = p.1 ≫ M.left.morphism } where
   toFun a :=
-    ⟨(a.hom.val.left.source, a.hom.val.left.target),
+    ⟨(a.asIso.hom.val.left.source, a.asIso.hom.val.left.target),
       morphismFiberAut_source_isIso f pX pY hf a, morphismFiberAut_target_isIso f pX pY hf a,
-      morphismFiberHom_target_comp_toBase f pX pY hf a.hom,
-      morphismFiberHom_source_special f pX pY hf a.hom,
-      morphismFiberHom_target_special f pX pY hf a.hom,
-      morphismFiberHom_comm f pX pY hf a.hom⟩
+      morphismFiberHom_target_comp_toBase f pX pY hf a.asIso.hom,
+      morphismFiberHom_source_special f pX pY hf a.asIso.hom,
+      morphismFiberHom_target_special f pX pY hf a.asIso.hom,
+      morphismFiberHom_comm f pX pY hf a.asIso.hom⟩
   invFun := fun ⟨p, hα, hβ, hβb, hsα, hsβ, hcomm⟩ => by
     letI := hα
     letI := hβ
@@ -288,7 +288,7 @@ def morphismFiberAutEquivSelfMapPairs (M : schemeMorphismDeformationCategory f p
       Over.homMk (mk (CategoryTheory.inv p.1) (CategoryTheory.inv p.2)
           (IsIso.inv_isIso) (IsIso.inv_isIso) hβb' hcomm')
         (SchemeMorphismFamily.Hom.ext (Category.id_comp _) hsα' hsβ')
-    refine
+    refine .of
       { hom := ⟨hom, morphismDeformationFiberHom_isHomLift f pX pY hf hom rfl⟩
         inv := ⟨inv, morphismDeformationFiberHom_isHomLift f pX pY hf inv rfl⟩
         hom_inv_id := ?_
@@ -304,9 +304,9 @@ def morphismFiberAutEquivSelfMapPairs (M : schemeMorphismDeformationCategory f p
       · exact IsIso.hom_inv_id p.1
       · exact IsIso.hom_inv_id p.2
   left_inv a := by
-    refine Iso.ext (Subtype.ext (Over.OverMorphism.ext
-      (SchemeMorphismFamily.Hom.ext ?_ rfl rfl)))
-    exact (morphismDeformationFiberHom_base f pX pY hf a.hom).symm
+    refine Aut.ext (Iso.ext (Subtype.ext (Over.OverMorphism.ext
+      (SchemeMorphismFamily.Hom.ext ?_ rfl rfl))))
+    exact (morphismDeformationFiberHom_base f pX pY hf a.asIso.hom).symm
   right_inv := by
     rintro ⟨p, hα, hβ, hβb, hsα, hsβ, hcomm⟩
     exact Subtype.ext rfl
@@ -318,7 +318,7 @@ theorem morphismFiberAutEquivSelfMapPairs_apply
     (M : schemeMorphismDeformationCategory f pX pY hf)
     (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
     (morphismFiberAutEquivSelfMapPairs f pX pY hf M a).val =
-      (a.hom.val.left.source, a.hom.val.left.target) := rfl
+      (a.asIso.hom.val.left.source, a.asIso.hom.val.left.target) := rfl
 
 /-! ### Fibre automorphisms as pairs of endpoint automorphisms -/
 
@@ -331,16 +331,16 @@ def morphismFiberAutPair {M : schemeMorphismDeformationCategory f pX pY hf}
     Aut (deformationFiberObj ((schemeMorphismSourceForgetful f pX pY hf).obj M)) ×
       Aut (deformationFiberObj ((schemeMorphismTargetForgetful f pX pY hf).obj M)) :=
   ((fiberAutEquivSelfMaps ((schemeMorphismSourceForgetful f pX pY hf).obj M)).symm
-      ⟨a.hom.val.left.source,
+      ⟨a.asIso.hom.val.left.source,
         morphismFiberPair_fst_comp_sourceToBase f pX pY hf
-          (morphismFiberHom_target_comp_toBase f pX pY hf a.hom)
-          (morphismFiberHom_comm f pX pY hf a.hom),
-        morphismFiberHom_source_special f pX pY hf a.hom,
+          (morphismFiberHom_target_comp_toBase f pX pY hf a.asIso.hom)
+          (morphismFiberHom_comm f pX pY hf a.asIso.hom),
+        morphismFiberHom_source_special f pX pY hf a.asIso.hom,
         morphismFiberAut_source_isIso f pX pY hf a⟩,
     (fiberAutEquivSelfMaps ((schemeMorphismTargetForgetful f pX pY hf).obj M)).symm
-      ⟨a.hom.val.left.target,
-        morphismFiberHom_target_comp_toBase f pX pY hf a.hom,
-        morphismFiberHom_target_special f pX pY hf a.hom,
+      ⟨a.asIso.hom.val.left.target,
+        morphismFiberHom_target_comp_toBase f pX pY hf a.asIso.hom,
+        morphismFiberHom_target_special f pX pY hf a.asIso.hom,
         morphismFiberAut_target_isIso f pX pY hf a⟩)
 
 /-- The first component of the pair map is the source component of the fibre automorphism, read
@@ -349,7 +349,7 @@ as a self-map of the total space. -/
 theorem morphismFiberAutPair_fst_val {M : schemeMorphismDeformationCategory f pX pY hf}
     (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
     (fiberAutEquivSelfMaps ((schemeMorphismSourceForgetful f pX pY hf).obj M)
-        (morphismFiberAutPair f pX pY hf a).1).val = a.hom.val.left.source :=
+        (morphismFiberAutPair f pX pY hf a).1).val = a.asIso.hom.val.left.source :=
   congrArg Subtype.val ((fiberAutEquivSelfMaps
     ((schemeMorphismSourceForgetful f pX pY hf).obj M)).apply_symm_apply _)
 
@@ -359,7 +359,7 @@ as a self-map of the total space. -/
 theorem morphismFiberAutPair_snd_val {M : schemeMorphismDeformationCategory f pX pY hf}
     (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
     (fiberAutEquivSelfMaps ((schemeMorphismTargetForgetful f pX pY hf).obj M)
-        (morphismFiberAutPair f pX pY hf a).2).val = a.hom.val.left.target :=
+        (morphismFiberAutPair f pX pY hf a).2).val = a.asIso.hom.val.left.target :=
   congrArg Subtype.val ((fiberAutEquivSelfMaps
     ((schemeMorphismTargetForgetful f pX pY hf).obj M)).apply_symm_apply _)
 
@@ -371,7 +371,7 @@ theorem morphismFiberAutPair_fst_map {M : schemeMorphismDeformationCategory f pX
     (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
     (fiberAutEquivSelfMaps ((schemeMorphismSourceForgetful f pX pY hf).obj M)
         (morphismFiberAutPair f pX pY hf a).1).val =
-      ((schemeMorphismSourceForgetful f pX pY hf).map a.hom.val).map :=
+      ((schemeMorphismSourceForgetful f pX pY hf).map a.asIso.hom.val).map :=
   morphismFiberAutPair_fst_val f pX pY hf a
 
 /-- **The pair map is the map induced by the target-forgetting functor.** -/
@@ -379,7 +379,7 @@ theorem morphismFiberAutPair_snd_map {M : schemeMorphismDeformationCategory f pX
     (a : Aut (morphismDeformationFiberObj f pX pY hf M)) :
     (fiberAutEquivSelfMaps ((schemeMorphismTargetForgetful f pX pY hf).obj M)
         (morphismFiberAutPair f pX pY hf a).2).val =
-      ((schemeMorphismTargetForgetful f pX pY hf).map a.hom.val).map :=
+      ((schemeMorphismTargetForgetful f pX pY hf).map a.asIso.hom.val).map :=
   morphismFiberAutPair_snd_val f pX pY hf a
 
 /-- **The image of the pair map consists exactly of the pairs commuting with the arrow of the
@@ -404,7 +404,7 @@ theorem exists_morphismFiberAutPair_eq_iff
   constructor
   · rintro ⟨a, rfl⟩
     rw [morphismFiberAutPair_fst_val, morphismFiberAutPair_snd_val]
-    exact morphismFiberHom_comm f pX pY hf a.hom
+    exact morphismFiberHom_comm f pX pY hf a.asIso.hom
   · intro hq
     set eS := fiberAutEquivSelfMaps ((schemeMorphismSourceForgetful f pX pY hf).obj M)
     set eT := fiberAutEquivSelfMaps ((schemeMorphismTargetForgetful f pX pY hf).obj M)
@@ -423,10 +423,10 @@ theorem injective_morphismFiberAutPair
     Function.Injective
       (morphismFiberAutPair f pX pY hf (M := M)) := by
   intro a b hab
-  have h₁ : a.hom.val.left.source = b.hom.val.left.source := by
+  have h₁ : a.asIso.hom.val.left.source = b.asIso.hom.val.left.source := by
     rw [← morphismFiberAutPair_fst_val f pX pY hf a,
       ← morphismFiberAutPair_fst_val f pX pY hf b, hab]
-  have h₂ : a.hom.val.left.target = b.hom.val.left.target := by
+  have h₂ : a.asIso.hom.val.left.target = b.asIso.hom.val.left.target := by
     rw [← morphismFiberAutPair_snd_val f pX pY hf a,
       ← morphismFiberAutPair_snd_val f pX pY hf b, hab]
   exact (morphismFiberAutEquivSelfMapPairs f pX pY hf M).injective (Subtype.ext (Prod.ext h₁ h₂))

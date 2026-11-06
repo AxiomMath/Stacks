@@ -415,7 +415,6 @@ add_to_ega "III 7.2.6" TensorProduct.AlgebraTensorModule.rTensor
 add_to_ega "III 7.2.6" "special case" TensorProduct.directSum
 add_to_ega "III 7.2.6" "special case" TensorProduct.directSumLeft
 add_to_ega "III 7.2.6" "special case" TensorProduct.directSumRight
-add_to_ega "III 7.2.6" "special case" TensorProduct.directSumRight'
 add_to_ega "III 7.2.6" "special case" TensorProduct.finsuppRight
 add_to_ega "III 7.2.6" "special case" TensorProduct.finsuppScalarRight
 add_to_ega "III 7.2.6" "special case" TensorProduct.piLeft

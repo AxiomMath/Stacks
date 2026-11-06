@@ -91,8 +91,8 @@ theorem IsWeightedHomogeneous.pderiv_eq_zero_of_lt {d : ι → ℕ} {n : ℕ} {i
     pderiv i φ = 0 := by
   classical
   ext a
-  rw [coeff_pderiv, coeff_zero]
-  have hz : coeff (a + Finsupp.single i 1) φ = 0 := by
+  rw [coeff_pderiv, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+  have hz : φ.coeff (a + Finsupp.single i 1) = 0 := by
     by_contra hc
     have hw := hφ hc
     rw [map_add, Finsupp.weight_single] at hw

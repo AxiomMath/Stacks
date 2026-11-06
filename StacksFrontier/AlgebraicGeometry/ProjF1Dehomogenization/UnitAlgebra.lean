@@ -213,7 +213,7 @@ universe u'
 public theorem isCommutativeRingSheaf_scheme (X : Scheme.{u'}) :
     IsCommutativeRingSheaf X.ringCatSheaf :=
   fun W x y =>
-    mul_comm (show (X.sheaf.val.obj W : Type u') from x) (show (X.sheaf.val.obj W : Type u') from y)
+    mul_comm (show (X.sheaf.obj.obj W : Type u') from x) (show (X.sheaf.obj.obj W : Type u') from y)
 
 end Scheme
 

@@ -200,7 +200,7 @@ abbrev imperfectRatFunc : Type u := RatFunc (ULift.{u} (ZMod 2))
 
 /-- `2 = 0` in `𝔽₂(t)`. -/
 theorem two_eq_zero_imperfectRatFunc : (2 : imperfectRatFunc.{u}) = 0 := by
-  have h : (2 : ULift.{u} (ZMod 2)) = 0 := ULift.ext _ _ (by decide)
+  have h : (2 : ULift.{u} (ZMod 2)) = 0 := ULift.ext (by decide)
   have := congrArg (algebraMap (ULift.{u} (ZMod 2)) imperfectRatFunc.{u}) h
   rwa [map_ofNat, map_zero] at this
 

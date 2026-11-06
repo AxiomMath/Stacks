@@ -182,10 +182,10 @@ noncomputable def coyonedaUliftIsoOfEquivalence (E : A ≌ D) (G : A) :
       { toFun := fun f => ULift.up (E.functor.map f)
         invFun := fun f => E.functor.preimage f.down
         left_inv := fun f => E.functor.preimage_map f
-        right_inv := fun f => ULift.ext _ _ (E.functor.map_preimage f.down) })
+        right_inv := fun f => ULift.ext (E.functor.map_preimage f.down) })
     (fun {X Y} g => by
       ext f
-      exact ULift.ext _ _ (E.functor.map_comp f g))
+      exact ULift.ext (E.functor.map_comp f g))
 
 /-- Preservation of colimits by `Hom(G, -)` transports across an equivalence. -/
 theorem preservesColimitsOfShape_coyoneda_of_equivalence (E : A ≌ D) (G : A) (K : Type k)

@@ -602,7 +602,7 @@ private theorem isSeparable_of_isSeparablyGenerated
     [Algebra.IsAlgebraic k F] [Algebra.IsSeparablyGenerated k F] :
     Algebra.IsSeparable k F := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := F)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := F)
   have : IsEmpty s := hs.1.isEmpty_of_isAlgebraic
   have hs0 : s = ∅ := Set.isEmpty_coe_sort.mp this
   subst s

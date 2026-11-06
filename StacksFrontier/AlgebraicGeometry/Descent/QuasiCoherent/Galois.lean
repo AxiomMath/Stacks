@@ -78,8 +78,8 @@ the summand indexed by `σ` it is `(id, f_σ)`. -/
 def galoisCoverComparison {G : Type v} [Group G] [Finite G]
     {X Y : Scheme.{u}} (f : X ⟶ Y) (a : Gᵐᵒᵖ →* Aut (Over.mk f)) :
     (∐ fun _ : G ↦ X) ⟶ pullback f f :=
-  Sigma.desc fun σ ↦ pullback.lift (𝟙 X) (a (.op σ)).hom.left (by
-    simpa using (a (.op σ)).hom.w.symm)
+  Sigma.desc fun σ ↦ pullback.lift (𝟙 X) (a (.op σ)).asIso.hom.left (by
+    simpa using (a (.op σ)).asIso.hom.w.symm)
 
 namespace GaloisDescentData
 
@@ -87,21 +87,22 @@ variable (G : Type v) [Group G] {X Y : Scheme.{u}} (f : X ⟶ Y)
   (a : Gᵐᵒᵖ →* Aut (Over.mk f))
 
 /-- The automorphism `f_σ` of `X` supplied by the action over `Y`. -/
-abbrev twist (σ : G) : X ⟶ X := (a (.op σ)).hom.left
+abbrev twist (σ : G) : X ⟶ X := (a (.op σ)).asIso.hom.left
 
 /-- The automorphisms supplied by the action are morphisms over `Y`. -/
-lemma twist_comp (σ : G) : twist G f a σ ≫ f = f := by simpa using (a (.op σ)).hom.w
+lemma twist_comp (σ : G) : twist G f a σ ≫ f = f := by simpa using (a (.op σ)).asIso.hom.w
 
 /-- The action is multiplicative; the opposite multiplication on `Gᵐᵒᵖ` turns it into a left
 action by composition on the left. -/
 lemma twist_mul (σ τ : G) : twist G f a σ ≫ twist G f a τ = twist G f a (σ * τ) := by
-  show (a (.op σ)).hom.left ≫ (a (.op τ)).hom.left = (a (.op (σ * τ))).hom.left
+  show (a (.op σ)).asIso.hom.left ≫ (a (.op τ)).asIso.hom.left =
+    (a (.op (σ * τ))).asIso.hom.left
   rw [← Over.comp_left]
-  exact congrArg (fun e : Aut (Over.mk f) ↦ e.hom.left) ((a.map_mul (.op τ) (.op σ)).symm)
+  exact congrArg (fun e : Aut (Over.mk f) ↦ e.asIso.hom.left) ((a.map_mul (.op τ) (.op σ)).symm)
 
 /-- The unit of the group acts trivially. -/
 lemma twist_one : twist G f a 1 = 𝟙 X := by
-  show (a (.op 1)).hom.left = _
+  show (a (.op 1)).asIso.hom.left = _
   rw [show (MulOpposite.op (1 : G)) = 1 from rfl, map_one]
   rfl
 

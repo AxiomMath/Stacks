@@ -101,7 +101,7 @@ theorem subsetProjectionSection_comp {n : ℕ} {I J : Finset (Fin n)} (h : J ⊆
     subsetProjectionSection k B hk h ≫ subsetProjection k B hk h =
       𝟙 (projectiveLinePower k B hk J) := by
   refine Pi.hom_ext _ _ fun j => ?_
-  rw [Category.assoc, Pi.map'_comp_π, Category.comp_id, subsetProjectionSection, Pi.lift_π,
+  rw [Category.assoc, Pi.map'_comp_π, Category.comp_id, subsetProjectionSection, Pi.lift_comp_π,
     dif_pos (show ((⟨(j : Fin n), h j.2⟩ : I) : Fin n) ∈ J from j.2), Category.id_comp]
 
 /-! ### The kernel pair -/
@@ -183,7 +183,7 @@ theorem isPullback_subsetKernelPair {I J : Finset (Fin n)} (h : J ⊆ I) :
     (fun s => ?_) (fun s => ?_) (fun s m hm₁ hm₂ => ?_))
   · refine Pi.hom_ext _ _ fun i => ?_
     by_cases hi : (i : Fin n) ∈ J
-    · rw [Category.assoc, subsetKernelPairFst_comp_π_of_mem k B hk i hi, Pi.lift_π]
+    · rw [Category.assoc, subsetKernelPairFst_comp_π_of_mem k B hk i hi, Pi.lift_comp_π]
       have hc := congrArg
         (fun a => a ≫ Pi.π (fun _ : J => projectiveLineFunctor k B hk) (⟨(i : Fin n), hi⟩ : J))
         (PullbackCone.condition s)
@@ -193,13 +193,13 @@ theorem isPullback_subsetKernelPair {I J : Finset (Fin n)} (h : J ⊆ I) :
         (Subtype.ext rfl : (⟨((⟨(i : Fin n), hi⟩ : J) : Fin n), h (⟨(i : Fin n), hi⟩ : J).2⟩ : I)
           = i))
       exact hc.symm
-    · rw [Category.assoc, subsetKernelPairFst_comp_π_of_notMem k B hk i hi, Pi.lift_π]
+    · rw [Category.assoc, subsetKernelPairFst_comp_π_of_notMem k B hk i hi, Pi.lift_comp_π]
       rfl
   · refine Pi.hom_ext _ _ fun i => ?_
-    rw [Category.assoc, subsetKernelPairSnd_comp_π, Pi.lift_π]
+    rw [Category.assoc, subsetKernelPairSnd_comp_π, Pi.lift_comp_π]
     rfl
   · refine Pi.hom_ext _ _ fun b => ?_
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     cases b with
     | inl a =>
       show m ≫ _ = s.fst ≫ Pi.π (fun _ : I => projectiveLineFunctor k B hk) (a : I)
@@ -223,10 +223,11 @@ theorem exists_eq_subsetProjection_comp_of_kernelPair_eq
     (h : J ⊆ I) (g : projectiveLinePower k B hk I ⟶ Z)
     (hg : subsetKernelPairFst k B hk I J ≫ g = subsetKernelPairSnd k B hk I J ≫ g) :
     ∃ g' : projectiveLinePower k B hk J ⟶ Z, g = subsetProjection k B hk h ≫ g' := by
+  have := (isPullback_subsetKernelPair k B hk h).hasPullback
   refine ⟨subsetProjectionSection k B hk h ≫ g,
     eq_comp_of_kernelPair_eq (subsetProjection k B hk h) (subsetProjectionSection k B hk h)
       (subsetProjectionSection_comp k B hk h) g ?_⟩
-  refine (cancel_epi (isPullback_subsetKernelPair k B hk h).isoPullback.hom).1 ?_
+  refine ((isPullback_subsetKernelPair k B hk h).isoPullback.cancel_iso_hom_left _ _).1 ?_
   rw [← Category.assoc, ← Category.assoc,
     (isPullback_subsetKernelPair k B hk h).isoPullback_hom_fst,
     (isPullback_subsetKernelPair k B hk h).isoPullback_hom_snd]

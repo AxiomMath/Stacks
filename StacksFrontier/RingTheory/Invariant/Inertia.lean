@@ -663,6 +663,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   have hp'_prime : p'.IsPrime := hp'Prime
   obtain ⟨qS₀, hqS₀_bot, hqS₀_prime, hqS₀_under⟩ :=
     Ideal.exists_ideal_over_prime_of_isIntegral (R := R') (S := S) p' ⊥ (by
+      show Ideal.comap (algebraMap R' S) ⊥ ≤ p'
       rw [← RingHom.ker_eq_comap_bot, hleft_ker]
       exact bot_le)
   let r0 := qS₀.comap Algebra.TensorProduct.includeRight
@@ -677,7 +678,9 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
           (algebraMap R' S).comp (algebraMap RG R') := by
       ext x
       exact (htmul x).symm
-    rw [hcomp, ← Ideal.comap_comap, hqS₀_under, hp'LiesOver.over]
+    rw [hcomp, ← Ideal.comap_comap,
+      show Ideal.comap (algebraMap R' S) qS₀ = qS₀.under R' from rfl, hqS₀_under,
+      hp'LiesOver.over]
   obtain ⟨g₀, hg₀⟩ :=
     Algebra.IsInvariant.exists_smul_of_under_eq RG R G r0 q hr_under
   let qS := g₀ • qS₀

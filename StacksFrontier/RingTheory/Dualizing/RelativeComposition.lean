@@ -442,8 +442,7 @@ theorem diagonalQuotient_tmul (b₁ b₂ : B) :
 the relative diagonal of `A → B` is a closed subscheme of the relative diagonal of `R → B`. -/
 theorem surjective_diagonalQuotient : Function.Surjective (diagonalQuotient R A B) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b₁ b₂ => exact ⟨b₁ ⊗ₜ[R] b₂, by simp⟩
   | add x y hx hy =>
       obtain ⟨x', hx'⟩ := hx
@@ -459,8 +458,7 @@ theorem lmul'_comp_diagonalQuotient :
   apply RingHom.ext
   intro z
   simp only [RingHom.comp_apply]
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b₁ b₂ => simp
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
 
@@ -608,8 +606,7 @@ theorem diagonalQuotient_comp_diagonalBaseMap :
       _ = (b * algebraMap A B a) ⊗ₜ[A] (1 : B) := by rw [Algebra.smul_def, mul_comm]
   apply RingHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a a' =>
       simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
         diagonalBaseMap_tmul, diagonalQuotient_tmul, Algebra.TensorProduct.lmul'_apply_tmul,
@@ -783,12 +780,10 @@ theorem diagonalPushoutInv_tmul (b₁ b₂ : B) :
 /-- `Dualizing.diagonalPushoutInv` is a left inverse of the map `Dualizing.diagonalPushoutMap`. -/
 theorem diagonalPushoutInv_diagonalPushoutMap (y : A ⊗[A ⊗[R] A] (B ⊗[R] B)) :
     diagonalPushoutInv R A B (diagonalPushoutMap R A B y) = y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' => rw [map_add, map_add, hy, hy']
   | tmul a x =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x x' hx hx' =>
           rw [TensorProduct.tmul_add] at *
           rw [map_add, map_add, hx, hx']
@@ -811,8 +806,7 @@ noncomputable def diagonalPushoutEquiv :
     (A ⊗[A ⊗[R] A] (B ⊗[R] B)) ≃ₐ[A] (B ⊗[A] B) :=
   AlgEquiv.ofAlgHom (diagonalPushoutMap R A B) (diagonalPushoutInv R A B)
     (AlgHom.ext fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp only [AlgHom.comp_apply, map_add] at *; rw [hz, hz']
       | tmul b₁ b₂ =>
           simp only [AlgHom.comp_apply, AlgHom.id_apply, diagonalPushoutInv_tmul,
@@ -907,11 +901,9 @@ theorem flat_tensorProduct [Module.Flat R P] [Module.Flat A Q] :
           (TensorProduct.AlgebraTensorModule.map (LinearMap.id : P →ₗ[A] P) f)
           (TensorProduct.AlgebraTensorModule.assoc R A A Q P N x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y n =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul q p => simp
         | add y y' hy hy' =>
             rw [TensorProduct.add_tmul] at *
@@ -1074,7 +1066,6 @@ theorem diagonalPushoutEquivFlip_smul :
   let := diagonalIsScalarTowerSelf R A B
   intro c y
   induction y with
-  | zero => simp
   | tmul x a =>
       rw [smul_tmul_diagonalPushout, diagonalPushoutEquivFlip_tmul,
         diagonalPushoutEquivFlip_tmul, smul_diagonalQuotientAlgebra, map_mul]

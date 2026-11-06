@@ -47,7 +47,7 @@ theorem isZero_sheafOfDifferentials_iff (f : X ⟶ Y) :
         (universalDerivation B S hS f).d a = 0 := by
   constructor
   · intro h W a
-    exact PresheafOfModules.Derivation.congr_d (congrArg
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d (congrArg
       (fun g : sheafOfDifferentials B S hS f ⟶ sheafOfDifferentials B S hS f =>
         (universalDerivation B S hS f).postcomp g.val) ((IsZero.iff_id_eq_zero _).mp h)) a
   · intro h

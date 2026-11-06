@@ -85,6 +85,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_koszulLocusOnBase
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The Koszul property read off the Koszul locus -/
 
 /-- A morphism of algebraic spaces over `S` is a local complete intersection morphism exactly
@@ -113,6 +120,7 @@ public theorem isLocalCompleteIntersection_iff_forall_koszulAt
 
 /-! ### The base-change assertion of Stacks 06CA, carried as a hypothesis -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The base-change assertion of Stacks 06CA.** For a commutative triangle of algebraic
 spaces over `S` given by `f : X ⟶ Y`, `p : X ⟶ Z` and `q : Y ⟶ Z` with `f ≫ q = p`, with `p`
 and `q` both flat and locally of finite presentation, the formation of the Koszul locus of `f`

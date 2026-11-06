@@ -71,8 +71,7 @@ theorem flat_of_flat_quotient_and_localization
     have hcomm (z : TensorProduct A B I) :
         eB.symm (LinearMap.rTensor I f z) =
           (LinearMap.lTensor I f) (eB.symm z) := by
-      refine TensorProduct.induction_on z ?_ ?_ ?_
-      · simp
+      refine TensorProduct.inductionOn z ?_ ?_
       · intro b i
         rfl
       · intro z₁ z₂ hz₁ hz₂
@@ -81,8 +80,7 @@ theorem flat_of_flat_quotient_and_localization
   have hmul : ∀ z : TensorProduct A B I,
       LinearMap.rTensor I f z = t • z := by
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro b i
       simp [hft, TensorProduct.smul_tmul']
     · intro x y hx hy
@@ -110,8 +108,7 @@ theorem flat_of_flat_quotient_and_localization
   have hnat : (I.subtype.rTensor L) (eL.symm (locI z)) = 0 := by
     have hloc : eL.symm (locI z) = locA.lTensor I (x - y) := by
       show eL.symm (locI (eB (x - y))) = locA.lTensor I (x - y)
-      refine TensorProduct.induction_on (x - y) ?_ ?_ ?_
-      · simp [locI]
+      refine TensorProduct.inductionOn (x - y) ?_ ?_
       · intro i b
         simp [locI, eB, eL, locA, loc]
       · intro a b ha hb

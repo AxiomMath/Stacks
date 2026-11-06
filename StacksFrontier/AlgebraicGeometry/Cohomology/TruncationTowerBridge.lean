@@ -161,9 +161,9 @@ theorem exists_distTriang_of_towerIso
           Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op) ≫
         pIso.hom := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    conv_rhs => rw [Category.assoc, hpi n, ← Category.assoc, Pi.lift_π, Preadditive.sub_comp,
+    conv_rhs => rw [Category.assoc, hpi n, ← Category.assoc, Pi.lift_comp_π, Preadditive.sub_comp,
       Category.assoc]
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hpi, reassoc_of% hpi, hsq]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hpi, reassoc_of% hpi, hsq]
   refine ⟨p ≫ pIso.hom, pIso.inv ≫ δ, ?_, ?_⟩
   · refine isomorphic_distinguished _ hT _ ?_
     refine Triangle.isoMk _ _ (Iso.refl E) pIso.symm pIso.symm ?_ ?_ ?_
@@ -227,13 +227,13 @@ theorem exists_isDerivedLimit_truncGETower_of_isQuasicoherent
       ∀ n : ℕ, u ≫ Pi.π (fun n : ℕ ↦ (truncGETower X.Modules E).obj ⟨n⟩) n =
         (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E :=
     ⟨Pi.lift fun n : ℕ ↦ (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E,
-      fun n ↦ Pi.lift_π _ n⟩
+      fun n ↦ Pi.lift_comp_π _ n⟩
   have hu0 : u ≫ (Pi.lift fun n : ℕ ↦
       Pi.π (fun n : ℕ ↦ (truncGETower X.Modules E).obj ⟨n⟩) n -
         Pi.π (fun n : ℕ ↦ (truncGETower X.Modules E).obj ⟨n⟩) (n + 1) ≫
           (truncGETower X.Modules E).map (homOfLE (Nat.le_succ n)).op) = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hu n, ← Category.assoc, hu (n + 1),
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hu n, ← Category.assoc, hu (n + 1),
       truncGETower_map_homOfLE_succ, zero_comp]
     exact sub_eq_zero_of_eq (TStructure.t.π_natTransTruncGEOfLE_app _ _ _ E).symm
   obtain ⟨c, hc0⟩ := Triangle.coyoneda_exact₂ _ hT u hu0

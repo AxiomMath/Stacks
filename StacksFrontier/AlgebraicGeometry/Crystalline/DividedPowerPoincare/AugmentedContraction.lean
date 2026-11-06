@@ -269,9 +269,12 @@ private theorem augmentedContractionOne_leftInverse :
   change coefficientLinearEquiv A W
       (dividedPowerPolynomialAugmentation A W
         ((exteriorPower.zeroEquiv (setIndexedDividedPowerPolynomialAlgebra A W)
-          (dividedPowerDifferentials (A := A) (polynomialDividedPowers A W)))
+          (dividedPowerDifferentials (A := A)
+            (B := setIndexedDividedPowerPolynomialAlgebra A W) (polynomialDividedPowers A W)))
           ((exteriorPower.zeroEquiv (setIndexedDividedPowerPolynomialAlgebra A W)
-            (dividedPowerDifferentials (A := A) (polynomialDividedPowers A W))).symm
+            (dividedPowerDifferentials (A := A)
+              (B := setIndexedDividedPowerPolynomialAlgebra A W)
+              (polynomialDividedPowers A W))).symm
             (algebraMap A (setIndexedDividedPowerPolynomialAlgebra A W) a)))) =
       coefficientLinearEquiv A W a
   rw [LinearEquiv.apply_symm_apply]

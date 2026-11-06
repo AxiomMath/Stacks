@@ -238,10 +238,11 @@ theorem linearIndependent_generatorClass (f : Fin c → R)
   rw [hg, map_zero] at hp
   have hzero : (∑ j, g j • (MvPolynomial.X j : MvPolynomial (Fin c) (qrRbar f))) = 0 :=
     h (hp.trans (map_zero _).symm)
-  have hc := congrArg (MvPolynomial.coeff (Finsupp.single i 1)) hzero
-  rw [MvPolynomial.coeff_zero, MvPolynomial.coeff_sum] at hc
-  have hco : ∀ j : Fin c, MvPolynomial.coeff (Finsupp.single i 1)
-      (g j • (MvPolynomial.X j : MvPolynomial (Fin c) (qrRbar f)))
+  have hc := congrArg (fun p : MvPolynomial (Fin c) (qrRbar f) => p.coeff (Finsupp.single i 1))
+    hzero
+  simp only [MvPolynomial.coeff_sum, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hc
+  have hco : ∀ j : Fin c,
+      (g j • (MvPolynomial.X j : MvPolynomial (Fin c) (qrRbar f))).coeff (Finsupp.single i 1)
       = if j = i then g j else 0 := by
     intro j
     rw [show g j • (MvPolynomial.X j : MvPolynomial (Fin c) (qrRbar f))
@@ -295,14 +296,14 @@ theorem associatedGradedMap_mem_range_lof (f : Fin c → R) (d : ℕ)
       LinearMap.range (DirectSum.lof (qrRbar f) ℕ (fun n => Tcomp R f n) d) := by
   rw [MvPolynomial.mem_homogeneousSubmodule] at hp
   have hps : associatedGradedMap f p = ∑ e ∈ p.support,
-      associatedGradedMap f (MvPolynomial.monomial e (MvPolynomial.coeff e p)) := by
+      associatedGradedMap f (MvPolynomial.monomial e (p.coeff e)) := by
     rw [← map_sum, ← MvPolynomial.as_sum p]
   rw [hps]
   refine Submodule.sum_mem _ fun e he => ?_
   have hdeg : qrMdeg e = d := by
     rw [qrMdeg_eq_degree]
     simpa [Finsupp.degree_eq_weight_one, Pi.one_def] using hp (MvPolynomial.mem_support_iff.mp he)
-  obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (MvPolynomial.coeff e p)
+  obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (p.coeff e)
   rw [← ha, associatedGradedMap_monomial, imgTargetLin_eq_gradedClass]
   exact gradedClass_mem_range_lof f hdeg _
 

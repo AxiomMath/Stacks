@@ -114,6 +114,31 @@ section TensorColimitHelpers
 
 variable (O : Sheaf J CommRingCat.{w})
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{z}] [HasWeakSheafify J AddCommGrpCat.{z}] in
+/-- Presheaves of modules over `Tensor.ringSheaf O` have colimits of shape `K` for every
+`K : Type z`. Used as a local instance below: without it, instance search times out on
+`∐ F` in the statements of this file. -/
+theorem hasColimitsOfShape_presheafOfModules (K : Type z) [Category.{z} K] :
+    HasColimitsOfShape K
+      (_root_.PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
+  _root_.PresheafOfModules.hasColimitsOfShape _ _
+
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+/-- Sheaves of modules over `Tensor.ringSheaf O` have colimits of shape `K` for every
+`K : Type z`. Used as a local instance below: without it, instance search times out on
+`∐ F` in the statements of this file. -/
+theorem hasColimitsOfShape_sheafOfModules (K : Type z) [Category.{z} K] :
+    HasColimitsOfShape K
+      (_root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+  have : HasColimitsOfShape K
+      (_root_.PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
+    _root_.PresheafOfModules.hasColimitsOfShape _ _
+  inferInstance
+
+attribute [local instance 2000] hasColimitsOfShape_presheafOfModules
+  hasColimitsOfShape_sheafOfModules
+
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A *finite* direct sum of flat sheaves of modules is flat: tensoring with it is the finite
 direct sum of the tensor functors, which is exact because finite biproducts are. -/
@@ -190,6 +215,9 @@ private theorem exact_tensorColimitDiagram_colimit
   exact exact_colimit_of_exact_functors (tensorColimitDiagram O F) fun i => hF i
 
 end TensorColimitHelpers
+
+attribute [local instance 2000] hasColimitsOfShape_presheafOfModules
+  hasColimitsOfShape_sheafOfModules
 
 /-- **Stacks Project, Tag 03EU part (2), filtered colimits.** A filtered colimit of flat
 sheaves of modules is flat. -/

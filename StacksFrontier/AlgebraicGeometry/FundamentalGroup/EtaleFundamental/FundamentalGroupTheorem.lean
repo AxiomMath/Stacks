@@ -90,8 +90,8 @@ theorem exists_finiteEtaleEquivalence (X : Scheme.{u}) [ConnectedSpace X]
             FintypeCat.{u} ⋙ FintypeCat.incl ≅ finiteEtaleFiberFunctor x,
         ∀ (Y : FiniteEtaleOver X) (σ : EtaleFundamentalGroup X x)
           (y : (E.functor.obj Y).obj.V.obj),
-          (α.hom.app Y) (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ) y) =
-            (σ.app Y).hom ((α.hom.app Y) y) :=
+          (α.hom.app Y) (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y) =
+            (σ.asIso.app Y).hom ((α.hom.app Y) y) :=
   exists_finiteEtaleEquivalence_of_isGaloisCategory X x
 
 /-- **Stacks Project, Tag 0BND (2), existence of the isomorphism of fibre functors.** Given a
@@ -151,11 +151,11 @@ theorem etaleFundamentalGroupContinuousMulEquiv_action {X : Scheme.{u}} [Connect
     t.hom.app Y
         ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y
           (ConcreteCategory.hom
-            (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ) y)) =
+            (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ).asHom y)) =
       (finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x').hom.app Y
         (ConcreteCategory.hom
           (((finiteEtaleEquivalenceOfIsGaloisCategory X x').functor.obj Y).obj.ρ
-            (etaleFundamentalGroupContinuousMulEquiv t σ))
+            (etaleFundamentalGroupContinuousMulEquiv t σ)).asHom
           ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x').inv.app Y
             (t.hom.app Y
               ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y y)))) :=

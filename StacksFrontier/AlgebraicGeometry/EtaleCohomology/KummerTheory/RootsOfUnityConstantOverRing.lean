@@ -255,7 +255,7 @@ theorem isLocallyInjective_rootPresheafHom :
     · have hab : a = b := by
         have h' : rootHom f hζ hn U.unop a.down = rootHom f hζ hn U.unop b.down := h
         rw [← sub_eq_zero, ← map_sub, rootHom_eq_zero_iff f hζ hn hsep, sub_eq_zero] at h'
-        exact ULift.ext _ _ h'
+        exact ULift.ext h'
       rw [hab, Presheaf.equalizerSieve_self_eq_top]
       exact X.smallEtaleTopology.top_mem _
 

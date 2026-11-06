@@ -72,6 +72,9 @@ def completionChart (U : BigFppfOver B (Spec (.of A)) hA) : BigFppfOver B (Spec 
 variable {X : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u}
 variable (f : X ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hA))))
 
+attribute [local instance high] hasPullbacks_presheaf_CompletionBaseChange
+  hasPullback_presheaf_CompletionBaseChange
+
 omit [IsLocalRing A] in
 /-- A chart of an algebraic space over `Spec A`, followed by the structure morphism of that
 space, is the represented structure morphism of the chart. -/

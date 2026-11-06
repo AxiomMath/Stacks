@@ -136,7 +136,7 @@ theorem exists_isOpenImmersion_of_isOpenSubspace (U : BigFppfOver B integerBase 
   have h := hW.2.rep.isPullback (𝟙 (yoneda.obj U))
   have : IsIso (hW.2.rep.fst (𝟙 (yoneda.obj U))) := h.isIso_fst_of_isIso
   exact ⟨_, hW.2.rep.snd (𝟙 (yoneda.obj U)), hW.2.property_snd (𝟙 (yoneda.obj U)),
-    asIso (hW.2.rep.fst (𝟙 (yoneda.obj U))), by simpa using h.w⟩
+    asIso (hW.2.rep.fst (𝟙 (yoneda.obj U))), by simpa only [asIso_hom, Category.comp_id] using h.w⟩
 
 /-- **Spreading out a closed immersion from a closed point of the base (Stacks 05XA).** Let
 `π : X ⟶ Bs` be a separated morphism from an algebraic space to a scheme and `i : R ⟶ X` a

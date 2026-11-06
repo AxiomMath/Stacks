@@ -38,7 +38,7 @@ abbrev ptElement : ptFiber.{u}.Elements := ptFiber.elementsMk pt PUnit.unit
 
 /-- Any two morphisms between elements of the fibre functor are equal. -/
 instance subsingleton_elements_hom (X Y : ptFiber.{u}.Elements) : Subsingleton (X ⟶ Y) :=
-  ⟨fun _ _ => Subtype.ext ((subsingleton_hom.{u} _ _).elim _ _)⟩
+  ⟨fun _ _ => Functor.Elements.hom_ext ((subsingleton_hom.{u} _ _).elim _ _)⟩
 
 /-- A morphism between any two elements. -/
 def elementsHom (X Y : ptFiber.{u}.Elements) : X ⟶ Y := ⟨homOf _ _, rfl⟩
@@ -58,6 +58,17 @@ instance : IsCofiltered ptFiber.{u}.Elements :=
 /-- The category of elements of the fibre functor is initially small. -/
 instance : InitiallySmall.{u} ptFiber.{u}.Elements :=
   initiallySmall_of_essentiallySmall _
+
+/-- Colimits indexed by the opposite of the category of elements of the fibre functor. -/
+instance hasColimitsOfShape_ptFiber_elements_op {A : Type*} [Category A]
+    [HasColimitsOfSize.{u, u} A] : HasColimitsOfShape ptFiber.{u}.Elementsᵒᵖ A :=
+  hasColimitsOfShape_of_finallySmall _ _
+
+/-- Colimits of diagrams indexed by the opposite of the category of elements of the fibre
+functor. -/
+instance (priority := high) hasColimit_ptFiber_elements_op {A : Type*} [Category A]
+    [HasColimitsOfSize.{u, u} A] (F : ptFiber.{u}.Elementsᵒᵖ ⥤ A) : HasColimit F :=
+  HasColimitsOfShape.has_colimit F
 
 include hJ in
 /-- The point of the site of the point. -/

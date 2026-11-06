@@ -262,7 +262,7 @@ noncomputable def tensorLeftIsoTensorRight
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G) := by
   let R := Stacks.SheafOfModules.Tensor.ringSheaf O
   letI : SymmetricCategory (PresheafOfModules.{w} R.obj) :=
-    PresheafOfModules.symmetricCategory (R := O.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := O.obj)
   exact Functor.isoWhiskerLeft (SheafOfModules.forget R)
     (Functor.isoWhiskerRight
       (BraidedCategory.tensorLeftIsoTensorRight G.val)
@@ -527,7 +527,7 @@ noncomputable def multiplicationPresheafMap
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O'))
     (i : (SheafOfModules.restrictScalars (ringMap f)).obj I ⟶
       SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O')) :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       ((SheafOfModules.restrictScalars (ringMap f)).obj I).val G.val ⟶ G.val where
   app U := by
     let R := O'.obj.obj U
@@ -1179,6 +1179,8 @@ private noncomputable def multiplicationPresheafMap_to_annihilator
         inferInstanceAs (CommSemiring (O'.obj.obj U))
       letI : Module ((O'.obj ⋙ forget₂ CommRingCat RingCat).obj U) (N.obj U) :=
         SMulMemClass.toModule (N.obj U)
+      letI : Module (O'.obj.obj U) (N.obj U) :=
+        inferInstanceAs (Module ((O'.obj ⋙ forget₂ CommRingCat RingCat).obj U) (N.obj U))
       refine ModuleCat.ofHom ((m.app U).hom.codRestrict (N.obj U) ?_)
       intro z
       induction z using TensorProduct.induction_on with

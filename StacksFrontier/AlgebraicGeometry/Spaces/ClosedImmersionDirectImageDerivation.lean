@@ -101,13 +101,14 @@ commute with the structure maps by
 noncomputable def directImageDerivationEquiv (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     (W : Modules.{u, u} B S hS Z.1 Z.2) :
-    ((directImageModules (smallEtaleRingedToposHom B S hS i).toToposHom
+    PresheafOfModulesOfCommRing.Derivation'
+      ((directImageModules (smallEtaleRingedToposHom B S hS i).toToposHom
           (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor (smallToposMorphismTypeU B S hS i)).obj
               (smallEtaleRingedTopos B S hS Z).O))).obj
-        (counitRestrictScalars B S hS i hi W)).val.Derivation'
+        (counitRestrictScalars B S hS i hi W)).val
       (directImageBase B S hS i b).hom ≃
-      W.val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation' W.val
         ((smallEtaleRingedToposHom B S hS (i ≫ b)).fSharpInverseImage).hom :=
   (inverseImageDerivationEquiv (smallEtaleRingedToposHom B S hS i).toToposHom
       (directImageBase B S hS i b) (counitRestrictScalars B S hS i hi W)).symm.trans
@@ -124,11 +125,12 @@ transport along the ring data. -/
 lemma directImageDerivationEquiv_postcomp (i : Z ⟶ X)
     (hi : IsClosedImmersion B S hS i.hom) (b : X ⟶ Bb)
     {W W' : Modules.{u, u} B S hS Z.1 Z.2} (k : W ⟶ W')
-    (D : ((directImageModules (smallEtaleRingedToposHom B S hS i).toToposHom
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      ((directImageModules (smallEtaleRingedToposHom B S hS i).toToposHom
           (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor (smallToposMorphismTypeU B S hS i)).obj
               (smallEtaleRingedTopos B S hS Z).O))).obj
-        (counitRestrictScalars B S hS i hi W)).val.Derivation'
+        (counitRestrictScalars B S hS i hi W)).val
       (directImageBase B S hS i b).hom) :
     directImageDerivationEquiv B S hS i hi b W'
         (D.postcomp ((directImageModules (smallEtaleRingedToposHom B S hS i).toToposHom

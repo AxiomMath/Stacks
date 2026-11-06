@@ -205,7 +205,7 @@ the same tuple, the site automorphism being its preimage. -/
 private theorem post_map_siteMatrixAut (M : Fin m → Matrix.GeneralLinearGroup (Fin 2) k) :
     (Over.post (X := B.obj hk) B.inclusion).map
         (projectiveSpacePowerSiteMatrixAut k B hk m M).hom =
-      (projectiveSpacePowerMatrixAut k 1 m M).hom := by
+      (projectiveSpacePowerMatrixAut k 1 m M).asIso.hom := by
   rw [projectiveSpacePowerSiteMatrixAut_hom, Functor.FullyFaithful.map_preimage]
   rfl
 
@@ -254,12 +254,12 @@ theorem projectiveLinePowerSlicePointEquiv_comp_matrixAut
     projectiveLinePowerSlicePointEquiv k B hk m
         (ξ ≫ (projectiveLinePowerFunctorMatrixAut k B hk m M).hom) =
       projectiveLinePowerSlicePointEquiv k B hk m ξ ≫
-        (projectiveSpacePowerMatrixAut k 1 m M).hom := by
+        (projectiveSpacePowerMatrixAut k 1 m M).asIso.hom := by
   have hkey : (projectiveLinePowerFunctorMatrixAut k B hk m M).hom ≫
         (projectiveSpacePowerRestrictedYonedaIso k B hk m).inv =
       (projectiveSpacePowerRestrictedYonedaIso k B hk m).inv ≫
         (bigFppfRestrictedYoneda B (Spec (CommRingCat.of k)) hk).map
-          (projectiveSpacePowerMatrixAut k 1 m M).hom := by
+          (projectiveSpacePowerMatrixAut k 1 m M).asIso.hom := by
     rw [matrixAut_hom_eq, yonedaIso_inv_eq, yonedaIso_hom_eq]
     refine conjugate_rearrange _ _ _ _ _ _ ?_ ?_ ?_
     · rw [← post_map_siteMatrixAut k B hk m M]

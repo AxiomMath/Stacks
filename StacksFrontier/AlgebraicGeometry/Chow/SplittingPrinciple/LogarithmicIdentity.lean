@@ -243,14 +243,14 @@ private theorem coeff_subst_mul_eulerDegree (f : PowerSeries ℚ) (d : ℕ+ →�
 private theorem eulerDegree_logSubst :
     eulerDegree (PowerSeries.subst universalChernClassSum (PowerSeries.log ℚ)) =
       PowerSeries.subst universalChernClassSum
-          (PowerSeries.derivative ℚ (PowerSeries.log ℚ)) *
+          (PowerSeries.derivative (R := ℚ) (PowerSeries.log ℚ)) *
         eulerDegree universalChernClassSum := by
   classical
   ext d
   have hsum : (gradedWeight d : ℚ) * MvPowerSeries.coeff d
         (PowerSeries.subst universalChernClassSum (PowerSeries.log ℚ)) =
       ∑ n ∈ Finset.range (exponentMass d + 1),
-        PowerSeries.coeff n (PowerSeries.derivative ℚ (PowerSeries.log ℚ)) *
+        PowerSeries.coeff n (PowerSeries.derivative (R := ℚ) (PowerSeries.log ℚ)) *
           MvPowerSeries.coeff d
             (universalChernClassSum ^ n * eulerDegree universalChernClassSum) := by
     rw [coeff_subst_eq_sum_range (PowerSeries.log ℚ) d (exponentMass d + 1) (by omega),
@@ -373,9 +373,9 @@ private theorem sum_support_reindex (d : ℕ+ →₀ ℕ) (m : ℕ)
 /-- The rational power-sum polynomial of degree `p` has no monomial of weighted degree other
 than `p`. -/
 private theorem coeff_powerSumPolynomialQ_eq_zero {p : ℕ} (d : ℕ+ →₀ ℕ)
-    (hp : gradedWeight d ≠ p) : MvPolynomial.coeff d (powerSumPolynomialQ p) = 0 := by
-  have hzero : MvPolynomial.coeff d
-      (powerSumPolynomial p : MvPolynomial ℕ+ ℤ) = 0 := by
+    (hp : gradedWeight d ≠ p) : (powerSumPolynomialQ p).coeff d = 0 := by
+  have hzero : (powerSumPolynomial p : MvPolynomial ℕ+ ℤ).coeff
+      d = 0 := by
     by_contra hcoeff
     have hw :=
       isWeightedHomogeneous_powerSumPolynomial p hcoeff
@@ -389,7 +389,7 @@ private theorem coeff_eulerDegree_powerSumSeries (d : ℕ+ →₀ ℕ) :
     MvPowerSeries.coeff d (eulerDegree powerSumSeries) =
       if gradedWeight d = 0 then 0 else
         ((-1 : ℚ) ^ (gradedWeight d - 1)) *
-          MvPolynomial.coeff d (powerSumPolynomialQ (gradedWeight d)) := by
+          (powerSumPolynomialQ (gradedWeight d)).coeff d := by
   classical
   by_cases hm : gradedWeight d = 0
   · simp [coeff_eulerDegree, hm]
@@ -405,19 +405,19 @@ private theorem coeff_eulerDegree_powerSumSeries (d : ℕ+ →₀ ℕ) :
         have hpval : (p : ℕ) ≠ gradedWeight d := fun heq => hp (Subtype.ext heq)
         have hz := coeff_powerSumPolynomialQ_eq_zero (p := (p : ℕ)) d (Ne.symm hpval)
         show (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) *
-          MvPolynomial.coeff d (powerSumPolynomialQ (p : ℕ))) = 0
+          (powerSumPolynomialQ (p : ℕ)).coeff d) = 0
         rw [hz]
         simp)]
     have hcoeffPS : MvPowerSeries.coeff d powerSumSeries =
         ((-1 : ℚ) ^ (gradedWeight d - 1) / (gradedWeight d : ℚ)) *
-          MvPolynomial.coeff d (powerSumPolynomialQ (gradedWeight d)) := by
+          (powerSumPolynomialQ (gradedWeight d)).coeff d := by
       unfold powerSumSeries
       show (∑ᶠ p : ℕ+, MvPowerSeries.coeff d
         (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) •
           (powerSumPolynomialQ (p : ℕ)).toMvPowerSeries)) = _
       rw [hsingle]
       show (((-1 : ℚ) ^ (gradedWeight d - 1) / (gradedWeight d : ℚ)) *
-        MvPolynomial.coeff d (powerSumPolynomialQ (gradedWeight d))) = _
+        (powerSumPolynomialQ (gradedWeight d)).coeff d) = _
       rfl
     rw [coeff_eulerDegree, hcoeffPS]
     have hmQ : (gradedWeight d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hm
@@ -437,14 +437,14 @@ private theorem eq_zero_of_gradedWeight_eq_zero (d : ℕ+ →₀ ℕ) (hd : grad
 weighted degree. -/
 private theorem coeff_powerSumPolynomialQ_gradedWeight (d : ℕ+ →₀ ℕ)
     (hmpos : 0 < gradedWeight d) :
-    MvPolynomial.coeff d (powerSumPolynomialQ (gradedWeight d)) =
+    (powerSumPolynomialQ (gradedWeight d)).coeff d =
       (∑ j ∈ Finset.range (gradedWeight d - 1), (-1 : ℚ) ^ j *
         if Nat.succPNat j ∈ d.support then
-          MvPolynomial.coeff (d - Finsupp.single (Nat.succPNat j) 1)
-            (powerSumPolynomialQ (gradedWeight d - 1 - j))
+          (powerSumPolynomialQ (gradedWeight d - 1 - j)).coeff
+            (d - Finsupp.single (Nat.succPNat j) 1)
         else 0) +
       (-1 : ℚ) ^ (gradedWeight d - 1) * ((((gradedWeight d - 1 : ℕ) : ℚ) + 1) *
-        MvPolynomial.coeff d (MvPolynomial.X (Nat.succPNat (gradedWeight d - 1)))) := by
+        (MvPolynomial.X (Nat.succPNat (gradedWeight d - 1))).coeff d) := by
   classical
   have hrec : powerSumPolynomialQ (gradedWeight d) =
       ∑ j ∈ Finset.range (gradedWeight d - 1),
@@ -454,9 +454,9 @@ private theorem coeff_powerSumPolynomialQ_gradedWeight (d : ℕ+ →₀ ℕ)
           MvPolynomial.X (Nat.succPNat (gradedWeight d - 1)) := by
     simpa [Nat.sub_add_cancel (Nat.one_le_of_lt hmpos)] using
       powerSumPolynomialQ_succ (gradedWeight d - 1)
-  simpa only [mul_assoc, MvPolynomial.coeff_add, MvPolynomial.coeff_sum,
+  simpa only [mul_assoc, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, Pi.add_apply, MvPolynomial.coeff_sum,
     MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X_mul'] using
-    congrArg (MvPolynomial.coeff d) hrec
+    congrArg (fun q => q.coeff d) hrec
 
 /-- The shifted coefficients of the Euler operator of the signed power-sum series, summed over
 the variables of a monomial. -/
@@ -465,8 +465,8 @@ private theorem sum_coeff_sub_single_eulerDegree_powerSumSeries (d : ℕ+ →₀
         MvPowerSeries.coeff (d - Finsupp.single i 1) (eulerDegree powerSumSeries) =
       ∑ i ∈ d.support.filter (fun i : ℕ+ => (i : ℕ) < gradedWeight d),
         (-1 : ℚ) ^ (gradedWeight d - (i : ℕ) - 1) *
-          MvPolynomial.coeff (d - Finsupp.single i 1)
-            (powerSumPolynomialQ (gradedWeight d - (i : ℕ))) := by
+          (powerSumPolynomialQ (gradedWeight d - (i : ℕ))).coeff
+            (d - Finsupp.single i 1) := by
   classical
   rw [Finset.sum_filter]
   refine Finset.sum_congr rfl fun i hi => ?_
@@ -483,13 +483,13 @@ private theorem neg_one_pow_mul_sum_coeff_powerSumPolynomialQ (d : ℕ+ →₀ �
     (-1 : ℚ) ^ (gradedWeight d - 1) *
         (∑ j ∈ Finset.range (gradedWeight d - 1), (-1 : ℚ) ^ j *
           if Nat.succPNat j ∈ d.support then
-            MvPolynomial.coeff (d - Finsupp.single (Nat.succPNat j) 1)
-              (powerSumPolynomialQ (gradedWeight d - 1 - j))
+            (powerSumPolynomialQ (gradedWeight d - 1 - j)).coeff
+              (d - Finsupp.single (Nat.succPNat j) 1)
           else 0) =
       -∑ i ∈ d.support.filter (fun i : ℕ+ => (i : ℕ) < gradedWeight d),
         (-1 : ℚ) ^ (gradedWeight d - (i : ℕ) - 1) *
-          MvPolynomial.coeff (d - Finsupp.single i 1)
-            (powerSumPolynomialQ (gradedWeight d - (i : ℕ))) := by
+          (powerSumPolynomialQ (gradedWeight d - (i : ℕ))).coeff
+            (d - Finsupp.single i 1) := by
   classical
   rw [sum_support_reindex d _ rfl, ← Finset.sum_neg_distrib]
   simp_rw [mul_ite, mul_zero]
@@ -508,7 +508,7 @@ private theorem neg_one_pow_mul_sum_coeff_powerSumPolynomialQ (d : ℕ+ →₀ �
 /-- The variable indexed by the weighted degree of a monomial has the same coefficient there as
 the universal total Chern class. -/
 private theorem coeff_X_succPNat_gradedWeight_pred (d : ℕ+ →₀ ℕ) :
-    MvPolynomial.coeff d (MvPolynomial.X (Nat.succPNat (gradedWeight d - 1))) =
+    (MvPolynomial.X (Nat.succPNat (gradedWeight d - 1))).coeff d =
       MvPowerSeries.coeff d universalChernClassSum := by
   classical
   by_cases hu : exponentMass d = 1
@@ -564,7 +564,7 @@ private theorem coeff_powerSumSeries_zero :
   apply finsum_eq_zero_of_forall_eq_zero
   intro p
   show (((-1 : ℚ) ^ ((p : ℕ) - 1) / (p : ℚ)) : ℚ) *
-      MvPolynomial.coeff 0 (powerSumPolynomialQ (p : ℕ)) = 0
+      (powerSumPolynomialQ (p : ℕ)).coeff 0 = 0
   have hp : gradedWeight (0 : ℕ+ →₀ ℕ) ≠ (p : ℕ) := by
     simp only [gradedWeight, Finsupp.sum_zero_index]
     exact (Nat.ne_of_gt p.2).symm
@@ -573,7 +573,8 @@ private theorem coeff_powerSumSeries_zero :
 
 /-- Substituting the universal total Chern class into `log' · (1 + X) = 1`. -/
 private theorem subst_derivative_log_mul_one_add :
-    PowerSeries.subst universalChernClassSum (PowerSeries.derivative ℚ (PowerSeries.log ℚ)) *
+    PowerSeries.subst universalChernClassSum
+        (PowerSeries.derivative (R := ℚ) (PowerSeries.log ℚ)) *
       (1 + universalChernClassSum) = 1 := by
   have hsubst := hasSubst_universalChernClassSum
   have hone : PowerSeries.subst universalChernClassSum (1 : PowerSeries ℚ) = 1 := by

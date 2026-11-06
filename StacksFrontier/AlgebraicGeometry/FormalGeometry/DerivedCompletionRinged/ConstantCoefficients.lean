@@ -149,12 +149,12 @@ def constantSection (a : Λ) :
 modules.** -/
 theorem constantModuleFunctor_map_smul (M : ModuleCat.{u} Λ) (a : Λ) :
     (constantModuleFunctor J Λ).map (a • 𝟙 M) =
-      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app
+      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app
         ((constantModuleFunctor J Λ).obj M) := by
   let F := SheafOfModules.restrictScalars.{u} (constantRingSheafIso' J Λ).symm.inv
   let α := toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of Λ))
   obtain ⟨φ, hφ⟩ := F.map_surjective
-    ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app
+    ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app
       ((constantModuleFunctor J Λ).obj M))
   rw [← hφ]
   show F.map (Stacks.SheafOfModules.Constant.constantModuleSheafMap J (a • 𝟙 M)) = F.map φ
@@ -216,17 +216,17 @@ theorem constantModuleFunctor_map_smul_unitIso (a : Λ) :
     (constantModuleFunctor J Λ).map (a • 𝟙 (ModuleCat.of Λ Λ)) ≫
         (constantModuleFunctorUnitIso J Λ).hom =
       (constantModuleFunctorUnitIso J Λ).hom ≫
-        (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app
+        (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app
           (SheafOfModules.unit _) := by
   rw [constantModuleFunctor_map_smul]
-  exact ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).naturality
+  exact ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.naturality
     (constantModuleFunctorUnitIso J Λ).hom).symm
 
 /-- **The Koszul scalars at the sections `f̲_i` are multiplications by the monomials in the
 `f_i`.** -/
 theorem koszulScalar_constantGlobalSection {r : ℕ} (g : Fin r → Λ) (e : Fin r → ℕ) :
     koszulScalar (constant J Λ) (fun i => constantGlobalSection J Λ (g i)) e =
-      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (∏ i, g i ^ e i))).app
+      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ (∏ i, g i ^ e i))).asHom.app
         (SheafOfModules.unit _) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
@@ -289,7 +289,7 @@ theorem constantIdealSheaf_eq_idealOfGlobalSections (I : Ideal Λ) {r : ℕ} (g 
 /-- **Multiplication by `a̲`** on `Λ̲`, additively in `a`. -/
 def constantScalar : Λ →+ (SheafOfModules.unit
     (Stacks.SheafOfModules.Tensor.ringSheaf (constant J Λ).O) ⟶ SheafOfModules.unit _) where
-  toFun a := (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app _
+  toFun a := (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app _
   map_zero' := by
     refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
@@ -305,7 +305,7 @@ def constantScalar : Λ →+ (SheafOfModules.unit
 /-- `constantScalar J Λ a` is multiplication by the global section `a̲` on `Λ̲`. -/
 theorem constantScalar_apply (a : Λ) :
     constantScalar J Λ a =
-      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).app _ :=
+      (Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app _ :=
   rfl
 
 end AlgebraicGeometry.RingedSite

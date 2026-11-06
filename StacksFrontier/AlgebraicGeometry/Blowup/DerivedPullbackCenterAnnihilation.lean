@@ -77,7 +77,7 @@ theorem exists_pow_le_center_app_homology_derivedPullback_eq_zero {n : ℕ} (g :
       ∀ r ∈ I ^ c,
         (Stacks.SheafOfModules.terminalSectionToEnd
             (structureSheafRing (blowUpSpec I).toRingedSpace) ⊤ isTerminalTop
-            ((toSpec I).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv r))).app
+            ((toSpec I).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv r))).asHom.app
           ((DerivedCategory.homologyFunctor (blowUpSpec I).Modules j).obj
             ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback
               (toSpecRingedSpace I)).obj (DerivedCategory.Q.obj (tildeComplex

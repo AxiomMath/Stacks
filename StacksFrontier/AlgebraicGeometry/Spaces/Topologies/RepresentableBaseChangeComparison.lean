@@ -585,6 +585,8 @@ theorem representedPushforwardCube (Q : W' ⟶ V) (e₁ : n' ≫ m = Q) (e₂ : 
     ← spacesPushforwardCompSquare_eq_factoredComp A m n n' m' Q e₁ e₂ w]
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1000000 in
 /-- **The base change map of a square of represented algebraic spaces is the scheme one.** For
 a commutative square `n' ≫ m = m' ≫ n` of the big fppf site whose image under the Yoneda embedding
 is cartesian, the spaces-étale base change map `g⁻¹ f_* ⟶ f'_* (g')⁻¹` of the square of represented

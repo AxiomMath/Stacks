@@ -2,6 +2,7 @@ module
 
 import Mathlib.Tactic.Push
 import Mathlib.Tactic.LinearCombination
+import Mathlib.Algebra.Group.Submonoid.Finsupp
 
 public import Mathlib.RingTheory.GradedAlgebra.HomogeneousLocalization
 public import StacksFrontier.RingTheory.HomogeneousLocalization.BaseAlgebra

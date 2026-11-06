@@ -114,7 +114,7 @@ theorem qcDerivedComparisonUnit_fac
             (Iso.refl (qcAbelianInverseImage.{u, w, v} S X ⋙
               qcAbelianDirectImage.{u, w, v} S X))).inv DerivedCategory.Plus.Qh ≫
         Functor.whiskerLeft (qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus
-          (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnit ≫
+          (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerRight
           (qcAbelianInverseImage.{u, w, v} S X).mapDerivedCategoryPlusFactorsh.inv
           (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlus :=
@@ -135,7 +135,7 @@ theorem qcDerivedComparisonUnit_app_Qh_obj
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
             (Iso.refl (qcAbelianInverseImage.{u, w, v} S X ⋙
               qcAbelianDirectImage.{u, w, v} S X))).inv.app L) ≫
-        (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnit.app
+        (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnith.app
           ((qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus.obj L) ≫
         (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlus.map
           ((qcAbelianInverseImage.{u, w, v} S X).mapDerivedCategoryPlusFactorsh.inv.app L) := by
@@ -210,7 +210,7 @@ theorem isIso_qcDerivedComparisonUnit_app_abelianComparisonInverseImage
             X).mapHomotopyCategoryPlus.obj L))) := by
       rw [h₂]
       exact (DerivedCategory.Plus.Qh.mapIso (Iso.refl _)).isIso_hom
-    have i₃ : IsIso ((qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnit.app
+    have i₃ : IsIso ((qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnith.app
         ((qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus.obj
           ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v}
             X).mapHomotopyCategoryPlus.obj L))) :=
@@ -309,10 +309,10 @@ theorem isIso_qcDerivedComparisonBaseChangeMap_app_Qh_obj
   have hfac := NatTrans.congr_app (qcDerivedComparisonBaseChangeMap_fac.{u, w, v} S f) L
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app] at hfac
   have hu : IsIso ((sliceDirectImage S f
-      AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit.app L) :=
+      AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith.app L) :=
     Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ hZ
   have hcomp : IsIso ((qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus.map
-        ((sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit.app L) ≫
+        ((sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith.app L) ≫
       (qcDerivedComparisonBaseChangeMap.{u, w, v} S f).app (DerivedCategory.Plus.Qh.obj L)) := by
     rw [hfac]
     dsimp only [qcDerivedComparisonBaseChangeOnHomotopy]
@@ -322,18 +322,18 @@ theorem isIso_qcDerivedComparisonBaseChangeMap_app_Qh_obj
       have := isIso_mapHomotopyCategoryPlusNatTrans_app
         (qcAbelianComparisonBaseChange.{u, w, v} S f) L hβ
       infer_instance
-    have i₅ : IsIso ((qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlusUnit.app
+    have i₅ : IsIso ((qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlusUnith.app
         ((qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus.obj L)) :=
       Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ hqc
     have i₆ : IsIso ((qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlus.map
-        ((qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnit.app L)) := by
-      have : IsIso ((qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnit.app L) :=
+        ((qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnith.app L)) := by
+      have : IsIso ((qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnith.app L) :=
         NatIso.isIso_app_of_isIso _ _
       infer_instance
     infer_instance
   exact IsIso.of_isIso_comp_left
     ((qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus.map
-      ((sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit.app L)) _
+      ((sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith.app L)) _
 
 /-- **Stacks 0DCY (4).** For a proper morphism `f : X ⟶ Y` of `LC_qc` and `K` in `D⁺(X)`, the
 canonical map `a_Y^{-1}(Rf_*K) ⟶ Rf_{qc,*}(a_X^{-1}K)` is an isomorphism. -/
@@ -374,10 +374,10 @@ theorem isIso_qcTopologicalDerivedBaseChangeMap_app_of_proper
         (fun n ↦ rightAcyclic_qcAbelianSliceDirectImage_qcTopologicalInverseImage.{u, w, v} S f hf
           (IH.obj.as.X n))
     have hunit : IsIso ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v}
-        X).rightDerivedFunctorPlusUnit.app IH) := NatIso.isIso_app_of_isIso _ _
+        X).rightDerivedFunctorPlusUnith.app IH) := NatIso.isIso_app_of_isIso _ _
     exact (NatTrans.isIso_app_iff_of_iso (qcDerivedComparisonBaseChangeMap.{u, w, v} S f)
       (asIso ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v}
-        X).rightDerivedFunctorPlusUnit.app IH) ≪≫
+        X).rightDerivedFunctorPlusUnith.app IH) ≪≫
         (S.abelianComparisonInverseImage.{u, w, max (u + 1) v}
           X).rightDerivedFunctorPlus.mapIso eK)).1 hM
   have e : (qcTopologicalDerivedBaseChangeMap.{u, w, v} S f).app K =

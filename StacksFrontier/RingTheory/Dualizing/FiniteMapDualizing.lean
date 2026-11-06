@@ -87,7 +87,7 @@ variable {B : Type u} [CommRing B]
 `B`-linear equivalence `End X ≃ₗ[B] End Y`. -/
 noncomputable def endLinearEquivOfIso {X Y : DerivedCategory (ModuleCat.{max v u} B)}
     (e : X ≅ Y) : End X ≃ₗ[B] End Y :=
-  LinearEquiv.ofLinearMap
+  End.linearEquiv ≪≫ₗ (LinearEquiv.ofLinearMap (M := X ⟶ X) (M₂ := Y ⟶ Y)
     ((Linear.leftComp B Y e.inv).comp (Linear.rightComp B X e.hom))
     ((Linear.leftComp B X e.hom).comp (Linear.rightComp B Y e.inv))
     (by
@@ -99,7 +99,7 @@ noncomputable def endLinearEquivOfIso {X Y : DerivedCategory (ModuleCat.{max v u
       ext f
       dsimp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq,
         Linear.leftComp, Linear.rightComp, LinearMap.coe_mk, AddHom.coe_mk]
-      simp)
+      simp)) ≪≫ₗ End.linearEquiv.symm
 
 end Endomorphisms
 

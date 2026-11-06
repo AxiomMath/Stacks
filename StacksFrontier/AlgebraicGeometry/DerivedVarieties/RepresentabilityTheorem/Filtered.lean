@@ -75,8 +75,7 @@ lemma isFiltered_costructuredArrow (X : D) :
       0 B.hom (by
         show ι.map (f.left - g.left) ≫ B.hom = _
         rw [ι.map_sub, Preadditive.sub_comp, CostructuredArrow.w f,
-          CostructuredArrow.w g, sub_self, zero_comp]
-        rfl)
+          CostructuredArrow.w g, sub_self, zero_comp])
     refine ⟨CostructuredArrow.mk c, CostructuredArrow.homMk q ?_,
       CostructuredArrow.hom_ext _ _ ?_⟩
     · show ι.map q ≫ c = B.hom

@@ -99,7 +99,7 @@ theorem IsDerivedLimit.map {F : ℕᵒᵖ ⥤ D} [HasProduct fun n : ℕ => F.ob
   have hb : G.map b ≫ e.hom = e.hom ≫ b' := by
     refine Pi.hom_ext _ _ fun n => ?_
     have he' := fun m => reassoc_of% (he m)
-    simp only [Category.assoc, b', Pi.lift_π, Preadditive.comp_sub, he, he', ← G.map_comp, b,
+    simp only [Category.assoc, b', Pi.lift_comp_π, Preadditive.comp_sub, he, he', ← G.map_comp, b,
       G.map_sub]
   have hb' : b' ≫ e.inv = e.inv ≫ G.map b := by
     rw [Iso.comp_inv_eq, Category.assoc, hb, Iso.inv_hom_id_assoc]

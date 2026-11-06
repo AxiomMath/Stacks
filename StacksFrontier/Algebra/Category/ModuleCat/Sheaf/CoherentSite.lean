@@ -1004,6 +1004,8 @@ instance coherentModules_isClosedUnderBinaryCoproducts :
 /-- Coherent sheaves of modules are closed under finite coproducts. -/
 instance coherentModules_isClosedUnderFiniteCoproducts :
     (coherentModules R).IsClosedUnderFiniteCoproducts :=
+  have : HasFiniteBiproducts (SheafOfModules.{t} R) := Abelian.hasFiniteBiproducts
+  have : HasFiniteCoproducts (SheafOfModules.{t} R) := hasFiniteCoproducts_of_hasFiniteBiproducts _
   ObjectProperty.IsClosedUnderFiniteCoproducts.mk'
 
 /-- A finite direct sum of coherent sheaves of modules on a site is coherent. -/

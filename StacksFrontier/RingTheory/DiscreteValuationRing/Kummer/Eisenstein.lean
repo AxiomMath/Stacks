@@ -394,7 +394,8 @@ private lemma integralClosure_dvr_and_irreducible_root {A : Type u} {K : Type v}
     exact Ideal.mem_span_singleton_self π
   have hmeq : ∀ M : Ideal B, M.IsMaximal →
       Ideal.comap (algebraMap A B) M = IsLocalRing.maximalIdeal A := fun M hM =>
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hM) M)
+    IsLocalRing.eq_maximalIdeal
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (hI := hM) M)
   have hmax_contains : ∀ M : Ideal B, M.IsMaximal → β ∈ M := by
     intro M hM
     have hπM : algebraMap A B π ∈ M := by
@@ -566,7 +567,7 @@ private lemma isTotallyRamified_of_ramificationIdx_eq_finrank
   let m : Ideal B := IsLocalRing.maximalIdeal B
   have hmmax : m.IsMaximal := IsLocalRing.maximalIdeal.isMaximal B
   have hcomap : (Ideal.comap (algebraMap A B) m).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hmmax) m
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (hI := hmmax) m
   have hmlies : m.LiesOver (IsLocalRing.maximalIdeal A) := by
     refine ⟨?_⟩
     exact (IsLocalRing.eq_maximalIdeal hcomap).symm

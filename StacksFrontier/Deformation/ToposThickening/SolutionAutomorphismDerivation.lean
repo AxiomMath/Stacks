@@ -88,8 +88,9 @@ variable {Rc Sc : Cᵒᵖ ⥤ CommRingCat.{w}} (φ : Sc ⟶ Rc)
 values in a presheaf of modules is the same thing as one with values in its universe lift
 `U ↦ ULift (M(U))`. -/
 def derivationULiftAddEquiv (M : PresheafOfModules.{t'} (Rc ⋙ forget₂ _ _)) :
-    M.Derivation' φ ≃+
-      ((Stacks.SheafOfModules.presheafULift.{t} (Rc ⋙ forget₂ _ _)).obj M).Derivation' φ where
+    PresheafOfModulesOfCommRing.Derivation' M φ ≃+
+      PresheafOfModulesOfCommRing.Derivation'
+        ((Stacks.SheafOfModules.presheafULift.{t} (Rc ⋙ forget₂ _ _)).obj M) φ where
   toFun d :=
     { d := fun {X} => AddMonoidHom.mk' (fun x => ULift.up (d.d (X := X) x))
         (fun x y => by rw [map_add]; rfl)
@@ -190,8 +191,8 @@ derivation of `𝒪'` killing the ideal `𝒢` and the image of `f⁻¹𝒪_{ℬ
 surjective reduction `𝒪' ⟶ 𝒪`, and kills the image of `f⁻¹𝒪_ℬ` because `f⁻¹𝒪_{ℬ'} ⟶ f⁻¹𝒪_ℬ` is
 locally surjective. -/
 def derivationEquivRelative :
-    Derivation P ≃+ (FirstOrderLiftDiagram.pushedPresheaf
-      (P.selfFirstOrderLiftDiagram hbase)).Derivation'
+    Derivation P ≃+ PresheafOfModulesOfCommRing.Derivation' (FirstOrderLiftDiagram.pushedPresheaf
+      (P.selfFirstOrderLiftDiagram hbase))
         (P.selfFirstOrderLiftDiagram hbase).front.f.hom :=
   (FirstOrderLiftDiagram.relativeEquivDerivation (D := P.selfFirstOrderLiftDiagram hbase)).symm
 

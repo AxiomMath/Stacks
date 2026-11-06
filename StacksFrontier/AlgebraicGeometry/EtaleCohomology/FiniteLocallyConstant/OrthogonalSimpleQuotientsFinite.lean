@@ -111,16 +111,16 @@ theorem finite_of_ne_zero_hom_of_orthogonal [Finite Λ]
     rw [LinearMap.quotKerEquivOfSurjective_symm_apply, Submodule.liftQ_apply]
   have hcomm : ∀ (G : Sheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)) (ψ : N ⟶ G)
       (σ : EtaleFundamentalGroup X x) (v : V),
-      ((monodromyAction x).map ψ.hom).hom.hom ((((monodromyAction x).obj N.obj).ρ σ).hom v) =
-        (((monodromyAction x).obj G.obj).ρ σ).hom (((monodromyAction x).map ψ.hom).hom.hom v) :=
+      ((monodromyAction x).map ψ.hom).hom.hom ((((monodromyAction x).obj N.obj).ρ σ).asHom.hom v) =
+        (((monodromyAction x).obj G.obj).ρ σ).asHom.hom (((monodromyAction x).map ψ.hom).hom.hom v) :=
     fun G ψ σ v ↦ ConcreteCategory.congr_hom (((monodromyAction x).map ψ.hom).comm σ) v
   let gA : (monodromyAction x).obj (F i).obj ⟶ (monodromyAction x).obj (F j).obj :=
     { hom := ModuleCat.ofHom g
       comm := fun σ ↦ by
         ext w
         obtain ⟨v, rfl⟩ := hρsurj i w
-        change g ((((monodromyAction x).obj (F i).obj).ρ σ).hom (ρ i v)) =
-          (((monodromyAction x).obj (F j).obj).ρ σ).hom (g (ρ i v))
+        change g ((((monodromyAction x).obj (F i).obj).ρ σ).asHom.hom (ρ i v)) =
+          (((monodromyAction x).obj (F j).obj).ρ σ).asHom.hom (g (ρ i v))
         rw [hg, ← hcomm (F i) (φ i) σ v]
         change g (ρ i _) = _
         rw [hg]

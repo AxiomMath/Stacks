@@ -110,7 +110,7 @@ theorem isSumOfCharts_fracFG
         convert hs using 2
         omega
       obtain ⟨p, hp, q, hq, rfl⟩ := hred (a + b + 1) (by omega) s hs'
-      have hp' : p ∈ 𝒜 (a + (b + 1)) := by convert hp using 2; omega
+      have hp' : p ∈ 𝒜 (a + (b + 1)) := by convert hp using 2 <;> omega
       have hq' : q ∈ 𝒜 ((a + 1) + b) := by convert hq using 2; omega
       have key : fracFG 𝒜 hf hg (a + 1) (b + 1) (f * p + g * q) hs =
           fracFG 𝒜 hf hg a (b + 1) p hp' + fracFG 𝒜 hf hg (a + 1) b q hq' := by
@@ -183,6 +183,7 @@ theorem reesGrading_reduction {a b : R} (ha : a ∈ I) (hb : b ∈ I)
     Polynomial.monomial_mul_monomial, ← map_add]
   rw [add_comm 1 k]
 
+set_option maxHeartbeats 400000 in
 open Stacks.Cohomology.CechSheaf Stacks.Cohomology.Basis in
 /-- **`H¹(Proj(⨁ Iᵏ), 𝒪) = 0` for an ideal with a two-generated reduction of reduction number
 one.** If `a, b ∈ I` and `I² ≤ (a, b) I`, then the two charts `D₊(a⁽¹⁾)`, `D₊(b⁽¹⁾)` cover the

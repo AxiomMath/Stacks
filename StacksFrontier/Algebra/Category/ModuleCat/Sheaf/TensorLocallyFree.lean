@@ -5,6 +5,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SheafificationTens
 public import Mathlib.Algebra.Category.Grp.ForgetCorepresentable
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.PushforwardZeroMonoidal
 public import Mathlib.CategoryTheory.Sites.PreservesLocallyBijective
+public import Mathlib.CategoryTheory.Limits.Preserves.SigmaConst
 public import StacksFrontier.CategoryTheory.Sites.Modules.RingedSite
 public import StacksFrontier.AlgebraicGeometry.Topologies.ModuleTypesOnSite
 public import StacksFrontier.CategoryTheory.Sites.Modules.Tensor
@@ -389,6 +390,8 @@ noncomputable def freeModel_tensorIso
         (O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}) from P)) := inferInstance
   have hT : PreservesColimitsOfShape (Discrete K) (tensorLeft P) :=
     hT0.preservesColimitsOfShape
+  haveI : HasCoproducts.{w} (PresheafOfModules.{w} R.obj) := fun _ =>
+    PresheafOfModules.hasColimitsOfShape _ _
   exact (_root_.PresheafOfModules.sheafificationTensorIso J (𝟙 O.obj)).app (P, Q) ≪≫
     (PresheafOfModules.sheafification (𝟙 R.obj)).mapIso (tensor_coproduct_units (hT := hT) I K)
 
@@ -426,7 +429,7 @@ noncomputable def tensor_over_congr
   letI := surj Q
   let pf := PresheafOfModules.pushforward₀OfCommRingCat.{w} (Over.forget U) O.obj
   letI : MonoidalCategory (PresheafOfModules.{w} ((Over.forget U).op ⋙ R.obj)) :=
-    PresheafOfModules.monoidalCategory (R := (Over.forget U).op ⋙ O.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := (Over.forget U).op ⋙ O.obj)
   let eFv : pf.obj F.val ≅ pf.obj F'.val :=
     (SheafOfModules.forget (R.over U)).mapIso eF
   let eGv : pf.obj G.val ≅ pf.obj G'.val :=

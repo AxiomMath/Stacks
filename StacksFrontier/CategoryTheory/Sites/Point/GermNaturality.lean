@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.CategoryTheory.Sites.Pullback
+public import Mathlib.CategoryTheory.Sites.LeftExact
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic

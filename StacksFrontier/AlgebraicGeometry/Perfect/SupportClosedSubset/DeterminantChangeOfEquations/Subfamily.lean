@@ -103,7 +103,7 @@ public theorem secIso_subfamilyProd (p : ℕ) (V : X.Opens) (x : Γ(prodTerm e F
   have h₁ : subfamilyProd e φ F p ≫ Pi.π (fun t : CechCochains.OrdIndex (I := Fin m) p =>
         restrictedModule (e ∘ φ) F p t) q =
       Pi.π (fun t : CechCochains.OrdIndex (I := Fin n) p => restrictedModule e F p t)
-        (subfamilyIndex φ q) := Pi.lift_π _ q
+        (subfamilyIndex φ q) := Pi.lift_comp_π _ q
   have hπ : (Pi.π (fun t : CechCochains.OrdIndex (I := Fin m) p =>
         restrictedModule (e ∘ φ) F p t) q).app V ((subfamilyProd e φ F p).app V x) =
       appApplyHom V x (subfamilyProd e φ F p ≫

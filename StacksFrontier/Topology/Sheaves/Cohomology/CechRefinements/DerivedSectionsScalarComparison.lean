@@ -84,7 +84,7 @@ def scalarRestrictionUnit
   (DerivedCategory.Plus.quotientCompQhIso
         (ModuleCat ((ringCatSheaf Y).obj.obj (op ⊤)))).inv.app
       ((restrictGlobalScalars f).mapCochainComplexPlus.obj K) ≫
-    (restrictGlobalScalars f).rightDerivedFunctorPlusUnit.app
+    (restrictGlobalScalars f).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient
         (ModuleCat ((ringCatSheaf X).obj.obj (op ⊤)))).obj K) ≫
     (restrictGlobalScalars f).rightDerivedFunctorPlus.map

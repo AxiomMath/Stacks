@@ -180,7 +180,7 @@ private theorem mono_embF_app (hmono : ∀ X, Mono (η.app X)) (G : Cᵒᵖ ⥤ 
   rw [NatTrans.mono_iff_mono_app]
   intro x
   have hlift : embF I η ≫ Pi.π (fun c : Cᵒᵖ => Tc I c) x = embc I η x :=
-    Pi.lift_π (fun c => embc I η c) x
+    Pi.lift_comp_π (fun c => embc I η c) x
   have hfac2 : ((embF I η).app G).app x ≫ ((Pi.π (fun c : Cᵒᵖ => Tc I c) x).app G).app x
       = ((embc I η x).app G).app x :=
     NatTrans.congr_app (NatTrans.congr_app hlift G) x

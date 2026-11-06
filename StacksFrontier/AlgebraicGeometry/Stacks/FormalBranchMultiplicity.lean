@@ -159,8 +159,9 @@ theorem componentMultiplicity_closure_chartPointMap_fromSpecCompletedLocalRing
     (hZ : closure (AlgebraicStacks.chartPointMap B S hS (𝒳.val.val.p.obj x) 𝒳
         (Bicategory.InducedBicategory.mkHom
           (objectMorphism B S hS 𝒳.val (Functor.Fiber.mk (a := x) rfl))) ''
-        closure {((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj x)).fromSpecCompletedLocalRing
-          u₀ ⟨P.comap e.toRingHom, hP.1.1.comap _⟩}) ∈
+        closure {((BigFppfOver.toScheme B S hS).obj
+                    (𝒳.val.val.p.obj x)).fromSpecCompletedLocalRing
+                  u₀ ⟨P.comap e.toRingHom, hP.1.1.comap _⟩}) ∈
       irreducibleComponents (AlgebraicStacks.points B S hS 𝒳)) :
     componentMultiplicity.{u, w} B S hS 𝒳 hN _ hZ =
       letI : P.IsPrime := hP.1.1
@@ -248,7 +249,8 @@ theorem componentMultiplicity_closure_basePointMap (D : VersalSituation.{u, w})
       hfinite ξ).Realization hA y hy)
     {P : Ideal ξ.base} (hP : P ∈ formalBranches D iΛ hiΛ x₀ hx₀ hfinite ξ.base ⟨ξ, rfl, hξ⟩)
     (hZ : closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-        (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} ∈
+                    (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy
+                    ⟨P, hP.1.1⟩} ∈
       irreducibleComponents (AlgebraicStacks.points D.B D.S D.hS D.𝒳)) :
     componentMultiplicity.{u, w} D.B D.S D.hS D.𝒳 D.hasLocallyNoetherianAtlas _ hZ =
       ((formalBranchMultiplicity D iΛ hiΛ x₀ hx₀ hfinite ξ.base ⟨ξ, rfl, hξ⟩ hP).toNat : ℤ) := by
@@ -277,8 +279,8 @@ theorem componentMultiplicity_closure_basePointMap (D : VersalSituation.{u, w})
         (Bicategory.InducedBicategory.mkHom
           (objectMorphism D.B D.S D.hS D.𝒳.val (Functor.Fiber.mk (a := x) rfl))) ''
         closure {((BigFppfOver.toScheme D.B D.S D.hS).obj
-          (D.𝒳.val.val.p.obj x)).fromSpecCompletedLocalRing u₀
-            ⟨P.comap eA.toRingHom, hP.1.1.comap _⟩}) →
+                    (D.𝒳.val.val.p.obj x)).fromSpecCompletedLocalRing u₀
+                  ⟨P.comap eA.toRingHom, hP.1.1.comap _⟩}) →
       componentMultiplicity.{u, w} D.B D.S D.hS D.𝒳 D.hasLocallyNoetherianAtlas T hT =
         ((formalBranchMultiplicity D iΛ hiΛ x₀ hx₀ hfinite ξ.base ⟨ξ, rfl, hξ⟩ hP).toNat : ℤ) := by
     rintro T hT rfl

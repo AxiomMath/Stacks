@@ -211,7 +211,7 @@ private noncomputable def uliftSubmoduleOfUliftIso {G : SheafOfModules.{m} R}
     exact
       { toFun := fun x => ⟨ULift.up x.down.1, x.down.2⟩
         invFun := fun x => ULift.up ⟨x.1.down, x.2⟩
-        left_inv := fun _ => ULift.ext _ _ rfl
+        left_inv := fun _ => ULift.ext rfl
         right_inv := fun _ => Subtype.ext rfl
         map_add' := fun _ _ => Subtype.ext rfl
         map_smul' := fun _ _ => Subtype.ext rfl }
@@ -245,7 +245,7 @@ private theorem mono_uliftForPresentationMap {A D : SheafOfModules.{m} R} (f : A
   apply PresheafOfModules.mono_of_injective
   have : Mono f.val := (SheafOfModules.forget R).map_mono f
   intro U x y h
-  exact ULift.ext _ _ ((PresheafOfModules.injective_of_mono f.val U) (congrArg ULift.down h))
+  exact ULift.ext ((PresheafOfModules.injective_of_mono f.val U) (congrArg ULift.down h))
 
 end UniverseLift
 

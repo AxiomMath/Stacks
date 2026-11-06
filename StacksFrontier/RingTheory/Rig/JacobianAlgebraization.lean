@@ -340,7 +340,7 @@ public theorem smoothAwayFrom_of_le_radical_det {I : Ideal A}
     (rel : Fin N → G.Ring) (hrel : Ideal.span (Set.range rel) = G.toExtension.ker)
     (hrad : I.map (algebraMap A B) ≤
       (Ideal.span {algebraMap G.Ring B
-        (Matrix.det fun i j : Fin N ↦ MvPolynomial.pderiv i (rel j))}).radical) :
+                    (Matrix.det fun i j : Fin N ↦ MvPolynomial.pderiv i (rel j))}).radical) :
     SmoothAwayFrom A I B :=
   (smoothAwayFrom_iff_le_radical_retractionIdeal G).mpr (hrad.trans
     (Ideal.radical_mono (Ideal.span_le.mpr (Set.singleton_subset_iff.mpr

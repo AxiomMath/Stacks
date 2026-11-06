@@ -181,7 +181,7 @@ public theorem isSheafFor_singleton_iff_bijective_mapToEqualizer
     obtain ⟨l, hl₁, hl₂⟩ : ∃ l : Z ⟶ W, l ≫ p₁ = q₁ ∧ l ≫ p₂ = q₂ :=
       ⟨hW.lift q₁ q₂ h, hW.lift_fst q₁ q₂ h, hW.lift_snd q₁ q₂ h⟩
     rw [← hl₁, ← hl₂]
-    simp only [op_comp, FunctorToTypes.map_comp_apply, H]
+    simp only [op_comp, Functor.map_comp_apply, H]
   rw [Presieve.isSheafFor_singleton, Function.bijective_iff_existsUnique]
   constructor
   · intro hF

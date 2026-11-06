@@ -105,7 +105,7 @@ omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{
 /-- The diagonal of a one-member product is a section of each of its projections. -/
 lemma unaryLift_comp_π (i : E.I₀) (j : Fin 1) :
     unaryLift E i ≫ Pi.π (fun _ : Fin 1 ↦ Over.mk (E.f i)) j = 𝟙 _ :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
   [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
@@ -245,8 +245,8 @@ lemma torsorDifference_map_eq_of_transitionCochain_eq
         (F'.1.presheaf.map a.op (s' (k 0))) := by
   let u : W ⟶ (∏ᶜ fun m ↦ Over.mk (E.f (k m))) :=
     Pi.lift (fun m ↦ match m with | 0 => a | 1 => b)
-  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_π _ _
-  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = b := Pi.lift_π _ _
+  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_comp_π _ _
+  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = b := Pi.lift_comp_π _ _
   have e := map_transitionCochain_comp E G F s k u
   have e' := map_transitionCochain_comp E G F' s' k u
   rw [h0, h1] at e e'

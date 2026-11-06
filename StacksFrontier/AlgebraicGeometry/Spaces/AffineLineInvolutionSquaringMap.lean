@@ -471,6 +471,7 @@ theorem squareFibre_comp_quotientChart_comp_squaringMap :
   rw [Category.assoc, Category.assoc, quotientChart_comp_squaringMap, ← Category.assoc,
     ← Category.assoc, ← yoneda.map_comp, ← yoneda.map_comp, pullback.condition]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The relation of Stacks 02Z1 is a base change of the relative diagonal of the squaring
 map.** The chart of the quotient has the relation as its kernel pair, and the two projections
 of the fibre square of the squaring map are jointly monic. -/

@@ -75,7 +75,6 @@ private noncomputable def baseChangeQuotEquiv {N : Type*} [AddCommGroup N] [Modu
       (M := R) (N := N) p).trans (Submodule.quotEquivOfEq _ _ (by
     refine le_antisymm (LinearMap.range_le_iff_comap.2 (eq_top_iff.2 fun x _ ↦ ?_)) ?_
     · induction x with
-      | zero => simp
       | tmul r y => exact Submodule.tmul_mem_baseChange_of_mem r y.2
       | add x y hx hy => exact Submodule.add_mem _ (hx trivial) (hy trivial)
     · rw [Submodule.baseChange_eq_span, Submodule.span_le]
@@ -181,8 +180,7 @@ private theorem tensorLimEquiv_canonMod [DecidableEq J] (i : J) (y : S i ⊗[A] 
           (fun j ↦ IsScalarTower.toAlgHom A (S j) R) P i y) =
       Module.DirectLimit.of A J (fun i ↦ S i ⊗[A] P)
         (fun i j h ↦ LinearMap.rTensor P (transLin f i j h)) i y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul s p =>
       show tensorLimEquiv f hf hsurj hinj P (algebraMap (S i) R s ⊗ₜ[A] p) = _
       rw [tensorLimEquiv]

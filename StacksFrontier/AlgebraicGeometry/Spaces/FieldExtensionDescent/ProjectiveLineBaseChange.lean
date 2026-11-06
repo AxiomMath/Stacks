@@ -166,6 +166,7 @@ def projectiveLineFieldExtensionIso :
 
 /-! ### A power -/
 
+set_option synthInstance.maxHeartbeats 400000
 /-- **The base change of a power of the projective line over `k` along a field extension is the
 corresponding power of the projective line over `K`**: base change preserves limits, so it
 carries a product to the product of the base changes, and each factor is identified by

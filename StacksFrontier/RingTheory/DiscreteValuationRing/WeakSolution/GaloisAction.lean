@@ -523,9 +523,9 @@ theorem normal_extension_acts_transitively_on_maximalSpectrum_integralClosure
       change q.asIdeal.comap (algebraMap B B₁) =
         q'.asIdeal.comap (algebraMap B B₁)
       exact (IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal)).trans
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q.asIdeal)).trans
         (IsLocalRing.eq_maximalIdeal
-          (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q'.asIdeal)).symm
+          (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q'.asIdeal)).symm
     obtain ⟨g, hg⟩ := exists_smul_of_under_eq_of_fixed_pow B B₁
       (K₁ ≃ₐ[K] K₁) (fun b hb => hfixed b hb) q.asIdeal q'.asIdeal hunder
     refine ⟨g, ?_⟩

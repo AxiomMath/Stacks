@@ -75,13 +75,14 @@ def levelEvaluation (k : ℕ) :
         (levelAbelian (trivialRepresentation (G := G) (ℓ := ℓ)) continuous_const
           k).obj.obj.obj.V :=
   AddMonoidHom.mk' (fun x => AddMonoidHom.mk' (fun y => ULift.up fun _ => x.down ⬝ᵥ y.down)
-    (fun y y' => ULift.ext _ _ (funext fun _ => dotProduct_add x.down y.down y'.down)))
+    (fun y y' => ULift.ext (funext fun _ => dotProduct_add x.down y.down y'.down)))
     (fun x x' => AddMonoidHom.ext fun y =>
-      ULift.ext _ _ (funext fun _ => add_dotProduct x.down x'.down y.down))
+      ULift.ext (funext fun _ => add_dotProduct x.down x'.down y.down))
 
 /-- The action of `g` on the level module is the level representation of `ρ`. -/
 theorem levelAbelian_ρ_apply (k : ℕ) (g : G) (a : (levelAbelian ρ hρ k).obj.obj.obj.V) :
-    ((levelAbelian ρ hρ k).obj.obj.obj.ρ g).hom a = ULift.up (levelRepresentation ρ k g a.down) :=
+    ((levelAbelian ρ hρ k).obj.obj.obj.ρ g).asHom.hom a =
+      ULift.up (levelRepresentation ρ k g a.down) :=
   rfl
 
 /-- **The evaluation pairing is invariant**: `⟨ρ(g) a, ρ^∨(g) b⟩ = ⟨a, b⟩`, and `g` acts trivially
@@ -89,12 +90,12 @@ on the target. -/
 theorem levelEvaluation_equivariant (k : ℕ) (g : G)
     (a : (levelAbelian ρ hρ k).obj.obj.obj.V)
     (b : (levelAbelian (contragredient ρ) (continuous_contragredient hρ) k).obj.obj.obj.V) :
-    levelEvaluation ρ hρ k (((levelAbelian ρ hρ k).obj.obj.obj.ρ g).hom a)
-        (((levelAbelian (contragredient ρ) (continuous_contragredient hρ) k).obj.obj.obj.ρ g).hom
-          b) =
+    levelEvaluation ρ hρ k (((levelAbelian ρ hρ k).obj.obj.obj.ρ g).asHom.hom a)
+        (((levelAbelian (contragredient ρ) (continuous_contragredient hρ) k).obj.obj.obj.ρ
+          g).asHom.hom b) =
       ((levelAbelian (trivialRepresentation (G := G) (ℓ := ℓ)) continuous_const k).obj.obj.obj.ρ
-        g).hom (levelEvaluation ρ hρ k a b) := by
-  refine ULift.ext _ _ (funext fun _ => ?_)
+        g).asHom.hom (levelEvaluation ρ hρ k a b) := by
+  refine ULift.ext (funext fun _ => ?_)
   show levelRepresentation ρ k g a.down ⬝ᵥ levelRepresentation (contragredient ρ) k g b.down =
     levelRepresentation (trivialRepresentation (G := G) (ℓ := ℓ)) k g (fun _ => a.down ⬝ᵥ b.down) _
   rw [levelRepresentation_dotProduct_contragredient, levelRepresentation_apply]

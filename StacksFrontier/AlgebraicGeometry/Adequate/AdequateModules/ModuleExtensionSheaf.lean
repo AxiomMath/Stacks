@@ -263,9 +263,9 @@ public theorem isSheaf_siteModuleExtension (M : ModuleCat.{max u m} (A : Type u)
       ((siteModuleExtension (P := schemeSizeBelow B.cutoff) M).presheaf ⋙
         forget AddCommGrpCat.{max u m}).map (c ≫ r).op a := fun a => by
     rw [hgf]
-    exact (FunctorToTypes.map_comp_apply _ _ _ _).symm
+    exact (Functor.map_comp_apply _ _ _ _).symm
   rw [h1 t, show ((c ≫ r).op : op X ⟶ op W) = r.op ≫ c.op from rfl,
-    FunctorToTypes.map_comp_apply, ht r hr]
+    Functor.map_comp_apply, ht r hr]
   exact (hx g c hf (hR₁le hr) hgf.symm).symm
 
 end Refinement

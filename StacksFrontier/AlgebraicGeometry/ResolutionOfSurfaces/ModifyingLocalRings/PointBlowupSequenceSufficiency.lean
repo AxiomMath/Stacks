@@ -475,7 +475,7 @@ theorem factorsAsPointBlowups_of_forall (BC : BaseChangeFunctor D) (X : D.global
       x ∈ (Set.range D.points)ᶜ
     simp only [Set.mem_iInter, Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_range]
     exact ⟨fun h ⟨i, hi⟩ ↦ h (ULift.up i) hi.symm, fun h i hi ↦ h ⟨i.down, hi.symm⟩⟩
-  have hinj : Function.Injective t := fun i j hij ↦ ULift.ext _ _ (D.points_injective hij)
+  have hinj : Function.Injective t := fun i j hij ↦ ULift.ext (D.points_injective hij)
   have hqc : QuasiCompact (complementOfClosedPoints t ht).ι := by
     rw [hU]
     exact D.complement_quasiCompact

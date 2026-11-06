@@ -96,6 +96,19 @@ open CategoryTheory.TwoFibreProductOver.RelativeDiagonalFibre
 
 universe u w
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_deligneMumfordIsomCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_deligneMumfordIsomCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_deligneMumfordIsomCriterion.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- The every-étale-chart condition for a morphism into a terminal presheaf holds for one terminal
@@ -192,6 +205,7 @@ theorem holdsOnEveryEtaleChart_isomSpace_iff_pullbackSnd (P : MorphismProperty S
   refine h₁.trans ((Space.holdsOnEveryEtaleChart_relocalizeToYoneda_iff B V.left.1 U.left.1
     V.left.2 U.left.2 e.left P R).symm.trans ?_)
   have hsq := OverShriek.isPullback_relocalizeRestrictCounit e.left I hT π τ
+  haveI : HasPullback π τ := hasPullback_presheaf_deligneMumfordIsomCriterion π τ
   show PU (OverShriek.relocalizeToYoneda e.left R) ↔ PU (pullback.snd π τ)
   rw [← hsq.isoPullback_hom_snd]
   exact PU.cancel_left_of_respectsIso hsq.isoPullback.hom (pullback.snd π τ)

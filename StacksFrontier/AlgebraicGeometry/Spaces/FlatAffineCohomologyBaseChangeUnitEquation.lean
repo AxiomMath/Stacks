@@ -72,7 +72,7 @@ variable {C : Type u₂} [CategoryTheory.Category.{v₂} C] (R : Type w₂) [Com
   (J : CategoryTheory.GrothendieckTopology C)
   [J.HasSheafCompose (CategoryTheory.forget₂ CommRingCat.{w₂} RingCat.{w₂})]
   (O : CategoryTheory.Sheaf J CommRingCat.{w₂})
-  (𝓕 : SheafOfModules.{w₂} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (𝓕 : SheafOfModules.{w₂} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **`s ↦ s ⊗ m` on sections.**  The inverse of `𝓕 ⊗_R R ≅ 𝓕` followed by the presheaf-level
@@ -83,8 +83,8 @@ theorem unitIso_inv_comp_map_spanHom_app (M : ModuleCat.{w₂} R) (m : M) (X : C
     letI := coefficientAlgebraOfHom R J O θ X
     Hom.app ((tensorByBaseModulePresheafOfHomUnitIso R J O 𝓕 θ).inv ≫
         (tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map (spanHom m)) X s =
-      TensorProduct.tmul (O.val.obj X) s
-        (TensorProduct.tmul R (1 : O.val.obj X) m) := by
+      TensorProduct.tmul (O.obj.obj X) s
+        (TensorProduct.tmul R (1 : O.obj.obj X) m) := by
   let := coefficientAlgebraOfHom R J O θ X
   show TensorProduct.tmul (O.obj.obj X) s
       (Hom.app ((changeOfRings θ).map ((constantModulePresheaf R).map (spanHom m))) X
@@ -122,8 +122,8 @@ theorem tensorOne_presheaf_eq (M : ModuleCat.{w₂} R) (m : M)
     (h : ∀ (X : Cᵒᵖ) (s : 𝓕.val.obj X),
       letI := coefficientAlgebraOfHom R J O θ X
       letI : Module R (((constantModulePresheaf R).obj M).obj X) := M.isModule
-      Hom.app Φ X (TensorProduct.tmul (O.val.obj X) s
-          (TensorProduct.tmul R (1 : O.val.obj X) m)) = Hom.app ψ.val X s) :
+      Hom.app Φ X (TensorProduct.tmul (O.obj.obj X) s
+          (TensorProduct.tmul R (1 : O.obj.obj X) m)) = Hom.app ψ.val X s) :
     (tensorByBaseModulePresheafOfHomUnitIso R J O 𝓕 θ).inv ≫
         (tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map (spanHom m) ≫ Φ =
       (SheafOfModules.forget (ringSheaf J O) ⋙
@@ -187,7 +187,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **`s ↦ s ⊗ m` followed by a glued comparison transported along an equality of coefficient
 maps.** -/
 theorem tensorOne_comp_eqToHom_iso_of_hom_eq
-    {θ θ' : constantRingPresheaf (C := C) R ⟶ O.val} (hθ : θ = θ')
+    {θ θ' : constantRingPresheaf (C := C) R ⟶ O.obj} (hθ : θ = θ')
     (M : ModuleCat.{w₂} R) (m : M) (G : SheafOfModules.{w₂} (ringSheaf J O))
     (Φ : (tensorByBaseModulePresheafOfHom R J O 𝓕 θ').obj M ⟶
       (PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj
@@ -212,7 +212,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **`s ↦ s ⊗ m` followed by a transported glued comparison is `ψ`**, with both factors of the
 composite carried as arguments. -/
 theorem tensorOne_comp_eqToIso_of_hom_eq
-    {θ θ' : constantRingPresheaf (C := C) R ⟶ O.val} (hθ : θ = θ')
+    {θ θ' : constantRingPresheaf (C := C) R ⟶ O.obj} (hθ : θ = θ')
     (M : ModuleCat.{w₂} R) (m : M) (G : SheafOfModules.{w₂} (ringSheaf J O))
     (Φ : (tensorByBaseModulePresheafOfHom R J O 𝓕 θ').obj M ⟶
       (PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj

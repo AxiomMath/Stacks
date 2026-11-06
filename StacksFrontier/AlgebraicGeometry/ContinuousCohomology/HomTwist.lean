@@ -42,14 +42,15 @@ variable (R : Type u) [Ring R] {Γ : Type v} [Group Γ] [TopologicalSpace Γ]
 /-- Conjugation by `γ` on `Hom_ℤ(A, M)`: `φ ↦ γ ∘ φ ∘ γ⁻¹`. -/
 def homTwistConj (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ) :
     (A.obj.obj.V →+ M.obj.obj.V) →ₗ[R] (A.obj.obj.V →+ M.obj.obj.V) where
-  toFun φ := (M.obj.obj.ρ γ).hom.toAddMonoidHom.comp (φ.comp (A.obj.obj.ρ γ⁻¹).hom.toAddMonoidHom)
-  map_add' _ _ := AddMonoidHom.ext fun _ ↦ map_add (M.obj.obj.ρ γ).hom _ _
-  map_smul' r _ := AddMonoidHom.ext fun _ ↦ map_smul (M.obj.obj.ρ γ).hom r _
+  toFun φ := (M.obj.obj.ρ γ).asHom.hom.toAddMonoidHom.comp
+    (φ.comp (A.obj.obj.ρ γ⁻¹).asHom.hom.toAddMonoidHom)
+  map_add' _ _ := AddMonoidHom.ext fun _ ↦ map_add (M.obj.obj.ρ γ).asHom.hom _ _
+  map_smul' r _ := AddMonoidHom.ext fun _ ↦ map_smul (M.obj.obj.ρ γ).asHom.hom r _
 
 /-- The conjugate `γ · φ` evaluated at `a` is `γ · φ(γ⁻¹ · a)`. -/
 lemma homTwistConj_apply (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ)
     (φ : A.obj.obj.V →+ M.obj.obj.V) (a : A.obj.obj.V) :
-    homTwistConj R A M γ φ a = (M.obj.obj.ρ γ).hom (φ ((A.obj.obj.ρ γ⁻¹).hom a)) :=
+    homTwistConj R A M γ φ a = (M.obj.obj.ρ γ).asHom.hom (φ ((A.obj.obj.ρ γ⁻¹).asHom.hom a)) :=
   rfl
 
 /-- **The conjugation action of `Γ` on `Hom_ℤ(A, M)`.** -/
@@ -57,12 +58,12 @@ def homTwistRepresentation (M : Stacks.Injectives.ContinuousModule.{u, v, w} R �
     Representation R Γ (A.obj.obj.V →+ M.obj.obj.V) where
   toFun γ := homTwistConj R A M γ
   map_one' := LinearMap.ext fun φ ↦ AddMonoidHom.ext fun a ↦ by
-    change (M.obj.obj.ρ 1).hom (φ ((A.obj.obj.ρ 1⁻¹).hom a)) = φ a
+    change (M.obj.obj.ρ 1).asHom.hom (φ ((A.obj.obj.ρ 1⁻¹).asHom.hom a)) = φ a
     rw [inv_one, continuousModuleRho_one_apply, continuousModuleRho_one_apply]
   map_mul' g h := LinearMap.ext fun φ ↦ AddMonoidHom.ext fun a ↦ by
-    change (M.obj.obj.ρ (g * h)).hom (φ ((A.obj.obj.ρ (g * h)⁻¹).hom a)) =
-      (M.obj.obj.ρ g).hom ((M.obj.obj.ρ h).hom (φ ((A.obj.obj.ρ h⁻¹).hom
-        ((A.obj.obj.ρ g⁻¹).hom a))))
+    change (M.obj.obj.ρ (g * h)).asHom.hom (φ ((A.obj.obj.ρ (g * h)⁻¹).asHom.hom a)) =
+      (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom (φ ((A.obj.obj.ρ h⁻¹).asHom.hom
+        ((A.obj.obj.ρ g⁻¹).asHom.hom a))))
     rw [mul_inv_rev, continuousModuleRho_mul_apply, continuousModuleRho_mul_apply]
 
 variable [IsTopologicalGroup Γ]
@@ -87,8 +88,8 @@ lemma isContinuous_homTwistRepresentation [Finite A.obj.obj.V]
         conv_lhs => rw [← (show homTwistRepresentation R A M a φ = φ from ha)]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl }
   show IsOpen (H : Set Γ)
-  let O : Set Γ := ⋂ a : A.obj.obj.V, ({γ | (A.obj.obj.ρ γ).hom a = a} ∩
-    {γ | (M.obj.obj.ρ γ).hom (φ a) = φ a})
+  let O : Set Γ := ⋂ a : A.obj.obj.V, ({γ | (A.obj.obj.ρ γ).asHom.hom a = a} ∩
+    {γ | (M.obj.obj.ρ γ).asHom.hom (φ a) = φ a})
   have hO : IsOpen O := isOpen_iInter_of_finite fun a ↦
     (isOpen_stabilizer ℤ Γ A a).inter (isOpen_stabilizer R Γ M (φ a))
   have h1 : (1 : Γ) ∈ O := Set.mem_iInter.mpr fun a ↦
@@ -98,8 +99,8 @@ lemma isContinuous_homTwistRepresentation [Finite A.obj.obj.V]
   have hγ' := Set.mem_iInter.mp hγ
   show homTwistRepresentation R A M γ φ = φ
   refine AddMonoidHom.ext fun a ↦ ?_
-  show (M.obj.obj.ρ γ).hom (φ ((A.obj.obj.ρ γ⁻¹).hom a)) = φ a
-  have hinv : (A.obj.obj.ρ γ⁻¹).hom a = a := by
+  show (M.obj.obj.ρ γ).asHom.hom (φ ((A.obj.obj.ρ γ⁻¹).asHom.hom a)) = φ a
+  have hinv : (A.obj.obj.ρ γ⁻¹).asHom.hom a = a := by
     conv_lhs => rw [← (hγ' a).1]
     rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply]
   rw [hinv]
@@ -130,7 +131,7 @@ def homTwistFunctor [Finite R] :
        map_smul' r (φ : A.obj.obj.V →+ M.obj.obj.obj.V) := AddMonoidHom.ext fun a ↦
          map_smul f.hom.hom.hom.hom.hom r (φ a) },
       fun γ (φ : A.obj.obj.V →+ M.obj.obj.obj.V) ↦ AddMonoidHom.ext fun a ↦
-        ConcreteCategory.congr_hom (f.hom.hom.hom.comm γ) (φ ((A.obj.obj.ρ γ⁻¹).hom a))⟩)
+        ConcreteCategory.congr_hom (f.hom.hom.hom.comm γ) (φ ((A.obj.obj.ρ γ⁻¹).asHom.hom a))⟩)
   map_id _ := rfl
   map_comp _ _ := rfl
 

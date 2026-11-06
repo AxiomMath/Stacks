@@ -66,6 +66,8 @@ include hc
 theorem cofan_inj_app_injective (k : K) (V : (BigFppfOver B S hS)ᵒᵖ) :
     Function.Injective ((ι k).hom.app V) := by
   have := BigFppfOver.hasSheafify_type B S hS
+  have : HasColimitsOfShape (Discrete K) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasColimitsOfShape
   have hm : Mono (ι k) := mono_of_cofan_isVanKampen
     (isVanKampenColimit_of_isColimit_sheafOfTypes _ hc) ⟨k⟩
   have hm' : Mono (ι k).hom := (sheafToPresheaf _ _).map_mono (ι k)
@@ -78,6 +80,8 @@ theorem isEmpty_of_cofan_inj_app_eq {k l : K} (hkl : k ≠ l) {V : BigFppfOver B
     (h : (ι k).hom.app _ a = (ι l).hom.app _ b) :
     IsEmpty ((BigFppfOver.toScheme B S hS).obj V) := by
   have := BigFppfOver.hasSheafify_type B S hS
+  have : HasColimitsOfShape (Discrete K) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasColimitsOfShape
   have hpb := isPullback_initial_to_of_cofan_isVanKampen
     (isVanKampenColimit_of_isColimit_sheafOfTypes _ hc) ⟨k⟩ ⟨l⟩ (by simpa using hkl)
   have hpb' := (hpb.map (sheafToPresheaf _ _)).map ((evaluation _ _).obj (op V))

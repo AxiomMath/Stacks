@@ -163,7 +163,7 @@ theorem of_finiteProduct {m : ℕ} (F : X.Modules)
       (Stacks.Ample.tensorPowModule X L (n : ℤ)) ⋙ Hfunctor X.ringCatSheaf ⊤ q)
     (Pi.lift fun _ : Fin (m + 1) => 𝟙 F)
     (Pi.π (fun _ : Fin (m + 1) => F) ⟨0, Nat.succ_pos m⟩)
-    (Pi.lift_π _ _) (hn₀ n q hn hq)
+    (Pi.lift_comp_π _ _) (hn₀ n q hn hq)
 
 end Stacks.HighTwistVanishing
 

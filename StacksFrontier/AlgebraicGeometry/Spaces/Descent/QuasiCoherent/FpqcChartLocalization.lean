@@ -276,6 +276,13 @@ private theorem isEtaleCovering_singleton_of_atlas (Y : AlgebraicSpaces B S hS)
   rw [Set.iUnion_const, Set.range_eq_univ]
   exact (surjective_iff_surjective_pointsMap B S hS Y.1 Y.2 U a).1 hsurj
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasLimit_cospan_presheaf_FpqcChartLocalization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **An fpqc covering of an algebraic space is refined, over any morphism out of a represented
 algebraic space, by an fpqc covering of that represented space by represented spaces.**
 

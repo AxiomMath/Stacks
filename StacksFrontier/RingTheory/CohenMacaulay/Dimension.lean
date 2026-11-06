@@ -965,12 +965,12 @@ section WellFounded
 /-- An order with chains of bounded length has no infinite descending chain. -/
 private lemma wellFoundedLT_of_finiteDimensionalOrder (α : Type*) [Preorder α]
     [FiniteDimensionalOrder α] : WellFoundedLT α :=
-  ⟨SetRel.IsWellFounded.of_finiteDimensional {(a, b) : α × α | a < b}⟩
+  SetRel.IsWellFounded.of_finiteDimensional {(a, b) : α × α | a < b}
 
 /-- An order with chains of bounded length has no infinite ascending chain. -/
 private lemma wellFoundedGT_of_finiteDimensionalOrder (α : Type*) [Preorder α]
     [FiniteDimensionalOrder α] : WellFoundedGT α :=
-  ⟨SetRel.IsWellFounded.inv_of_finiteDimensional {(a, b) : α × α | a < b}⟩
+  SetRel.IsWellFounded.inv_of_finiteDimensional {(a, b) : α × α | a < b}
 
 end WellFounded
 

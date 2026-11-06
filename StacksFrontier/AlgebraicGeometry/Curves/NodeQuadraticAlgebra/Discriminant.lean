@@ -116,7 +116,7 @@ public theorem four_mul_add_mul_self_notMem_maximalIdeal_of_isNodalAlgebra (k : 
       (algebraMap R ↥(integralClosure R (FractionRing R)) a₀ +
         algebraMap R ↥(integralClosure R (FractionRing R)) a₁ * τ) =
       residue R a₀ • (1 : quadraticAlgebra R) + residue R a₁ • s := fun a₀ a₁ => by
-    rw [map_add, quotient_mk_algebraMap_integralClosure,
+    rw [RingHom.map_add, quotient_mk_algebraMap_integralClosure,
       quotient_mk_algebraMap_mul_integralClosure]
   -- `1` and the class of `τ` span the closed fibre, hence are a basis of it
   have hli : LinearIndependent (ResidueField R) ![(1 : quadraticAlgebra R), s] := by
@@ -193,7 +193,7 @@ public theorem four_mul_add_mul_self_notMem_of_isNodalAlgebra (k : Type u) (A : 
   -- and carries the quadratic relation along
   have hrelD : ψ t * ψ t = algebraMap Rl D (algebraMap A Rl a) +
       algebraMap Rl D (algebraMap A Rl c) * ψ t := by
-    rw [← map_mul, hrel, map_add, map_mul, hψ a, hψ c]
+    rw [← map_mul, hrel, RingHom.map_add, map_mul, hψ a, hψ c]
   -- so the local statement applies at the node
   intro hmem
   refine four_mul_add_mul_self_notMem_maximalIdeal_of_isNodalAlgebra k Rl hnodal (ψ t)

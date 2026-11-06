@@ -190,7 +190,7 @@ def comparisonStructureSheafIso :
     (fun W => ((comparisonGlobalFunctionsRingEquiv B S hS X W.unop).trans
       ULift.ringEquiv.symm).toCommRingCatIso)
     (fun {W W'} g => by
-      refine CommRingCat.hom_ext (RingHom.ext fun s => ULift.ext _ _ ?_)
+      refine CommRingCat.hom_ext (RingHom.ext fun s => ULift.ext ?_)
       refine globalFunctionsMap_val_chart B S hS
         ((SpacesEtale.toSpaces B S hS X).map ((comparisonFunctor B S hS X).map g.unop))
         (idEtaleChart B S hS ((SmallEtale.toOver B S hS X.obj).obj W.unop))

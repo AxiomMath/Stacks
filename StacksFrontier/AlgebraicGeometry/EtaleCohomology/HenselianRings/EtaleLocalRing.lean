@@ -90,7 +90,7 @@ public noncomputable def zariskiNeighborhood
     change s.hom (closedPoint s.residueField) ∈
       Set.range (Scheme.Opens.ι (X := S) U.1).base
     exact ⟨⟨x, U.2⟩, hx.symm⟩)
-  refine ⟨V, ⟨p, ?_⟩⟩
+  refine (geometricPointFiber B S hS s).elementsMk V ⟨p, ?_⟩
   change p ≫ Scheme.Opens.ι (X := S) U.1 = s.hom
   exact IsOpenImmersion.lift_fac (Scheme.Opens.ι (X := S) U.1) s.hom _
 
@@ -111,7 +111,7 @@ public noncomputable def zariskiNeighborhoodMap
       (zariskiNeighborhood B S hS s x hx V).fst.obj :=
     Over.homMk (ObjectProperty.homMk f) (ObjectProperty.hom_ext _ hf)
   let fSmall := ObjectProperty.homMk fOver
-  apply CategoryOfElements.homMk _ _ fSmall
+  refine Functor.Elements.homMk fSmall ?_
   dsimp [geometricPointFiber, zariskiNeighborhood]
   apply Subtype.ext
   change (IsOpenImmersion.lift (Scheme.Opens.ι (X := S) U.1) s.hom _ ≫ f) =
@@ -140,7 +140,7 @@ public noncomputable def zariskiGermCocone
         forget₂ CommRingCat RingCat) := by
   let x := s.hom (closedPoint s.residueField)
   let G := geometricPointFiber B S hS s
-  let F := (CategoryOfElements.π G).op ⋙
+  let F := (Functor.Elements.π G).op ⋙
     (SmallEtale.structureSheaf B S hS).obj
   let Q := forget₂ CommRingCat RingCat
   let D := ((TopologicalSpace.OpenNhds.inclusion x).op ⋙ S.presheaf) ⋙ Q
@@ -218,7 +218,7 @@ private theorem structureSheafStalkFromLocalRing_open_germ
     structureSheafStalkFromLocalRing B S hS s
       (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hx a) =
         (colimit.ι
-          ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
             (SmallEtale.structureSheaf B S hS).obj)
           (Opposite.op (zariskiNeighborhood B S hS s
             (s.hom (closedPoint s.residueField)) rfl ⟨U, hx⟩))).hom
@@ -238,7 +238,7 @@ neighborhoods of a geometric point. -/
 public noncomputable def geometricFieldCocone
     (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (s : GeometricPoint S) :
-    Cocone ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    Cocone ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) where
   pt := RingCat.of s.residueField
   ι := {
@@ -247,7 +247,7 @@ public noncomputable def geometricFieldCocone
     naturality := by
       intro U V f
       dsimp [SmallEtale.structureSheaf_obj,
-        Stacks.Sites.structurePresheaf, CategoryOfElements.π]
+        Stacks.Sites.structurePresheaf, Functor.Elements.π]
       apply RingCat.hom_ext
       ext a
       let g : (SmallEtale.toScheme B S hS).obj V.unop.1 ⟶
@@ -295,7 +295,7 @@ private lemma neighborhoodHom_ext
     {U V : (geometricPointFiber B S hS s).Elements} {f g : U ⟶ V}
     (h : (SmallEtale.toScheme B S hS).map f.1 = (SmallEtale.toScheme B S hS).map g.1) :
     f = g := by
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
@@ -311,12 +311,12 @@ private lemma colimit_ι_neighborhoodHom
     (hf : f ≫ B.inclusion.map V.1.obj.hom = B.inclusion.map U.1.obj.hom)
     (hp : U.2.1 ≫ f = V.2.1)
     (a : Γ((SmallEtale.toScheme B S hS).obj V.1, ⊤)) :
-    (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) (op U)).hom (f.appTop a) =
-    (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) (op V)).hom a :=
   ConcreteCategory.congr_hom
-    (colimit.w ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    (colimit.w ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj)
       (neighborhoodHom B S hS s U V f hf hp).op) a
 
@@ -337,12 +337,12 @@ private def openNeighborhood
     rintro _ ⟨a, rfl⟩
     obtain rfl : a = closedPoint s.residueField := Subsingleton.elim _ _
     exact ⟨⟨_, hx⟩, rfl⟩)
-  exact ⟨⟨Over.mk (ObjectProperty.homMk (W.ι ≫ f) :
+  exact (geometricPointFiber B S hS s).elementsMk ⟨Over.mk (ObjectProperty.homMk (W.ι ≫ f) :
     B.obj W.toScheme hW ⟶ B.obj S hS), by
       change Etale (W.ι ≫ f)
-      infer_instance⟩,
+      infer_instance⟩
     ⟨q, (Category.assoc q W.ι f).symm.trans
-      ((congrArg (fun z => z ≫ f) (IsOpenImmersion.lift_fac W.ι U.2.1 _)).trans U.2.2)⟩⟩
+      ((congrArg (fun z => z ≫ f) (IsOpenImmersion.lift_fac W.ι U.2.1 _)).trans U.2.2)⟩
 
 /-- The lift chosen on an open subneighborhood is the given one. -/
 private lemma openNeighborhood_point
@@ -379,11 +379,11 @@ private def augmentedNeighborhood
     exact (RingHom.etale_algebraMap).mpr inferInstance
   have hC : B.Contains (Spec (.of C.left.obj)) :=
     (Scheme.size_le_of_locallyOfFiniteType f).trans_lt hS
-  refine ⟨⟨Over.mk (ObjectProperty.homMk f :
+  refine (geometricPointFiber B S hS s).elementsMk ⟨Over.mk (ObjectProperty.homMk f :
     B.obj (Spec (.of C.left.obj)) hC ⟶ B.obj S hS), by
       change Etale f
-      infer_instance⟩,
-    ⟨Spec.map (CommRingCat.ofHom C.hom.hom.toRingHom), ?_⟩⟩
+      infer_instance⟩
+    ⟨Spec.map (CommRingCat.ofHom C.hom.hom.toRingHom), ?_⟩
   change Spec.map (CommRingCat.ofHom C.hom.hom.toRingHom) ≫
     (Spec.map (CommRingCat.ofHom (algebraMap A C.left.obj)) ≫ j) = s.hom
   rw [← Category.assoc, ← Spec.map_comp]
@@ -560,7 +560,7 @@ private def augmentedNeighborhoodSectionsIso
     (j : Spec (.of A) ⟶ S) [IsOpenImmersion j]
     (hj : Spec.map (CommRingCat.ofHom (algebraMap A s.residueField)) ≫ j = s.hom) :
     (augmentedNeighborhoodFunctor B S hS s A j hj).rightOp ⋙
-      ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) ≅
     CommAlgCat.AugmentedEtale.forget A s.residueField ⋙
       forget₂ (CommAlgCat A) CommRingCat ⋙ forget₂ CommRingCat RingCat :=
@@ -599,7 +599,7 @@ public theorem structureSheafStalkFromLocalRing_germ
         ((SmallEtale.toScheme B S hS).obj U.unop.1).presheaf.germ
           ⊤ x trivial a →
       structureSheafStalkFromLocalRing B S hS s r = (colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           (SmallEtale.structureSheaf B S hS).obj) U).hom a := by
   classical
   intro f p x hx ha
@@ -656,11 +656,11 @@ public theorem structureSheafStalkToGeometricField_ι
     (s : GeometricPoint S)
     (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
     (structureSheafStalkToGeometricField B S hS s).comp ((colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) U).hom) =
       ((U.unop.2.1).appTop ≫ (Scheme.ΓSpecIso (.of s.residueField)).hom).hom := by
   change ((colimit.desc _ (geometricFieldCocone B S hS s)).hom.comp (colimit.ι
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) U).hom) =
     (((U.unop.2.1).appTop ≫ (Scheme.ΓSpecIso (.of s.residueField)).hom).hom)
   rw [← RingCat.hom_comp, colimit.ι_desc]
@@ -815,7 +815,7 @@ private theorem exists_stalk_equiv_of_augmentedEtale
     ∃ e : H ≃+* ↥(etaleStalk B S hS s
         (SmallEtale.structureSheaf B S hS).obj),
       (∀ (C : CommAlgCat.AugmentedEtale A s.residueField) a, e (algebraMap A H a) =
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           (SmallEtale.structureSheaf B S hS).obj)
           (op (augmentedNeighborhood B S hS s A j hj C))).hom
             ((Scheme.ΓSpecIso (.of C.left.obj)).inv (algebraMap A C.left.obj a))) ∧
@@ -824,7 +824,7 @@ private theorem exists_stalk_equiv_of_augmentedEtale
   dsimp only
   obtain ⟨ι, hι, hbase, ⟨hc⟩⟩ :=
     exists_isColimit_augmentedEtale_of_ind_etale π hind hlift
-  let F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  let F := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (SmallEtale.structureSheaf B S hS).obj
   let G := augmentedNeighborhoodFunctor B S hS s A j hj
   have : G.Initial := augmentedNeighborhoodFunctor_initial B S hS s A j hj
@@ -928,7 +928,7 @@ private theorem structureSheafStalkFromLocalRing_germ_augmentedNeighborhood
     (a : Γ(S, U)) :
     structureSheafStalkFromLocalRing B S hS s
         (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hx a) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj)
         (op (augmentedNeighborhood B S hS s Γ(S, U) hU.fromSpec hj
           (CostructuredArrow.mk (Y := ⟨CommAlgCat.of Γ(S, U) Γ(S, U), inferInstance⟩)
@@ -962,7 +962,7 @@ private theorem structureSheafStalkFromLocalRing_germ_augmentedNeighborhood
     change (Scheme.ΓSpecIso (.of A)).inv (U.topIso.hom (U.topIso.inv a)) = _
     rw [Iso.inv_hom_id_apply]
   exact hw.symm.trans (congrArg
-    ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) (op N)).hom) hv)
 
 private theorem Spec_map_germ_stalkClosedPointTo_fromSpec (S : Scheme.{u})

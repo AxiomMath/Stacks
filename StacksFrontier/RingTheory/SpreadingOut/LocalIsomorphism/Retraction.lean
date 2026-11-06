@@ -528,7 +528,6 @@ theorem exists_pow_mul_mem_ker_mul_ker (R S : Type) [CommRing R] [CommRing S] [A
     rw [algebra_compatible_smul Sf (g ^ k) (I.toCotangent ⟨x, hx⟩)] at hr0
     rw [← map_smul, Ideal.toCotangent_eq_zero, map_pow] at hr0
     convert hr0 using 2
-    simp [smul_eq_mul]
   refine ⟨k, ?_⟩
   have hexp : (algebraMap Rf Sf g) ^ k = (algebraMap Rf Sf (↑ud⁻¹ : Rf)) ^ k * sf ^ k := by
     rw [hνg, mul_pow]

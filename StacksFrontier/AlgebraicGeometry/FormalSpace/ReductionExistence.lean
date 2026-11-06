@@ -222,7 +222,7 @@ of presheaves. -/
 theorem uliftYoneda_map_mono {V W : BigFppfOver B S hS} (p : V ⟶ W) (hp : Mono p) :
     Mono (uliftYoneda.{u + 1}.map p) :=
   (NatTrans.mono_iff_mono_app _).2 fun _ => (mono_iff_injective _).2 fun _ _ hs =>
-    ULift.ext _ _ ((cancel_mono p).mp (congrArg ULift.down hs))
+    ULift.ext ((cancel_mono p).mp (congrArg ULift.down hs))
 
 /-- Two scheme-valued points of a sheaf agree as soon as they agree on each member of an open
 cover of the source. -/
@@ -335,9 +335,9 @@ noncomputable def downRangeIso {C : Type*} [Category.{u} C]
   haveI happ : ∀ T : Cᵒᵖ, IsIso (α.app T) := by
     intro T
     rw [isIso_iff_bijective]
-    refine ⟨fun z z' h => hinj T (ULift.ext _ _ (congrArg (fun y => (ULift.down y).1) h)), ?_⟩
+    refine ⟨fun z z' h => hinj T (ULift.ext (congrArg (fun y => (ULift.down y).1) h)), ?_⟩
     rintro ⟨⟨x, z, hz⟩⟩
-    exact ⟨z, ULift.ext _ _ (Subtype.ext (congrArg ULift.down hz))⟩
+    exact ⟨z, ULift.ext (Subtype.ext (congrArg ULift.down hz))⟩
   haveI : IsIso α := NatIso.isIso_of_isIso_app α
   exact asIso α
 

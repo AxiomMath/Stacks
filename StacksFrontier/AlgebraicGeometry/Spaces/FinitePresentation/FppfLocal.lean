@@ -53,14 +53,11 @@ universe u v w w'
 
 namespace AlgebraicGeometry
 
-/-! The four definitions below are unfolded throughout this file: a cone built by
-`PullbackCone.mk` is used at its apex, the binary-product functor at its value, and the lift
-of a cone to a slice at its underlying object. Making them reducible for unification lets
-`rw` and instance search see through them, instead of relying on relaxed transparency. -/
-attribute [local implicit_reducible] CategoryTheory.Limits.PullbackCone.mk
-attribute [local implicit_reducible] CategoryTheory.Limits.prod.functor
+/-! The lift of a cone to a slice is unfolded throughout this file at its underlying object.
+Making `Over.lift` reducible for unification lets `rw` and instance search see through it,
+instead of relying on relaxed transparency. (`PullbackCone.mk`, `prod.functor` and `Over.post`
+are already `[implicit_reducible]` in Mathlib.) -/
 attribute [local implicit_reducible] CategoryTheory.Over.lift
-attribute [local implicit_reducible] CategoryTheory.Over.post
 
 attribute [local instance] IsCofiltered.isConnected IsFiltered.isConnected
 

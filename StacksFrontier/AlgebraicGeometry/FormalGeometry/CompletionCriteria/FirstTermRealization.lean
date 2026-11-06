@@ -69,16 +69,16 @@ def mulBySpec (R : CommRingCat.{u}) (r : R) :
 /-- Global sections of multiplication by `r` is multiplication by `r`. -/
 theorem moduleSpecΓFunctor_map_mulBySpec {R : CommRingCat.{u}} (r : R)
     (N : (Spec R).Modules) :
-    (AlgebraicGeometry.moduleSpecΓFunctor (R := R)).map ((mulBySpec R r).app N) =
+    (AlgebraicGeometry.moduleSpecΓFunctor (R := R)).map ((mulBySpec R r).asHom.app N) =
       r • 𝟙 ((AlgebraicGeometry.moduleSpecΓFunctor (R := R)).obj N) :=
   rfl
 
 /-- The sheaf attached to multiplication by `r` on a module is multiplication by `r` on the
 attached sheaf. -/
 theorem tilde_map_smul_id {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (r : R) :
-    (tilde.functor R).map (r • 𝟙 M) = (mulBySpec R r).app ((tilde.functor R).obj M) := by
+    (tilde.functor R).map (r • 𝟙 M) = (mulBySpec R r).asHom.app ((tilde.functor R).obj M) := by
   obtain ⟨a, ha⟩ := (tilde.functor R).map_surjective
-    ((mulBySpec R r).app ((tilde.functor R).obj M))
+    ((mulBySpec R r).asHom.app ((tilde.functor R).obj M))
   have hnatiso : 𝟭 (ModuleCat.{u} R) ≅
       tilde.functor R ⋙ AlgebraicGeometry.moduleSpecΓFunctor (R := R) :=
     tilde.toTildeΓNatIso
@@ -124,10 +124,10 @@ theorem scalarAt_mulBySpec {R : CommRingCat.{u}} (r : R) (V : (Spec R).Opens) :
 multiplication by the image of `r` in the sections over that open. -/
 theorem restrictFunctor_map_mulBySpec {R : CommRingCat.{u}} (W : (Spec R).Opens) (r : R)
     (N : (Spec R).Modules) :
-    (Scheme.Modules.restrictFunctor W.ι).map ((mulBySpec R r).app N) =
+    (Scheme.Modules.restrictFunctor W.ι).map ((mulBySpec R r).asHom.app N) =
       (Stacks.SheafOfModules.terminalSectionToEnd W.toScheme.ringCatSheaf
         (⊤ : W.toScheme.Opens) isTerminalTop
-        (((Scheme.ΓSpecIso R).inv ≫ W.ι.appTop).hom r)).app
+        (((Scheme.ΓSpecIso R).inv ≫ W.ι.appTop).hom r)).asHom.app
           ((Scheme.Modules.restrictFunctor W.ι).obj N) := by
   ext V x
   have hscal : ((Spec R).presheaf.map (homOfLE (le_top (a := W.ι ''ᵁ V))).op).hom
@@ -141,8 +141,8 @@ theorem restrictFunctor_map_mulBySpec {R : CommRingCat.{u}} (W : (Spec R).Opens)
       ← Functor.map_comp]
     rfl
   have hL : (Scheme.Modules.Hom.app
-        ((Scheme.Modules.restrictFunctor W.ι).map ((mulBySpec R r).app N)) V) x
-      = (Scheme.Modules.Hom.app ((mulBySpec R r).app N) (W.ι ''ᵁ V)) x := rfl
+        ((Scheme.Modules.restrictFunctor W.ι).map ((mulBySpec R r).asHom.app N)) V) x
+      = (Scheme.Modules.Hom.app ((mulBySpec R r).asHom.app N) (W.ι ''ᵁ V)) x := rfl
   rw [hL, Stacks.SheafOfModules.scalarActionLocal (mulBySpec R r) N (W.ι ''ᵁ V) x,
     Stacks.SheafOfModules.scalarActionLocal
       (Stacks.SheafOfModules.terminalSectionToEnd W.toScheme.ringCatSheaf
@@ -196,14 +196,14 @@ theorem exists_finiteModule_smul_eq_zero_tilde_restrict_iso
     @AlgebraicGeometry.exists_finiteModule_tilde_restrict_zeroLocusCompl
       (CommRingCat.of S.A) S.noetherianA S.a (systemObj S F 0) hc
   have e₀' : (AlgebraicGeometry.tilde M₀).restrict S.U.ι ≅ systemObj S F 0 := e₀
-  let ψ : systemObj S F 0 ⟶ systemObj S F 0 := (mulBySection S f).app (systemObj S F 0)
+  let ψ : systemObj S F 0 ⟶ systemObj S F 0 := (mulBySection S f).asHom.app (systemObj S F 0)
   have hz : ψ = 0 := by
     have h1 := mulBySection_pow_app_eq_zero S f hI 1 (systemObj S F 0)
       (F.property.idealPowerMultiple_eq_bot 0)
     rwa [pow_one] at h1
   let φ : (AlgebraicGeometry.tilde M₀).restrict S.U.ι ⟶
       (AlgebraicGeometry.tilde M₀).restrict S.U.ι :=
-    (mulBySection S f).app ((AlgebraicGeometry.tilde M₀).restrict S.U.ι)
+    (mulBySection S f).asHom.app ((AlgebraicGeometry.tilde M₀).restrict S.U.ι)
   have hn : φ ≫ e₀'.hom = e₀'.hom ≫ ψ :=
     Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.mulF_naturality
       (mulBySection S f) e₀'.hom

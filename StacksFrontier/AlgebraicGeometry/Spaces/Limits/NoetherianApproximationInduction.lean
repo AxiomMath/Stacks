@@ -184,7 +184,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
   let p : (Functor.const I'ᵒᵈ).obj (Uo : Scheme.{u}) ⟶ D' :=
     (Functor.const I'ᵒᵈ).map isoUo.inv ≫ c₁.π
   have hp : IsLimit (Cone.mk (Uo : Scheme.{u}) p) :=
-    hc₁.ofIsoLimit (Cones.ext isoUo (fun j => by simp [p]))
+    hc₁.ofIsoLimit (Cone.ext isoUo (fun j => by simp [p]))
   -- Stacks 07RN, with a bounded index set
   obtain ⟨Q, -, hQcard⟩ := exists_finiteTypeApproximation_card_le D' (T.obj V) Uo p hp
   let J := Q.indexType
@@ -309,7 +309,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
   have hVinf : IsLimit (yoneda.mapCone (Cone.mk V πV)) := by
     refine isLimitOfPreserves yoneda (isLimitOfIsLimitToScheme ?_)
     exact (Q.ambientCone_isLimit.whiskerEquivalence (orderDualEquivalence J).symm).ofIsoLimit
-      (Cones.ext (Iso.refl _) (fun j => (Category.id_comp _).trans (hπV j).symm))
+      (Cone.ext (Iso.refl _) (fun j => (Category.id_comp _).trans (hπV j).symm))
   have hJ : #J < B.cutoff.ord.cof := hQcard.trans_lt (max_lt
     ((Cardinal.mk_subtype_le _).trans_lt hAI) hVsize)
   refine System.hasSmallNoetherianApproximation_of_system hX f h hfs winf hwinf ιinf hWVsq hJ D

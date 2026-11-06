@@ -105,7 +105,7 @@ automorphisms on that cover. -/
 public instance etaleFundamentalGroupMulAction (X : Scheme.{u}) [ConnectedSpace X]
     (x : GeometricPoint X) (Y : FiniteEtaleOver X) :
     MulAction (EtaleFundamentalGroup X x) ((finiteEtaleFiberFunctor x).obj Y) where
-  smul σ y := (σ.app Y).hom y
+  smul σ y := (σ.asIso.app Y).hom y
   one_smul _ := rfl
   mul_smul _ _ _ := rfl
 

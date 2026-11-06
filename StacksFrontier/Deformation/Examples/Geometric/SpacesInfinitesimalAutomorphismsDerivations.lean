@@ -118,7 +118,7 @@ def spaceStructureModule (Y : AlgebraicSpaces B (Spec (.of Λ)) hΛ) :
 /-- **`Der_k(𝒪_X, 𝒪_X)`**: the derivations of `𝒪_Y` over `f⁻¹𝒪_Z` with values in `𝒪_Y`, for a
 morphism `f : Y ⟶ Z` of algebraic spaces. -/
 def SpaceDerivations {Y Z : AlgebraicSpaces B (Spec (.of Λ)) hΛ} (f : Y ⟶ Z) : Type _ :=
-  (spaceStructureModule B hΛ Y).val.Derivation'
+  PresheafOfModulesOfCommRing.Derivation' (spaceStructureModule B hΛ Y).val
     (structureSharpInverseImage B (Spec (.of Λ)) hΛ f).hom
 
 /-- The derivations of `𝒪_Y` over `f⁻¹𝒪_Z` form an additive commutative group. -/

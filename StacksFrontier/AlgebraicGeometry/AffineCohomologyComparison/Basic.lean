@@ -96,10 +96,26 @@ precisely that the unit of `RF` is invertible at `X[0]`, and the source of that 
 public def rightDerivedFunctorPlusObjSingleIso (X : A) (hX : F.rightAcyclic X) :
     F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X) ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (F.obj X) :=
-  haveI : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+  haveI : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+    have hX' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith).1 inferInstance
+    rw [← Functor.rightDerived_fac_app _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith]
+    infer_instance
   F.rightDerivedFunctorPlus.mapIso ((Functor.singleFunctorPlusIsoCompQh 0).app X) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj X))).symm ≪≫
     F.mapSingleFunctorCompQhIso.app X
 

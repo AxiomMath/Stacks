@@ -72,7 +72,7 @@ public theorem aeval_line_ne_zero {D : MvPolynomial (Fin 2) k} (hD : D ≠ 0) :
   ext m
   have := coeff_coeff_aeval_line D (Nat.le_add_left (m 1) (m 0))
   rw [h0, coeff_zero, coeff_zero, Nat.add_sub_cancel] at this
-  rw [MvPolynomial.coeff_zero, this]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, this]
   congr 1
   ext i
   fin_cases i <;> simp

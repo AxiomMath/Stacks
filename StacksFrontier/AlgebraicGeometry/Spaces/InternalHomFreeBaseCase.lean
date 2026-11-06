@@ -211,7 +211,7 @@ noncomputable def uliftUnitHomEquiv (M : _root_.SheafOfModules.{max t r} R) :
       rw [← PresheafOfModules.naturality_apply φ f
         (ULift.up (1 : (R.obj.obj X : Type r)))]
       congr 1
-      exact ULift.ext _ _ ((R.obj.map f).hom.map_one))
+      exact ULift.ext ((R.obj.map f).hom.map_one))
   invFun s := PresheafOfModules.Hom.mk
     (fun X => ModuleCat.ofHom
       { toFun := fun y => (ULift.down y : (R.obj.obj X : Type r)) • s.eval X
@@ -237,7 +237,7 @@ noncomputable def uliftUnitHomEquiv (M : _root_.SheafOfModules.{max t r} R) :
     have hy : (ULift.down y : (R.obj.obj X : Type r)) •
         (ULift.up (1 : (R.obj.obj X : Type r)) :
           ((uliftForPresentation.{u, v, r, r, t} (unit R)).val.obj X : Type (max t r))) = y :=
-      ULift.ext _ _ (mul_one (ULift.down y : (R.obj.obj X : Type r)))
+      ULift.ext (mul_one (ULift.down y : (R.obj.obj X : Type r)))
     exact (((φ.app X).hom.map_smul _ _).symm).trans (congrArg (fun z => φ.app X z) hy)
   right_inv s := by
     apply PresheafOfModules.sections_ext

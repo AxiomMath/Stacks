@@ -201,7 +201,7 @@ theorem stalkLength_eq_fiberRank_genericPoint {Z : Scheme.{u}} [IsIntegral Z] (F
       (grpStalk Z.toRingedSpace F.val (genericPoint (Z : Type u))) :=
     _root_.SheafOfModules.finite_stalk Z.sheaf F (genericPoint (Z : Type u))
   refine (stalkLength_eq_length_flatStalk F (genericPoint (Z : Type u))).trans ?_
-  rw [Module.length_eq_finrank]
+  refine (Module.length_eq_finrank _ _).trans ?_
   exact congrArg _ (Scheme.Modules.fiberRank_genericPoint_eq_finrank_stalk F).symm
 
 /-! ### The weights of a dévissage add up to the multiplicity -/

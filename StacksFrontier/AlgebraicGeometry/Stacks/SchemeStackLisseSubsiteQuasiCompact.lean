@@ -145,7 +145,7 @@ theorem flat_structureSheaf_map_schemeStack
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U))
     (Z : (smoothObject.{u, w} B S hS (schemeStack.{u, w} B S hS U)).FullSubcategory)
     (hZ : IsAffine ((BigFppfOver.toScheme B S hS).obj Z.obj.left)) :
-    ((ringedTopos'.{u, w} B S hS (schemeStack.{u, w} B S hS U)).O.val.map
+    ((ringedTopos'.{u, w} B S hS (schemeStack.{u, w} B S hS U)).O.obj.map
       ((isTerminalSmoothObjectSchemeStackId.{u, w} B S hS U).from Z).op).hom.Flat := by
   have hsmooth := smooth_map_hom_of_smoothObject.{u, w} B S hS U Z
   have hleft : ((isTerminalSmoothObjectSchemeStackId.{u, w} B S hS U).from Z).hom.left =

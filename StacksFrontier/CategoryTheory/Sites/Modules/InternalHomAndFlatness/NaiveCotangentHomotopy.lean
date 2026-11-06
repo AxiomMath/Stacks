@@ -250,7 +250,7 @@ theorem differentialsHomotopyOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
       obtain ⟨x, rfl⟩ := hx
       have h₁ : (differentialsPresheaf a₁).map f (CommRingCat.KaehlerDifferential.d x) =
           CommRingCat.KaehlerDifferential.d (f := a₁.app Y) (A₁.map f x) :=
-        PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a₁ f x
+        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁ f x
       show differentialsHomotopyOfSquare φ₁ φ₂ ψ ψ' β hsq hsq' a₁ a₂ ρ ha ha' Y
           ((differentialsPresheaf a₁).map f
             (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x)) =

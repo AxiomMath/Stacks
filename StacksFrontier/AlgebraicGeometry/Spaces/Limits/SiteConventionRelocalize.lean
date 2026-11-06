@@ -96,15 +96,19 @@ def relocalizeStageBaseChangeIsoApp (j : Over i₀) :
     (OverShriek.relocalizePresheafFunctor k).obj ((stageBaseChangeDiagram B S hS i₀ D Z σ).obj j) ≅
       (stageBaseChangeDiagram B S' hS' i₀ (D ⋙ OverShriek.relocalizePresheafFunctor k) Z'
         (φ.hom ≫ (OverShriek.relocalizePresheafFunctor k).map σ)).obj j :=
-  (isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j).isoPullback
+  have h := isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j
+  haveI := h.hasPullback
+  h.isoPullback
 
 /-- The comparison at a stage lies over the relocalized stage. -/
 theorem relocalizeStageBaseChangeIsoApp_hom_fst (j : Over i₀) :
     (relocalizeStageBaseChangeIsoApp k i₀ D Z σ Z' φ j).hom ≫
         stageBaseChangeFst B S' hS' i₀ (D ⋙ OverShriek.relocalizePresheafFunctor k) Z'
           (φ.hom ≫ (OverShriek.relocalizePresheafFunctor k).map σ) j =
-      (OverShriek.relocalizePresheafFunctor k).map (stageBaseChangeFst B S hS i₀ D Z σ j) :=
-  IsPullback.isoPullback_hom_fst _
+      (OverShriek.relocalizePresheafFunctor k).map (stageBaseChangeFst B S hS i₀ D Z σ j) := by
+  have h := isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j
+  haveI := h.hasPullback
+  exact h.isoPullback_hom_fst
 
 /-- The comparison at a stage lies over the scheme-valued point. -/
 theorem relocalizeStageBaseChangeIsoApp_hom_snd (j : Over i₀) :
@@ -112,8 +116,10 @@ theorem relocalizeStageBaseChangeIsoApp_hom_snd (j : Over i₀) :
         stageBaseChangeSnd B S' hS' i₀ (D ⋙ OverShriek.relocalizePresheafFunctor k) Z'
           (φ.hom ≫ (OverShriek.relocalizePresheafFunctor k).map σ) j =
       (OverShriek.relocalizePresheafFunctor k).map (stageBaseChangeSnd B S hS i₀ D Z σ j) ≫
-        φ.inv :=
-  IsPullback.isoPullback_hom_snd _
+        φ.inv := by
+  have h := isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j
+  haveI := h.hasPullback
+  exact h.isoPullback_hom_snd
 
 /-- **Relocalization of the diagram of base changes.** The relocalization along `k` of the
 diagram of base changes of the stages over `i₀` along `σ` is the diagram of base changes of the

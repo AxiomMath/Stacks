@@ -169,10 +169,10 @@ public theorem mapSection_degreeOneSection (D : TwistData A) (U : S.Opens) (hU :
 action of a function on the smaller open. -/
 public theorem app_smul_map {X : Scheme.{u}} {P M : X.Modules} (φ : P ⟶ M)
     {V₁ V₂ : X.Opens} (h : V₂ ≤ V₁) (u : Γ(P, V₁)) (ρ : Γ(X, V₂)) :
-    (φ.val.app (op V₂)) ((P.smul ρ).hom ((P.val.map (homOfLE h).op) u)) =
-      (M.smul ρ).hom ((M.val.map (homOfLE h).op) ((φ.val.app (op V₁)) u)) :=
+    (φ.val.app (op V₂)) ((P.smul ρ).asHom.hom ((P.val.map (homOfLE h).op) u)) =
+      (M.smul ρ).asHom.hom ((M.val.map (homOfLE h).op) ((φ.val.app (op V₁)) u)) :=
   ((φ.val.app (op V₂)).hom.map_smul ρ _).trans
-    (congrArg (fun w => (M.smul ρ).hom w)
+    (congrArg (fun w => (M.smul ρ).asHom.hom w)
       (PresheafOfModules.naturality_apply φ.val (homOfLE h).op u))
 
 /-- **Every section of the degree-one twist is, near every point, in the image of the transpose
@@ -220,7 +220,7 @@ public theorem exists_local_lift (D : TwistData A)
     (A.grading U) (A.of_mem_grading U a₁) (W := V') (fun _ hx => hx.2)).2 b
   have key := mapSection_degreeOneSection D U hU a₁ V' (fun _ hx => hx.2) h₂
   refine ⟨(((Scheme.Modules.pullback (relativeProj A).toBase).obj
-        (A.piece ((1 : ℕ) : ℤ))).smul ((((relativeProj A).chart U hU).appIso V').inv r)).hom
+        (A.piece ((1 : ℕ) : ℤ))).smul ((((relativeProj A).chart U hU).appIso V').inv r)).asHom.hom
       (((Scheme.Modules.pullback (relativeProj A).toBase).obj
           (A.piece ((1 : ℕ) : ℤ))).val.map (homOfLE h₂).op
         (unitSection (relativeProj A).toBase (A.piece ((1 : ℕ) : ℤ)) U a₁)), ?_⟩
@@ -233,7 +233,7 @@ public theorem exists_local_lift (D : TwistData A)
       (A.of_mem_grading U a₁) (W := V') (fun _ hx => hx.2))).symm
   exact congrArg (fun w => ((show (relativeProj A).scheme.Modules from
         D.algebra.piece ((1 : ℕ) : ℤ)).smul
-      ((((relativeProj A).chart U hU).appIso V').inv r)).hom w)
+      ((((relativeProj A).chart U hU).appIso V').inv r)).asHom.hom w)
     ((congrArg (fun w => (D.algebra.piece ((1 : ℕ) : ℤ)).val.map (homOfLE h₂).op w)
       (app_homEquiv_symm (relativeProj A).toBase (D.ψ 1) U a₁)).trans key.symm)
 

@@ -165,7 +165,7 @@ theorem GeometricPoint.sourceAutElement_trans {S : Scheme.{u}} [ConnectedSpace S
     (hβ : β.hom ≫ z.hom = z.hom) :
     z.sourceAutElement (α ≪≫ β) (by rw [Iso.trans_hom, Category.assoc, hβ, hα]) =
       z.sourceAutElement α hα * z.sourceAutElement β hβ := by
-  refine Iso.ext (NatTrans.ext (funext fun _ => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun _ => ?_)))
   ext q
   refine Subtype.ext ?_
   change (α.hom ≫ β.hom) ≫ q.1 = α.hom ≫ β.hom ≫ q.1
@@ -181,7 +181,7 @@ theorem etaleFundamentalGroupMulEquiv_eqToIso_sourceAutElement {S : Scheme.{u}} 
       ((⟨Ω, f⟩ : GeometricPoint S).sourceAutElement α hα) =
       (⟨Ω, f'⟩ : GeometricPoint S).sourceAutElement α (h ▸ hα) := by
   subst h
-  exact Iso.ext (NatTrans.ext (funext fun _ => rfl))
+  exact Aut.ext (Iso.ext (NatTrans.ext (funext fun _ => rfl)))
 
 /-! ### Algebraicity of a geometric point of the spectrum of a field -/
 

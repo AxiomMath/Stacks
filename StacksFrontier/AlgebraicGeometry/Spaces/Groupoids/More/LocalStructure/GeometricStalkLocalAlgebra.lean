@@ -115,6 +115,13 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_geometricStalkLocalAlgebra
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The inverse of an identity arrow -/
 
 /-- The inverse of an identity arrow is that identity arrow: in a groupoid the identity at an

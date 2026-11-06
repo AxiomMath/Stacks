@@ -108,8 +108,8 @@ private theorem etaleFundamentalGroup_cast_app_val
     (σ : EtaleFundamentalGroup X (.mk Ω a))
     (Y : FiniteEtaleOver X)
     (p : finiteEtaleFiber (.mk Ω a) Y) :
-    ((((congrArg (GeometricPoint.mk Ω) h) ▸ σ).app Y).hom ⟨p.1, p.2.trans h⟩).1 =
-      (((σ.app Y).hom p).1) := by
+    ((((congrArg (GeometricPoint.mk Ω) h) ▸ σ).asIso.app Y).hom ⟨p.1, p.2.trans h⟩).1 =
+      (((σ.asIso.app Y).hom p).1) := by
   cases h
   rfl
 
@@ -158,6 +158,7 @@ theorem galoisEquivEtaleFundamentalGroup_naturality
     rw [← Spec.map_comp]
     exact congrArg (fun f => Spec.map (CommRingCat.ofHom f)) ht
   refine ⟨congrArg (GeometricPoint.mk Ω) hhom, fun σ => ?_⟩
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext Y
@@ -180,14 +181,14 @@ theorem galoisEquivEtaleFundamentalGroup_naturality
   refine Eq.trans ?_ (galoisEquivEtaleFundamentalGroup_apply K L Ω Y
     (σ.restrictScalars K) p _ hK).symm
   have hp'' : ((etaleFundamentalGroupMap f x
-        (galoisEquivEtaleFundamentalGroup E L Ω σ)).app Y).hom p' =
+        (galoisEquivEtaleFundamentalGroup E L Ω σ)).asIso.app Y).hom p' =
       finiteEtaleFiberProjection f x Y
-        (((galoisEquivEtaleFundamentalGroup E L Ω σ).app _).hom pE) := by
+        (((galoisEquivEtaleFundamentalGroup E L Ω σ).asIso.app _).hom pE) := by
     rw [← hpE]
     exact (etaleFundamentalGroupMap_finiteEtaleFiberProjection f x Y
       (galoisEquivEtaleFundamentalGroup E L Ω σ) pE).symm
   refine Eq.trans (congrArg Subtype.val hp'') ?_
-  show (((galoisEquivEtaleFundamentalGroup E L Ω σ).app _).hom pE).1 ≫
+  show (((galoisEquivEtaleFundamentalGroup E L Ω σ).asIso.app _).hom pE).1 ≫
     pullback.fst Y.hom f = _
   refine Eq.trans (congrArg (· ≫ pullback.fst Y.hom f)
     (galoisEquivEtaleFundamentalGroup_apply E L Ω _ σ pE r hr)) ?_

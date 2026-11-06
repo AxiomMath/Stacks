@@ -464,12 +464,10 @@ theorem idealMulPresheafHom_mem (U : (SmallEtale B S hS X.1)ᵒᵖ)
       modulePresheaf B S hS X (idealSheafOfModules B S hS X D₂)).obj U) :
     unitSectionOf B S hS X (((idealMulPresheafHom B S hS X D₁ D₂).app U).hom z) ∈
       definingIdealAt B S hS X (sumClosedSubspaces B S hS X D₁ D₂) U := by
-  refine TensorProduct.induction_on z ?_ (fun x y => ?_) (fun w w' hw hw' => ?_)
-  · exact cast (congrArg
-      (fun v => unitSectionOf B S hS X v ∈
-        definingIdealAt B S hS X (sumClosedSubspaces B S hS X D₁ D₂) U)
-      (map_zero ((idealMulPresheafHom B S hS X D₁ D₂).app U).hom).symm)
-      (Submodule.zero_mem _)
+  refine TensorProduct.inductionOn (motive := fun z => unitSectionOf B S hS X
+      (((idealMulPresheafHom B S hS X D₁ D₂).app U).hom z) ∈
+      definingIdealAt B S hS X (sumClosedSubspaces B S hS X D₁ D₂) U) z
+    (fun x y => ?_) (fun w w' hw hw' => ?_)
   · exact mul_mem_definingIdealAt_sumClosedSubspaces B S hS X D₁ D₂ U x.2 y.2
   · exact cast (congrArg
       (fun v => unitSectionOf B S hS X v ∈
@@ -526,6 +524,7 @@ theorem toSheafify_comp_sumIdealHom :
 
 end Multiplication
 
+set_option maxHeartbeats 1000000 in
 /-- Restricting the left unit constraint of the sheaf tensor product along the unit of
 sheafification gives back the left unit constraint of the tensor product of presheaves. -/
 theorem toSheafify_comp_tensorProductLeftUnitor
@@ -545,7 +544,8 @@ theorem toSheafify_comp_tensorProductLeftUnitor
       (structureRingSheaf B S hS X).property) _ M
         (λ_ (modulePresheaf B S hS X M)).hom).symm
   rw [h]
-  exact Stacks.SheafOfModules.toSheafify_comp_homEquiv_symm_val _ _ _
+  exact Stacks.SheafOfModules.toSheafify_comp_homEquiv_symm_val (structureCommRings B S hS X)
+    (structureRingSheaf B S hS X).property (N := M) (λ_ (modulePresheaf B S hS X M)).hom
 
 section Comparison
 

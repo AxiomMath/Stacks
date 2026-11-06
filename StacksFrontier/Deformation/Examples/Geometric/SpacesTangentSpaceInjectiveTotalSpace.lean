@@ -55,6 +55,20 @@ namespace Deformation.Examples
 
 variable {Λ : Type u} {k : Type u} [CommRing Λ] [Field k] [Algebra Λ k]
 variable (B : BigFppfSite.{u}) (hΛ : B.Contains (Spec (.of Λ)))
+
+/- Lean v4.35.0: instance search for products of presheaves on small étale sites times out;
+supply them directly. -/
+local instance hasLimitsOfShape_discrete_smallEtale_InjectiveTotalSpace (S : Scheme.{u})
+    (hS : B.Contains S) (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type*)
+    [HasLimitsOfShape (Discrete J) (Type u)] :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS Y)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance hasLimitsOfShape_discrete_smallEtaleSheaf_InjectiveTotalSpace (S : Scheme.{u})
+    (hS : B.Contains S) (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type*)
+    [HasLimitsOfShape (Discrete J) (Type u)] :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS Y) (Type u)) :=
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf _ (Type u))
 variable (hSpec : ∀ A : ArtinianLocalAlgCat.{u, u, u} Λ k, B.Contains (Spec (.of A)))
 variable (X : (BigFppfOver B (Spec (.of Λ)) hΛ)ᵒᵖ ⥤ Type u)
   (hX : IsAlgebraicSpace B (Spec (.of Λ)) hΛ X)

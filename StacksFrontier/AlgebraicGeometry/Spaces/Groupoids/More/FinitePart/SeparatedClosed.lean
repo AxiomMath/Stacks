@@ -50,6 +50,16 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+local instance (priority := high) (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- **Stacks 04PH.** An open subspace of `T ×_Y X` which is finite over `T` is a closed
 subspace of `T ×_Y X`, provided `f : X ⟶ Y` is separated. -/
 @[stacks 04PH]

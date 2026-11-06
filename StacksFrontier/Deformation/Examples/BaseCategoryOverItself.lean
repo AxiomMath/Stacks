@@ -494,7 +494,7 @@ public theorem isMinimalVersal_id_base_properties
     exact hker
   exact ⟨hfs, hmbc, h1Cotangent_map_bijective_of_formallySmoothNAdic
     (maximalIdeal ξ.base) hfs hkill hmbc,
-    (isomorphic_of_isMinimalVersal (isPredeformationCategory_id Λ k) ξ
+    (isomorphic_of_isMinimalVersal (isPredeformationCategory_id.{u, u, w} Λ k) ξ
       (selfFormalObject.{u, u, w} (smoothModel.{u, w} (Λ := Λ) (k := k))) hξ
       isMinimalVersal_selfFormalObject_smoothModel).map FormalObject.projection.mapIso⟩
 

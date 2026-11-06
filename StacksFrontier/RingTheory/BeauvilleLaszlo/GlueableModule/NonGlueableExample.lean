@@ -671,7 +671,7 @@ private theorem polyCompletionEquivPowerSeries_coord :
 private noncomputable def smoothGermCompletionEquiv :
     AdicCompletion
       (Ideal.span {smoothRingSheaf.presheaf.germ ⊤ 0
-        (Set.mem_univ 0) coordSection}) smoothRingStalk ≃+*
+                     (Set.mem_univ 0) coordSection}) smoothRingStalk ≃+*
       PowerSeries ℝ := by
   let eps : smoothRingStalk →+* ℝ :=
     smoothSheafCommRing.eval (modelWithCornersSelf ℝ ℝ)
@@ -689,7 +689,7 @@ private theorem smoothGermCompletionEquiv_coord :
       (algebraMap smoothRingStalk
         (AdicCompletion
           (Ideal.span {smoothRingSheaf.presheaf.germ ⊤ 0
-            (Set.mem_univ 0) coordSection}) smoothRingStalk)
+                         (Set.mem_univ 0) coordSection}) smoothRingStalk)
         (smoothRingSheaf.presheaf.germ ⊤ 0 (Set.mem_univ 0) coordSection)) =
       PowerSeries.X := by
   let eps : smoothRingStalk →+* ℝ :=
@@ -760,7 +760,7 @@ public theorem exists_non_glueable_module_over_smooth_germ_ring :
         (smoothRingSheaf.presheaf.germ ⊤ 0 (Set.mem_univ 0) coordSection) •
           (Ideal.Quotient.mk
             (Ideal.span {smoothRingSheaf.presheaf.germ ⊤ 0
-              (Set.mem_univ 0) flatSection})
+                           (Set.mem_univ 0) flatSection})
             (smoothRingSheaf.presheaf.germ ⊤ 0
               (Set.mem_univ 0) flatDivSection)) = 0 := by
       rw [← coord_germ_mul_flatDiv_germ]

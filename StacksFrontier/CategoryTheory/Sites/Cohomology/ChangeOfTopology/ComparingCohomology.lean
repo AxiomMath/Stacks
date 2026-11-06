@@ -199,12 +199,12 @@ theorem isIso_homology_derivedComparisonUnit_single (S : CohomologyComparison C)
   set H := (HomotopyCategory.Plus.singleFunctor
     (AbelianSheaves S.coarseCoverage.toGrothendieck X) 0).obj M
   have hunit : IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
-      (push.rightDerivedFunctorPlusUnit.app
+      (push.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor _ 0).obj (pull.obj M)))) := by
     by_cases h0 : i = 0
     · subst h0
       exact (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-        push push.rightDerivedFunctorPlus push.rightDerivedFunctorPlusUnit).2.2.2 inferInstance
+        push push.rightDerivedFunctorPlus push.rightDerivedFunctorPlusUnith).2.2.2 inferInstance
         (pull.obj M)
     apply IsZero.isIso
     · refine IsZero.of_iso ?_ ((DerivedCategory.Plus.homologyFunctor _ i).mapIso
@@ -220,7 +220,7 @@ theorem isIso_homology_derivedComparisonUnit_single (S : CohomologyComparison C)
       rcases lt_or_gt_of_ne h0 with hneg | hpos
       · exact ((Functor.isZero_iff _).1
           ((Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-            push push.rightDerivedFunctorPlus push.rightDerivedFunctorPlusUnit).1 i hneg))
+            push push.rightDerivedFunctorPlus push.rightDerivedFunctorPlusUnith).1 i hneg))
           (pull.obj M)
       · obtain ⟨degree, rfl⟩ := Int.eq_ofNat_of_zero_le (le_of_lt hpos)
         exact IsZero.of_iso (hV X (pull.obj M) ⟨M, hM, ⟨Iso.refl _⟩⟩ degree (by omega) (by omega))
@@ -229,9 +229,9 @@ theorem isIso_homology_derivedComparisonUnit_single (S : CohomologyComparison C)
     (AbelianSheaves S.coarseCoverage.toGrothendieck X) H
   have h₂ := isIso_abelianComparisonHomotopyUnit_single S X M hM
   have h₃ : IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
-      (push.rightDerivedFunctorPlusUnit.app (pull.mapHomotopyCategoryPlus.obj H))) :=
+      (push.rightDerivedFunctorPlusUnith.app (pull.mapHomotopyCategoryPlus.obj H))) :=
     (NatTrans.isIso_app_iff_of_iso
-      (Functor.whiskerRight push.rightDerivedFunctorPlusUnit
+      (Functor.whiskerRight push.rightDerivedFunctorPlusUnith
         (DerivedCategory.Plus.homologyFunctor _ i)) (mapHomotopySingleIso pull M 0)).2 hunit
   show IsIso ((Functor.whiskerRight (derivedComparisonUnit S X)
     (DerivedCategory.Plus.homologyFunctor _ i)).app

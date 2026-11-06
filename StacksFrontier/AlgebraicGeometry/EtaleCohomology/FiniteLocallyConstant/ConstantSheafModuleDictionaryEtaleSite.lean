@@ -100,14 +100,13 @@ theorem natCard_eq_of_iso {A B : FiniteTypeContinuousModule.{r, v, w} Λ G} (e :
 on any isomorphic one. -/
 theorem rho_eq_one_of_iso {A B : FiniteTypeContinuousModule.{r, v, w} Λ G} (e : A ≅ B)
     (h : ∀ σ : G, A.obj.obj.obj.ρ σ = 1) (σ : G) : B.obj.obj.obj.ρ σ = 1 := by
-  have hcomm : A.obj.obj.obj.ρ σ ≫ (isoV Λ G e).hom =
-      (isoV Λ G e).hom ≫ B.obj.obj.obj.ρ σ := e.hom.hom.hom.hom.comm σ
-  have key : B.obj.obj.obj.ρ σ =
-      (isoV Λ G e).inv ≫ A.obj.obj.obj.ρ σ ≫ (isoV Λ G e).hom := by
+  have hcomm : (A.obj.obj.obj.ρ σ).asHom ≫ (isoV Λ G e).hom =
+      (isoV Λ G e).hom ≫ (B.obj.obj.obj.ρ σ).asHom := e.hom.hom.hom.hom.comm σ
+  have key : (B.obj.obj.obj.ρ σ).asHom =
+      (isoV Λ G e).inv ≫ (A.obj.obj.obj.ρ σ).asHom ≫ (isoV Λ G e).hom := by
     rw [hcomm, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
-  rw [key, h σ, show (1 : End A.obj.obj.obj.V) = 𝟙 A.obj.obj.obj.V from rfl, Category.id_comp,
-    Iso.inv_hom_id]
-  rfl
+  apply End.ext
+  rw [key, h σ, End.one_asHom, End.one_asHom, Category.id_comp, Iso.inv_hom_id]
 
 /-- Two finite modules over a finite field with trivial continuous action and the same number of
 elements are isomorphic. -/

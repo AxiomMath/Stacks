@@ -85,8 +85,8 @@ def targetModulesEquivalenceInverseUnitIso :
             (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))).presheaf)
         (fun X r m => by
           apply ULift.ext
-          change @HMul.hMul (O.val.obj X) (O.val.obj X) (O.val.obj X) _ r m.down =
-            @HMul.hMul (O.val.obj X) (O.val.obj X) (O.val.obj X) _ _ m.down
+          change @HMul.hMul (O.obj.obj X) (O.obj.obj X) (O.obj.obj X) _ r m.down =
+            @HMul.hMul (O.obj.obj X) (O.obj.obj X) (O.obj.obj X) _ _ m.down
           congr 1
           exact (((targetRingTransport.{w} K O).iso_symm_iso X r).trans
             (ConcreteCategory.congr_hom

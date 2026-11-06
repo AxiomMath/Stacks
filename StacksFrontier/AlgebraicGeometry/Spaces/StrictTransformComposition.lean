@@ -315,6 +315,9 @@ theorem exists_iteratedSupportedQuotient_iso_aux
         (((modulePullback B S hS qq).obj N).val.map m.op s) = 0 :=
       (PresheafOfModules.naturality_apply ψ.val m.op s).trans hzero
     have := hisoψ
+    haveI hmonoψ : Mono ((SheafOfModules.forget _).map
+        ((etaleModulePullback B S hS jb hjb).map ψ)) :=
+      @IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
     have hinj : Function.Injective
         (((etaleModulePullback B S hS jb hjb).map ψ).val.app (op U')) :=
       PresheafOfModules.injective_of_mono

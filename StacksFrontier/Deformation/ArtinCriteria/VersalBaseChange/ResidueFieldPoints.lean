@@ -87,7 +87,7 @@ universe u v w u₁ v₁ u₂ v₂ u₃ v₃
 -- `def`s, so goals mentioning an object of a fibre, or an object of the site read in `Over S`,
 -- are not type-correct at `implicit` transparency.  Naming them here is what lets `rw`,
 -- `simp only` and instance search see through exactly these and nothing else.
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor

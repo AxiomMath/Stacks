@@ -363,6 +363,17 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] Space.pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_ModificationOutputQuasiCompact :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ModificationOutputQuasiCompact
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism from a scheme of the site whose points all lie in `T` is a point with image in
 `T`. -/
 private theorem hasImageIn_of_range_subset {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -465,7 +476,8 @@ theorem isQuasiSeparated_of_isSeparated_pullback_snd
     have : IsSplitEpi (pullback.snd (pullback.diagonal f) O.ι) :=
       ⟨⟨pullback.lift (O.ι ≫ pullback.fst f f) (𝟙 _) (by rw [Category.id_comp, ← hfac]),
         pullback.lift_snd _ _ _⟩⟩
-    exact isIso_of_mono_of_isSplitEpi _
+    exact @isIso_of_mono_of_isSplitEpi _ _ _ _ _
+      (@pullback.snd_of_mono _ _ _ _ _ _ _ _ (IsSplitMono.mono _)) this
   refine Space.isQuasiCompact_of_openPart_of_closedPart hX' hP (pullback.diagonal f) TP hTP
     hO.1 O.ι (Space.isQuasiCompact_ι_openSubspaceOfPoints_of_hasEtaleLocalProperty hP hPN TPᶜ
       hTP.isOpen_compl) (fun y hy ↦ ?_) _ _ (IsPullback.of_hasPullback _ _)
@@ -593,7 +605,7 @@ theorem isFormalModification_of_isProper_of_iso
     (isProper_completionSheafMap B S hS hX' hX _ T hf) (hP ▸ P.property.2.2)
     (isRigSurjective_completionSheafMap hX' hX _ T hT hf
       (Space.pointsMap_surjective_of_isIso B S hS _))
-    (isRigSurjective_diagonal_completionSheafMap hX' hX _ T hT hf.1 inferInstance)
+    (isRigSurjective_diagonal_completionSheafMap hX' hX _ T hT hf.1 (IsIso.mono_of_iso _))
 
 /-- The completion `f_{/T} : X'_{/T'} ⟶ X_{/T}` of a proper morphism `f : X' ⟶ X` of algebraic
 spaces over a locally Noetherian `X`, which is an isomorphism over the complement of a closed
@@ -619,7 +631,7 @@ theorem isFormalModification_completionSheafMap_of_isRigEtale
       isRigSurjective := isRigSurjective_completionSheafMap hX' hX f T hT hf
         (Space.pointsMap_surjective_of_isIso B S hS _)
       isRigSurjective_diagonal :=
-        isRigSurjective_diagonal_completionSheafMap hX' hX f T hT hf.1 inferInstance }
+        isRigSurjective_diagonal_completionSheafMap hX' hX f T hT hf.1 (IsIso.mono_of_iso _) }
 
 /-! ### Valuative squares lying over the complement of `T` or over `T` -/
 
@@ -631,6 +643,7 @@ theorem eq_of_comp_eq_of_isIso_pullback_snd {X' X : (BigFppfOver B S hS)ᵒᵖ �
     (ha : a ≫ f = k ≫ O.ι) (hb : b ≫ f = k ≫ O.ι) : a = b := by
   have hl : ∀ (c : Z ⟶ X') (hc : c ≫ f = k ≫ O.ι),
       pullback.lift c k hc = k ≫ inv (pullback.snd f O.ι) := fun c hc ↦ by
+    haveI : Mono (pullback.snd f O.ι) := IsIso.mono_of_iso _
     rw [← cancel_mono (pullback.snd f O.ι), pullback.lift_snd, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
   rw [← pullback.lift_fst a k ha, ← pullback.lift_fst b k hb, hl a ha, hl b hb]

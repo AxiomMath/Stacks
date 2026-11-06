@@ -167,8 +167,8 @@ public theorem exists_smallEtaleGeometricStalkFunctor_map_eq_zero
     ∃ (j : I) (f : i ⟶ j), (smallEtaleGeometricStalkFunctor B X p).map (D.map f) = 0 := by
   classical
   let S := smallEtaleGeometricStalkFunctor B X p
-  obtain ⟨T, hT⟩ := (addGroupFG_smallEtaleGeometricStalk_of_isConstructibleAbelianSheaf
-    B X (D.obj i) (hD i) p).out
+  obtain ⟨_, T, -, hT⟩ := AddGroup.fg_iff'.mp
+    (addGroupFG_smallEtaleGeometricStalk_of_isConstructibleAbelianSheaf B X (D.obj i) (hD i) p)
   exact exists_map_eq_zero_of_isColimit_of_isZero (K := D ⋙ S)
     (isColimitOfPreserves S hc) hstalk i T
     fun g h hgh => ConcreteCategory.hom_ext _ _ fun x => DFunLike.congr_fun

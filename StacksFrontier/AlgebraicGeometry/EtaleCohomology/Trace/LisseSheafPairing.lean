@@ -47,7 +47,7 @@ def finiteTypeContinuousModuleSMul (P : FiniteTypeContinuousModule.{0, u + 1, u 
     { hom := ModuleCat.ofHom (c • LinearMap.id)
       comm := fun g => by
         ext v
-        exact ((P.obj.obj.obj.ρ g).hom.map_smul c v).symm }))
+        exact ((P.obj.obj.obj.ρ g).asHom.hom.map_smul c v).symm }))
 
 variable [Finite Λ] {P Q R : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G}
 
@@ -81,7 +81,8 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
 
 variable (μ : P.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
   (hμ : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-    μ ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) = (R.obj.obj.obj.ρ g).hom (μ a b))
+    μ ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+      (R.obj.obj.obj.ρ g).asHom.hom (μ a b))
 
 /-- The biadditive pairing of sections `ℱ_P(U) × ℱ_Q(U) → ℱ_R(U)` attached to `μ`. -/
 abbrev lisseSheafAddPairing (U : (SmallEtale B X.1 X.2)ᵒᵖ) :
@@ -103,8 +104,8 @@ theorem lisseSheafAddPairing_smul_left (U : (SmallEtale B X.1 X.2)ᵒᵖ) (c : �
   let e := canonicalFiniteLocallyConstantSetsEquivalence B X x
   let φ := finiteTypeContinuousModuleForgetAbelian Λ (EtaleFundamentalGroup X.1 x)
   have hc : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-      (c • μ) ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom ((c • μ) a b) := fun g a b => by
+      (c • μ) ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom ((c • μ) a b) := fun g a b => by
     simp only [LinearMap.smul_apply, hμ, LinearMap.map_smul]
   show finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
         (finiteTypeContinuousModuleBilinearAddHom Λ μ) hμ U
@@ -139,8 +140,8 @@ theorem lisseSheafAddPairing_smul_right (U : (SmallEtale B X.1 X.2)ᵒᵖ) (c : 
   let e := canonicalFiniteLocallyConstantSetsEquivalence B X x
   let φ := finiteTypeContinuousModuleForgetAbelian Λ (EtaleFundamentalGroup X.1 x)
   have hc : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-      (c • μ) ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom ((c • μ) a b) := fun g a b => by
+      (c • μ) ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom ((c • μ) a b) := fun g a b => by
     simp only [LinearMap.smul_apply, hμ, LinearMap.map_smul]
   show finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
         (finiteTypeContinuousModuleBilinearAddHom Λ μ) hμ U a

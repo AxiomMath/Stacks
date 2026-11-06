@@ -34,6 +34,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_IsBirational
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 private noncomputable def chartFactorStalkMap
     {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hF : IsAlgebraicSpace B S hS F)

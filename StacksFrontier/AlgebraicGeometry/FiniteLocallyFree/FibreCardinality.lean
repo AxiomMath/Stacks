@@ -66,10 +66,9 @@ private lemma finite_residueField_of_finite_over_field
   let : Algebra.FiniteType k (Z.residueField z) := by
     show RingHom.FiniteType (algebraMap k (Z.residueField z))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _
 
 /-- **Stacks Project, Tag 03J5.** If all field-valued base changes of a morphism are finite of

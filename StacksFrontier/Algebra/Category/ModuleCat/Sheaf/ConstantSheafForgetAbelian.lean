@@ -76,10 +76,10 @@ omit [UnivLE.{max u v, w}] in
 /-- Multiplication by `a : Λ` on the constant presheaf of `Λ`-modules on `E` is, on underlying
 abelian groups, the constant presheaf of multiplication by `a` on `E`. -/
 public lemma whiskerLeft_smulNatTrans_constComp (E : ModuleCat.{w} Λ) (a : Λ) :
-    Functor.whiskerLeft ((Functor.const Cᵒᵖ).obj E) (ModuleCat.smulNatTrans Λ a) ≫
+    Functor.whiskerLeft ((Functor.const Cᵒᵖ).obj E) (ModuleCat.smulNatTrans Λ a).asHom ≫
         (Functor.constComp Cᵒᵖ E (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).hom =
       (Functor.constComp Cᵒᵖ E (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).hom ≫
-        (Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).app E) := by
+        (Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).asHom.app E) := by
   ext V
   simp
 
@@ -90,12 +90,12 @@ section Sheafify
 /-- The sheafification of `whiskerLeft_smulNatTrans_constComp`. -/
 public lemma sheafifyMap_whiskerLeft_smulNatTrans_constComp (E : ModuleCat.{w} Λ) (a : Λ) :
     sheafifyMap J (Functor.whiskerLeft ((Functor.const Cᵒᵖ).obj E)
-          (ModuleCat.smulNatTrans Λ a)) ≫
+          (ModuleCat.smulNatTrans Λ a).asHom) ≫
         sheafifyMap J (Functor.constComp Cᵒᵖ E
           (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).hom =
       sheafifyMap J (Functor.constComp Cᵒᵖ E
           (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).hom ≫
-        sheafifyMap J ((Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).app E)) := by
+        sheafifyMap J ((Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).asHom.app E)) := by
   rw [← sheafifyMap_comp, ← sheafifyMap_comp, whiskerLeft_smulNatTrans_constComp]
 
 end Sheafify
@@ -106,23 +106,23 @@ section Compare
 presheaf of abelian groups commutes with multiplication by a scalar. -/
 public lemma sheafifyComposeIso_hom_whiskerLeft_smulNatTrans (P : Cᵒᵖ ⥤ ModuleCat.{w} Λ) (a : Λ) :
     (sheafifyComposeIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}) P).hom ≫
-        Functor.whiskerLeft (sheafify J P) (ModuleCat.smulNatTrans Λ a) =
-      sheafifyMap J (Functor.whiskerLeft P (ModuleCat.smulNatTrans Λ a)) ≫
+        Functor.whiskerLeft (sheafify J P) (ModuleCat.smulNatTrans Λ a).asHom =
+      sheafifyMap J (Functor.whiskerLeft P (ModuleCat.smulNatTrans Λ a).asHom) ≫
         (sheafifyComposeIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}) P).hom := by
   refine sheafify_hom_ext J _ _ ((sheafCompose J
     (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj
       ((presheafToSheaf J (ModuleCat.{w} Λ)).obj P)).property ?_
   rw [sheafComposeIso_hom_fac_assoc, ← toSheafify_naturality_assoc, sheafComposeIso_hom_fac]
-  exact (Functor.whiskerLeft_comp_whiskerRight (toSheafify J P) (ModuleCat.smulNatTrans Λ a)).symm
+  exact (Functor.whiskerLeft_comp_whiskerRight (toSheafify J P) (ModuleCat.smulNatTrans Λ a).asHom).symm
 
 /-- `sheafifyComposeIso_hom_whiskerLeft_smulNatTrans` read through the inverse of the
 comparison. -/
 @[reassoc]
 public lemma whiskerLeft_smulNatTrans_sheafifyComposeIso_inv (P : Cᵒᵖ ⥤ ModuleCat.{w} Λ) (a : Λ) :
-    Functor.whiskerLeft (sheafify J P) (ModuleCat.smulNatTrans Λ a) ≫
+    Functor.whiskerLeft (sheafify J P) (ModuleCat.smulNatTrans Λ a).asHom ≫
         (sheafifyComposeIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}) P).inv =
       (sheafifyComposeIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}) P).inv ≫
-        sheafifyMap J (Functor.whiskerLeft P (ModuleCat.smulNatTrans Λ a)) := by
+        sheafifyMap J (Functor.whiskerLeft P (ModuleCat.smulNatTrans Λ a).asHom) := by
   rw [Iso.comp_inv_eq, Category.assoc,
     ← sheafifyComposeIso_hom_whiskerLeft_smulNatTrans, Iso.inv_hom_id_assoc]
 
@@ -148,9 +148,9 @@ public lemma constantSheafForget₂Iso_hom_app_hom (E : ModuleCat.{w} Λ) :
 /-- Multiplication by `a : Λ` on the abelian sheaf underlying the constant sheaf of `Λ`-modules on
 `E` is, at the level of presheaves, multiplication by `a` on the sheafified constant presheaf. -/
 public lemma sheafScalarEnd_constantSheaf_hom (E : ModuleCat.{w} Λ) (a : Λ) :
-    (sheafScalarEnd Λ J ((constantSheaf J (ModuleCat.{w} Λ)).obj E) a).hom =
+    (sheafScalarEnd Λ J ((constantSheaf J (ModuleCat.{w} Λ)).obj E) a).asHom.hom =
       Functor.whiskerLeft (sheafify J ((Functor.const Cᵒᵖ).obj E))
-        (ModuleCat.smulNatTrans Λ a) :=
+        (ModuleCat.smulNatTrans Λ a).asHom :=
   rfl
 
 /-- The presheaf morphism underlying the constant abelian sheaf of a morphism of abelian groups. -/
@@ -164,7 +164,7 @@ comparison and the constant abelian sheaf spelled out as in `constantSheafForget
 `sheafScalarEnd_constantSheaf_hom` and `constantSheaf_map_hom`. -/
 public lemma whiskerLeft_smulNatTrans_comp_constantComparison (E : ModuleCat.{w} Λ) (a : Λ) :
     Functor.whiskerLeft (sheafify J ((Functor.const Cᵒᵖ).obj E))
-          (ModuleCat.smulNatTrans Λ a) ≫
+          (ModuleCat.smulNatTrans Λ a).asHom ≫
         ((sheafifyComposeIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})
             ((Functor.const Cᵒᵖ).obj E)).inv ≫
           sheafifyMap J (Functor.constComp Cᵒᵖ E
@@ -173,7 +173,7 @@ public lemma whiskerLeft_smulNatTrans_comp_constantComparison (E : ModuleCat.{w}
             ((Functor.const Cᵒᵖ).obj E)).inv ≫
           sheafifyMap J (Functor.constComp Cᵒᵖ E
             (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).hom) ≫
-        sheafifyMap J ((Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).app E)) := by
+        sheafifyMap J ((Functor.const Cᵒᵖ).map ((ModuleCat.smulNatTrans Λ a).asHom.app E)) := by
   simp only [Category.assoc]
   rw [whiskerLeft_smulNatTrans_sheafifyComposeIso_inv_assoc,
     sheafifyMap_whiskerLeft_smulNatTrans_constComp]
@@ -182,10 +182,10 @@ public lemma whiskerLeft_smulNatTrans_comp_constantComparison (E : ModuleCat.{w}
 the constant sheaf of `Λ`-modules on `E` to the constant abelian sheaf of the morphism of abelian
 groups `a • · : E ⟶ E`. -/
 public lemma constantSheafForget₂Iso_hom_app_scalar (E : ModuleCat.{w} Λ) (a : Λ) :
-    sheafScalarEnd Λ J ((constantSheaf J (ModuleCat.{w} Λ)).obj E) a ≫
+    (sheafScalarEnd Λ J ((constantSheaf J (ModuleCat.{w} Λ)).obj E) a).asHom ≫
         (constantSheafForget₂Iso Λ J).hom.app E =
       (constantSheafForget₂Iso Λ J).hom.app E ≫
-        (constantSheaf J AddCommGrpCat.{w}).map ((ModuleCat.smulNatTrans Λ a).app E) :=
+        (constantSheaf J AddCommGrpCat.{w}).map ((ModuleCat.smulNatTrans Λ a).asHom.app E) :=
   Sheaf.hom_ext (whiskerLeft_smulNatTrans_comp_constantComparison Λ J E a)
 
 end Compare

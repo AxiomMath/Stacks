@@ -226,6 +226,7 @@ theorem twistSectionMul_comp_hyperplaneUnit (F : (projectiveSpaceOver n S).Modul
           (hyperplaneι n S s)).unit_naturality (twistAssocIso n S F d).hom]
     _ = 0 := by rw [h0, zero_comp]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The unit of `i^* ⊣ i_*` is an isomorphism at the cokernel of `ℱ(d) ⟶ ℱ(d + 1)`**, for an
 arbitrary `𝒪`-module `ℱ` on `ℙⁿ_S`. That cokernel is the cokernel of multiplication by `s` into
 `ℱ(d) ⊗ 𝒪(1)`, where the assertion is

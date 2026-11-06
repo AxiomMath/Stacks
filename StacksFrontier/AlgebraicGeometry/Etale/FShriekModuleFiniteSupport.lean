@@ -75,8 +75,8 @@ morphism of sheaves of `Λ`-modules.** -/
 public def homOfScalarEnd {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.app V ≫ (G.obj.obj V).smul a =
-      (F.obj.obj V).smul a ≫ α.hom.app V) :
+    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.app V ≫ ((G.obj.obj V).smul a).asHom =
+      ((F.obj.obj V).smul a).asHom ≫ α.hom.app V) :
     F ⟶ G :=
   ObjectProperty.homMk
     { app := fun V => ModuleCat.homMk (α.hom.app V) fun a => h a V
@@ -88,8 +88,8 @@ public def homOfScalarEnd {F G : Sheaf J (ModuleCat.{w} Λ)}
 public lemma sheafCompose_map_homOfScalarEnd {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.app V ≫ (G.obj.obj V).smul a =
-      (F.obj.obj V).smul a ≫ α.hom.app V) :
+    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.app V ≫ ((G.obj.obj V).smul a).asHom =
+      ((F.obj.obj V).smul a).asHom ≫ α.hom.app V) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (homOfScalarEnd.{w} Λ J α h) = α :=
   rfl
@@ -99,8 +99,8 @@ isomorphism of sheaves of `Λ`-modules.** -/
 public def isoOfScalarEnd {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.hom.app V ≫ (G.obj.obj V).smul a =
-      (F.obj.obj V).smul a ≫ α.hom.hom.app V) :
+    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.hom.app V ≫ ((G.obj.obj V).smul a).asHom =
+      ((F.obj.obj V).smul a).asHom ≫ α.hom.hom.app V) :
     F ≅ G :=
   haveI : IsIso ((sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (homOfScalarEnd.{w} Λ J α.hom h)) := by
@@ -115,8 +115,8 @@ public def isoOfScalarEnd {F G : Sheaf J (ModuleCat.{w} Λ)}
 public lemma sheafCompose_map_isoOfScalarEnd_hom {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.hom.app V ≫ (G.obj.obj V).smul a =
-      (F.obj.obj V).smul a ≫ α.hom.hom.app V) :
+    (h : ∀ (a : Λ) (V : Cᵒᵖ), α.hom.hom.app V ≫ ((G.obj.obj V).smul a).asHom =
+      ((F.obj.obj V).smul a).asHom ≫ α.hom.hom.app V) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (isoOfScalarEnd.{w} Λ J α h).hom = α.hom :=
   rfl
@@ -171,7 +171,7 @@ public lemma sheafifyForgetIso_smul (P : Cᵒᵖ ⥤ ModuleCat.{w} Λ) (a : Λ) 
             (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})) ≫
         (sheafifyForgetIso.{w} Λ J P).hom =
       (sheafifyForgetIso.{w} Λ J P).hom ≫
-        sheafScalarEnd.{w} Λ J ((presheafToSheaf J (ModuleCat.{w} Λ)).obj P) a := by
+        (sheafScalarEnd.{w} Λ J ((presheafToSheaf J (ModuleCat.{w} Λ)).obj P) a).asHom := by
   have hnat := (sheafComposeNatIso J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})
     (sheafificationAdjunction J (ModuleCat.{w} Λ))
     (sheafificationAdjunction J AddCommGrpCat.{w})).hom.naturality
@@ -202,9 +202,9 @@ public theorem whiskerRight_presheafModuleSmul_modFiniteSupportPresheaf
         (forget₂ (ModuleCat.{max (u + 1) v r} Λ) AddCommGrpCat.{max (u + 1) v r}) =
       (finiteSupportPushforward.{u, max (u + 1) v r} B f (fun _ => inferInstance)).1.map
         (Stacks.ModuleCatLift.sheafScalarEnd Λ
-          (SmallEtale.topology B X.obj X.property) F a) :=
+          (SmallEtale.topology B X.obj X.property) F a).asHom :=
   NatTrans.ext (funext fun V => by
-    exact (modFiniteSupportPresheaf_obj_smul.{u, v, r} B Λ f F V a).symm)
+    exact congrArg End.asHom (modFiniteSupportPresheaf_obj_smul.{u, v, r} B Λ f F V a))
 
 /-- **The direct image with compact support of sheaves of `Λ`-modules is the sheafification of
 the finite-support direct image of sheaves of `Λ`-modules.** The `f_!` of Stacks 0F6R is the

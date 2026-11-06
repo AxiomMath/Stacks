@@ -514,6 +514,7 @@ lemma finiteFreeKoszulTermEquiv_zsmul (B : Type*) [CommRing B] (n p : ℕ) (m : 
     finiteFreeKoszulTermEquiv B n p (m • x) = m • finiteFreeKoszulTermEquiv B n p x :=
   map_zsmul (finiteFreeKoszulTermEquiv B n p) m x
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- `finiteFreeKoszulTermEquiv` commutes with finite sums. -/
 lemma finiteFreeKoszulTermEquiv_sum {ι : Type*} (B : Type*) [CommRing B] (n p : ℕ)
     (s : Finset ι) (x : ι → (⋀[B]^p (Fin n → B)) ⊗[B] SymmetricAlgebra B (Fin n → B)) :

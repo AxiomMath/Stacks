@@ -98,6 +98,9 @@ section Balanced
 universe. -/
 instance containsZero_parasiticModules :
     (parasiticModules.{u, w, t} B S hS 𝒳 τ).ContainsZero := by
+  haveI : HasTerminal (SheafOfModules.{t}
+      (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids τ)) :=
+    SheafOfModules.hasLimitsOfShape _ _
   obtain ⟨Z, hZ⟩ := (hasZeroObject_of_hasTerminal_object (C := SheafOfModules.{t}
     (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids τ))).zero

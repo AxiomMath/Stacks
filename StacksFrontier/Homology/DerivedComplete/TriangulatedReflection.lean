@@ -114,8 +114,8 @@ theorem exists_comp_oneSubSmulShift (K : 𝒟) (h : N ⟶ ∏ᶜ fun _ : ℕ => 
   let g : ℕ → (N ⟶ K) := fun n => Nat.rec 0
     (fun m q => inv (f • 𝟙 N) ≫ (q - h ≫ Pi.π (fun _ : ℕ => K) m)) n
   refine ⟨Pi.lift g, Pi.hom_ext _ _ fun n => ?_⟩
-  rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_π,
-    Pi.lift_π]
+  rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_comp_π,
+    Pi.lift_comp_π]
   show g n - f • (inv (f • 𝟙 N) ≫ (g n - h ≫ Pi.π (fun _ : ℕ => K) n)) = _
   rw [smul_comp_inv_smul, sub_sub_cancel]
 
@@ -126,11 +126,11 @@ theorem exists_comp_oneSubSmulShift_eq_zero (K : 𝒟) (g : N ⟶ K) :
       G ≫ oneSubSmulShift K f = 0 ∧ G ≫ Pi.π (fun _ : ℕ => K) 0 = g := by
   let p : ℕ → (N ⟶ N) := fun n => Nat.rec (𝟙 N) (fun _ q => inv (f • 𝟙 N) ≫ q) n
   refine ⟨Pi.lift fun n => p n ≫ g, Pi.hom_ext _ _ fun n => ?_, ?_⟩
-  · rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_π,
-      Pi.lift_π, zero_comp]
+  · rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_comp_π,
+      Pi.lift_comp_π, zero_comp]
     show p n ≫ g - f • ((inv (f • 𝟙 N) ≫ p n) ≫ g) = 0
     rw [Category.assoc, smul_comp_inv_smul, sub_self]
-  · rw [Pi.lift_π]
+  · rw [Pi.lift_comp_π]
     exact Category.id_comp g
 
 omit [IsIso (f • 𝟙 N)] in

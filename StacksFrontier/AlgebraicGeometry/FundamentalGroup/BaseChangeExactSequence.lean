@@ -201,11 +201,11 @@ theorem autMulEquivEtaleFundamentalGroup_galoisFunctorData_hom
       etaleFundamentalGroupMap f x (autMulEquivEtaleFundamentalGroup X x σ) := by
   let L := (Functor.whiskeringRight (FiniteEtaleOver Y) FintypeCat.{u} (Type u)).obj
     FintypeCat.incl
-  show L.mapIso (d.hom.toMonoidHom σ) = _
+  show Aut.of (L.mapIso (d.hom.toMonoidHom σ).asIso) = _
   rw [d.hom_toMonoidHom]
-  show L.mapIso ((finiteEtaleFiberFintypeFunctorBaseChangeIso f x).conjAut
+  show Aut.of (L.mapIso ((finiteEtaleFiberFintypeFunctorBaseChangeIso f x).conjAut
     (((Functor.whiskeringLeft (FiniteEtaleOver Y) (FiniteEtaleOver X) FintypeCat.{u}).obj
-      (finiteEtaleBaseChange f)).mapAut (finiteEtaleFiberFintypeFunctor X x) σ)) = _
+      (finiteEtaleBaseChange f)).mapAut (finiteEtaleFiberFintypeFunctor X x) σ)).asIso) = _
   rw [Functor.map_conjAut]
   let tL : L.obj (finiteEtaleBaseChange f ⋙ finiteEtaleFiberFintypeFunctor X x) ≅
       L.obj (finiteEtaleFiberFintypeFunctor Y (x.map f)) := finiteEtaleFiberProjectionIso f x

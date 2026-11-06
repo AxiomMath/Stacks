@@ -77,6 +77,19 @@ attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 
 universe u u₁ u₂ v₁ v₂ v w z
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_IsomorphismSheafAlgebraic
+    (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S) :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_IsomorphismSheafAlgebraic
+    (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem isAlgebraicSpace_product
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     {F G : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
@@ -164,6 +177,7 @@ noncomputable def isomPresheafIsoOfIso
     apply Subtype.ext
     exact m.hom.naturality_apply f z.1
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem isAlgebraicSpace_iteratedSliceFiber
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (V : BigFppfOver C S hS)
@@ -1170,6 +1184,7 @@ theorem exists_shrunk_isomPresheaf
     exact (isAlgebraicSpace_restrict_iff_product C V.left.obj T.left.obj
       V.left.property T.left.property f.left F).mp hres
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The sheaf `Isom(x, y)` of isomorphisms between two objects of the quotient stack of a groupoid
 in algebraic spaces, read on the big fppf site of the scheme the test object lies over, is an
 algebraic space over that scheme.

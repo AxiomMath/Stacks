@@ -49,6 +49,18 @@ universe u w
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Products of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_ValuativeCriterionDottedGroupoid
+    (J : Type) : Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ValuativeCriterionDottedGroupoid :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-! ### Closed immersions through which a dominant morphism factors -/
 
 /-- A closed immersion with reduced target through which a dominant morphism factors is an
@@ -136,7 +148,7 @@ theorem relativeInertia_auto_eq_id_of_iso_neutralSection
     {X Y : Type*} [Category X] [Category Y] {f : X ⥤ Y}
     {A : RelativeInertia f} {x : X}
     (e : A ≅ (RelativeInertia.neutralSection f).obj x) :
-    A.auto.hom = 𝟙 A.obj := by
+    A.auto.asIso.hom = 𝟙 A.obj := by
   have hiso : IsIso ((RelativeInertia.π f).map e.hom) := inferInstance
   have : IsIso e.hom.hom := hiso
   apply (cancel_mono e.hom.hom).1
@@ -156,14 +168,14 @@ theorem nonempty_relativeInertia_section_iff
         (RelativeInertia.neutralSection f))
       (presheafOfCategories (F ⋙ typeToCat)).p)
     (V : C) :
-    Nonempty (F.obj (.op V)) ↔ (y.obj V).auto.hom = 𝟙 (y.obj V).obj := by
+    Nonempty (F.obj (.op V)) ↔ (y.obj V).auto.asIso.hom = 𝟙 (y.obj V).obj := by
   constructor
   · rintro ⟨s⟩
     let t : (presheafOfCategories (F ⋙ typeToCat)).obj := ⟨V, Discrete.mk s⟩
     let A := e.inv.functor.obj t
     have hA : A.x = V := congrArg (fun G => G.obj t) e.inv.w
     have h := relativeInertia_auto_eq_id_of_iso_neutralSection A.iso
-    change (y.obj A.x).auto.hom = 𝟙 (y.obj A.x).obj at h
+    change (y.obj A.x).auto.asIso.hom = 𝟙 (y.obj A.x).obj at h
     rwa [hA] at h
   · intro h
     let i : y.obj V ≅ (RelativeInertia.neutralSection f).obj (y.obj V).obj :=
@@ -241,7 +253,7 @@ theorem eq_id_of_isClosedImmersion_relativeInertiaNeutralSection (f : 𝒳 ⟶ �
     𝒳.property.isIso_of_isHomLift_id (θ.hom.app t) (θ.hom.app_isHomLift t)
   let y : BigFppfOver B U.left.1 U.left.2 ⥤ RelativeInertia f.hom.toFunctor :=
     { obj := fun t => ⟨a.hom.obj (J.obj t),
-        @asIso _ _ _ _ (θ.hom.app (J.obj t)) (hθapp (J.obj t)), hθ _⟩
+        .of (@asIso _ _ _ _ (θ.hom.app (J.obj t)) (hθapp (J.obj t))), hθ _⟩
       map := fun g => ⟨a.hom.map (J.map g), θ.hom.toNatTrans.naturality (J.map g)⟩
       map_id := fun t => RelativeInertiaHom.ext (by
         rw [J.map_id]

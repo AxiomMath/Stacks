@@ -90,7 +90,8 @@ noncomputable def naiveCotangentCokernelIso :
 /-- **The universal derivation of `B` over `A` with values in the cokernel of the differential of
 `NL_{B/A}`.** -/
 noncomputable def naiveCotangentCokernelDerivation :
-    (cokernel ((naiveCotangentComplex.{v, u, w, z} J A B a).d (-1) 0)).val.Derivation' a.hom :=
+    PresheafOfModulesOfCommRing.Derivation'
+      (cokernel ((naiveCotangentComplex.{v, u, w, z} J A B a).d (-1) 0)).val a.hom :=
   (universalDerivationOfSite.{v, u, w, z} A B a).postcomp
     (naiveCotangentCokernelIso.{v, u, w, z} J A B a).inv.val
 
@@ -99,7 +100,7 @@ of `B` over `A` with values in a sheaf of modules factors through
 `Stacks.SheafOfModules.naiveCotangentCokernelDerivation` by a unique morphism. -/
 theorem existsUnique_naiveCotangentCokernelDerivation
     (F : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B))
-    (D : F.val.Derivation' a.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val a.hom) :
     ∃! g : cokernel ((naiveCotangentComplex.{v, u, w, z} J A B a).d (-1) 0) ⟶ F,
       (naiveCotangentCokernelDerivation.{v, u, w, z} J A B a).postcomp g.val = D := by
   obtain ⟨f, hf, hu⟩ :=
@@ -292,9 +293,9 @@ sheaf of `B`-modules `T` on `C` gives the derivation `b ↦ D(β b)` of `B₀` o
 in `F_*T`, read over `B₀` along `β`. -/
 def derivationPushforwardOfSquare
     {T : _root_.SheafOfModules.{max w u₀ v₀ u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)}
-    (D : T.val.Derivation' a.hom) :
-    ((_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
-      (pushforwardRingHomOfSquare J₀ J F B B₀ β)).obj T).val.Derivation' a₀.hom where
+    (D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom) :
+    PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
+      (pushforwardRingHomOfSquare J₀ J F B B₀ β)).obj T).val) a₀.hom where
   d {X} := (D.d (X := Opposite.op (F.obj X.unop))).comp (β.hom.app X).hom.toAddMonoidHom
   d_mul {X} x y := (congrArg D.d (map_mul (β.hom.app X).hom x y)).trans (D.d_mul _ _)
   d_map g x := (congrArg D.d (ConcreteCategory.congr_hom (β.hom.naturality g) x)).trans
@@ -357,7 +358,7 @@ theorem bijective_comp_pushforward_map_iff
     Function.Bijective (fun h : cokernel ((naiveCotangentComplex.{v, u, w, max u₀ v₀ z} J A B
         a).d (-1) 0) ⟶ T ↦ κ ≫ (_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
           (pushforwardRingHomOfSquare J₀ J F B B₀ β)).map h) ↔
-      Function.Bijective (fun D : T.val.Derivation' a.hom ↦
+      Function.Bijective (fun D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom ↦
         derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D) := by
   rw [← (bijective_postcomp_naiveCotangentCokernelDerivation.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀
       _).of_comp_iff',
@@ -367,7 +368,7 @@ theorem bijective_comp_pushforward_map_iff
       a₀).postcomp g.val) ∘ fun h : cokernel ((naiveCotangentComplex.{v, u, w, max u₀ v₀ z} J A B
         a).d (-1) 0) ⟶ T ↦ κ ≫ (_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
           (pushforwardRingHomOfSquare J₀ J F B B₀ β)).map h) =
-      (fun D : T.val.Derivation' a.hom ↦
+      (fun D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom ↦
         derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D) ∘
         fun g ↦ (naiveCotangentCokernelDerivation.{v, u, w, max u₀ v₀ z} J A B a).postcomp
           g.val :=
@@ -397,7 +398,7 @@ theorem bijective_comp_map_iff_of_eq
     (κ : cokernel (K₀.d (-1) 0) ⟶ G.obj (cokernel (K.d (-1) 0)))
     (hκ : cokernel.π _ ≫ κ = bm.f 0 ≫ G.map (cokernel.π _)) :
     Function.Bijective (fun h : cokernel (K.d (-1) 0) ⟶ T ↦ κ ≫ G.map h) ↔
-      Function.Bijective (fun D : T.val.Derivation' a.hom ↦
+      Function.Bijective (fun D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom ↦
         derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D) := by
   subst hK₀ hK hG
   obtain rfl := eq_of_heq hbm
@@ -416,7 +417,7 @@ include hsq in
 sheaves of modules. -/
 theorem derivationPushforwardOfSquare_postcomp
     {T T' : _root_.SheafOfModules.{max w u₀ v₀ u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)}
-    (D : T.val.Derivation' a.hom) (m : T ⟶ T') :
+    (D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom) (m : T ⟶ T') :
     derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq
         (D.postcomp m.val) =
       (derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D).postcomp
@@ -446,15 +447,15 @@ theorem bijective_derivationPushforwardOfSquare_of_injective
     (adj : L ⊣ G)
     (hinj : ∀ T : _root_.SheafOfModules.{max w u₀ v₀ u v z}
         (Stacks.SheafOfModules.Tensor.ringSheaf B),
-      Function.Injective (fun D : T.val.Derivation' a.hom ↦
+      Function.Injective (fun D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom ↦
         derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D))
-    (dε : (L.obj (cokernel ((naiveCotangentComplex.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀).d (-1)
-      0))).val.Derivation' a.hom)
+    (dε : PresheafOfModulesOfCommRing.Derivation' (L.obj (cokernel
+      ((naiveCotangentComplex.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀).d (-1) 0))).val a.hom)
     (hdε : HEq (derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq dε)
       ((naiveCotangentCokernelDerivation.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀).postcomp
         (adj.unit.app _).val))
     (T : _root_.SheafOfModules.{max w u₀ v₀ u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :
-    Function.Bijective (fun D : T.val.Derivation' a.hom ↦
+    Function.Bijective (fun D : PresheafOfModulesOfCommRing.Derivation' T.val a.hom ↦
       derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq D) := by
   subst hG
   refine ⟨hinj T, fun D₀ => ?_⟩

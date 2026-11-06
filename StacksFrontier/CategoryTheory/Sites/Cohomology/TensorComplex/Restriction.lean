@@ -465,6 +465,8 @@ def overSheafTensorBicomplexIso :
       ext q : 1
       exact (sheafTensorOverIso_naturality_left X U (A.d i j) (B.X q)).symm)
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Restriction to the site over `U` commutes with the total tensor complex**: the
 restriction of `Tot(A ⊗_O B)` is `Tot(A|_U ⊗_{O|_U} B|_U)`.
 

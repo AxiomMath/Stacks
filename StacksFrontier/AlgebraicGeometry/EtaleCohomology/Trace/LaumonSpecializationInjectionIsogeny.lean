@@ -80,6 +80,7 @@ public theorem levelUnitStalkMap_pow_smul_eq_zero_of_levelAdjunctStalkMap_eq_zer
 
 end Kernel
 
+set_option maxHeartbeats 400000 in
 /-- **The specialization injection at the origin of Laumon's degeneration, along an isogeny**
 (piece P5 of `Stacks.EtaleCohomology.LaumonDegenerationFamilyInput`,
 [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)). In the setting of
@@ -181,11 +182,11 @@ public theorem exists_laumonSpecializationInjection_of_isogeny
         (ObjectProperty.homMk jW :
           V ⟶ Stacks.ArtinSchreier.specObject (Polynomial k') B hL)).toLAdicSheaf ⟶
       FV.toLAdicSheaf)
-    (hχ : ∀ o, ((laumonFamilyHigherDirectImage k' B hS hL b
+    (hχ : ∀ o, (((laumonFamilyHigherDirectImage k' B hS hL b
         (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom) n₀ c z p₀ _ hσ₁ jg).inverseImage
         (ObjectProperty.homMk jW :
-          V ⟶ Stacks.ArtinSchreier.specObject (Polynomial k') B hL)).act o ≫
-          χ = χ ≫ FV.act o)
+          V ⟶ Stacks.ArtinSchreier.specObject (Polynomial k') B hL)).act o).asHom ≫
+          χ = χ ≫ (FV.act o).asHom)
     (χ' : FV.toLAdicSheaf ⟶ ((laumonFamilyHigherDirectImage k' B hS hL b
         (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom) n₀ c z p₀ _ hσ₁ jg).inverseImage
         (ObjectProperty.homMk jW :

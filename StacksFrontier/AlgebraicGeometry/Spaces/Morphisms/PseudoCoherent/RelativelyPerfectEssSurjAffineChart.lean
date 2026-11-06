@@ -149,7 +149,7 @@ private theorem toScheme_map_of_holdsOnEveryEtaleChart {P : MorphismProperty Sch
     (hw : IsEtale B S hS w) (hgw : yoneda.map g ≫ w = f) :
     P ((BigFppfOver.toScheme B S hS).map g) :=
   holdsOnEveryEtaleChart_apply_of_isEtale hf (isEtale_of_isIso B S hS (𝟙 _)) hw
-    (by simpa using hgw) (Iso.refl _) (Iso.refl _) _ (Category.id_comp _).symm
+    (hgw.trans (Category.id_comp f).symm) (Iso.refl _) (Iso.refl _) _ (Category.id_comp _).symm
 
 include hw' in
 /-- **The limit side of the affine case**: a `Y`-perfect object `E` over the limit of the model is

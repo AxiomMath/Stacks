@@ -205,14 +205,14 @@ variable {C : Type u₁} [Category.{v₁} C] {z w : CatCenter C}
 
 /-- The agreement locus of two shift-compatible central elements is closed under shifting. -/
 lemma app_shift_eq_of_app_eq {A : Type s} [AddMonoid A] [HasShift C A]
-    (hz : NatTrans.CommShift z A) (hw : NatTrans.CommShift w A) {X : C}
+    (hz : NatTrans.CommShift z.asHom A) (hw : NatTrans.CommShift w.asHom A) {X : C}
     (h : z.app X = w.app X) (a : A) : z.app (X⟦a⟧) = w.app (X⟦a⟧) := by
   rw [← (commShift_iff_app z).1 hz a X, ← (commShift_iff_app w).1 hw a X, h]
 
 /-- The agreement locus of two shift-compatible central elements is closed under unshifting: for
 a shift by an additive group the shift functors are equivalences, hence faithful. -/
 lemma app_eq_of_app_shift_eq {A : Type s} [AddGroup A] [HasShift C A]
-    (hz : NatTrans.CommShift z A) (hw : NatTrans.CommShift w A) {X : C} (a : A)
+    (hz : NatTrans.CommShift z.asHom A) (hw : NatTrans.CommShift w.asHom A) {X : C} (a : A)
     (h : z.app (X⟦a⟧) = w.app (X⟦a⟧)) : z.app X = w.app X :=
   (shiftFunctor C a).map_injective <| by
     rw [(commShift_iff_app z).1 hz a X, (commShift_iff_app w).1 hw a X, h]
@@ -223,7 +223,7 @@ section Triangulated
 
 variable {C : Type u₁} [Category.{v₁} C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
   [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C] {δ : CatCenter C}
-  (hδ : NatTrans.CommShift δ ℤ) (T : Triangle C) (hT : T ∈ distTriang C)
+  (hδ : NatTrans.CommShift δ.asHom ℤ) (T : Triangle C) (hT : T ∈ distTriang C)
 
 include hδ hT
 
@@ -273,11 +273,12 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 faithful, the components at the objects of the image of `F` of a central element of `D` are the
 images of a unique family of endomorphisms in `C`, and that family is natural because `F` is
 faithful. -/
-noncomputable def ofFull (F : C ⥤ D) [F.Full] [F.Faithful] (w : CatCenter D) : CatCenter C where
-  app X := F.preimage (w.app (F.obj X))
-  naturality _ _ f := F.map_injective <| by
-    simp only [Functor.id_obj, Functor.id_map, Functor.map_comp, Functor.map_preimage]
-    exact w.naturality (F.map f)
+noncomputable def ofFull (F : C ⥤ D) [F.Full] [F.Faithful] (w : CatCenter D) : CatCenter C :=
+  End.of
+    { app X := F.preimage (w.app (F.obj X))
+      naturality _ _ f := F.map_injective <| by
+        simp only [Functor.id_obj, Functor.id_map, Functor.map_comp, Functor.map_preimage]
+        exact w.naturality (F.map f) }
 
 /-- Applying `F` to a component of `CategoryTheory.CatCenter.ofFull F w` recovers the component
 of `w` at the image object. -/
@@ -298,9 +299,9 @@ morphism of `R`-algebras: each identity is checked after applying `F`, where
 noncomputable def ofFullAlgHom (F : C ⥤ D) [F.Full] [F.Faithful] [F.Additive] [F.Linear R] :
     CatCenter D →ₐ[R] CatCenter C where
   toFun := ofFull F
-  map_one' := CatCenter.ext _ _ fun X => F.map_injective (by simp [End.one_def])
+  map_one' := CatCenter.ext _ _ fun X => F.map_injective (by simp)
   map_mul' _ _ := CatCenter.ext _ _ fun X => F.map_injective (by
-    simp [Functor.map_comp])
+    simp [mul_app, Functor.map_comp])
   map_zero' := CatCenter.ext _ _ fun X => F.map_injective (by simp)
   map_add' _ _ := CatCenter.ext _ _ fun X => F.map_injective (by simp [app_add])
   commutes' r := CatCenter.ext _ _ fun X => F.map_injective (by
@@ -335,7 +336,7 @@ variable (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
 shift. This is the membership in `CategoryTheory.CatCenter.shiftSubalgebra` that
 `ModuleCat.centerToShiftCenterDerived` establishes, read as compatibility with the shift. -/
 lemma commShift_centerToCatCenterDerived (a : Subalgebra.center R A) :
-    NatTrans.CommShift (centerToCatCenterDerived R A a) ℤ :=
+    NatTrans.CommShift (centerToCatCenterDerived R A a).asHom ℤ :=
   (CatCenter.mem_shiftSubalgebra_iff_commShift _).1 (centerToShiftCenterDerived R A a).2
 
 /-- **The central element of `A` attached to a central element of `D(A)`.** The functor placing a
@@ -430,7 +431,7 @@ This is strictly more than a dévissage along the regular module could give: the
 *all* modules, not just at `A` itself. What it is not is agreement at all objects of `D(A)`; see
 the discussion at the top of this file. -/
 lemma app_single_derivedCenterValue (z : CatCenter (DerivedCategory (ModuleCat.{u} A)))
-    (hz : NatTrans.CommShift z ℤ) (n : ℤ) (M : ModuleCat.{u} A) :
+    (hz : NatTrans.CommShift z.asHom ℤ) (n : ℤ) (M : ModuleCat.{u} A) :
     (centerToCatCenterDerived R A (derivedCenterValue R A z)).app
         ((singleFunctor (ModuleCat.{u} A) n).obj M) =
       z.app ((singleFunctor (ModuleCat.{u} A) n).obj M) :=
@@ -446,7 +447,7 @@ composition with any morphism out of a module placed in any degree. Since those 
 the shifts of the regular module, which generate `D(A)`, the difference of the two is killed by
 every morphism from a compact generator: it is a phantom, and phantoms need not vanish. -/
 lemma comp_app_eq_of_single (z : CatCenter (DerivedCategory (ModuleCat.{u} A)))
-    (hz : NatTrans.CommShift z ℤ) (n : ℤ) (M : ModuleCat.{u} A)
+    (hz : NatTrans.CommShift z.asHom ℤ) (n : ℤ) (M : ModuleCat.{u} A)
     (X : DerivedCategory (ModuleCat.{u} A)) (f : (singleFunctor (ModuleCat.{u} A) n).obj M ⟶ X) :
     f ≫ (centerToCatCenterDerived R A (derivedCenterValue R A z)).app X = f ≫ z.app X :=
   CatCenter.comp_app_eq_of_app_eq (app_single_derivedCenterValue R A z hz n M) f
@@ -475,7 +476,7 @@ cohomology. It cannot be obtained from the dévissage along the shifts of the re
 the discussion at the top of this file. -/
 theorem centerToShiftCenterDerived_surjective_of_ext_single
     (hext : ∀ z w : CatCenter (DerivedCategory (ModuleCat.{u} A)),
-      NatTrans.CommShift z ℤ → NatTrans.CommShift w ℤ →
+      NatTrans.CommShift z.asHom ℤ → NatTrans.CommShift w.asHom ℤ →
       (∀ (n : ℤ) (M : ModuleCat.{u} A),
         z.app ((singleFunctor (ModuleCat.{u} A) n).obj M) =
           w.app ((singleFunctor (ModuleCat.{u} A) n).obj M)) → z = w) :
@@ -508,7 +509,7 @@ shift-compatible central element and the degreewise action of its
 elements forming a subalgebra; so the right-hand side makes it zero. -/
 theorem centerToShiftCenterDerived_surjective_iff_eq_zero :
     Function.Surjective (centerToShiftCenterDerived R A) ↔
-      ∀ z : CatCenter (DerivedCategory (ModuleCat.{u} A)), NatTrans.CommShift z ℤ →
+      ∀ z : CatCenter (DerivedCategory (ModuleCat.{u} A)), NatTrans.CommShift z.asHom ℤ →
         (∀ M : ModuleCat.{u} A, z.app ((singleFunctor (ModuleCat.{u} A) 0).obj M) = 0) →
         z = 0 := by
   refine ⟨fun hsurj z hz hzero => ?_, fun hvan => ?_⟩

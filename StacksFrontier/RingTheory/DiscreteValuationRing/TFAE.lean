@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.RegularLocalRing.Basic
+public import Mathlib.RingTheory.KrullDimension.Field
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section

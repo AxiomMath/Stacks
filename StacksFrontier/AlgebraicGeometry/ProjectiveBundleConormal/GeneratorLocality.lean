@@ -349,7 +349,7 @@ theorem conormalCanonicalMap_val_app_tensorSectionsAt_eq_conormalQuotientMap
     (f : Γ((bundle E).scheme, V))
     (hratio : (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
           (tautologicalSectionOver E U ((kernel.ι Q.q).val.app (op U) k)) =
-        ((tautologicalTwist E (symPieces E)).smul f).hom
+        ((tautologicalTwist E (symPieces E)).smul f).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
             (tautologicalSectionOver E U s)))
     (O : (bundle E).scheme.Opens) (i' : X ⟶ O.toScheme) [IsClosedImmersion i']

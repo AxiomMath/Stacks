@@ -151,6 +151,7 @@ theorem NormalizationData.hasLocallyFiniteIrreducibleComponents_space
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 80000 in
 /-- **The conditions of Stacks 0BB1 are étale local.** If finitely many étale morphisms
 `gⱼ : Vⱼ ⟶ F` from algebraic spaces satisfying the conditions of Stacks 0BB1 are jointly
 surjective on points, then `F` satisfies them. A quasi-compact open of an étale scheme chart of

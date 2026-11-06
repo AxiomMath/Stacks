@@ -375,8 +375,8 @@ def sectionsRestrictionOnHomotopy :
 restriction of sections, [Stacks, Tag 015A]. -/
 def derivedSectionsPlusRestriction : derivedSectionsPlus J U ⟶ derivedSectionsPlus J V :=
   Functor.rightDerivedNatTrans _ _
-    ((sheafSections J Ab.{max u v}).obj (op U)).rightDerivedFunctorPlusUnit
-    ((sheafSections J Ab.{max u v}).obj (op V)).rightDerivedFunctorPlusUnit
+    ((sheafSections J Ab.{max u v}).obj (op U)).rightDerivedFunctorPlusUnith
+    ((sheafSections J Ab.{max u v}).obj (op V)).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (Sheaf J Ab.{max u v})) (sectionsRestrictionOnHomotopy J f)
 
 /-- The defining equation of the restriction of derived sections: it is the unique morphism of
@@ -384,10 +384,10 @@ derived functors compatible with restriction of sections on bounded below homoto
 [Stacks, Tag 015A]. -/
 @[reassoc]
 theorem derivedSectionsPlusRestriction_fac :
-    ((sheafSections J Ab.{max u v}).obj (op U)).rightDerivedFunctorPlusUnit ≫
+    ((sheafSections J Ab.{max u v}).obj (op U)).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh (derivedSectionsPlusRestriction J f) =
       sectionsRestrictionOnHomotopy J f ≫
-        ((sheafSections J Ab.{max u v}).obj (op V)).rightDerivedFunctorPlusUnit :=
+        ((sheafSections J Ab.{max u v}).obj (op V)).rightDerivedFunctorPlusUnith :=
   Functor.rightDerivedNatTrans_fac _ _ _ _ _ _
 
 /-- **Restriction on hypercohomology along a morphism of the site**,

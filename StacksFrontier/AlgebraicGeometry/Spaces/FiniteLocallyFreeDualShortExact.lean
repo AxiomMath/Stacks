@@ -117,7 +117,9 @@ theorem exists_shortExact_dual {S' : ShortComplex (Modules.{u, u} B S hS F hF)}
   let e₃ := rightDualIsoIhomUnit S'.X₃ S'.X₃ᘁ
   have hse := shortExact_rightDual B S hS F hF hS'
   refine ⟨e₃.inv ≫ rightAdjointMate S'.g ≫ e₂.hom, e₂.inv ≫ rightAdjointMate S'.f ≫ e₁.hom,
-    by simpa using congrArg (fun z => e₃.inv ≫ z ≫ e₁.hom) S'.rightDual.zero, ?_⟩
+    by simp only [Category.assoc, Iso.hom_inv_id_assoc,
+      reassoc_of% (show rightAdjointMate S'.g ≫ rightAdjointMate S'.f = 0 from S'.rightDual.zero),
+      zero_comp, comp_zero], ?_⟩
   refine ShortComplex.shortExact_of_iso (ShortComplex.isoMk e₃ e₂ e₁ ?_ ?_) hse <;> simp
 
 /-- **The dual of a finite locally free `𝒪_F`-module of rank `r` has rank `r`.** -/

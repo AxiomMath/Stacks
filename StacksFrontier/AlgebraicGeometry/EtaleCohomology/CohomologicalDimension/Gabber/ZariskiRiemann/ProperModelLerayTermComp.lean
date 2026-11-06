@@ -22,8 +22,9 @@ The pasting law is read off the pasting law for the derived base change map,
 `Stacks.EtaleCohomology.etaleAbelianDerivedBaseChange_comp_app`. That reading needs the derived
 composition isomorphism of inverse images to be compatible with the comparisons of an exact
 functor with the homology functors and with the functors placing a sheaf in degree `0`; these
-coherences are stated in the development for `CategoryTheory.Functor.mapDerivedCategoryCompIso`,
-so the first result here identifies the étale composition isomorphism
+coherences are stated in the development for
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, so the first result here identifies
+the étale composition isomorphism
 `Stacks.EtaleCohomology.etaleAbelianDerivedInverseImageCompIso'` with it.
 
 ## Main definitions
@@ -82,12 +83,12 @@ private alias etaleAbelianDerivedInverseImageCompIso'_inv_app_Qh' :=
 
 /-- **The derived composition isomorphism of étale inverse images is Mathlib's.** The inverse of
 `Stacks.EtaleCohomology.etaleAbelianDerivedInverseImageCompIso'` is the composition isomorphism
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` of the degreewise functors, attached to the
-inverse of the composition isomorphism `(f ≫ g)⁻¹ ≅ g⁻¹ ⋙ f⁻¹` of inverse images of sheaves. Both
-are lifts along `DerivedCategory.Qh` of the same degreewise transformation. -/
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` of the degreewise functors, attached to
+the inverse of the composition isomorphism `(f ≫ g)⁻¹ ≅ g⁻¹ ⋙ f⁻¹` of inverse images of sheaves.
+Both are lifts along `DerivedCategory.Qh` of the same degreewise transformation. -/
 theorem etaleAbelianDerivedInverseImageCompIso'_inv_eq :
     (etaleAbelianDerivedInverseImageCompIso'.{u, v} f g fg hfg).inv =
-      (Functor.mapDerivedCategoryCompIso
+      (Functor.mapDerivedCategoryCompIsoOfCompIso
         (etaleAbelianInverseImageCompIso'.{u, v} f g fg hfg).symm).hom := by
   refine Localization.natTrans_ext DerivedCategory.Qh
     (HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)) fun K => ?_

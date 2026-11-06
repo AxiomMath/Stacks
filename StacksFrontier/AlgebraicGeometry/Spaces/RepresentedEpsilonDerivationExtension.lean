@@ -132,7 +132,8 @@ attribute [local instance] isContinuous_representedToZariskiRingedToposSiteHom_u
 variable {U}
 variable (T : SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf
     (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O))
-  (D₀ : ((representedEpsilonModulePushforward B S hS U).obj T).val.Derivation'
+  (D₀ : PresheafOfModulesOfCommRing.Derivation'
+    ((representedEpsilonModulePushforward B S hS U).obj T).val
     (representedZariskiSchemeHom B S hS φ).fSharpInverseImage.hom)
 
 /-- `ε^♯` over a Zariski open `Z` undoes `Γ(Z) ≅ 𝒪_X(ε Z)`. -/

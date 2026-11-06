@@ -79,7 +79,7 @@ theorem singleRightDerivedUnit_app_eq {N : A} (J' : InjectiveResolution N) :
   let a : (HomotopyCategory.Plus.singleFunctor A 0).obj N ⟶
       (HomotopyCategory.Plus.quotient A).obj J'.plusObj :=
     ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map J'.ι')
-  have hn := Φ.rightDerivedFunctorPlusUnit.naturality a
+  have hn := Φ.rightDerivedFunctorPlusUnith.naturality a
   have h₁ : (Functor.mapSingleFunctorCompQhIso Φ).inv.app N ≫
       DerivedCategory.Plus.Qh.map (Φ.mapHomotopyCategoryPlus.map a) =
       singleToMapResolution Φ J' ≫ (DerivedCategory.Plus.qhQIso _).inv := by
@@ -115,8 +115,8 @@ theorem singleRightDerivedUnit_app_eq {N : A} (J' : InjectiveResolution N) :
     rw [e₀]
     exact (DerivedCategory.quotientCompQhIso_hom_naturality J'.ι').symm
   have hn' : DerivedCategory.Plus.Qh.map (Φ.mapHomotopyCategoryPlus.map a) ≫
-      Φ.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj J'.plusObj) =
-    Φ.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
+      Φ.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj J'.plusObj) =
+    Φ.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
       Φ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map a) := hn
   have h₂' : (Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app N =
       DerivedCategory.Plus.Qh.map a ≫ (DerivedCategory.Plus.qhQIso J'.plusObj).hom ≫
@@ -124,7 +124,7 @@ theorem singleRightDerivedUnit_app_eq {N : A} (J' : InjectiveResolution N) :
     rw [← Category.assoc, ← h₂, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   rw [singleRightDerivedUnit_app, Iso.app_inv]
   calc _ = (Functor.mapSingleFunctorCompQhIso Φ).inv.app N ≫
-        (Φ.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
+        (Φ.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj N) ≫
           Φ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map a)) ≫
         Φ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso J'.plusObj).hom ≫
         Φ.rightDerivedFunctorPlus.map J'.plusQIso.inv := by
@@ -132,7 +132,7 @@ theorem singleRightDerivedUnit_app_eq {N : A} (J' : InjectiveResolution N) :
         simp only [Category.assoc]
     _ = ((Functor.mapSingleFunctorCompQhIso Φ).inv.app N ≫
         DerivedCategory.Plus.Qh.map (Φ.mapHomotopyCategoryPlus.map a)) ≫
-        Φ.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj J'.plusObj) ≫
+        Φ.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj J'.plusObj) ≫
         Φ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso J'.plusObj).hom ≫
         Φ.rightDerivedFunctorPlus.map J'.plusQIso.inv := by
         rw [← hn']
@@ -295,14 +295,14 @@ def rightDerivedQIso (K : CochainComplex.Plus B) [∀ n, Injective (K.obj.X n)] 
     U.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Q.obj K) ≅
       DerivedCategory.Plus.Q.obj (U.mapCochainComplexPlus.obj K) :=
   U.rightDerivedFunctorPlus.mapIso (DerivedCategory.Plus.qhQIso K).symm ≪≫
-    (asIso (U.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient B).obj K))).symm ≪≫
+    (asIso (U.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient B).obj K))).symm ≪≫
     mapQhQIso U K
 
 /-- The components of `rightDerivedQIso`, written out. -/
 lemma rightDerivedQIso_hom (K : CochainComplex.Plus B) [∀ n, Injective (K.obj.X n)] :
     (rightDerivedQIso U K).hom =
       U.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso K).inv ≫
-        CategoryTheory.inv (U.rightDerivedFunctorPlusUnit.app
+        CategoryTheory.inv (U.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient B).obj K)) ≫ (mapQhQIso U K).hom :=
   rfl
 
@@ -313,24 +313,24 @@ lemma rightDerivedQIso_naturality {K L : CochainComplex.Plus B} [∀ n, Injectiv
         (rightDerivedQIso U L).hom =
       (rightDerivedQIso U K).hom ≫ DerivedCategory.Plus.Q.map (U.mapCochainComplexPlus.map f) := by
   have h₁ := DerivedCategory.Plus.qhQIso_naturality f
-  have hn := U.rightDerivedFunctorPlusUnit.naturality ((HomotopyCategory.Plus.quotient B).map f)
+  have hn := U.rightDerivedFunctorPlusUnith.naturality ((HomotopyCategory.Plus.quotient B).map f)
   have hn' : DerivedCategory.Plus.Qh.map (U.mapHomotopyCategoryPlus.map
         ((HomotopyCategory.Plus.quotient B).map f)) ≫
-        U.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient B).obj L) =
-      U.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient B).obj K) ≫
+        U.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient B).obj L) =
+      U.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient B).obj K) ≫
         U.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
           ((HomotopyCategory.Plus.quotient B).map f)) := hn
-  have hn'' : CategoryTheory.inv (U.rightDerivedFunctorPlusUnit.app
+  have hn'' : CategoryTheory.inv (U.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient B).obj K)) ≫
       DerivedCategory.Plus.Qh.map (U.mapHomotopyCategoryPlus.map
         ((HomotopyCategory.Plus.quotient B).map f)) =
       U.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
           ((HomotopyCategory.Plus.quotient B).map f)) ≫
-        CategoryTheory.inv (U.rightDerivedFunctorPlusUnit.app
+        CategoryTheory.inv (U.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient B).obj L)) :=
-    (IsIso.inv_comp_eq (U.rightDerivedFunctorPlusUnit.app
+    (IsIso.inv_comp_eq (U.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient B).obj K))).2
-      (((IsIso.eq_comp_inv (U.rightDerivedFunctorPlusUnit.app
+      (((IsIso.eq_comp_inv (U.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient B).obj L))).2 hn').trans (Category.assoc _ _ _))
   have h₁' : U.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso K).inv ≫
       U.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map

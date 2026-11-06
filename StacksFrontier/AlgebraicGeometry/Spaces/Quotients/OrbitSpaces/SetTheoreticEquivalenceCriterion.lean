@@ -107,6 +107,25 @@ namespace AlgebraicGeometry.Space
 variable {site : BigFppfSite.{u}} {S : Scheme.{u}} {hS : site.Contains S}
   {B : AlgebraicSpaces site S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_SetTheoreticEquivalenceCriterion :
+    HasPullbacks ((BigFppfOver site S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SetTheoreticEquivalenceCriterion
+    {X Y Z : (BigFppfOver site S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_SetTheoreticEquivalenceCriterion
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver site S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### Products in the slice of presheaves over the base -/
 
 /-- A binary product in the slice of presheaves over the underlying presheaf of an algebraic

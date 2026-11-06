@@ -151,6 +151,13 @@ attribute [local instance high] hasSheafify_smallEtaleRingedToposULift
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_fibreProductCornerCohomology
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 09DM at a geometric point.** -/
 theorem upperRightCorner_derivedStalk (hpb : IsPullback p q f g)
     (E : Triangulated.UpperRightCorner (transitivityUnit p f) (transitivityCounit p f)

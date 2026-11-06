@@ -575,7 +575,7 @@ theorem galoisGlobalSections_comp_underlying :
 /-- The action of `σ` on `Γ^Gal(F)` is
     `Stacks.EtaleCohomology.fieldBaseChangeGlobalSectionsGaloisAction`. -/
 theorem galoisGlobalSections_ρ (G : EtaleModules.{u, 0} Λ Y.left) (σ : K ≃ₐ[k] K) :
-    ((galoisGlobalSections Λ Y K).obj G).obj.obj.ρ σ =
+    (((galoisGlobalSections Λ Y K).obj G).obj.obj.ρ σ).asHom =
       fieldBaseChangeGlobalSectionsGaloisAction.{u, 0} Λ Y K σ G :=
   rfl
 

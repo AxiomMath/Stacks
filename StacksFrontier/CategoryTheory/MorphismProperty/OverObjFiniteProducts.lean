@@ -48,7 +48,7 @@ instance isClosedUnderBinaryProducts_overObj :
   limitsOfShape_le := by
     rintro Y ⟨h⟩
     let c : BinaryFan (h.diag.obj ⟨WalkingPair.left⟩) (h.diag.obj ⟨WalkingPair.right⟩) :=
-      (Cones.postcompose (diagramIsoPair h.diag).hom).obj ⟨Y, h.π⟩
+      (Cone.postcompose (diagramIsoPair h.diag).hom).obj ⟨Y, h.π⟩
     have hc : IsLimit c := (IsLimit.postcomposeHomEquiv (diagramIsoPair h.diag) _).symm h.isLimit
     have hw : c.fst.left ≫ (h.diag.obj ⟨WalkingPair.left⟩).hom = Y.hom :=
       CategoryTheory.Over.w c.fst

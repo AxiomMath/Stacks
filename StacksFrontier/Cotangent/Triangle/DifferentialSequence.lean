@@ -927,8 +927,6 @@ theorem standardResolution_differentials_shortExact
     (A : Type u) [CommRing A] {B C : CommAlgCat.{max u v} A} (f : B ⟶ C)
     (hf : Function.Injective f.hom) :
     (standardResolutionDifferentialSequence A f).complex.ShortExact := by
-  let _ : HasZeroMorphisms (SimplicialObject (ModuleCat.{max u v} C)) :=
-    instHasZeroMorphismsFunctor (ModuleCat.{max u v} C)
   let D := standardResolutionDifferentialSequence A f
   let ev : ∀ n : SimplexCategoryᵒᵖ,
       SimplicialObject (ModuleCat.{max u v} C) ⥤ ModuleCat.{max u v} C :=

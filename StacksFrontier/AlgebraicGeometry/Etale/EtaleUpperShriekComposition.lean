@@ -172,17 +172,19 @@ public theorem pushStalkMap_comp_pushStalkMap
     (α ≫ (abelianRestriction B U.obj.left.1 U.obj.left.property V).map β ≫
       (abelianRestrictionCompIso B X hX U V).hom.app H) N.unop.1 N.unop.2
   let A₁ : (geometricPointFiber B X hX s).Elements :=
-    ⟨(smallEtalePostcompose B X hX (smallEtaleCompObject B X hX U V)).obj N.unop.1,
-      pushLift B X hX (smallEtaleCompObject B X hX U V) s N.unop.1
-        (pushLift B X hX U s V x y) N.unop.2⟩
+    (geometricPointFiber B X hX s).elementsMk
+      ((smallEtalePostcompose B X hX (smallEtaleCompObject B X hX U V)).obj N.unop.1)
+      (pushLift B X hX (smallEtaleCompObject B X hX U V) s N.unop.1
+        (pushLift B X hX U s V x y) N.unop.2)
   let A₂ : (geometricPointFiber B X hX s).Elements :=
-    ⟨(smallEtalePostcompose B X hX U).obj
-        ((smallEtalePostcompose B U.obj.left.1 U.obj.left.property V).obj N.unop.1),
-      pushLift B X hX U s _ x
-        (pushLift B U.obj.left.1 U.obj.left.property V _ N.unop.1 y N.unop.2)⟩
+    (geometricPointFiber B X hX s).elementsMk
+      ((smallEtalePostcompose B X hX U).obj
+        ((smallEtalePostcompose B U.obj.left.1 U.obj.left.property V).obj N.unop.1))
+      (pushLift B X hX U s _ x
+        (pushLift B U.obj.left.1 U.obj.left.property V _ N.unop.1 y N.unop.2))
   let m : A₁ ⟶ A₂ :=
-    ⟨(smallEtalePostcomposeCompIso B X hX U V).inv.app N.unop.1,
-      Subtype.ext (Category.comp_id _)⟩
+    Functor.Elements.homMk ((smallEtalePostcomposeCompIso B X hX U V).inv.app N.unop.1)
+      (Subtype.ext (Category.comp_id _))
   have hw := colimit.w (SmallEtale.etaleStalkDiagram B X hX s H.obj) m.op
   refine (Category.assoc _ _ _).symm.trans ?_
   refine ((congrArg (· ≫ pushStalkMap B X hX U s x H G β) h1).trans

@@ -235,11 +235,11 @@ theorem map_span_relationPoly :
     Ideal.map (algebraMap (ambientPoly k) (MvPolynomial (Fin 2) R))
         (Ideal.span {relationPoly k}) =
       Ideal.span {MvPolynomial.C
-            (algebraMap (MvPolynomial (Fin 2) k) R (MvPolynomial.X 0)) *
-          MvPolynomial.X 0 -
-        MvPolynomial.C
-            (algebraMap (MvPolynomial (Fin 2) k) R (MvPolynomial.X 1)) *
-          MvPolynomial.X 1} := by
+                      (algebraMap (MvPolynomial (Fin 2) k) R (MvPolynomial.X 0)) *
+                    MvPolynomial.X 0 -
+                  MvPolynomial.C
+                      (algebraMap (MvPolynomial (Fin 2) k) R (MvPolynomial.X 1)) *
+                    MvPolynomial.X 1} := by
   rw [Ideal.map_span, Set.image_singleton, algebraMap_ambientPoly_eq]
   congr 1
   rw [relationPoly, map_sub, map_mul, map_mul, MvPolynomial.map_C, MvPolynomial.map_C,
@@ -271,8 +271,9 @@ theorem map_chartIdeal (n : ℕ) :
         (algebraMap (MvPolynomial (Fin 2) k) R (MvPolynomial.X 1)) n := by
   rw [chartIdeal, chartIdeal, Ideal.map_sup, Ideal.map_pow]
   rw [show (Ideal.span {MvPolynomial.C (MvPolynomial.X 0 : MvPolynomial (Fin 2) k) *
-        MvPolynomial.X 0 -
-      MvPolynomial.C (MvPolynomial.X 1 : MvPolynomial (Fin 2) k) * MvPolynomial.X 1} :
+                            MvPolynomial.X 0 -
+                          MvPolynomial.C (MvPolynomial.X 1 : MvPolynomial (Fin 2) k) *
+                            MvPolynomial.X 1} :
       Ideal (ambientPoly k)) = Ideal.span {relationPoly k} from by rw [relationPoly],
     map_span_relationPoly k R, map_polyVarsIdeal k R]
 

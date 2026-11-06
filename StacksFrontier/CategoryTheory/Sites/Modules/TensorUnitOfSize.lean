@@ -71,7 +71,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 unitor of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorUnitSections.lean` asks for. -/
 abbrev structureRingIsSheaf : Presheaf.IsSheaf J
     (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf R.obj) :=
-  ((sheafCompose J (forget₂ CommRingCat.{w} RingCat.{w})).obj R).cond
+  ((sheafCompose J (forget₂ CommRingCat.{w} RingCat.{w})).obj R).property
 
 /-- **The right unitor `F ⊗_O O ≅ F` is natural in `F`.** Tensoring a morphism with the
 identity of the structure sheaf and then applying the unitor is applying the unitor and then

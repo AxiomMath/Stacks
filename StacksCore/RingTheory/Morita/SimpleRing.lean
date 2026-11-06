@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Products
+public import Mathlib.CategoryTheory.Adjunction.Limits
 public import Mathlib.LinearAlgebra.Basis.VectorSpace
 public import Mathlib.RingTheory.Morita.Matrix
 public import Mathlib.RingTheory.SimpleModule.WedderburnArtin

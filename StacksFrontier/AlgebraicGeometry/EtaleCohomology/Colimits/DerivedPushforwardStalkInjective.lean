@@ -140,8 +140,8 @@ theorem isIso_derivedPushforwardStalkUnit_of_injective
   rw [Stacks.DerivedFunctor.exactDerivedDescUnit_app]
   refine IsIso.comp_isIso' ?_ (IsIso.comp_isIso' ?_ ?_)
   · refine @Functor.map_isIso _ _ _ _ _ _ _ _ ?_
-    rw [Stacks.DerivedFunctor.mapHomotopyCategoryOfComp, NatTrans.comp_app,
-      NatTrans.mapHomotopyCategory_app]
+    rw [Stacks.DerivedFunctor.mapHomotopyCategoryOfComp, NatTrans.comp_app]
+    erw [NatTrans.mapHomotopyCategory_app]
     generalize pushforwardStalkToStrictHenselizationSectionsAb B hY f s = τ at hC ⊢
     refine IsIso.comp_isIso' ?_ inferInstance
     refine @Functor.map_isIso _ _ _ _ _ _ _ _ ?_

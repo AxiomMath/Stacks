@@ -6,6 +6,7 @@ public import Mathlib.Algebra.Homology.QuasiIso
 public import Mathlib.Algebra.Homology.ShortComplex.FunctorEquivalence
 public import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
 public import Mathlib.Algebra.Homology.ShortComplex.Limits
+public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Colim
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Abelian.RightDerived
 public import Mathlib.CategoryTheory.Comma.Over.Basic
@@ -873,7 +874,7 @@ end ColimitPullbacks
 
 section CoveringProducts
 
-attribute [local implicit_reducible] CategoryTheory.Over.post CategoryTheory.extendFan
+attribute [local implicit_reducible] CategoryTheory.extendFan
 
 private theorem hasProduct_fin_of_binaryProducts
     {C : Type*} [Category* C] [HasTerminal C] {α : Type*} (f : α → C)
@@ -1013,7 +1014,7 @@ variable {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
     PreservesLimit (Discrete.functor (fun a ↦ Over.mk (E.f (i a)))) (Over.post F)]
 
 attribute [local instance_reducible] CategoryTheory.PreZeroHypercover.map
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   Stacks.CechSite.cechFormalCoproduct Stacks.CechSite.cechFormalCoproductMap
 
 /-- The images under `Over.post F` of finitely many members of the covering `E` have a product:
@@ -1047,7 +1048,7 @@ private theorem cechProductIso_naturality {n m : ℕ}
   rw [h₁, h₂]
   apply Pi.hom_ext
   intro j
-  simp only [PreservesProduct.iso_hom, Category.assoc, Pi.lift_π,
+  simp only [PreservesProduct.iso_hom, Category.assoc, Pi.lift_comp_π,
     piComparison_comp_π, ← Functor.map_comp]
   simp [piComparison, PreZeroHypercover.map, Over.post]
 
@@ -1066,8 +1067,8 @@ private def cechCosimplicialIso :
   dsimp [FormalCoproduct.cosimplicialObjectFunctor, FormalCoproduct.evalOp,
     Stacks.CechSite.cechSimplicialObject, Stacks.CechSite.cechFormalCoproduct,
     Stacks.CechSite.cechFormalCoproductMap]
-  simp only [Category.assoc, Pi.mapIso_hom_π, Pi.mapIso_hom_π_assoc, Pi.lift_π,
-    Pi.lift_π_assoc, Functor.mapIso_inv, Iso.op_inv, Iso.symm_hom,
+  simp only [Category.assoc, Pi.mapIso_hom_π, Pi.mapIso_hom_π_assoc, Pi.lift_comp_π,
+    Pi.lift_comp_π_assoc, Functor.mapIso_inv, Iso.op_inv, Iso.symm_hom,
     ← P.map_comp, ← op_comp]
   congr 1
   apply congrArg P.map

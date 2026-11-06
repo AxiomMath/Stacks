@@ -114,8 +114,7 @@ private theorem isIso_of_homotopic_identity_on_cone (f : K₁ ⟶ L₁)
     change (toHomotopyCategory A).map (Hom.comp δ δ) = _ at hq
     refine ((toHomotopyCategory A).map_comp δ δ).symm.trans ?_
     convert hq using 1
-    · rfl
-    · simp
+    all_goals first | rfl | simp
   apply isIso_of_square_zero_perturbation _ e ?_ he
   have he' : e = (toHomotopyCategory A).map d - 𝟙 _ := by
     show (toHomotopyCategory A).map (d - 𝟙 _) = _

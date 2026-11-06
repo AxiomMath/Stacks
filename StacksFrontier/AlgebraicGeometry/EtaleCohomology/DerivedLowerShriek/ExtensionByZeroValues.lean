@@ -74,7 +74,7 @@ followed by the comparison is the localization of the underived comparison follo
 factorization of `j^{-1}` through the localization. -/
 lemma etaleModuleDerivedRestrictionIsoInverseImagePlus_hom_app_Qh
     (M : HomotopyCategory.Plus (EtaleModules.{u, 0} Λ X)) :
-    (etaleModuleRestriction.{u, 0} Λ j).rightDerivedFunctorPlusUnit.app M ≫
+    (etaleModuleRestriction.{u, 0} Λ j).rightDerivedFunctorPlusUnith.app M ≫
         (etaleModuleDerivedRestrictionIsoInverseImagePlus Λ j).hom.app
           (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
@@ -125,7 +125,7 @@ followed by the localization of the underived comparison. -/
 lemma etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_hom_app_Qh
     (K : HomotopyCategory.Plus (EtaleModules.{u, 0} Λ U)) :
     (etaleModuleDerivedInverseImagePlus.{u, 0} Λ j).map
-        ((etaleModuleExtensionByZero.{u, 0} Λ j).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleExtensionByZero.{u, 0} Λ j).rightDerivedFunctorPlusUnith.app K) ≫
       (etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ j).hom.app
         (DerivedCategory.Plus.Qh.obj K) =
     (etaleModuleInverseImage.{u, 0} Λ j).mapDerivedCategoryPlusFactorsh.hom.app
@@ -151,13 +151,13 @@ lemma etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_hom_app_Qh
       (etaleModuleInverseImage.{u, 0} Λ j).mapDerivedCategoryPlusFactorsh.hom.app N ≫
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
           (etaleModuleInverseImageRestrictionIso.{u, 0} Λ j).symm).inv.app N) ≫
-        (etaleModuleRestriction.{u, 0} Λ j).rightDerivedFunctorPlusUnit.app N := by
+        (etaleModuleRestriction.{u, 0} Λ j).rightDerivedFunctorPlusUnith.app N := by
     rw [← cancel_mono (ρ.hom.app _), Iso.inv_hom_id_app, Category.assoc, Category.assoc, vρ,
       ← Category.assoc (DerivedCategory.Plus.Qh.map _), ← Functor.map_comp, Iso.inv_hom_id_app,
       CategoryTheory.Functor.map_id, Category.id_comp, Iso.hom_inv_id_app]
     rfl
   have n :=
-    ρ.inv.naturality ((etaleModuleExtensionByZero.{u, 0} Λ j).rightDerivedFunctorPlusUnit.app K)
+    ρ.inv.naturality ((etaleModuleExtensionByZero.{u, 0} Λ j).rightDerivedFunctorPlusUnith.app K)
   have f1 :=
     Functor.rightDerivedFunctorPlusCompIsoOfExact_fac (etaleModuleExtensionByZero.{u, 0} Λ j)
       (etaleModuleRestriction.{u, 0} Λ j) _ (Iso.refl _) K

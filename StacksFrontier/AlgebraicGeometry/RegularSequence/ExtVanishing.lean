@@ -148,8 +148,8 @@ variable (X : Scheme.{u})
 /-- Multiplication by a global function `r ∈ Γ(X, 𝒪_X)` on every `𝒪_X`-module, as an element
 of the centre of the category of `𝒪_X`-modules: on sections over `U` it is multiplication by
 the restriction of `r` to `U`. -/
-def globalSmulCenter (r : Γ(X, ⊤)) : CatCenter X.Modules where
-  app M := (⟨{
+def globalSmulCenter (r : Γ(X, ⊤)) : CatCenter X.Modules := .of
+  { app M := (⟨{
     app := fun U => by
       letI : CommRing (X.ringCatSheaf.obj.obj U) :=
         inferInstanceAs (CommRing (X.presheaf.obj U))
@@ -164,9 +164,9 @@ def globalSmulCenter (r : Γ(X, ⊤)) : CatCenter X.Modules where
       congr 1
       exact congrArg (fun g => RingCat.Hom.hom g r)
         (X.ringCatSheaf.obj.map_comp U.unop.leTop.op f) }⟩ : M ⟶ M)
-  naturality {M N} φ := by
-    ext U x
-    exact ((φ.val.app (.op U)).hom.map_smul _ x).symm
+    naturality {M N} φ := by
+      ext U x
+      exact ((φ.val.app (.op U)).hom.map_smul _ x).symm }
 
 /-- On sections, the centre element `globalSmulCenter X r` is multiplication by the restriction
 of `r`. -/

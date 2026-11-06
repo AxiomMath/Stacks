@@ -94,7 +94,7 @@ theorem conjugateIsoEquiv_siteInverseImageComp (f : X ⟶ Y) (g : Y ⟶ Z) :
     (conjugateIsoEquiv (ringedAdjunction (f ≫ g)) ((ringedAdjunction g).comp (ringedAdjunction f))
         (siteInverseImageComp f g).symm).symm =
       ringedDirectImageComp f g :=
-  Iso.ext (by simpa using conjugateEquiv_siteInverseImageComp_hom f g)
+  Iso.ext (conjugateEquiv_siteInverseImageComp_hom f g)
 
 /-- **The associativity pentagon for the inverse-image comparison of Stacks 03LU**, in the
 vocabulary the base change map of **Stacks 0736** consumes.  For three composable morphisms of

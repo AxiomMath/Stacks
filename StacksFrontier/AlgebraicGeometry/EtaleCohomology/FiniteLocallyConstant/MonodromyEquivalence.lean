@@ -331,13 +331,13 @@ theorem GaloisTrivialization.exists_hom (e : GaloisTrivialization A F M)
     obtain ⟨σ, rfl⟩ := surjective_galoisAut A τ
     let m := (finiteEtaleToEtale X).map (galoisAutHom x σ A)
     ext s
-    have hρ : (((monodromyAction x).obj F.obj).ρ σ).hom (ι s) = ι (F.obj.map m.op s) :=
+    have hρ : (((monodromyAction x).obj F.obj).ρ σ).asHom.hom (ι s) = ι (F.obj.map m.op s) :=
       monodromyAction_ρ_ι_apply F.obj σ (op A) s
-    have hρ' : (((monodromyAction x).obj F'.obj).ρ σ).hom (ι' (f s)) =
+    have hρ' : (((monodromyAction x).obj F'.obj).ρ σ).asHom.hom (ι' (f s)) =
         ι' (F'.obj.map m.op (f s)) :=
       monodromyAction_ρ_ι_apply F'.obj σ (op A) (f s)
-    have hcomm : g.hom ((((monodromyAction x).obj F.obj).ρ σ).hom (ι s)) =
-        (((monodromyAction x).obj F'.obj).ρ σ).hom (g.hom (ι s)) :=
+    have hcomm : g.hom ((((monodromyAction x).obj F.obj).ρ σ).asHom.hom (ι s)) =
+        (((monodromyAction x).obj F'.obj).ρ σ).asHom.hom (g.hom (ι s)) :=
       ConcreteCategory.congr_hom (g.comm σ) (ι s)
     have key : ι' (f (F.obj.map m.op s)) = ι' (F'.obj.map m.op (f s)) := by
       refine (hfι _).trans ?_
@@ -481,7 +481,7 @@ instance : (monodromyFTLCFunctor hX htriv).EssSurj where
     let N₀ := N.obj.obj.obj
     have hN : ∀ σ, galoisAut x σ A = 1 → actionLinearRepr N₀ σ = 1 := fun σ hσ ↦ by
       have h1 : N₀.ρ σ = 1 := hK σ (hA hσ)
-      change ModuleCat.Hom.hom (N₀.ρ σ) = 1
+      change ModuleCat.Hom.hom (N₀.ρ σ).asHom = 1
       rw [h1]
       rfl
     have : Module.Finite Λ N₀.V := N.property
@@ -495,16 +495,16 @@ instance : (monodromyFTLCFunctor hX htriv).EssSurj where
       (Action.mkIso E.toModuleIso fun σ ↦ ?_)))⟩⟩
     refine ModuleCat.hom_ext (LinearMap.ext fun v ↦ ?_)
     obtain ⟨d, rfl⟩ := (e.monodromyEquiv hX).surjective v
-    have h1 : (((monodromyAction x).obj D.obj).ρ σ).hom (e.monodromyEquiv hX d) =
+    have h1 : (((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d) =
         e.monodromyEquiv hX
           (D.obj.map ((finiteEtaleToEtale X).map (galoisAutHom x σ A)).op d) :=
       monodromyAction_ρ_ι_apply D.obj σ (op A) d
-    change E ((((monodromyAction x).obj D.obj).ρ σ).hom (e.monodromyEquiv hX d)) =
-      (N₀.ρ σ).hom (E (e.monodromyEquiv hX d))
+    change E ((((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d)) =
+      (N₀.ρ σ).asHom.hom (E (e.monodromyEquiv hX d))
     rw [h1]
     change monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
         (e.monodromyEquiv hX _)) =
-      (N₀.ρ σ).hom (monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
+      (N₀.ρ σ).asHom.hom (monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
         (e.monodromyEquiv hX d)))
     rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_apply]
     exact monodromyDescentSectionsEquiv_map hX A N₀ hN σ d

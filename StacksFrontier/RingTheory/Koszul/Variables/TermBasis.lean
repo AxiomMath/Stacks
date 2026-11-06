@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Abelian
 public import Mathlib.Algebra.Category.ModuleCat.Monoidal.Basic
 public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import Mathlib.Algebra.MvPolynomial.Eval
+public import Mathlib.Algebra.MvPolynomial.Division
 public import Mathlib.CategoryTheory.Monoidal.Tor
 public import Mathlib.RingTheory.Ideal.Operations
 public import StacksCore.Tactic.StacksAttribute

@@ -197,7 +197,7 @@ theorem exists_mem_reductionNeighbourhood_locally (hW : IsLocallyNoetherian B S 
       downward_closed := by
         rintro V' V'' g' ⟨k, hk⟩ g''
         refine ⟨k, ?_⟩
-        rw [Category.assoc, op_comp, FunctorToTypes.map_comp_apply]
+        rw [Category.assoc, op_comp, Functor.map_comp_apply]
         exact (reductionNeighbourhood i k).map g''.op hk }) fun V g hV hg => ?_, ?_⟩
   · have := hV
     obtain ⟨j, y, hy⟩ := h g hg

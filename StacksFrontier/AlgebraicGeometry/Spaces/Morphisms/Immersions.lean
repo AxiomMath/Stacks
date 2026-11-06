@@ -249,6 +249,17 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Z Y X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site times out;
+supply them directly. -/
+local instance (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasLimit_cospan_presheaf_Immersions
+    {Z₁ Z₂ Z₀ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z₀) (f : Z₂ ⟶ Z₀) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
+
 /-! ### Representability -/
 
 /-- **Stacks 0AGC, part (1): representability.** If a composite of morphisms of presheaves on
@@ -358,6 +369,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Z X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site times out;
+supply them directly. -/
+local instance (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasLimit_cospan_presheaf_aux_Immersions
+    {Z₁ Z₂ Z₀ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z₀) (f : Z₂ ⟶ Z₀) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 
 /-! ### The complement of the boundary of a locally closed set of points -/
 

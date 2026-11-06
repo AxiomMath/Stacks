@@ -622,7 +622,7 @@ theorem isSepClosed_residueField_localRingAt :
     (localRingAt s)
   let e₂ := (Ideal.quotientKerAlgEquivOfSurjective hsurj).toRingEquiv
   exact IsSepClosed.of_ringEquiv (M := k) (N := ResidueField (localRingAt s))
-    (e₁.symm.trans e₂)
+    (e₁.toRingEquiv.symm.trans e₂)
 
 /-- The homomorphism of strict henselizations along the branch, read at `s̄`. -/
 def branchEtaleLocalRingHom :

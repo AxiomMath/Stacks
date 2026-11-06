@@ -81,7 +81,8 @@ private lemma ker_mvPolynomialMap {R : Type u} [CommRing R] (I : Ideal R) (ι : 
       Ideal.map (MvPolynomial.C : R →+* MvPolynomial ι R) I := by
   ext p
   simp only [RingHom.mem_ker, MvPolynomial.mem_map_C_iff, MvPolynomial.ext_iff,
-    MvPolynomial.coeff_map, MvPolynomial.coeff_zero, Ideal.Quotient.eq_zero_iff_mem]
+    MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
+    Ideal.Quotient.eq_zero_iff_mem]
 
 /-- The fibre of a polynomial ring over a maximal ideal of the coefficient ring is a polynomial
 ring over a field, hence a regular ring. -/

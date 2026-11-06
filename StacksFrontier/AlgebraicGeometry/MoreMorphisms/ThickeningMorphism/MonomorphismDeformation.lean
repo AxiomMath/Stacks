@@ -72,7 +72,7 @@ theorem isThickening_pullbackMapSelf {U U' T : Scheme.{u}} {iU : U ⟶ U'}
   have : MorphismProperty.IsStableUnderComposition
       (@IsThickening : MorphismProperty Scheme.{u}) :=
     ⟨fun _ _ hf hg => isThickening_comp hf hg⟩
-  exact MorphismProperty.pullback_map hiU hiU rfl rfl
+  exact MorphismProperty.pullbackMap hiU hiU rfl rfl
 
 /-- Let `iR : R ⟶ R'` and `iU : U ⟶ U'` be thickenings, let `g : U' ⟶ T` be a morphism, and let
 `p, q : R ⟶ U` and `p', q' : R' ⟶ U'` be compatible with `iR` and `iU`. If the induced

@@ -96,7 +96,7 @@ theorem reindexModTensorComplexIso_hom_naturality_left {K K' : CochainComplex
   let := fun K L => CochainComplex.KFlatBifunctor.hasTotal_mapBicomplex_of_equivalence
     (Tensor.sheafTensor.{u₁, v₁, w} O)
     (Tensor.sheafTensor.{u₂, v₂, w} (reindexCommRingGeneral J' e O)) (reindexMod J' e O)
-    (TensorPower.whiskerTensorSheafIso (J' := J') O.val (Tensor.ringSheaf.{u₁, v₁, w} O).cond
+    (TensorPower.whiskerTensorSheafIso (J' := J') O.obj (Tensor.ringSheaf.{u₁, v₁, w} O).property
       e.functor)
     (fun f N => reindexTensorIso_naturality_left J' e O f N)
     (fun M {_ _} g => reindexTensorIso_naturality_right J' e O M g) K L
@@ -104,7 +104,7 @@ theorem reindexModTensorComplexIso_hom_naturality_left {K K' : CochainComplex
     (Tensor.sheafTensor.{u₁, v₁, w} O)
     (Tensor.sheafTensor.{u₂, v₂, w} (reindexCommRingGeneral J' e O))
     (reindexMod J' e O).functor (reindexMod J' e O).functor (reindexMod J' e O).functor
-    (TensorPower.whiskerTensorSheafIso (J' := J') O.val (Tensor.ringSheaf.{u₁, v₁, w} O).cond
+    (TensorPower.whiskerTensorSheafIso (J' := J') O.obj (Tensor.ringSheaf.{u₁, v₁, w} O).property
       e.functor)
     (fun f N => reindexTensorIso_naturality_left J' e O f N)
     (fun M {_ _} g => reindexTensorIso_naturality_right J' e O M g) f L

@@ -82,7 +82,7 @@ private theorem isReduced_tensorProduct_of_isSeparablyGenerated (F : Type u) (K 
     [Field K] [Algebra F K] [Algebra.IsSeparablyGenerated F K] (T : Type w) [CommRing T]
     [Algebra F T] [IsReduced T] : IsReduced (K ⊗[F] T) := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := F) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := F) (K := K)
   have e : FractionRing (MvPolynomial (s : Type v) F) ≃ₐ[F] IntermediateField.adjoin F s :=
     hs.1.aevalEquivField.trans (IntermediateField.equivOfEq (by rw [Subtype.range_coe]))
   have : IsReduced (↥(IntermediateField.adjoin F s) ⊗[F] T) :=
@@ -218,7 +218,7 @@ public lemma isLocalHom_of_isIntegral
     (R S : Type*) [CommRing R] [CommRing S] [IsLocalRing R] [IsLocalRing S]
     [Algebra R S] [Algebra.IsIntegral R S] : IsLocalHom (algebraMap R S) := by
   exact ((IsLocalRing.local_hom_TFAE (algebraMap R S)).out 5 1).mp <|
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) _)
 
 end Stacks.LocalHom
 

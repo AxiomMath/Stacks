@@ -64,13 +64,13 @@ theorem isIso_pi_π_of_isZero {A : Type u} [Category.{v} A] [HasZeroMorphisms A]
   classical
   refine ⟨Pi.lift (fun i => if hi : i = i₀ then eqToHom (by rw [hi]) else 0), ?_, ?_⟩
   · refine Pi.hom_ext _ _ fun i => ?_
-    rw [Category.assoc, Pi.lift_π, Category.id_comp]
+    rw [Category.assoc, Pi.lift_comp_π, Category.id_comp]
     by_cases hi : i = i₀
     · subst hi
       rw [dite_eq_left rfl, eqToHom_refl, Category.comp_id]
     · rw [dite_eq_right hi, comp_zero]
       exact ((h i hi).eq_of_tgt _ _).symm
-  · rw [Pi.lift_π, dite_eq_left rfl, eqToHom_refl]
+  · rw [Pi.lift_comp_π, dite_eq_left rfl, eqToHom_refl]
 
 end CategoryTheory.Limits
 

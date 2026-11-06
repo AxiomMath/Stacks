@@ -499,7 +499,7 @@ private lemma exists_local_parameters_and_differential_basis
         ringKrullDim
             ((Localization.AtPrime S.maximalIdealPreimage) ⧸
               Ideal.span ({algebraMap S.R
-                (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c ∧
+                            (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c ∧
         Ideal.map (algebraMap S.A (Localization.Away f)) S.maximalIdealPreimage =
             Ideal.span ({algebraMap S.R (Localization.Away f) π} : Set _) ⊔
               Ideal.span (Set.range g) ∧
@@ -559,7 +559,7 @@ theorem exists_local_parameters_of_smoothAt
         ringKrullDim
             ((Localization.AtPrime S.maximalIdealPreimage) ⧸
               Ideal.span ({algebraMap S.R
-                (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c ∧
+                            (Localization.AtPrime S.maximalIdealPreimage) π} : Set _)) = c ∧
         Ideal.map (algebraMap S.A (Localization.Away f)) S.maximalIdealPreimage =
             Ideal.span ({algebraMap S.R (Localization.Away f) π} : Set _) ⊔
               Ideal.span (Set.range g) ∧

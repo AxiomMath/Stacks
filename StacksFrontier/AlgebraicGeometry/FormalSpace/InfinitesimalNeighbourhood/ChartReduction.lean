@@ -74,7 +74,7 @@ theorem isSheaf_range_nilStage (hA : IsWeaklyAdmissible A) (D : QuotientSystem B
 private theorem map_comp_mem_subfunctor {C : Type*} [Category C] {F : Cᵒᵖ ⥤ Type*}
     (G : Subfunctor F) {X Y Z : C} (g : X ⟶ Y) (k : Y ⟶ Z) (σ : F.obj (op Z))
     (h : F.map k.op σ ∈ G.obj (op Y)) : F.map (g ≫ k).op σ ∈ G.obj (op X) := by
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
   exact G.map g.op h
 
 /-- Membership in the image of the reduction stage is local. -/
@@ -154,7 +154,7 @@ theorem mem_range_nilStage_of_mapsTo_reduction (hA : IsWeaklyAdmissible A)
   let σ := (e ≫ pullback.snd a f.hom).app (op Ve) (ULift.up (𝟙 Ve))
   have hσ := mem_range_nilStage_of_isReduced hA D hVred σ
   have hw : (uliftYoneda.{u + 1}.obj Ve).map w.op (ULift.up (𝟙 Ve)) = ULift.up w :=
-    ULift.ext _ _ (Category.comp_id w)
+    ULift.ext (Category.comp_id w)
   have h3 : (pullback.snd a f.hom).app (op T2) (e.app (op T2) (ULift.up w)) =
       (formalSpectrum D).obj.map w.op σ := by
     show (e ≫ pullback.snd a f.hom).app (op T2) (ULift.up w) = _
@@ -163,7 +163,7 @@ theorem mem_range_nilStage_of_mapsTo_reduction (hA : IsWeaklyAdmissible A)
       (formalSpectrum D).obj.map w.op σ := by
     calc (formalSpectrum D).obj.map (h2 ≫ h1).op s
         = (formalSpectrum D).obj.map h2.op ((formalSpectrum D).obj.map h1.op s) := by
-          rw [op_comp, FunctorToTypes.map_comp_apply]
+          rw [op_comp, Functor.map_comp_apply]
       _ = (formalSpectrum D).obj.map h2.op ((pullback.snd a f.hom).app (op T1) p) :=
           congrArg _ hp2.symm
       _ = (pullback.snd a f.hom).app (op T2) ((pullback a f.hom).map h2.op p) :=

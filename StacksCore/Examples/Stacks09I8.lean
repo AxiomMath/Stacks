@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Analysis.Complex.IsIntegral
 public import Mathlib.Analysis.Complex.Polynomial.Basic
 public import Mathlib.FieldTheory.Galois.Infinite
 public import Mathlib.FieldTheory.RatFunc.AsPolynomial
@@ -107,7 +108,7 @@ theorem transcendental_pi : Transcendental ℚ π := by
     have := congrArg (algebraMap L ℂ) hz
     rw [map_mul, map_pow, map_intCast, map_sum] at this
     simp only [← aeval_algebraMap_apply] at this
-    exact this.symm
+    exact this
   have hroot (t) (ht : t ∈ Z) : ((∑ i ∈ t, i : L) : ℂ) ∈ f.aroots ℂ := by
     have : aeval (∑ i ∈ t, i) f = 0 := by
       rw [map_prod]

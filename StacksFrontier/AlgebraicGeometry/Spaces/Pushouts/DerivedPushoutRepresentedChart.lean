@@ -64,6 +64,17 @@ universe t₁ t₂ t₃ t₄ w₁ w₂ w₃ w₄ u
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_derivedPushoutRepresentedChart :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_derivedPushoutRepresentedChart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Pushout
 
 variable (B S hS) in
@@ -261,11 +272,17 @@ private theorem isPushout_chartSquare {X X' Y : AlgebraicSpaces B S hS} (i : X �
       (BigFppfOver.toScheme B S hS))) (qm ≫ eP.hom) :=
     MorphismProperty.RespectsIso.postcomp _ eP.hom qm hqmE
   have haX'' : IsPullback (yoneda.map A.a) A.p' (qm ≫ eP.hom) (pushout.inl i f).hom :=
-    haX'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinl)
+    haX'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simpa only [Iso.refl_hom, Category.id_comp] using hinl)
   have hbY'' : IsPullback (yoneda.map A.b) A.q (qm ≫ eP.hom) (pushout.inr i f).hom :=
-    hbYc.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinr)
+    hbYc.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simpa only [Iso.refl_hom, Category.id_comp] using hinr)
   have hback : i.hom ≫ (pushout.inl i f).hom = f.hom ≫ (pushout.inr i f).hom :=
     congrArg (fun φ => φ.hom) (pushout.condition (f := i) (g := f))
   let h := chartToSpace B S hS (pushout i f) W

@@ -233,7 +233,7 @@ theorem allPerf_truncMul_of_graded {D' : Type*} [Category* D'] [Preadditive D']
       DerivedCategory.Q.map (truncMul (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         Z.sheaf) g hM p q hpq)) := by
   let := (canonicalDerivedTensorProduct Z.sheaf).commShift₂
-  induction p, hp using Int.le_induction generalizing q with
+  induction p, hp using Int.leInduction generalizing q with
   | base =>
     refine P₀.allPerf_of_isZero τ _ (Functor.map_isZero _ ?_) (Functor.map_isZero _ ?_)
     · refine (IsZero.iff_id_eq_zero _).2 (HomologicalComplex.hom_ext _ _ fun i => ?_)

@@ -273,11 +273,11 @@ lemma exists_chart_lift {X Y : AlgebraicSpaces B S hS} (f : Y ⟶ X)
         (spacesBaseChange B S hS f).functor.obj ((comparisonFunctor B S hS X).obj U)),
       (spacesEtaleSitePoint y).fiber.map h w =
         (spacesBaseChangeFiberIso B S hS f y).inv.app ((comparisonFunctor B S hS X).obj U) u := by
-  obtain ⟨⟨⟨W, w⟩, _, h⟩⟩ := (Functor.Initial.out (F := smallToSpacesFiberElements B S hS y)
-    (⟨(spacesBaseChange B S hS f).functor.obj ((comparisonFunctor B S hS X).obj U),
-      (spacesBaseChangeFiberIso B S hS f y).inv.app ((comparisonFunctor B S hS X).obj U) u⟩ :
-        (spacesGeometricFiber y).Elements)).is_nonempty
-  exact ⟨W, w, h.1, h.2⟩
+  obtain ⟨⟨e, _, h⟩⟩ := (Functor.Initial.out (F := smallToSpacesFiberElements B S hS y)
+    ((spacesGeometricFiber y).elementsMk
+      ((spacesBaseChange B S hS f).functor.obj ((comparisonFunctor B S hS X).obj U))
+      ((spacesBaseChangeFiberIso B S hS f y).inv.app ((comparisonFunctor B S hS X).obj U) u))).is_nonempty
+  exact ⟨e.obj, e.val, h.hom, h.map_val⟩
 
 /-! ### Geometric module fibres against geometric stalks of abelian sheaves -/
 
@@ -376,6 +376,7 @@ lemma moduleFiberStalkIso_hom_app {R : Type u} [Ring R]
           ((SheafOfModules.toSheaf.{u} (structureRingSheaf B S hS Z)).obj M) :=
   CategoryTheory.Functor.whiskerRightLeftIso_hom_app _ _ M
 
+set_option maxHeartbeats 1600000 in
 /-- The component of `AlgebraicGeometry.Space.moduleFiberStalkIso'`. -/
 lemma moduleFiberStalkIso'_hom_app (M : Modules.{u, u} B S hS Z.1 Z.2) :
     (moduleFiberStalkIso' B S hS Z z).hom.app M =
@@ -574,6 +575,14 @@ end Compat
 /-! ### The identification `ω` of the two direct images, and the unconditional dictionary -/
 
 section Omega
+
+/-- The restriction equivalence of Stacks 03G1 at lifted abelian coefficients, as an instance
+(instance search for it times out). -/
+local instance (priority := high) isEquivalence_comparisonPushforward_dictionary
+    (Y : AlgebraicSpaces B S hS) :
+    ((comparisonFunctor B S hS Y).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SmallEtale.topology B S hS Y.1) (SpacesEtale.topology B S hS Y)).IsEquivalence :=
+  (smallEtaleAbelianSheafComparisonEquiv B S hS Y).isEquivalence_functor
 
 /-- The abelian sheaf on the spaces-étale site underlying an `𝒪_Y`-module, with its coefficients
 lifted, is the inverse of the comparison equivalence of Stacks 03G1 (at `u + 1`) applied to the

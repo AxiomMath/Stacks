@@ -382,6 +382,7 @@ private theorem exists_affine_surjective_localIso_cover
   · exact IsZariskiLocalAtSource.sigmaDesc (P := @IsLocalIso) (fun i =>
       ⟨fun x => ⟨⊤, trivial, inferInstance⟩⟩)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A quasi-compact algebraic space has an affine surjective étale chart which is moreover a local
 isomorphism whenever `X` is representable, by taking the chart to be an affine Zariski cover in
 that case. This is the input for clause (3). -/

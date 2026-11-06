@@ -226,7 +226,7 @@ lemma finiteTypeContinuousModuleDualObj_V (M : FiniteTypeContinuousModule.{u, v,
 `characterRepresentation`. -/
 lemma finiteTypeContinuousModuleDualObj_ρ_hom (M : FiniteTypeContinuousModule.{u, v, w} R G)
     (g : G) :
-    ((finiteTypeContinuousModuleDualObj R G M).obj.obj.obj.ρ g).hom =
+    ((finiteTypeContinuousModuleDualObj R G M).obj.obj.obj.ρ g).asHom.hom =
       characterRepresentation (finiteTypeContinuousModuleRepresentation R G M) g :=
   rfl
 

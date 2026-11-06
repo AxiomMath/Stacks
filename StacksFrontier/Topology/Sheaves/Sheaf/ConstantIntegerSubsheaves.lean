@@ -1209,7 +1209,7 @@ private theorem integer_endomorphism_mono_of_nonzero
   have hmul : a.down * (g (ULift.up (1 : ℤ))).down =
       b.down * (g (ULift.up (1 : ℤ))).down := by
     simpa [zsmul_eq_mul] using congrArg ULift.down hab
-  exact ULift.ext _ _ (mul_right_cancel₀ (fun h => h₁ (ULift.ext _ _ h)) hmul)
+  exact ULift.ext (mul_right_cancel₀ (fun h => h₁ (ULift.ext h)) hmul)
 
 /-- A nonzero morphism between abelian groups isomorphic to `ℤ` is injective. -/
 private theorem mono_of_nonzero_between_integer_stalks

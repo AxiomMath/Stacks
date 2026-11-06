@@ -401,8 +401,9 @@ private lemma tuplePolynomial_coeff_mem_of_canonicalMap_eq_zero
   have hp := hg (hzero.trans (map_zero _).symm)
   intro e
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  have h := congrArg (MvPolynomial.coeff e) hp
-  simpa only [MvPolynomial.coeff_map, MvPolynomial.coeff_zero, ψ, RingHom.comp_apply] using h
+  have h := congrArg (fun p => p.coeff e) hp
+  simpa only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, ψ,
+    RingHom.comp_apply] using h
 
 noncomputable def germInRestriction (X : RingedSpace.{u}) (U : Opens X)
     (x : X) (hxU : x ∈ U) (V : Opens X) (hxV : x ∈ V) :

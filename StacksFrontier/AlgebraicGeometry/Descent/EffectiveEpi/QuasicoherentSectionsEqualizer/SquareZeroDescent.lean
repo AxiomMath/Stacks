@@ -657,13 +657,8 @@ private theorem isUniversalEffectiveEpiFamily_spec_algebraMap
       (fun i => AffineScheme.Spec.map
         (CommRingCat.ofHom (algebraMap Γ(X.obj, ⊤) Γ((U i).obj, ⊤))).op) := by
   convert isUniversalEffectiveEpiFamily_spec X U f h using 1
-  · exact congrArg (fun z : CommRingCat.{u} => AffineScheme.Spec.obj (op z))
-      (CommRingCat.of_carrier Γ(X.obj, ⊤))
-  · funext i
-    exact congrArg (fun z : CommRingCat.{u} => AffineScheme.Spec.obj (op z))
-      (CommRingCat.of_carrier Γ((U i).obj, ⊤))
-  · funext i
-    rfl
+  funext i
+  rfl
 
 theorem tensor_eq_zero_of_universalEffectiveEpiFamily_affine
     {I : Type w} (X : AffineScheme.{u}) (U : I → AffineScheme.{u})

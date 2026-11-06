@@ -61,7 +61,7 @@ def liftSieve {T : C} (y : Y.obj (op T)) : Sieve T where
   downward_closed := by
     rintro V W k ⟨i, z, hz⟩ g
     refine ⟨i, (Yi i).map g.op z, ?_⟩
-    rw [NatTrans.naturality_apply, hz, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [NatTrans.naturality_apply, hz, ← Functor.map_comp_apply, ← op_comp]
 
 /-- A family of morphisms of presheaves `b i : Yi i ⟶ Y` **lifts sections locally** for `J` when
 every section of `Y` is, along the arrows of a covering sieve, the image of a section of some
@@ -105,7 +105,7 @@ theorem localFamily_compatible {T : C} (y : Y.obj (op T)) :
   rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply]
   apply hψ
   rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h₁.choose_spec.choose_spec,
-    h₂.choose_spec.choose_spec, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
+    h₂.choose_spec.choose_spec, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
     ← op_comp, ← op_comp, hcomm]
 
 variable (hb : LiftsSectionsLocally b J) (hE : Presieve.IsSheaf J E)
@@ -129,13 +129,13 @@ noncomputable def glueSections : Y ⟶ E where
     refine (hE _ (hb T'.unop (Y.map h y))).isSeparatedFor.ext fun V k hk => ?_
     obtain ⟨i, z, hz⟩ := hk
     have hk' : (liftSieve b y).arrows (k ≫ h.unop) :=
-      ⟨i, z, by rw [hz, op_comp, FunctorToTypes.map_comp_apply]; rfl⟩
+      ⟨i, z, by rw [hz, op_comp, Functor.map_comp_apply]; rfl⟩
     refine (map_glueSectionsAt ψ hψ hb hE _ ⟨i, z, hz⟩).trans
       ((localFamily_eq ψ hψ ⟨i, z, hz⟩ i z hz).trans ?_)
-    rw [← FunctorToTypes.map_comp_apply, show h ≫ k.op = (k ≫ h.unop).op from rfl,
+    rw [← Functor.map_comp_apply, show h ≫ k.op = (k ≫ h.unop).op from rfl,
       map_glueSectionsAt ψ hψ hb hE _ hk']
     exact (localFamily_eq ψ hψ hk' i z
-      (by rw [hz, op_comp, FunctorToTypes.map_comp_apply]; rfl)).symm
+      (by rw [hz, op_comp, Functor.map_comp_apply]; rfl)).symm
 
 /-- The glued morphism restricts to `ψ i` along `b i`. -/
 theorem comp_glueSections (i : ι) : b i ≫ glueSections ψ hψ hb hE = ψ i := by

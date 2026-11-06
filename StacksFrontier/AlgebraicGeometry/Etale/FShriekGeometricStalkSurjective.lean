@@ -743,10 +743,10 @@ in `Y`. -/
 def compNeighborhood
     (N : (geometricPointFiber B Y₀.obj Y₀.property (liftedGeometricPoint B y y₀)).Elements) :
     (geometricPointFiber B Y.obj Y.property y).Elements :=
-  ⟨(openPostcompose B i₀).obj N.1, ⟨N.2.1, by
-    change N.2.1 ≫ B.inclusion.map (N.1.obj.hom ≫ i₀) = y.hom
-    rw [Functor.map_comp, ← Category.assoc, N.2.2]
-    exact hy₀⟩⟩
+  Functor.elementsMk _ ((openPostcompose B i₀).obj N.obj) ⟨N.val.1, by
+    change N.val.1 ≫ B.inclusion.map (N.obj.obj.hom ≫ i₀) = y.hom
+    rw [Functor.map_comp, ← Category.assoc, N.val.2]
+    exact hy₀⟩
 
 include hf' in
 /-- The two base changes of an étale neighbourhood `N` of the lift of `ȳ` to `Y₀`: along

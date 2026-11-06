@@ -233,11 +233,11 @@ public theorem LAdicSheaf.stalkEnd_comp_stalkMap {F G : LAdicSheaf B X ℓ} (φ 
 on its stalk. -/
 public def LAdicSheaf.stalkEndRingHom (F : LAdicSheaf B X ℓ) (s : GeometricPoint X.1) :
     End F →+* Module.End (PadicInt ℓ) (LAdicSheaf.stalk B X ℓ F s) where
-  toFun φ := LAdicSheaf.stalkMap φ s
+  toFun φ := LAdicSheaf.stalkMap φ.asHom s
   map_one' := LAdicSheaf.stalkMap_id F s
-  map_mul' φ ψ := LAdicSheaf.stalkMap_comp ψ φ s
+  map_mul' φ ψ := LAdicSheaf.stalkMap_comp ψ.asHom φ.asHom s
   map_zero' := LAdicSheaf.stalkMap_zero F F s
-  map_add' φ ψ := LAdicSheaf.stalkMap_add φ ψ s
+  map_add' φ ψ := LAdicSheaf.stalkMap_add φ.asHom ψ.asHom s
 
 /-! ### The rational stalk -/
 
@@ -260,20 +260,20 @@ public theorem LAdicSheaf.rationalStalkEnd_comp_rationalStalkMap {F G : LAdicShe
 /-- The ring homomorphism `End F → End_{ℚ_ℓ}(ℚ_ℓ ⊗ F_x̄)`. -/
 public def LAdicSheaf.rationalStalkEndRingHom (F : LAdicSheaf B X ℓ) (s : GeometricPoint X.1) :
     End F →+* Module.End (Padic ℓ) (LAdicSheaf.rationalStalkLeft B X ℓ F s) where
-  toFun φ := LAdicSheaf.rationalStalkMap φ s
+  toFun φ := LAdicSheaf.rationalStalkMap φ.asHom s
   map_one' := by
     change LinearMap.baseChange _ (LAdicSheaf.stalkMap (𝟙 F) s) = _
     rw [LAdicSheaf.stalkMap_id, LinearMap.baseChange_id]
     rfl
   map_mul' φ ψ := by
-    change LinearMap.baseChange _ (LAdicSheaf.stalkMap (ψ ≫ φ) s) = _
+    change LinearMap.baseChange _ (LAdicSheaf.stalkMap (ψ.asHom ≫ φ.asHom) s) = _
     rw [LAdicSheaf.stalkMap_comp, LinearMap.baseChange_comp]
     rfl
   map_zero' := by
     change LinearMap.baseChange _ (LAdicSheaf.stalkMap (0 : F ⟶ F) s) = _
     rw [LAdicSheaf.stalkMap_zero, LinearMap.baseChange_zero]
   map_add' φ ψ := by
-    change LinearMap.baseChange _ (LAdicSheaf.stalkMap (φ + ψ) s) = _
+    change LinearMap.baseChange _ (LAdicSheaf.stalkMap (φ.asHom + ψ.asHom) s) = _
     rw [LAdicSheaf.stalkMap_add, LinearMap.baseChange_add]
     rfl
 

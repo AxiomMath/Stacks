@@ -83,11 +83,11 @@ variable {C : Type uC} [Category.{vC} C] {X : Type uX} [Category.{vX} X]
 /-- A 1-morphism over the base *reflects* verticality: an automorphism whose image lies over an
 identity lies over an identity itself, because the structure functors determine each other. -/
 lemma mem_verticalAut_of_map_mem (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a : X} (α : Aut a)
-    (h : pY.map (F.map α.hom) = 𝟙 (pY.obj (F.obj a))) : α ∈ pX.verticalAut a := by
-  have hc : pY.map (F.map α.hom) = eqToHom (Functor.congr_obj hF a) ≫ pX.map α.hom ≫
-      eqToHom (Functor.congr_obj hF a).symm := by simpa using Functor.congr_hom hF α.hom
-  have hm : eqToHom (Functor.congr_obj hF a).symm ≫ pY.map (F.map α.hom) ≫
-      eqToHom (Functor.congr_obj hF a) = pX.map α.hom := by simp [hc]
+    (h : pY.map (F.map α.asIso.hom) = 𝟙 (pY.obj (F.obj a))) : α ∈ pX.verticalAut a := by
+  have hc : pY.map (F.map α.asIso.hom) = eqToHom (Functor.congr_obj hF a) ≫ pX.map α.asIso.hom ≫
+      eqToHom (Functor.congr_obj hF a).symm := by simpa using Functor.congr_hom hF α.asIso.hom
+  have hm : eqToHom (Functor.congr_obj hF a).symm ≫ pY.map (F.map α.asIso.hom) ≫
+      eqToHom (Functor.congr_obj hF a) = pX.map α.asIso.hom := by simp [hc]
   rw [mem_verticalAut_iff, ← hm, h]
   simp
 
@@ -95,10 +95,11 @@ lemma mem_verticalAut_of_map_mem (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a : X} (α 
 groups: it is bijective on automorphisms, and verticality is reflected. -/
 theorem bijective_verticalAutMap_of_fullyFaithful (F : X ⥤ Y) (hF : F ⋙ pY = pX)
     (h : F.FullyFaithful) (a : X) : Function.Bijective (verticalAutMap F hF a) := by
-  refine ⟨fun α β hab => Subtype.ext (Aut.ext (h.map_injective (congrArg (fun z => z.1.hom) hab))),
+  refine ⟨fun α β hab => Subtype.ext (Aut.ext (Iso.ext (h.map_injective (congrArg (fun z => z.1.asIso.hom) hab)))),
     fun β => ?_⟩
-  have hpre : F.map (h.preimageIso β.1).hom = β.1.hom := h.map_preimage _
-  refine ⟨⟨h.preimageIso β.1, mem_verticalAut_of_map_mem F hF _ ?_⟩, Subtype.ext (Aut.ext hpre)⟩
+  have hpre : F.map (h.preimageIso β.1.asIso).hom = β.1.asIso.hom := h.map_preimage _
+  refine ⟨⟨.of (h.preimageIso β.1.asIso), mem_verticalAut_of_map_mem F hF _ ?_⟩,
+    Subtype.ext (Aut.ext (Iso.ext hpre))⟩
   rw [hpre]
   exact verticalAut.cond β
 
@@ -139,35 +140,35 @@ private theorem exists_aut_fst_eq (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p𝒮 =
     (h : Function.Surjective (Functor.verticalAutMap G hG P.y))
     (α : Aut P.x) (hα : α ∈ p𝒳.verticalAut P.x) :
     ∃ Φ : Aut P, Φ ∈ (structureFunctor p𝒳 p𝒴 p𝒮 F G).verticalAut P ∧
-      (fst p𝒳 p𝒴 p𝒮 F G).map Φ.hom = α.hom := by
-  have hαc : p𝒳.map α.hom = 𝟙 (p𝒳.obj P.x) := (Functor.mem_verticalAut_iff p𝒳 α).mp hα
-  have hFα : p𝒮.map (F.map α.hom) = 𝟙 (p𝒮.obj (F.obj P.x)) :=
+      (fst p𝒳 p𝒴 p𝒮 F G).map Φ.asIso.hom = α.asIso.hom := by
+  have hαc : p𝒳.map α.asIso.hom = 𝟙 (p𝒳.obj P.x) := (Functor.mem_verticalAut_iff p𝒳 α).mp hα
+  have hFα : p𝒮.map (F.map α.asIso.hom) = 𝟙 (p𝒮.obj (F.obj P.x)) :=
     Functor.verticalAut.cond (Functor.verticalAutMap F hF P.x ⟨α, hα⟩)
-  have hγ : (P.iso.symm ≪≫ F.mapIso α ≪≫ P.iso : Aut (G.obj P.y)) ∈
+  have hγ : (Aut.of (P.iso.symm ≪≫ F.mapIso α.asIso ≪≫ P.iso) : Aut (G.obj P.y)) ∈
       p𝒮.verticalAut (G.obj P.y) :=
     (Functor.mem_verticalAut_iff p𝒮 _).mpr (by
-      show p𝒮.map (P.iso.inv ≫ F.map α.hom ≫ P.iso.hom) = _
+      show p𝒮.map (P.iso.inv ≫ F.map α.asIso.hom ≫ P.iso.hom) = _
       rw [p𝒮.map_comp, p𝒮.map_comp, hFα, Category.id_comp]
       exact (p𝒮.mapIso P.iso).inv_hom_id)
   obtain ⟨⟨β, hβmem⟩, hβ⟩ := h ⟨_, hγ⟩
-  have hβ' : G.map β.hom = P.iso.inv ≫ F.map α.hom ≫ P.iso.hom :=
-    congrArg (fun z => z.1.hom) hβ
-  have hbase : eqToHom P.hy.symm ≫ p𝒴.map β.hom ≫ eqToHom P.hy =
-      eqToHom P.hx.symm ≫ p𝒳.map α.hom ≫ eqToHom P.hx := by
+  have hβ' : G.map β.asIso.hom = P.iso.inv ≫ F.map α.asIso.hom ≫ P.iso.hom :=
+    congrArg (fun z => z.1.asIso.hom) hβ
+  have hbase : eqToHom P.hy.symm ≫ p𝒴.map β.asIso.hom ≫ eqToHom P.hy =
+      eqToHom P.hx.symm ≫ p𝒳.map α.asIso.hom ≫ eqToHom P.hx := by
     rw [hαc, (Functor.mem_verticalAut_iff p𝒴 β).mp hβmem]
     simp
-  have hw : F.map α.hom ≫ P.iso.hom = P.iso.hom ≫ G.map β.hom := by
+  have hw : F.map α.asIso.hom ≫ P.iso.hom = P.iso.hom ≫ G.map β.asIso.hom := by
     rw [hβ', Iso.hom_inv_id_assoc]
-  have hiso : @IsIso _ _ P P (Hom.mk' α.hom β.hom hbase hw) := by
+  have hiso : @IsIso _ _ P P (Hom.mk' α.asIso.hom β.asIso.hom hbase hw) := by
     refine isIso_of_isIso_components p𝒳 p𝒴 p𝒮 F G
-      (Hom.mk' α.hom β.hom hbase hw) ?_ ?_
+      (Hom.mk' α.asIso.hom β.asIso.hom hbase hw) ?_ ?_
     · rw [Hom.mk'_a]
-      exact Iso.isIso_hom α
+      exact Iso.isIso_hom α.asIso
     · rw [Hom.mk'_b]
-      exact Iso.isIso_hom β
-  refine ⟨@asIso _ _ P P (Hom.mk' α.hom β.hom hbase hw) hiso, ?_, rfl⟩
+      exact Iso.isIso_hom β.asIso
+  refine ⟨.of (@asIso _ _ P P (Hom.mk' α.asIso.hom β.asIso.hom hbase hw) hiso), ?_, rfl⟩
   refine (Functor.mem_verticalAut_iff _ _).mpr ?_
-  show (Hom.mk' α.hom β.hom hbase hw).hbase = 𝟙 P.base
+  show (Hom.mk' α.asIso.hom β.asIso.hom hbase hw).hbase = 𝟙 P.base
   rw [Hom.mk'_hbase, hαc]
   simp
 
@@ -184,19 +185,19 @@ theorem bijective_verticalAutMap_fst (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p�
     Function.Bijective (Functor.verticalAutMap (fst p𝒳 p𝒴 p𝒮 F G) fst_comp_eq P) := by
   constructor
   · rintro ⟨Φ, hΦ⟩ ⟨Ψ, hΨ⟩ hΦΨ
-    have ha : Φ.hom.a = Ψ.hom.a := congrArg (fun z => z.1.hom) hΦΨ
-    have hGb : G.map Φ.hom.b = G.map Ψ.hom.b := by
+    have ha : Φ.asIso.hom.a = Ψ.asIso.hom.a := congrArg (fun z => z.1.asIso.hom) hΦΨ
+    have hGb : G.map Φ.asIso.hom.b = G.map Ψ.asIso.hom.b := by
       refine (cancel_epi P.iso.hom).1 ?_
-      rw [← Φ.hom.w, ← Ψ.hom.w, ha]
+      rw [← Φ.asIso.hom.w, ← Ψ.asIso.hom.w, ha]
     have key : Functor.verticalAutMap G hG P.y
           (Functor.verticalAutMap (snd p𝒳 p𝒴 p𝒮 F G) snd_comp_eq P ⟨Φ, hΦ⟩) =
         Functor.verticalAutMap G hG P.y
           (Functor.verticalAutMap (snd p𝒳 p𝒴 p𝒮 F G) snd_comp_eq P ⟨Ψ, hΨ⟩) :=
-      Subtype.ext (Aut.ext hGb)
-    exact Subtype.ext (Aut.ext (Hom.ext' ha (congrArg (fun z => z.1.hom) (h.1 key))))
+      Subtype.ext (Aut.ext (Iso.ext hGb))
+    exact Subtype.ext (Aut.ext (Iso.ext (Hom.ext' ha (congrArg (fun z => z.1.asIso.hom) (h.1 key)))))
   · intro α
     obtain ⟨Φ, hΦmem, hΦa⟩ := exists_aut_fst_eq hF hG P h.2 α.1 α.2
-    exact ⟨⟨Φ, hΦmem⟩, Subtype.ext (Aut.ext hΦa)⟩
+    exact ⟨⟨Φ, hΦmem⟩, Subtype.ext (Aut.ext (Iso.ext hΦa))⟩
 
 end CategoryTheory.TwoFibreProductOver
 

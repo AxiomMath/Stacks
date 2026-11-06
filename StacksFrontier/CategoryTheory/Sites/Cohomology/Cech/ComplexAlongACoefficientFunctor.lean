@@ -70,7 +70,7 @@ public def sliceCechComplexCompCoefficientsIso (G : (Over X)ᵒᵖ ⥤ A) :
       fun _ ↦ Pi.hom_ext _ _ fun _ ↦ by
         dsimp only [Functor.comp_map, Functor.comp_obj, FormalCoproduct.evalOp]
         simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π,
-          Pi.lift_π, piComparison_comp_π_assoc, ← Φ.map_comp]
+          Pi.lift_comp_π, piComparison_comp_π_assoc, ← Φ.map_comp]
   let e : T ⋙ Φ ≅ (cechSimplicialObject E).rightOp ⋙
       (FormalCoproduct.evalOp.{w} (Over X) A').obj (G ⋙ Φ) :=
     Functor.isoWhiskerLeft (cechSimplicialObject E).rightOp e₀

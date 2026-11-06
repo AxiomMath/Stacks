@@ -122,19 +122,29 @@ lemma quasiIso_mapHomologicalComplex_of_rightAcyclic_resolution (G : A ⥤ B) [G
   let a : (HomotopyCategory.Plus.singleFunctor A 0).obj M ⟶ Y :=
     ObjectProperty.homMk ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map φ)
   have hYinj : ∀ i : ℤ, Injective (Y.obj.as.X i) := hinj
-  have h1 : IsIso (G.rightDerivedFunctorPlusUnit.app
+  have h1 : IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
     ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) := hM
-  have h2 : IsIso (G.rightDerivedFunctorPlusUnit.app Y) := inferInstance
+  have h2 : IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app Y) := inferInstance
   have h3 : IsIso (DerivedCategory.Plus.Qh.map a) := isIso_plusQh_map_homMk_quotient_map φ _ _
-  have h4 : IsIso ((DerivedCategory.Plus.Qh ⋙ G.rightDerivedFunctorPlus).map a) := by
-    show IsIso (G.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map a))
+  have h4 : IsIso ((DerivedCategory.Plus.Qh ⋙
+      (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).map a) := by
+    show IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).map
+        (DerivedCategory.Plus.Qh.map a))
     infer_instance
   have h5 : IsIso ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map a) := by
     have hcomp : IsIso ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map a ≫
-        G.rightDerivedFunctorPlusUnit.app Y) := by
-      rw [G.rightDerivedFunctorPlusUnit.naturality a]
+        ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app Y) := by
+      rw [((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).naturality a]
       infer_instance
-    exact IsIso.of_isIso_comp_right _ (G.rightDerivedFunctorPlusUnit.app Y)
+    exact IsIso.of_isIso_comp_right _
+      (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app Y)
   rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
   refine (NatIso.isIso_map_iff
     (Functor.isoWhiskerRight (G.mapHomotopyCategoryFactors (ComplexShape.up ℤ))

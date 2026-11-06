@@ -147,7 +147,7 @@ theorem isLocalHom_algebraMap_of_isIntegral {A B : Type*} [CommRing A] [CommRing
   have hcomap : (IsLocalRing.maximalIdeal B).comap (algebraMap A B)
       = IsLocalRing.maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (IsLocalRing.maximalIdeal B))
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (IsLocalRing.maximalIdeal B))
   refine ⟨fun a ha => IsLocalRing.notMem_maximalIdeal.mp ?_⟩
   rw [← hcomap]
   exact fun hmem => IsLocalRing.notMem_maximalIdeal.mpr ha (Ideal.mem_comap.mp hmem)

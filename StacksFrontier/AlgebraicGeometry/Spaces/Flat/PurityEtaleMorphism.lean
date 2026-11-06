@@ -209,6 +209,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instances (file-unique names). -/
+local instance (priority := high) hasPullbacks_presheaf_PurityEtaleMorphism :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_PurityEtaleMorphism
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- The morphism `f : X ⟶ Y` of a pre-pure situation, read as a morphism in the category of
 algebraic spaces over `S`. This is the morphism along which the relative weak assassin
 `WeakAss_{X/Y}(ℱ)` of Stacks 0CV0 is taken. -/

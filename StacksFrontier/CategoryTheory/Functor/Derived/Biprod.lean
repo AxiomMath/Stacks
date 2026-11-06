@@ -674,7 +674,6 @@ private noncomputable def mapInrOp (F : C ⥤ H) {W : MorphismProperty C} (hW : 
 private lemma mapFstOp_comp_mapInlOp (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapFstOp F hW X Y ≫ mapInlOp F hW X Y = 𝟙 _ := by
   ext p
-  refine Quiver.Hom.unop_inj ?_
   show F.map (biprod.inl : p.unop.1.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
       F.map (biprod.fst : p.unop.1.left ⊞ p.unop.2.left ⟶ p.unop.1.left) = 𝟙 _
   rw [← F.map_comp, biprod.inl_fst, F.map_id]
@@ -682,7 +681,6 @@ private lemma mapFstOp_comp_mapInlOp (F : C ⥤ H) {W : MorphismProperty C} (hW 
 private lemma mapSndOp_comp_mapInrOp (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapSndOp F hW X Y ≫ mapInrOp F hW X Y = 𝟙 _ := by
   ext p
-  refine Quiver.Hom.unop_inj ?_
   show F.map (biprod.inr : p.unop.2.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
       F.map (biprod.snd : p.unop.1.left ⊞ p.unop.2.left ⟶ p.unop.2.left) = 𝟙 _
   rw [← F.map_comp, biprod.inr_snd, F.map_id]

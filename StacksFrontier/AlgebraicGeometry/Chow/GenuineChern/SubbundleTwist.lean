@@ -45,7 +45,8 @@ theorem bundleEmbedding_comp_toBase :
   (bundleEmbedding_comp_bundleProj g).trans (Category.comp_id _).symm
 
 /-- The composite of the identification `(𝟙 X)^*𝒢 ≅ 𝒢` with `g` is an epimorphism. -/
-instance : Epi ((Scheme.Modules.pullbackId X).hom.app G ≫ g) := epi_comp _ _
+instance : Epi ((Scheme.Modules.pullbackId X).hom.app G ≫ g) :=
+  @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso (((Scheme.Modules.pullbackId X).app G).hom)) _ ‹_›
 
 /-- On affine charts, `bundleEmbedding g` is the morphism of `Proj`s induced by a morphism of
 graded section algebras sending the degree-one generator of a section of `𝒢` to the degree-one

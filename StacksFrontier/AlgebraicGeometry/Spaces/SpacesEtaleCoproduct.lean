@@ -467,6 +467,16 @@ noncomputable def freeAbelianRepresentableSheaf :
   yoneda ⋙ (Functor.whiskeringRight _ _ _).obj AddCommGrpCat.free ⋙
     presheafToSheaf (topology B S hS X) _
 
+/-- Restriction of abelian sheaves to a slice of the spaces-étale site has a left adjoint,
+built from left Kan extension and sheafification; instance search does not find the
+universally quantified Kan extension hypothesis on its own. -/
+instance isRightAdjoint_sheafPushforwardContinuous_forget (U : SpacesEtale B S hS X) :
+    ((Over.forget U).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      ((topology B S hS X).over U) (topology B S hS X)).IsRightAdjoint :=
+  haveI : ∀ F : (Over U)ᵒᵖ ⥤ AddCommGrpCat.{u + 1}, (Over.forget U).op.HasLeftKanExtension F :=
+    fun _ => inferInstance
+  (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
+
 /-- Extension by zero of abelian sheaves on the spaces-étale site of `X`: the left adjoint
 to restriction along the forgetful functor from the slice site. -/
 noncomputable abbrev extensionByZero (U : SpacesEtale B S hS X) :=

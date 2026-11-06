@@ -167,8 +167,12 @@ private lemma exists_comp_self_eq_self_of_error_comp_self_eq_zero {X Y Z : C} (f
     (hg : g ≫ c = b ≫ g) (ha : a ≫ a = a) (hc : c ≫ c = c)
     (he : (b ≫ b - b) ≫ (b ≫ b - b) = 0) :
     ∃ q : Y ⟶ Y, q ≫ q = q ∧ f ≫ q = a ≫ f ∧ g ≫ c = q ≫ g := by
-  refine ⟨𝟙 Y - (𝟙 Y - b ≫ b) ≫ (𝟙 Y - b ≫ b),
-    isIdempotentElem_one_sub_one_sub_mul_self_mul_self (R := End Y) he, ?_, ?_⟩
+  have hq : (𝟙 Y - (𝟙 Y - b ≫ b) ≫ (𝟙 Y - b ≫ b)) ≫ (𝟙 Y - (𝟙 Y - b ≫ b) ≫ (𝟙 Y - b ≫ b)) =
+      𝟙 Y - (𝟙 Y - b ≫ b) ≫ (𝟙 Y - b ≫ b) := by
+    have h := isIdempotentElem_one_sub_one_sub_mul_self_mul_self (R := End Y) (x := End.of b)
+      (by ext; simpa using he)
+    simpa using congr(($h).asHom)
+  refine ⟨𝟙 Y - (𝟙 Y - b ≫ b) ≫ (𝟙 Y - b ≫ b), hq, ?_, ?_⟩
   · simp only [comp_sub, sub_comp, Category.comp_id, Category.id_comp, ← Category.assoc,
       comp_comp_self hf ha]
     rw [hf]
@@ -932,7 +936,7 @@ noncomputable def productTriangle_retract
     · simp only [comp_hom₁, comp_hom₂, comp_hom₃, id_hom₁, id_hom₂, id_hom₃,
         productTriangle.lift_hom₁, productTriangle.lift_hom₂, productTriangle.lift_hom₃,
         productTriangle.π_hom₁, productTriangle.π_hom₂, productTriangle.π_hom₃]
-      rw [Pi.lift_π, dite_eq_left rfl]
+      rw [Pi.lift_comp_π, dite_eq_left rfl]
       simp
 
 /-- The direct sum of two triangles is distinguished if and only if both summand triangles are

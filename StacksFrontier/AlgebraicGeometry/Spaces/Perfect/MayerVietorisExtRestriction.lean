@@ -123,36 +123,10 @@ theorem Functor.mapDerivedCategoryComp_inv_app_Q (F : C₁ ⥤ C₂) (G : C₂ �
 image of the localization. -/
 theorem Functor.mapDerivedCategoryIdIso_hom_app_Q (K : CochainComplex C₁ ℤ) :
     (𝟭 C₁).mapDerivedCategoryFactors.inv.app K ≫
-        Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj K) =
+        (Functor.mapDerivedCategoryIdIso _).hom.app (DerivedCategory.Q.obj K) =
       DerivedCategory.Q.map
         ((Functor.mapHomologicalComplexIdIso C₁ (ComplexShape.up ℤ)).hom.app K) := by
-  have hQh : Functor.mapDerivedCategoryIdIso.hom.app
-      (DerivedCategory.Qh.obj ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K)) =
-      (𝟭 C₁).mapDerivedCategoryFactorsh.hom.app
-          ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K) ≫
-        DerivedCategory.Qh.map ((Functor.mapHomotopyCategoryIdIso C₁
-          (ComplexShape.up ℤ)).hom.app
-            ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K)) := by
-    simp [Functor.mapDerivedCategoryIdIso]
-  have hnat := (Functor.mapDerivedCategoryIdIso (C := C₁)).hom.naturality
-    ((DerivedCategory.quotientCompQhIso C₁).hom.app K)
-  dsimp only [Functor.comp_obj, Functor.id_obj, Functor.id_map] at hnat
-  rw [hQh, (𝟭 C₁).mapDerivedCategoryFactorsh_hom_app K] at hnat
-  simp only [Category.assoc] at hnat
-  have hcancel := (cancel_epi ((𝟭 C₁).mapDerivedCategory.map
-    ((DerivedCategory.quotientCompQhIso C₁).hom.app K))).1 hnat
-  have hkey : ((𝟭 C₁).mapHomotopyCategoryFactors (ComplexShape.up ℤ)).inv.app K ≫
-      (Functor.mapHomotopyCategoryIdIso C₁ (ComplexShape.up ℤ)).hom.app
-        ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K) =
-      (HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).map
-        ((Functor.mapHomologicalComplexIdIso C₁ (ComplexShape.up ℤ)).hom.app K) :=
-    Category.id_comp _
-  have hnat₂ := (DerivedCategory.quotientCompQhIso C₁).hom.naturality
-    ((Functor.mapHomologicalComplexIdIso C₁ (ComplexShape.up ℤ)).hom.app K)
-  dsimp only [Functor.comp_map, Functor.id_obj] at hnat₂
-  rw [hcancel, Iso.inv_hom_id_app_assoc,
-    ← Category.assoc (DerivedCategory.Qh.map _) (DerivedCategory.Qh.map _),
-    ← Functor.map_comp, hkey, hnat₂, Iso.inv_hom_id_app_assoc]
+  rw [Functor.mapDerivedCategoryIdIso_hom_app, Iso.inv_hom_id_app_assoc]
 
 end Comparisons
 
@@ -181,7 +155,7 @@ derived adjunction.** -/
 theorem Adjunction.mapDerivedCategory_counit_eq (adj : L ⊣ R) :
     (Functor.mapDerivedCategoryComp R L).inv ≫
         NatTrans.mapDerivedCategory adj.counit ≫
-        Functor.mapDerivedCategoryIdIso.hom =
+        (Functor.mapDerivedCategoryIdIso _).hom =
       (Adjunction.mapDerivedCategory adj).counit := by
   refine Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso D (ComplexShape.up ℤ)) fun K => ?_
@@ -209,7 +183,7 @@ comparison of the derived functor of the identity. -/
 theorem Adjunction.derivedCounit_app (adj : L ⊣ R) (E : DerivedCategory D) :
     (Functor.mapDerivedCategoryComp R L).inv.app E ≫
         (NatTrans.mapDerivedCategory adj.counit).app E ≫
-        Functor.mapDerivedCategoryIdIso.hom.app E =
+        (Functor.mapDerivedCategoryIdIso _).hom.app E =
       (Adjunction.mapDerivedCategory adj).counit.app E := by
   simpa only [NatTrans.comp_app] using
     NatTrans.congr_app (Adjunction.mapDerivedCategory_counit_eq adj) E
@@ -221,7 +195,7 @@ theorem Adjunction.shiftedHomMapDerivedCategoryEquiv_derivedCounit (adj : L ⊣ 
     adj.shiftedHomMapDerivedCategoryEquiv (R.mapDerivedCategory.obj E) F n
         ((Functor.mapDerivedCategoryComp R L).inv.app E ≫
           (NatTrans.mapDerivedCategory adj.counit).app E ≫
-          Functor.mapDerivedCategoryIdIso.hom.app E ≫ x) =
+          (Functor.mapDerivedCategoryIdIso _).hom.app E ≫ x) =
       ShiftedHom.map x R.mapDerivedCategory := by
   have h := adj.shiftedHomMapDerivedCategoryEquiv_counit E F n x
   rwa [← Adjunction.derivedCounit_app adj E, Category.assoc, Category.assoc] at h
@@ -233,7 +207,7 @@ theorem Adjunction.shiftedHomMapDerivedCategoryEquiv_symm_map (adj : L ⊣ R)
         (ShiftedHom.map x R.mapDerivedCategory) =
       (Functor.mapDerivedCategoryComp R L).inv.app E ≫
         (NatTrans.mapDerivedCategory adj.counit).app E ≫
-        Functor.mapDerivedCategoryIdIso.hom.app E ≫ x :=
+        (Functor.mapDerivedCategoryIdIso _).hom.app E ≫ x :=
   (AddEquiv.symm_apply_eq _).2
     (adj.shiftedHomMapDerivedCategoryEquiv_derivedCounit E F n x).symm
 
@@ -258,10 +232,10 @@ theorem derivedComparison_comp_derivedCounit (adj : L ⊣ R) (adjP : LP ⊣ RP)
           (Functor.mapDerivedCategoryComp R L).hom) ≫
         ((Functor.mapDerivedCategoryComp R L).inv ≫
           NatTrans.mapDerivedCategory adj.counit ≫
-          Functor.mapDerivedCategoryIdIso.hom) =
+          (Functor.mapDerivedCategoryIdIso _).hom) =
       (Functor.mapDerivedCategoryComp RP LP).inv ≫
         NatTrans.mapDerivedCategory adjP.counit ≫
-        Functor.mapDerivedCategoryIdIso.hom := by
+        (Functor.mapDerivedCategoryIdIso _).hom := by
   rw [← hc, NatTrans.mapDerivedCategory_comp]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
 
@@ -326,10 +300,10 @@ private theorem shiftedHomRestriction_eq_restrictions (adjU : shriekU ⊣ rU) (a
     shiftedHomRestriction
         ((Functor.mapDerivedCategoryComp rU shriekU).inv.app E ≫
           (NatTrans.mapDerivedCategory adjU.counit).app E ≫
-          Functor.mapDerivedCategoryIdIso.hom.app E)
+          (Functor.mapDerivedCategoryIdIso _).hom.app E)
         ((Functor.mapDerivedCategoryComp rV shriekV).inv.app E ≫
           (NatTrans.mapDerivedCategory adjV.counit).app E ≫
-          Functor.mapDerivedCategoryIdIso.hom.app E) F n x =
+          (Functor.mapDerivedCategoryIdIso _).hom.app E) F n x =
       ((adjU.shiftedHomMapDerivedCategoryEquiv (rU.mapDerivedCategory.obj E) F n).symm
           (ShiftedHom.map x rU.mapDerivedCategory),
         (adjV.shiftedHomMapDerivedCategoryEquiv (rV.mapDerivedCategory.obj E) F n).symm
@@ -415,10 +389,10 @@ def mayerVietorisShiftedHomBoundary (adjU : shriekU ⊣ rU) (adjV : shriekV ⊣ 
         (Functor.mapDerivedCategoryComp rV shriekV).hom.app E))
       ((Functor.mapDerivedCategoryComp rU shriekU).inv.app E ≫
         (NatTrans.mapDerivedCategory adjU.counit).app E ≫
-        Functor.mapDerivedCategoryIdIso.hom.app E)
+        (Functor.mapDerivedCategoryIdIso _).hom.app E)
       ((Functor.mapDerivedCategoryComp rV shriekV).inv.app E ≫
         (NatTrans.mapDerivedCategory adjV.counit).app E ≫
-        Functor.mapDerivedCategoryIdIso.hom.app E) δ F n (n + 1) rfl).comp
+        (Functor.mapDerivedCategoryIdIso _).hom.app E) δ F n (n + 1) rfl).comp
     (adjP.shiftedHomMapDerivedCategoryEquiv
       (rP.mapDerivedCategory.obj E) F n).symm.toAddMonoidHom
 
@@ -457,10 +431,10 @@ theorem mayerVietoris_shiftedHom_longExactSequence_restrictions
         (biprod.desc
           ((Functor.mapDerivedCategoryComp rU shriekU).inv.app E ≫
             (NatTrans.mapDerivedCategory adjU.counit).app E ≫
-            Functor.mapDerivedCategoryIdIso.hom.app E)
+            (Functor.mapDerivedCategoryIdIso _).hom.app E)
           ((Functor.mapDerivedCategoryComp rV shriekV).inv.app E ≫
             (NatTrans.mapDerivedCategory adjV.counit).app E ≫
-            Functor.mapDerivedCategoryIdIso.hom.app E)) δ ∈
+            (Functor.mapDerivedCategoryIdIso _).hom.app E)) δ ∈
       distTriang (DerivedCategory AX)) (n : ℤ) :
     Function.Exact
         (fun x : E ⟶ F⟦n⟧ =>
@@ -555,11 +529,11 @@ theorem exists_mem_distTriang_edsDerivedShriekMayerVietoris
             ((Functor.mapDerivedCategoryComp (etaleModulePullback.{u, u} B S hS
                   (edsOpenHom B S hS hsq) (isEtale_edsOpenHom B S hS hsq)) shriekU).inv.app E ≫
               (NatTrans.mapDerivedCategory adjU.counit).app E ≫
-              Functor.mapDerivedCategoryIdIso.hom.app E)
+              (Functor.mapDerivedCategoryIdIso _).hom.app E)
             ((Functor.mapDerivedCategoryComp (etaleModulePullback.{u, u} B S hS
                   (edsEtaleHom B S hS hsq) (isEtale_edsEtaleHom B S hS hsq)) shriekV).inv.app E ≫
               (NatTrans.mapDerivedCategory adjV.counit).app E ≫
-              Functor.mapDerivedCategoryIdIso.hom.app E)) δ ∈
+              (Functor.mapDerivedCategoryIdIso _).hom.app E)) δ ∈
         distTriang (DerivedCategory (Modules.{u, u} B S hS W.1 W.2)) := by
   obtain ⟨δ₀, hδ₀⟩ := mem_distTriang_mayerVietoris B S hS hsq adjU adjV
     (edsShriekOpenComparison B S hS hsq adjU adjP)

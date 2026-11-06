@@ -192,7 +192,7 @@ theorem liftAlong_hom_ext {e e' : Z ⟶ liftAlong B S hS i p}
     have hnat := app_map_op B S hS f s z
     have hA : i.hom.app (Opposite.op T') w
         = X.obj.map (𝟙 T').op (f.hom.app (Opposite.op T') (Z.obj.map s.op z)).base := by
-      rw [congrArg LiftAlong.base hnat, op_id, FunctorToTypes.map_id_apply]
+      rw [congrArg LiftAlong.base hnat, op_id, Functor.map_id_apply]
       exact h
     exact ⟨hA, LiftAlong.lift_eq_of_eq_restrict _ s _ hnat (Category.id_comp s) rfl hA h⟩
   obtain ⟨hA, e₁⟩ := key e h

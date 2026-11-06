@@ -144,6 +144,7 @@ private theorem singleton_presieve₀_mem_fppfPrecoverage {U V : BigFppfOver C S
   obtain ⟨z, hz⟩ := hsurj.surj t
   exact ⟨PUnit.unit, z, hz⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Descending algebraicity of a large sheaf along one fppf covering morphism.** Let `P` be a
 sheaf on the slice of the big fppf site of `S` over `T`, with values in any universe, and let
 `v : V ⟶ T` be a morphism of the site which is surjective, flat and locally of finite

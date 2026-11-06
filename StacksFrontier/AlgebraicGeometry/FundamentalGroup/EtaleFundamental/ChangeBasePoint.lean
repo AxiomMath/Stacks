@@ -93,11 +93,11 @@ variable {C : Type u} [Category.{v} C] {F G : C ⥤ Type w}
 /-- The component at `Y` of a natural automorphism conjugated along `t : F ≅ G`, evaluated at a
 point of `F.obj Y` carried across by `t`. -/
 theorem conjAut_app_apply (t : F ≅ G) (σ : Aut F) (Y : C) (z : F.obj Y) :
-    ((t.conjAut σ).app Y).hom (t.hom.app Y z) = t.hom.app Y ((σ.app Y).hom z) := by
-  have h : (t.conjAut σ).hom.app Y = t.inv.app Y ≫ σ.hom.app Y ≫ t.hom.app Y := by
+    ((t.conjAut σ).asIso.app Y).hom (t.hom.app Y z) = t.hom.app Y ((σ.asIso.app Y).hom z) := by
+  have h : (t.conjAut σ).asIso.hom.app Y = t.inv.app Y ≫ σ.asIso.hom.app Y ≫ t.hom.app Y := by
     rw [Iso.conjAut_hom]
     simp [Iso.conj_apply, NatTrans.comp_app]
-  show ((t.conjAut σ).hom.app Y) (t.hom.app Y z) = _
+  show ((t.conjAut σ).asIso.hom.app Y) (t.hom.app Y z) = _
   rw [h]
   simp only [comp_apply, Iso.hom_inv_id_app_apply]
   rfl
@@ -105,7 +105,7 @@ theorem conjAut_app_apply (t : F ≅ G) (σ : Aut F) (Y : C) (z : F.obj Y) :
 /-- The component at `Y` of a natural automorphism conjugated along `t : F ≅ G`, evaluated at an
 arbitrary point of `G.obj Y`: pull the point back along `t.inv`, act, and push forward again. -/
 theorem conjAut_app_apply_inv (t : F ≅ G) (σ : Aut F) (Y : C) (w : G.obj Y) :
-    ((t.conjAut σ).app Y).hom w = t.hom.app Y ((σ.app Y).hom (t.inv.app Y w)) := by
+    ((t.conjAut σ).asIso.app Y).hom w = t.hom.app Y ((σ.asIso.app Y).hom (t.inv.app Y w)) := by
   simpa using conjAut_app_apply t σ Y (t.inv.app Y w)
 
 end Stacks.FundamentalGroup
@@ -139,9 +139,9 @@ theorem continuous_etaleFundamentalGroupMulEquiv
   have houter : @Continuous ((finiteEtaleFiberFunctor x).obj Y)
       ((finiteEtaleFiberFunctor x').obj Y) _tX _tX' (fun a ↦ t.hom.app Y a) :=
     continuous_of_discreteTopology
-  have hkey : (fun σ ↦ ((etaleFundamentalGroupMulEquiv t σ).app Y).hom z)
+  have hkey : (fun σ ↦ ((etaleFundamentalGroupMulEquiv t σ).asIso.app Y).hom z)
       = (fun a ↦ t.hom.app Y a) ∘ (fun σ : Aut (finiteEtaleFiberFunctor x) ↦
-        (σ.app Y).hom (t.inv.app Y z)) :=
+        (σ.asIso.app Y).hom (t.inv.app Y z)) :=
     funext fun σ ↦ Stacks.FundamentalGroup.conjAut_app_apply_inv t σ Y z
   exact hkey ▸ houter.comp hinner
 
@@ -212,8 +212,9 @@ theorem autMulEquivEtaleFundamentalGroup_conjAut
       t.conjAut (autMulEquivEtaleFundamentalGroup X x σ) := by
   let L := (Functor.whiskeringRight (FiniteEtaleOver X) FintypeCat.{u} (Type u)).obj
     FintypeCat.incl
-  show L.mapIso ((finiteEtaleFiberFintypeFunctorIso t).conjAut σ)
-    = t.conjAut (L.mapIso σ)
+  apply Aut.ext
+  show L.mapIso ((finiteEtaleFiberFintypeFunctorIso t).conjAut σ).asIso
+    = (t.conjAut (L.mapAut _ σ)).asIso
   rw [Functor.map_conjAut]
   let tL : L.obj (finiteEtaleFiberFintypeFunctor X x) ≅
       L.obj (finiteEtaleFiberFintypeFunctor X x') := t
@@ -262,11 +263,11 @@ theorem etaleFundamentalGroupMulEquiv_action
     t.hom.app Y
         ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y
           (ConcreteCategory.hom
-            (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ) y)) =
+            (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ).asHom y)) =
       (finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x').hom.app Y
         (ConcreteCategory.hom
           (((finiteEtaleEquivalenceOfIsGaloisCategory X x').functor.obj Y).obj.ρ
-            (etaleFundamentalGroupMulEquiv t σ))
+            (etaleFundamentalGroupMulEquiv t σ)).asHom
           ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x').inv.app Y
             (t.hom.app Y
               ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y y)))) := by

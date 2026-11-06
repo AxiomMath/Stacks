@@ -52,7 +52,7 @@ variable {Λ : Type} [CommRing Λ] [Finite Λ] {G H : Type v} [Group G] [Topolog
 def ContinuousModuleLevelDichotomy (M : FiniteTypeContinuousModule.{0, v, w} Λ H)
     (ℓ N c₀ : ℕ) : Prop :=
   ∀ W : Submodule Λ M.obj.obj.obj.V,
-    (∀ h, ∀ x ∈ W, (M.obj.obj.obj.ρ h).hom x ∈ W) → (∃ x ∈ W, ℓ ^ N • x ≠ 0) →
+    (∀ h, ∀ x ∈ W, (M.obj.obj.obj.ρ h).asHom.hom x ∈ W) → (∃ x ∈ W, ℓ ^ N • x ≠ 0) →
       ∀ x, ℓ ^ c₀ • x ∈ W
 
 /-- **The level dichotomy, read on a finite continuous module.** Let `φ : G ⟶ H` be a surjective
@@ -83,10 +83,11 @@ theorem exists_comp_eq_nsmul_of_forall_submodule (φ : G →ₜ* H) (hφ : Funct
   let ιl := (Uf.map ι).hom
   have hinj : Function.Injective ιl :=
     (ModuleCat.mono_iff_injective (Uf.map ι)).1 inferInstance
-  have hcomm : ∀ g x, ιl ((M₁.obj.obj.obj.ρ g).hom x) = (M.obj.obj.obj.ρ (φ g)).hom (ιl x) :=
+  have hcomm : ∀ g x,
+      ιl ((M₁.obj.obj.obj.ρ g).asHom.hom x) = (M.obj.obj.obj.ρ (φ g)).asHom.hom (ιl x) :=
     fun g x => LinearMap.congr_fun (congrArg ModuleCat.Hom.hom (ι.hom.hom.hom.comm g)) x
   let W := LinearMap.range ιl
-  have hstab : ∀ h, ∀ x ∈ W, (M.obj.obj.obj.ρ h).hom x ∈ W := by
+  have hstab : ∀ h, ∀ x ∈ W, (M.obj.obj.obj.ρ h).asHom.hom x ∈ W := by
     rintro h _ ⟨y, rfl⟩
     obtain ⟨g, rfl⟩ := hφ h
     exact ⟨_, hcomm g y⟩
@@ -105,7 +106,8 @@ theorem exists_comp_eq_nsmul_of_forall_submodule (φ : G →ₜ* H) (hφ : Funct
   have hr₀ : ∀ x, ιl (r₀ x) = ℓ ^ c₀ • x := fun x =>
     (LinearEquiv.ofInjective_apply ιl (h := hinj) _).symm.trans
       (congrArg Subtype.val ((LinearEquiv.ofInjective ιl hinj).apply_symm_apply _))
-  have hequiv : ∀ g x, r₀ ((M.obj.obj.obj.ρ (φ g)).hom x) = (M₁.obj.obj.obj.ρ g).hom (r₀ x) := by
+  have hequiv : ∀ g x,
+      r₀ ((M.obj.obj.obj.ρ (φ g)).asHom.hom x) = (M₁.obj.obj.obj.ρ g).asHom.hom (r₀ x) := by
     intro g x
     apply hinj
     rw [hr₀, hcomm, hr₀, map_nsmul]

@@ -132,9 +132,10 @@ hypothesis `hK` of `Stacks.Thickenings.idealSheafIsoStructureSheafNthOrderBottom
 theorem ideal_ker_liftCoborder_puncturedPrincipal
     (V : (puncturedPrincipalImmersion A f).coborderRange.toScheme.affineOpens) :
     (puncturedPrincipalImmersion A f).liftCoborder.ker.ideal V =
-      Ideal.span {globalRestrict
-        (puncturedPrincipalImmersion A f).coborderRange.toScheme
-        (puncturedPrincipalScalar A f) V.1} := by
+      Ideal.span
+        {globalRestrict
+          (puncturedPrincipalImmersion A f).coborderRange.toScheme
+          (puncturedPrincipalScalar A f) V.1} := by
   rw [ker_liftCoborder_puncturedPrincipal, baseIdealSheaf_ideal, baseIdeal, Ideal.map_span,
     Set.image_singleton, Ideal.map_span, Set.image_singleton]
 

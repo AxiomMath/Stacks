@@ -40,7 +40,7 @@ a section of `G.op ⋙ ℱ`. -/
 def terminalSectionsRestrict (x : ℱ.obj.obj (op T)) : (G.op ⋙ ℱ.obj).sections :=
   ⟨fun Y => ℱ.obj.map (hT.from (G.obj Y.unop)).op x, fun {Y Y'} g => by
     change ℱ.obj.map (G.map g.unop).op (ℱ.obj.map (hT.from (G.obj Y.unop)).op x) = _
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     exact congrArg (fun h => ℱ.obj.map h.op x) (hT.hom_ext _ _)⟩
 
 omit [G.IsCoverDense K] [G.IsLocallyFull K] in

@@ -187,7 +187,7 @@ derivation of `i_*𝒪_Z` on the small étale site of `X`; `hdesc` asks for a de
 the small étale site of `Z`.  The bundling that would finish it is also available —
 `AlgebraicGeometry.Space.descendedDerivation` of `LiftDifferenceDescent.lean` turns a
 `QuotientDerivation q M` for a locally surjective `q : A ⟶ 𝒪_Y`, plus the vanishing on the base,
-into a `CategoryTheory.PresheafOfModules.Derivation'` of `𝒪_Y`.  Instantiated at `Y := Z`,
+into a `CategoryTheory.PresheafOfModulesOfCommRing.Derivation'` of `𝒪_Y`.  Instantiated at `Y := Z`,
 `A := AlgebraicGeometry.Space.structureRingSheafInverseImage` at `i` and
 `q := AlgebraicGeometry.Space.structureSharpRingInverseImage` at `i` — whose local surjectivity
 at the inclusion of a closed subspace is an instance — it has exactly the type `hdesc` asks for,
@@ -266,9 +266,10 @@ variable (Z : ClosedSubspaces B S hS X.1) (b : X ⟶ Bb)
 /-- The direct image along the inclusion of a closed subspace of a `Bb`-derivation of `𝒪_Z`. -/
 noncomputable abbrev conormalPushforwardDerivation
     (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-    (D : M.val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val
       (structureSharpInverseImage B S hS (subspaceInclusion B S hS X Z ≫ b)).hom) :
-    ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
       (structureSharpInverseImage B S hS b).hom :=
   pushforwardDerivation B S hS (subspaceInclusion B S hS X Z ≫ b) M D
     (subspaceInclusion B S hS X Z) b (𝟙 Bb) (by simp)
@@ -350,11 +351,12 @@ cokernel free, is `AlgebraicGeometry.Space.epi_pullbackDifferentialsMap_subspace
 above, unconditional for a closed subspace. -/
 theorem exact_conormalSequence_of_exists_pushforwardDerivation
     (hdesc : ∀ (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-      (D : ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val.Derivation'
+      (D : PresheafOfModulesOfCommRing.Derivation'
+          ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
         (structureSharpInverseImage B S hS b).hom),
       (∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
         (x : (definingIdealSheaf B S hS X Z).toSheafOfModules.val.obj U), D.d x.1 = 0) →
-      ∃ D' : M.val.Derivation'
+      ∃ D' : PresheafOfModulesOfCommRing.Derivation' M.val
           (structureSharpInverseImage B S hS (subspaceInclusion B S hS X Z ≫ b)).hom,
         conormalPushforwardDerivation B S hS Z b M D' = D) :
     (ShortComplex.mk _ _

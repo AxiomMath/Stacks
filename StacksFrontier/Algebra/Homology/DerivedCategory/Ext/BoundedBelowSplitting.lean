@@ -145,7 +145,7 @@ theorem nonempty_iso_sigma_singleFunctor_of_isGE_of_forall_ext_two_eq_zero
         subst hn
         simp
       · have hn' : b + n.as.down ≠ b + m := fun h' =>
-          hn (ULift.ext _ _ (show n.as.down = m by omega))
+          hn (ULift.ext (show n.as.down = m by omega))
         exact (isZero_homologyFunctor_obj_singleFunctor_obj _ hn').eq_of_src _ _
     · rw [Category.assoc, ← Functor.map_comp, Sigma.ι_desc, IsIso.inv_hom_id]
 

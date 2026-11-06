@@ -94,7 +94,7 @@ theorem idealPowerProduct_eq_top_of_isZero_extendScalars [IsNoetherianRing Λ]
       fun f => coefficientSectionsMap_restrict X Λ f.unop l⟩
   have hE : ∀ (l : Λ) (P' : Sheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)),
       E.functor.map (l • 𝟙 P') =
-        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).app (E.functor.obj P') := fun l P' => by
+        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.app (E.functor.obj P') := fun l P' => by
     ext W z
     exact constantCoefficientModuleEquiv_functor_map_smul_id_val_app X P' l W.unop z
   let : CompleteLattice (E.functor.obj P).Submodule :=
@@ -104,10 +104,10 @@ theorem idealPowerProduct_eq_top_of_isZero_extendScalars [IsNoetherianRing Λ]
   let p := cokernel.π N.ι
   -- every `l ∈ I` acts by zero on the cokernel of `N ⟶ P`
   have hs : ∀ l ∈ I,
-      (Stacks.SheafOfModules.globalSectionToEnd R (s l)).app (cokernel N.ι) = 0 := by
+      (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.app (cokernel N.ι) = 0 := by
     intro l hl
     have h₁ :
-        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).app (E.functor.obj P) ≫ p = 0 := by
+        (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.app (E.functor.obj P) ≫ p = 0 := by
       ext W z
       have hz := hN W ((s l).val W)
         ((pow_one
@@ -115,13 +115,13 @@ theorem idealPowerProduct_eq_top_of_isZero_extendScalars [IsNoetherianRing Λ]
           (coefficientSectionsMap_mem_constantCoefficientIdealSheaf X Λ I W.unop hl)) z
       exact (show (N.ι ≫ p).val.app W ⟨_, hz⟩ = 0 by rw [cokernel.condition]; rfl)
     rw [← cancel_epi p, comp_zero, ← h₁]
-    exact (Stacks.SheafOfModules.globalSectionToEnd R (s l)).naturality p
+    exact (Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.naturality p
   -- read over `Λ`, the cokernel is killed by `I`
   let G := E.inverse.obj (cokernel N.ι)
   have hG : ∀ l ∈ I, l • 𝟙 G = 0 := fun l hl => E.functor.map_injective <| by
     let ε := E.counitIso.app (cokernel N.ι)
     rw [hE, Functor.map_zero, ← cancel_mono ε.hom, zero_comp]
-    exact ((Stacks.SheafOfModules.globalSectionToEnd R (s l)).naturality ε.hom).symm.trans
+    exact ((Stacks.SheafOfModules.globalSectionToEnd R (s l)).asHom.naturality ε.hom).symm.trans
       ((congrArg (ε.hom ≫ ·) (hs l hl)).trans comp_zero)
   obtain ⟨G', ⟨eG⟩⟩ := Stacks.ModuleSheaf.essImage_restrictScalars_of_smul_id_eq_zero I G hG
   let adj := Stacks.ModuleSheaf.extendRestrictScalarsAdj (Scheme.ProEt.topology X)

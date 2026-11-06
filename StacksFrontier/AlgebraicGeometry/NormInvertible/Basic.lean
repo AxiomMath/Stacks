@@ -190,7 +190,7 @@ noncomputable def normChartSourceGenerator (f : X ⟶ Y) (L : X.Modules) (i : No
     (homOfLE (B.ι.image_mono (leOfHom ((homOfLE (le_top : W ≤ ⊤)).op).unop))).op
     (normChartSection f L i)
   have hcomp (r : Γ(X, B.ι ''ᵁ W)) :
-      eM.hom ((eR r) • xW) = (L.smul r).hom (eM.hom xW) := by
+      eM.hom ((eR r) • xW) = (L.smul r).asHom (eM.hom xW) := by
     have hs := Scheme.Modules.smul_restrictAppIso_hom_apply B.ι L W (eR r) xW
     rwa [show (B.ι.appIso W).inv (eR r) = r from eR.symm_apply_apply r] at hs
   have hsection' : eM.hom xW = sV := by

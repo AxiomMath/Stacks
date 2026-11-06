@@ -335,7 +335,7 @@ lemma exists_min_range_map [∀ {i j : I} (h : i ⟶ j), IsClosedImmersion (D.ma
   set F : (Σ j : I, j ⟶ i₀) → Closeds (D.obj i₀) := fun p ↦ ⟨Set.range (D.map p.2), hcl p.1 p.2⟩
     with hF
   obtain ⟨a, ⟨p₁, hp₁⟩, hmin⟩ :=
-    (IsWellFounded.wf (r := ((· < ·) : Closeds (D.obj i₀) → _ → Prop))).has_min
+    (wellFounded_lt (α := Closeds (D.obj i₀))).has_min
       (Set.range F) ⟨F ⟨i₀, 𝟙 i₀⟩, ⟨i₀, 𝟙 i₀⟩, rfl⟩
   refine ⟨p₁.1, p₁.2, fun j h ↦ ?_⟩
   obtain ⟨k, u, v, -⟩ := IsCofilteredOrEmpty.cone_objs p₁.1 j

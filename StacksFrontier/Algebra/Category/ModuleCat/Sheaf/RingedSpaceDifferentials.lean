@@ -254,7 +254,7 @@ noncomputable def pushforwardDerivation :
       simp only [NatTrans.comp_app] at hnn
       exact hnn
     refine Eq.trans (congrArg (fun z => (universalDerivation h').d z) hc) ?_
-    exact PresheafOfModules.Derivation'.d_app (universalDerivation h') _
+    exact PresheafOfModulesOfCommRing.Derivation'.d_app (universalDerivation h') _
 
 /-- The derivation `pushforwardDerivation` sends a local section `a` of `𝒪_X` to
 `d (f^♯ a)`. -/
@@ -292,7 +292,7 @@ theorem universalDerivation_postcomp_pushforwardDifferentialMap :
 theorem pushforwardDifferentialMap_val_app_d {U : (Opens X.carrier)ᵒᵖ} (a : X.presheaf.obj U) :
     ((pushforwardDifferentialMap f h h' g hcomm).val.app U).hom ((universalDerivation h).d a)
       = (universalDerivation h').d ((f.hom.c.app U).hom a) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalDerivation_postcomp_pushforwardDifferentialMap f h h' g hcomm) a
 
 /-- A morphism `Ω_{X/S} ⟶ f_* Ω_{X'/S'}` sending `d a` to `d (f^♯ a)` is
@@ -305,7 +305,7 @@ private theorem pushforwardDifferentialMap_eq_of_d
         = (universalDerivation h').d ((f.hom.c.app U).hom a)) :
     pushforwardDifferentialMap f h h' g hcomm = c :=
   ((Exists.choose_spec (existsUnique_pushforwardDifferentialMap f h h' g hcomm)).2 c
-    (PresheafOfModules.Derivation.ext (by ext U a; exact hc U a))).symm
+    (PresheafOfModulesOfCommRing.Derivation.ext (by ext U a; exact hc U a))).symm
 
 /-- The characterizing property of the comparison map of differentials: under the
 adjunction `f^* ⊣ f_*`, the morphism `c : f^* Ω_{X/S} ⟶ Ω_{X'/S'}` carries the pullback of
@@ -363,7 +363,7 @@ theorem differentialMap_isDifferentialMap :
     IsDifferentialMap f h h' (differentialMap f h h' g hcomm) := by
   intro U a
   rw [differentialMap, Equiv.apply_symm_apply]
-  exact PresheafOfModules.Derivation.congr_d
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalDerivation_postcomp_pushforwardDifferentialMap f h h' g hcomm) a
 
 /-- Uniqueness: a morphism `f^* Ω_{X/S} ⟶ Ω_{X'/S'}` with the characterizing property of
@@ -577,7 +577,7 @@ section Constants
 
 variable {E : Type u} [Category.{w} E] {R₁ R₂ : Eᵒᵖ ⥤ CommRingCat.{v}} {ψ : R₁ ⟶ R₂}
   {M : PresheafOfModules.{v} (R₂ ⋙ forget₂ CommRingCat.{v} RingCat.{v})}
-  (D : M.Derivation' ψ)
+  (D : PresheafOfModulesOfCommRing.Derivation' M ψ)
 
 /-- The subring of sections annihilated by a relative derivation. -/
 def derivationConstantsSubring (U : Eᵒᵖ) : Subring (R₂.obj U) where
@@ -637,7 +637,7 @@ variable {X : RingedSpace.{u, u}}
   {M : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})}
   (hM : TopCat.Presheaf.IsSheaf M.presheaf)
   {R₁ : (Opens X.carrier)ᵒᵖ ⥤ CommRingCat.{u}} {ψ : R₁ ⟶ X.presheaf}
-  (D : M.Derivation' ψ)
+  (D : PresheafOfModulesOfCommRing.Derivation' M ψ)
 
 include hM in
 /-- The sections annihilated by a relative derivation with values in a *sheaf* of modules
@@ -669,7 +669,7 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
   {M : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})}
   (hM : TopCat.Presheaf.IsSheaf M.presheaf)
   {R₁ : (Opens X.carrier)ᵒᵖ ⥤ CommRingCat.{u}} {ψ : R₁ ⟶ X.presheaf}
-  (D : M.Derivation' ψ)
+  (D : PresheafOfModulesOfCommRing.Derivation' M ψ)
 
 /-- The subsheaf of rings of `𝒪_X` of sections annihilated by a relative derivation with
 values in a sheaf of modules. -/
@@ -749,7 +749,7 @@ theorem moduleOfDifferentials_hom_ext {h : X ⟶ S}
     (inverseImageSheaf h) X.sheaf (inverseImageStructureMap h) T
     ((universalDerivation h).postcomp ψ₁.val)
   refine (hu ψ₁ rfl).trans (hu ψ₂ ?_).symm
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U a
   exact (e U a).symm
 
@@ -774,7 +774,7 @@ theorem universalDerivation_d_structureSheafMap (f : X ⟶ Y) (V : (Opens Y.carr
       (TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).obj X.sheaf) =>
         (t.hom.app V).hom b) (unit_comp_map_inverseImageStructureMap f).symm
   exact (congrArg (universalDerivation f).d e2).trans
-    (PresheafOfModules.Derivation'.d_app (universalDerivation f) _)
+    (PresheafOfModulesOfCommRing.Derivation'.d_app (universalDerivation f) _)
 
 /-- The canonical map `Ω_{X/S} ⟶ Ω_{X/Y}` attached to `f : X ⟶ Y` and `g : Y ⟶ S`: the
 comparison map of Tag 08RU for the square with horizontal arrows `𝟙 X` and `g`, composed
@@ -875,7 +875,7 @@ variable (f : X ⟶ Y) (g : Y ⟶ S)
 a relative derivation of `𝒪_X` over `f⁻¹ 𝒪_Y`, with the same underlying additive maps as the
 derivation it defines over `(f ≫ g)⁻¹ 𝒪_S`. -/
 noncomputable def derivationOfCompEqZero :
-    A.val.Derivation' (inverseImageStructureMap f).hom where
+    PresheafOfModulesOfCommRing.Derivation' A.val (inverseImageStructureMap f).hom where
   d := ((universalDerivation (f ≫ g)).postcomp k.val).d
   d_mul := ((universalDerivation (f ≫ g)).postcomp k.val).d_mul
   d_map := ((universalDerivation (f ≫ g)).postcomp k.val).d_map
@@ -895,7 +895,7 @@ theorem toRelativeDifferentials_comp_descOfCompEqZero :
     toRelativeDifferentials f g ≫ descOfCompEqZero f g k hk = k := by
   refine moduleOfDifferentials_hom_ext fun U a => ?_
   rw [comp_val_app_hom_apply, toRelativeDifferentials_val_app_d]
-  exact PresheafOfModules.Derivation.congr_d
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d
     (Exists.choose_spec (Differentials.universalDerivation_isUniversal
       (inverseImageSheaf f) X.sheaf (inverseImageStructureMap f) A
       (derivationOfCompEqZero f g k hk))).1 a

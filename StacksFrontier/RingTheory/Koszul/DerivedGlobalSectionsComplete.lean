@@ -219,7 +219,10 @@ theorem isNilpotent_smul_one_sectionsTower (f : Fin r → R)
     IsNilpotent (a • (1 : End ((sectionsTower R N.complex ⋙ DerivedCategory.Q).obj (op n)))) := by
   refine isNilpotent_smul_one_of_mem_span _ ?_ ha
   rintro _ ⟨i, rfl⟩
-  exact ⟨n + 1, by rw [smul_id_pow]; exact smul_id_sectionsTower_eq_zero f N n i⟩
+  refine ⟨n + 1, ?_⟩
+  ext
+  rw [smul_id_pow, End.zero_asHom]
+  exact smul_id_sectionsTower_eq_zero f N n i
 
 /-- **Stacks 0GZK, derived completeness of the derived global sections.** Let `ℬ` be the sheaf of
 differential graded algebras on `ℕ` given by the Koszul algebras `K_{n+1}` on

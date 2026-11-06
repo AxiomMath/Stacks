@@ -37,7 +37,7 @@ private theorem ramificationIdx_eq_ramificationIdx'_maximalIdeal
     q.ramificationIdx R = (IsLocalRing.maximalIdeal R).ramificationIdx' q := by
   have : q.LiesOver (IsLocalRing.maximalIdeal R) :=
     ⟨((IsLocalRing.isMaximal_iff R).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q)).symm⟩
   exact (Ideal.ramificationIdx'_eq_ramificationIdx _ q
     (IsDiscreteValuationRing.not_a_field R)).symm
 
@@ -387,7 +387,7 @@ private theorem isTotallyRamified_self (A K : Type*) [CommRing A] [IsDomain A]
   have : IsLocalRing S := e.symm.toRingEquiv.isLocalRing
   have hover : (maximalIdeal S).LiesOver (maximalIdeal A) :=
     ⟨((isMaximal_iff A).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal S))).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (maximalIdeal S))).symm⟩
   refine ⟨maximalIdeal S, inferInstance, hover, fun m' hm' _ => eq_maximalIdeal hm', ?_⟩
   let : Field (A ⧸ maximalIdeal A) := Ideal.Quotient.field _
   let : Field (S ⧸ maximalIdeal S) := Ideal.Quotient.field _
@@ -467,7 +467,7 @@ theorem isTotallyRamified_of_map_le_pow_finrank
   have hP0 : P ≠ ⊥ := fun h => hmapne (le_bot_iff.mp (by
     simpa [h, Ideal.bot_pow hd.ne'] using hle))
   have hlies : P.LiesOver mA := ⟨((IsLocalRing.isMaximal_iff A).mp
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P)).symm⟩
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) P)).symm⟩
   have heP : Module.finrank K L ≤ Ideal.ramificationIdx' mA P :=
     le_ramificationIdx'_of_map_le_pow hmapne hP0 hle
   have heP' : Module.finrank K L ≤ P.ramificationIdx A := by

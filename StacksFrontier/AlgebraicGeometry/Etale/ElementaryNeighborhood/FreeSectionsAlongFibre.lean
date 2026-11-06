@@ -554,9 +554,7 @@ private lemma baseChangeChartMap_etale {X S T T' Y : Scheme.{u}}
   have he : baseChangeChartMap f a r p = b ≫ (pullbackLeftPullbackSndIso f a r).hom := by
     apply pullback.hom_ext
     · simp [baseChangeChartMap, b, pullback.map, q, Category.assoc]
-      simp only [← Category.assoc, pullback.lift_fst]
     · simp [baseChangeChartMap, b, pullback.map, q, Category.assoc]
-      simp only [pullback.lift_snd]
   rw [he]
   exact MorphismProperty.comp_mem @Etale _ _ hb inferInstance
 
@@ -803,7 +801,6 @@ private lemma exists_free_sections_of_charts {X S : Scheme.{u}} (f : X ⟶ S) [Q
   have hpChart_snd (i : ι) : pChart i ≫ pullback.snd f aV =
       pullback.snd (q i) (r i) := by
     simp [pChart, baseChangeChartMap, pullback.congrHom, Category.assoc]
-    simp only [← Category.assoc, pullback.lift_snd, Category.comp_id]
     rfl
   have hcomm : (P ≫ pullback.fst f aV) ≫ f = (P ≫ pullback.snd f aV) ≫ aV := by
     simp only [Category.assoc, pullback.condition]

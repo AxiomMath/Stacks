@@ -124,7 +124,7 @@ public theorem surjective_mapIsomorphismClasses_of_iso
   obtain ⟨t, ht⟩ := h ((isomorphismClasses 𝓖 h𝓖).map e.inv z)
   refine ⟨(isomorphismClasses 𝓕 h𝓕).map e.hom t, ?_⟩
   rw [mapIsomorphismClasses_naturality h𝓕 h𝓖 φ e.hom t, ht,
-    ← FunctorToTypes.map_comp_apply, e.inv_hom_id, FunctorToTypes.map_id_apply]
+    ← Functor.map_comp_apply, e.inv_hom_id, Functor.map_id_apply]
 
 namespace Artin
 

@@ -74,7 +74,7 @@ public theorem galoisActionOnBaseChange_ρ_eq_of_fst_snd (g : MulOpposite (ksep 
     (hsnd : a ≫ pullback.snd X.hom (spectrumMap k ksep) =
       pullback.snd X.hom (spectrumMap k ksep) ≫
         Spec.map (CommRingCat.ofHom g.unop.toRingEquiv.toRingHom)) :
-    (galoisActionOnBaseChange k ksep X).ρ g = a := by
+    ((galoisActionOnBaseChange k ksep X).ρ g).asHom = a := by
   apply pullback.hom_ext
   · show
       (pullback.lift
@@ -120,7 +120,7 @@ public theorem continuous_galoisActionOnGeometricConnectedComponents
     Continuous (fun p : MulOpposite (ksep ≃ₐ[k] ksep) ×
         ConnectedComponents (galoisActionOnBaseChange k ksep X).V =>
       ConcreteCategory.hom
-        ((galoisActionOnGeometricConnectedComponents k ksep X).ρ p.1) p.2) := by
+        ((galoisActionOnGeometricConnectedComponents k ksep X).ρ p.1).asHom p.2) := by
   let A := galoisActionOnGeometricConnectedComponents k ksep X
   let G := MulOpposite (ksep ≃ₐ[k] ksep)
   let : TopologicalSpace A.V :=
@@ -145,20 +145,20 @@ public theorem continuous_galoisActionOnGeometricConnectedComponents
     refine Subgroup.isOpen_mono (H₁ := H.op) (H₂ := MulAction.stabilizer G C) (fun g hg => ?_)
       (hHopen.preimage MulOpposite.continuous_unop)
     obtain ⟨a, hfst, hsnd, hVeq⟩ := hfix (MulOpposite.unop g) hg
-    let q := (galoisActionOnBaseChange k ksep X).ρ g
+    let q := ((galoisActionOnBaseChange k ksep X).ρ g).asHom
     have hqa : q = a.hom := galoisActionOnBaseChange_ρ_eq_of_fst_snd k ksep X g a.hom hfst hsnd
     have hVq : V = q ⁻¹ᵁ V := by simpa [hqa] using hVeq
     have hqxV : x ∈ (q ⁻¹ᵁ V).1 := by
       rw [← hVq]
       exact mem_connectedComponent
     have hact :
-        ConcreteCategory.hom (A.ρ g) C = ConnectedComponents.mk (q.base x) := by
+        ConcreteCategory.hom (A.ρ g).asHom C = ConnectedComponents.mk (q.base x) := by
       show ConcreteCategory.hom
-        ((galoisActionOnGeometricConnectedComponents k ksep X).ρ g)
+        ((galoisActionOnGeometricConnectedComponents k ksep X).ρ g).asHom
           (ConnectedComponents.mk x) = ConnectedComponents.mk (q.base x)
       rw [galoisActionOnGeometricConnectedComponents_ρ_apply_mk]
       rfl
-    show ConcreteCategory.hom (A.ρ g) C = C
+    show ConcreteCategory.hom (A.ρ g).asHom C = C
     exact hact.trans (ConnectedComponents.coe_eq_coe'.2 hqxV)
   exact hcont.continuous_smul
 

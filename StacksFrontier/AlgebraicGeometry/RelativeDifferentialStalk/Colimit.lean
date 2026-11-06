@@ -64,7 +64,7 @@ the index-raising lemmas instead.
 @[expose] public section
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite
-open AlgebraicGeometry.SheafOfModules PresheafOfModules
+open AlgebraicGeometry.SheafOfModules PresheafOfModules PresheafOfModulesOfCommRing
 
 universe u
 

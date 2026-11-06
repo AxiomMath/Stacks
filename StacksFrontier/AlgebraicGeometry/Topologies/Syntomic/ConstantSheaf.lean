@@ -172,7 +172,7 @@ public def constantSheafIsoLocallyConstantMaps_bigSyntomic (B : BigSyntomicSite.
     ((constantSheaf (BigSyntomicOver.topology B S hS) (Type (max (u + 1) v))).obj G).obj ≅
     ((BigSyntomicOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigSyntomicOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigSyntomicOver.toScheme B S hS) G
     (BigSyntomicOver.topology B S hS) (bigSyntomicOver_openCoverData B S hS)
     (openCoverData_bottom (BigSyntomicOver.toScheme B S hS)
       (BigSyntomicOver.topology B S hS) (bigSyntomicOver_openCoverData B S hS))
@@ -187,7 +187,7 @@ public def zariskiConstantSheafIsoLocallyConstantMaps_bigSyntomic (B : BigSyntom
       (Type (max (u + 1) v))).obj G).obj ≅
     ((BigSyntomicOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigSyntomicOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigSyntomicOver.toScheme B S hS) G
     ((BigSyntomicOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigSyntomicOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigSyntomicOver.toScheme B S hS)
@@ -203,7 +203,7 @@ public theorem constantSheafIsoLocallyConstantMaps_bigSyntomic_unit (B : BigSynt
     ConstantSheafIso.UnitCompatible (BigSyntomicOver.toScheme B S hS)
       (BigSyntomicOver.topology B S hS) G
       (constantSheafIsoLocallyConstantMaps_bigSyntomic B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigSyntomicOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigSyntomicOver.toScheme B S hS) G
     (BigSyntomicOver.topology B S hS) (bigSyntomicOver_openCoverData B S hS)
     (openCoverData_bottom (BigSyntomicOver.toScheme B S hS)
       (BigSyntomicOver.topology B S hS) (bigSyntomicOver_openCoverData B S hS))
@@ -218,7 +218,7 @@ public theorem zariskiConstantSheafIsoLocallyConstantMaps_bigSyntomic_unit
     ConstantSheafIso.UnitCompatible (BigSyntomicOver.toScheme B S hS)
       ((BigSyntomicOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology) G
       (zariskiConstantSheafIsoLocallyConstantMaps_bigSyntomic B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigSyntomicOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigSyntomicOver.toScheme B S hS) G
     ((BigSyntomicOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigSyntomicOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigSyntomicOver.toScheme B S hS)

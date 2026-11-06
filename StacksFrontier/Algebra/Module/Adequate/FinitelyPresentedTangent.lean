@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.Algebra.Module.Adequate.Tangent
 public import Mathlib.Algebra.Module.FinitePresentation
+public import Mathlib.LinearAlgebra.TensorProduct.Pi
 
 /-!
 # Tangent modules of finitely presented modules

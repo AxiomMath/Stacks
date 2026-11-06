@@ -77,7 +77,7 @@ def globalPowSmul (Y : Scheme.{u}) (g : Γ(Y, ⊤)) (m : ℕ) :
     SheafOfModules.unit (structureSheafRing Y.toSheafedSpace) ⟶
       SheafOfModules.unit (structureSheafRing Y.toSheafedSpace) :=
   ((Stacks.SheafOfModules.terminalSectionToEnd
-    (structureSheafRing Y.toSheafedSpace) ⊤ isTerminalTop g) ^ m).app
+    (structureSheafRing Y.toSheafedSpace) ⊤ isTerminalTop g) ^ m).asHom.app
       (SheafOfModules.unit (structureSheafRing Y.toSheafedSpace))
 
 /-- The restriction of a global section of the structure sheaf of a scheme to an open. -/
@@ -446,8 +446,8 @@ global section `f`, then the defining ideal sheaf of `Zₙ ⊆ Zₙ₊₁` is ge
 `Zₙ₊₁` by `f ^ (n + 1)`. -/
 theorem ker_app_nthOrderSucc_eq_span (V : i.coborderRange.toScheme.affineOpens) :
     RingHom.ker ((nthOrderSucc i n).app (nthOrderι i (n + 1) ⁻¹ᵁ V.1)).hom =
-      Ideal.span {globalRestrict (nthOrderInfinitesimalNeighbourhood i (n + 1))
-        ((nthOrderι i (n + 1)).appTop.hom f) (nthOrderι i (n + 1) ⁻¹ᵁ V.1) ^ (n + 1)} := by
+      Ideal.span {(globalRestrict (nthOrderInfinitesimalNeighbourhood i (n + 1))
+           ((nthOrderι i (n + 1)).appTop.hom f) (nthOrderι i (n + 1) ⁻¹ᵁ V.1) ^ (n + 1))} := by
   rw [ker_app_nthOrderSucc, hK V, Ideal.span_singleton_pow, Ideal.map_span, Set.image_singleton,
     map_pow, app_globalRestrict]
 

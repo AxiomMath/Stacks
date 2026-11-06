@@ -119,11 +119,11 @@ public theorem isZero_etaleStalk_of_etaleGerm_one_eq_zero (t : GeometricPoint S)
     obtain ⟨W', q', b, rfl⟩ :=
       exists_etaleGerm_eq B S hS t (toAddCommGrp B S hS F).obj a
     obtain ⟨k, m, m', -⟩ := IsCofilteredOrEmpty.cone_objs
-      (C := (geometricPointFiber B S hS t).Elements) ⟨W, q⟩ ⟨W', q'⟩
-    have hk : (1 : F.obj.obj (op k.1)) = 0 := by
-      simpa using congrArg (fun z => (F.obj.map (m.1).op).hom z) hW
+      (C := (geometricPointFiber B S hS t).Elements) (.mk q) (.mk q')
+    have hk : (1 : F.obj.obj (op k.obj)) = 0 := by
+      simpa using congrArg (fun z => (F.obj.map (m.hom).op).hom z) hW
     exact (etaleGerm_eq_zero_iff B S hS t (toAddCommGrp B S hS F).obj _ _ b).2
-      ⟨k.1, m'.1, k.2, m'.2, eq_zero_of_zero_eq_one hk.symm _⟩
+      ⟨k.obj, m'.hom, k.val, m'.map_val, eq_zero_of_zero_eq_one hk.symm _⟩
   have : Subsingleton ↑(etaleStalk B S hS t (toAddCommGrp B S hS F).obj) :=
     ⟨fun g g' => by rw [hall g, hall g']⟩
   exact AddCommGrpCat.isZero_of_subsingleton _

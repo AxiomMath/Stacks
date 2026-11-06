@@ -84,6 +84,15 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Fibre products of presheaves on the big fppf site, supplied directly: under Lean v4.35.0
+instance search for `HasLimit (cospan f.hom g.hom)` times out. -/
+private theorem hasPullbacksPresheaf : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasPullbackHom {X Y Z : AlgebraicSpaces B S hS}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f.hom g.hom) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ (hasPullbacksPresheaf B S hS) _
+
 /-- In a cartesian square over `a` and `p`, with `a` étale and `x'` above a point of `V`, the
 projection to `X'` is étale and has `x'` in the image on points. -/
 private theorem isEtale_and_mem_range_of_isPullback {X X' V W : AlgebraicSpaces B S hS}

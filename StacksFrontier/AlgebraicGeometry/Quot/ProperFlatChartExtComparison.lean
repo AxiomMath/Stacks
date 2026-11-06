@@ -140,6 +140,8 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (hx : (cartesianProperFlatProjection B S hS).obj x = algebraOver A B S hS toS hA)
 
 attribute [local instance high] smallEtaleModules_abelian
+  smallEtaleRingedTopos_hasSheafify_addCommGrpCat
+  smallEtaleRingedTopos_wEqualsLocallyBijective_addCommGrpCat
 
 /-- `tensorPullbackComplex` at `𝒪_X[0]`, on a map of modules placed in degree `0`, is the map of
 total complexes of `tensorPullbackBifunctor`. -/

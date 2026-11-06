@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.OpenImmersion
 public import Mathlib.AlgebraicGeometry.Morphisms.Separated
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Topology.Irreducible.GenericPoints
 

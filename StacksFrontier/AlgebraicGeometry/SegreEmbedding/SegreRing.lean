@@ -170,10 +170,11 @@ public theorem grading_isInternal : DirectSum.IsInternal (grading R X Y) := by
         simpa [map_sum] using this
       have key : ((z n₀ : segre R X Y) : MvPolynomial (X ⊕ Y) R) = 0 := by
         refine MvPolynomial.ext _ _ fun α => ?_
-        rw [coeff_zero]
+        rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
         by_cases hα : weight (weightLeft X Y) α = n₀
-        · have hc := congrArg (coeff α) hsum
-          rw [coeff_sum, coeff_zero, Finset.sum_eq_single_of_mem n₀ hmem ?_] at hc
+        · have hc := congrArg (fun p : MvPolynomial (X ⊕ Y) R => p.coeff α) hsum
+          rw [coeff_sum, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
+            Finset.sum_eq_single_of_mem n₀ hmem ?_] at hc
           · exact hc
           · intro n _ hne
             exact MvPolynomial.IsWeightedHomogeneous.coeff_eq_zero (z n).2.1 α

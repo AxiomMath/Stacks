@@ -60,8 +60,7 @@ def pushoutLinearEquiv (e : A ⊗[R] B ≃ₗ[R] D)
   map_add' := e.map_add
   map_smul' := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a' b => simp [he, Algebra.smul_def, mul_assoc]
     | add z w hz hw => simp [hz, hw, smul_add]
   invFun := e.symm
@@ -109,8 +108,7 @@ theorem bijective_pushout_comparison (e : A ⊗[R] B ≃ₗ[R] D)
     Function.Bijective ξ := by
   have key : ∀ z : B ⊗[R] M, ξ z = κ (pushoutBaseChangeEquiv e he z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
         have hsm : (algebraMap B D b) • ((1 : D) ⊗ₜ[A] x) = (algebraMap B D b) ⊗ₜ[A] x := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -177,7 +175,6 @@ theorem bijective_of_flat_descent
   have hsq : ∀ w : Bm ⊗[R] (∀ i, Mi i), Φ (e₁ w) = e₂ (φ.lTensor Bm w) := by
     intro w
     induction w with
-    | zero => simp
     | tmul b m =>
         funext p
         simp only [he₁, he₂, TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul,
@@ -201,21 +198,18 @@ theorem bijective_of_flat_descent
   have hθ' : ∀ (z : Bm ⊗[R] N) (i : I), εU (θ z) i = ψ i (E z i) := by
     intro z
     induction z with
-    | zero => intro i; simp
     | tmul b n => intro i; rw [hE b n i]; exact hθ b n i
     | add x y hx hy => intro i; simp [hx i, hy i]
   have hψe : ∀ (p : I × I) (w : Bm ⊗[R] Mi p.1),
       ψ' p ((δ p).lTensor Bm w) = ρ p (ψ p.1 w) := by
     intro p w
     induction w with
-    | zero => simp
     | tmul b x => simpa using hψ p b x
     | add x y hx hy => simp [hx, hy]
   have hψe' : ∀ (p : I × I) (w : Bm ⊗[R] Mi p.2),
       ψ' p ((δ' p).lTensor Bm w) = ρ' p (ψ p.2 w) := by
     intro p w
     induction w with
-    | zero => simp
     | tmul b y => simpa using hψ' p b y
     | add x y hx hy => simp [hx, hy]
   constructor

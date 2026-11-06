@@ -24,6 +24,19 @@ open AlgebraicGeometry.Space
 
 variable {S : Scheme.{u}}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_RestrictionComposablePairs (C : BigFppfSite.{u})
+    (hS : C.Contains S) :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RestrictionComposablePairs
+    (C : BigFppfSite.{u})
+    (hS : C.Contains S) {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### De-realization of the composable pairs of a restriction -/
 
 /-- The scheme of composable pairs of arrows of a restriction of a groupoid scheme: the fibre

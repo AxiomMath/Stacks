@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Modules.Tilde
 public import Mathlib.AlgebraicGeometry.Morphisms.Separated

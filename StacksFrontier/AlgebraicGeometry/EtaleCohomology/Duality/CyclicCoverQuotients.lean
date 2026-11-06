@@ -111,29 +111,29 @@ variable {i ε w} (hS : (ShortComplex.mk i ε w).ShortExact)
 
 /-- **`s [p] = [τ p] - [p]`.** -/
 theorem shift_generator {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
-    (shift hS).hom.app (op V) (generator i ε w p) =
-      generator i ε w ((translation hS).hom.app (op V) p) - generator i ε w p := by
+    (shift hS).asHom.hom.app (op V) (generator i ε w p) =
+      generator i ε w ((translation hS).asHom.hom.app (op V) p) - generator i ε w p := by
   rw [← map_generator]
   rfl
 
 /-- **`φ ∘ s = i ∘ ε̃`**: `φ(s [p]) = (i(1) + p) - p = i(1) = i(ε̃ [p])`. -/
 theorem shift_comp_extensionMap :
-    shift hS ≫ extensionMap i ε w = augmentation i ε w ≫ i := by
+    (shift hS).asHom ≫ extensionMap i ε w = augmentation i ε w ≫ i := by
   refine hom_ext_generator fun V p => ?_
-  show (extensionMap i ε w).hom.app (op V) ((shift hS).hom.app (op V) (generator i ε w p)) =
+  show (extensionMap i ε w).hom.app (op V) ((shift hS).asHom.hom.app (op V) (generator i ε w p)) =
     i.hom.app (op V) ((augmentation i ε w).hom.app (op V) (generator i ε w p))
   rw [shift_generator, map_sub, extensionMap_generator, extensionMap_generator,
     augmentation_generator, translation_app]
   exact add_sub_cancel_right (i.hom.app (op V) (oneSection ℓ V)) (p.1 : E.obj.obj (op V))
 
 /-- `ε̃ ∘ s = 0`. -/
-theorem shift_comp_augmentation : shift hS ≫ augmentation i ε w = 0 := by
+theorem shift_comp_augmentation : (shift hS).asHom ≫ augmentation i ε w = 0 := by
   rw [augmentation, ← Category.assoc, shift_comp_extensionMap, Category.assoc, w,
     Limits.comp_zero]
 
 /-- `φ ∘ s² = 0`. -/
-theorem shift_sq_comp_extensionMap : (shift hS ^ 2 : End _) ≫ extensionMap i ε w = 0 := by
-  rw [pow_two, End.mul_def, Category.assoc, shift_comp_extensionMap, ← Category.assoc,
+theorem shift_sq_comp_extensionMap : (shift hS ^ 2).asHom ≫ extensionMap i ε w = 0 := by
+  rw [pow_two, End.mul_asHom, Category.assoc, shift_comp_extensionMap, ← Category.assoc,
     shift_comp_augmentation, Limits.zero_comp]
 
 /-- If `a ∘ s = 0`, the kernel of `s` is a line, `a` is nonzero and its target is a line, then `a`
@@ -159,11 +159,11 @@ theorem ker_eq_range_of_finrank_ker_eq_one {K M L : Type*} [Field K] [AddCommGro
     omega
 
 /-- The map `coker s → Λ_X` induced by `ε̃`. -/
-def cokernelShiftDesc : cokernel (shift hS) ⟶ unitSheaf ℓ :=
+def cokernelShiftDesc : cokernel (shift hS).asHom ⟶ unitSheaf ℓ :=
   cokernel.desc _ (augmentation i ε w) (shift_comp_augmentation hS)
 
 /-- The map `coker s² → E` induced by `φ`. -/
-def cokernelShiftSqDesc : cokernel (shift hS ^ 2) ⟶ E :=
+def cokernelShiftSqDesc : cokernel (shift hS ^ 2).asHom ⟶ E :=
   cokernel.desc _ (extensionMap i ε w) (shift_sq_comp_extensionMap hS)
 
 section Fibre
@@ -217,16 +217,16 @@ theorem bijective_sheafFiber_map_cokernelShiftDesc :
       ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).map (cokernelShiftDesc hS)) := by
   have := finiteDimensional_sheafFiber_freeTorsor hS Φ
   set F := Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))
-  obtain ⟨hker, htop⟩ := ker_eq_range_of_finrank_ker_eq_one (F.map (shift hS)).hom
+  obtain ⟨hker, htop⟩ := ker_eq_range_of_finrank_ker_eq_one (F.map (shift hS).asHom).hom
     (F.map (augmentation i ε w)).hom (by
       rw [← ModuleCat.hom_comp, ← Functor.map_comp, shift_comp_augmentation, Functor.map_zero]
       rfl)
     (finrank_ker_sheafFiber_map_shift hS Φ) (finrank_sheafFiber_unitSheaf Φ) (fun h =>
       sheafFiber_map_augmentation_ne_zero hS Φ (ModuleCat.hom_ext h))
-  have hfac : F.map (cokernel.π (shift hS)) ≫ F.map (cokernelShiftDesc hS) =
+  have hfac : F.map (cokernel.π (shift hS).asHom) ≫ F.map (cokernelShiftDesc hS) =
       F.map (augmentation i ε w) := by
     rw [← Functor.map_comp, cokernelShiftDesc, cokernel.π_desc]
-  have hπ : Function.Surjective (F.map (cokernel.π (shift hS))) := by
+  have hπ : Function.Surjective (F.map (cokernel.π (shift hS).asHom)) := by
     rw [← ModuleCat.epi_iff_surjective]
     infer_instance
   constructor
@@ -241,7 +241,7 @@ theorem bijective_sheafFiber_map_cokernelShiftDesc :
     rfl
   · intro y
     obtain ⟨x, hx⟩ : y ∈ LinearMap.range (F.map (augmentation i ε w)).hom := htop ▸ trivial
-    exact ⟨F.map (cokernel.π (shift hS)) x, by rwa [← ModuleCat.comp_apply, hfac]⟩
+    exact ⟨F.map (cokernel.π (shift hS).asHom) x, by rwa [← ModuleCat.comp_apply, hfac]⟩
 
 end Fibre
 
@@ -262,7 +262,7 @@ theorem isIso_cokernelShiftDesc : IsIso (cokernelShiftDesc hS) := by
   exact (hP.jointlyReflectIsomorphisms (ModuleCat.{u + 1} (ZMod ℓ))).isIso _
 
 /-- **`coker s ≅ Λ_X`**, via the augmentation. -/
-def cokernelShiftIso : cokernel (shift hS) ≅ unitSheaf ℓ :=
+def cokernelShiftIso : cokernel (shift hS).asHom ≅ unitSheaf ℓ :=
   haveI := isIso_cokernelShiftDesc hS
   asIso (cokernelShiftDesc hS)
 
@@ -272,19 +272,21 @@ def cokernelPowShortComplexHom :
     Stacks.Abelian.cokernelPowShortComplex (shift hS) 1 ⟶ ShortComplex.mk i ε w where
   τ₁ := cokernelShiftDesc hS
   τ₂ := cokernelShiftSqDesc hS
-  τ₃ := (cokernelIsoOfEq (pow_one (shift hS))).hom ≫ cokernelShiftDesc hS
+  τ₃ := (cokernelIsoOfEq (congrArg End.asHom (pow_one (shift hS)))).hom ≫ cokernelShiftDesc hS
   comm₁₂ := by
     change cokernelShiftDesc hS ≫ i =
       Stacks.Abelian.cokernelPowι (shift hS) 1 ≫ cokernelShiftSqDesc hS
-    rw [← cancel_epi (cokernel.π (shift hS)), ← Category.assoc, cokernelShiftDesc,
+    rw [← cancel_epi (cokernel.π (shift hS).asHom), ← Category.assoc, cokernelShiftDesc,
       cokernel.π_desc, Stacks.Abelian.π_cokernelPowι_assoc, pow_one, cokernelShiftSqDesc,
       cokernel.π_desc, shift_comp_extensionMap]
   comm₂₃ := by
     change cokernelShiftSqDesc hS ≫ ε = Stacks.Abelian.cokernelPowq (shift hS) 1 ≫
-      (cokernelIsoOfEq (pow_one (shift hS))).hom ≫ cokernelShiftDesc hS
-    rw [← cancel_epi (cokernel.π (shift hS ^ 2)), ← Category.assoc, cokernelShiftSqDesc,
+      (cokernelIsoOfEq (congrArg End.asHom (pow_one (shift hS)))).hom ≫ cokernelShiftDesc hS
+    rw [← cancel_epi (cokernel.π (shift hS ^ 2).asHom), ← Category.assoc, cokernelShiftSqDesc,
       cokernel.π_desc]
-    change _ = cokernel.π (shift hS ^ (1 + 1)) ≫ _
+    change extensionMap i ε w ≫ ε = cokernel.π (shift hS ^ (1 + 1)).asHom ≫
+      Stacks.Abelian.cokernelPowq (shift hS) 1 ≫
+        (cokernelIsoOfEq (congrArg End.asHom (pow_one (shift hS)))).hom ≫ cokernelShiftDesc hS
     rw [Stacks.Abelian.π_cokernelPowq_assoc, π_comp_cokernelIsoOfEq_hom_assoc, cokernelShiftDesc,
       cokernel.π_desc]
     rfl
@@ -293,12 +295,12 @@ def cokernelPowShortComplexHom :
 theorem isIso_cokernelShiftSqDesc : IsIso (cokernelShiftSqDesc hS) := by
   have : IsIso (cokernelPowShortComplexHom hS).τ₁ := isIso_cokernelShiftDesc hS
   have : IsIso (cokernelPowShortComplexHom hS).τ₃ :=
-    Iso.isIso_hom (cokernelIsoOfEq (pow_one (shift hS)) ≪≫ cokernelShiftIso hS)
+    Iso.isIso_hom (cokernelIsoOfEq (congrArg End.asHom (pow_one (shift hS))) ≪≫ cokernelShiftIso hS)
   exact ShortComplex.isIso₂_of_shortExact_of_isIso₁₃ (cokernelPowShortComplexHom hS)
     (cokernelPowShortComplex_shift_shortExact hS (Fact.out : ℓ.Prime).one_lt) hS
 
 /-- **`coker s² ≅ E`**, via `φ`. -/
-def cokernelShiftSqIso : cokernel (shift hS ^ 2) ≅ E :=
+def cokernelShiftSqIso : cokernel (shift hS ^ 2).asHom ≅ E :=
   haveI := isIso_cokernelShiftSqDesc hS
   asIso (cokernelShiftSqDesc hS)
 

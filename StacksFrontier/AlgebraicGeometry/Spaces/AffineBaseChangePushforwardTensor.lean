@@ -88,9 +88,11 @@ variable (p : X ⟶ schemeSpace V) (q : W ⟶ V) (pr' : X' ⟶ schemeSpace W) {p
 private theorem tensorProduct_addMonoidHom_ext {R M N P : Type*} [CommSemiring R]
     [AddCommMonoid M] [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N]
     {f g : M ⊗[R] N →+ P} (h : ∀ x y, f (x ⊗ₜ[R] y) = g (x ⊗ₜ[R] y)) (z : M ⊗[R] N) :
-    f z = g z :=
-  TensorProduct.induction_on z (by simp only [map_zero]) h
-    fun x y hx hy => by simp only [map_add, hx, hy]
+    f z = g z := by
+  induction z using TensorProduct.induction_on with
+  | zero => simp only [map_zero]
+  | tmul x y => exact h x y
+  | add x y hx hy => simp only [map_add, hx, hy]
 
 /-- The chart sections `pr^* x` of the pullback over the base-changed charts are natural in the
 chart. -/

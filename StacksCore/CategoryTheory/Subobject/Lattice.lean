@@ -3,10 +3,7 @@ module
 public import Mathlib.CategoryTheory.Subobject.Lattice
 public import StacksCore.CategoryTheory.Subobject.Basic
 
-/-! ## The lattice of subobjects.
-
-The section `Ported from mathlib#42759` at the end of this file is temporary; see its header.
--/
+/-! ## The lattice of subobjects. -/
 
 @[expose] public section
 
@@ -94,32 +91,5 @@ lemma ofLE_pullback_comp_pullbackπ {X' Y' : Subobject E} (h : X' ≤ Y') :
     Category.assoc, ofLE_arrow, (isPullback q X').w]
 
 end Pullback
-
-/-! ### Ported from mathlib#42759
-
-**Everything in this section is temporary and is expected to be deleted.** It is the
-`Lattice` part of mathlib#42759 (mckoen, `feat(CategoryTheory/Subobject): extend image
-subobject API`, merged 2026-09-25, after our pinned revision of 2026-09-01), ported with the
-upstream name and statement. The proof is by antisymmetry rather than upstream's `change` into
-`MonoOver`, so that it does not rely on unfolding `MonoOver.mk`. Delete the section once the pin
-includes that pull request. -/
-
-section Port42759
-
-theorem exists_pullback_eq_inf_of_mono {X Y : C} [HasPullbacks C] [HasImages C] (f : X ⟶ Y)
-    [Mono f] (Y' : Subobject Y) :
-    («exists» f).obj ((pullback f).obj Y') = Y' ⊓ mk f := by
-  apply le_antisymm
-  · refine _root_.le_inf (exists_pullback_le f Y') ?_
-    rw [exists_eq_mk_of_mono]
-    exact mk_le_mk_of_comm _ rfl
-  · have hZ : Y' ⊓ mk f ≤ mk f := _root_.inf_le_right
-    rw [exists_eq_mk_of_mono]
-    refine le_mk_of_comm
-      ((isPullback f Y').lift (ofLE _ _ _root_.inf_le_left) (ofLEMk _ f hZ) ?_) ?_
-    · rw [ofLE_arrow, ofLEMk_comp]
-    · rw [← Category.assoc, IsPullback.lift_snd, ofLEMk_comp]
-
-end Port42759
 
 end CategoryTheory.Subobject

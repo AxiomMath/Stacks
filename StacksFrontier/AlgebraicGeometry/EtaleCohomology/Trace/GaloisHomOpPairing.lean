@@ -242,26 +242,26 @@ omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Finite Λ] in
 /-- The Galois evaluation pairing is Galois-equivariant: `⟨σ a, e⟩ = σ ⟨a, σ⁻¹ e⟩`. -/
 lemma galoisHomOpPair_galois (n p q : ℤ) (h : p + n = q) (σ : kbar ≃ₐ[k] kbar)
     (a : ((galoisHomOpA Y kbar L).X n).obj.obj.V) (e : ((galoisHomOpE Y kbar L Kc).X p).obj.obj.V) :
-    galoisHomOpPair Y kbar L Kc n p q h ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).hom a) e =
-      (((galoisHomOpG Y kbar Kc).X q).obj.obj.ρ σ).hom (galoisHomOpPair Y kbar L Kc n p q h a
-        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).hom e)) := by
-  have hinv : (((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).hom
-      ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).hom e) = e := by
+    galoisHomOpPair Y kbar L Kc n p q h ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).asHom.hom a) e =
+      (((galoisHomOpG Y kbar Kc).X q).obj.obj.ρ σ).asHom.hom (galoisHomOpPair Y kbar L Kc n p q h a
+        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e)) := by
+  have hinv : (((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).asHom.hom
+      ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e) = e := by
     have h1 := (((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ).map_mul σ σ⁻¹
     rw [mul_inv_cancel, map_one] at h1
-    exact (congrArg (fun φ => φ.hom e) h1).symm
+    exact (congrArg (fun φ => φ.asHom.hom e) h1).symm
   have key := galoisGlobalSectionsPairing_galoisAction Y kbar
     (etaleHomOpSectionPairing Y L Kc n p q h) σ a
-    ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).hom e)
+    ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e)
   conv_lhs => rw [← hinv]
   show homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar
       (etaleHomOpSectionPairing Y L Kc n p q h)
-        ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).hom a)
-        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).hom
-          ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).hom e)) =
-    (((galoisHomOpG Y kbar Kc).X q).obj.obj.ρ σ).hom (homOpPairingSign n p •
+        ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).asHom.hom a)
+        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).asHom.hom
+          ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e)) =
+    (((galoisHomOpG Y kbar Kc).X q).obj.obj.ρ σ).asHom.hom (homOpPairingSign n p •
       galoisGlobalSectionsPairing Y kbar (etaleHomOpSectionPairing Y L Kc n p q h) a
-        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).hom e))
+        ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e))
   refine (congrArg (homOpPairingSign n p • ·) key).trans ?_
   rw [Units.smul_def, Units.smul_def]
   exact (map_zsmul _ _ _).symm

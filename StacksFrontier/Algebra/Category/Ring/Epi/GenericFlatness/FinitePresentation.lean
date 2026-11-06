@@ -272,7 +272,7 @@ public theorem exists_ne_zero_free_localizedModule_away
   obtain ⟨w, hw⟩ := hKfg
   -- the finite set of coefficients of the generators of `K`
   set cs : Set R := ⋃ (i : (w : Finset (Fin t → MvPolynomial (Fin n) R))) (j : Fin t),
-      (fun m => MvPolynomial.coeff m ((i : Fin t → MvPolynomial (Fin n) R) j)) ''
+      (fun m => ((i : Fin t → MvPolynomial (Fin n) R) j).coeff m) ''
         (((i : Fin t → MvPolynomial (Fin n) R) j).support : Set (Fin n →₀ ℕ))
   have hcsfin : cs.Finite :=
     Set.finite_iUnion fun _ => Set.finite_iUnion fun _ =>

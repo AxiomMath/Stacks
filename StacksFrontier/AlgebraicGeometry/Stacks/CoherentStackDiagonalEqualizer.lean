@@ -164,6 +164,22 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasBinaryProducts_presheaf_CoherentStackDiagonalEqualizer :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (needed by `simp` side goals; instance
+search times out without this shortcut). -/
+local instance (priority := high) hasProducts_presheaf_CoherentStackDiagonalEqualizer :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasLimit_pair_presheaf_CoherentStackDiagonalEqualizer
+    (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The equalizer of two scheme-valued points of an algebraic space -/
 
 section PointEqualizer

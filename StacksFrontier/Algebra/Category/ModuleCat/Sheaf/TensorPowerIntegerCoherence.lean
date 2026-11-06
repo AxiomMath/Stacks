@@ -119,6 +119,7 @@ theorem coherentMulIso_one_right
         tensorPowerSuccIso O hO L n :=
   (tensorPowerCoherence O hO L).mul_one_right n
 
+set_option maxHeartbeats 1000000 in
 /-- Multiplication of powers is associative for the canonical tensor associator. -/
 theorem coherentMulIso_assoc
     (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))

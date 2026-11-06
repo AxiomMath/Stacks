@@ -155,7 +155,7 @@ def derivedSmallEtaleAbelianPushforwardStalkIso (i : Z ⟶ X)
         smallEtaleDerivedAbelianStalk B S hS x ≅
       smallEtaleDerivedAbelianStalk B S hS z := by
   letI := preservesFiniteColimits_smallEtaleAbelianPushforward_of_isClosedImmersion B S hS i hi
-  exact Functor.mapDerivedCategoryCompIso
+  exact Functor.mapDerivedCategoryCompIsoOfCompIso
     (smallEtaleAbelianPushforwardStalkIso B S hS i hi z x hx)
 
 /-- **Stacks 04K2 part (4) on unbounded derived categories.** The stalk of the degreewise inverse
@@ -165,16 +165,18 @@ def derivedSmallEtaleAbelianInverseImageStalkIso (g : W ⟶ Z)
     (hg : yoneda.relativelyRepresentable g.hom) (w : GeometricPoint B S hS W.1)
     (z : GeometricPoint B S hS Z.1) (hz : geometricPointMap g.hom w = z) :
     letI := additive_smallEtaleAbelianInverseImage B S hS g hg
-    letI := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS g hg
+    letI : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS g hg) :=
+      preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS g hg
     letI := preservesFiniteColimits_smallEtaleAbelianInverseImage B S hS g hg
     (smallEtaleAbelianInverseImage B S hS g hg).mapDerivedCategory ⋙
         smallEtaleDerivedAbelianStalk B S hS w ≅
       smallEtaleDerivedAbelianStalk B S hS z := by
   letI := additive_smallEtaleAbelianInverseImage B S hS g hg
-  letI := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS g hg
+  letI : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS g hg) :=
+      preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS g hg
   letI := preservesFiniteColimits_smallEtaleAbelianInverseImage B S hS g hg
   subst hz
-  exact Functor.mapDerivedCategoryCompIso
+  exact Functor.mapDerivedCategoryCompIsoOfCompIso
     (smallEtaleAbelianInverseImageStalkIso B S hS g hg w)
 
 /-! ### The datum which is carried -/
@@ -194,14 +196,16 @@ structure DerivedPushforwardSquareData (i : Z ⟶ X) (hi : IsClosedImmersion B S
   `D(Z_étale) ≌ D(W_étale)`. -/
   isEquivalence_derivedInverseImage :
     letI := additive_smallEtaleAbelianInverseImage B S hS f' hf'
-    letI := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
+    letI : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS f' hf') :=
+      preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
     letI := preservesFiniteColimits_smallEtaleAbelianInverseImage B S hS f' hf'
     (smallEtaleAbelianInverseImage B S hS f' hf').mapDerivedCategory.IsEquivalence
   /-- **Stacks 015N for the square**: `RF ∘ Ri'_* ∘ (f')^{-1} ≅ Ri_*`, the direct images along
   the two closed immersions acting degreewise. -/
   lerayIso :
     letI := additive_smallEtaleAbelianInverseImage B S hS f' hf'
-    letI := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
+    letI : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS f' hf') :=
+      preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
     letI := preservesFiniteColimits_smallEtaleAbelianInverseImage B S hS f' hf'
     letI := preservesFiniteColimits_smallEtaleAbelianPushforward_of_isClosedImmersion B S hS i hi
     letI :=
@@ -237,7 +241,8 @@ def derivedStalkIsoOnSupportedComplexes
           (Set.range (pointsMap B S hS W.1 i'.hom))).ι ⋙
         smallEtaleDerivedAbelianStalk B S hS y := by
   letI := additive_smallEtaleAbelianInverseImage B S hS f' hf'
-  letI := preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
+  letI : PreservesFiniteLimits (smallEtaleAbelianInverseImage B S hS f' hf') :=
+      preservesFiniteLimits_smallEtaleAbelianInverseImage B S hS f' hf'
   letI := preservesFiniteColimits_smallEtaleAbelianInverseImage B S hS f' hf'
   letI := preservesFiniteColimits_smallEtaleAbelianPushforward_of_isClosedImmersion B S hS i hi
   letI := preservesFiniteColimits_smallEtaleAbelianPushforward_of_isClosedImmersion B S hS i' hi'

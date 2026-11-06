@@ -270,6 +270,19 @@ namespace Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_fibreDimension :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_fibreDimension
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Every point of the source of a morphism of algebraic spaces over `S` has a relative
 dimension. On a pointed étale chart at the point (Stacks 04NC) the relative dimension is the
 local dimension of the fibre of the chart map, and that is not `⊥`, because the point lies in
@@ -1410,6 +1423,7 @@ theorem hasRelativeDimensionAt_zero_of_dimensionAtPoint_eq_zero
   exact hasFiberDimensionAt_zero_of_subsingleton
     ((BigFppfOver.toScheme B S hS).map c.h) (c.sourcePoint B S hS) hdimU
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A morphism of algebraic spaces over `S` which is locally of finite type is quasi-finite at
 the image of a point of a base change along a morphism from a represented object with
 subsingleton underlying scheme at which that base change has dimension `0`.
@@ -1445,6 +1459,7 @@ theorem isQuasiFiniteAt_of_dimensionAtPoint_eq_zero_of_subsingleton
     (locallyQuasiFinitePart B S hS hX hY f hf).2, w, hw,
     isLocallyQuasiFinite_locallyQuasiFinitePart B S hS hX hY f hf⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 06LS.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is
 locally of finite type, let `p` be a field-valued point of `Y` — a morphism `Spec k ⟶ Y` from
 the spectrum of a field over `S` — and let `z` be a point of the fibre `X ×_Y Spec k` at which

@@ -140,8 +140,20 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_clopenPartFinite :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_clopenPartFinite
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_clopenPartFinite B S hS).has_limit _
+
 /-! ### The relation of a chart as a closed subscheme of the relation of the base -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The relation of a chart of a separated morphism is a closed subscheme of the relation of
 the base.** Let `f : X ⟶ h_{Y₀}` be a separated morphism of presheaves on the big fppf site of
 `S` and let `φ : h_T ⟶ X` be any morphism from a representable presheaf, with `τ : T ⟶ Y₀` the
@@ -235,7 +247,7 @@ theorem exists_affine_finiteLocallyFree_kernelPair_of_isSeparated
   have hsq : IsPullback (yoneda.map (ρ ≫ pullback.fst τ τ))
       (yoneda.map (ρ ≫ pullback.snd τ τ)) φ φ := by
     refine IsPullback.of_iso_pullback ⟨?_⟩ e.symm ?_ ?_
-    · refine (cancel_epi e.hom).mp ?_
+    · refine (e.cancel_iso_hom_left _ _).mp ?_
       rw [← Category.assoc, ← Category.assoc, hefst, hesnd, pullback.condition]
     · rw [Iso.symm_hom, ← hefst, Iso.inv_hom_id_assoc]
     · rw [Iso.symm_hom, ← hesnd, Iso.inv_hom_id_assoc]

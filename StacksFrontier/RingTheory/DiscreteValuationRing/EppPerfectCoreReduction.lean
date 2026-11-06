@@ -723,7 +723,6 @@ private theorem isSeparable_adjoin_of_tensor_factor
   obtain ⟨z, rfl⟩ := hg x
   show g z ∈ T
   induction z with
-  | zero => simpa only [map_zero] using T.zero_mem
   | add x y hx hy => simpa only [map_add] using T.add_mem hx hy
   | tmul a b =>
     have ha : algebraMap K F a ∈ T := by

@@ -199,6 +199,7 @@ namespace AlgebraicGeometry.SmallEtale
 
 variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A finite direct sum of quasi-coherent sheaves of modules on the small étale site of a scheme
 is quasi-coherent.  This is the finite case of the direct-sum clause of Stacks 0GNB. -/
 theorem isQuasicoherentOnSite_coproduct {ι : Type*} [Finite ι]
@@ -223,6 +224,11 @@ theorem isQuasicoherentOnSite_isClosedUnderColimitsOfShape (K : Type u) [SmallCa
   have := hcok
   have := hobj
   have := harr
+  have : HasCoproducts.{u} (PresheafOfModules.{u} (structureSheaf B S hS).obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
+  have : HasCoproducts.{u} (SheafOfModules.{u} (structureSheaf B S hS)) :=
+    fun _ =>
+      SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   SheafOfModules.isQuasicoherentOnSite_isClosedUnderColimitsOfShape _ K
 
 /-- The kernel term of a short exact sequence of modules on the small étale site of a scheme is

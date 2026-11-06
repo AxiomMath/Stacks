@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Sites.EtalePoint
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.NeighborhoodsStalksPoints.Basic
 import StacksCore.Tactic.EgaSgaAttribute
 

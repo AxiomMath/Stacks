@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.Algebra.Category.Ring.FilteredColimits
+public import Mathlib.Algebra.Category.Ring.Limits
+public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.CategoryTheory.Sites.Sheafification
 public import Mathlib.Topology.Sheaves.CommRingCat
 public import Mathlib.Topology.Sheaves.SheafCondition.Sites

@@ -5,6 +5,7 @@ public import Mathlib.CategoryTheory.Adjunction.Unique
 public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
 public import Mathlib.LinearAlgebra.TensorProduct.Finiteness
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
 public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.RingTheory.Flat.Stability
 public import StacksFrontier.RingTheory.Flat.TorCriterion
@@ -470,7 +471,6 @@ private theorem prodLeft_rTensor_pullbackInclusion
   let : Module R B := Module.compHom B toB
   let : Module R A' := Module.compHom A' toA'
   induction t with
-  | zero => simp only [map_zero, TensorProduct.tmul_zero]; rfl
   | tmul r l =>
       dsimp [pullbackInclusion]
       show (toB r ⊗ₜ[R] l, toA' r ⊗ₜ[R] l) =
@@ -678,7 +678,6 @@ private theorem compatiblePairs_tensor_difference_eq_zero
         cB.inv ((1 : A) ⊗ₜ[B,f] (pr t).1) -
           c.inv (cA'.inv ((1 : A) ⊗ₜ[A',g] (pr t).2)) := by
     induction t with
-    | zero => simp
     | add x y hx hy =>
       simp only [map_add, Prod.fst_add, Prod.snd_add, TensorProduct.tmul_add, hx, hy]
       abel
@@ -779,10 +778,8 @@ private theorem rTensor_restrictScalars_injective_of_flat
       (LinearMap.rTensor M (f.restrictScalars R)) (eX t) =
         eY ((LinearMap.rTensor (S ⊗[R] M) f) t) := by
     induction t with
-    | zero => simp
     | tmul x m =>
       induction m with
-      | zero => simp
       | tmul a m =>
         simp only [eX, eY, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,
           LinearMap.rTensor_tmul, LinearMap.restrictScalars_apply, map_smul]

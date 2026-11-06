@@ -141,9 +141,9 @@ image under `f_{p!}` of multiplication by that scalar. -/
 public theorem modFiniteSupportPresheaf_obj_smul (F : ModuleSheaf.{u, v, r} B X Λ)
     (V : (SmallEtale B Y.obj Y.property)ᵒᵖ) (a : Λ) :
     (((modFiniteSupportPresheaf.{u, v, r} B Λ f).obj F).obj V).smul a =
-      ((finiteSupportPushforward.{u, max (u + 1) v r} B f (fun _ => inferInstance)).1.map
+      End.of (((finiteSupportPushforward.{u, max (u + 1) v r} B f (fun _ => inferInstance)).1.map
         (Stacks.ModuleCatLift.sheafScalarEnd Λ
-          (SmallEtale.topology B X.obj X.property) F a)).app V :=
+          (SmallEtale.topology B X.obj X.property) F a).asHom).app V) :=
   rfl
 
 end ModuleLift

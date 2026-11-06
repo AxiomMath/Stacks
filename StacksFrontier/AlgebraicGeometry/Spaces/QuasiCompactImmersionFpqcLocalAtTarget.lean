@@ -74,6 +74,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_QuasiCompactImmersionFpqcLocalAtTarget
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  HasLimitsOfShape.has_limit _
+
 /-- A representable presheaf isomorphic to a quasi-compact algebraic space over `S` has
 quasi-compact representing scheme. -/
 private theorem compactSpace_of_isQuasiCompactSpace_of_iso

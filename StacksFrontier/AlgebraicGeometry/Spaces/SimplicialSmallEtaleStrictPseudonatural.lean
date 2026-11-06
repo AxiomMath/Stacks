@@ -125,7 +125,7 @@ private theorem map_comp_comp_comp_op_apply {𝒞 : Type*} [Category 𝒞] (F : 
     {A₀ A₁ A₂ A₃ A₄ : 𝒞} (a : A₀ ⟶ A₁) (b : A₁ ⟶ A₂) (c : A₂ ⟶ A₃) (d : A₃ ⟶ A₄)
     (x : F.obj (op A₄)) :
     F.map (a ≫ b ≫ c ≫ d).op x = F.map a.op (F.map b.op (F.map c.op (F.map d.op x))) := by
-  simp only [op_comp, FunctorToTypes.map_comp_apply]
+  simp only [op_comp, Functor.map_comp_apply]
 
 /-- **The squares of the strict components paste, on direct images.** The identity of
 `strictComponentTransitionTwoIso_pasting` on the underlying isomorphisms of direct images of
@@ -226,7 +226,7 @@ theorem componentStrictTransitionPushforwardIso_pasting {l m n : SimplexCategory
           (P.obj.map ((componentStrictTransitionRealizeIso X φ).inv.app
             ((componentStrictTransition X ψ).obj c.unop)).op x)))
   refine (congrArg (fun y ↦ P.obj.map ((componentStrictTransitionRealizeIso X (ψ ≫ φ)).inv.app
-    c.unop).op y) (FunctorToTypes.map_id_apply P.obj x)).trans ?_
+    c.unop).op y) (P.obj.map_id_apply _ x)).trans ?_
   refine (congrArg (fun z ↦ P.obj.map z.op x)
     (componentStrictTransitionRealizeIso_inv_comp X ψ φ hk c.unop)).trans ?_
   refine (map_comp_comp_comp_op_apply P.obj _ _ _ _ x).trans ?_

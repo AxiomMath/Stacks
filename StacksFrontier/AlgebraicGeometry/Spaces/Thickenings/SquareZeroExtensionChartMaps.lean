@@ -227,12 +227,12 @@ variable {U V : SmallEtale B S hS X.1} (g : V ⟶ U)
 `𝒜|_{U_Zar} ⟶ g_*(𝒜|_{V_Zar})`. -/
 def chartSheafMap :
     (E.chartSheaf U).presheaf ⟶ (chartSchemeMap g).base _* (E.chartSheaf V).presheaf :=
-  Functor.whiskerRight (NatTrans.op (chartOpensRestrictNatTrans B S hS g)) E.A.val
+  Functor.whiskerRight (NatTrans.op (chartOpensRestrictNatTrans B S hS g)) E.A.obj
 
 /-- On sections over `O`, `chartSheafMap` is the restriction map of `𝒜` along
 `V|_{g⁻¹O} ⟶ U|_O`. -/
 theorem chartSheafMap_app (O : (chartScheme U).Opens) :
-    (E.chartSheafMap g).app (op O) = E.A.val.map (chartOpensRestrict B S hS g O).op :=
+    (E.chartSheafMap g).app (op O) = E.A.obj.map (chartOpensRestrict B S hS g O).op :=
   rfl
 
 /-- `chartSheafMap` lifts the map of structure sheaves of the chart morphism. -/

@@ -120,7 +120,7 @@ theorem exists_directed_colimit_of_compatible_legs {A : Type u} [CommRing A] [Is
             (eN.symm.toLinearMap ∘ₗ ψ i.down ∘ₗ (e i.down).toLinearMap)
           naturality := fun {i j} f => by
             ext y
-            exact ULift.ext _ _ (hψ i.down j.down (leOfHom f : i ≤ j) y.down) } }
+            exact ULift.ext (hψ i.down j.down (leOfHom f : i ≤ j) y.down) } }
   refine ⟨I, inferInstance, hdir, inferInstance, F, c, fun i => ?_, fun {i j} f => ?_, ?_,
     ⟨Iso.refl _⟩⟩
   · have := hfree i.down

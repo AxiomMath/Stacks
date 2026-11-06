@@ -101,6 +101,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_EtaleSplitQuasiFinitePart :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_EtaleSplitQuasiFinitePart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_EtaleSplitQuasiFinitePart B S hS).has_limit _
+
 /-- **A separated morphism of presheaves on the big fppf category over `S` stays separated under
 base change, in the first-projection orientation.** This is Tag 03KL part (1) for
 `CategoryTheory.Limits.pullback.fst g f` rather than for

@@ -516,7 +516,7 @@ public theorem gluedMapSection_degreeSection_smul (hcoc : ∀ n : ℤ, IsNestedC
           ⟨DirectSum.of (A.sectionPieces U) n (r • a), A.of_mem_grading U (r • a)⟩) =
       ((gluedTwist A (n : ℤ) (hcoc (n : ℤ))).smul
           (((relativeProj A).toBase.appLE U ((relativeProj A).chart U hU ''ᵁ ⊤)
-            (RelativeProjTwistGlue.chart_image_top (relativeProj A) U hU).le).hom r)).hom
+            (RelativeProjTwistGlue.chart_image_top (relativeProj A) U hU).le).hom r)).asHom.hom
         (gluedMapSection (n : ℤ) (hcoc (n : ℤ)) U hU ⊤
           (degreeSection (A.grading U) n
             ⟨DirectSum.of (A.sectionPieces U) n a, A.of_mem_grading U a⟩)) :=
@@ -527,7 +527,7 @@ public theorem gluedMapSection_degreeSection_smul (hcoc : ∀ n : ℤ, IsNestedC
         (((Tag01VMVeryAmple.gluedChartIso A (n : ℤ) (hcoc (n : ℤ)) U hU).inv.val.app
           (op (⊤ : (AlgebraicGeometry.Proj (A.grading U)).Opens))).hom.map_smul _ _)).trans
       (Scheme.Modules.smul_restrictAppIso_hom_apply _ _ _ _ _))).trans
-    (congrArg (fun s => ((gluedTwist A (n : ℤ) (hcoc (n : ℤ))).smul s).hom
+    (congrArg (fun s => ((gluedTwist A (n : ℤ) (hcoc (n : ℤ))).smul s).asHom.hom
         (gluedMapSection (n : ℤ) (hcoc (n : ℤ)) U hU ⊤
           (degreeSection (A.grading U) n
             ⟨DirectSum.of (A.sectionPieces U) n a, A.of_mem_grading U a⟩)))

@@ -63,16 +63,16 @@ comparison give the degreewise composition isomorphism followed by the derived-f
 `R((a b)^{-1})`. -/
 theorem smallEtaleDerivedPullbackAbPlusCompIso_fac
     (N : HomotopyCategory.Plus (Sheaf (smallEtaleTopology Z) Ab.{u + 1})) :
-    (smallEtalePullbackAb a).rightDerivedFunctorPlusUnit.app
+    (smallEtalePullbackAb a).rightDerivedFunctorPlusUnith.app
           ((smallEtalePullbackAb b).mapHomotopyCategoryPlus.obj N) ≫
         (smallEtalePullbackAb a).rightDerivedFunctorPlus.map
-            ((smallEtalePullbackAb b).rightDerivedFunctorPlusUnit.app N) ≫
+            ((smallEtalePullbackAb b).rightDerivedFunctorPlusUnith.app N) ≫
           (smallEtaleDerivedPullbackAbPlusCompIso a b).hom.app
             (DerivedCategory.Plus.Qh.obj N) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso
             (smallEtalePullbackAbCompIso a b)).hom.app N) ≫
-        (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnit.app N :=
+        (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnith.app N :=
   Functor.rightDerivedFunctorPlusCompIsoOfExact_fac (smallEtalePullbackAb b)
     (smallEtalePullbackAb a) (smallEtalePullbackAb (a ≫ b))
     (smallEtalePullbackAbCompIso a b) N
@@ -82,24 +82,24 @@ inverse of the comparison.** All three inverse images are exact, so all three
 derived-functor units are invertible. -/
 theorem smallEtaleDerivedPullbackAbPlusCompIso_inv_app
     (N : HomotopyCategory.Plus (Sheaf (smallEtaleTopology Z) Ab.{u + 1})) :
-    letI : IsIso (smallEtalePullbackAb a).rightDerivedFunctorPlusUnit :=
+    letI : IsIso (smallEtalePullbackAb a).rightDerivedFunctorPlusUnith :=
       Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb a)
-    letI : IsIso (smallEtalePullbackAb b).rightDerivedFunctorPlusUnit :=
+    letI : IsIso (smallEtalePullbackAb b).rightDerivedFunctorPlusUnith :=
       Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb b)
-    letI : IsIso (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnit :=
+    letI : IsIso (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnith :=
       Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb (a ≫ b))
     (smallEtaleDerivedPullbackAbPlusCompIso a b).inv.app
           (DerivedCategory.Plus.Qh.obj N) ≫
         (smallEtalePullbackAb a).rightDerivedFunctorPlus.map
-            ((asIso (smallEtalePullbackAb b).rightDerivedFunctorPlusUnit).inv.app N) ≫
-          (asIso (smallEtalePullbackAb a).rightDerivedFunctorPlusUnit).inv.app
+            ((asIso (smallEtalePullbackAb b).rightDerivedFunctorPlusUnith).inv.app N) ≫
+          (asIso (smallEtalePullbackAb a).rightDerivedFunctorPlusUnith).inv.app
             ((smallEtalePullbackAb b).mapHomotopyCategoryPlus.obj N) =
-      (asIso (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnit).inv.app N ≫
+      (asIso (smallEtalePullbackAb (a ≫ b)).rightDerivedFunctorPlusUnith).inv.app N ≫
         DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso
             (smallEtalePullbackAbCompIso a b)).inv.app N) :=
   have (U V : Scheme.{u}) (f : U ⟶ V) :
-      IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+      IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso _
   Functor.rightDerivedFunctorPlusCompIsoOfExact_inv_app (smallEtalePullbackAb b)
     (smallEtalePullbackAb a) (smallEtalePullbackAb (a ≫ b))

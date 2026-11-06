@@ -199,7 +199,7 @@ instance isMonoidal_pointPullbackRestriction :
         (((pointPullbackRestriction B S hS 𝒳 g e ey φ hφ).app N).hom n))).symm
     refine Eq.trans ?_ (pointPullbackμ_tmul B S hS 𝒳 y ey M N _ _).symm
     exact congrArg (pointTensorMap B S hS 𝒳 y M N).hom
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul _ _ _)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul _ _ _)
 
 /-- **The base change map `T ⊗_R M(x) ⟶ M(y)`** along a morphism `φ : y ⟶ x` of points lying
 over `Spec T ⟶ Spec R`, `t ⊗ m ↦ t • m|_y`, as a natural transformation

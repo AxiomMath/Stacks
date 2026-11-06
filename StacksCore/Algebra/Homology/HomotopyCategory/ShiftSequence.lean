@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.HomologySequence
 public import Mathlib.Algebra.Homology.HomotopyCategory.ShiftSequence
 public import Mathlib.Algebra.Homology.Refinements
+public import Mathlib.CategoryTheory.Abelian.Refinements
 import StacksCore.Tactic.StacksAttribute
 
 /-! # Cohomology of a shifted cochain complex, and the shifted connecting map

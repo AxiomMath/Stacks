@@ -107,6 +107,9 @@ theorem isGrothendieckAbelian_fppfSheaves :
       (Sheaf (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .fppf) AddCommGrpCat.{u}) :=
   Sheaf.isGrothendieckAbelian_of_essentiallySmall _ _
 
+-- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GQI's affine acyclicity on an algebraic stack**: a module on the fppf site of an
 algebraic stack which is cartesian along flat morphisms of affines has no higher cohomology over
 an object lying over an affine scheme. -/

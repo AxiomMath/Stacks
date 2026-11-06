@@ -696,11 +696,11 @@ end FullyFaithful
 /-! ### The shift on the index categories -/
 
 -- An index of `X/W` and its shift are the same object under two spellings, and the shift sections
--- cross between them constantly. These three are the one-line aliases and structure literal the
--- crossings go through; Mathlib marks the analogous `CategoryTheory.Under.mk` and `Under` itself
--- `@[implicit_reducible]` but has not marked these, so we do it here.
+-- cross between them constantly. These are the one-line alias and structure literal the
+-- crossings go through; Mathlib marks `Under.forget`, the analogous `CategoryTheory.Under.mk`
+-- and `Under` itself `@[implicit_reducible]` but has not marked these two, so we do it here.
 attribute [local implicit_reducible] MorphismProperty.Under.mk
-  MorphismProperty.Comma.forget Under.forget
+  MorphismProperty.Comma.forget
 
 section ShiftIndex
 

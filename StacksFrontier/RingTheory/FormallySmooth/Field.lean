@@ -169,7 +169,7 @@ private lemma subsingleton_h1Cotangent_of_forall_adjoin_finset
   ega "0 22.2.1" "special case"]
 private lemma formallySmooth_of_isSeparablyGenerated (h : Algebra.IsSeparablyGenerated k K) :
     Algebra.FormallySmooth k K := by
-  obtain ⟨t, ht, hts⟩ := h.exists_isTranscendenceBasis_and_isSeparable
+  obtain ⟨t, ht, hts⟩ := h.isSeparable
   have : Algebra.IsSeparable ↥(IntermediateField.adjoin k (Set.range ((↑) : t → K))) K := by
     rwa [Subtype.range_coe]
   exact Algebra.FormallySmooth.of_algebraicIndependent_of_isSeparable ht.1
@@ -361,7 +361,7 @@ private theorem isGeometricallyReduced_of_isSeparablyGenerated (k K : Type*) [Fi
     [Algebra k K] [Algebra.EssFiniteType k K] [Algebra.IsSeparablyGenerated k K] :
     Algebra.IsGeometricallyReduced k K := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   have := hsep
   have := isDomain_tensorProduct_of_algebraicIndependent hs.1 (AlgebraicClosure k)
   have : IsReduced (K ⊗[IntermediateField.adjoin k s]

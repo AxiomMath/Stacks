@@ -47,26 +47,26 @@ public def representedRestrictionInverse
     Restriction (p := representedProjection R) ⥤
       (restrictedCoyoneda R).Elements := by
   refine
-    { obj := fun X => ⟨X.base, X.obj.2 ≫ eqToHom X.obj_eq⟩
-      map := fun {X Y} f => CategoryOfElements.homMk _ _ f.base (by
-        have hobj : X.obj.2 ≫ f.obj.val = Y.obj.2 := by
-          simpa using f.obj.property
+    { obj := fun X => (restrictedCoyoneda R).elementsMk X.base (X.obj.val ≫ eqToHom X.obj_eq)
+      map := fun {X Y} f => Functor.Elements.homMk f.base (by
+        have hobj : X.obj.2 ≫ f.obj.hom = Y.obj.2 := by
+          simpa using f.obj.map_val
         change (X.obj.2 ≫ eqToHom X.obj_eq) ≫
           artinianToComplete.map f.base = Y.obj.2 ≫ eqToHom Y.obj_eq
         calc
           _ = X.obj.2 ≫ (eqToHom X.obj_eq ≫
               artinianToComplete.map f.base) := by simp [Category.assoc]
-          _ = X.obj.2 ≫ (f.obj.val ≫ eqToHom Y.obj_eq) := by
+          _ = X.obj.2 ≫ (f.obj.hom ≫ eqToHom Y.obj_eq) := by
             rw [f.comm]
             rfl
-          _ = (X.obj.2 ≫ f.obj.val) ≫ eqToHom Y.obj_eq := by simp [Category.assoc]
+          _ = (X.obj.2 ≫ f.obj.hom) ≫ eqToHom Y.obj_eq := by simp [Category.assoc]
           _ = Y.obj.2 ≫ eqToHom Y.obj_eq := by rw [hobj])
       map_id := ?_
       map_comp := ?_ }
   · intro X
-    exact CategoryOfElements.ext (restrictedCoyoneda R) _ _ rfl
+    exact Functor.Elements.hom_ext rfl
   · intro X Y Z f g
-    exact CategoryOfElements.ext (restrictedCoyoneda R) _ _ rfl
+    exact Functor.Elements.hom_ext rfl
 
 /-- The isomorphism between an object of the strict restriction and its image under the inverse
 followed by the inclusion. -/
@@ -78,7 +78,7 @@ public noncomputable def representedRestrictionCounitIso
   cases X with
   | mk obj base obj_eq =>
     cases obj with
-    | mk A α =>
+    | @mk A α =>
       cases obj_eq
       rfl
 
@@ -98,15 +98,15 @@ public noncomputable def representedRestrictionEquivalence
       cases Y with
       | mk Yobj Ybase Yeq =>
         cases Xobj with
-        | mk XA Xα =>
+        | @mk XA Xα =>
           cases Yobj with
-          | mk YA Yα =>
+          | @mk YA Yα =>
             cases Xeq
             cases Yeq
             apply Restriction.Hom.ext
-            · apply CategoryOfElements.ext (coyoneda.obj (Opposite.op R))
-              change artinianToComplete.map f.base = f.obj.val
-              simpa [representedProjection, CategoryOfElements.π] using f.comm
+            · apply Functor.Elements.hom_ext
+              change artinianToComplete.map f.base = f.obj.hom
+              simpa [representedProjection, Functor.Elements.π] using f.comm
             · change f.base = f.base
               rfl)
   functor_unitIso_comp := by
@@ -119,7 +119,7 @@ public def representedRestrictionInverseBased
     BasedFunctor
       (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R)))
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R))) where
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R))) where
   toFunctor := representedRestrictionInverse R
   w := rfl
 
@@ -127,14 +127,14 @@ public def representedRestrictionInverseBased
 based functors. -/
 public noncomputable def representedRestrictionUnitBasedIso
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
-    (BasedFunctor.id (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))) ≅
+    (BasedFunctor.id (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))) ≅
       (restrictedRepresentableInclusion R).comp
         (representedRestrictionInverseBased R) := by
   apply BasedNatIso.mkNatIso (representedRestrictionEquivalence R).unitIso
   intro X
-  change (CategoryOfElements.π (restrictedCoyoneda R)).IsHomLift
-    (𝟙 ((CategoryOfElements.π (restrictedCoyoneda R)).obj X)) (𝟙 X)
-  exact IsHomLift.map (p := CategoryOfElements.π (restrictedCoyoneda R)) (𝟙 X)
+  change (Functor.Elements.π (restrictedCoyoneda R)).IsHomLift
+    (𝟙 ((Functor.Elements.π (restrictedCoyoneda R)).obj X)) (𝟙 X)
+  exact IsHomLift.map (p := Functor.Elements.π (restrictedCoyoneda R)) (𝟙 X)
 
 /-- The counit isomorphism of `representedRestrictionBasedEquivalence R`, as an isomorphism of
 based functors. -/
@@ -152,7 +152,7 @@ public noncomputable def representedRestrictionCounitBasedIso
     cases X with
     | mk obj base obj_eq =>
       cases obj with
-      | mk A α =>
+      | @mk A α =>
         cases obj_eq
         rfl
   exact hmap ▸ IsHomLift.map
@@ -191,7 +191,7 @@ public def basedIsoWhiskerRight
 public noncomputable def representedRestrictionBasedEquivalence
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
     BasedCategory.Equivalence
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R))) where
   functor := restrictedRepresentableInclusion R
@@ -254,13 +254,13 @@ public noncomputable def representedHomPrecompositionEquivalence
     BasedFunctor (BasedCategory.ofFunctor
       (Restriction.projection (p := representedProjection R)))
       (BasedCategory.ofFunctor p) ≌
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p) := by
   let e := representedRestrictionBasedEquivalence R
   have htriangle : ∀ X : (restrictedCoyoneda R).Elements,
       e.counitIso.inv.toNatTrans.app (e.functor.obj X) ≫
         e.functor.map (e.unitIso.hom.toNatTrans.app X) = 𝟙 (e.functor.obj X) :=
-    (representedRestrictionEquivalence R).counitIso_functor_comp
+    (representedRestrictionEquivalence R).counitInv_functor_comp
   exact basedPrecompositionEquivalence e htriangle
 
 /-- Precomposition with the canonical identification of the restricted represented set. -/
@@ -268,7 +268,7 @@ public def extendRepresentedHom {F : Type uF} [Category.{vF} F]
     (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k)
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
     BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p) ⥤
     BasedFunctor
       (BasedCategory.ofFunctor
@@ -287,22 +287,23 @@ public theorem representedProjection_cofibered
   · intro V U f x hx
     subst U
     let y : (coyoneda.obj (Opposite.op R)).Elements :=
-      ⟨V.unop, x.unop.2 ≫ f.unop⟩
+      (coyoneda.obj (Opposite.op R)).elementsMk V.unop (x.unop.2 ≫ f.unop)
     let a : x.unop ⟶ y := ⟨f.unop, rfl⟩
     exact ⟨Opposite.op y, a.op, by
       show (representedProjection R).op.IsHomLift
         ((representedProjection R).op.map a.op) a.op
       infer_instance⟩
   · intro x y z φ ψ f hf
-    have he : φ.unop.val ≫ f.unop = ψ.unop.val := congrArg Quiver.Hom.unop hf
+    have he : φ.unop.hom ≫ f.unop = ψ.unop.hom := congrArg Quiver.Hom.unop hf
     let a : y.unop ⟶ z.unop := ⟨f.unop, by
       show y.unop.2 ≫ f.unop = z.unop.2
-      have hφ : x.unop.2 ≫ φ.unop.val = y.unop.2 := φ.unop.property
+      have hφ : x.unop.2 ≫ φ.unop.hom = y.unop.2 := φ.unop.map_val
       rw [← hφ, Category.assoc, he]
-      exact ψ.unop.property⟩
+      exact ψ.unop.map_val⟩
     refine ⟨a.op, ⟨rfl, ?_⟩, ?_⟩
-    · exact Quiver.Hom.unop_inj (Subtype.ext he)
-    · exact fun b hb => Quiver.Hom.unop_inj (Subtype.ext (congrArg Quiver.Hom.unop hb.1))
+    · exact Quiver.Hom.unop_inj (Functor.Elements.hom_ext he)
+    · exact fun b hb =>
+        Quiver.Hom.unop_inj (Functor.Elements.hom_ext (congrArg Quiver.Hom.unop hb.1))
 
 /-- The inclusion of Artinian local algebras into complete local algebras is injective on
 objects. -/
@@ -350,7 +351,7 @@ public theorem representedRestrictionInverse_adicLevel_eq
     (representedRestrictionInverse R).obj
       ((adicPushforwardChoice (representedProjection R) hq).level
         (representedIdentityElement R) n) =
-      ⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩ := by
+      (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (canonicalQuotientPoint R n) := by
   let P := adicPushforwardChoice (representedProjection R) hq
   let X : (coyoneda.obj (Opposite.op R)).Elements := representedIdentityElement R
   let L := P.level X n
@@ -368,24 +369,24 @@ public theorem representedRestrictionInverse_adicLevel_eq
     artinianToComplete_obj_injective hcomplete
   have hbaseFunctor : L.base = (AdicTruncation.functor n).obj R := by
     simpa [X, representedIdentityElement, representedProjection,
-      CategoryOfElements.π] using hbaseX
+      Functor.Elements.π] using hbaseX
   have hbase : L.base = AdicTruncation.obj R n := hbaseFunctor.trans hfunctor
   have hbaseXEq : hbaseX = hbase := by
     apply Subsingleton.elim
   have heq : (representedRestrictionInverse R).obj L =
-      (⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩ :
+      ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (canonicalQuotientPoint R n) :
         (restrictedCoyoneda R).Elements) := by
     refine Functor.Elements.ext ((representedRestrictionInverse R).obj L)
-      (⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩ :
+      ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (canonicalQuotientPoint R n) :
         (restrictedCoyoneda R).Elements) hbase ?_
-    have hincl : (P.inclusion X n).val = L.obj.2 := by
-      have h := (P.inclusion X n).property
-      change X.2 ≫ (P.inclusion X n).val = L.obj.2 at h
+    have hincl : (P.inclusion X n).hom = L.obj.2 := by
+      have h := (P.inclusion X n).map_val
+      change X.2 ≫ (P.inclusion X n).hom = L.obj.2 at h
       simpa [X, representedIdentityElement] using h
     have hfac := IsHomLift.fac' (representedProjection R) (P.baseMap X n)
       (P.inclusion X n)
-    have hfac' : (P.inclusion X n).val = P.baseMap X n ≫ eqToHom hc.symm := by
-      simpa [representedProjection, CategoryOfElements.π] using hfac
+    have hfac' : (P.inclusion X n).hom = P.baseMap X n ≫ eqToHom hc.symm := by
+      simpa [representedProjection, Functor.Elements.π] using hfac
     have hpoint : L.obj.2 ≫ eqToHom L.obj_eq ≫
         artinianToComplete.map (eqToHom hbaseX) = P.baseMap X n := by
       have hcast : eqToHom hc.symm ≫ eqToHom L.obj_eq ≫

@@ -11,6 +11,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.LocallyPrincipalPullback
 public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.QuasiCompactImageIdeal
 public import StacksFrontier.AlgebraicGeometry.Spaces.ReducedClosedSubspace
 public import StacksFrontier.AlgebraicGeometry.Spaces.SurjectiveOnPoints
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 
 /-!
 # A closed subspace with all the points of a separated space, as a limit of finite-order ones

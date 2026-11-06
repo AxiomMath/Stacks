@@ -155,7 +155,7 @@ public theorem exists_isColimitCofan_associatedModuleOver (V : S.Opens) (𝓕 : 
   let e := associatedModuleOverObjIso B S hS V 𝓕
   refine ⟨n, fun b => (u.inv ≫ Φ.map (ι b)) ≫ e.hom, ⟨?_⟩⟩
   exact (Stacks.Sheaves.GlobalTypeComparison.isColimitCofanMap Φ u ι hc).ofIsoColimit
-    (Cocones.ext e (fun _ => rfl))
+    (Cocone.ext e (fun _ => rfl))
 
 /-- **Descent, Lemma 05VG for Modules on Sites, Definition 03DL (2): the pullback direction, at
 the small Zariski site.**  If an `𝒪_S`-module `𝓕` is finite locally free on the small Zariski

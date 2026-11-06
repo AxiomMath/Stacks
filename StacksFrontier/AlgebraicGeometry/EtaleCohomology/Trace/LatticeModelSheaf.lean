@@ -88,7 +88,7 @@ abbrev latticeModelModule (ρ : G →* GL (Fin r) ℤ_[ℓ]) (o : LatticeModelIn
 /-- The subquotient `W / W'` is killed by `ℓ`. -/
 theorem latticeModelModule_nsmul_eq_zero (ρ : G →* GL (Fin r) ℤ_[ℓ]) (o : LatticeModelIndex ρ)
     (x : ULift.{w} (latticeModelModule ρ o)) : ℓ ^ (0 + 1) • x = 0 := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ℓ ^ (0 + 1) • x.down = 0
   induction x.down using Submodule.Quotient.induction_on with
   | H y =>
@@ -107,7 +107,7 @@ private theorem setOf_smul_ulift_eq {M : Type*} [AddCommGroup M] [Module (Monoid
     (m : ULift.{w} M) :
     {g : G | of ℤ G g • m = m} = {g : G | of ℤ G g • m.down = m.down} := by
   ext g
-  exact ⟨congrArg ULift.down, fun hg => ULift.ext _ _ hg⟩
+  exact ⟨congrArg ULift.down, fun hg => ULift.ext hg⟩
 
 variable [TopologicalSpace G] [IsTopologicalGroup G]
 

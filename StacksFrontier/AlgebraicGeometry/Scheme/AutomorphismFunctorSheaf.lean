@@ -121,7 +121,7 @@ open cover of `T`.** -/
 theorem aut_ext_of_openCover {ψ ψ' : (autFunctor X).obj (op T)}
     (h : ∀ i, (autFunctor X).map (coverOverι 𝒰 i).op ψ =
       (autFunctor X).map (coverOverι 𝒰 i).op ψ') : ψ = ψ' :=
-  Iso.ext (endo_ext_of_openCover X 𝒰 fun i ↦ congrArg Iso.hom (h i))
+  Aut.ext (Iso.ext (endo_ext_of_openCover X 𝒰 fun i ↦ congrArg (·.asIso.hom) (h i)))
 
 /-! ### Gluing -/
 
@@ -261,16 +261,16 @@ theorem exists_autFunctor_map_eq_of_openCover
     (hψ : ∀ i j, (autFunctor X).map (coverOverPairFst 𝒰 i j).op (ψ i) =
       (autFunctor X).map (coverOverPairSnd 𝒰 i j).op (ψ j)) :
     ∃ ψ₀ : (autFunctor X).obj (op T), ∀ i, (autFunctor X).map (coverOverι 𝒰 i).op ψ₀ = ψ i := by
-  have h₁ : ∀ i j, endBaseChange X (coverOverPairFst 𝒰 i j) (ψ i).hom =
-      endBaseChange X (coverOverPairSnd 𝒰 i j) (ψ j).hom := fun i j ↦
-    congrArg Iso.hom (hψ i j)
-  have h₂ : ∀ i j, endBaseChange X (coverOverPairFst 𝒰 i j) (ψ i).inv =
-      endBaseChange X (coverOverPairSnd 𝒰 i j) (ψ j).inv := fun i j ↦
-    congrArg Iso.inv (hψ i j)
-  refine ⟨⟨endGlue (fun i ↦ (ψ i).hom) h₁, endGlue (fun i ↦ (ψ i).inv) h₂, ?_, ?_⟩,
-    fun i ↦ Iso.ext (endBaseChange_endGlue _ h₁ i)⟩ <;>
+  have h₁ : ∀ i j, endBaseChange X (coverOverPairFst 𝒰 i j) (ψ i).asIso.hom =
+      endBaseChange X (coverOverPairSnd 𝒰 i j) (ψ j).asIso.hom := fun i j ↦
+    congrArg (·.asIso.hom) (hψ i j)
+  have h₂ : ∀ i j, endBaseChange X (coverOverPairFst 𝒰 i j) (ψ i).asIso.inv =
+      endBaseChange X (coverOverPairSnd 𝒰 i j) (ψ j).asIso.inv := fun i j ↦
+    congrArg (·.asIso.inv) (hψ i j)
+  refine ⟨.of ⟨endGlue (fun i ↦ (ψ i).asIso.hom) h₁, endGlue (fun i ↦ (ψ i).asIso.inv) h₂, ?_, ?_⟩,
+    fun i ↦ Aut.ext (Iso.ext (endBaseChange_endGlue _ h₁ i))⟩ <;>
   refine endo_ext_of_openCover X 𝒰 fun i ↦ ?_ <;>
   rw [endBaseChange_comp, endBaseChange_endGlue, endBaseChange_endGlue, endBaseChange_id] <;>
-  first | exact (ψ _).hom_inv_id | exact (ψ _).inv_hom_id
+  first | exact (ψ _).asIso.hom_inv_id | exact (ψ _).asIso.inv_hom_id
 
 end AlgebraicGeometry.Scheme

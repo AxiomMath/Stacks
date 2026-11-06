@@ -180,7 +180,7 @@ def squareZeroExtensionOverSpecZ (I : X.Modules) (hI : I.IsQuasicoherent)
     (exact_kernel : ∀ (V : (Opens X)ᵒᵖ) (a : A.presheaf.obj V),
       π.hom.app V a = 0 → ∃! x, ι V x = a)
     (smul_lift : ∀ (V : (Opens X)ᵒᵖ) (a : A.presheaf.obj V) (x : I.val.obj V),
-      ι V (((I.val.obj V).smul (π.hom.app V a)).hom x) = a * ι V x)
+      ι V (((I.val.obj V).smul (π.hom.app V a)).asHom x) = a * ι V x)
     (square_zero : ∀ (V : (Opens X)ᵒᵖ) (x y : I.val.obj V), ι V x * ι V y = 0) :
     Stacks.Thickenings.SquareZeroExtension (specULiftZIsTerminal.from X) where
   A := A
@@ -303,7 +303,7 @@ def chartSheaf : TopCat.Sheaf CommRingCat.{u} (chartScheme U) :=
 /-- The sections of `𝒜|_{U_Zar}` over an open `V` are the sections of `𝒜` over the chart `V`
 cuts out. -/
 theorem chartSheaf_obj (V : (chartScheme U).Opens) :
-    (E.chartSheaf U).presheaf.obj (op V) = E.A.val.obj (op ((chartOpens B S hS U).obj V)) :=
+    (E.chartSheaf U).presheaf.obj (op V) = E.A.obj.obj (op ((chartOpens B S hS U).obj V)) :=
   rfl
 
 /-- The surjection `𝒜|_{U_Zar} ⟶ 𝒪_U`. -/
@@ -379,9 +379,9 @@ theorem chartι_mul (V : (Opens (chartScheme U))ᵒᵖ) (x y : (E.chartKernel U)
 /-- The action of `𝒪_U` on the kernel over the chart is that of `𝒪_X` on `ℐ` over the chart. -/
 theorem chartKernel_smul (V : (Opens (chartScheme U))ᵒᵖ)
     (o : (chartScheme U).ringCatSheaf.obj.obj V) (x : (E.chartKernel U).val.obj V) :
-    (((E.chartKernel U).val.obj V).smul o).hom x =
+    (((E.chartKernel U).val.obj V).smul o).asHom x =
       ULift.up ((((E.I.val.obj ((chartOpens B S hS U).op.obj V)).smul
-        ((chartRestrictionRingHom B S hS X.2 U).app V o)).hom x.down)) :=
+        ((chartRestrictionRingHom B S hS X.2 U).app V o)).asHom x.down)) :=
   rfl
 
 /-- `AlgebraicGeometry.Space.chartRestrictionRingHom` carries the image of a section under
@@ -395,7 +395,7 @@ theorem chartRestrictionRingHom_chartπ (V : (Opens (chartScheme U))ᵒᵖ)
 /-- The inclusion of the kernel over the chart is linear over `𝒜|_{U_Zar}`. -/
 theorem chartι_smul (V : (Opens (chartScheme U))ᵒᵖ) (a : (E.chartSheaf U).presheaf.obj V)
     (x : (E.chartKernel U).val.obj V) :
-    E.chartι U V ((((E.chartKernel U).val.obj V).smul ((E.chartπ U).hom.app V a)).hom x) =
+    E.chartι U V ((((E.chartKernel U).val.obj V).smul ((E.chartπ U).hom.app V a)).asHom x) =
       a * E.chartι U V x := by
   have h := E.smul_lift ((chartOpens B S hS U).op.obj V) a x.down
   rwa [← E.chartRestrictionRingHom_chartπ U V a] at h
@@ -446,7 +446,7 @@ theorem isFirstOrderThickening_chartInclusion :
 /-- The sections of `𝒪_{U'}` over an open `V` are the sections of `𝒜` over the chart `V` cuts
 out, on the nose. -/
 theorem chartRealizedScheme_presheaf_obj (V : (Opens (chartScheme U))ᵒᵖ) :
-    (E.chartRealizedScheme U).presheaf.obj V = E.A.val.obj ((chartOpens B S hS U).op.obj V) :=
+    (E.chartRealizedScheme U).presheaf.obj V = E.A.obj.obj ((chartOpens B S hS U).op.obj V) :=
   rfl
 
 end AlgebraicGeometry.Space.SquareZeroExtension

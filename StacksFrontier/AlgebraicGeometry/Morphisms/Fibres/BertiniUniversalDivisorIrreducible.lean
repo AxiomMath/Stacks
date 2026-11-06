@@ -1,7 +1,9 @@
 module
 
 public import Mathlib.Algebra.MvPolynomial.Equiv
+public import Mathlib.Algebra.Ring.Hom.InjSurj
 public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 public import Mathlib.RingTheory.Localization.FractionRing
 public import Mathlib.RingTheory.Localization.Ideal
 public import Mathlib.RingTheory.MvPolynomial.Localization

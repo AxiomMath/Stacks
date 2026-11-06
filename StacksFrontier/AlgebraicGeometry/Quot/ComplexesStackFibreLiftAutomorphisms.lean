@@ -74,7 +74,8 @@ automorphism of the complex of the lift of `E₀` attached to `m : x₀ ⟶ A`. 
 def fibreDataComplexAut
     (α : Aut (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).K.obj) : A.E ≅ A.E :=
   (fibreDataDerivedEquivalence (hx₀ := hx₀) A.T m.base t hbt hb hT hβ).counitIso.symm.app A.E ≪≫
-    (fibreDataDerivedEquivalence (hx₀ := hx₀) A.T m.base t hbt hb hT hβ).functor.mapIso α ≪≫
+    (fibreDataDerivedEquivalence (hx₀ := hx₀) A.T m.base t hbt hb hT hβ).functor.mapIso
+      α.asIso ≪≫
     (fibreDataDerivedEquivalence (hx₀ := hx₀) A.T m.base t hbt hb hT hβ).counitIso.app A.E
 
 /-- An automorphism of the lift of `E₀` fixes the identification with the base change of `E₀`
@@ -84,13 +85,14 @@ private theorem baseChange_map_comp_identification_iff
     (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom ≫ (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).identification.hom =
+          α.asIso.hom ≫
+        (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).identification.hom =
       (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).identification.hom ↔
     ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap m.base)).map
       (fibreDataComplexAut A m t hbt hb hT hβ hK α).hom ≫ m.fibre = m.fibre := by
   let eD := fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT hβ
   let P := (smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap m.base)
-  let e' : eD.inverse.obj A.E ≅ eD.inverse.obj A.E := α
+  let e' : eD.inverse.obj A.E ≅ eD.inverse.obj A.E := α.asIso
   change _ ≫ ((fibreDataDerivedPullbackIso (hx₀ := hx₀) A.T m.base t hbt hb hT hβ _).hom.app _ ≫
       P.map (eD.counitIso.hom.app A.E) ≫ m.fibre) =
     (fibreDataDerivedPullbackIso (hx₀ := hx₀) A.T m.base t hbt hb hT hβ _).hom.app _ ≫
@@ -116,7 +118,7 @@ theorem fibreDataComplexAut_fibre
     (hα : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _) :
+          α.asIso.hom = 𝟙 _) :
     ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap m.base)).map
       (fibreDataComplexAut A m t hbt hb hT hβ hK α).hom ≫ m.fibre = m.fibre :=
   (baseChange_map_comp_identification_iff A m t hbt hb hT hβ hK α).1 (by rw [hα, Category.id_comp])
@@ -159,7 +161,7 @@ theorem comp_fibreDataComplexEnd
     (hα : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _) :
+          α.asIso.hom = 𝟙 _) :
     m ≫ fibreDataComplexEnd A m t hbt hb hT hβ hK α = m := by
   obtain ⟨nf, hnfd⟩ : ∃ nf : ((smallEtaleDerivedPullbackData B S hS).pull
       (D.relativeMap (𝟙 A.T))).obj A.E ⟶ A.E,
@@ -200,8 +202,8 @@ theorem fibre_eq_of_mk_eq {A : ComplexesObject D} (c : x₀ ⟶ A)
 equivalence is `ε`. -/
 theorem fibreDataComplexAut_inverse_mapIso (ε : A.E ≅ A.E) :
     fibreDataComplexAut A m t hbt hb hT hβ hK
-      ((fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT
-        hβ).inverse.mapIso ε) = ε := by
+      (.of ((fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT
+        hβ).inverse.mapIso ε)) = ε := by
   let eD := fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT hβ
   ext
   change eD.counitIso.inv.app A.E ≫ eD.functor.map (eD.inverse.map ε.hom) ≫
@@ -216,12 +218,12 @@ theorem baseChange_map_inverse_mapIso_eq_id (ε : A.E ≅ A.E)
     (hε : ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap m.base)).map ε.hom ≫
       m.fibre = m.fibre) :
     let α : Aut (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).K.obj :=
-      (fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT
-        hβ).inverse.mapIso ε
+      .of ((fibreDataDerivedEquivalence (hx₀ := hx₀) (hDer := hDer) A.T m.base t hbt hb hT
+        hβ).inverse.mapIso ε)
     (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _ := by
+          α.asIso.hom = 𝟙 _ := by
   intro α
   refine (Iso.cancel_iso_hom_right _ _
     (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).identification).1
@@ -239,7 +241,7 @@ theorem exists_aut_of_fibreDataComplexEnd (n : ComplexesHom A A) (hn : n.base = 
       (derivedExtensionOfScalarsData.{d, u + 1}
         (sqZeroExtSheafAnySiteProj
           ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-            α.hom = 𝟙 _ ∧
+            α.asIso.hom = 𝟙 _ ∧
       fibreDataComplexEnd A m t hbt hb hT hβ hK α = n := by
   obtain ⟨nb, nf, hnf⟩ := n
   change nb = 𝟙 _ at hn
@@ -252,7 +254,7 @@ theorem exists_aut_of_fibreDataComplexEnd (n : ComplexesHom A A) (hn : n.base = 
   have hε : P.map ε.hom ≫ m.fibre = m.fibre :=
     (congrArg (P.map ε.hom ≫ ·) hχm).symm.trans key
   let α : Aut (fibreDataDerivedLift (hDer := hDer) A m t hbt hb hT hβ hK).K.obj :=
-    eD.inverse.mapIso ε
+    .of (eD.inverse.mapIso ε)
   refine ⟨α, baseChange_map_inverse_mapIso_eq_id A m t hbt hb hT hβ hK ε hε, ?_⟩
   have hαε : fibreDataComplexAut A m t hbt hb hT hβ hK α = ε :=
     fibreDataComplexAut_inverse_mapIso A m t hbt hb hT hβ hK ε
@@ -280,7 +282,7 @@ def fibreLiftEndOfAut (y : FibreLift D iΛ x₀ hx₀ hk ((fgSiteModule B hk).ob
     (hα : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _) : y ⟶ y :=
+          α.asIso.hom = 𝟙 _) : y ⟶ y :=
   let n : y.1.right.x ⟶ y.1.right.x := fibreDataComplexEnd (hDer := hDer) y.1.right.x y.1.hom.a
     (fibreLiftRetraction y) (fibreLiftSection_comp_retraction y)
     (isSquareZeroClosedImmersion_fibreLiftSection y) (fibreLiftScheme_left_eq y)
@@ -313,11 +315,11 @@ theorem fibreLiftEndOfAut_congr (y : FibreLift D iΛ x₀ hx₀ hk ((fgSiteModul
     (hα : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _)
+          α.asIso.hom = 𝟙 _)
     (hα' : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α'.hom = 𝟙 _) :
+          α'.asIso.hom = 𝟙 _) :
     fibreLiftEndOfAut y hK α hα = fibreLiftEndOfAut y hK α' hα' := by
   subst h
   rfl
@@ -333,7 +335,7 @@ theorem exists_fibreLiftEndOfAut_eq (y : FibreLift D iΛ x₀ hx₀ hk ((fgSiteM
       (hα : (derivedExtensionOfScalarsData.{d, u + 1}
         (sqZeroExtSheafAnySiteProj
           ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-            α.hom = 𝟙 _),
+            α.asIso.hom = 𝟙 _),
       fibreLiftEndOfAut y hK α hα = τ := by
   have hR : (TwoFibreProductOver.structureFunctor (complexesFunctor D) (Over.map x₀.T.left.hom)
       (baseProj D.Y) (complexesToBaseObjects D)

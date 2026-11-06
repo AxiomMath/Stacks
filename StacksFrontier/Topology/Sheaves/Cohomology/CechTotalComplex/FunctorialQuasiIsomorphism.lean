@@ -134,7 +134,7 @@ def injectiveResolutionToRightDerived (F : Modules.{u} O) (J : InjectiveResoluti
       ((rightDerivedCechFunctor.{u} O 𝒰).obj
         ((DerivedCategory.Plus.singleFunctor (Modules.{u} O) 0).obj F)).obj :=
   (DerivedCategory.quotientCompQhIso _).inv.app _ ≫
-  ((cechCohomologyZeroFunctor.{u} O 𝒰).rightDerivedFunctorPlusUnit.app
+  ((cechCohomologyZeroFunctor.{u} O 𝒰).rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient (Modules.{u} O)).obj
       ⟨J.cochainComplex, 0, inferInstance⟩)).hom ≫
   ((rightDerivedCechFunctor.{u} O 𝒰).map

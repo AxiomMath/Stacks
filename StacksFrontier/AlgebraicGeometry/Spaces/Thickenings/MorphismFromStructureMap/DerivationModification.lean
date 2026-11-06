@@ -263,7 +263,7 @@ second file and does exactly this once Equation (0619) is read at the composite 
 noncomputable def ambientConormalDerivation
     (θ : (modulePullback B S hS (IsThickening.inclusion B S hS hG ≫ a')).obj
         (sheafOfDifferentials B S hS pY') ⟶ conormalModule B S hS X' ⟨G, hG.1⟩) :
-    (ambientConormalDerivationValues B S hS hG a').val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (ambientConormalDerivationValues B S hS hG a').val
       (((smallEtaleRingedToposHom B S hS a').toToposHom.inverseImageRing).map
         (structureSharpInverseImage B S hS pY')).hom :=
   (inverseImageDerivationEquiv (smallEtaleRingedToposHom B S hS a').toToposHom

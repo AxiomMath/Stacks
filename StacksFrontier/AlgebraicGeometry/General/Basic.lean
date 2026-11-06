@@ -139,10 +139,13 @@ theorem baseChange_closed_of_lfp_closed {X S : Scheme.{u}} (f : X ⟶ S)
     calc
       V.1.ι ((pullback.snd f (V.1.ι ≫ g)) xV) =
           ((m ≫ pullback.snd f (V.1.ι ≫ g)) ≫ V.1.ι)
-            (genericPoint (Spec ((pullback f g).residueField x))) := by simp [xV, Category.assoc]
+            (genericPoint (Spec ((pullback f g).residueField x))) := by
+            simp only [xV, Scheme.Hom.comp_apply]
       _ = (d ≫ V.1.ι) (genericPoint (Spec ((pullback f g).residueField x))) := by rw [hmsnd]
       _ = (specx ≫ q) (genericPoint (Spec ((pullback f g).residueField x))) := by rw [hd]
-      _ = q x := by simp [specx]
+      _ = q x := by
+        rw [Scheme.Hom.comp_apply]
+        exact congrArg q (Scheme.fromSpecResidueField_apply _ _)
   have hxSupport : p xV ∈ I.support := by
     rw [hpx]
     show x ∈ ((Scheme.IdealSheafData.vanishingIdeal Z).support : Set ↑(pullback f g))

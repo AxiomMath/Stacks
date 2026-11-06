@@ -648,12 +648,13 @@ private theorem isAlgebraicSpace_pullback_of_isColimit_cofan
     Presheaf.isSheaf_pullback _ π (yoneda.map v) hF (isAlgebraicSpace_yoneda B S hS Z).isSheaf
       (isAlgebraicSpace_yoneda B S hS T₀).isSheaf⟩
   exact isAlgebraicSpace_coproduct_of_size_le B S hS X hX Gsh
-    (fun s => (⟨pp s⟩ : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh))
+    (fun s => (ObjectProperty.homMk (pp s) : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh))
     (Space.nonempty_isColimit_cofanMk_of_isPullback B S hS
       (fun s => J.yoneda.map (c s)) (Space.isColimit_yoneda_of_isColimit_toScheme B S hS W Z c hZs)
-      (⟨pullback.snd π (yoneda.map v)⟩ : Gsh ⟶ J.yoneda.obj Z)
-      (fun s => (⟨pp s⟩ : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh))
-      (fun s => (⟨q s⟩ : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶ J.yoneda.obj (W s)))
+      (ObjectProperty.homMk (pullback.snd π (yoneda.map v)) : Gsh ⟶ J.yoneda.obj Z)
+      (fun s => (ObjectProperty.homMk (pp s) : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh))
+      (fun s => (ObjectProperty.homMk (q s) : (⟨X s, (hX s).isSheaf⟩ : Sheaf J (Type u)) ⟶
+        J.yoneda.obj (W s)))
       (fun s => IsPullback.of_map_of_faithful (sheafToPresheaf J (Type u)) (hpb s))).some
     Yat b hbsurj hbet (Equiv.refl _) hℵ hμ hK hYsize
 
@@ -814,6 +815,8 @@ theorem isAlgebraicSpace_of_isCovering
   -- the atlas of the restriction to an affine open `W` of a member is the base change of `U_i`
   refine isAlgebraicSpace_of_isCovering_of_atlas_size_le hF E hE hFi
     (max_lt T₀.left.property U.left.property) (fun i W j hWaff hjoi => ?_)
+  have : HasPullbacks (BigFppfOver B S hS) := inferInstance
+  have : HasLimit (cospan j (σ i)) := HasLimitsOfShape.has_limit _
   let b : yoneda.obj (Limits.pullback j (σ i)) ⟶
       pullback (prod.fst : yoneda.obj (E.X i) ⨯ F ⟶ yoneda.obj (E.X i)) (yoneda.map j) :=
     pullback.lift (yoneda.map (pullback.snd j (σ i)) ≫ a i)

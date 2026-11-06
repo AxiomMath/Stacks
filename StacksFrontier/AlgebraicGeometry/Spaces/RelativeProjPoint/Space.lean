@@ -57,6 +57,19 @@ theorem Proj_obj : s.Proj.1 = s.relativeProjFunctor :=
 theorem π_hom : s.π.hom = s.relativeProjπ :=
   rfl
 
+section BaseChange
+
+/-- The pullback of `π` along a scheme point exists, as a local instance: since Mathlib v4.35.0,
+instance search for this `HasPullback` in the presheaf category times out. -/
+local instance hasPullback_π (Z : BigFppfOver s.site s.base s.containsBase)
+    (g : yoneda.obj Z ⟶ s.space.1) : HasPullback s.π.hom g :=
+  (s.relativeProjPoints.isPullback Z g).hasPullback
+
+/-- The same instance for `s.relativeProjπ`, the underlying morphism of `π`. -/
+local instance hasPullback_relativeProjπ (Z : BigFppfOver s.site s.base s.containsBase)
+    (g : yoneda.obj Z ⟶ s.space.1) : HasPullback s.relativeProjπ g :=
+  (s.relativeProjPoints.isPullback Z g).hasPullback
+
 /-- For a scheme point `g : Z ⟶ X`, the canonical isomorphism
 `γ : Proj_Z(g^*𝒜) ≅ Proj_X(𝒜) ×_X Z` of Stacks 084B; the scheme of
 `s.relativeProjPoints.fibre Z g` is `Proj_Z(g^*𝒜)` by `s.relativeProjPoints.fibreIso Z g`. -/
@@ -81,6 +94,8 @@ theorem baseChangeIso_hom_snd (Z : BigFppfOver s.site s.base s.containsBase)
     (s.baseChangeIso Z g).hom ≫ pullback.snd s.π.hom g =
       yoneda.map (s.relativeProjPoints.fibreHom Z g) :=
   (s.relativeProjPoints.isPullback Z g).isoPullback_hom_snd
+
+end BaseChange
 
 /-- The base change along a scheme point `Z ⟶ X` is the relative Proj over `Z` of the
 restricted algebra: `Z ×_X Proj_X(𝒜) = Proj_Z(g^*𝒜)` as a cartesian square. -/

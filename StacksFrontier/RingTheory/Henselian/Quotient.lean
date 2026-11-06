@@ -58,11 +58,11 @@ theorem henselianLocalRing_quotient {R : Type*} [CommRing R] [HenselianLocalRing
 quotient maps is a pushout square: `S ⧸ IS` is the base change `S ⊗[R] R ⧸ I`. -/
 theorem isPushout_quotient_map {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
     (I : Ideal R) : Algebra.IsPushout R (R ⧸ I) S (S ⧸ I.map (algebraMap R S)) := by
-  refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv (Ideal.qoutMapEquivTensorQout S).symm ?_⟩
+  refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv (Ideal.quotMapEquivTensorQuot S).symm ?_⟩
   intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [LinearEquiv.symm_apply_eq]
-  simp [Ideal.qoutMapEquivTensorQout, LinearEquiv.eq_symm_apply, Algebra.smul_def]
+  simp [Ideal.quotMapEquivTensorQuot, LinearEquiv.eq_symm_apply, Algebra.smul_def]
 
 end Stacks.Henselian
 

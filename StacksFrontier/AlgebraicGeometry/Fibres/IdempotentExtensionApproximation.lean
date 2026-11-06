@@ -775,7 +775,7 @@ private theorem extendsOverNeighbourhood_of_noetherianCase_of_qcqs
             (Category.id_comp _).trans
               ((Category.assoc _ _ _).trans
                 (congrArg (fun z => iso.inv ≫ z) (c.w g))).symm } }
-  have hc' : IsLimit c' := hc.ofIsoLimit (Cones.ext iso fun j => by simp [c'])
+  have hc' : IsLimit c' := hc.ofIsoLimit (Cone.ext iso fun j => by simp [c'])
   let φ : (D ⋙ Arrow.leftFunc) ⟶ (D ⋙ Arrow.rightFunc) :=
     { app := fun j => (D.obj j).hom
       naturality := fun _ _ g => (D.map g).w }

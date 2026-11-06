@@ -147,6 +147,7 @@ attribute [local instance] coherentAmbientMonoidal coherentAmbientBraided cohere
   FibredSite.monoidalCategoryQuasicoherentModules FibredSite.braidedCategoryQuasicoherentModules
   coherentLocalizedInclusionBraided
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The functor of `AlgebraicGeometry.Stack.AlgebraicStacks.coherentQuasicoherentEquivalence` is
 braided monoidal, for the full monoidal subcategory structure on the coherent quasi-coherent
 modules induced by the localized structure (I): it is the lift of the braided monoidal functor
@@ -165,6 +166,7 @@ instance coherentQuasicoherentEquivalence_functor_additive :
 
 variable {B S hS 𝒳} {R : Type u} [CommRing R]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **The extension of a right exact tensor functor `Coh(𝒪_𝒳) ⥤ Mod_R`, for the localized
 monoidal structure on `QCoh(𝒪_𝒳)`.** Let `𝒳` be a Noetherian algebraic stack. An additive braided
 monoidal functor `F : Coh(𝒪_𝒳) ⥤ Mod_R` preserving finite colimits is, by a monoidal isomorphism

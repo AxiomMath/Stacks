@@ -308,7 +308,8 @@ theorem exists_triangle_koszulTower_derivedSections
     ∃ c : principalKoszulComplexTower X (baseSmul X ρ f) E ⋙ DerivedCategory.Q ⋙
         derivedSectionsOver X ρ ≅ PrincipalTorsionTower.principalDerivedTensorSystem A f K,
       ∀ n : ℕ, ∃ τ : (derivedSectionsOver X ρ).mapTriangle.obj (DerivedCategory.Q.mapTriangle.obj
-          (CochainComplex.mappingCone.triangle (smulComplex X (baseSmul X ρ f) E ^ (n + 1)))) ⟶
+          (CochainComplex.mappingCone.triangle
+            (smulComplex X (baseSmul X ρ f) E ^ (n + 1)).asHom)) ⟶
           DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle
             (f ^ (n + 1) • 𝟙 (DerivedCategory.Q.objPreimage K))),
         τ.hom₁ = (DerivedCategory.Q.objObjPreimageIso K).inv ∧
@@ -376,22 +377,22 @@ theorem exists_triangle_koszulTower_derivedSections
   let Q := (DerivedCategory.Q : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ ⥤ _)
   let QA := (DerivedCategory.Q : CochainComplex (ModuleCat.{u} A) ℤ ⥤ _)
   let t₁ := RΓ.mapTriangle.map (Q.mapTriangle.map (CochainComplex.mappingCone.triangleMap
-    ((aE ^ (n + 1) : End E) : E ⟶ E) ((aJ ^ (n + 1) : End J) : J ⟶ J) j j
+    (aE ^ (n + 1)).asHom (aJ ^ (n + 1)).asHom j j
     (smulComplex_pow_naturality X (baseSmul X ρ f) j (n + 1))))
   let t₂ := (Functor.mapTriangleCompIso Q RΓ).inv.app
-    (CochainComplex.mappingCone.triangle ((aJ ^ (n + 1) : End J) : J ⟶ J))
-  let TJ := CochainComplex.mappingCone.triangle ((aJ ^ (n + 1) : End J) : J ⟶ J)
+    (CochainComplex.mappingCone.triangle (aJ ^ (n + 1)).asHom)
+  let TJ := CochainComplex.mappingCone.triangle (aJ ^ (n + 1)).asHom
   have hu₁ : IsIso ((sectionsDerivedUnit X ρ).app TJ.obj₁) := hJunit
   have hu₂ : IsIso ((sectionsDerivedUnit X ρ).app TJ.obj₂) := hJunit
   have hu₃ : IsIso ((sectionsDerivedUnit X ρ).app TJ.obj₃) := hunit n
   let U₃ := triangleIsoOfNatTrans (sectionsDerivedUnit X ρ)
-    (CochainComplex.mappingCone.triangle ((aJ ^ (n + 1) : End J) : J ⟶ J))
+    (CochainComplex.mappingCone.triangle (aJ ^ (n + 1)).asHom)
   let t₄ := (Functor.mapTriangleCompIso G QA).hom.app
-    (CochainComplex.mappingCone.triangle ((aJ ^ (n + 1) : End J) : J ⟶ J))
+    (CochainComplex.mappingCone.triangle (aJ ^ (n + 1)).asHom)
   let t₅ := QA.mapTriangle.map (CochainComplex.mappingCone.mapTriangleIso
-    ((aJ ^ (n + 1) : End J) : J ⟶ J) (sectionsOver X ρ)).hom
+    (aJ ^ (n + 1)).asHom (sectionsOver X ρ)).hom
   let t₆ := QA.mapTriangle.map (CochainComplex.mappingCone.triangleMap
-    (G.map ((aJ ^ (n + 1) : End J) : J ⟶ J)) (f ^ (n + 1) • 𝟙 (G.obj J)) (𝟙 _) (𝟙 _)
+    (G.map (aJ ^ (n + 1)).asHom) (f ^ (n + 1) • 𝟙 (G.obj J)) (𝟙 _) (𝟙 _)
     (by rw [Category.comp_id, Category.id_comp,
       mapHomologicalComplex_map_smulComplex_pow X ρ f J (n + 1)]))
   let t₇ := QA.mapTriangle.map (CochainComplex.mappingCone.triangleMap
@@ -426,8 +427,8 @@ theorem exists_triangle_koszulTower_derivedSections
           (smulComplex_pow_naturality X (baseSmul X ρ f) j (n + 1)))) ≫
         𝟙 _ ≫ @inv _ _ _ _ ((sectionsDerivedUnit X ρ).app TJ.obj₃) hu₃ ≫ 𝟙 _ ≫
         QA.map (CochainComplex.mappingCone.mapHomologicalComplexIso
-          ((aJ ^ (n + 1) : End J) : J ⟶ J) (sectionsOver X ρ)).hom ≫
-        QA.map (CochainComplex.mappingCone.map (G.map ((aJ ^ (n + 1) : End J) : J ⟶ J))
+          (aJ ^ (n + 1)).asHom (sectionsOver X ρ)).hom ≫
+        QA.map (CochainComplex.mappingCone.map (G.map (aJ ^ (n + 1)).asHom)
           (f ^ (n + 1) • 𝟙 (G.obj J)) (𝟙 _) (𝟙 _) (by rw [Category.comp_id, Category.id_comp,
             mapHomologicalComplex_map_smulComplex_pow X ρ f J (n + 1)])) ≫
         QA.map (CochainComplex.mappingCone.map (f ^ (n + 1) • 𝟙 (G.obj J)) (f ^ (n + 1) • 𝟙 I) ψ ψ
@@ -437,8 +438,8 @@ theorem exists_triangle_koszulTower_derivedSections
             (smulComplex_pow_naturality X (baseSmul X ρ f) j (n + 1)))) ≫
           @inv _ _ _ _ ((sectionsDerivedUnit X ρ).app TJ.obj₃) hu₃ ≫
           QA.map ((CochainComplex.mappingCone.mapHomologicalComplexIso
-            ((aJ ^ (n + 1) : End J) : J ⟶ J) (sectionsOver X ρ)).hom ≫
-            CochainComplex.mappingCone.map (G.map ((aJ ^ (n + 1) : End J) : J ⟶ J))
+            (aJ ^ (n + 1)).asHom (sectionsOver X ρ)).hom ≫
+            CochainComplex.mappingCone.map (G.map (aJ ^ (n + 1)).asHom)
             (f ^ (n + 1) • 𝟙 (G.obj J)) (𝟙 _) (𝟙 _) (by rw [Category.comp_id, Category.id_comp,
               mapHomologicalComplex_map_smulComplex_pow X ρ f J (n + 1)])) ≫
           QA.map (CochainComplex.mappingCone.map (f ^ (n + 1) • 𝟙 (G.obj J)) (f ^ (n + 1) • 𝟙 I)
@@ -524,7 +525,7 @@ theorem exists_triangle_principalKoszulTower_derivedSections
         PrincipalTorsionTower.principalDerivedTensorSystem A f K,
       ∀ n : ℕ, ∃ τ : (derivedSectionsOver X ρ).mapTriangle.obj (DerivedCategory.Q.mapTriangle.obj
           (CochainComplex.mappingCone.triangle
-            (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)))) ⟶
+            (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom)) ⟶
           DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle
             (f ^ (n + 1) • 𝟙 (DerivedCategory.Q.objPreimage K))),
         τ.hom₁ = (derivedSectionsOver X ρ).map (DerivedCategory.Q.objObjPreimageIso E).hom ≫
@@ -575,7 +576,7 @@ theorem exists_iso_principalKoszulTower_derivedSections_cone
       ∀ n : ℕ,
         (derivedSectionsOver X ρ).map ((DerivedCategory.Q.objObjPreimageIso E).inv ≫
             DerivedCategory.Q.map (CochainComplex.mappingCone.inr
-              (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)))) ≫
+              (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom)) ≫
           c.hom.app ⟨n⟩ =
           (DerivedCategory.Q.objObjPreimageIso ((derivedSectionsOver X ρ).obj E)).inv ≫
             DerivedCategory.Q.map (CochainComplex.mappingCone.inr (f ^ (n + 1) • 𝟙
@@ -591,7 +592,7 @@ theorem exists_iso_principalKoszulTower_derivedSections_cone
             (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).homologySequenceδ
                 ((derivedSectionsOver X ρ).mapTriangle.obj (DerivedCategory.Q.mapTriangle.obj
                   (CochainComplex.mappingCone.triangle (smulComplex X (baseSmul X ρ f)
-                    (DerivedCategory.Q.objPreimage E) ^ (n + 1))))) q q' hq ≫
+                    (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom))) q q' hq ≫
               (DerivedCategory.homologyFunctor (ModuleCat.{u} A) q').map
                 ((derivedSectionsOver X ρ).map (DerivedCategory.Q.objObjPreimageIso E).hom) := by
   have hc := exists_triangle_principalKoszulTower_derivedSections X ρ f E
@@ -600,7 +601,7 @@ theorem exists_iso_principalKoszulTower_derivedSections_cone
   have hn := hc n
   obtain ⟨τ, hτ⟩ := hn
   have k₂ : (derivedSectionsOver X ρ).map (DerivedCategory.Q.map (CochainComplex.mappingCone.inr
-        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)))) ≫
+        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom)) ≫
         c.hom.app ⟨n⟩ =
       ((derivedSectionsOver X ρ).map (DerivedCategory.Q.objObjPreimageIso E).hom ≫
         (DerivedCategory.Q.objObjPreimageIso ((derivedSectionsOver X ρ).obj E)).inv) ≫
@@ -682,7 +683,7 @@ theorem exists_triangleMorphism_map_derivedLimit (Y : ℕᵒᵖ ⥤ C) (Z : ℕ�
     refine Pi.hom_ext _ _ fun n ↦ ?_
     have hc := c.hom.naturality (homOfLE (Nat.le_succ n)).op
     dsimp only [Functor.comp_obj, Functor.comp_map] at hc
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hι₃, hι₂, reassoc_of% hι₂,
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hι₃, hι₂, reassoc_of% hι₂,
       ← G.map_comp_assoc, G.map_sub, Preadditive.sub_comp, G.map_comp, hc]
   have hsq : (G.mapTriangle.obj (Triangle.mk a (Pi.lift fun n : ℕ ↦
       Pi.π (fun n : ℕ ↦ Y.obj ⟨n⟩) n -

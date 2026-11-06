@@ -334,7 +334,8 @@ theorem TautologicalDatum.pullback_kernelTwistMap_eq_zero (D : TautologicalDatum
   have hpb : D.pullbackQuotientMap σ hσ = Q.q ≫ α.inv := by
     rw [← hα, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   have hnat := (sectionPullbackNatIso σ hσ).hom.naturality (kernel.ι Q.q)
-  rw [← cancel_epi ((sectionPullbackNatIso σ hσ).hom.app (kernel Q.q)), comp_zero,
+  rw [← Iso.cancel_iso_hom_left ((sectionPullbackNatIso σ hσ).app (kernel Q.q)), Iso.app_hom,
+    comp_zero,
     kernelTwistMap, Functor.map_comp, ← Category.assoc]
   rw [show (sectionPullbackNatIso σ hσ).hom.app (kernel Q.q) ≫
       (Scheme.Modules.pullback σ).map

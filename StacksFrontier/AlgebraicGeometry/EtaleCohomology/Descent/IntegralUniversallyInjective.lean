@@ -219,7 +219,8 @@ public theorem
         (smallEtaleTopology Y) (smallEtaleTopology X)) :=
   have : (smallEtaleTopology X).WEqualsLocallyBijective (Type (max (u + 1) v)) :=
     wEqualsLocallyBijective_smallEtaleTopology_type.{v, u} X
-  Functor.preservesColimitsOfShape_sheafPushforwardContinuous_of_isAlmostCocontinuous
+  Functor.preservesColimitsOfShape_sheafPushforwardContinuous_of_isAlmostCocontinuous.{
+      max (u + 1) v}
     (smallEtaleBaseChange f) (smallEtaleTopology Y) (smallEtaleTopology X)
     (smallEtaleBaseChange_isAlmostCocontinuous_of_isIntegralHom_of_universallyInjective f) I
 

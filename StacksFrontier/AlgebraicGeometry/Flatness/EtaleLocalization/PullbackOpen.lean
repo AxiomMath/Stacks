@@ -160,11 +160,11 @@ theorem isWeaklyAssociatedPoint_restrict_iff {X Y : Scheme.{u}} (j : X ⟶ Y)
     refine (hfm (a' • t')).trans ?_
     rw [he, hfm]
     have hs := Scheme.Modules.smul_restrictAppIso_hom_apply j G U a' t'
-    change a' • t' = (G.smul ((j.appIso U).inv a')).hom t' at hs
+    change a' • t' = (G.smul ((j.appIso U).inv a')).asHom.hom t' at hs
     rw [hs]
     let z : Γ(G, j ''ᵁ U) := t'
     show G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
-      ((G.smul ((j.appIso U).inv a')).hom z) = _
+      ((G.smul ((j.appIso U).inv a')).asHom.hom z) = _
     rw [G.smul_apply ((j.appIso U).inv a') z]
     show TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
       (((j.appIso U).inv a') • z) = _

@@ -260,6 +260,9 @@ theorem fSharpInverseImage_chartPullbackInverseImageSection (W : SmallEtale B S 
     (chartArrowOfMap B S hS f W U p hp)).app (structureSetSheaf B S hS X)) h4).trans ?_
   exact directImageChartProjection_structureSharpSet_chartDiagram B S hS f ⟨W, U, p, hp⟩ b
 
+set_option backward.isDefEq.respectTransparency false in
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The ring map `R(V) ⟶ (f⁻¹R)(W)` attached to an étale chart `W` of `X` above
 `X ×_Y V`**, for an arbitrary sheaf of rings `R` on the small étale site of `Y`: the unit of
 `f⁻¹ ⊣ f_*` followed by the chart projection.

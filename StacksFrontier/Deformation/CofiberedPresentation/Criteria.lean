@@ -352,8 +352,7 @@ private theorem finiteDimensional_tangentModuleAt_quotient [IsNoetherianRing Λ]
     exact ⟨tangentClassAt.{u, v, w} _ hπU _ (objectFiber _ x),
       tangentMapAt_tangentClassAt.{u, v, w} hπU hQ (quotientBasedFunctor G) _
         (objectFiber _ x)⟩
-  let _ := hTU
-  exact Module.Finite.of_surjective _ hsurj
+  exact Module.Finite.of_surjective (hM := hTU) _ hsurj
 
 /-- **The infinitesimal automorphisms of a category cofibered in groupoids with a smooth
 prorepresentable presentation are finite-dimensional**, at every object of the special fibre
@@ -389,9 +388,13 @@ private theorem finiteDimensional_infinitesimalAutomorphisms_of_presentation
   have hTR := finiteDimensional_tangentModuleAt_of_isProrepresentable.{u, v, w} G.arrows
     ((GroupoidInFunctors.isProrepresentable_iff_objects_arrows G).1 hpro).2
     (arrowsBasedDeformationCategory G hRdef)
-  let _ := hTR
+  let _ : FiniteDimensional k ↥(tangentModuleAt.{u, v, w}
+      (BasedCategory.ofFunctor (Functor.Elements.π G.arrows))
+      (arrowsBasedDeformationCategory G hRdef)
+      (FGModuleCat.of k (ULift.{v} k))) := hTR
   obtain ⟨hu₀⟩ := hUdef.1
-  let y₀ : G.objects.Elements := ⟨residueFieldObject.{u, v, w} Λ k, hu₀.default⟩
+  let y₀ : G.objects.Elements :=
+    G.objects.elementsMk (residueFieldObject.{u, v, w} Λ k) hu₀.default
   let PF₀ : ChosenPushforwardsAt (Grothendieck.forget (evaluationFunctor G))
       ((quotientMorphism G).obj y₀) :=
     chosenPushforwardsAtOfCofibered hQ.predeformation.cofibered _
@@ -427,6 +430,7 @@ private theorem finiteDimensional_infinitesimalAutomorphisms_of_presentation
     intro a b hab
     apply (localizedTangentEquivKernel PF).injective
     apply Subtype.ext
+    apply Aut.ext
     apply Iso.ext
     apply Functor.Fiber.hom_ext
     apply e.inv.functor.map_injective

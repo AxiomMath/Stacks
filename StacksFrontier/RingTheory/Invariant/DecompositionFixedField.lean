@@ -168,7 +168,8 @@ private theorem isLocalHom_of_isIntegral_source
       show f.toRingHom.comp (algebraMap R C) = algebraMap R T from RingHom.ext f.commutes]
     exact maximalIdeal_comap (algebraMap R T)
   have hm : P.IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap P (by rw [hc]; infer_instance)
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) P
+      (by rw [Ideal.under_def, hc]; infer_instance)
   exact ⟨(((local_hom_TFAE f.toRingHom).out 5 1).mp (eq_maximalIdeal hm) :
     IsLocalHom f.toRingHom).map_nonunit⟩
 

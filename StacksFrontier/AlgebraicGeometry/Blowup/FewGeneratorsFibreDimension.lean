@@ -78,7 +78,8 @@ private theorem ringKrullDim_fiber_le_natCard_of_adjoin {A B σ : Type*} [CommRi
         ringKrullDim_le_of_surjective _ hsurj
     _ = (Nat.card σ : WithBot ℕ∞) := by
         rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
-          zero_add]
+          zero_add, ENat.card_eq_coe_natCard σ]
+        rfl
 
 /-- The fraction `aⱼ / aᵢ` as an element of the affine blowup algebra `R[K/aᵢ]`, for
 `K = (a₀, …, a_n)`. -/

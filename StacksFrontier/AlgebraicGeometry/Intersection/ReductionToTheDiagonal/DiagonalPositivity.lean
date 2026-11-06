@@ -194,7 +194,6 @@ noncomputable def quotProdIdealEquiv (I J : Ideal A) :
     (by
       refine AlgHom.ext fun x => ?_
       induction x with
-      | zero => simp
       | add u v hu hv => simp only [map_add, hu, hv, AlgHom.id_apply]
       | tmul u v =>
           obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective u
@@ -206,7 +205,6 @@ noncomputable def quotProdIdealEquiv (I J : Ideal A) :
       refine AlgHom.ext fun x => ?_
       obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
       induction y with
-      | zero => simp
       | add u v hu hv =>
           rw [map_add] at *
           simp only [map_add, hu, hv, AlgHom.id_apply]
@@ -228,11 +226,9 @@ theorem exteriorModule_smul_eq_mul_prodIdeal (I J : Ideal A) (r : A ⊗[R] A)
     r • y =
       Algebra.TensorProduct.map (Ideal.Quotient.mkₐ R I) (Ideal.Quotient.mkₐ R J) r * y := by
   induction r with
-  | zero => simp
   | add r s hr hs => rw [add_smul, hr, hs, map_add, add_mul]
   | tmul a b =>
       induction y with
-      | zero => simp
       | add u v hu hv => rw [smul_add, hu, hv, mul_add]
       | tmul u v =>
           obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective u

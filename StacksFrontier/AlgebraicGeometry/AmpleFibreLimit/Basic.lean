@@ -315,7 +315,7 @@ theorem exists_mem_isRelativelyAmple_of_isAmple_fibre_of_qcqs {X S : Scheme.{u}}
             (Category.id_comp _).trans
               ((Category.assoc _ _ _).trans
                 (congrArg (fun z => iso.inv ≫ z) (c.w g))).symm } }
-  have hc' : IsLimit c' := hc.ofIsoLimit (Cones.ext iso fun j => by simp [c'])
+  have hc' : IsLimit c' := hc.ofIsoLimit (Cone.ext iso fun j => by simp [c'])
   have hA : IsLimit (Arrow.leftFunc.mapCone c') := isLimitLeftFuncMapCone D c' hc'
   have hB : IsLimit (Arrow.rightFunc.mapCone c') := isLimitRightFuncMapCone D c' hc'
   have hpr : ∀ j, IsProper (D.obj j).hom := hproper

@@ -359,6 +359,21 @@ theorem isIso_etaleModuleDerivedBaseChangeUnbounded_of_cohomologyCommutesWithBas
 
 end Main
 
+section FiniteCohomologicalDimension
+
+-- the structure projections of `Stacks.Models.RegularModelSituation` are global instances whose
+-- conclusions (`QuasiCompact ?f`, ...) match every goal and send instance search through
+-- `Submodule ?R ?R`; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
+
 /-- **Finite cohomological dimension of proper direct images over a quasi-compact base**, for
 sheaves of `Λ`-modules with `n = 0` in `Λ` for some `n > 0`: a proper morphism to a
 quasi-compact scheme has fibres of bounded dimension ([Stacks, Tag 0A3V]), so its higher direct
@@ -369,9 +384,14 @@ theorem exists_isZero_rightDerived_etaleModuleDirectImage_of_isProper (Λ : Type
     [CompactSpace S] :
     ∃ N : ℕ, ∀ G : EtaleModules Λ T,
       IsZero (((etaleModuleDirectImage Λ h).rightDerived N).obj G) := by
+  have : LocallyOfFiniteType h := IsProper.toLocallyOfFiniteType
+  have : UniversallyClosed h := IsProper.toUniversallyClosed
+  have : QuasiCompact h := inferInstance
   obtain ⟨d, hd⟩ := AlgebraicGeometry.exists_topologicalKrullDim_fiber_le h
   exact ⟨2 * d + 1, fun G ↦ isZero_rightDerived_etaleModuleDirectImage_of_isProper Λ h d hd G
     (torsionSheafProperty_etaleModuleForgetUniv_obj Λ hΛ G) _ (by omega)⟩
+
+end FiniteCohomologicalDimension
 
 /-- **Stacks Project, Tag 0F0C.** Let `f : X ⟶ Y` be a proper morphism of schemes, `g : Y' ⟶ Y`
 a morphism of schemes, and `X' = Y' ×_Y X`, given as a cartesian square `sq` with projections

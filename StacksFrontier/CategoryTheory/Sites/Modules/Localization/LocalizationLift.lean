@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.RingedToposRelocalizedMorphism
 public import StacksFrontier.CategoryTheory.Sites.Topos.LocalizationLeftExactExtension
+public import Mathlib.CategoryTheory.Adjunction.Limits
 
 /-!
 # Morphisms of ringed topoi into a localization
@@ -220,6 +221,15 @@ noncomputable abbrev tautologicalSection (X : RingedTopos.{v, u, v}) [Essentiall
 noncomputable abbrev isTerminalTautologicalSource (X : RingedTopos.{v, u, v}) (G : X.Topos) :
     IsTerminal (CategoryTheory.Stacks.Topos.Localized.terminalFiber X.J G) :=
   CategoryTheory.Stacks.Topos.Localized.isTerminalTerminalFiber X.J G
+
+/-- The equivalence of a localization with the slice topos preserves the terminal object
+(supplied directly: instance search for it times out). -/
+noncomputable local instance preservesLimit_empty_localizationEquivalence_functor
+    (X : RingedTopos.{v, u, v}) [EssentiallySmall.{v} X.C] (F : X.Topos) :
+    PreservesLimit (Functor.empty.{0} (X.localizedRingedTopos F).Topos)
+      (localizationEquivalence X F).functor :=
+  (Adjunction.isEquivalencePreservesLimits.{0, 0}
+    (localizationEquivalence X F).functor).preservesLimitsOfShape.preservesLimit
 
 /-- The diagonal `F ⟶ F × F`, as a morphism over `F` from the terminal object `𝟙 F` of the slice
 topos to the product `F × F ⟶ F` that the inverse image of the localization sends `F` to. -/

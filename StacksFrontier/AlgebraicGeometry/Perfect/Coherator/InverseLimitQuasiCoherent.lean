@@ -108,7 +108,7 @@ theorem IsDerivedLimit.map_of_isTriangulated (G : D ⥤ D') [G.CommShift ℤ] [G
   have hb : G.map b ≫ e.hom = e.hom ≫ b' := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, he, ← G.map_comp]
-    simp only [b, b', Pi.lift_π, G.map_sub, G.map_comp, Category.assoc,
+    simp only [b, b', Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
       Preadditive.comp_sub, he]
     rw [← Category.assoc, he]
     rfl

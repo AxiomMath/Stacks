@@ -381,7 +381,6 @@ private lemma support_eq_preimage_comap_of_flat {A B M N : Type*} [CommRing A] [
   set p := PrimeSpectrum.comap (algebraMap A B) P
   have : P.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   let := Localization.AtPrime.algebraOfLiesOver p.asIdeal P.asIdeal
-  have : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal P.asIdeal := ⟨rfl⟩
   set Ap := Localization.AtPrime p.asIdeal
   set Bp := Localization.AtPrime P.asIdeal
   have : Module.FaithfullyFlat Ap Bp := Module.FaithfullyFlat.of_flat_of_isLocalHom

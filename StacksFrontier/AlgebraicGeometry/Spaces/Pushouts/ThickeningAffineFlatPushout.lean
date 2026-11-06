@@ -1100,11 +1100,11 @@ theorem isIso_pushoutGluingAdjunction_counit_of_isFlat
   have haX'' : IsPullback (yoneda.map A.a) A.p' (qm ≫ eP.hom)
       (Limits.pushout.inl i f).hom :=
     haX'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinl)
+      (hinl.trans (Category.id_comp _).symm)
   have hbY'' : IsPullback (yoneda.map A.b) A.q (qm ≫ eP.hom)
       (Limits.pushout.inr i f).hom :=
     hbYc.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinr)
+      (hinr.trans (Category.id_comp _).symm)
   have hback' : i.hom ≫ (Limits.pushout.inl i f).hom =
       f.hom ≫ (Limits.pushout.inr i f).hom := by
     simpa only [ObjectProperty.FullSubcategory.comp_hom] using

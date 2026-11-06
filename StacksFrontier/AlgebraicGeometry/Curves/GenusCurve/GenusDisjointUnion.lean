@@ -143,7 +143,7 @@ noncomputable def structureSheafDisjointCoverIso
         have hmor (i : ι) : E.map q ≫ E.map (Pi.π A i) =
             E.map (SheafOfModules.unitToPushforwardObjUnit (f i).toRingCatSheafHom) :=
           (E.map_comp q (Pi.π A i)).symm.trans (congrArg E.map
-            (Pi.lift_π (fun j ↦ SheafOfModules.unitToPushforwardObjUnit
+            (Pi.lift_comp_π (fun j ↦ SheafOfModules.unitToPushforwardObjUnit
               (f j).toRingCatSheafHom) i))
         funext x i
         refine (he ((E.map q) x) i).trans ?_

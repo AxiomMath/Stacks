@@ -256,7 +256,7 @@ private theorem deltaDimensionFunction_eq_zero_of_isClosed_singleton
         Z.subspace.ι z)) :
     deltaDimensionFunction D sX hX d Z z = 0 := by
   have hclosed : IsClosed ({pointsMap D.site D.base D.base_mem Z.subspace.toFunctor
-      Z.subspace.ι z} : Set (points D.site D.base D.base_mem X)) := by
+                              Z.subspace.ι z} : Set (points D.site D.base D.base_mem X)) := by
     simpa only [Set.image_singleton] using
       ((Z.isClosedEmbedding_pointsMap D.site D.base D.base_mem hX.1).isClosedMap _ hz)
   show d _ = 0

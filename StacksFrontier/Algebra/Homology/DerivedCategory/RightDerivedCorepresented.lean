@@ -262,8 +262,8 @@ theorem homologyFunctor_map_universalClass {J : CochainComplex A ℤ}
           (homologyFunctor AddCommGrpCat.{v} n).map
             (β.app ((HomotopyCategory.quotient A (.up ℤ)).obj J)) := by
       simp only [← Functor.map_comp, Category.assoc, ← R.map_comp, Iso.hom_inv_id_assoc]
-      exact (congrArg (homologyFunctor AddCommGrpCat.{v} n).map hnat.symm).trans
-        (Functor.map_comp _ _ _)
+      rw [Functor.mapHomotopyCategory_map] at hnat
+      exact congrArg (homologyFunctor AddCommGrpCat.{v} n).map hnat.symm
     exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) e1).trans
       (((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _)
         (homologyQhIso_inv_naturality n ((F.mapHomologicalComplex (.up ℤ)).map φ)))).trans

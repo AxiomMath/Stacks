@@ -251,8 +251,8 @@ theorem isPerfect_derivedModuleFiber_of_isPerfect (E : RingedSite.DerivedModules
       (SheafOfModules.{w} (Stacks.commRingSheafToRingSheaf.{v, u, w} Z.O)) := hd
   obtain ⟨K, hK, ⟨eK⟩⟩ := hE
   obtain ⟨ι, V, hV, hmod⟩ := Z.exists_coversTop_isStrictlyPerfect_of_isPerfectComplex K hK
-  obtain ⟨⟨W, w₀⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
-  obtain ⟨Y, f, ⟨i, ⟨g⟩⟩, y, -⟩ := Φ.jointly_surjective _ (hV W) w₀
+  obtain ⟨e₀⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
+  obtain ⟨Y, f, ⟨i, ⟨g⟩⟩, y, -⟩ := Φ.jointly_surjective _ (hV e₀.obj) e₀.val
   let x : Φ.fiber.obj (V i) := Φ.fiber.map g y
   obtain ⟨P, hP, q, hq⟩ := hmod i
   let ρ := overRingFiberIso Φ x

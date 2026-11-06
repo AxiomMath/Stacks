@@ -295,7 +295,7 @@ alias underlyingRingSheafMapOfSite := Stacks.FlatChangeOfRings.ringSheafMap
 /-- The presheaf of objectwise relative differentials, `X ↦ Ω[O₂(X)⁄O₁(X)]`. -/
 noncomputable abbrev relativeDifferentialsPresheaf :
     PresheafOfModules.{w} (ringPresheaf O₂.obj) :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom
 
 variable (F : _root_.SheafOfModules.{max u v w m} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
 
@@ -395,7 +395,7 @@ lemma principalPartsSymbolApp_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
   have hd : (relativeDifferentialsPresheaf φ).map f
         (CommRingCat.KaehlerDifferential.d (f := φ.hom.app X) b) =
       CommRingCat.KaehlerDifferential.d (f := φ.hom.app Y) ((O₂.obj.map f) b) :=
-    PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d φ.hom f b
+    PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d φ.hom f b
   have hnat := globalDiffOp_naturality (underlyingRingSheafMapOfSite φ)
     (universalDiffOp_isGlobalDiffOpOfOrder.{v, u, w, m}
       (underlyingRingSheafMapOfSite φ) F 1) f

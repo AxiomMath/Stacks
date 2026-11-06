@@ -226,7 +226,7 @@ private theorem isTamelyRamified_iSup
     let T : IntermediateField K Ω := ⨆ i : (s : Set ι), E i
     have : Algebra.IsSeparable K T := inferInstance
     have heq : T = (⨆ i ∈ s, E i : IntermediateField K Ω) :=
-      @iSup_subtype'' (IntermediateField K Ω) inferInstance ι (s : Set ι) E
+      iSup_subtype'' (α := IntermediateField K Ω) (s : Set ι) E
     exact heq ▸ (inferInstance : Algebra.IsSeparable K T)
   have hs (s : Finset ι) :
       Stacks.KummerExtension.IsTamelyRamified A K (⨆ i ∈ s, E i : IntermediateField K Ω) := by

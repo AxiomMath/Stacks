@@ -227,7 +227,7 @@ lemma tensorTotalSectionAt_restrict {U V : X.C} (i : V ⟶ U) (t r c : ℤ) (h :
   (PresheafOfModules.naturality_apply (tensorTotalTmulMap X A B t r c h) i.op
       (a ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)] b)).symm.trans
     (congrArg ((tensorTotalTmulMap X A B t r c h).app (op V))
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul i.op a b))
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul i.op a b))
 
 /-- The local pure tensor is linear in the section of `B` for the action of `ℤ`. This is not an
 instance of `AlgebraicGeometry.RingedSite.tensorTotalSectionAt_smul_right`, whose scalars are

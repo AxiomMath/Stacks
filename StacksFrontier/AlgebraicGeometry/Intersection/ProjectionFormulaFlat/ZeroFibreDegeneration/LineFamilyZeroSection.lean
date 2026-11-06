@@ -359,8 +359,9 @@ theorem closure_familyBaseChange_genericPoint [IsClosedImmersion i] [IsVariety K
 /-- The closure of the generic point of the family over `V` has one more dimension than `V`. -/
 theorem topologicalKrullDim_closure_familyBaseChange_genericPoint [IsClosedImmersion i]
     [IsVariety K (i ≫ sP)] :
-    topologicalKrullDim (closure ({(familyBaseChange sP i).base
-        (genericPoint (projectiveLineProduct (i ≫ sP)))} : Set (projectiveLineProduct sP))) =
+    topologicalKrullDim (closure
+        ({(familyBaseChange sP i).base (genericPoint (projectiveLineProduct (i ≫ sP)))} :
+          Set (projectiveLineProduct sP))) =
       topologicalKrullDim V + 1 := by
   rw [topologicalKrullDim_closure_image_genericPoint, topologicalKrullDim_projectiveLineProduct]
 

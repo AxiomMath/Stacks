@@ -72,7 +72,7 @@ theorem lift_comp_piMap (Pr : ObjectProperty C)
           (fun j ↦ (e.app (op ⟨Y.obj j, hY j⟩)).hom) ≫
         Pi.lift fun i ↦ Pi.π (fun j ↦ Q.obj (op (Y.obj j))) (g.f i) ≫ Q.map (g.φ i).op := by
   refine Pi.hom_ext _ _ fun i ↦ ?_
-  simp only [Category.assoc, Pi.map_π, Pi.lift_π, Pi.lift_π_assoc, Pi.map_π_assoc]
+  simp only [Category.assoc, Pi.map_π, Pi.lift_comp_π, Pi.lift_comp_π_assoc, Pi.map_π_assoc]
   exact congrArg (fun t ↦ Pi.π (fun j ↦ P.obj (op (Y.obj j))) (g.f i) ≫ t)
     (e.hom.naturality (ObjectProperty.homMk (X := ⟨_, hX i⟩) (Y := ⟨_, hY (g.f i)⟩)
       (g.φ i)).op)
@@ -123,7 +123,7 @@ theorem map_lift_comp_piComparison (P : Cᵒᵖ ⥤ 𝒜)
         Pi.lift fun i ↦ Pi.π (fun j ↦ F.obj (P.obj (op (Y.obj j)))) (g.f i) ≫
           F.map (P.map (g.φ i).op) := by
   refine Pi.hom_ext _ _ fun i ↦ ?_
-  simp only [Category.assoc, piComparison_comp_π, Pi.lift_π, piComparison_comp_π_assoc,
+  simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π, piComparison_comp_π_assoc,
     ← Functor.map_comp]
 
 /-- **A functor preserving the products that occur commutes with the cosimplicial object of a

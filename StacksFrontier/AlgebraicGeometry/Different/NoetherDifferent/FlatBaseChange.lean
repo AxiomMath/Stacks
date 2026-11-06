@@ -217,13 +217,12 @@ private lemma envelopingBaseChangeMul_compat (A : Type u) (B : Type v) (A' : Typ
       Algebra.TensorProduct.one_def]
   · apply AlgHom.ext
     intro x
-    refine TensorProduct.induction_on x ?_ ?_ ?_
-    · simp [envelopingTensorEquiv, envelopingBaseChangeMul]
-    · intro b₁ b₂
+    induction x with
+    | tmul b₁ b₂ =>
       simp [envelopingTensorEquiv, envelopingBaseChangeMul,
         Algebra.TensorProduct.assoc_symm_tmul,
         Algebra.TensorProduct.cancelBaseChange_symm_tmul]
-    · intro x y hx hy
+    | add x y hx hy =>
       rw [map_add, map_add, hx, hy]
 
 /-- The annihilator of the diagonal ideal commutes with flat base change. -/
@@ -299,13 +298,13 @@ theorem map_noetherDifferent_eq (A : Type u) (B : Type v) (A' : Type w)
       (Algebra.TensorProduct.lmul' A').toRingHom]
   apply congrArg (fun f : (B ⊗[A] B) →+* (A' ⊗[A] B) =>
     Ideal.map f (diagonalAnnihilator A B))
-  refine RingHom.ext fun x => TensorProduct.induction_on x ?_ ?_ ?_
-  · simp
-  · intro b₁ b₂
+  refine RingHom.ext fun x => ?_
+  induction x with
+  | tmul b₁ b₂ =>
     simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
     rw [lmul'_envelopingBaseChange_tmul, Algebra.TensorProduct.lmul'_apply_tmul,
       Algebra.TensorProduct.includeRight_apply]
-  · intro x y hx hy
+  | add x y hx hy =>
     rw [map_add, map_add, hx, hy]
 
 end Stacks.Discriminant

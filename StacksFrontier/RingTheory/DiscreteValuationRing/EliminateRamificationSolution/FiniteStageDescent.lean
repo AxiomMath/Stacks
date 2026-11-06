@@ -177,7 +177,7 @@ private theorem comap_ne_bot_of_integral_tower
     [Algebra A C] [IsScalarTower A B C] [Algebra R C] [IsScalarTower A R C]
     (q : Ideal C) [q.IsMaximal] : q.comap (algebraMap R C) ≠ ⊥ := by
   have hB : q.comap (algebraMap B C) = IsLocalRing.maximalIdeal B :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q)
   have hA : q.comap (algebraMap A C) = IsLocalRing.maximalIdeal A := by
     rw [IsScalarTower.algebraMap_eq A B C, ← Ideal.comap_comap, hB,
       IsLocalRing.maximalIdeal_comap]

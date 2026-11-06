@@ -239,12 +239,10 @@ public noncomputable def completionData {Λ : Type u} {k : Type w} [CommRing Λ]
       K.map (composableFirst G.objects G.arrows G.source G.target) := by
     simp [hqMapCone, hConeEquiv, hDiagram, Limits.Cone.postcomposeEquivalence,
       Limits.Cone.postcompose, cone]
-    rfl
   have hsecond : hqMapCone.π.app Limits.WalkingCospan.right =
       K.map (composableSecond G.objects G.arrows G.source G.target) := by
     simp [hqMapCone, hConeEquiv, hDiagram, Limits.Cone.postcomposeEquivalence,
       Limits.Cone.postcompose, cone]
-    rfl
   refine ⟨cmp, ?_, ?_, ?_⟩
   · change cmp.hom ≫ composableFirst (K.obj G.objects) (K.obj G.arrows)
       (K.map G.source) (K.map G.target) =

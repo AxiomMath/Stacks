@@ -136,10 +136,10 @@ theorem exists_eq_of_locally_mem_range {Y : AlgebraicSpaces B S hS}
   choose r hr using h
   have hA : Presieve.IsSheaf (SmallEtale.topology B S hS Y.1) (A.obj ⋙ forget CommRingCat) :=
     (isSheaf_iff_isSheaf_of_type _ _).1
-      ((sheafCompose (SmallEtale.topology B S hS Y.1) (forget CommRingCat)).obj A).cond
+      ((sheafCompose (SmallEtale.topology B S hS Y.1) (forget CommRingCat)).obj A).property
   have hC : Presieve.IsSheaf (SmallEtale.topology B S hS Y.1) (C.obj ⋙ forget CommRingCat) :=
     (isSheaf_iff_isSheaf_of_type _ _).1
-      ((sheafCompose (SmallEtale.topology B S hS Y.1) (forget CommRingCat)).obj C).cond
+      ((sheafCompose (SmallEtale.topology B S hS Y.1) (forget CommRingCat)).obj C).property
   let fam : Presieve.FamilyOfElements (A.obj ⋙ forget CommRingCat) R.arrows :=
     fun W g hg => r g hg
   have hcomp : fam.Compatible := by

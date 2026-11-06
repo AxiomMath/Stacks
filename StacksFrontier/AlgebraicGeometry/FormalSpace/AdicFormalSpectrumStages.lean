@@ -179,7 +179,7 @@ abbrev formalSpectrumFibred (D : QuotientSystem B S hS A) : Type (u + 1) :=
 /-- The projection `p : 𝒳 ⥤ (Sch/S)_{fppf}`, `(U, x) ↦ U`. -/
 abbrev formalSpectrumProjection (D : QuotientSystem B S hS A) :
     formalSpectrumFibred D ⥤ BigFppfOver B S hS :=
-  (CategoryOfElements.π (formalSpectrum D).obj).leftOp
+  (Functor.Elements.π (formalSpectrum D).obj).leftOp
 
 /-- The affine subcategory `𝒳_{affine}` of the category fibred in sets of the formal spectrum
 (Stacks 0H0A): the pairs `(U, x)` with `U` affine. -/
@@ -275,7 +275,7 @@ theorem sheafifiedYoneda_map_comp_stageInclusion {U : formalSpectrumAffine D} {n
     (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map
         ((formalSpectrumProjection D).map f.hom) ≫ stageInclusion D hA hI n =
       (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).symm U.obj.unop.2 := by
-  rw [Equiv.eq_symm_apply]
+  refine (Equiv.eq_symm_apply _).2 ?_
   exact (map_stagePoint _).symm.trans f.hom.unop.2
 
 variable (D hA hI)
@@ -369,7 +369,7 @@ instance subsingleton_hom_stage (U : formalSpectrumAffine D) (n : ℕ) :
       ((sheafifiedYoneda_map_comp_stageInclusion f).trans
         (sheafifiedYoneda_map_comp_stageInclusion f').symm)
   exact ObjectProperty.hom_ext _ (Quiver.Hom.unop_inj
-    (CategoryOfElements.ext _ _ _ (Quiver.Hom.unop_inj h)))
+    (Functor.Elements.hom_ext (Quiver.Hom.unop_inj h)))
 
 /-- **Every object of `𝒳_{affine}` maps to a stage** (Stacks 0AIA in the proof of Stacks 0H0L).
 A point of `Spf A` over an affine scheme, a quasi-compact object of the site, factors through
@@ -406,7 +406,8 @@ theorem exists_hom_stage (U : formalSpectrumAffine D) : ∃ n, Nonempty (U ⟶ s
       ((congrArg (g ≫ ·) (colimit.w (formalSpectrumDiagram D) t)).trans hg)⟩
   refine ⟨n, ⟨homStageMk ((Sheaf.fullyFaithfulSheafifiedYoneda
     (BigFppfOver.topology B S hS)).preimage g') ((map_stagePoint _).trans ?_)⟩⟩
-  rw [Functor.FullyFaithful.map_preimage, hg', Equiv.apply_symm_apply]
+  rw [Functor.FullyFaithful.map_preimage, hg']
+  exact Equiv.apply_symm_apply _ _
 
 /-- **The morphisms between stages.** There is a morphism from the `m`-th to the `n`-th stage
 exactly when `I ^ (n + 1) ≤ I ^ (m + 1)`. -/

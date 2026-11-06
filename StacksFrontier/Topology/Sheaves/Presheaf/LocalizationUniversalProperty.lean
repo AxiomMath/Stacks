@@ -2,6 +2,9 @@ module
 
 public import Mathlib.Topology.Sheaves.CommRingCat
 public import Mathlib.Topology.Sheaves.Sheafify
+public import Mathlib.Algebra.Category.Ring.FilteredColimits
+public import Mathlib.Algebra.Category.Ring.Limits
+public import Mathlib.CategoryTheory.Sites.LeftExact
 import StacksCore.Tactic.StacksAttribute
 
 /-!

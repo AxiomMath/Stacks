@@ -151,7 +151,7 @@ universe uC vC uF vF uU
 
 variable {C : Type uC} [Category.{vC} C] {F : Type uF} [Category.{vF} F]
   {pF : F ⥤ C} {U : C ⥤ Type uU} {f : U.Elements ⥤ F}
-  {hover : f ⋙ pF = CategoryOfElements.π U}
+  {hover : f ⋙ pF = Functor.Elements.π U}
 
 /-- The category of elements of a presentation's arrow functor, compared with the self
 `2`-fibre product taken over the projections `f ⋙ p` of the two legs. -/
@@ -163,7 +163,7 @@ public def presentationArrowsEquivalence (P : PresentationGroupoid pF U f hover)
 /-- The comparison of a presentation's arrow functor with the self `2`-fibre product, as a
 `1`-morphism over the base. -/
 public def presentationArrowsBasedFunctor (P : PresentationGroupoid pF U f hover) :
-    BasedCategory.ofFunctor (CategoryOfElements.π P.arrows) ⥤ᵇ
+    BasedCategory.ofFunctor (Functor.Elements.π P.arrows) ⥤ᵇ
       BasedCategory.ofFunctor
         (TwoFibreProductOver.structureFunctor (f ⋙ pF) (f ⋙ pF) pF f f) where
   toFunctor := (presentationArrowsEquivalence P).functor
@@ -179,9 +179,9 @@ public def presentationArrowsBasedFunctor (P : PresentationGroupoid pF U f hover
 on categories of elements induced by `s`, followed by the comparison identifying the category of
 elements of a universe-lifted functor with that of the functor itself. -/
 public def presentationSourceBasedFunctor (P : PresentationGroupoid pF U f hover) :
-    BasedCategory.ofFunctor (CategoryOfElements.π P.arrows) ⥤ᵇ
-      BasedCategory.ofFunctor (CategoryOfElements.π U) where
-  toFunctor := CategoryOfElements.map P.source ⋙ (uliftElementsEquivalence U).inverse
+    BasedCategory.ofFunctor (Functor.Elements.π P.arrows) ⥤ᵇ
+      BasedCategory.ofFunctor (Functor.Elements.π U) where
+  toFunctor := NatTrans.mapElements P.source ⋙ (uliftElementsEquivalence U).inverse
   w := rfl
 
 end
@@ -218,7 +218,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [IsNoetherianRing Λ] [Field k
   [Module.Finite Λ k] {F : Type u₃} [Category.{v₃} F]
   (pF : F ⥤ ArtinianLocalAlgCat.{u, max v v₃ w, w} Λ k)
   (U : ArtinianLocalAlgCat.{u, max v v₃ w, w} Λ k ⥤ Type (max v v₃ w))
-  (f : U.Elements ⥤ F) (hover : f ⋙ pF = CategoryOfElements.π U)
+  (f : U.Elements ⥤ F) (hover : f ⋙ pF = Functor.Elements.π U)
 
 omit [IsNoetherianRing Λ] [Module.Finite Λ k] in
 /-- The arrow functor of a presentation of a deformation category by a deformation functor is a
@@ -228,32 +228,33 @@ public theorem isDeformationFunctor_presentationArrows
     (hF : IsDeformationCategory.{u, max v v₃, w} pF) :
     IsDeformationFunctor.{u, max v v₃, w}
       (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows := by
-  have hπU : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π U) :=
+  have hπU : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π U) :=
     (isDeformationCategory_iff U).mpr hU
   set P := presentationGroupoid pF U f hover hF.predeformation.cofibered
   have h𝒲 : IsDeformationCategory.{u, max v v₃, w}
       (TwoFibreProductOver.structureFunctor
-        (CategoryOfElements.π U) (CategoryOfElements.π U) pF f f) :=
-    isDeformationCategory_twoFibreProductOver.{u, max v v₃, w} (CategoryOfElements.π U)
-      (CategoryOfElements.π U) pF f f hover hover hπU hπU hF
+        (Functor.Elements.π U) (Functor.Elements.π U) pF f f) :=
+    isDeformationCategory_twoFibreProductOver.{u, max v v₃, w} (Functor.Elements.π U)
+      (Functor.Elements.π U) pF f f hover hover hπU hπU hF
   have hcof : IsCofiberedInGroupoids
       (P.fibreProductEquivalence.functor ⋙ TwoFibreProductOver.structureFunctor
-        (CategoryOfElements.π U) (CategoryOfElements.π U) pF f f) := by
+        (Functor.Elements.π U) (Functor.Elements.π U) pF f f) := by
     rw [P.fibreProductOverBase]
     exact categoryOfElements_projection_isCofibered P.arrows
   have hne : Nonempty
       ((P.fibreProductEquivalence.functor ⋙ TwoFibreProductOver.structureFunctor
-        (CategoryOfElements.π U) (CategoryOfElements.π U) pF f f).Fiber
+        (Functor.Elements.π U) (Functor.Elements.π U) pF f f).Fiber
           (residueFieldObject.{u, max v v₃, w} Λ k)) := by
     rw [P.fibreProductOverBase]
     let := hU.1.some
-    refine ⟨⟨⟨residueFieldObject.{u, max v v₃, w} Λ k, (P.arrowEquiv _).symm ?_⟩, rfl⟩⟩
+    refine ⟨⟨P.arrows.elementsMk (residueFieldObject.{u, max v v₃, w} Λ k)
+      ((P.arrowEquiv _).symm ?_), rfl⟩⟩
     exact
       { target := default
         source := default
         iso := Iso.refl _
         vertical := by simp }
-  have hπR : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π P.arrows) := by
+  have hπR : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π P.arrows) := by
     rw [← P.fibreProductOverBase]
     exact Deformation.Examples.isDeformationCategory_comp_of_essSurj.{u, max v v₃, w}
       P.fibreProductEquivalence.functor _ hcof hne h𝒲
@@ -263,21 +264,23 @@ public theorem isDeformationFunctor_presentationArrows
 injective. -/
 public theorem injective_derivationToTangentSpace_presentationArrows
     (hU : IsProrepresentable U) (hF : IsDeformationCategory.{u, max v v₃, w} pF)
-    (hR : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π
+    (hR : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π
       (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)) :
     Function.Injective (derivationToTangentSpace.{u, max v v₃, w}
-      (CategoryOfElements.π
+      (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)
       hR.predeformation) := by
   obtain ⟨hUdef, -, hUinj⟩ := (isProrepresentable_iff_isDeformationFunctor U).mp hU
-  have hπU : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π U) :=
+  have hπU : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π U) :=
     (isDeformationCategory_iff U).mpr hUdef
   set P := presentationGroupoid pF U f hover hF.predeformation.cofibered
   have nat := derivationToTangentSpace_naturality.{u, max v v₃, w}
-    (CategoryOfElements.π P.arrows) hR.predeformation
-    (CategoryOfElements.π U) hπU.predeformation (presentationSourceBasedFunctor P)
+    (Functor.Elements.π P.arrows) hR.predeformation
+    (Functor.Elements.π U) hπU.predeformation (presentationSourceBasedFunctor P)
   intro D D' hDD
   apply hUinj
+  change derivationToTangentSpace.{u, max v v₃, w} (Functor.Elements.π U) _ D =
+    derivationToTangentSpace.{u, max v v₃, w} (Functor.Elements.π U) _ D'
   rw [← nat D, ← nat D', hDD]
 
 /-- When `U` is prorepresentable and the infinitesimal automorphisms of `ℱ` are finite-dimensional,
@@ -288,36 +291,38 @@ public theorem finiteDimensional_tangentSpace_presentationArrows
     (hInf : FiniteDimensional k
       ↥((infinitesimalAutomorphismLinearLift.{u, max v v₃, w} PF hF.satisfiesRS).functor.obj
         (FGModuleCat.of k (ULift.{max v v₃} k))))
-    (hR : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π
+    (hR : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π
       (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
     [Fact (IsPredeformationCategory.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)).p)]
     [Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
       hR.predeformation.cofibered)))] :
     FiniteDimensional k (tangentSpaceArtinian.{u, w, max v v₃} Λ k (isomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
       hR.predeformation.cofibered)) := by
   classical
   obtain ⟨hUdef, hUfin, -⟩ := (isProrepresentable_iff_isDeformationFunctor U).mp hU
-  have hπU : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π U) :=
+  have hπU : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π U) :=
     (isDeformationCategory_iff U).mpr hUdef
   set M₁ : FGModuleCat.{max v v₃ w} k := FGModuleCat.of k (ULift.{max v v₃} k)
   set P := presentationGroupoid pF U f hover hF.predeformation.cofibered
   have hH : IsDeformationCategory.{u, max v v₃, w} (f ⋙ pF) :=
     isDeformationCategory_comp_of_isDeformationFunctor.{u, max v v₃, w} U pF f hover hUdef
   let : Fact (IsPredeformationCategory.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π U)).p) := ⟨hπU.predeformation⟩
+      (BasedCategory.ofFunctor (Functor.Elements.π U)).p) := ⟨hπU.predeformation⟩
   let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π U))
+      (BasedCategory.ofFunctor (Functor.Elements.π U))
       hπU.predeformation.cofibered))) := ⟨tangentConditionS2.{u, max v v₃, w} hπU⟩
   have hTU : FiniteDimensional k ↥(tangentModuleAt.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π U)) hπU M₁) :=
-    (associatedTangentSpaceCarrierLinearEquiv.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π U)) hπU.predeformation
+      (BasedCategory.ofFunctor (Functor.Elements.π U)) hπU M₁) := by
+    have : FiniteDimensional k (tangentSpaceArtinian.{u, w, max v v₃} Λ k (isomorphismClasses
+        (BasedCategory.ofFunctor (Functor.Elements.π U)) hπU.predeformation.cofibered)) := hUfin
+    exact (associatedTangentSpaceCarrierLinearEquiv.{u, max v v₃, w}
+      (BasedCategory.ofFunctor (Functor.Elements.π U)) hπU.predeformation
       (tangentConditionS2.{u, max v v₃, w} hπU)).symm.finiteDimensional
   have hTH : FiniteDimensional k ↥(tangentModuleAt.{u, max v v₃, w}
       (BasedCategory.ofFunctor (f ⋙ pF)) hH M₁) :=
@@ -342,7 +347,7 @@ public theorem finiteDimensional_tangentSpace_presentationArrows
   have : (presentationArrowsBasedFunctor P).toFunctor.EssSurj :=
     CategoryTheory.Equivalence.essSurj_functor (presentationArrowsEquivalence P)
   have hTR : FiniteDimensional k ↥(tangentModuleAt.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π P.arrows)) hR M₁) :=
+      (BasedCategory.ofFunctor (Functor.Elements.π P.arrows)) hR M₁) :=
     finiteDimensional_tangentModuleAt_of_fiberEquivalence.{u, max v v₃, w} hR
       (isDeformationCategory_productBased.{u, max v v₃, w} pF f f hH hH hF)
       (presentationArrowsBasedFunctor P) M₁
@@ -351,7 +356,7 @@ public theorem finiteDimensional_tangentSpace_presentationArrows
       (essSurj_fiberFunctor (categoryOfElements_projection_isCofibered P.arrows)
         (presentationArrowsBasedFunctor P) _) hT𝒲
   exact (associatedTangentSpaceCarrierLinearEquiv.{u, max v v₃, w}
-    (BasedCategory.ofFunctor (CategoryOfElements.π P.arrows)) hR.predeformation
+    (BasedCategory.ofFunctor (Functor.Elements.π P.arrows)) hR.predeformation
     (tangentConditionS2.{u, max v v₃, w} hR)).finiteDimensional
 
 /-- When `U` is prorepresentable and the infinitesimal automorphisms of `ℱ` are finite-dimensional,
@@ -368,15 +373,15 @@ public theorem isProrepresentable_presentationArrows
   have hRdef : IsDeformationFunctor.{u, max v v₃, w}
       (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows :=
     isDeformationFunctor_presentationArrows.{u, v, w, u₃, v₃} pF U f hover hUdef hF
-  have hR : IsDeformationCategory.{u, max v v₃, w} (CategoryOfElements.π
+  have hR : IsDeformationCategory.{u, max v v₃, w} (Functor.Elements.π
       (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows) :=
     (isDeformationCategory_iff _).mpr hRdef
   let : Fact (IsPredeformationCategory.{u, max v v₃, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)).p) :=
     ⟨hR.predeformation⟩
   let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
       hR.predeformation.cofibered))) := ⟨tangentConditionS2.{u, max v v₃, w} hR⟩
   exact (isProrepresentable_iff_isDeformationFunctor _).mpr ⟨hRdef,

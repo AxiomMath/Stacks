@@ -138,6 +138,8 @@ lemma sectionsModuleComplex_d (K : SimplicialObject (FormalCoproduct.{w} (Over X
 instance sectionsModuleComplexFunctor_additive
     (K : SimplicialObject (FormalCoproduct.{w} (Over X))) :
     (sectionsModuleComplexFunctor.{uM} R X K).Additive :=
+  have : HasProducts.{w} (ModuleCat.{uM} (R.obj.obj (op X))) :=
+    fun _ => ModuleCat.hasLimitsOfShape
   inferInstanceAs (sectionsModulePresheafFunctor R X ⋙
     FormalCoproduct.cochainComplexFunctor K).Additive
 

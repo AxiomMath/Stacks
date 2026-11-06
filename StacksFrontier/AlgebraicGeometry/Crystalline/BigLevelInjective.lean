@@ -120,7 +120,10 @@ instance preservesMonomorphisms_levelLowerShriek :
               (topology (S.levelSituation he)) (topology S)).map m ≫ c.app B) := by
       rw [← e, IsIso.inv_hom_id_assoc]
     rw [hg]
-    infer_instance
+    have hA : IsIso (c.app A) := NatIso.isIso_app_of_isIso c A
+    have hB : IsIso (c.app B) := NatIso.isIso_app_of_isIso c B
+    exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _
+      (@mono_comp _ _ _ _ _ _ h₁ _ (IsIso.mono_of_iso _))
   exact (SheafOfModules.toSheaf.{u + 1} _).mono_of_mono_map h₂
 
 /-- **Restriction to a finite level carries injective modules to injective modules**: the first

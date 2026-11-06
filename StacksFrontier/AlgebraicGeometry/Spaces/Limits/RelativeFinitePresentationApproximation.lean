@@ -47,6 +47,26 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance hasPullbacks_presheaf_relativeFinitePresentationApproximation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance (priority := high) hasProducts_presheaf_relativeFinitePresentationApproximation
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  @functorCategoryHasLimitsOfShape _ _ _ _ _ _
+    (Types.hasLimitsOfShape : HasLimitsOfShape (Discrete J) (Type u))
+
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance (priority := high) hasPullback_presheaf_relativeFinitePresentationApproximation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The comparison of two fibre products along a morphism of cospans is affine** when the
 morphism of the left-hand corners is affine and that of the bottom corners is separated. -/
 theorem isAffineHom_pullbackMap

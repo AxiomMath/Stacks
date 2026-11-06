@@ -105,13 +105,13 @@ variable (G : Type v) [Group G] [TopologicalSpace G]
 /-- The ring `R` with the trivial `G`-action, as a continuous discrete `R`-`G`-module. -/
 def trivialModule : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G :=
   ⟨⟨Action.trivial G (ModuleCat.of R (ULift.{max u v w} R)), by
-      rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
-      exact fun _ => continuous_const⟩, ⟨rfl⟩⟩
+      exact (Action.isContinuous_def _).2
+        (continuous_prod_of_discrete_right.2 fun _ => continuous_const)⟩, ⟨rfl⟩⟩
 
 /-- An invariant vector is fixed by every group element. -/
 lemma rho_apply_mem_invariants {M : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G}
     (x : (continuousModuleInvariants.{u, v, max u v w} R G).obj M) (g : G) :
-    (M.obj.obj.ρ g).hom x.val = x.val := x.property g
+    (M.obj.obj.ρ g).asHom x.val = x.val := x.property g
 
 /-- The morphism of continuous discrete `R`-`G`-modules out of the trivial module `R` given by
 multiplication by an invariant vector. -/
@@ -121,7 +121,7 @@ def invariantModuleHom {M : Stacks.Injectives.ContinuousModule.{u, v, max u v w}
   ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom (uliftSpan.{max u v w} R (M.obj.obj.V : Type max u v w) x.val)
       comm := fun g => ModuleCat.hom_ext (LinearMap.ext fun n =>
-        (uliftSpan_fixed.{max u v w} R (M.obj.obj.V : Type max u v w) (M.obj.obj.ρ g).hom x.val
+        (uliftSpan_fixed.{max u v w} R (M.obj.obj.V : Type max u v w) (M.obj.obj.ρ g).asHom.hom x.val
           (rho_apply_mem_invariants R G x g) n).symm) })
 
 /-- The invariants of a continuous discrete `R`-`G`-module `M` are additively equivalent to the
@@ -311,6 +311,7 @@ lemma forget₂_map_smul_id_apply {X : ModuleCat.{z} R} (r : R) (x : (X : Type z
     ConcreteCategory.hom
       ((forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z}).map (r • 𝟙 X)) x = r • x := rfl
 
+set_option maxHeartbeats 1000000 in
 omit [HasExt.{max u v w} (Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G)] in
 /-- On the target of the comparison, multiplication by `r` is the functor applied to `r • 𝟙`. -/
 lemma internalHomRightDerived_map_smul_id_apply
@@ -339,6 +340,7 @@ def extFunctorObjCarrierAddEquiv
     (((extFunctorObj M i).obj N : AddCommGrpCat.{max u v w}) : Type max u v w) ≃+
       Ext.{max u v w} M N i := AddEquiv.refl _
 
+set_option maxHeartbeats 1000000 in
 /-- For `M` finite projective over `R`, `Extⁱ(M, N)` is additively isomorphic to the `i`-th right
 derived functor of `G`-invariants at `Hom_R(M, N)`. -/
 def extAddEquivRightDerived

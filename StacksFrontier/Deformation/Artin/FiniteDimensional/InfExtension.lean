@@ -50,11 +50,11 @@ theorem finiteDimensional_localizedAutomorphismFunctorTangent_of_extension
     {S : ShortComplex 𝒜} (hS : S.ShortExact) [FiniteDimensional k (S.X₃ ⟶ S.X₁)]
     (ρ : infinitesimalAutomorphismKernel P (tangentReduction (p := p) (x := x)) →* Aut S.X₂)
     (hρ : Function.Injective ρ)
-    (hi : ∀ a, S.f ≫ (ρ a).hom = S.f) (hq : ∀ a, (ρ a).hom ≫ S.g = S.g)
+    (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f) (hq : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g)
     (hscale : ∀ (c : k) (a b : infinitesimalAutomorphismKernel P
         (tangentReduction (p := p) (x := x))),
       b.val = P.transportAutHom (tangentScaling c) a.val →
-        (ρ b).hom - 𝟙 S.X₂ = c • ((ρ a).hom - 𝟙 S.X₂)) :
+        (ρ b).asIso.hom - 𝟙 S.X₂ = c • ((ρ a).asIso.hom - 𝟙 S.X₂)) :
     letI := naturalLocalizedTangentAddCommGroup P hp
     letI := naturalLocalizedTangentModule P hp
     FiniteDimensional k (localizedAutomorphismFunctorTangent P) := by
@@ -81,11 +81,11 @@ theorem finiteDimensional_infinitesimalAutomorphismLinearLift_of_extension
     {S : ShortComplex 𝒜} (hS : S.ShortExact) [FiniteDimensional k (S.X₃ ⟶ S.X₁)]
     (ρ : infinitesimalAutomorphismKernel P (tangentReduction (p := p) (x := x)) →* Aut S.X₂)
     (hρ : Function.Injective ρ)
-    (hi : ∀ a, S.f ≫ (ρ a).hom = S.f) (hq : ∀ a, (ρ a).hom ≫ S.g = S.g)
+    (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f) (hq : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g)
     (hscale : ∀ (c : k) (a b : infinitesimalAutomorphismKernel P
         (tangentReduction (p := p) (x := x))),
       b.val = P.transportAutHom (tangentScaling c) a.val →
-        (ρ b).hom - 𝟙 S.X₂ = c • ((ρ a).hom - 𝟙 S.X₂)) :
+        (ρ b).asIso.hom - 𝟙 S.X₂ = c • ((ρ a).asIso.hom - 𝟙 S.X₂)) :
     FiniteDimensional k ↥((infinitesimalAutomorphismLinearLift.{u, v, w} P hp).functor.obj
       (FGModuleCat.of k (ULift.{v} k))) :=
   finiteDimensional_infinitesimalAutomorphismLinearLift_of_localized hp P

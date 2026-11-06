@@ -27,6 +27,23 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_QuasiCompactAndSeparatedCases :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_QuasiCompactAndSeparatedCases
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (needed by `simp` side goals; instance
+search times out without this shortcut). -/
+local instance (priority := high) hasProducts_presheaf_QuasiCompactAndSeparatedCases :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 open FiniteOverDense
 
 private lemma exists_dense_open_subspace_containing_zero_points

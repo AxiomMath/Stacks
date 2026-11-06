@@ -157,6 +157,7 @@ theorem eqToHom_app_restrictedDegreeSection {k : ℕ} (hk : k = d) (x : 𝒮 k)
   subst hk
   simp
 
+set_option maxRecDepth 10000 in
 /-- **The degree-one clause of compatibility, for the universal family and the identity.** The
 degree-one value of the universal family's graded map, read in `𝒪_{U_d}(d)` through the left
 unitor, is the global section of `𝒪_X(d)` attached to the element, pulled back along the

@@ -113,9 +113,9 @@ public theorem mapSection_smul (V : (AlgebraicGeometry.Proj (A.grading U)).Opens
     letI := C.chart_isOpenImmersion U hU
     C.mapSection U hU n V
         (((show (AlgebraicGeometry.Proj (A.grading U)).Modules from
-            twistingSheaf (A.grading U) n).smul r).hom a) =
+            twistingSheaf (A.grading U) n).smul r).asHom.hom a) =
       ((show (relativeProj A).scheme.Modules from algebra.piece n).smul
-          ((((relativeProj A).chart U hU).appIso V).inv r)).hom
+          ((((relativeProj A).chart U hU).appIso V).inv r)).asHom.hom
         (C.mapSection U hU n V a) := by
   let := C.chart_isOpenImmersion U hU
   exact (congrArg _ (((C.chartIso U hU n).inv.val.app (op V)).hom.map_smul r a)).trans

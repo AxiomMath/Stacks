@@ -38,7 +38,7 @@ theorem exists_finiteDimensional_forall_mem_fixingSubgroup_spec_comp_eq {X : Sch
     ((finiteEtaleBaseChange J).obj Y)
   have h1 : (1 : Gal(L/K)) ∈ {σ : Gal(L/K) | ∀ p : (finiteEtaleFiberFunctor
       (algebraicClosureGeometricPoint K Ω)).obj ((finiteEtaleBaseChange J).obj Y),
-        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app _).hom p = p} := by
+        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app _).hom p = p} := by
     intro p
     rw [map_one]
     rfl

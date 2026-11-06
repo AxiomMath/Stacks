@@ -129,7 +129,7 @@ theorem isCompatTriple_of_values {ι : ℕ → Type*} (s : ∀ m, ι m → Γ(�
   intro k
   by_cases hk : 0 ≤ k
   · obtain ⟨m, rfl⟩ := Int.eq_ofNat_of_zero_le hk
-    rw [← cancel_epi ((Scheme.Modules.pullbackCongr hg).inv.app (𝓑.piece (m : ℤ)))]
+    rw [← Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackCongr hg).app (𝓑.piece (m : ℤ)))]
     refine (Iso.inv_hom_id_app_assoc _ _ _).trans ?_
     refine hext m _ _ fun i => ?_
     refine (hv₁ m i).trans ?_

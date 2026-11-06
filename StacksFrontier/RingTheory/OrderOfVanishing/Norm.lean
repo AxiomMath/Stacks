@@ -2,6 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Lattice.Defs
+public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 
 /-!
 # The order of vanishing of a norm
@@ -2315,7 +2316,7 @@ theorem length_restrictScalars_eq_inertiaDeg_mul
     have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
     have hlo : v.asIdeal.LiesOver (IsLocalRing.maximalIdeal A) :=
       have hmax : (Ideal.comap (algebraMap A B) v.asIdeal).IsMaximal :=
-        Ideal.isMaximal_comap_of_isIntegral_of_isMaximal v.asIdeal
+        Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) v.asIdeal
       ⟨(IsLocalRing.eq_maximalIdeal hmax).symm⟩
     change Module.length A v.asIdeal.ResidueField = _
     have : IsScalarTower A (B ⧸ v.asIdeal) v.asIdeal.ResidueField :=
@@ -2365,7 +2366,7 @@ theorem isArtinian_quot_span_of_ne_zero
       Ideal.IsIntegral.comap_ne_bot A hIne
     have hmax : (Ideal.comap (algebraMap A B) I).IsMaximal :=
       Ideal.isMaximal_of_isPrime_of_ne_bot _ hcomap_ne
-    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap I hmax
+    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) I hmax
   -- Step 2: B is a Noetherian ring (finite over Noetherian A).
   have : IsNoetherianRing B := IsNoetherianRing.of_finite A B
   -- Step 3: B ⧸ (b) has Krull dimension 0.

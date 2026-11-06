@@ -110,6 +110,16 @@ private theorem of_forall_etale_scheme_source
   obtain ⟨U, a, ha, hsurj⟩ := exists_surjective_etale_atlas B S hS X
   exact of_comp_surjective_etale B S hS P a f ha hsurj (hf U a ha)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). Public, as the statements below need it, but only a local instance. -/
+theorem hasPullback_presheaf_schemeNeighborhoods
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
+attribute [local instance high] hasPullback_presheaf_schemeNeighborhoods
+
 /-- A property local at the target for the smooth topology is stable under base change along a
 smooth morphism, stated for the chosen fibre product. -/
 theorem prop_pullbackSnd_of_smooth

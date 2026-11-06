@@ -190,6 +190,34 @@ section InverseImage
 variable {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
   (hf : yoneda.relativelyRepresentable f.hom)
 
+/-- Left Kan extensions of abelian presheaves along the opposite of spaces-étale base change
+exist. Instance search finds each one but not the universally quantified family that
+`CategoryTheory.Functor.lan` asks for, which this instance supplies. -/
+instance hasLeftKanExtension_spacesBaseChange_op
+    (F : (SpacesEtale B S hS Y)ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
+    (spacesBaseChange B S hS f).functor.op.HasLeftKanExtension F :=
+  inferInstance
+
+/-- Restriction of abelian sheaves along spaces-étale base change has a left adjoint, built from
+left Kan extension and sheafification. -/
+instance isRightAdjoint_sheafPushforwardContinuous_spacesBaseChange_addCommGrpCat :
+    ((spacesBaseChange B S hS f).functor.sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SpacesEtale.topology B S hS Y) (SpacesEtale.topology B S hS X)).IsRightAdjoint :=
+  letI : ∀ F : (SpacesEtale B S hS Y)ᵒᵖ ⥤ AddCommGrpCat.{u + 1},
+      (spacesBaseChange B S hS f).functor.op.HasLeftKanExtension F := fun _ => inferInstance
+  inferInstance
+
+/-- Restriction of abelian sheaves along base change of scheme charts has a left adjoint, built
+from left Kan extension and sheafification. -/
+instance isRightAdjoint_sheafPushforwardContinuous_smallBaseChange_addCommGrpCat :
+    letI := isContinuous_smallBaseChange B S hS f hf
+    ((smallBaseChange B S hS f hf).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)).IsRightAdjoint :=
+  letI := isContinuous_smallBaseChange B S hS f hf
+  letI : ∀ F : (SmallEtale B S hS Y.1)ᵒᵖ ⥤ AddCommGrpCat.{u + 1},
+      (smallBaseChange B S hS f hf).op.HasLeftKanExtension F := fun _ => inferInstance
+  inferInstance
+
 /-- Direct-image comparison of the small and spaces-étale cartesian squares of Stacks 03G2,
 part (4), for sheaves with coefficients in an arbitrary category: restriction along base change
 of scheme charts, read through the comparison equivalences of Stacks 03G1, is restriction along
@@ -306,9 +334,10 @@ presheaves of abelian groups: base change is representably flat, so the costruct
 categories computing the extension pointwise are filtered, and filtered colimits of abelian
 groups are exact. -/
 theorem preservesFiniteLimits_spacesBaseChange_op_lan :
-    PreservesFiniteLimits ((spacesBaseChange B S hS f).functor.op.lan :
-      ((SpacesEtale B S hS Y)ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) ⥤
-        ((SpacesEtale B S hS X)ᵒᵖ ⥤ AddCommGrpCat.{u + 1})) := by
+    PreservesFiniteLimits
+      ((spacesBaseChange B S hS f).functor.op.lan (H := AddCommGrpCat.{u + 1}) :
+        ((SpacesEtale B S hS Y)ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) ⥤
+          ((SpacesEtale B S hS X)ᵒᵖ ⥤ AddCommGrpCat.{u + 1})) := by
   let : RepresentablyFlat (spacesBaseChange B S hS f).functor :=
     representablyFlat_spacesBaseChange B S hS f
   have : PreservesFilteredColimitsOfSize.{u + 1, u} (forget AddCommGrpCat.{u + 1}) :=
@@ -340,7 +369,7 @@ theorem preservesFiniteLimits_smallEtaleAbelianInverseImage :
   let v := smallBaseChange B S hS f hf
   let g := (spacesBaseChange B S hS f).functor
   let : RepresentablyFlat g := representablyFlat_spacesBaseChange B S hS f
-  have : PreservesFiniteLimits (g.op.lan : ((SpacesEtale B S hS Y)ᵒᵖ ⥤ A) ⥤
+  have : PreservesFiniteLimits (g.op.lan (H := A) : ((SpacesEtale B S hS Y)ᵒᵖ ⥤ A) ⥤
       ((SpacesEtale B S hS X)ᵒᵖ ⥤ A)) :=
     preservesFiniteLimits_spacesBaseChange_op_lan B S hS f
   have : PreservesFiniteLimits (g.sheafPullback A KY KX) :=

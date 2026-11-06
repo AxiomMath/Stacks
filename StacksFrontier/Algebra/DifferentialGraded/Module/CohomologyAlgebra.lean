@@ -309,13 +309,14 @@ def cohomologyZeroEquivRegularEnd :
   (cohomologyEquivDerivedHom A 0).trans
     ((Iso.refl _).homCongr
       ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).mapIso
-        ((shiftZeroIso A).app (regularModule A))))
+        ((shiftZeroIso A).app (regularModule A)))) |>.trans End.homEquiv.symm
 
 /-- On the class of a cocycle, the bijection `H^0(A) ≃ End_{D(A, d)}(A)` is the class in
 `D(A, d)` of left multiplication by that cocycle. -/
 theorem cohomologyZeroEquivRegularEnd_mk (a : A.Cocycle 0) :
     cohomologyZeroEquivRegularEnd A (Quotient.mk _ a) =
-      (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map (regularMulLeft A a) := by
+      End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map (regularMulLeft A a)) := by
+  refine End.ext ?_
   simp only [cohomologyZeroEquivRegularEnd, Equiv.trans_apply, regularMulLeft, Functor.map_comp]
   rfl
 
@@ -331,29 +332,31 @@ def cohomologyZeroRegularEndAlgHom :
   map_one' := by
     rw [show (1 : A.Cohomology 0) = Quotient.mk _ (1 : A.Cocycle 0) from rfl,
       cohomologyZeroEquivRegularEnd_mk, regularMulLeft_one]
-    exact CategoryTheory.Functor.map_id _ _
+    exact End.ext (by simp)
   map_mul' x y := by
     induction x using Quotient.ind with | _ a => ?_
     induction y using Quotient.ind with | _ b => ?_
     rw [show (Quotient.mk _ a * Quotient.mk _ b : A.Cohomology 0) = Quotient.mk _ (a * b) from rfl,
       cohomologyZeroEquivRegularEnd_mk, cohomologyZeroEquivRegularEnd_mk,
       cohomologyZeroEquivRegularEnd_mk, regularMulLeft_mul]
-    exact Functor.map_comp _ _ _
+    exact End.ext (by simp)
   map_zero' := by
     rw [show (0 : A.Cohomology 0) = Quotient.mk _ (0 : A.Cocycle 0) from rfl,
       cohomologyZeroEquivRegularEnd_mk, regularMulLeft_zero]
-    exact Functor.map_zero _ _ _
+    exact End.ext (by simp)
   map_add' x y := by
     induction x using Quotient.ind with | _ a => ?_
     induction y using Quotient.ind with | _ b => ?_
     rw [show (Quotient.mk _ a + Quotient.mk _ b : A.Cohomology 0) = Quotient.mk _ (a + b) from rfl,
       cohomologyZeroEquivRegularEnd_mk, cohomologyZeroEquivRegularEnd_mk,
       cohomologyZeroEquivRegularEnd_mk, regularMulLeft_add]
-    exact Functor.map_add _
+    exact End.ext (by simp)
   commutes' r := by
     rw [show algebraMap R (A.Cohomology 0) r = Quotient.mk _ (algebraMap R (A.Cocycle 0) r) from
         rfl,
       cohomologyZeroEquivRegularEnd_mk, regularMulLeft_algebraMap]
+    refine End.ext ?_
+    dsimp only
     change _ = r • 𝟙 _
     rw [Functor.map_smul, CategoryTheory.Functor.map_id]
 
@@ -393,8 +396,8 @@ theorem regularEndAlgEquiv_cohomologyZeroAlgEquiv
       cohomologyZeroRegularEndAlgEquiv A x := by
   induction x using Quotient.ind with | _ a => ?_
   rw [cohomologyZeroRegularEndAlgEquiv_apply, cohomologyZeroEquivRegularEnd_mk]
-  show (toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
-    (regularMulLeft A (degreeZeroCocycle A hA (a.1 : A.A))) = _
+  show End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
+    (regularMulLeft A (degreeZeroCocycle A hA (a.1 : A.A)))) = _
   rw [show degreeZeroCocycle A hA (a.1 : A.A) = a from Subtype.ext (Subtype.ext rfl)]
 
 end DifferentialGradedModule
@@ -564,15 +567,15 @@ degree-zero comparison `H^0(A) → Hom_{D(B,d)}(N, N[0])` of
 def cohomologyZeroBimoduleEnd :
     A.Cohomology 0 →
       End ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj N.rightModule) :=
-  fun x => N.cohomologyEndomorphismComparison 0 x ≫
-    (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).map (shiftZeroHom B N.rightModule)
+  fun x => End.of (N.cohomologyEndomorphismComparison 0 x ≫
+    (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).map (shiftZeroHom B N.rightModule))
 
 /-- On the class of a cocycle, the action of `H^0(A)` on the bimodule is the class in `D(B, d)`
 of the action of that cocycle. -/
 theorem cohomologyZeroBimoduleEnd_mk (a : A.Cocycle 0) :
     N.cohomologyZeroBimoduleEnd (Quotient.mk _ a) =
-      (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).map (N.cocycleActionZero a) := by
-  show N.cohomologyEndomorphismComparison 0 (Quotient.mk _ a) ≫ _ = _
+      End.of ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).map (N.cocycleActionZero a)) := by
+  show End.of (N.cohomologyEndomorphismComparison 0 (Quotient.mk _ a) ≫ _) = _
   rw [cohomologyEndomorphismComparison_mk, cocycleActionZero, Functor.map_comp]
 
 /-- **The action of `H^0(A)` on the bimodule is bijective exactly when the degree-zero comparison
@@ -581,10 +584,10 @@ theorem bijective_cohomologyZeroBimoduleEnd_iff :
     Function.Bijective N.cohomologyZeroBimoduleEnd ↔
       Function.Bijective (N.cohomologyEndomorphismComparison 0) := by
   have h : N.cohomologyZeroBimoduleEnd =
-      ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).mapIso
+      End.homEquiv.symm ∘ ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).mapIso
           ((shiftZeroIso B).app N.rightModule)).homToEquiv ∘
         N.cohomologyEndomorphismComparison 0 := rfl
-  rw [h, Equiv.comp_bijective]
+  rw [h, Equiv.comp_bijective, Equiv.comp_bijective]
 
 /-- **The action of `H^0(A)` on a differential graded `(A, B)`-bimodule `N`, as a homomorphism of
 `R`-algebras `H^0(A) →ₐ[R] End_{D(B,d)}(N)`.** A class acts by the action of a representative,
@@ -604,29 +607,31 @@ def cohomologyZeroBimoduleEndAlgHom :
   map_one' := by
     rw [show (1 : A.Cohomology 0) = Quotient.mk _ (1 : A.Cocycle 0) from rfl,
       cohomologyZeroBimoduleEnd_mk, cocycleActionZero_one]
-    exact CategoryTheory.Functor.map_id _ _
+    exact End.ext (by simp)
   map_mul' x y := by
     induction x using Quotient.ind with | _ a => ?_
     induction y using Quotient.ind with | _ b => ?_
     rw [show (Quotient.mk _ a * Quotient.mk _ b : A.Cohomology 0) = Quotient.mk _ (a * b) from rfl,
       cohomologyZeroBimoduleEnd_mk, cohomologyZeroBimoduleEnd_mk, cohomologyZeroBimoduleEnd_mk,
       cocycleActionZero_mul]
-    exact Functor.map_comp _ _ _
+    exact End.ext (by simp)
   map_zero' := by
     rw [show (0 : A.Cohomology 0) = Quotient.mk _ (0 : A.Cocycle 0) from rfl,
       cohomologyZeroBimoduleEnd_mk, cocycleActionZero_zero]
-    exact Functor.map_zero _ _ _
+    exact End.ext (by simp)
   map_add' x y := by
     induction x using Quotient.ind with | _ a => ?_
     induction y using Quotient.ind with | _ b => ?_
     rw [show (Quotient.mk _ a + Quotient.mk _ b : A.Cohomology 0) = Quotient.mk _ (a + b) from rfl,
       cohomologyZeroBimoduleEnd_mk, cohomologyZeroBimoduleEnd_mk, cohomologyZeroBimoduleEnd_mk,
       cocycleActionZero_add]
-    exact Functor.map_add _
+    exact End.ext (by simp)
   commutes' r := by
     rw [show algebraMap R (A.Cohomology 0) r =
         Quotient.mk _ (algebraMap R (A.Cocycle 0) r) from rfl,
       cohomologyZeroBimoduleEnd_mk, cocycleActionZero_algebraMap]
+    refine End.ext ?_
+    dsimp only
     change _ = r • 𝟙 _
     rw [Functor.map_smul, CategoryTheory.Functor.map_id]
 

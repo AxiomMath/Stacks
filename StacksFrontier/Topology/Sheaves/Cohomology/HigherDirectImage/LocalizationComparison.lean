@@ -464,11 +464,11 @@ theorem quasiIso_mapHomotopyCategoryPlus_map {K L : HomotopyCategory.Plus A} (φ
     ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map g)).mpr hq3
 
 /-- **The bounded below right derived functor of an exact functor is the functor itself.**  If
-`F` is additive and exact then `F.rightDerivedFunctorPlusUnit` is an isomorphism, not merely on
+`F` is additive and exact then `F.rightDerivedFunctorPlusUnith` is an isomorphism, not merely on
 complexes of injectives: applying `F` termwise already inverts quasi-isomorphisms, so the
 termwise functor satisfies the universal property of the right derived functor. -/
 theorem isIso_rightDerivedFunctorPlusUnit [EnoughInjectives A] :
-    IsIso F.rightDerivedFunctorPlusUnit := by
+    IsIso F.rightDerivedFunctorPlusUnith := by
   have hinv : (HomotopyCategory.Plus.quasiIso A).IsInvertedBy
       (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) := fun _ _ φ hφ =>
     Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso B) _
@@ -486,7 +486,7 @@ variable (X : RingedSpace.{u, u}) (U : Opens X)
 /-- Since restriction to an open subspace is exact, its derived-functor unit is an isomorphism
 on every bounded below complex, not just on complexes of injectives. -/
 theorem moduleRestrictionRightDerivedFunctorPlusUnit_isIso :
-    IsIso (moduleRestriction X U).rightDerivedFunctorPlusUnit := by
+    IsIso (moduleRestriction X U).rightDerivedFunctorPlusUnith := by
   have := moduleRestriction_preservesHomology X U
   exact isIso_rightDerivedFunctorPlusUnit _
 
@@ -498,7 +498,7 @@ right derived restriction functor, induced by the derived-functor unit. -/
 noncomputable def moduleRestrictionDerivedTermwiseIso :
     (moduleRestriction X U).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ (moduleRestriction X U).rightDerivedFunctorPlus :=
-  asIso (moduleRestriction X U).rightDerivedFunctorPlusUnit
+  asIso (moduleRestriction X U).rightDerivedFunctorPlusUnith
 
 /-- **On bounded below cochain complexes, derived restriction is ordinary termwise
 restriction.**  Both sides use the localization through the bounded below homotopy category;

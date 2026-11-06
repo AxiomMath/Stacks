@@ -84,6 +84,7 @@ theorem restrictModulesAlong_comp_toSheaf :
   Stacks.SheafOfModules.pushforward_comp_toSheaf.{u + 1} (inclusionFunctor T f)
     (restrictAlongSharp T f)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The same identification on the unbounded derived categories: both restriction of sheaves of
 modules along `i_f` and the forgetful functor to abelian sheaves are exact, so each acts on the
 derived category degreewise. -/

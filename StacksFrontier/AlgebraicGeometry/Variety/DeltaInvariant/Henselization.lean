@@ -171,7 +171,7 @@ private theorem holds_of_equiv
   have hh := P.respectsIso.2 _ e' (P.respectsIso.1 _ E' hf)
   have heq : (E'.toRingHom.comp (RingHom.ulift.{max u U, max u U, u, u} f)).comp
       e'.toRingHom = RingHom.ulift.{max u U, max u U, u, u} g :=
-    RingHom.ext fun c => ULift.ext _ _
+    RingHom.ext fun c => ULift.ext
       ((congrArg (fun t : A →+* D => t (e.symm c.down)) h).trans (by simp))
   show P (RingHom.ulift.{max u U, max u U, u, u} g)
   rwa [← heq]

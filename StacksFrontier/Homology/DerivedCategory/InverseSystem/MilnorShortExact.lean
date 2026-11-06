@@ -95,7 +95,7 @@ public noncomputable def inverseSystemLimitKernelForkIsLimit (F : ℕᵒᵖ ⥤ 
     { pt := W
       π := NatTrans.ofOpSequence (fun n => g ≫ Pi.π _ n) (fun n => by
         have h := congrArg (fun f => f ≫ Pi.π (fun n : ℕ => F.obj ⟨n⟩) n) hg
-        simp only [δ, Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp] at h
+        simp only [δ, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h
         simpa using (sub_eq_zero.mp h)) }
   have hπ : ∀ {W : A} (g : W ⟶ ∏ᶜ fun n : ℕ => F.obj ⟨n⟩) (hg : g ≫ δ = 0) (n : ℕᵒᵖ),
       (coneOf g hg).π.app n = g ≫ Pi.π _ n.unop := fun g hg n => by
@@ -104,9 +104,9 @@ public noncomputable def inverseSystemLimitKernelForkIsLimit (F : ℕᵒᵖ ⥤ 
     Pi.hom_ext _ _ fun n => by simp [δ, Preadditive.comp_sub, limit.w]
   exact KernelFork.IsLimit.ofι _ hι (fun g hg => limit.lift F (coneOf g hg))
     (fun g hg => Pi.hom_ext _ _ fun n => by
-      rw [Category.assoc, Pi.lift_π, limit.lift_π, hπ g hg])
+      rw [Category.assoc, Pi.lift_comp_π, limit.lift_π, hπ g hg])
     (fun g hg m hm => limit.hom_ext fun n => by
-      rw [limit.lift_π, hπ g hg, ← hm, Category.assoc, Pi.lift_π])
+      rw [limit.lift_π, hπ g hg, ← hm, Category.assoc, Pi.lift_comp_π])
 
 /-- An inverse limit of zero objects is zero. -/
 public lemma isZero_limit_of_forall_isZero {C : Type*} [Category* C] {J : Type*} [Category* J]

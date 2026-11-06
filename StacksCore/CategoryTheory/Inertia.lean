@@ -75,14 +75,14 @@ structure RelativeInertia (F : S ⥤ S') where
   /-- The automorphism `α : x → x`. -/
   auto : Aut obj
   /-- The condition `F(α) = id_{F(x)}`. -/
-  cond : F.map auto.hom = 𝟙 (F.obj obj)
+  cond : F.map auto.asIso.hom = 𝟙 (F.obj obj)
 
 /-- Since `α` is an automorphism, the condition `F(α) = id` automatically yields
 `F(α⁻¹) = id` as well. -/
 lemma RelativeInertia.cond_inv {F : S ⥤ S'} (X : RelativeInertia F) :
-    F.map X.auto.inv = 𝟙 (F.obj X.obj) := by
-  have h : F.map X.auto.hom ≫ F.map X.auto.inv = 𝟙 (F.obj X.obj) := by
-    rw [← F.map_comp, X.auto.hom_inv_id, F.map_id]
+    F.map X.auto.asIso.inv = 𝟙 (F.obj X.obj) := by
+  have h : F.map X.auto.asIso.hom ≫ F.map X.auto.asIso.inv = 𝟙 (F.obj X.obj) := by
+    rw [← F.map_comp, X.auto.asIso.hom_inv_id, F.map_id]
   rw [X.cond, Category.id_comp] at h
   exact h
 
@@ -92,7 +92,7 @@ structure RelativeInertiaHom (F : S ⥤ S') (X Y : RelativeInertia F) where
   /-- The underlying morphism `φ : x → y` of `S`. -/
   hom : X.obj ⟶ Y.obj
   /-- The commuting-square condition `β ∘ φ = φ ∘ α`. -/
-  comm : hom ≫ Y.auto.hom = X.auto.hom ≫ hom
+  comm : hom ≫ Y.auto.asIso.hom = X.auto.asIso.hom ≫ hom
 
 @[ext]
 lemma RelativeInertiaHom.ext {F : S ⥤ S'} {X Y : RelativeInertia F}

@@ -223,7 +223,7 @@ theorem dAux_comp_pi (F : Finset (Fin r) ⥤ 𝒜) {p q : ℤ} (hpq : p + 1 = q)
       ∑ k ∈ T.1.attach, Cech.cechSign T.1 k.1 •
         (Pi.π (fun S : Idx r p => F.obj S.1) (idxErase T k hpq) ≫
           F.map (homOfLE (Finset.erase_subset (k : Fin r) T.1))) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- `dAux` is the differential of the extended alternating Čech complex. -/
 theorem complex_d_eq (F : Finset (Fin r) ⥤ 𝒜) {p q : ℤ} (hpq : p + 1 = q) :
@@ -311,7 +311,7 @@ def hAux {p q : ℤ} (hqp : q + 1 = p) : term F p ⟶ term F q :=
 /-- The component of the homotopy at a subset containing `j` vanishes. -/
 theorem hAux_comp_pi_of_mem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA : j ∈ A.1) :
     hAux F j hiso hqp ≫ Pi.π (fun S : Idx r q => F.obj S.1) A = 0 := by
-  rw [hAux, Pi.lift_π, dite_eq_left hA]
+  rw [hAux, Pi.lift_comp_π, dite_eq_left hA]
 
 /-- The component of the homotopy at a subset not containing `j`. -/
 theorem hAux_comp_pi_of_notMem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA : j ∉ A.1) :
@@ -319,7 +319,7 @@ theorem hAux_comp_pi_of_notMem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA :
       Cech.cechSign A.1 j •
         backMap F j hiso A (idxInsert j A hA hqp) (Finset.subset_insert j A.1)
           (Finset.Subset.refl _) := by
-  rw [hAux, Pi.lift_π, dite_eq_right hA]
+  rw [hAux, Pi.lift_comp_π, dite_eq_right hA]
 
 /-- The component of the homotopy at a subset not containing `j`, read on a factor whose index
 is only propositionally `A ∪ {j}`. -/

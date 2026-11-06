@@ -54,6 +54,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_PerfectStability :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- The pullback of a cospan of presheaves on the big fppf site over `S`, found directly. -/
+local instance (priority := high) hasPullback_presheaf_PerfectStability
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 06C0.** A flat base change of a perfect morphism of algebraic spaces over `S` is
 perfect: in a cartesian square with `g : Y ⟶ Z` perfect and `f : X ⟶ Z` flat, the base change
 `g' : Y' ⟶ X` of `g` along `f` is perfect. -/

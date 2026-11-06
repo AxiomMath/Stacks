@@ -98,7 +98,7 @@ public theorem cechProductMapOfSliceFunctor_comp_π (n : ℕ) (i : Fin (n + 1) �
     cechProductMapOfSliceFunctor E v n i ≫
         Pi.π (fun a ↦ Over.mk ((sliceImageFamily E v).f (i a))) b =
       v.map (Pi.π (fun a ↦ Over.mk (E.f (i a))) b) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The comparison map is the product comparison map of `v`. -/
 public theorem cechProductMapOfSliceFunctor_eq_piComparison (n : ℕ) (i : Fin (n + 1) → E.I₀) :
@@ -170,7 +170,7 @@ public theorem sliceCechComplexMapOfSliceFunctorDegree_comp_π (P : (Over V)ᵒ�
           P.obj (op (((cechSimplicialObject (sliceImageFamily E v)).obj
             (op (SimplexCategory.mk n))).obj l))) i ≫
         P.map (cechProductMapOfSliceFunctor E v n i).op :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 attribute [local implicit_reducible] CategoryTheory.Limits.FormalCoproduct.evalOp in
 /-- The degreewise comparison maps commute with each signed coface map of the cosimplicial
@@ -262,13 +262,13 @@ public theorem isIso_sliceCechComplexMapOfSliceFunctorDegree (P : (Over V)ᵒᵖ
         inv (P.map (cechProductMapOfSliceFunctor E v n i).op)), ?_, ?_⟩
   · apply Pi.hom_ext
     intro i
-    rw [Category.assoc, Pi.lift_π, ← Category.assoc,
+    rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc,
       sliceCechComplexMapOfSliceFunctorDegree_comp_π, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id, Category.id_comp]
   · apply Pi.hom_ext
     intro i
     rw [Category.assoc, sliceCechComplexMapOfSliceFunctorDegree_comp_π, ← Category.assoc,
-      Pi.lift_π, Category.assoc, IsIso.inv_hom_id, Category.comp_id, Category.id_comp]
+      Pi.lift_comp_π, Category.assoc, IsIso.inv_hom_id, Category.comp_id, Category.id_comp]
 
 /-- **Čech functoriality along a functor defined on the slice at the target.**  The morphism of
 slice Čech complexes from the Čech complex of the image family with coefficients in a presheaf

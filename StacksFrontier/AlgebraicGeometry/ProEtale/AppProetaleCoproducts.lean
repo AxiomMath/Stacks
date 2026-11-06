@@ -170,7 +170,7 @@ theorem bijective_map_cofan_inj_of_isSheaf [IsAffine S] {ι : Type u} [Finite ι
         (fun x : P.obj (op (sigmaObj T)) ↦ fun k ↦ P.map (sigmaι T k).op x) ∘
           P.map e.inv.op := by
       funext x k
-      simp only [Function.comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp]
+      simp only [Function.comp_apply, ← Functor.map_comp_apply, ← op_comp]
       congr 2
       rw [← he k, Category.assoc, e.hom_inv_id, Category.comp_id]
     rw [hcomp]

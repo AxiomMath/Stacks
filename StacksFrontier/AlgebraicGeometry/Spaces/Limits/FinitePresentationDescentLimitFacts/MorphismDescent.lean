@@ -535,14 +535,14 @@ private theorem exists_isIso_after_baseChange_of_limitFacts
     (hD i) hZfp
   have hfg : (Over.pullback (limit.π D j)).map (fj ≫ g) =
       (Over.pullback (limit.π D j)).map (𝟙 Yj) := by
-    apply (cancel_mono β.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ β).mp
     simp only [Yj, Functor.map_comp]
     rw [Category.assoc, ← hg, ← Category.assoc, hn, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Yj, Category.id_comp]
   have hgf : (Over.pullback (limit.π D j)).map (g ≫ fj) =
       (Over.pullback (limit.π D j)).map (𝟙 Zj) := by
-    apply (cancel_mono α.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ α).mp
     simp only [Zj, Functor.map_comp]
     rw [Category.assoc, hn, ← Category.assoc, ← hg, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
@@ -626,7 +626,7 @@ private theorem exists_lift_pair_after_baseChange_of_limitFacts
       hβ (iteratedBaseChangeIso_hom_fst _ _ _ _ _)
     have hz' := pullback_map_comp_iso_hom (D.map e) (limit.π D j) (limit.π D i) (limit.w D e) z α γ
       hα (iteratedBaseChangeIso_hom_fst _ _ _ _ _)
-    apply (cancel_mono γ.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ γ).mp
     rw [Functor.map_comp, Category.assoc, hv, ← Category.assoc, ← hg,
       Category.assoc, hz, hz']
   let Aj := (Over.pullback (D.map e)).obj A

@@ -188,7 +188,7 @@ theorem mk_lt_cutoff_of_satisfiesSetTheoreticCondition_formalSpectrum
     intro c c' h
     apply formalSpectrumToAffineLine_injective B S hS hC E
     have h1 := J.uliftYonedaEquiv.injective
-      (ULift.ext _ _ ((Space.affineLineChartPoints B S hS U).symm.injective h))
+      (ULift.ext ((Space.affineLineChartPoints B S hS U).symm.injective h))
     simpa only [cancel_epi, cancel_mono] using h1
   calc #C ≤ #Γ((BigFppfOver.toScheme B S hS).obj U, ⊤) := mk_le_of_injective hF
     _ ≤ 2 ^ ((BigFppfOver.toScheme B S hS).obj U).size :=

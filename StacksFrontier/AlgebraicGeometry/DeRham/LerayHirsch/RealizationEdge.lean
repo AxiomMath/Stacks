@@ -269,7 +269,8 @@ theorem realizationUnbounded_pushforwardPullback_of_injective
         I)) n s := by
     have hinj := (AddCommGrpCat.mono_iff_injective ((DerivedCategory.Plus.homologyFunctor _ n).map
       (g'.pushforwardPullback ((SheafOfModules.toSheaf
-        (structureSheafRing (inverseImageBase f'))).mapCochainComplexPlus.obj I)))).1 inferInstance
+        (structureSheafRing (inverseImageBase f'))).mapCochainComplexPlus.obj I)))).1
+      (by haveI := hp; exact IsSplitMono.mono _)
     exact hinj (hs.symm.trans (abelianGlobalClass_pushforwardPullback g' _ n s).symm)
   subst hx
   exact realizationUnbounded_pushforwardPullback_abelianGlobalClass g' f' f g w I n s

@@ -61,6 +61,39 @@ universe u
 
 namespace CurvesVersality
 
+/-- Pullbacks, binary products and products of presheaves on the big fppf category over an
+object, given directly: instance search for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes) :
+    HasPullbacks ((Over T)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes)
+    {X Y Z : (Over T)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_Relocalization B T).has_limit _
+
+local instance (priority := high) hasProducts_presheaf_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes) :
+    HasProducts.{0} ((Over T)ᵒᵖ ⥤ Type u) :=
+  fun _ => Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasProducts_presheaf_u_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes) :
+    HasProducts.{u} ((Over T)ᵒᵖ ⥤ Type u) :=
+  fun _ => Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasBinaryProducts_presheaf_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes) :
+    HasBinaryProducts ((Over T)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasLimit_pair_presheaf_Relocalization
+    (B : BigFppfSite.{u}) (T : B.Schemes)
+    (X Y : (Over T)ᵒᵖ ⥤ Type u) : HasLimit (pair X Y) :=
+  (hasBinaryProducts_presheaf_Relocalization B T).has_limit _
+
 attribute [local instance] schemeCutoff_isClosedUnderIsomorphisms
 attribute [local instance] schemeCutoff_isClosedUnderPullbacks
 attribute [local instance] AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes

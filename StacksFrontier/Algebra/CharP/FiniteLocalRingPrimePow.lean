@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.CharP.CharAndCard
+public import Mathlib.Algebra.CharP.Lemmas
 public import Mathlib.Algebra.CharP.LocalRing
 public import Mathlib.Algebra.IsPrimePow
 

@@ -81,6 +81,16 @@ section Quadruple
 
 variable {B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in the big fppf site over `S` (instance search times out without this shortcut). -/
+local instance hasPullbacks_bigFppfOver_AffineQuadrupleGeometricPoint :
+    HasPullbacks (BigFppfOver B S hS) := inferInstance
+
+/-- The pullback of a cospan in the big fppf site over `S`, from `HasPullbacks`. -/
+local instance (priority := high) hasPullback_bigFppfOver_AffineQuadrupleGeometricPoint
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The map `U ⟶ V` induced by a chart `m` of `V ×_Y X` commutes over `Y` with `U ⟶ X`. -/
 private theorem representedSpaceMap_comp_eq_homMk_comp {V U : BigFppfOver B S hS}
     {X Y : AlgebraicSpaces B S hS}

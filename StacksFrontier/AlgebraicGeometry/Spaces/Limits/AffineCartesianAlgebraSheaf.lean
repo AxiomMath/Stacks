@@ -206,10 +206,10 @@ variable {𝒜 : AlgebraSheaf.{u, u} B S hS F hF}
 presheaves of rings `η : P ⟶ 𝒜` compatible with the structure maps. -/
 noncomputable def lift (η : P ⟶ 𝒜.right.obj) (hη : α ≫ η = 𝒜.hom.hom) :
     algebra P α hF ⟶ 𝒜 where
-  right := ⟨sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.cond⟩
+  right := ⟨sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.property⟩
   comm U r :=
     (ConcreteCategory.congr_hom (congrArg (fun k => k.app U)
-      (toSheafify_sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.cond)) _).trans
+      (toSheafify_sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.property)) _).trans
       (ConcreteCategory.congr_hom (congrArg (fun k => k.app U) hη) r)
 
 /-- The morphism `lift hF η hη` sends the image of a section `x` of `P` under the sheafification
@@ -219,7 +219,7 @@ theorem lift_app_toSheafify (η : P ⟶ 𝒜.right.obj) (hη : α ≫ η = 𝒜.
     (lift hF η hη).right.hom.app U ((toSheafify (SmallEtale.topology B S hS F) P).app U x) =
       η.app U x :=
   ConcreteCategory.congr_hom (congrArg (fun k => k.app U)
-    (toSheafify_sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.cond)) x
+    (toSheafify_sheafifyLift (SmallEtale.topology B S hS F) η 𝒜.right.property)) x
 
 /-- Morphisms out of the sheafification of `P` agree as soon as they agree on the image of `P`. -/
 theorem hom_ext {g g' : algebra P α hF ⟶ 𝒜}
@@ -228,7 +228,7 @@ theorem hom_ext {g g' : algebra P α hF ⟶ 𝒜}
         g'.right.hom.app U ((toSheafify (SmallEtale.topology B S hS F) P).app U x)) :
     g = g' := by
   refine AlgebraSheaf.Hom.ext (Sheaf.hom_ext ?_)
-  refine sheafify_hom_ext _ _ _ 𝒜.right.cond ?_
+  refine sheafify_hom_ext _ _ _ 𝒜.right.property ?_
   exact NatTrans.ext (funext fun U => CommRingCat.hom_ext (RingHom.ext fun x => h U x))
 
 variable {P' : (SmallEtale B S hS F)ᵒᵖ ⥤ CommRingCat.{u}} {α' : structurePresheaf B S hS F ⟶ P'}

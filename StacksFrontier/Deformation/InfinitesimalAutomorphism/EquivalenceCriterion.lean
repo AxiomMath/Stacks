@@ -89,17 +89,18 @@ theorem isHomLift_id_inv_isoOfIsHomLiftId (hp : IsCofiberedInGroupoids p) {A : C
 /-- A vertical endomorphism of an object of a fibre of a category cofibered in groupoids is an
 automorphism of that object in the fibre. -/
 noncomputable def verticalAut (hp : IsCofiberedInGroupoids p) {A : C} {y : p.Fiber A}
-    (f : y.1 ⟶ y.1) (hf : p.IsHomLift (𝟙 A) f) : Aut y where
-  hom := ⟨f, hf⟩
-  inv := ⟨(isoOfIsHomLiftId hp f hf).inv, isHomLift_id_inv_isoOfIsHomLiftId hp f hf⟩
-  hom_inv_id := Functor.Fiber.hom_ext (isoOfIsHomLiftId hp f hf).hom_inv_id
-  inv_hom_id := Functor.Fiber.hom_ext (isoOfIsHomLiftId hp f hf).inv_hom_id
+    (f : y.1 ⟶ y.1) (hf : p.IsHomLift (𝟙 A) f) : Aut y :=
+  .of
+    { hom := ⟨f, hf⟩
+      inv := ⟨(isoOfIsHomLiftId hp f hf).inv, isHomLift_id_inv_isoOfIsHomLiftId hp f hf⟩
+      hom_inv_id := Functor.Fiber.hom_ext (isoOfIsHomLiftId hp f hf).hom_inv_id
+      inv_hom_id := Functor.Fiber.hom_ext (isoOfIsHomLiftId hp f hf).inv_hom_id }
 
 /-- The automorphism `verticalAut hp f hf` has underlying morphism `f`. -/
 @[simp]
 theorem verticalAut_hom_val (hp : IsCofiberedInGroupoids p) {A : C} {y : p.Fiber A}
     (f : y.1 ⟶ y.1) (hf : p.IsHomLift (𝟙 A) f) :
-    (verticalAut hp f hf).hom.val = f := rfl
+    (verticalAut hp f hf).asIso.hom.val = f := rfl
 
 end
 
@@ -115,7 +116,7 @@ variable {C : Type u} [Category.{v} C]
 only through its image in the base. -/
 theorem toIsomorphismClasses_map_val (𝓕 : BasedCategory.{v₁, u₁} C)
     (h𝓕 : IsCofiberedInGroupoids 𝓕.p) {a b : 𝓕.obj} (α : a ⟶ b) :
-    ((toIsomorphismClasses 𝓕 h𝓕).map α).val = 𝓕.p.map α := rfl
+    ((toIsomorphismClasses 𝓕 h𝓕).map α).hom = 𝓕.p.map α := rfl
 
 /-- The canonical morphism to the functor of fibrewise isomorphism classes is faithful exactly
 when a morphism of the cofibered category is determined by its image in the base. -/
@@ -125,12 +126,12 @@ theorem faithful_toIsomorphismClasses_iff (𝓕 : BasedCategory.{v₁, u₁} C)
       ∀ {a b : 𝓕.obj} (α β : a ⟶ b), 𝓕.p.map α = 𝓕.p.map β → α = β := by
   constructor
   · intro hf a b α β hαβ
-    refine hf.map_injective (CategoryOfElements.ext _ _ _ ?_)
+    refine hf.map_injective (Functor.Elements.hom_ext ?_)
     rwa [toIsomorphismClasses_map_val, toIsomorphismClasses_map_val]
   · intro h
     refine ⟨fun {a b} α β hαβ => h α β ?_⟩
     rw [← toIsomorphismClasses_map_val 𝓕 h𝓕 α, ← toIsomorphismClasses_map_val 𝓕 h𝓕 β]
-    exact congrArg Subtype.val hαβ
+    exact congrArg Functor.Elements.Hom.hom hαβ
 
 /-- The canonical morphism to the functor of fibrewise isomorphism classes is full: a morphism
 of isomorphism classes is represented by a morphism of the cofibered category. -/
@@ -145,7 +146,7 @@ theorem essSurj_toIsomorphismClasses (𝓕 : BasedCategory.{v₁, u₁} C)
   classical
   let data := isomorphismClassesData 𝓕 h𝓕
   let φ := data.projection
-  let target := BasedCategory.ofFunctor (CategoryOfElements.π data.classes)
+  let target := BasedCategory.ofFunctor (Functor.Elements.π data.classes)
   refine ⟨fun z => ?_⟩
   have : (fiberFunctor φ (target.p.obj z)).EssSurj :=
     data.quotient.fiber_essSurj (target.p.obj z)
@@ -251,7 +252,8 @@ theorem infinitesimalAutomorphisms_eq_bot_iff_isEquivalence (hrs : SatisfiesRS p
           (x' := Functor.Fiber.mk (p := p) (a := b.left) rfl) (x := x₀)
           hrs.1 (p.map b.hom ≫ eqToHom x₀.2) b.hom hblift _).mpr hχhom)
     have hχid : χ = 𝟙 b.left :=
-      congrArg (fun z : Aut (Functor.Fiber.mk (p := p) (a := b.left) rfl) => z.hom.val) hone
+      congrArg (fun z : Aut (Functor.Fiber.mk (p := p) (a := b.left) rfl) => z.asIso.hom.val)
+        hone
     refine Over.OverMorphism.ext ?_
     rw [← hχfac, hχid, Category.comp_id]
   · -- a faithful morphism forces the infinitesimal automorphisms to vanish
@@ -259,13 +261,13 @@ theorem infinitesimalAutomorphisms_eq_bot_iff_isEquivalence (hrs : SatisfiesRS p
     refine (Subgroup.eq_bot_iff_forall _).2 fun a ha => ?_
     rw [mem_infinitesimalAutomorphisms_iff] at ha
     set r := (canonicalRetraction hrs.1 g e hpair.split i hi).1
-    have hαid : (Over.homMk (U := Over.mk r) (V := Over.mk r) a.hom.val ha) =
+    have hαid : (Over.homMk (U := Over.mk r) (V := Over.mk r) a.asIso.hom.val ha) =
         𝟙 (Over.mk r) := by
       refine hfaith _ _ ?_
-      show p.map a.hom.val = p.map (𝟙 xε.1)
+      show p.map a.asIso.hom.val = p.map (𝟙 xε.1)
       rw [p.map_id]
-      exact map_eq_id_of_isHomLift_id a.hom.val a.hom.2
-    exact Aut.ext (Functor.Fiber.hom_ext (congrArg Over.Hom.left hαid))
+      exact map_eq_id_of_isHomLift_id a.asIso.hom.val a.asIso.hom.2
+    exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext (congrArg Over.Hom.left hαid)))
 
 end
 

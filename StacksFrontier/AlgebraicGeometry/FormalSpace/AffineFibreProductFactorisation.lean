@@ -100,7 +100,6 @@ private theorem surjective_tensorProduct_lift_appTop_comp {W V T₁ T₂ : Schem
   obtain ⟨x, rfl⟩ := hV y
   refine ⟨x, ?_⟩
   induction x with
-  | zero => simp only [map_zero]
   | tmul r₁ r₂ =>
     simp only [Algebra.TensorProduct.lift_tmul, Scheme.Hom.comp_appTop,
       CommRingCat.hom_comp, RingHom.toIntAlgHom_coe, RingHom.coe_comp, Function.comp_apply]

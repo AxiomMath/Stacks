@@ -327,7 +327,7 @@ functor of the `q`-th cohomology of the complex of sections. -/
 instance isRightDerivedFunctor_componentSections_comp_homologyFunctor :
     ((S.componentSectionsFunctor ⦋n⦌).rightDerivedFunctorPlus ⋙
         DerivedCategory.Plus.homologyFunctor Ab.{u} q).IsRightDerivedFunctor
-      (Functor.whiskerRight (S.componentSectionsFunctor ⦋n⦌).rightDerivedFunctorPlusUnit
+      (Functor.whiskerRight (S.componentSectionsFunctor ⦋n⦌).rightDerivedFunctorPlusUnith
         (DerivedCategory.Plus.homologyFunctor Ab.{u} q))
       (HomotopyCategory.Plus.quasiIso (Sheaf S.totalTopology Ab.{u})) :=
   (HomotopyCategory.Plus.localizerMorphism_derives
@@ -348,7 +348,7 @@ def derivedPageOneNatIso :
         DerivedCategory.Plus.homologyFunctor Ab.{u} q :=
   Functor.rightDerivedNatIso _ _
     (Functor.whiskerRight S.derivedSpectralSequenceUnit (pageOneEval (n : ℤ) q))
-    (Functor.whiskerRight (S.componentSectionsFunctor ⦋n⦌).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (S.componentSectionsFunctor ⦋n⦌).rightDerivedFunctorPlusUnith
       (DerivedCategory.Plus.homologyFunctor Ab.{u} q))
     (HomotopyCategory.Plus.quasiIso (Sheaf S.totalTopology Ab.{u}))
     (S.plusPageOneNatIso n q)
@@ -438,7 +438,7 @@ def totalSectionsHomologyIsoDerived (M : HomotopyCategory.Plus (Sheaf S.totalTop
     ((plusQhHomologyIso n).app
       ((Sheaf.Γ S.totalTopology Ab.{u}).mapHomotopyCategoryPlus.obj M)).symm ≪≫
     asIso ((DerivedCategory.Plus.homologyFunctor Ab.{u} n).map
-      ((Sheaf.Γ S.totalTopology Ab.{u}).rightDerivedFunctorPlusUnit.app M))
+      ((Sheaf.Γ S.totalTopology Ab.{u}).rightDerivedFunctorPlusUnith.app M))
 
 /-- **The convergence at a bounded below complex of injectives.** The spectral sequence of
 Stacks 09WJ at the object represented by a bounded below complex of injectives `I^•` abuts to

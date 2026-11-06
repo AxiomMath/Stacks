@@ -160,8 +160,7 @@ private lemma rightAcyclic_iff_forall_pos_isZero (G : C ⥤ D) [G.Additive]
 /-- Right acyclicity is invariant under isomorphism. -/
 private lemma rightAcyclic_of_iso (G : C ⥤ D) [G.Additive] {A B : C} (e : A ≅ B)
     (h : G.rightAcyclic A) : G.rightAcyclic B :=
-  (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
-    ((HomotopyCategory.Plus.singleFunctor C 0).mapIso e)).mp h
+  (G.rightAcyclic).prop_of_iso e h
 
 end Acyclic
 

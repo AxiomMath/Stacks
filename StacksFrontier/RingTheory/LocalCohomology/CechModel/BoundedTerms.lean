@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Homology.DerivedCategory.ShortExact
+public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.SingleHomology
 public import Mathlib.CategoryTheory.Abelian.Exact
 public import Mathlib.CategoryTheory.Triangulated.Orthogonal

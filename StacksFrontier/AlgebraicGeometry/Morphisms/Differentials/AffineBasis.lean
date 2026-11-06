@@ -208,7 +208,7 @@ theorem relativeDifferentialsIsoAffineOpensOverKaehler_inv_d
 @[stacks 01UU "the presheaf on the basis with sections the Kähler differentials"]
 noncomputable def kaehlerOnAffineOpensOver :
     _root_.PresheafOfModules.{u} (restrictRingSheafToBasis
-      f.isBasis_affineOpensOver X.ringCatSheaf).val :=
+      f.isBasis_affineOpensOver X.ringCatSheaf).obj :=
   ((restrictModuleSheaf.{u, u} f.isBasis_affineOpensOver
     X.ringCatSheaf).obj (relativeDifferentials f)).val.copyObj
     (fun U => f.affineOpensOverKaehler U.unop)

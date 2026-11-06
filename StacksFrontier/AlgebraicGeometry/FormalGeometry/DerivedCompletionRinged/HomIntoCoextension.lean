@@ -98,7 +98,6 @@ attribute [local instance] HasDerivedCategory.standard
 
 attribute [local implicit_reducible]
   CategoryTheory.sheafCompose
-  CochainComplex.HomComplex
   ModuleCat.restrictScalars
   ModuleCat.RestrictScalars.obj'
   PresheafOfModules.presheaf

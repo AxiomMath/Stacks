@@ -225,8 +225,8 @@ theorem isIso_bigToSmallEtaleBaseChange {X Y : T.Spaces} (f : Y ⟶ X)
   suffices hV : ∀ V : Over X, IsIso (((bigToSmallEtaleBaseChange T f).app K).hom.app (op V)) by
     have : IsIso ((sheafToPresheaf _ _).map ((bigToSmallEtaleBaseChange T f).app K)) :=
       NatIso.isIso_of_isIso_app (((bigToSmallEtaleBaseChange T f).app K).hom)
-    exact isIso_of_reflects_iso ((bigToSmallEtaleBaseChange T f).app K)
-      (sheafToPresheaf _ _)
+    exact (fullyFaithfulSheafToPresheaf _ _).isIso_of_isIso_map
+      ((bigToSmallEtaleBaseChange T f).app K)
   intro V
   have sq := IsPullback.of_hasPullback f V.hom
   have := Functor.isContinuous_comp (Over.pullback (pullback.snd f V.hom))

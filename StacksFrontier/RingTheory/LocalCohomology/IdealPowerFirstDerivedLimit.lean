@@ -321,8 +321,8 @@ private theorem milnorDifference_naturality {F G : ℕᵒᵖ ⥤ ModuleCat.{max 
           Limits.Pi.π (fun n : ℕ ↦ G.obj (op n)) (n + 1) ≫
             G.map (homOfLE (Nat.le_succ n)).op := by
   refine Limits.Pi.hom_ext _ _ fun n ↦ ?_
-  simp only [Category.assoc, Limits.Pi.map_π, Limits.Pi.lift_π, Preadditive.sub_comp,
-    Preadditive.comp_sub, Limits.Pi.lift_π_assoc, Limits.Pi.map_π_assoc, NatTrans.naturality]
+  simp only [Category.assoc, Limits.Pi.map_π, Limits.Pi.lift_comp_π, Preadditive.sub_comp,
+    Preadditive.comp_sub, Limits.Pi.lift_comp_π_assoc, Limits.Pi.map_π_assoc, NatTrans.naturality]
 
 /-- Multiplication by `a ∈ I^{m₀}` on the product of the terms of the tower factors through the
 product of the terms of the subsystem. -/

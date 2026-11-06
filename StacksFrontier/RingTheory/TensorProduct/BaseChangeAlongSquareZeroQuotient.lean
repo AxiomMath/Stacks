@@ -77,7 +77,6 @@ theorem annihilator_map_ker_le (p : A →+* R) (hpM : ∀ (a : A) (x : M), a •
   have hax : ∀ x : M, a • x = 0 := fun x => by
     rw [hpM a x, RingHom.mem_ker.mp ha, zero_smul]
   induction z with
-  | zero => exact smul_zero _
   | tmul b x =>
     rw [show algebraMap A A' a • (b ⊗ₜ[A] x) = (a • b) ⊗ₜ[A] x from by
         rw [Algebra.smul_def, TensorProduct.smul_tmul', smul_eq_mul],
@@ -166,7 +165,6 @@ theorem bijective_liftBaseChange_of_ker_le_map_ker
   have hψθ : ∀ z : A' ⊗[A] M, ψ (θ z) = z := by
     intro z
     induction z with
-    | zero => rw [map_zero, map_zero]
     | tmul b x =>
       rw [hθ, hψ, show Function.surjInv hq (q b) ⊗ₜ[A] x =
           Function.surjInv hq (q b) • ((1 : A') ⊗ₜ[A] x) from by
@@ -177,7 +175,6 @@ theorem bijective_liftBaseChange_of_ker_le_map_ker
   have hθψ : ∀ w : R' ⊗[R] M, θ (ψ w) = w := by
     intro w
     induction w with
-    | zero => rw [map_zero, map_zero]
     | tmul c x => rw [hψ, hθ, Function.surjInv_eq hq c]
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   -- The two comparisons correspond under that isomorphism.
@@ -185,7 +182,6 @@ theorem bijective_liftBaseChange_of_ker_le_map_ker
       g.liftBaseChange A' z = r.liftBaseChange R' (θ z) := by
     intro z
     induction z with
-    | zero => rw [map_zero, map_zero, map_zero]
     | tmul b x =>
       rw [LinearMap.liftBaseChange_tmul, hθ, LinearMap.liftBaseChange_tmul, hrg, hqM b (g x)]
     | add z z' hz hz' => rw [map_add, map_add, map_add, hz, hz']

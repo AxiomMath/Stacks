@@ -160,7 +160,7 @@ public theorem smallEtalePushforward_stalk_unique_of_not_mem_range
   let I := J.Elementsᵒᵖ
   let F : I ⥤ Type (max (u + 1) v) := (CategoryOfElements.π J).op ⋙ (H.obj G).obj
   obtain ⟨V, p, hdisjV⟩ := exists_open_neighborhood_away_from_closed B i s hs
-  let e₀ : J.Elements := ⟨V, p⟩
+  let e₀ : J.Elements := J.elementsMk V p
   let e₀' : I := op e₀
   have : IsFiltered I := inferInstance
   have hF : ∀ a : I, ∃ b : I, Nonempty (a ⟶ b) ∧
@@ -168,8 +168,8 @@ public theorem smallEtalePushforward_stalk_unique_of_not_mem_range
     intro a
     let c := IsFiltered.max a e₀'
     let α : c.unop ⟶ e₀ := (IsFiltered.rightToMax a e₀').unop
-    let C : SmallEtale B X.1 X.property := c.unop.1
-    let g := (SmallEtale.inclusion B X.1 X.property).map α.val
+    let C : SmallEtale B X.1 X.property := c.unop.obj
+    let g := (SmallEtale.inclusion B X.1 X.property).map α.hom
     have hOver : g.left ≫ V.obj.hom = C.obj.hom := Over.w g
     have hfac : B.inclusion.map g.left ≫ B.inclusion.map V.obj.hom =
         B.inclusion.map C.obj.hom := by

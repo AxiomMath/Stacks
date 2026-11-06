@@ -160,10 +160,10 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
       right_inv := fun _ => rfl
       map_add' := fun x y => by
         funext i
-        exact ULift.ext _ _ (s.add_coeff x.down y.down i)
+        exact ULift.ext (s.add_coeff x.down y.down i)
       map_smul' := fun a x => by
         funext i
-        refine ULift.ext _ _ ?_
+        refine ULift.ext ?_
         show (a.down • x.down : UniversalFiniteFreeModule d).coeff i = a.down * x.down.coeff i
         rw [Algebra.smul_def]
         exact algebraMap_mul_coeff d s a.down x.down i }

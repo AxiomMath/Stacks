@@ -356,6 +356,7 @@ public theorem isUnibranch_iff_isUnibranchRing
   rw [_root_.IsUnibranch, IsUnibranchRing]
   constructor <;> rintro ⟨hred, hlocal⟩ <;> exact ⟨hred, hlocal⟩
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The library's geometrically unibranch predicate agrees with the one defined here. -/
 public theorem isGeometricallyUnibranch_iff_isGeometricallyUnibranchRing
     (R : Type u) [CommRing R] [IsLocalRing R] :
@@ -365,10 +366,12 @@ public theorem isGeometricallyUnibranch_iff_isGeometricallyUnibranchRing
   constructor
   · rintro ⟨⟨hred, hlocal⟩, h⟩
     refine ⟨hred, hlocal, ?_⟩
-    exact (ringHom_isPurelyInseparable_iff _ _ fun _ ↦ rfl).mp (h hred hlocal)
+    refine (ringHom_isPurelyInseparable_iff _ _ ?_).mp (h hred hlocal)
+    exact fun _ ↦ rfl
   · rintro ⟨hred, hlocal, h⟩
     refine ⟨⟨hred, hlocal⟩, fun _ _ ↦ ?_⟩
-    exact (ringHom_isPurelyInseparable_iff _ _ fun _ ↦ rfl).mpr h
+    refine (ringHom_isPurelyInseparable_iff _ _ ?_).mpr h
+    exact fun _ ↦ rfl
 
 -- Shared helpers, hoisted here from
 -- `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/Branches.lean` and

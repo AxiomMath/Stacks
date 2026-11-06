@@ -240,7 +240,7 @@ identity of `M(V)` for every open `V ≤ U`. -/
 theorem smul_id_obj_eq_zero_of_smul_id_opensOverRestriction_eq_zero (U : S.X.Opens)
     (M : Sheaf (opensTopology S) AddCommGrpCat.{u + 1}) (q : ℤ)
     (h : q • 𝟙 ((opensOverRestriction S U).obj M) = 0) (V : S.X.Opens) (hV : V ≤ U) :
-    q • 𝟙 (M.val.obj (op V)) = 0 :=
+    q • 𝟙 (M.obj.obj (op V)) = 0 :=
   congrArg (fun g : (opensOverRestriction S U).obj M ⟶ (opensOverRestriction S U).obj M ↦
     g.hom.app (op (Over.mk (homOfLE hV)))) h
 
@@ -258,19 +258,19 @@ annihilates the identity of `M(V)` for every open `V` contained in some `U i`.  
 `q • 𝟙 M = 0`. -/
 theorem smul_id_eq_zero_of_forall_le (M : Sheaf (opensTopology S) AddCommGrpCat.{u + 1}) (q : ℤ)
     {ι : Type*} (U : ι → S.X.Opens) (hU : (⨆ i, U i) = ⊤)
-    (h : ∀ (i : ι) (V : S.X.Opens), V ≤ U i → q • 𝟙 (M.val.obj (op V)) = 0) :
+    (h : ∀ (i : ι) (V : S.X.Opens), V ≤ U i → q • 𝟙 (M.obj.obj (op V)) = 0) :
     q • 𝟙 M = 0 := by
-  have hsec : ∀ (i : ι) (V : S.X.Opens), V ≤ U i → ∀ t : ToType (M.val.obj (op V)), q • t = 0 :=
+  have hsec : ∀ (i : ι) (V : S.X.Opens), V ≤ U i → ∀ t : ToType (M.obj.obj (op V)), q • t = 0 :=
     fun i V hV t ↦ by simpa using ConcreteCategory.congr_hom (h i V hV) t
   refine Sheaf.hom_ext ?_
   ext V s
-  show (AddCommGrpCat.Hom.hom ((q • 𝟙 (M.val.obj V))) s) = _
+  show (AddCommGrpCat.Hom.hom ((q • 𝟙 (M.obj.obj V))) s) = _
   have hsheaf := TopCat.Sheaf.eq_of_locally_eq' (F := M) (fun i ↦ V.unop ⊓ U i) V.unop
     (fun _ ↦ homOfLE inf_le_left) (by rw [← inf_iSup_eq, hU, inf_top_eq]) (q • s) 0 ?_
   · simpa using hsheaf
   · intro i
     have hzero : (AddCommGrpCat.Hom.hom
-        (M.val.map (homOfLE (inf_le_left : V.unop ⊓ U i ≤ V.unop)).op)) (q • s) = 0 := by
+        (M.obj.map (homOfLE (inf_le_left : V.unop ⊓ U i ≤ V.unop)).op)) (q • s) = 0 := by
       rw [map_zsmul]
       exact hsec i (V.unop ⊓ U i) inf_le_right _
     simpa using hzero

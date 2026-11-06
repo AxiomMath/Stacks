@@ -682,6 +682,19 @@ private theorem presheafEtale_of_isPullback
     MorphismProperty.relative_isStableUnderBaseChange _
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback h hc
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+private local instance (priority := high) hasPullbacks_presheaf
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+private local instance (priority := high) hasPullback_presheaf
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf B S hS).has_limit _
+
 /-- An affine étale chart of `X` in a formal glueing situation admits an affine surjective étale
 chart of its base change to `Y`, whose composite to `Y` is again étale after every
 representable base change. -/

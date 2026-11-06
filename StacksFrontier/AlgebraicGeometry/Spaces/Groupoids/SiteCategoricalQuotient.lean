@@ -88,6 +88,13 @@ theorem epi (hφ : IsSiteCategoricalQuotient s t φ) {E : BigFppfOver B S hS} {�
   obtain ⟨κ, -, hu⟩ := hφ.2 E (φ ≫ κ₁) (by rw [← Category.assoc, hφ.1, Category.assoc])
   exact (hu κ₁ rfl).trans (hu κ₂ h.symm).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_SiteCategoricalQuotient
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- **Uniqueness against algebraic spaces.** Two morphisms from the presheaf represented by `M`
 to an algebraic space which agree after `φ` are equal, as soon as `φ` is a categorical quotient
 among the objects of the site. -/

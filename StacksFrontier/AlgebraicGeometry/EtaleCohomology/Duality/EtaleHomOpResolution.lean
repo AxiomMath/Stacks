@@ -110,12 +110,8 @@ def etaleHomOpForgetZModComplexIso (G : EtaleModules.{u, 0} Λ X)
           (etaleModuleForgetAb.{u, 0} Λᵐᵒᵖ X).mapHomologicalComplex (ComplexShape.up ℤ) ≅
       (Stacks.ModuleInternalHom.homAbFunctor (ZMod n) X.smallEtaleTopology
         G').mapHomologicalComplex (ComplexShape.up ℤ) :=
-  NatIso.ofComponents
-    (fun L => HomologicalComplex.Hom.isoOfComponents
-      (fun i => (etaleHomOpForgetZModIso Λ G G' e).app (L.X i))
-      (fun i j _ => ((etaleHomOpForgetZModIso Λ G G' e).hom.naturality (L.d i j)).symm))
-    (fun f => HomologicalComplex.hom_ext _ _ fun i =>
-      (etaleHomOpForgetZModIso Λ G G' e).hom.naturality (f.f i))
+  Functor.isoWhiskerLeft _ (Functor.mapHomologicalComplexCompIso (Iso.refl _) _) ≪≫
+    Functor.mapHomologicalComplexCompIso (etaleHomOpForgetZModIso Λ G G' e) _
 
 /-- **`ℋom_ℤ(G, ω) ⟶ ℋom_ℤ(G, J)` is a quasi-isomorphism** for a resolution `ω ⟶ J` by sheaves
 of `ℤ/n`-modules with injective sections, `ω` locally constant on an injective module and `G`

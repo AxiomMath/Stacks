@@ -89,7 +89,7 @@ public theorem continuous_galoisActionOnGeometricIrreducibleComponents
     Continuous (fun p : MulOpposite (K ≃ₐ[k] K) ×
         (galoisActionOnGeometricIrreducibleComponents k K X).V =>
       ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ p.1) p.2) := by
+        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ p.1).asHom p.2) := by
   let A := galoisActionOnGeometricIrreducibleComponents k K X
   let G := MulOpposite (K ≃ₐ[k] K)
   let : IsGalois k K :=
@@ -106,7 +106,7 @@ public theorem continuous_galoisActionOnGeometricIrreducibleComponents
     apply Subgroup.isOpen_mono (H₁ := E.fixingSubgroup.op)
       (H₂ := MulAction.stabilizer G T)
     · intro g hg
-      show ConcreteCategory.hom (A.ρ g) T = T
+      show ConcreteCategory.hom (A.ρ g).asHom T = T
       apply hfix (MulOpposite.unop g)
       intro x
       exact (IntermediateField.mem_fixingSubgroup_iff E (MulOpposite.unop g)).mp hg x x.2
@@ -122,10 +122,10 @@ public theorem finite_range_galoisAction_of_stabilizing
     (E : IntermediateField k K) [FiniteDimensional k E]
     (hfix : ∀ σ : K ≃ₐ[k] K, (∀ x : E, σ x = x) →
       ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)) Z = Z) :
+        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)).asHom Z = Z) :
     (Set.range fun σ : MulOpposite (K ≃ₐ[k] K) ↦
       ConcreteCategory.hom
-        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z).Finite := by
+        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z).Finite := by
   let : MulAction (MulOpposite (K ≃ₐ[k] K))
       (galoisActionOnGeometricIrreducibleComponents k K X).V :=
     Action.instMulAction (galoisActionOnGeometricIrreducibleComponents k K X)
@@ -150,7 +150,7 @@ public theorem finite_range_galoisAction_of_stabilizing
 public theorem galoisActionOnBaseChange_ρ_comp_fst
     {k K : Type u} [Field k] [Field K] [Algebra k K] (X : Over (Spec (.of k)))
     (σ : MulOpposite (K ≃ₐ[k] K)) :
-    (galoisActionOnBaseChange k K X).ρ σ ≫
+    ((galoisActionOnBaseChange k K X).ρ σ).asHom ≫
         pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
   show (pullback.lift _ _ _) ≫ _ = _
@@ -166,12 +166,12 @@ public theorem image_fst_galoisAction_component
     (hZ : Z ∈ irreducibleComponents
       (pullback X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) : Scheme)) :
     (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base ''
-        (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ)
+        (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom
           ⟨Z, hZ⟩).1 =
       (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base '' Z := by
-  show _ '' ((galoisActionOnBaseChange k K X).ρ σ).base '' Z = _
+  show _ '' ((galoisActionOnBaseChange k K X).ρ σ).asHom.base '' Z = _
   have hfun : (fun x ↦ (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base
-      (((galoisActionOnBaseChange k K X).ρ σ).base x)) =
+      (((galoisActionOnBaseChange k K X).ρ σ).asHom.base x)) =
         (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base := by
     funext x
     simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using
@@ -184,14 +184,16 @@ public theorem preimage_galoisBaseChangeMap_iUnion_orbit
     {k K : Type u} [Field k] [Field K] [Algebra k K] (X : Over (Spec (.of k)))
     (Z : (galoisActionOnGeometricIrreducibleComponents k K X).V) (σ : K ≃ₐ[k] K) :
     galoisBaseChangeMap k K X.left X.hom σ ⁻¹' (⋃ τ : MulOpposite (K ≃ₐ[k] K),
-        (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ) Z).1) =
+        (ConcreteCategory.hom
+          ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ).asHom Z).1) =
       ⋃ τ : MulOpposite (K ≃ₐ[k] K),
-        (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ) Z).1 := by
+        (ConcreteCategory.hom
+          ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ).asHom Z).1 := by
   let B := (Scheme.forgetToTop.mapAction (MulOpposite (K ≃ₐ[k] K))).obj
     (galoisActionOnBaseChange k K X)
   let : MulAction (MulOpposite (K ≃ₐ[k] K)) B.V := Action.instMulAction B
   have hU : (⋃ τ : MulOpposite (K ≃ₐ[k] K),
-      (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ) Z).1) =
+      (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ τ).asHom Z).1) =
         ⋃ τ : MulOpposite (K ≃ₐ[k] K), (fun x : B.V ↦ τ • x) '' Z.1 := by
     congr 1 with τ
   rw [hU]
@@ -212,7 +214,7 @@ public theorem exists_finite_single_orbit_decomposition
           ∀ Z ∈ s, ∀ Z' ∈ s,
             ∃ σ : MulOpposite (K ≃ₐ[k] K),
               ConcreteCategory.hom
-                  ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z = Z' := by
+                  ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z = Z' := by
   classical
   let A := galoisActionOnGeometricIrreducibleComponents k K X
   let : MulAction (MulOpposite (K ≃ₐ[k] K)) A.V := Action.instMulAction A

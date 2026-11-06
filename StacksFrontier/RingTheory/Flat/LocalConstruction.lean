@@ -196,7 +196,7 @@ theorem exists_flat_isLocalHom_residueField_equiv
     refine ⟨Ideal.map (AdjoinRoot.of p) (maximalIdeal A), hmax, ?_⟩
     intro Q hQ
     have hcomap : (Q.comap (algebraMap A (AdjoinRoot p))).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal Q
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) Q
     have hcomeq : Q.comap (algebraMap A (AdjoinRoot p)) = maximalIdeal A :=
       (IsLocalRing.isMaximal_iff _).mp hcomap
     have hsub : Ideal.map (AdjoinRoot.of p) (maximalIdeal A) ≤ Q :=
@@ -206,7 +206,7 @@ theorem exists_flat_isLocalHom_residueField_equiv
     ((IsLocalRing.isMaximal_iff _).mp hmax).symm
   have hcomeqmax : (maximalIdeal (AdjoinRoot p)).comap (AdjoinRoot.of p) = maximalIdeal A := by
     have hcm : ((maximalIdeal (AdjoinRoot p)).comap (algebraMap A (AdjoinRoot p))).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) _
     exact (IsLocalRing.isMaximal_iff _).mp hcm
   have hφ : IsLocalHom (AdjoinRoot.of p) :=
     ((IsLocalRing.local_hom_TFAE (AdjoinRoot.of p)).out 1 5).mpr hcomeqmax

@@ -70,6 +70,13 @@ theorem isQuasiFiniteAt_iff_hasRelativeDimensionAt_zero
 
 /-! ### Part (2) of Tag 0ABM -/
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_quasiFiniteLocusBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- In a cartesian square of algebraic spaces over `S` with `f` locally of finite type, the base
 change of `f` is quasi-finite at a point of its source exactly when `f` is quasi-finite at the
 image of that point.

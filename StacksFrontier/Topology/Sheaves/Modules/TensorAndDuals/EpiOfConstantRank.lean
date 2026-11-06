@@ -123,6 +123,7 @@ variable {C : Type v} [Category.{v} C] {J : GrothendieckTopology C}
 local instance : (_root_.SheafOfModules.evaluation.{u} R Y).Additive where
   map_add := rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The sections of a free sheaf of modules over an object of the site form a free module on
 the same index set, because evaluation preserves finite coproducts. -/
 noncomputable def freeEvaluationBasis :
@@ -139,6 +140,7 @@ noncomputable def freeEvaluationBasis :
   exact (Pi.basisFun (R.obj.obj Y) I).map
     ((e.toLinearEquiv.trans DFinsupp.linearEquivFunOnFintype).symm)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The basis of `freeEvaluationBasis` consists of the images of `1` under the coprojections
 of the free sheaf. -/
 lemma freeEvaluationBasis_apply (i : I) :

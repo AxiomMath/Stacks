@@ -45,10 +45,12 @@ theorem exists_chart_factorization_isEtaleCovering {X X' : AlgebraicSpaces B S h
       IsEtaleCovering B S hS
         (fun _ : PUnit.{u + 1} => yoneda.obj ((SmallEtale.toOver B S hS X'.1).obj V))
         (fun _ => V.1.hom) := by
+  haveI : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
   obtain ⟨T, a, ha_surj, ha_et⟩ := X.2.exists_atlas
+  haveI : HasPullback g.hom a := HasLimitsOfShape.has_limit _
   have hpb := isEtaleCovering_pullback B S hS g.hom X'.2 _ _
     (isEtaleCovering_atlas.{u, u} B S hS X.2 ha_surj ha_et)
-  have hP : IsAlgebraicSpace B S hS (pullback g.hom a) := hpb.source_isAlgebraicSpace PUnit.unit
+  have hP := hpb.source_isAlgebraicSpace PUnit.unit
   obtain ⟨T', b, hb_surj, hb_et⟩ := hP.exists_atlas
   have hcomp := isEtaleCovering_comp B S hS (fun _ : PUnit.{u + 1} => PUnit.{u + 1}) _ _ _
     (fun _ _ => b) hpb (fun _ => isEtaleCovering_atlas.{u, u} B S hS hP hb_surj hb_et)

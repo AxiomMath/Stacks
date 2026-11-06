@@ -36,6 +36,29 @@ built below are compared projection by projection throughout. -/
 attribute [local simp] pullback.lift_fst pullback.lift_snd
   pullback.lift_fst_assoc pullback.lift_snd_assoc
 
+/-- Fibre products of presheaves on the site, resolved in one instance step (instance search
+times out without this shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_StageRelation
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  bigFppfPresheafHasLimitsOfShapeCospan_finitePresentationDescent B S hS
+
+/-- Products in a slice of presheaves on the site, from wide pullbacks of presheaves
+(instance search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShapeDiscreteOver_presheaf_StageRelation
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    (X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) (Over X) :=
+  Over.ConstructProducts.over_product_of_widePullback
+
+/-- Products in a slice of presheaves on the site, indexed by a type in `Type`
+(instance search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShapeDiscreteOver_presheaf_StageRelation₀
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    (X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) (Over X) :=
+  Over.ConstructProducts.over_product_of_widePullback
+
 variable (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (hZ : B.Contains (⊤_ Scheme.{u}))
 variable {I : Type u} [Category.{u} I] [IsCofiltered I]
@@ -49,6 +72,7 @@ variable (hD : ∀ i, AlgebraicGeometry.IsAlgebraicSpace B S hS (D.obj i))
 
 include hD hAffine hQc hQs
 
+set_option maxHeartbeats 400000 in
 include hZ hD hAffine hQc hQs in
 /-- The étale relation presenting an algebraic space of finite presentation over the
 limit, once it is defined at a stage, becomes an étale equivalence relation at a later
@@ -159,7 +183,7 @@ private theorem exists_model_of_stage_relation_of_limitFacts
   let ca : F.obj cn.pt ⟶ Over.mk pR := F.map cn.fst ≫ εR.inv
   let cb : F.obj cn.pt ⟶ Over.mk pR := F.map cn.snd ≫ εR.inv
   have hcab : ca ≫ tL = cb ≫ sL := by
-    apply (cancel_mono εW.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ εW).mp
     simp only [ca, cb, Category.assoc]
     rw [← hεt, ← hεs, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
       ← F.map_comp, ← F.map_comp, cn.condition]
@@ -297,7 +321,12 @@ private theorem exists_model_of_stage_relation_of_limitFacts
           (iteratedBaseChangeIso (D.map ejm) (D.map aMono.left) (D.map oo.hom)
             hcomp' Zₙ).hom from by
       rw [iteratedBaseChangeIso_naturality, Iso.inv_hom_id_assoc]]
-    infer_instance
+    exact @mono_comp _ _ _ _ _ _
+      (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_inv (iteratedBaseChangeIso (D.map ejm)
+        (D.map aMono.left) (D.map oo.hom) hcomp' Rₙ))) _
+      (@mono_comp _ _ _ _ _ _ this _
+        (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom (iteratedBaseChangeIso (D.map ejm)
+          (D.map aMono.left) (D.map oo.hom) hcomp' Zₙ))))
   -- the descended relation as objects of the site
   have hoAff := ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS (D.map oo.hom)
     (hD oo.left) (hD nn)).out 2 1).mp (hAffine oo.hom)
@@ -403,14 +432,14 @@ private theorem exists_model_of_stage_relation_of_limitFacts
       simpa [rflSite, hsOl, htOl] using congrArg (fun z => z.left) hrflS)
   have hrflSite₂ : rflSite ≫ tO = 𝟙 WO :=
     yoneda.map_injective (by
-      simpa [rflSite, hsOl, htOl] using congrArg (fun z => z.left) hrflT)
+      rw [Functor.map_comp, Functor.map_preimage, htOl]; exact congrArg (fun z => z.left) hrflT)
   let symSite : RO ⟶ RO := yoneda.preimage symO.left
   have hsymSite₁ : symSite ≫ sO = tO :=
     yoneda.map_injective (by
-      simpa [symSite, hsOl, htOl] using congrArg (fun z => z.left) hsymS)
+      rw [Functor.map_comp, Functor.map_preimage, hsOl, htOl]; exact congrArg (fun z => z.left) hsymS)
   have hsymSite₂ : symSite ≫ tO = sO :=
     yoneda.map_injective (by
-      simpa [symSite, hsOl, htOl] using congrArg (fun z => z.left) hsymT)
+      rw [Functor.map_comp, Functor.map_preimage, htOl, hsOl]; exact congrArg (fun z => z.left) hsymT)
   have hpoCond : yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO =
       yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO := by
     rw [← yoneda.map_comp, ← yoneda.map_comp, pullback.condition]
@@ -510,12 +539,12 @@ private theorem exists_model_of_stage_relation_of_limitFacts
     yoneda.map_injective (by rw [yoneda.map_comp, hρl]; exact KWO.kernelPair.lift_fst _ _ _)
   have hρt : ρ ≫ KWO.t = tO :=
     yoneda.map_injective (by rw [yoneda.map_comp, hρl]; exact KWO.kernelPair.lift_snd _ _ _)
-  have _ : IsIso εRO.hom.left :=
+  have hεRiso : IsIso εRO.hom.left :=
     inferInstanceAs (IsIso ((Over.forget (D.obj oo.left)).map εRO.hom))
   have hνmono : Mono (εRO.hom.left ≫
       ((Over.pullback (D.map oo.hom)).map ψ).left) := by
     have := mono_left_of_mono _ hmonoO
-    infer_instance
+    exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ hεRiso) _ this
   have hνfst : εRO.hom.left ≫ ((Over.pullback (D.map oo.hom)).map ψ).left ≫
       pullback.fst Zₙ.hom (D.map oo.hom) = yoneda.map bR ≫ yoneda.map ψ₀ := by
     simp only [Over.pullback_map_left, Rₙ, Over.mk_hom,

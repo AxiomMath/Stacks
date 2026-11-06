@@ -178,6 +178,23 @@ end
 
 /-! ### Chosen fibre products and the inverse-image adjunction -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Presheaves of types on the big fppf site of `S` have pullbacks (instance search times out
+at the default budget without this shortcut). -/
+theorem hasPullbacksPresheaf_descentEtaleLocal :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Any cospan of presheaves of types on the big fppf site of `S` has a limit, read off
+`hasPullbacksPresheaf_descentEtaleLocal`. -/
+theorem hasLimitCospanPresheaf_descentEtaleLocal
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  (hasPullbacksPresheaf_descentEtaleLocal B S hS).has_limit (cospan f g)
+
+attribute [local instance high] hasPullbacksPresheaf_descentEtaleLocal
+  hasLimitCospanPresheaf_descentEtaleLocal
+
 /-- The fibre product of two morphisms of algebraic spaces over `S`, as a chosen fibre
 product. -/
 noncomputable def spacesChosenPullback {U V W : AlgebraicSpaces B S hS}

@@ -221,83 +221,86 @@ def fixedPresheafMap (σ τ : X ⟶ X) (hc : τ ≫ σ = σ ≫ τ) :
       τ.app V ((fixedPresheafIncl σ).app V y) := rfl
 
 /-- The restriction to the `σ`-fixed subpresheaf of an automorphism commuting with `σ`. -/
-def fixedPresheafAut (σ : X ⟶ X) (τ : Aut X) (hc : τ.hom ≫ σ = σ ≫ τ.hom) :
-    Aut (fixedPresheaf σ) where
-  hom := fixedPresheafMap σ τ.hom hc
-  inv := fixedPresheafMap σ τ.inv (by
-    have hhi : τ.hom ≫ τ.inv = 𝟙 X := τ.hom_inv_id
-    have hih : τ.inv ≫ τ.hom = 𝟙 X := τ.inv_hom_id
-    calc τ.inv ≫ σ = τ.inv ≫ (σ ≫ τ.hom) ≫ τ.inv := by
-          rw [Category.assoc, hhi, Category.comp_id]
-      _ = τ.inv ≫ (τ.hom ≫ σ) ≫ τ.inv := by rw [hc]
-      _ = (τ.inv ≫ τ.hom) ≫ σ ≫ τ.inv := by simp
-      _ = σ ≫ τ.inv := by rw [hih, Category.id_comp])
-  hom_inv_id := by
-    ext V y
-    exact fixedPresheaf_ext σ (by
-      simpa using presheafHom_congr_apply τ.hom_inv_id V ((fixedPresheafIncl σ).app V y))
-  inv_hom_id := by
-    ext V y
-    exact fixedPresheaf_ext σ (by
-      simpa using presheafHom_congr_apply τ.inv_hom_id V ((fixedPresheafIncl σ).app V y))
+def fixedPresheafAut (σ : X ⟶ X) (τ : Aut X) (hc : τ.asIso.hom ≫ σ = σ ≫ τ.asIso.hom) :
+    Aut (fixedPresheaf σ) :=
+  .of
+  { hom := fixedPresheafMap σ τ.asIso.hom hc
+    inv := fixedPresheafMap σ τ.asIso.inv (by
+      have hhi : τ.asIso.hom ≫ τ.asIso.inv = 𝟙 X := τ.asIso.hom_inv_id
+      have hih : τ.asIso.inv ≫ τ.asIso.hom = 𝟙 X := τ.asIso.inv_hom_id
+      calc τ.asIso.inv ≫ σ = τ.asIso.inv ≫ (σ ≫ τ.asIso.hom) ≫ τ.asIso.inv := by
+            rw [Category.assoc, hhi, Category.comp_id]
+        _ = τ.asIso.inv ≫ (τ.asIso.hom ≫ σ) ≫ τ.asIso.inv := by rw [hc]
+        _ = (τ.asIso.inv ≫ τ.asIso.hom) ≫ σ ≫ τ.asIso.inv := by simp
+        _ = σ ≫ τ.asIso.inv := by rw [hih, Category.id_comp])
+    hom_inv_id := by
+      ext V y
+      exact fixedPresheaf_ext σ (by
+        simpa using presheafHom_congr_apply τ.asIso.hom_inv_id V ((fixedPresheafIncl σ).app V y))
+    inv_hom_id := by
+      ext V y
+      exact fixedPresheaf_ext σ (by
+        simpa using presheafHom_congr_apply τ.asIso.inv_hom_id V ((fixedPresheafIncl σ).app V y)) }
 
 /-- On sections, the restricted automorphism `fixedPresheafAut σ τ hc` acts as `τ`. -/
 @[simp] lemma fixedPresheafIncl_app_fixedPresheafAut (σ : X ⟶ X) (τ : Aut X)
-    (hc : τ.hom ≫ σ = σ ≫ τ.hom) (V : Cᵒᵖ) (y : (fixedPresheaf σ).obj V) :
-    (fixedPresheafIncl σ).app V ((fixedPresheafAut σ τ hc).hom.app V y) =
-      τ.hom.app V ((fixedPresheafIncl σ).app V y) := rfl
+    (hc : τ.asIso.hom ≫ σ = σ ≫ τ.asIso.hom) (V : Cᵒᵖ) (y : (fixedPresheaf σ).obj V) :
+    (fixedPresheafIncl σ).app V ((fixedPresheafAut σ τ hc).asIso.hom.app V y) =
+      τ.asIso.hom.app V ((fixedPresheafIncl σ).app V y) := rfl
 
 variable {G : Type w} [CommGroup G]
 
 /-- The automorphisms in the image of an action of a commutative group commute. -/
 lemma commute_action_hom (ρ : G →* Aut X) (g h : G) :
-    (ρ h).hom ≫ (ρ g).hom = (ρ g).hom ≫ (ρ h).hom :=
-  congrArg Iso.hom (by rw [← map_mul, ← map_mul, mul_comm] : ρ g * ρ h = ρ h * ρ g)
+    (ρ h).asIso.hom ≫ (ρ g).asIso.hom = (ρ g).asIso.hom ≫ (ρ h).asIso.hom :=
+  congrArg (fun a : Aut X => a.asIso.hom)
+    (by rw [← map_mul, ← map_mul, mul_comm] : ρ g * ρ h = ρ h * ρ g)
 
 /-- **Stacks 0374.** Because `G` is commutative, its action on `X` restricts to an action
 on the fixed locus `X^g`. This is what makes the quotient `[X^g/G]` of the source's formula
 meaningful. -/
 @[stacks 0374 "the induced action on the fixed locus"]
-def fixedPresheafAction (ρ : G →* Aut X) (g : G) : G →* Aut (fixedPresheaf (ρ g).hom) where
-  toFun h := fixedPresheafAut (ρ g).hom (ρ h) (commute_action_hom ρ g h)
+def fixedPresheafAction (ρ : G →* Aut X) (g : G) : G →* Aut (fixedPresheaf (ρ g).asIso.hom) where
+  toFun h := fixedPresheafAut (ρ g).asIso.hom (ρ h) (commute_action_hom ρ g h)
   map_one' := by
-    refine Aut.ext ?_
+    refine Aut.ext (Iso.ext ?_)
     ext V y
     refine fixedPresheaf_ext _ ?_
-    change (ρ (1 : G)).hom.app V ((fixedPresheafIncl (ρ g).hom).app V y) =
-      (fixedPresheafIncl (ρ g).hom).app V y
+    change (ρ (1 : G)).asIso.hom.app V ((fixedPresheafIncl (ρ g).asIso.hom).app V y) =
+      (fixedPresheafIncl (ρ g).asIso.hom).app V y
     rw [map_one]
     rfl
   map_mul' h₁ h₂ := by
-    refine Aut.ext ?_
+    refine Aut.ext (Iso.ext ?_)
     ext V y
     refine fixedPresheaf_ext _ ?_
-    change (ρ (h₁ * h₂)).hom.app V ((fixedPresheafIncl (ρ g).hom).app V y) =
-      (ρ h₁).hom.app V ((ρ h₂).hom.app V ((fixedPresheafIncl (ρ g).hom).app V y))
+    change (ρ (h₁ * h₂)).asIso.hom.app V ((fixedPresheafIncl (ρ g).asIso.hom).app V y) =
+      (ρ h₁).asIso.hom.app V
+        ((ρ h₂).asIso.hom.app V ((fixedPresheafIncl (ρ g).asIso.hom).app V y))
     rw [map_mul]
     rfl
 
 /-- On sections of `X^g`, the induced action of `h` acts as `ρ h`. -/
 @[simp] lemma fixedPresheafIncl_app_fixedPresheafAction (ρ : G →* Aut X) (g h : G) (V : Cᵒᵖ)
-    (y : (fixedPresheaf (ρ g).hom).obj V) :
-    (fixedPresheafIncl (ρ g).hom).app V ((fixedPresheafAction ρ g h).hom.app V y) =
-      (ρ h).hom.app V ((fixedPresheafIncl (ρ g).hom).app V y) := rfl
+    (y : (fixedPresheaf (ρ g).asIso.hom).obj V) :
+    (fixedPresheafIncl (ρ g).asIso.hom).app V ((fixedPresheafAction ρ g h).asIso.hom.app V y) =
+      (ρ h).asIso.hom.app V ((fixedPresheafIncl (ρ g).asIso.hom).app V y) := rfl
 
 /-- The inclusion of the fixed locus is equivariant for the induced action. -/
 lemma fixedPresheafIncl_equivariant (ρ : G →* Aut X) (g h : G) :
-    (fixedPresheafAction ρ g h).hom ≫ fixedPresheafIncl (ρ g).hom =
-      fixedPresheafIncl (ρ g).hom ≫ (ρ h).hom := by
+    (fixedPresheafAction ρ g h).asIso.hom ≫ fixedPresheafIncl (ρ g).asIso.hom =
+      fixedPresheafIncl (ρ g).asIso.hom ≫ (ρ h).asIso.hom := by
   ext V y
   rfl
 
 /-- The induced action on the fixed locus is the unique one for which the inclusion is
 equivariant, since the inclusion is a monomorphism. -/
 lemma fixedPresheafAction_unique (ρ : G →* Aut X) (g : G)
-    (b : G →* Aut (fixedPresheaf (ρ g).hom))
-    (hb : ∀ h : G, (b h).hom ≫ fixedPresheafIncl (ρ g).hom =
-      fixedPresheafIncl (ρ g).hom ≫ (ρ h).hom) : b = fixedPresheafAction ρ g := by
-  refine MonoidHom.ext fun h => Aut.ext ?_
-  refine fixedPresheafIncl_mono (ρ g).hom ?_
+    (b : G →* Aut (fixedPresheaf (ρ g).asIso.hom))
+    (hb : ∀ h : G, (b h).asIso.hom ≫ fixedPresheafIncl (ρ g).asIso.hom =
+      fixedPresheafIncl (ρ g).asIso.hom ≫ (ρ h).asIso.hom) : b = fixedPresheafAction ρ g := by
+  refine MonoidHom.ext fun h => Aut.ext (Iso.ext ?_)
+  refine fixedPresheafIncl_mono (ρ g).asIso.hom ?_
   rw [hb h, fixedPresheafIncl_equivariant]
 
 end FixedAction
@@ -339,7 +342,7 @@ lemma existsUnique_totalSmul_eq (A : AbstractGroupQuotientStack.{t} B S hS G X �
 `ρ g`. -/
 lemma totalToTarget_translationMap (A : AbstractGroupQuotientStack.{t} B S hS G X ρ) (g : G)
     (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V) :
-    A.totalToTarget V (A.translationMap g V p) = (ρ g).hom.app V (A.totalToTarget V p) :=
+    A.totalToTarget V (A.translationMap g V p) = (ρ g).asIso.hom.app V (A.totalToTarget V p) :=
   A.toTarget_equivariant (op (Over.mk p.1)) g p.2
 
 end AbstractGroupQuotientStack
@@ -348,7 +351,7 @@ end AbstractGroupQuotientStack
 construction of Stacks 0371 applied to `X^g` with its induced action. -/
 @[stacks 0374 "the quotient of the fixed locus"]
 abbrev fixedQuotientStack (g : G) : Type _ :=
-  AbstractGroupQuotientStack B S hS G (fixedPresheaf (ρ g).hom) (fixedPresheafAction ρ g)
+  AbstractGroupQuotientStack B S hS G (fixedPresheaf (ρ g).asIso.hom) (fixedPresheafAction ρ g)
 
 /-- `I_{[X/G]}`, the inertia stack of `[[X/G]]`. -/
 abbrev quotientInertia : Type _ :=
@@ -364,7 +367,7 @@ def fixedPush {g : G} (A : fixedQuotientStack B S hS G X ρ g) :
   base := A.base
   torsor := A.torsor
   isTorsor := A.isTorsor
-  toTarget W s := (fixedPresheafIncl (ρ g).hom).app (op W.unop.left) (A.toTarget W s)
+  toTarget W s := (fixedPresheafIncl (ρ g).asIso.hom).app (op W.unop.left) (A.toTarget W s)
   toTarget_naturality h s := by
     rw [A.toTarget_naturality h s]
     rfl
@@ -375,8 +378,8 @@ def fixedPush {g : G} (A : fixedQuotientStack B S hS G X ρ g) :
 /-- The values of the equivariant map of a pushed object are fixed by `ρ g`. -/
 lemma rho_fix_fixedPush {g : G} (A : fixedQuotientStack B S hS G X ρ g)
     (V : (BigFppfOver B S hS)ᵒᵖ) (p : (fixedPush A).Total V) :
-    (ρ g).hom.app V ((fixedPush A).totalToTarget V p) = (fixedPush A).totalToTarget V p :=
-  fixedPresheaf_app_spec (ρ g).hom (A.toTarget (op (Over.mk p.1)) p.2)
+    (ρ g).asIso.hom.app V ((fixedPush A).totalToTarget V p) = (fixedPush A).totalToTarget V p :=
+  fixedPresheaf_app_spec (ρ g).asIso.hom (A.toTarget (op (Over.mk p.1)) p.2)
 
 /-- A morphism of `[X^g/G]`, pushed to a morphism of `[[X/G]]`. -/
 def fixedPushMap {g : G} {A A' : fixedQuotientStack B S hS G X ρ g} (m : A ⟶ A') :
@@ -387,13 +390,13 @@ def fixedPushMap {g : G} {A A' : fixedQuotientStack B S hS G X ρ g} (m : A ⟶ 
   map_equivariant := m.map_equivariant
   bijOn_map := m.bijOn_map
   totalToTarget_comp V p :=
-    congrArg ((fixedPresheafIncl (ρ g).hom).app V) (m.totalToTarget_comp V p)
+    congrArg ((fixedPresheafIncl (ρ g).asIso.hom).app V) (m.totalToTarget_comp V p)
 
 /-- The property of an object of `I_{[X/G]}` that its automorphism is translation by the
 constant `g ∈ G`. This is the `g`-summand of the formula of Stacks 0374. -/
 def IsTranslationBy (g : G) : ObjectProperty (quotientInertia B S hS G X ρ) :=
   fun Z => ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total V),
-    Z.auto.hom.map V p = Z.obj.translationMap g V p
+    Z.auto.asIso.hom.map V p = Z.obj.translationMap g V p
 
 /-- **Stacks 0374.** The canonical functor `[X^g/G] ⥤ I_{[X/G]}`: a torsor with an
 equivariant map to `X^g` is sent to the same torsor, mapping to `X`, together with the
@@ -434,8 +437,8 @@ def fixedPull {g : G} (Z : quotientInertia B S hS G X ρ) (hZ : IsTranslationBy 
   base := Z.obj.base
   torsor := Z.obj.torsor
   isTorsor := Z.obj.isTorsor
-  toTarget W s := fixedPresheafMk (ρ g).hom (Z.obj.toTarget W s) (by
-    have h1 := Z.auto.hom.totalToTarget_comp (op W.unop.left)
+  toTarget W s := fixedPresheafMk (ρ g).asIso.hom (Z.obj.toTarget W s) (by
+    have h1 := Z.auto.asIso.hom.totalToTarget_comp (op W.unop.left)
       (⟨W.unop.hom, s⟩ : Z.obj.Total (op W.unop.left))
     rw [hZ (op W.unop.left) (⟨W.unop.hom, s⟩ : Z.obj.Total (op W.unop.left))] at h1
     exact (Z.obj.totalToTarget_translationMap g (op W.unop.left)
@@ -448,7 +451,7 @@ object of `[X^g/G]` it comes from. -/
 lemma translationHom_fixedPull {g : G} (Z : quotientInertia B S hS G X ρ)
     (hZ : IsTranslationBy g Z) :
     AbstractGroupQuotientStack.translationHom (A := fixedPush (fixedPull Z hZ)) g
-        (rho_fix_fixedPush _) = Z.auto.hom :=
+        (rho_fix_fixedPush _) = Z.auto.asIso.hom :=
   AbstractGroupQuotientStack.Hom.ext Z.cond.symm (funext fun V => funext fun p => (hZ V p).symm)
 
 /-- **Stacks 0374.** An object of the `g`-summand of `I_{[X/G]}` is the image of the object
@@ -522,7 +525,7 @@ theorem inertiaSummandLift_comp_structure (g : G) :
           (AbstractGroupQuotientStack.projection (B := B) (S := S) (hS := hS) (G := G)
             (X := X) (ρ := ρ)) =
       AbstractGroupQuotientStack.projection (B := B) (S := S) (hS := hS) (G := G)
-        (X := fixedPresheaf (ρ g).hom) (ρ := fixedPresheafAction ρ g) :=
+        (X := fixedPresheaf (ρ g).asIso.hom) (ρ := fixedPresheafAction ρ g) :=
   rfl
 
 /-- **Stacks 0374.** The disjoint union `∐_{g ∈ G} [X^g/G]` of the quotients of the fixed
@@ -548,7 +551,7 @@ theorem incl_comp_inertiaCoproduct_comp_structure (g : G) :
           (AbstractGroupQuotientStack.projection (B := B) (S := S) (hS := hS) (G := G)
             (X := X) (ρ := ρ)) =
       AbstractGroupQuotientStack.projection (B := B) (S := S) (hS := hS) (G := G)
-        (X := fixedPresheaf (ρ g).hom) (ρ := fixedPresheafAction ρ g) :=
+        (X := fixedPresheaf (ρ g).asIso.hom) (ρ := fixedPresheafAction ρ g) :=
   rfl
 
 /-- **Stacks 0374.** Conversely to `AlgebraicGeometry.inertiaSummand`: the automorphism `α`
@@ -560,9 +563,9 @@ point, which is why the summands of the formula are indexed by `G`. -/
 theorem existsUnique_auto_eq_totalSmul (Z : quotientInertia B S hS G X ρ)
     (V : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total V) :
     ∃! γ : (constantSheafOfGroups (BigFppfOver.topology B S hS) G).presheaf.obj V,
-      Z.obj.totalSmul γ p = Z.auto.hom.map V p :=
-  Z.obj.existsUnique_totalSmul_eq p (Z.auto.hom.map V p) (by
-    rw [Z.auto.hom.fst_map p, show Z.auto.hom.base = 𝟙 Z.obj.base from Z.cond,
+      Z.obj.totalSmul γ p = Z.auto.asIso.hom.map V p :=
+  Z.obj.existsUnique_totalSmul_eq p (Z.auto.asIso.hom.map V p) (by
+    rw [Z.auto.asIso.hom.fst_map p, show Z.auto.asIso.hom.base = 𝟙 Z.obj.base from Z.cond,
       Category.comp_id])
 
 /-- **Stacks 0374.** The summands of the formula are distinguished by their labels: if the

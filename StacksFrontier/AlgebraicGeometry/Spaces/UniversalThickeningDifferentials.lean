@@ -377,8 +377,8 @@ noncomputable def pushforwardDerivationRestriction
       (universalThickeningSubSpace B S hS hZ).property) :
     (sheafOfDifferentials B S hS (h' ≫ p) ⟶
         (modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F) →
-      ((modulePushforward B S hS h').obj ((modulePushforward B S hS
-          (universalThickeningInclusion B S hS hZ)).obj F)).val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj ((modulePushforward B S hS
+          (universalThickeningInclusion B S hS hZ)).obj F)).val
         (structureSharpInverseImage B S hS p).hom :=
   fun x ↦ (pushforwardUniversalDerivation B S hS h' p (h' ≫ p) (𝟙 Y)
       (Category.comp_id (h' ≫ p)).symm).postcomp
@@ -397,7 +397,7 @@ theorem postcomp_homEquiv_of_isSheafOfDifferentialsMap
           (sheafOfDifferentials B S hS (h' ≫ p))) c).val =
       pushforwardUniversalDerivation B S hS h' p (h' ≫ p) (𝟙 Y)
         (Category.comp_id (h' ≫ p)).symm := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   exact hc U t
 
@@ -430,17 +430,14 @@ theorem derivationDirectImageEquiv_comp_restrict
     (modulePullbackAdjunction B S hS
       (universalThickeningInclusion B S hS hZ)).homEquiv_naturality_left,
     (modulePullbackAdjunction B S hS h').homEquiv_naturality_right]
-  exact Eq.trans
-    (PresheafOfModules.Derivation'.postcomp_comp (universalDerivation B S hS p)
-      (((modulePullbackAdjunction B S hS h').homEquiv _ _) c).val
-      ((modulePushforward B S hS h').map
-        (((modulePullbackAdjunction B S hS
-          (universalThickeningInclusion B S hS hZ)).homEquiv _ F) x)).val)
-    (congrArg (fun D ↦ PresheafOfModules.Derivation.postcomp D
+  refine Eq.trans ?_
+    (congrArg (fun D ↦ PresheafOfModulesOfCommRing.Derivation.postcomp D
         ((modulePushforward B S hS h').map
           (((modulePullbackAdjunction B S hS
             (universalThickeningInclusion B S hS hZ)).homEquiv _ F) x)).val)
       (postcomp_homEquiv_of_isSheafOfDifferentialsMap B S hS p hc))
+  apply PresheafOfModulesOfCommRing.Derivation.ext
+  rfl
 
 /-- **The reduction of Stacks 060E to a statement about derivations.**  The map of Stacks 060E
 is an isomorphism exactly when, for every `𝒪_Z`-module `F`, restriction along the structure map

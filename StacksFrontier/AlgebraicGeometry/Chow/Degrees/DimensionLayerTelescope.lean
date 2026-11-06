@@ -288,7 +288,7 @@ theorem of_eq_natCoproduct_cokernel_of_filtration (A : ℕ → X.Modules) (u : �
       GrothendieckGroup.of ((lowerDimensionClass C f (k - 1) k).isoModSerre.Q.obj G) := by
   have hLFS : LocallyFinite fun p : ULift.{u} ℕ ↦ SheafOfModules.supp (A (p.down + 1)) :=
     hLF.comp_injOn (g := fun p : ULift.{u} ℕ ↦ (⟨p.down + 1⟩ : ULift.{u} ℕ))
-      (fun a _ b _ hab ↦ ULift.ext _ _ (by
+      (fun a _ b _ hab ↦ ULift.ext (by
         have : a.down + 1 = b.down + 1 := congrArg ULift.down hab
         omega))
   have hepi : ∀ p, Epi (cokernel.π (u p)) := fun p ↦

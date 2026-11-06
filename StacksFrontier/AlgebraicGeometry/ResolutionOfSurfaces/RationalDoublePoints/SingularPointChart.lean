@@ -53,9 +53,9 @@ theorem exists_chart_of_not_isRegularLocalRing_stalk_blowUp (x : Fin 3 → A)
         (∃ _ : M.IsPrime, Nonempty ((blowUp (maximalIdealSheaf A)).presheaf.stalk q ≃+*
           Localization.AtPrime M)) ∧
         dehomogenizeFirst (ResidueField A) 2 (quadraticFormPoly fun p r => residue A (a' p r)) ∈
-          ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-            (affineBlowupAlgebra (maximalIdeal A) (x' 0) (Localization.Away (x' 0)))
-              (x' 0)}))).comap
+          ((M.map (Ideal.Quotient.mk (Ideal.span
+            {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x' 0)
+              (Localization.Away (x' 0))) (x' 0)}))).comap
               (chartPresentation (Localization.Away (x' 0)) hx')) ^ 2 := by
   obtain ⟨x', ⟨σ, rfl⟩, M, hM, hle, hprime, ⟨e⟩⟩ :=
     exists_isMaximal_ringEquiv_stalk_blowUp_maximalIdealSheaf A x hspan q hq

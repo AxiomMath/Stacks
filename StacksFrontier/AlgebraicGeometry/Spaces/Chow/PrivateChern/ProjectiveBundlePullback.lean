@@ -130,6 +130,8 @@ theorem pullbackComp_id_hom_app :
   have h := congrArg (fun φ => φ.app M) (Scheme.Modules.pseudofunctor_left_unitality q)
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.leftUnitor_hom_app,
     eqToHom_app] at h
+  have : Epi ((Scheme.Modules.pullbackComp q (𝟙 Y₀)).inv.app M) :=
+    ⟨fun _ _ e => by simpa using congrArg ((Scheme.Modules.pullbackComp q (𝟙 Y₀)).hom.app M ≫ ·) e⟩
   rw [← cancel_epi ((Scheme.Modules.pullbackComp q (𝟙 Y₀)).inv.app M), ← Category.assoc,
     Iso.inv_hom_id_app, Category.id_comp]
   refine (?_ : _ = eqToHom _).trans (h.symm.trans (congrArg (_ ≫ ·) (Category.comp_id _)))
@@ -143,6 +145,8 @@ theorem pullbackComp_id_left_hom_app :
   have h := congrArg (fun φ => φ.app M) (Scheme.Modules.pseudofunctor_right_unitality q)
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.rightUnitor_hom_app,
     eqToHom_app] at h
+  have : Epi ((Scheme.Modules.pullbackComp (𝟙 X₀) q).inv.app M) :=
+    ⟨fun _ _ e => by simpa using congrArg ((Scheme.Modules.pullbackComp (𝟙 X₀) q).hom.app M ≫ ·) e⟩
   rw [← cancel_epi ((Scheme.Modules.pullbackComp (𝟙 X₀) q).inv.app M), ← Category.assoc,
     Iso.inv_hom_id_app]
   refine (Category.id_comp _).trans ((?_ : _ = eqToHom _).trans

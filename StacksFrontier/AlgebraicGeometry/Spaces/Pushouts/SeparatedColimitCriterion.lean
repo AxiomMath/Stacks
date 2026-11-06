@@ -109,6 +109,13 @@ abbrev IsEtaleSeparated {B : AlgebraicSpaces site S hS} {U X : SeparatedOver sit
 
 variable {site S hS}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_SeparatedColimitCriterion
+    {X Y Z : (BigFppfOver site S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Separatedness bookkeeping -/
 
 /-- A composition of separated morphisms of algebraic spaces is separated. -/

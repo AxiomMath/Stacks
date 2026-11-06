@@ -327,7 +327,7 @@ add_to_sga "7 VI 1.1(a)" "induced functor" CategoryTheory.Grothendieck.map
 add_to_sga "7 VI 1.1(a)" "induced functor" CategoryTheory.NatTrans.mapElements
 add_to_sga "7 VI 1.1(a)" "more general" CategoryTheory.Pseudofunctor.Grothendieck.category
 add_to_sga "7 VI 1.1(a)" "more general" CategoryTheory.Pseudofunctor.Grothendieck.categoryStruct
-add_to_sga "7 VI 1.1(a)" "partial" CategoryTheory.categoryOfElements
+add_to_sga "7 VI 1.1(a)" "partial" CategoryTheory.Functor.Elements.instCategory
 add_to_sga "7 VI 1.3(c)" "dual numbers k[ε] = k[k]" DualNumber
 add_to_sga "7 VI 1.3(c)" TrivSqZeroExt
 add_to_sga "7 VI 3.6" "partial" CommRingCat.tensorProd

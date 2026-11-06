@@ -217,7 +217,7 @@ private theorem exists_eval_cons {d : ℕ} (Q : MvPolynomial (Fin (d + 1)) ℚ)
     ring
   · rw [coeff_sum]
     have key : ∀ c ∈ Q.support,
-        coeff one (monomial (tl c) (Q.coeff c * a ^ c 0)) =
+        (monomial (tl c) (Q.coeff c * a ^ c 0)).coeff one =
           if c = c₀ then Q.coeff c else 0 := by
       intro c hc
       rw [coeff_monomial]

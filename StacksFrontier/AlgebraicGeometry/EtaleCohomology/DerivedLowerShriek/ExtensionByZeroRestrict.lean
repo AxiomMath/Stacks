@@ -267,19 +267,19 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
     (etaleModuleExtensionByZero.{u, 0} Λ a) (etaleModuleExtensionByZero.{u, 0} Λ b)
     (etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b))
     (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm K
-  have f1' : (etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnit.app K ≫
+  have f1' : (etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnith.app K ≫
       RCO.inv.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
           (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm).inv.app K) ≫
-        (etaleModuleExtensionByZero.{u, 0} Λ b).rightDerivedFunctorPlusUnit.app N ≫
+        (etaleModuleExtensionByZero.{u, 0} Λ b).rightDerivedFunctorPlusUnith.app N ≫
         (etaleModuleExtensionByZero.{u, 0} Λ b).rightDerivedFunctorPlus.map
-          ((etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnit.app K) := by
+          ((etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnith.app K) := by
     rw [← cancel_epi (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
           (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm).hom.app K)),
       ← Category.assoc, ← f1]
     simp [RCO, N]
   have L : (etaleModuleInverseImage.{u, 0} Λ b).mapDerivedCategoryPlus.map
-        ((etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnith.app K) ≫
       (etaleModuleDerivedExtensionByZeroRestrictIso Λ a b).hom.app (DerivedCategory.Plus.Qh.obj K) =
       (etaleModuleInverseImage.{u, 0} Λ b).mapDerivedCategoryPlusFactorsh.hom.app
           ((etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).mapHomotopyCategoryPlus.obj K) ≫
@@ -289,10 +289,10 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
             (etaleModuleExtensionByZeroCompIso.{u, 0} Λ a b).symm).inv.app K)) ≫
         DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso
           (etaleModuleExtensionByZeroInverseImageIso Λ b)).hom.app N : _ ⟶ N) ≫
-        (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnit.app K := by
+        (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnith.app K := by
     rw [hdef, ← Functor.map_comp_assoc, f1', Functor.map_comp_assoc, Functor.map_comp_assoc]
     have n03 := (etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ b).hom.naturality
-      ((etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnit.app K)
+      ((etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnith.app K)
     have v03 := etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_hom_app_Qh Λ b N
     have nfh := (etaleModuleInverseImage.{u, 0} Λ b).mapDerivedCategoryPlusFactorsh.hom.naturality
       ((Functor.mapHomotopyCategoryPlusCompIso
@@ -300,7 +300,7 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
     simp only [Functor.comp_map, Functor.id_map, Functor.comp_obj, Functor.id_obj] at n03 nfh
     exact restrict_chain_left _ _ _ _ _ _ _ _ _ _ n03 v03 nfh
   have R : (etaleModuleInverseImage.{u, 0} Λ b).mapDerivedCategoryPlus.map
-        ((etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b)).rightDerivedFunctorPlusUnith.app K) ≫
       (etaleModuleDerivedExtensionByZeroCubeIso Λ hc).inv.app (DerivedCategory.Plus.Qh.obj K) ≫
         (etaleModuleDerivedExtensionByZero.{u, 0} Λ a).map
           ((etaleModuleDerivedInverseImagePlusIdIso Λ X).hom.app (DerivedCategory.Plus.Qh.obj K)) =
@@ -313,7 +313,7 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
           ((etaleModuleExtensionByZero.{u, 0} Λ a).mapHomotopyCategoryPlus.map
           ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleInverseImageIdIso.{u, 0} Λ X)).hom.app K : _ ⟶ K)) ≫
-        (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnit.app K := by
+        (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnith.app K := by
     have dfac := derivedBaseChangePlus_fac (etaleModuleExtensionByZero.{u, 0} Λ (a ≫ b))
       (etaleModuleExtensionByZero.{u, 0} Λ a) (etaleModuleInverseImage.{u, 0} Λ b)
       (etaleModuleInverseImage.{u, 0} Λ (𝟙 X))
@@ -322,7 +322,7 @@ theorem etaleModuleDerivedExtensionByZeroRestrictIso_hom_of
       derivedBaseChangePlusAux_app']
     simp only [Category.assoc]
     rw [← Functor.map_comp, etaleModuleDerivedInverseImagePlusIdIso_hom_app_Qh]
-    have nu := (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnit.naturality
+    have nu := (etaleModuleExtensionByZero.{u, 0} Λ a).rightDerivedFunctorPlusUnith.naturality
       ((Functor.mapHomotopyCategoryPlusNatIso
             (etaleModuleInverseImageIdIso.{u, 0} Λ X)).hom.app K : _ ⟶ K)
     simp only [Functor.comp_map, Functor.comp_obj] at nu

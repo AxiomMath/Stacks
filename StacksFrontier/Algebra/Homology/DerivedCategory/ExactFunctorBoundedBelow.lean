@@ -103,9 +103,9 @@ variable {A : Type u₁} [Category.{v₁} A] [Abelian A] [HasDerivedCategory.{w�
 /-- The unit of the total right derived functor on bounded below derived categories is
 invertible for a functor which preserves homology. -/
 lemma isIso_rightDerivedFunctorPlusUnit_of_preservesHomology [EnoughInjectives A]
-    (F : A ⥤ B) [F.Additive] [F.PreservesHomology] : IsIso F.rightDerivedFunctorPlusUnit := by
+    (F : A ⥤ B) [F.Additive] [F.PreservesHomology] : IsIso F.rightDerivedFunctorPlusUnith := by
   apply Functor.isIso_of_isRightDerivedFunctor_of_inverts
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
     (W := HomotopyCategory.Plus.quasiIso A)
   intro K L f hf
   suffices IsIso (DerivedCategory.Plus.ι.map
@@ -134,7 +134,7 @@ derived functor of `F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⋙ G`
 instance isRightDerivedFunctor_postcomp {E : Type*} [Category* E] [EnoughInjectives A]
     (F : A ⥤ B) [F.Additive] (G : DerivedCategory.Plus B ⥤ E) :
     (F.rightDerivedFunctorPlus ⋙ G).IsRightDerivedFunctor
-      (Functor.whiskerRight F.rightDerivedFunctorPlusUnit G)
+      (Functor.whiskerRight F.rightDerivedFunctorPlusUnith G)
       (HomotopyCategory.Plus.quasiIso A) := by
   apply (HomotopyCategory.Plus.localizerMorphism_derives
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⋙ G)).isRightDerivedFunctor_of_isIso
@@ -204,17 +204,17 @@ def rightDerivedFunctorPlus [HasDerivedCategory.{w₁} A] [HasDerivedCategory.{w
     L.rightDerivedFunctorPlus ⊣ R.rightDerivedFunctorPlus := by
   letI := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have hα : L.rightDerivedFunctorPlus.IsLeftDerivedFunctor
-      (asIso L.rightDerivedFunctorPlusUnit).inv (HomotopyCategory.Plus.quasiIso A) :=
-    Functor.isLeftDerivedFunctor_of_inverts _ _ (asIso L.rightDerivedFunctorPlusUnit).symm
+      (asIso L.rightDerivedFunctorPlusUnith).inv (HomotopyCategory.Plus.quasiIso A) :=
+    Functor.isLeftDerivedFunctor_of_inverts _ _ (asIso L.rightDerivedFunctorPlusUnith).symm
   have hαR : (L.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlus)
+        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso A) :=
     Functor.isLeftDerivedFunctor_of_inverts _ _
       ((Functor.associator _ _ _).symm ≪≫
-        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnit).symm _)
+        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnith).symm _)
   have hβL : (R.rightDerivedFunctorPlus ⋙ L.rightDerivedFunctorPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight R.rightDerivedFunctorPlusUnit L.rightDerivedFunctorPlus ≫
+      (Functor.whiskerRight R.rightDerivedFunctorPlusUnith L.rightDerivedFunctorPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso B) := by
     apply (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso
     intro K
@@ -222,7 +222,7 @@ def rightDerivedFunctorPlus [HasDerivedCategory.{w₁} A] [HasDerivedCategory.{w
     infer_instance
   exact adj.mapHomotopyCategoryPlus.derived
     (HomotopyCategory.Plus.quasiIso A) (HomotopyCategory.Plus.quasiIso B)
-    (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlusUnit
+    (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlusUnith
 
 end Derived
 

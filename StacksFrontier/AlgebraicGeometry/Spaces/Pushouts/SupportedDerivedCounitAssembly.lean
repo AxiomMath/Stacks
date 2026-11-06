@@ -223,7 +223,8 @@ theorem exists_isKInjective_iso_of_cohomologySupportedOn (Y : AlgebraicSpaces B 
     refine isZero_openSubspaceRestriction_of_disjoint B S hS V.1 V.2 _ ?_
     rw [hVW]
     exact Set.disjoint_compl_right_iff_subset.mpr
-      ((supportOfSheaf_toSheaf_subset_of_epi B S hS Y (homologyIsoOfIsoQ eI n).hom).trans (hQ n))
+      ((@supportOfSheaf_toSheaf_subset_of_epi B S hS Y _ _ (homologyIsoOfIsoQ eI n).hom
+        (IsIso.epi_of_iso _)).trans (hQ n))
   have hι := quasiIso_sectionsOffOpen_ι B S hS V.1 V.2 I hacyc
   refine ⟨_, isKInjective_sectionsOffOpen B S hS V.1 V.2 I, fun n ↦ ?_,
     ⟨eI ≪≫ (asIso (DerivedCategory.Q.map

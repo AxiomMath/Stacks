@@ -592,7 +592,6 @@ theorem comparisonLift_comp_overPostInvIso {x z : 𝒳} (φ : z ⟶ x)
         (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).asEquivalence.counit.app _ := by
     simp only [lhs, Functor.map_comp, Category.assoc]
     rw [localizationEquivalence_functor_map_overPostInvIso_comp_counit]
-    rfl
   have h2 : (FibredSite.localizationEquivalence B S hS p hp x).functor.map rhs ≫
         (FibredSite.localizationEquivalence B S hS p hp x).counit.app _ =
       (overPostInvMapCompIso B S hS p hp φ).hom.app _ ≫ π := by

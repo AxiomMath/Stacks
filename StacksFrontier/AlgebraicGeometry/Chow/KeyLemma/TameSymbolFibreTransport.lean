@@ -154,7 +154,7 @@ theorem isLocalHom_algebraMap_localizationAtPrime {A : Type*} [CommRing A] [IsLo
   rw [IsScalarTower.algebraMap_eq A B (Localization.AtPrime q), ← Ideal.comap_comap]
   show ((maximalIdeal (Localization.AtPrime q)).under B).comap (algebraMap A B) = _
   rw [IsLocalization.AtPrime.under_maximalIdeal _ q]
-  exact eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+  exact eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal q)
 
 end LocalHom
 
@@ -319,20 +319,20 @@ variable (P : TameSymbolPreparation a D)
 maximal ideal of `D` below `𝔯`. -/
 noncomputable def tameSymbolTransportedParameter (s : Ideal E) [s.IsMaximal] :
     Localization.AtPrime s :=
-  letI : (s.under D).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s
+  letI : (s.under D).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal s
   fibreLocalRingHom (D := D) s (P.parameter (s.under D))
 
 /-- The transported unit at a maximal ideal `𝔯` of `E`: the image of the unit at the maximal ideal
 of `D` below `𝔯`. -/
 noncomputable def tameSymbolTransportedFactorUnit (s : Ideal E) [s.IsMaximal] :
     Fin r → (Localization.AtPrime s)ˣ :=
-  letI : (s.under D).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s
+  letI : (s.under D).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal s
   fun i => Units.map (fibreLocalRingHom (D := D) s).toMonoidHom (P.factorUnit (s.under D) i)
 
 /-- The transported exponent at a maximal ideal `𝔯` of `E`: the exponent at the maximal ideal of
 `D` below `𝔯`. -/
 noncomputable def tameSymbolTransportedExponent (s : Ideal E) [s.IsMaximal] : Fin r → ℕ :=
-  letI : (s.under D).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s
+  letI : (s.under D).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal s
   fun i => P.exponent (s.under D) i
 
 /-- **Strong-form transport of a tame-symbol preparation along a tower.** For `A ⊆ D ⊆ E` with `E`
@@ -354,7 +354,7 @@ noncomputable def tameSymbolPreparationComp [Module.Finite D E]
   factorUnit s _ := tameSymbolTransportedFactorUnit P s
   exponent s _ := tameSymbolTransportedExponent P s
   factorization s hs i := by
-    have : (s.under D).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s
+    have : (s.under D).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal s
     have h := congrArg (fibreLocalRingHom (D := D) s) (P.factorization (s.under D) i)
     simp only [map_mul, map_pow, fibreLocalRingHom_algebraMap] at h
     rwa [← IsScalarTower.algebraMap_apply A D E] at h

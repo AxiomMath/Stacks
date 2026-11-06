@@ -130,6 +130,39 @@ end Comparisons
 
 section Invertibility
 
+/-- The unit `rightDerivedFunctorPlusUnith` (whose definition is not exposed) followed by the
+comparison with the `totalRightDerived` presentation is the unit of `totalRightDerived`. -/
+private lemma totalRightDerivedUnit_app_eq_compIndepDerived {D E : Type*} [Category* D]
+    [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D] [HasDerivedCategory E]
+    [EnoughInjectives D] (G : D ⥤ E) [G.Additive] (Y : HomotopyCategory.Plus D) :
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app Y =
+      G.rightDerivedFunctorPlusUnith.app Y ≫
+        (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+          (HomotopyCategory.Plus.quasiIso D) _
+          ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+            DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))).app
+          (DerivedCategory.Plus.Qh.obj Y) :=
+  (Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _ _ Y).symm
+
+/-- An object is right acyclic for `G` exactly when the unit `rightDerivedFunctorPlusUnith` is
+invertible at the single complex on it in degree zero. -/
+private lemma rightAcyclic_iff_isIso_unith_app_compIndepDerived {D E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] [EnoughInjectives D] (G : D ⥤ E) [G.Additive] (X : D) :
+    G.rightAcyclic X ↔ IsIso (G.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor D 0).obj X)) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  change IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app _) ↔ _
+  rw [totalRightDerivedUnit_app_eq_compIndepDerived]
+  exact isIso_comp_right_iff _ _
+
 variable {j k : CompactificationOf (Over.mk f)} (g : j ⟶ k)
 
 /-- The composition comparison `R(ḡ_* ∘ j_!) ⟶ Rj_! ⋙ Rḡ_*` is invertible at a torsion sheaf
@@ -142,27 +175,30 @@ lemma isIso_rightDerivedFunctorPlusComp_app_single (M : EtaleModules.{u, 0} Λ X
   let F := etaleModuleExtensionByZero.{u, 0} Λ j.immersion
   let H := etaleModuleDirectImage.{u, 0} Λ (CompactificationOf.Hom.map g)
   let Xs := (HomotopyCategory.Plus.singleFunctor (EtaleModules.{u, 0} Λ X) 0).obj M
-  have hF : IsIso (F.rightDerivedFunctorPlusUnit.app Xs) := rightAcyclic_of_exact F M
-  have hK : IsIso ((etaleModuleExtensionByZero.{u, 0} Λ k.immersion).rightDerivedFunctorPlusUnit.app
-      Xs) := rightAcyclic_of_exact _ M
-  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs) :=
+  have hF : IsIso (F.rightDerivedFunctorPlusUnith.app Xs) :=
+    (rightAcyclic_iff_isIso_unith_app_compIndepDerived F M).1 (rightAcyclic_of_exact F M)
+  have hK : IsIso
+      ((etaleModuleExtensionByZero.{u, 0} Λ k.immersion).rightDerivedFunctorPlusUnith.app Xs) :=
+    (rightAcyclic_iff_isIso_unith_app_compIndepDerived _ M).1 (rightAcyclic_of_exact _ M)
+  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs) :=
     IsIso.of_isIso_fac_left (rightDerivedFunctorPlusNatIso_hom_fac_app (refinementIso Λ g) Xs).symm
   have hac : H.rightAcyclic (F.obj M) :=
     (Stacks.Cohomology.LerayDegreewise.rightAcyclic_iff_isZero_rightDerived H (F.obj M)).2
       fun p hp => isZero_rightDerived_etaleModuleDirectImage_extensionByZero Λ
         (CompactificationOf.immersion_comp_map g) M hM p hp
-  have hH : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Xs)) := by
+  have hH : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Xs)) := by
     let e := Stacks.Cohomology.LerayDegreewise.mapHomotopyCategoryPlusSingleObjIso F 0 M
-    have hn := H.rightDerivedFunctorPlusUnit.naturality e.hom
-    have : IsIso (H.rightDerivedFunctorPlusUnit.app
-        ((HomotopyCategory.Plus.singleFunctor _ 0).obj (F.obj M))) := hac
+    have hn := H.rightDerivedFunctorPlusUnith.naturality e.hom
+    have : IsIso (H.rightDerivedFunctorPlusUnith.app
+        ((HomotopyCategory.Plus.singleFunctor _ 0).obj (F.obj M))) :=
+      (rightAcyclic_iff_isIso_unith_app_compIndepDerived H (F.obj M)).1 hac
     exact IsIso.of_isIso_fac_right hn.symm
-  have key : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs ≫
+  have key : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs ≫
       (rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj Xs)) := by
     rw [unit_comp_rightDerivedFunctorPlusComp_app F H Xs]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ hH (Functor.map_isIso _ _)
   have ht : IsIso ((rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj Xs)) :=
-    IsIso.of_isIso_comp_left ((F ⋙ H).rightDerivedFunctorPlusUnit.app Xs) _
+    IsIso.of_isIso_comp_left ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs) _
   exact (NatTrans.isIso_app_iff_of_iso _
     ((DerivedCategory.Plus.singleFunctorIsoCompQh (EtaleModules.{u, 0} Λ X) 0).app M)).2 ht
 

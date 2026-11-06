@@ -151,7 +151,7 @@ theorem submoduleDerivationHom_comp
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N N' : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N N' : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       a ∈ I.obj U →
@@ -183,7 +183,7 @@ theorem eq_submoduleDerivationHom_of_val_app_apply
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       a ∈ I.obj U →
@@ -283,7 +283,7 @@ that composite, whose compatibility with the universal derivations is
 `AlgebraicGeometry.SmallEtale.postcomp_differentialsIso_hom`. -/
 theorem pullbackUnitDerivation_postcomp_map_map (f : X ⟶ Y) (g : Y ⟶ Bb)
     (N : Modules.{u, u} B S hS Y.1 Y.2) (Φ : sheafOfDifferentials B S hS g ⟶ N)
-    (E : N.val.Derivation' (structureSharpInverseImage B S hS g).hom)
+    (E : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS g).hom)
     (hΦ : (universalDerivation B S hS g).postcomp Φ.val = E) :
     (pullbackUnitDerivation B S hS f g).postcomp
         ((modulePushforward B S hS f).map ((modulePullback B S hS f).map Φ)).val =
@@ -306,7 +306,7 @@ theorem pullbackUnitDerivation_postcomp_map_map (f : X ⟶ Y) (g : Y ⟶ Bb)
   refine Eq.trans (PresheafOfModules.Derivation.postcomp_postcomp
     (universalDerivation B S hS g) Φ.val
     ((modulePullbackAdjunction B S hS f).unit.app N).val).symm ?_
-  exact congrArg (fun D ↦ PresheafOfModules.Derivation.postcomp D
+  exact congrArg (fun D ↦ PresheafOfModulesOfCommRing.Derivation.postcomp D
     ((modulePullbackAdjunction B S hS f).unit.app N).val) hΦ
 
 /-- **The two value formulas of the first arrow agree through any such comparison.**  Read
@@ -319,7 +319,7 @@ of the section — so this is the agreement of the two value formulas, parametri
 comparison of the differentials. -/
 theorem kernelIdealUnitDifferential_val_app_apply_map_map (f : X ⟶ Y) (g : Y ⟶ Bb)
     (N : Modules.{u, u} B S hS Y.1 Y.2) (Φ : sheafOfDifferentials B S hS g ⟶ N)
-    (E : N.val.Derivation' (structureSharpInverseImage B S hS g).hom)
+    (E : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS g).hom)
     (hΦ : (universalDerivation B S hS g).postcomp Φ.val = E)
     (W : (SmallEtale B S hS Y.1)ᵒᵖ)
     (x : (kernelIdealSheaf B S hS f).toSheafOfModules.val.obj W) :
@@ -328,7 +328,7 @@ theorem kernelIdealUnitDifferential_val_app_apply_map_map (f : X ⟶ Y) (g : Y �
         ((ModuleCat.Hom.hom ((kernelIdealUnitDifferential B S hS f g).val.app W)) x) =
       (ModuleCat.Hom.hom (((modulePullbackAdjunction B S hS f).unit.app N).val.app W))
         (E.d x.1) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackUnitDerivation_postcomp_map_map B S hS f g N Φ E hΦ) x.1
 
 end Comparison
@@ -384,7 +384,7 @@ theorem kernelIdealUnitDifferential_val_app_apply_schemeDifferentialsIso (α : U
           (((modulePullbackAdjunction B S hS φ).unit.app
             (transportedDifferentials B S hS α)).val.app W))
         ((transportedUniversalDerivation B S hS α).d x.1) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackUnitDerivation_postcomp_schemeDifferentialsIso B S hS α φ) x.1
 
 end SchemeComparison

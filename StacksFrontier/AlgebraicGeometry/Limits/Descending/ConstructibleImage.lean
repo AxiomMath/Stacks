@@ -71,6 +71,7 @@ lemma eventually_isEmpty_pullback
   let F : J ⥤ Scheme.{u} := Over.post D.system ⋙ Over.pullback t ⋙ Over.forget T
   let c : Cone F := (Over.pullback t ⋙ Over.forget T).mapCone
     ((Over.conePost D.system (Opposite.op D.base)).obj D.limitCone)
+  have : IsConnected J := IsCofiltered.isConnected J
   have hc : IsLimit c := isLimitOfPreserves (Over.pullback t ⋙ Over.forget T)
     (Over.isLimitConePost _ D.isLimit)
   have (j : J) : Nonempty (F.obj j) := by

@@ -67,10 +67,10 @@ theorem isIso_rightDerivedFunctorPlusUnit_of_exact
     [Abelian A] [Abelian B] [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} B]
     [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
     [PreservesFiniteLimits F] [PreservesFiniteColimits F] :
-    IsIso F.rightDerivedFunctorPlusUnit := by
+    IsIso F.rightDerivedFunctorPlusUnith := by
   apply Functor.isIso_of_isRightDerivedFunctor_of_inverts
     (W := HomotopyCategory.Plus.quasiIso A)
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
   intro K L φ hφ
   have : IsIso (DerivedCategory.Qh.map φ.hom) :=
     Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso A (.up ℤ)) _ hφ
@@ -97,7 +97,7 @@ unconditional right exactness of a left adjoint), and an exact functor's right d
 is computed degreewise. -/
 theorem flatPullbackUnit_isIso (hf : AlgebraicGeometry.IsFlat f)
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing Y))) :
-    IsIso ((modulePullback f).rightDerivedFunctorPlusUnit.app K) := by
+    IsIso ((modulePullback f).rightDerivedFunctorPlusUnith.app K) := by
   have : PreservesFiniteLimits (modulePullback f) :=
     preservesFiniteLimits_modulePullback_of_isFlat f hf
   have : PreservesColimits (modulePullback f) := preservesColimits_modulePullback f
@@ -116,7 +116,7 @@ morphism, on bounded-below derived categories. -/
 noncomputable def flatPullbackComparison (hf : AlgebraicGeometry.IsFlat f) :
     (modulePullback f).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ flatPullback f hf :=
-  @asIso _ _ _ _ (modulePullback f).rightDerivedFunctorPlusUnit
+  @asIso _ _ _ _ (modulePullback f).rightDerivedFunctorPlusUnith
     ((NatTrans.isIso_iff_isIso_app _).mpr (flatPullbackUnit_isIso f hf))
 
 /-- The forward map of `flatPullbackComparison` is the canonical right-derived-functor unit, so
@@ -124,7 +124,7 @@ the identification is the canonical one and not a choice. -/
 theorem flatPullbackComparison_hom_app (hf : AlgebraicGeometry.IsFlat f)
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing Y))) :
     (flatPullbackComparison f hf).hom.app K =
-      (modulePullback f).rightDerivedFunctorPlusUnit.app K :=
+      (modulePullback f).rightDerivedFunctorPlusUnith.app K :=
   rfl
 
 end Stacks.RingedSpace

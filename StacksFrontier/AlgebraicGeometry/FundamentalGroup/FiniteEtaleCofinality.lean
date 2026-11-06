@@ -100,7 +100,7 @@ the fundamental group acts on the fibre of a cover by its `MulAction`. -/
 theorem finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply (Y : FiniteEtaleOver X)
     (σ : EtaleFundamentalGroup X x) (y : (finiteEtaleFiberFunctor x).obj Y) :
     (ConcreteCategory.hom
-      (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ) y :
+      (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ).asHom y :
         (finiteEtaleFiberFunctor x).obj Y) = σ • y :=
   finiteEtaleEquivalenceOfIsGaloisCategory_action X x Y σ y
 
@@ -169,8 +169,8 @@ theorem exists_hom_finiteEtaleBaseChange_of_dominatesFiniteEtale {X' X : Scheme.
       ψ (σ • w) = σ • ψ w := by
     intro σ w
     have h : ConcreteCategory.hom c.hom.hom.hom
-        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ) w) =
-          ConcreteCategory.hom (Qc.obj.ρ σ) (ConcreteCategory.hom c.hom.hom.hom w) :=
+        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ).asHom w) =
+          ConcreteCategory.hom (Qc.obj.ρ σ).asHom (ConcreteCategory.hom c.hom.hom.hom w) :=
       ConcreteCategory.congr_hom (c.hom.hom.comm σ) w
     rwa [finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply] at h
   -- `W` is nonempty: its fibre contains the preimage of the identity frame
@@ -186,7 +186,7 @@ theorem exists_hom_finiteEtaleBaseChange_of_dominatesFiniteEtale {X' X : Scheme.
     let pW : (finiteEtaleFiberFunctor x').obj ((finiteEtaleBaseChange g).obj W) →
         (finiteEtaleFiberFunctor x).obj W := finiteEtaleFiberProjection g x' W
     have h1 : etaleFundamentalGroupMap g x' τ • pW w = pW w := by
-      change ((etaleFundamentalGroupMap g x' τ).app W).hom _ = _
+      change ((etaleFundamentalGroupMap g x' τ).asIso.app W).hom _ = _
       rw [← etaleFundamentalGroupMap_finiteEtaleFiberProjection]
       exact congrArg _ hw
     have h2 : etaleFundamentalGroupMap g x' τ • ψ (pW w) = ψ (pW w) := by
@@ -195,16 +195,16 @@ theorem exists_hom_finiteEtaleBaseChange_of_dominatesFiniteEtale {X' X : Scheme.
         τ • y = y := by
       intro y
       apply (finiteEtaleFiberProjectionEquiv g x' U).injective
-      change finiteEtaleFiberProjection g x' U ((τ.app _).hom y) =
+      change finiteEtaleFiberProjection g x' U ((τ.asIso.app _).hom y) =
         finiteEtaleFiberProjection g x' U y
       rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection]
       exact smul_eq_of_frame_smul_eq h2 _
     have hinj : Function.Injective (ConcreteCategory.hom ((finiteEtaleFiberFunctor x').map j)) :=
       fun _ _ hab ↦ Subtype.ext ((cancel_mono j.left).1 (congrArg Subtype.val hab))
     apply hinj
-    change ConcreteCategory.hom ((finiteEtaleFiberFunctor x').map j) ((τ.app V).hom v) =
+    change ConcreteCategory.hom ((finiteEtaleFiberFunctor x').map j) ((τ.asIso.app V).hom v) =
       ConcreteCategory.hom ((finiteEtaleFiberFunctor x').map j) v
-    exact (ConcreteCategory.congr_hom (τ.hom.naturality j) v).symm.trans (h4 _)
+    exact (ConcreteCategory.congr_hom (τ.asIso.hom.naturality j) v).symm.trans (h4 _)
   obtain ⟨y₀⟩ := nonempty_finiteEtaleFiber_of_nonempty_left x' V
   obtain ⟨t, ht⟩ := MulAction.exists_smul_equivariant_of_forall_smul_eq y₀ hstab
   let E' := finiteEtaleEquivalenceOfIsGaloisCategory X' x'
@@ -213,8 +213,8 @@ theorem exists_hom_finiteEtaleBaseChange_of_dominatesFiniteEtale {X' X : Scheme.
       comm := fun τ ↦ by
         ext w
         change t (ConcreteCategory.hom
-            ((E'.functor.obj ((finiteEtaleBaseChange g).obj W)).obj.ρ τ) w) =
-          ConcreteCategory.hom ((E'.functor.obj V).obj.ρ τ) (t w)
+            ((E'.functor.obj ((finiteEtaleBaseChange g).obj W)).obj.ρ τ).asHom w) =
+          ConcreteCategory.hom ((E'.functor.obj V).obj.ρ τ).asHom (t w)
         exact (congrArg t (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x' _ τ w)).trans
           ((ht τ w).trans (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x' V τ (t w)).symm) }
   exact ⟨W, hWne, ⟨E'.functor.preimage (ObjectProperty.homMk hAct)⟩⟩

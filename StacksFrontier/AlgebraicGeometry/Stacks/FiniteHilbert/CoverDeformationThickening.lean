@@ -62,6 +62,13 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}}
 
+/-- Products of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_CoverDeformationThickening
+    {S : Scheme.{u}} {hS : B.Contains S} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-- **Formal unramifiedness along a monomorphism of the base.** Let `m : A ⟶ A'` be a monomorphism
 of the big fppf category, `F'` a presheaf on the big fppf site of `A'`, `P` an object of the big
 fppf site of `A` and `f : P ⟶ F'|_A` a morphism into the restriction of `F'`. If `f` is formally
@@ -100,7 +107,7 @@ theorem formallyUnramified_yonedaEquiv_symm_of_relocalizeRestrict {A A' : Scheme
       (yonedaEquiv f : ((OverShriek.relocalizeRestrict m).obj F').obj (op P))
     calc f.app (op T'A) w = F'.map ((Over.map m).map w).op u := (map_yonedaEquiv f w).symm
       _ = F'.map (e ≫ z).op u := by rw [hmapw w z h]
-      _ = F'.map e.op (F'.map z.op u) := by rw [op_comp, FunctorToTypes.map_comp_apply]
+      _ = F'.map e.op (F'.map z.op u) := by rw [op_comp, Functor.map_comp_apply]
       _ = F'.map e.op (xx.app (op T') z) := by rw [hxx]; rfl
   have h₁ : f.app (op T'A) w₁ = F'.map e.op y := by rw [happ w₁ z₁ rfl, hz₁.2]
   have h₂ : f.app (op T'A) w₂ = F'.map e.op y := by rw [happ w₂ z₂ rfl, hz₂.2]
@@ -187,6 +194,11 @@ theorem exists_universalThickening_range_yoneda_map_of_ambientIso {S : Scheme.{u
   obtain ⟨j, hj⟩ := yoneda.map_surjective (sI.hom ≫ t.sub.ι ≫ eA.hom)
   have : Mono (yoneda.map j) := by
     rw [hj]
+    have h₁ : Mono t.sub.ι := inferInstance
+    have h₂ : Mono eA.hom :=
+      ⟨fun _ _ w => by simpa using congrArg (· ≫ eA.inv) w⟩
+    have h₃ : Mono sI.hom :=
+      ⟨fun _ _ w => by simpa using congrArg (· ≫ sI.inv) w⟩
     have : Mono (t.sub.ι ≫ eA.hom) := mono_comp _ _
     exact mono_comp _ _
   let y : yoneda.obj W ⟶ X.1 := eA.inv ≫ t.toBase.hom

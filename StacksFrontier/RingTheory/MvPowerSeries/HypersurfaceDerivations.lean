@@ -306,7 +306,7 @@ private noncomputable def hypersurfaceJacobianMap {k : Type w} [Field k]
     (Fin n → (MvPowerSeries (Fin n) k ⧸ Ideal.span {f})) →ₗ[
       MvPowerSeries (Fin n) k ⧸ Ideal.span {f}]
       (MvPowerSeries (Fin n) k ⧸ Ideal.span {f}) where
-  toFun v := ∑ i, v i * Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.pderiv k i f)
+  toFun v := ∑ i, v i * Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.pderiv (R := k) i f)
   map_add' v w := by
     simp only [Pi.add_apply, add_mul, Finset.sum_add_distrib]
   map_smul' a v := by
@@ -336,11 +336,11 @@ private noncomputable def hypersurfaceJacobianKernelDerivation {k : Type w} [Fie
       change Ideal.Quotient.mk I (a * x) = Ideal.Quotient.mk I a * Ideal.Quotient.mk I x
       exact map_mul (Ideal.Quotient.mk I) a x }
   let D : Derivation k R P := ∑ i : Fin n,
-    v.1 i • (π.compDer (MvPowerSeries.pderiv k i))
+    v.1 i • (π.compDer (MvPowerSeries.pderiv (R := k) i))
   have hDformula (g : R) : D g =
-      ∑ i : Fin n, v.1 i * Ideal.Quotient.mk I (MvPowerSeries.pderiv k i g) := by
+      ∑ i : Fin n, v.1 i * Ideal.Quotient.mk I (MvPowerSeries.pderiv (R := k) i g) := by
     change Derivation.coeFnAddMonoidHom
-      (∑ i : Fin n, v.1 i • (π.compDer (MvPowerSeries.pderiv k i))) g = _
+      (∑ i : Fin n, v.1 i • (π.compDer (MvPowerSeries.pderiv (R := k) i))) g = _
     rw [map_sum]
     simp [Derivation.coeFnAddMonoidHom,
       Derivation.coe_comp, π]
@@ -380,7 +380,7 @@ private theorem hypersurfaceJacobianKernelDerivation_apply_mk {k : Type w} [Fiel
     hypersurfaceJacobianKernelDerivation n f v
       (Ideal.Quotient.mk (Ideal.span {f}) g) =
       ∑ i : Fin n, v.1 i * Ideal.Quotient.mk (Ideal.span {f})
-        (MvPowerSeries.pderiv k i g) := by
+        (MvPowerSeries.pderiv (R := k) i g) := by
   classical
   let R := MvPowerSeries (Fin n) k
   let I : Ideal R := Ideal.span {f}
@@ -398,7 +398,7 @@ private theorem hypersurfaceJacobianKernelDerivation_apply_mk {k : Type w} [Fiel
     (Submodule.Quotient.mk g) = _
   rw [Submodule.liftQ_apply]
   show Derivation.coeFnAddMonoidHom
-    (∑ i : Fin n, v.1 i • (π.compDer (MvPowerSeries.pderiv k i))) g = _
+    (∑ i : Fin n, v.1 i • (π.compDer (MvPowerSeries.pderiv (R := k) i))) g = _
   rw [map_sum, Fintype.sum_apply]
   rfl
 
@@ -532,7 +532,7 @@ private theorem exists_hypersurfaceJacobianKernel_nonzero_at_prime
         (Localization.AtPrime q) (v.1 j) ≠ 0 := by
   let P := MvPowerSeries (Fin n) k ⧸ Ideal.span {f}
   let a : Fin n → P := fun i =>
-    Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.pderiv k i f)
+    Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.pderiv (R := k) i f)
   obtain ⟨v, hv, j, hj⟩ := exists_vector_in_kernel_nonzero_at_prime
     P n hn a q
   refine ⟨⟨v, ?_⟩, j, ?_⟩

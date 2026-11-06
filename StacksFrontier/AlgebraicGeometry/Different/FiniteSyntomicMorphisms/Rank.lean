@@ -116,7 +116,7 @@ private noncomputable def universalCarrierLinearEquiv (d : ℕ) [NeZero d]
     map_add' := by
       intro x y
       funext i
-      exact ULift.ext _ _ (s.add_coeff x y i)
+      exact ULift.ext (s.add_coeff x y i)
     map_smul' := by
       intro a x
       funext i

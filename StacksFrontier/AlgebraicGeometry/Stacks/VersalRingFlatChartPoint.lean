@@ -410,7 +410,7 @@ theorem apply_eq_of_eq_spec_field {T : Scheme.{u}} {l : Type u} [Field l]
   simp only [eqToHom_refl, Category.id_comp]
   exact congrArg m (Subsingleton.elim t (closedPoint l))
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion in
 /-- **The point of Step III of the proof of Stacks 0DR2, with the chart.** This is
@@ -581,7 +581,7 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
   exact apply_eq_of_eq_spec_field (congrArg Over.left hxₗ) (q.map τ).left t
 
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion in
 /-- **The point of Step III of the proof of Stacks 0DR2.** In the versal situation, let `x₀` be a
@@ -632,7 +632,7 @@ theorem exists_chartPoint_closedFibre_and_restriction (D : VersalSituation.{u, w
   exact ⟨l, i₁, i₂, i₃, i₄, hkl, xₗ, hxₗ, η, hη, xR, ξ, hξ, alg, hΛ, rest⟩
 
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion in
 /-- **The point of Step III of the proof of Stacks 0DR2.** In the versal situation, let `x₀` be a

@@ -318,7 +318,7 @@ variable [J.toCoverage.HasPullbacks] (G : Sheaf (situation J K).totalTopology (T
 theorem map_comp_op_apply_totalSiteDescent {x y w : Grothendieck (slices K)} (f : x ⟶ y) (g : y ⟶ w)
     (s : G.obj.obj (op w)) :
     G.obj.map (f ≫ g).op s = G.obj.map f.op (G.obj.map g.op s) :=
-  FunctorToTypes.map_comp_apply G.obj g.op f.op s
+  Functor.map_comp_apply G.obj g.op f.op s
 
 variable {X : C} (a : (FormalCoproduct.incl C).obj X ⟶ K _⦋0⦌)
   (z : G.obj.obj (op (chartObjTotalSiteCharts K (op ⦋0⦌) a)))
@@ -928,14 +928,14 @@ theorem _root_.CategoryTheory.Functor.IsCoverDense.isIso_of_isIso_whiskerLeft_to
     have hm : F.obj.map m.op s = F.obj.map m.op s' := (hb x).1 (by
       rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hs])
     show F.obj.map g.op s = F.obj.map g.op s'
-    rw [← fac, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, hm]
+    rw [← fac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hm]
   · constructor
     intro U t
     refine K.superset_covering ?_ (G.is_cover_of_isCoverDense K U)
     rintro W g ⟨⟨x, lift, m, fac⟩⟩
     obtain ⟨y, hy⟩ := (hb x).2 (F'.obj.map m.op t)
     refine ⟨F.obj.map lift.op y, ?_⟩
-    rw [NatTrans.naturality_apply, hy, ← fac, op_comp, FunctorToTypes.map_comp_apply]
+    rw [NatTrans.naturality_apply, hy, ← fac, op_comp, Functor.map_comp_apply]
 
 /-! ### Sections over the comma category of the counit -/
 

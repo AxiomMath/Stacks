@@ -145,7 +145,7 @@ theorem etaleLocalRingEndomorphism_comp_structureSheafStalkFromLocalRing :
     exact (TopCat.Presheaf.germ_res_apply _ (homOfLE htop) y trivial (f.app V b)).symm
   -- the neighbourhood `(Z, a ≫ p)` maps to `(Z, p)` by the identity
   let φ : (neighborhoodFunctor B S hS a).obj Z ⟶ Z :=
-    CategoryOfElements.homMk _ _ (𝟙 Z.1) (by
+    Functor.Elements.homMk (𝟙 Z.1) (by
       refine Subtype.ext ?_
       show 𝟙 _ ≫ (a.hom ≫ Z.2.1) ≫ 𝟙 _ = Z.2.1
       rw [Category.id_comp, Category.comp_id]

@@ -100,7 +100,7 @@ def reductionNeighbourhood (k : ℕ) : Subfunctor W.obj where
       ∀ K, IsReductionIdeal i (W.obj.map h.op t) K → K ^ (k + 1) = ⊥}
   map {T T'} g t ht V h hV K hK := by
     refine ht V (h ≫ g.unop) hV K ?_
-    rwa [op_comp, FunctorToTypes.map_comp_apply]
+    rwa [op_comp, Functor.map_comp_apply]
 
 variable {i}
 
@@ -109,7 +109,7 @@ theorem mem_reductionNeighbourhood_iff (k : ℕ) {T : BigFppfOver B S hS}
     [IsAffine ((BigFppfOver.toScheme B S hS).obj T)] {t : W.obj.obj (op T)}
     {K : Ideal Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)} (hK : IsReductionIdeal i t K) :
     t ∈ (reductionNeighbourhood i k).obj (op T) ↔ K ^ (k + 1) = ⊥ := by
-  refine ⟨fun ht => ht T (𝟙 T) inferInstance K (by rwa [op_id, FunctorToTypes.map_id_apply]),
+  refine ⟨fun ht => ht T (𝟙 T) inferInstance K (by rwa [op_id, Functor.map_id_apply]),
     fun hk V h hV K' hK' => ?_⟩
   rw [hK'.unique (hK.map h), ← Ideal.map_pow, hk, Ideal.map_bot]
 
@@ -123,7 +123,7 @@ theorem isSheaf_reductionNeighbourhood (k : ℕ) :
   rw [← Ideal.map_eq_bot_iff_le_ker, Ideal.map_pow]
   refine (mem_reductionNeighbourhood_iff k (hK.map g)).1 ?_
   change W.obj.map (g ≫ h).op t ∈ _ at hg
-  rwa [op_comp, FunctorToTypes.map_comp_apply] at hg
+  rwa [op_comp, Functor.map_comp_apply] at hg
 
 end AlgebraicGeometry.FormalSpace
 

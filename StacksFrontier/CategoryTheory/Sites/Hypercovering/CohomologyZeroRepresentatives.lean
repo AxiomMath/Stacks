@@ -511,7 +511,7 @@ theorem pi_cochainComplexFunctorMap
     ConcreteCategory.hom
       (Pi.π (fun m ↦ F.obj.obj (op ((E'.obj (op ⦋n⦌)).obj m))) ((ψ.app (op ⦋n⦌)).f i) ≫
         F.obj.map ((ψ.app (op ⦋n⦌)).φ i).op) z
-  exact ConcreteCategory.congr_hom (Pi.lift_π _ i) z
+  exact ConcreteCategory.congr_hom (Pi.lift_comp_π _ i) z
 
 /-- **The degreewise comparison of [Stacks, Tag 01GX] is natural in the simplicial
 semi-representable object**: the Čech pullback on sections corresponds to precomposition with the

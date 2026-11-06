@@ -309,14 +309,22 @@ theorem kernelIdealSheafPullbackShortComplex_exact (hc : IsClosedImmersion B S h
   have hq := epi_kernelIdealSheafPushforwardMap B S hS i c hc
   have h₁ : ((kernelIdealSheafShortComplex B S hS i c).map (modulePullback B S hS c)).Exact :=
     exact_map_modulePullback B S hS c _ (kernelIdealSheafShortComplex_exact B S hS i c) hq
-  have : IsIso ((modulePullbackAdjunction B S hS c).counit.app (kerIdealOneModule B S hS i)) :=
+  have hcounit : IsIso ((modulePullbackAdjunction B S hS c).counit.app (kerIdealOneModule B S hS i)) :=
     isIso_modulePullbackAdjunction_counit B S hS c hc _
   have : (modulePullback B S hS c).PreservesEpimorphisms :=
     preservesEpimorphisms_modulePullback B S hS c
+  have : Epi ((modulePullback B S hS c).map (kernelIdealSheafPushforwardMap B S hS i c)) :=
+    (modulePullback B S hS c).map_epi _
+  have : Epi (kernelIdealSheafShortComplexPullbackHom B S hS i c).τ₁ := inferInstanceAs (Epi (𝟙 _))
+  have : IsIso (kernelIdealSheafShortComplexPullbackHom B S hS i c).τ₂ :=
+    inferInstanceAs (IsIso (𝟙 _))
+  have : Mono (kernelIdealSheafShortComplexPullbackHom B S hS i c).τ₃ := IsIso.mono_of_iso _
   refine ⟨(ShortComplex.exact_iff_of_epi_of_isIso_of_mono
     (kernelIdealSheafShortComplexPullbackHom B S hS i c)).1 h₁, ?_⟩
+  have : Epi ((modulePullbackAdjunction B S hS c).counit.app (kerIdealOneModule B S hS i)) :=
+    @IsIso.epi_of_iso _ _ _ _ _ hcounit
   rw [kernelIdealSheafPullbackMap_eq]
-  infer_instance
+  exact epi_comp _ _
 
 /-! ### The conormal sequence of a morphism followed by a closed immersion -/
 
@@ -396,10 +404,19 @@ theorem kernelConormalSequenceShortComplex_exact (hc : IsClosedImmersion B S hS 
   have h₁ : ((kernelIdealSheafPullbackShortComplex B S hS i c).map
       (modulePullback B S hS i)).Exact :=
     exact_map_modulePullback B S hS i _ hY hepi
+  have : Epi ((modulePullback B S hS i).map (kernelIdealSheafPullbackMap B S hS i c)) :=
+    (modulePullback B S hS i).map_epi _
+  have : Epi (kernelConormalSequenceShortComplexHom B S hS i c).τ₁ := inferInstanceAs (Epi (𝟙 _))
+  have : IsIso (kernelConormalSequenceShortComplexHom B S hS i c).τ₂ :=
+    inferInstanceAs (IsIso ((modulePullbackCompIso B S hS i c).inv.app
+      (kerIdealOneModule B S hS (i ≫ c))))
+  have : Mono (kernelConormalSequenceShortComplexHom B S hS i c).τ₃ := inferInstanceAs (Mono (𝟙 _))
   refine ⟨(ShortComplex.exact_iff_of_epi_of_isIso_of_mono
     (kernelConormalSequenceShortComplexHom B S hS i c)).2 h₁, ?_⟩
+  have : Epi ((modulePullbackCompIso B S hS i c).inv.app (kerIdealOneModule B S hS (i ≫ c))) :=
+    @IsIso.epi_of_iso _ _ _ _ _ (((modulePullbackCompIso B S hS i c).app _).isIso_inv)
   rw [kernelConormalSequenceSecondMap_eq]
-  infer_instance
+  exact epi_comp _ _
 
 end Pushforward
 

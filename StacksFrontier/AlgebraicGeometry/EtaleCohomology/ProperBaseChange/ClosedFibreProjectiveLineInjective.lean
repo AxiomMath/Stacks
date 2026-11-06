@@ -67,6 +67,17 @@ theorem subsingleton_H_of_isDenseSubsite (F : Sheaf K AddCommGrpCat.{a}) (q : �
       ((G.sheafPushforwardContinuous AddCommGrpCat.{a} J K).obj F) q)) :
     Subsingleton (Sheaf.H.{w'} F q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : ∀ I : Type a, HasLimitsOfShape (Discrete I) (Cᵒᵖ ⥤ AddCommGrpCat.{a}) :=
+    fun I => have : HasLimitsOfShape (Discrete I) AddCommGrpCat.{a} :=
+      AddCommGrpCat.hasLimitsOfShape
+    functorCategoryHasLimitsOfShape
+  have : HasFiniteProducts (Sheaf J AddCommGrpCat.{a}) := Abelian.has_finite_products
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{a}) := hasLimitsOfShape_discrete _ _
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.functor :=
+    (E.symm.toAdjunction.rightAdjoint_preservesLimits (G := E.functor)).preservesLimitsOfShape
+  have := E.toAdjunction.isLeftAdjoint
+  have : E.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have : E.functor.Additive := Functor.additive_of_preserves_binary_products _
   exact Stacks.CohomologyVanishing.subsingleton_ext_of_iso_source
     ((equivCommuteConstant J AddCommGrpCat.{a} K G hTC hTD).app (AddCommGrpCat.of (ULift.{a} ℤ))) q
@@ -81,6 +92,17 @@ theorem subsingleton_H_sheafPushforwardContinuous_of_isDenseSubsite
     Subsingleton (Sheaf.H.{w}
       ((G.sheafPushforwardContinuous AddCommGrpCat.{a} J K).obj F) q) := by
   let E := Functor.IsDenseSubsite.sheafEquiv J K G AddCommGrpCat.{a}
+  have : ∀ I : Type a, HasLimitsOfShape (Discrete I) (Dᵒᵖ ⥤ AddCommGrpCat.{a}) :=
+    fun I => have : HasLimitsOfShape (Discrete I) AddCommGrpCat.{a} :=
+      AddCommGrpCat.hasLimitsOfShape
+    functorCategoryHasLimitsOfShape
+  have : HasFiniteProducts (Sheaf K AddCommGrpCat.{a}) := Abelian.has_finite_products
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{a}) := hasLimitsOfShape_discrete _ _
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E.symm.functor :=
+    (E.toAdjunction.rightAdjoint_preservesLimits (G := E.symm.functor)).preservesLimitsOfShape
+  have := E.symm.toAdjunction.isLeftAdjoint
+  have : E.symm.functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have : E.symm.functor.Additive := Functor.additive_of_preserves_binary_products _
   have h₀ : Subsingleton (Abelian.Ext.{w'}
       ((constantSheaf K AddCommGrpCat.{a}).obj (AddCommGrpCat.of (ULift.{a} ℤ)))

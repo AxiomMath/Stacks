@@ -690,15 +690,26 @@ theorem chartFactorTwistHom_eq_of_le {W W' : (symSituation E).base.affineOpens} 
   have hTW : ⊤ ≤ (relativeProjChart (symSituation E) W' ≫ (presInv E hqc) ≫
       (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase) ⁻¹ᵁ (toBaseAffine E W).1 :=
     hTW'.trans (Scheme.Hom.preimage_mono _ h)
-  have := Stacks.ProjectiveBundleSplitting.epi_tautologicalMap E hqc
-  refine (cancel_epi ((Scheme.Modules.pullbackComp (relativeProjChart (symSituation E) W')
+  have hep : Epi ((Scheme.Modules.pullbackComp (relativeProjChart (symSituation E) W')
         (presInv E hqc ≫
           (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase)).inv.app E ≫
       (Scheme.Modules.pullback (relativeProjChart (symSituation E) W')).map
         ((Scheme.Modules.pullbackComp (presInv E hqc)
             (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).inv.app E ≫
           (Scheme.Modules.pullback (presInv E hqc)).map
-            (Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc)))).1 ?_
+            (Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc))) := by
+    have h1 := Stacks.ProjectiveBundleSplitting.epi_tautologicalMap E hqc
+    have h2 := Functor.preservesEpimorphisms_of_adjunction
+      (Scheme.Modules.pullbackPushforwardAdjunction (presInv E hqc))
+    have h3 := Functor.preservesEpimorphisms_of_adjunction
+      (Scheme.Modules.pullbackPushforwardAdjunction (relativeProjChart (symSituation E) W'))
+    have h4 : Epi ((Scheme.Modules.pullbackComp (presInv E hqc)
+            (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase).inv.app E ≫
+          (Scheme.Modules.pullback (presInv E hqc)).map
+            (Stacks.ProjectiveBundleSplitting.tautologicalMap E hqc)) :=
+      epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (NatIso.inv_app_isIso _ _)) (Functor.map_epi _ _)
+    exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (NatIso.inv_app_isIso _ _)) (Functor.map_epi _ _)
+  refine hep.left_cancellation _ _ ?_
   rw [Category.assoc, Category.assoc]
   refine pullback_hom_ext_of_isAffineOpen _ (toBaseAffine E W).2 (top_le_iff.mp hTW) E fun x => ?_
   apply resTop_injective (twistingSheafModule ((symSituation E).sectionRingGrading W'.1)

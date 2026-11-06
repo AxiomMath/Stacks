@@ -238,8 +238,9 @@ theorem boundsFiberDegrees_sectionComplement [Etale q] [IsSeparated q] (hσ : σ
     let a : (Spec (.of k) : Scheme.{u}) ⟶ pullback q g :=
       pullback.lift (g ≫ σ) (𝟙 _) (by simp [hσ])
     have hx : h₁.base (a.base x) = σ.base (g.base x) := by
-      simpa using congrArg (fun m : (Spec (.of k) : Scheme.{u}) ⟶ T => m.base x)
+      have e := congrArg (fun m : (Spec (.of k) : Scheme.{u}) ⟶ T => m.base x)
         (pullback.lift_fst _ _ _ : a ≫ h₁ = g ≫ σ)
+      simpa only [Scheme.Hom.comp_base, TopCat.comp_app] using e
     exact ⟨a.base x, g.base x, hx.symm⟩
   exact_mod_cast Cardinal.mk_compl_le_of_nonempty hne hAle
 

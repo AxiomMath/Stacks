@@ -186,7 +186,7 @@ theorem encard_image_eigen_le_of_ker_le {F : Type*} [AddCommGroup F] [IsAddTorsi
     intro u hu
     have h := hzu u hu
     rw [hn', ← smul_smul] at h
-    refine IsAddTorsionFree.nsmul_right_injective (M := F) hg0 ?_
+    refine eq_of_nsmul_eq_nsmul_of_addCommute (M := F) hg0 (AddCommute.all _ _) ?_
     simpa only [← natCast_zsmul] using h
   -- the class of `z u` determines `δ u`
   let h : A → Q := fun a => if ha : ∃ u, δ (σ u - q • u) = 0 ∧ δ u = a then

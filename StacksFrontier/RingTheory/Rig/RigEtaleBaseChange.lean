@@ -99,16 +99,17 @@ public theorem mem_annihilatorIdeal_of_smul_id_eq_zero
     {X : DerivedCategory (ModuleCat.{max u₁ v} B.carrier)} {a : A}
     (h : (algebraMap A B.carrier a) • 𝟙 X = 0) : a ∈ annihilatorIdeal B X := by
   refine Module.mem_annihilator.mpr fun f ↦ ?_
-  calc (algebraMap A B.carrier a) • f
-      = ((algebraMap A B.carrier a) • 𝟙 X) ≫ f := by simp
-    _ = 0 := by rw [h]; simp
+  ext
+  calc ((algebraMap A B.carrier a) • f).asHom
+      = ((algebraMap A B.carrier a) • 𝟙 X) ≫ f.asHom := by simp
+    _ = (0 : End X).asHom := by rw [h]; simp
 
 /-- Membership in `Rig.annihilatorIdeal` in particular kills the identity of `X`. -/
 public theorem smul_id_eq_zero_of_mem_annihilatorIdeal
     {B : AdicFiniteTypeAlgebra.{u₁, v} A I}
     {X : DerivedCategory (ModuleCat.{max u₁ v} B.carrier)} {a : A}
     (h : a ∈ annihilatorIdeal B X) : (algebraMap A B.carrier a) • 𝟙 X = 0 :=
-  Module.mem_annihilator.mp h (𝟙 X)
+  by simpa using congrArg End.asHom (Module.mem_annihilator.mp h (1 : End X))
 
 end Annihilator
 

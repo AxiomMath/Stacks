@@ -124,7 +124,7 @@ public noncomputable def productAddEquiv {ι : Type w} (G : ι → AddCommGrpCat
     ext i
     change Pi.π G i (Pi.lift (fun j ↦ AddCommGrpCat.ofHom
       (uliftZMultiplesHom _ (s j))) (ULift.up (1 : ℤ))) = _
-    rw [← ConcreteCategory.comp_apply, Pi.lift_π]
+    rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
     change (1 : ℤ) • s i = s i
     exact one_zsmul _
 
@@ -255,10 +255,10 @@ public lemma pi_π_alternatingSum_apply (k : Fin 2 → E.I₀)
       F.map (Pi.π (fun j : Fin 2 ↦ Over.mk (E.f (k j))) 1).left.op (t (k 1)) -
         F.map (Pi.π (fun j : Fin 2 ↦ Over.mk (E.f (k j))) 0).left.op (t (k 0)) := by
   simp only [AddCommGrpCat.hom_sub, AddMonoidHom.sub_apply, map_sub,
-    ← ConcreteCategory.comp_apply, Pi.lift_π]
+    ← ConcreteCategory.comp_apply, Pi.lift_comp_π]
   simp only [ConcreteCategory.comp_apply, hy]
   simp only [← Functor.map_comp_apply, ← op_comp, ← Over.comp_left]
-  simp only [Function.comp_def, Pi.lift_π]
+  simp only [Function.comp_def, Pi.lift_comp_π]
   rfl
 
 /-- The degree-zero Čech differential of the cochain attached to a family of sections, read
@@ -295,9 +295,9 @@ public lemma isMatching_iff_product (s : ∀ i, F.obj (op (E.X i))) :
       obtain rfl := Fin.eq_zero t
       exact Over.homMk q hpq.symm)
   have h₀ : l.left ≫ (Pi.π (fun t : Fin 2 ↦ Over.mk (E.f (k t))) 0).left = p :=
-    congrArg Over.Hom.left (Pi.lift_π _ 0)
+    congrArg Over.Hom.left (Pi.lift_comp_π _ 0)
   have h₁ : l.left ≫ (Pi.π (fun t : Fin 2 ↦ Over.mk (E.f (k t))) 1).left = q :=
-    congrArg Over.Hom.left (Pi.lift_π _ 1)
+    congrArg Over.Hom.left (Pi.lift_comp_π _ 1)
   have hh := congrArg (fun z ↦ F.map l.left.op z) (h k)
   rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
     h₁, h₀] at hh

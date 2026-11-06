@@ -125,8 +125,9 @@ theorem mapHomologicalComplex_singleShift (M : A) (n : ℤ) :
     obtain ⟨p₅, h₅⟩ := singleMapHomologicalComplex_hom_app_f_eq F 0 (-n + n) (by omega) M
     obtain ⟨p₆, h₆⟩ := singleMapHomologicalComplex_hom_app_f_eq F n (-n + 2 * n) (by omega) M
     simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
-      Functor.mapHomologicalComplex_commShiftIso_hom_app_f, shiftFunctor_map_f', h₁, h₂, h₃, h₄,
-      h₅, h₆, Functor.map_comp, eqToHom_map, eqToHom_trans]
+      Functor.mapHomologicalComplex_commShiftIso_hom_app_f, shiftFunctor_map_f']
+    rw [h₁, h₂, h₃, h₄, h₅, h₆]
+    simp only [Functor.map_comp, eqToHom_map, eqToHom_trans]
     refine (congrArg (_ ≫ ·) (Category.id_comp _)).trans
       (Eq.trans ?_ (Category.id_comp _).symm)
     rw [eqToHom_trans]

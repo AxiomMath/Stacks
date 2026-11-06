@@ -267,12 +267,14 @@ inverse accounts for the contravariance of `Proj`. -/
 public noncomputable def generalLinearToAut :
     LinearMap.GeneralLinearGroup k V →* Aut (projectiveSpaceOfModule k V) where
   toFun g :=
-    { hom := map k V g⁻¹
-      inv := map k V g
-      hom_inv_id := by rw [← map_mul, inv_mul_cancel, map_one]
-      inv_hom_id := by rw [← map_mul, mul_inv_cancel, map_one] }
-  map_one' := Iso.ext (map_one k V)
+    .of
+      { hom := map k V g⁻¹
+        inv := map k V g
+        hom_inv_id := by rw [← map_mul, inv_mul_cancel, map_one]
+        inv_hom_id := by rw [← map_mul, mul_inv_cancel, map_one] }
+  map_one' := Aut.ext (Iso.ext (map_one k V))
   map_mul' g h := by
+    apply Aut.ext
     apply Iso.ext
     change map k V (g * h)⁻¹ = map k V h⁻¹ ≫ map k V g⁻¹
     rw [mul_inv_rev, map_mul]
@@ -290,7 +292,7 @@ public noncomputable def toAut :
 public noncomputable instance : MulAction (ProjGenLinGroup k V) (projectiveSpaceOfModule k V) :=
   let toEnd : Aut (projectiveSpaceOfModule k V) →*
       Function.End (projectiveSpaceOfModule k V) :=
-    { toFun e p := e.hom p
+    { toFun e p := e.asIso.hom p
       map_one' := rfl
       map_mul' _ _ := rfl }
   MulAction.ofEndHom (toEnd.comp (toAut k V))
@@ -301,8 +303,8 @@ public abbrev ClosedPoints := {p : projectiveSpaceOfModule k V // IsClosed ({p} 
 
 public noncomputable instance : MulAction (ProjGenLinGroup k V) (ClosedPoints k V) :=
   let toEnd : Aut (projectiveSpaceOfModule k V) →* Function.End (ClosedPoints k V) :=
-    { toFun e p := ⟨e.hom p.val, by
-        have h := (Scheme.homeoOfIso e).isClosedMap _ p.property
+    { toFun e p := ⟨e.asIso.hom p.val, by
+        have h := (Scheme.homeoOfIso e.asIso).isClosedMap _ p.property
         rw [Set.image_singleton] at h
         exact h⟩
       map_one' := funext fun _ => Subtype.ext rfl

@@ -113,7 +113,7 @@ private theorem derivationPoint_precomp_eq
   refine CompleteLocalAlgCat.Hom.ext (AlgHom.ext fun r ↦ ?_)
   show (derivationPoint.{u, v, w} D).hom (f.hom r) =
     (derivationPoint.{u, v, w} E).hom (f.hom r)
-  refine TrivSqZeroExt.ext ?_ (ULift.ext _ _ ?_)
+  refine TrivSqZeroExt.ext ?_ (ULift.ext ?_)
   · rw [derivationPoint_fst, derivationPoint_fst]
   · rw [derivationPoint_snd, derivationPoint_snd]
     simpa only [ResidueDerivation.comap_apply] using
@@ -156,7 +156,7 @@ public theorem isMinimalVersal_of_hasBijectiveDifferentialOnDerivationOrbits
   let X := associatedMorphism hp.cofibered ξ' push
   let Y := associatedMorphism hp.cofibered ξ push
   let y (D' : ResidueDerivation ξ.base) := mapIsomorphismClasses hsrc hp.cofibered
-    Y.toBasedFunctor dual (classOf src hsrc ⟨⟨dual, derivationPoint D'⟩, rfl⟩)
+    Y.toBasedFunctor dual (classOf src hsrc ⟨Functor.elementsMk _ dual (derivationPoint D'), rfl⟩)
   have hGraph (D' : ResidueDerivation ξ.base) : derivationDifferentialGraph.{u, v, w} p hp ξ
       (residueDerivationToDerivations ξ D') (y D') :=
     ⟨push, derivationPoint D', fun r ↦ (derivationPoint_snd D' r).trans
@@ -171,16 +171,16 @@ public theorem isMinimalVersal_of_hasBijectiveDifferentialOnDerivationOrbits
     obtain ⟨τ, _⟩ := associatedMorphism_map hp.cofibered f push
     have hstep (α : (restrictedCoyoneda ξ.base).obj dual) :
         mapIsomorphismClasses hsrc hp.cofibered Y.toBasedFunctor dual
-            (classOf src hsrc ⟨⟨dual, α⟩, rfl⟩) =
+            (classOf src hsrc ⟨Functor.elementsMk _ dual α, rfl⟩) =
           mapIsomorphismClasses hsrc' hp.cofibered X.toBasedFunctor dual
             (classOf src' hsrc'
-              ⟨⟨dual, (restrictedCoyonedaMap f.base).app dual α⟩, rfl⟩) := by
+              ⟨Functor.elementsMk _ dual ((restrictedCoyonedaMap f.base).app dual α), rfl⟩) := by
       have hiso := congrFun (mapIsomorphismClasses_eq_of_iso hsrc hp.cofibered
         (BasedFunctor.comp f' X.toBasedFunctor) Y.toBasedFunctor τ dual)
-        (classOf src hsrc ⟨⟨dual, α⟩, rfl⟩)
+        (classOf src hsrc ⟨Functor.elementsMk _ dual α, rfl⟩)
       rw [← hiso, mapIsomorphismClasses_comp hsrc hsrc' hp.cofibered f' X.toBasedFunctor dual]
       exact congrArg (mapIsomorphismClasses hsrc' hp.cofibered X.toBasedFunctor dual)
-        (mapIsomorphismClasses_classOf hsrc hsrc' f' ⟨⟨dual, α⟩, rfl⟩)
+        (mapIsomorphismClasses_classOf hsrc hsrc' f' ⟨Functor.elementsMk _ dual α, rfl⟩)
     exact (hstep _).trans (hβ ▸ (hstep _).symm)
   obtain ⟨δ, hOrbit⟩ := (hd.2.2.2 (residueDerivationToDerivations ξ D)
     (residueDerivationToDerivations ξ E) (y D) (y E) (hGraph D) (hGraph E)).mp

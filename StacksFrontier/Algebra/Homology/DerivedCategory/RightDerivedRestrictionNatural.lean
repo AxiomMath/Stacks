@@ -127,7 +127,7 @@ theorem rightDerivedRestrictionIso_hom_naturality (e : G' ⋙ rM ≅ rA ⋙ G)
         G.rightDerivedFunctorPlus
   suffices h : γ₁ = γ₂ from congrArg (fun γ => NatTrans.app γ K) h
   refine Functor.rightDerived_ext (G'.rightDerivedFunctorPlus ⋙ rM.mapDerivedCategoryPlus)
-    (Functor.whiskerRight G'.rightDerivedFunctorPlusUnit rM.mapDerivedCategoryPlus)
+    (Functor.whiskerRight G'.rightDerivedFunctorPlusUnith rM.mapDerivedCategoryPlus)
     (HomotopyCategory.Plus.quasiIso A') _ γ₁ γ₂ ?_
   refine NatTrans.ext (funext fun L => ?_)
   have hsq : (mapHomotopyCategoryPlusNatTrans θM).app (G'.mapHomotopyCategoryPlus.obj L) ≫
@@ -140,17 +140,17 @@ theorem rightDerivedRestrictionIso_hom_naturality (e : G' ⋙ rM ≅ rA ⋙ G)
     exact h2
   have hU := map_unit_comp_rightDerivedRestrictionIso_hom_app G' G rA rM e hac L
   have hθM := (Stacks.DerivedFunctor.mapDerivedCategoryPlusNatTrans θM).naturality
-    (G'.rightDerivedFunctorPlusUnit.app L)
+    (G'.rightDerivedFunctorPlusUnith.app L)
   have hfM := mapDerivedCategoryPlusNatTrans_app_Qh_comp_factorsh θM
     (G'.mapHomotopyCategoryPlus.obj L)
   have hfA := Qh_map_comp_mapDerivedCategoryPlusFactorsh_inv_app θA L
   have hu : DerivedCategory.Plus.Qh.map
       (G.mapHomotopyCategoryPlus.map ((mapHomotopyCategoryPlusNatTrans θA).app L)) ≫
-        G.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj L) =
-      G.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj L) ≫
+        G.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj L) =
+      G.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj L) ≫
         G.rightDerivedFunctorPlus.map
           (DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatTrans θA).app L)) :=
-    G.rightDerivedFunctorPlusUnit.naturality ((mapHomotopyCategoryPlusNatTrans θA).app L)
+    G.rightDerivedFunctorPlusUnith.naturality ((mapHomotopyCategoryPlusNatTrans θA).app L)
   have hc₂ : (mapHomotopyCategoryPlusCompIso (Iso.refl (rA ⋙ G))).inv.app L = 𝟙 _ := by
     apply (HomotopyCategory.Plus.ι M).map_injective
     rfl

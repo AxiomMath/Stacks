@@ -404,7 +404,7 @@ private lemma properFaceProjection_isUniversal {D : Type u} [Category.{v} D]
           T) (coord p.2) := hcoord
       _ = (Limits.Pi.lift (fun q : ProperSimplexCoordinate k m => g q)) ≫
           Limits.Pi.π (fun _ : ProperSimplexCoordinate k m => T) α := by
-        rw [Limits.Pi.lift_π]
+        rw [Limits.Pi.lift_comp_π]
         rfl
 
 private noncomputable def properFaceMatchingCone {D : Type u} [Category.{v} D]

@@ -114,7 +114,7 @@ theorem exists_iso_schemeSpace_of_isBlowupAlong_of_isAffineSpace {V V₁ : Algeb
     (IsQuasiCompactSpace.of_iso B S hS hqc eF), ?_, ⟨eQ⟩⟩
   exact (isAbsolutelyQuasiSeparated_yoneda_iff_quasiSeparatedSpace B S hS B.contains_terminal
     _).1 (isAbsolutelyQuasiSeparated_of_mono B S hS B.contains_terminal
-      (isAlgebraicSpace_yoneda B S hS _) eF.inv inferInstance hqs)
+      (isAlgebraicSpace_yoneda B S hS _) eF.inv (IsIso.mono_of_iso eF.inv) hqs)
 
 /-- **A blowup of the algebraic space of a scheme in the closed subspace cut out by a finitely
 presented ideal sheaf is the space of the scheme blowup**, over the base. -/

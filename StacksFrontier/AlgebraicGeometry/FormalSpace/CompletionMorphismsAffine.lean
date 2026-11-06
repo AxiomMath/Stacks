@@ -721,7 +721,7 @@ theorem ambientRead_injective {U : BigFppfOver B S hS} :
     congrArg (fun φ ↦ φ.app (op U) z₂) e.inv_hom_id
   rw [← h₁, ← h₂]
   congr 1
-  exact ULift.ext _ _ hz
+  exact ULift.ext hz
 
 /-- Reading sections of the sheafified universe lift of `G` commutes with restriction. -/
 theorem ambientRead_map {U V : BigFppfOver B S hS} (φ : V ⟶ U)
@@ -1145,7 +1145,7 @@ theorem isLocallySurjective_completionMap_specAlgOverι :
       rw [show (yoneda.map b).app _ x = f₂ ≫ y from hx]
       exact hz
     exact ⟨⟨ULift.up x, (hasImageIn_preimage_pointsMap_iff B S hS (yoneda.map b) _ _ x).2 hx'⟩,
-      Subtype.ext (ULift.ext _ _ hx)⟩
+      Subtype.ext (ULift.ext hx)⟩
 
 include hIfg hI hbij in
 /-- The completion of an étale neighbourhood `Spec C' ⟶ Y` of the closed fibre over `T` is an

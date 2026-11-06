@@ -54,8 +54,12 @@ theorem exists_quotientSubobject_eq_of_isIso {T : SchemesOver D.Y}
     ∃ L : Subobject ((D.withModule G hG).baseChangeModule T),
       L ∈ (D.withModule G hG).properlySupportedQuotients T ∧ D.quotientSubobject φ T L = K := by
   refine (D.exists_quotientSubobject_eq_iff (hG := hG) φ hK).2 ?_
+  have hI : IsIso ((modulePullback B S hS (D.sourceProjection T)).map φ) :=
+    Functor.map_isIso _ φ
+  have hM : Mono ((modulePullback B S hS (D.sourceProjection T)).map φ) :=
+    @IsIso.mono_of_iso _ _ _ _ _ hI
   have h1 : (modulePullback B S hS (D.sourceProjection T)).map (kernel.ι φ) = 0 :=
-    (cancel_mono ((modulePullback B S hS (D.sourceProjection T)).map φ)).1
+    (@cancel_mono _ _ _ _ _ ((modulePullback B S hS (D.sourceProjection T)).map φ) hM _ _).1
       ((D.map_kernel_ι_comp_baseChangeModuleMap φ T).trans (zero_comp).symm)
   rw [h1, zero_comp]
 

@@ -2,6 +2,7 @@ module
 
 
 public import Mathlib.RingTheory.QuasiFinite.Basic
+import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -68,7 +69,8 @@ public theorem solution (k : Type*) [Field k]
     {σ S : Type*} [Finite σ] [CommRing S] [Algebra (MvPolynomial σ k) S]
     [Algebra.QuasiFinite (MvPolynomial σ k) S] : ringKrullDim S ≤ Nat.card σ :=
   (ringKrullDim_le_of_quasiFinite (MvPolynomial σ k) S).trans_eq <| by
-    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add]
+    rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
+      ENat.card_eq_coe_natCard]; rfl
 
 end Stacks.QuasiFinite.AffineSpaceDimension
 

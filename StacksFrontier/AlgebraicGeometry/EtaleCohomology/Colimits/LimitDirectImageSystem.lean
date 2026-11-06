@@ -615,6 +615,15 @@ end CoconeMaps
 
 section Sets
 
+/-- The direct image of sheaves of sets along a transition morphism of an inverse system of
+schemes has a left adjoint. Stated for one transition at a time: the instance search for the
+quantified family `∀ i j (a : i ⟶ j), _` that the systems of sheaves of sets take does not find
+it from the instances for single morphisms alone. -/
+public instance systemPushforward_isRightAdjoint_type {I : Type v} [Preorder I]
+    (D : Iᵒᵖ ⥤ Scheme.{u}) {i j : Iᵒᵖ} (a : i ⟶ j) :
+    (systemPushforward D (Type (max (u + 1) v)) a).IsRightAdjoint :=
+  inferInstance
+
 variable {I : Type v} [Preorder I] {DX DS : Iᵒᵖ ⥤ Scheme.{u}} (γ : DX ⟶ DS)
 
 /-- **The direct images of a system of sheaves of sets form a system of sheaves of sets**, with

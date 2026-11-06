@@ -1126,6 +1126,19 @@ theorem actionGroupoid_comp_hom (hU : 𝒞.Contains (Spec (.of (MvPolynomial ℕ
   (conj_eqToHom_iff_heq _ _ (compositionDomain_eq 𝒞 (k := k) p hU)
     (actionGroupoid_arrows_obj 𝒞 k p hU)).2 (actionGroupoidConstruction 𝒞 k p hU).comp_eq
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in a slice of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_over_GerbeStratificationChart {C : BigFppfSite.{u}} {S : Scheme.{u}}
+    {hS : C.Contains S} (B : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :
+    HasPullbacks (Over B) := inferInstance
+
+local instance (priority := high) hasPullback_over_GerbeStratificationChart
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {B : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} {X Y Z : Over B} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (𝒞) in
 open MonoidalCategory CartesianMonoidalCategory in
 /-- **Composition in the action groupoid multiplies the units, on morphisms from a representable

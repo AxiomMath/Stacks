@@ -101,7 +101,7 @@ theorem exists_isIso_homology_of_isDerivedLimitWithProjections
   congr 1
   have h₁ : Pi.lift p ≫ 𝟙 _ = α ≫ a := hα₁
   rw [Category.comp_id] at h₁
-  rw [← Category.assoc, ← h₁, Pi.lift_π]
+  rw [← Category.assoc, ← h₁, Pi.lift_comp_π]
 
 end DerivedCategory
 
@@ -172,7 +172,7 @@ theorem nonempty_isLimit_mapCone_localCohomologyDerived [IsLocalRing A] (I : Ide
   have hun : IsIso (H.map un) := hunit
   let e : idealPowerQuotientTower.{u, u} I M ⋙ Φ ≅ F :=
     Functor.isoWhiskerRight (idealPowerQuotientTowerIso I M) Φ
-  let c := (Cones.postcompose e.hom).obj (Φ.mapCone (idealPowerQuotientCone.{u, u} I M))
+  let c := (Cone.postcompose e.hom).obj (Φ.mapCone (idealPowerQuotientCone.{u, u} I M))
   let ℓ : c.pt ⟶ limit F := H.map un ≫ q
   have hℓ : IsIso ℓ := @IsIso.comp_isIso _ _ _ _ _ _ _ hun hq
   have hlift : limit.lift F c = ℓ := by

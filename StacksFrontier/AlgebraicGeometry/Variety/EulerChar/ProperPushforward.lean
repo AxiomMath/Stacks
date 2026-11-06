@@ -222,15 +222,6 @@ private lemma rightDerivedPlus_map_isZero {C D : Type*} [Category C] [Category D
     [Abelian C] [Abelian D] [HasDerivedCategory C] [HasDerivedCategory D]
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
     (M : C) (i : ℤ) (hM : IsZero M) : IsZero ((F.rightDerivedPlus i).obj M) := by
-  let : F.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
-      (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
-    Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-      F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : F.rightDerivedFunctorPlus.IsTriangulated :=
-    Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
   have : (F.rightDerivedPlus i).Additive := by
     dsimp [Functor.rightDerivedPlus]
     infer_instance
@@ -279,7 +270,7 @@ private noncomputable def exactDerivedPlusHomologyIso
   let L := (InjectiveObject.ι A).mapCochainComplexPlus.obj J
   let N := F.mapCochainComplexPlus.obj L
   let Lq : HomotopyCategory.Plus A := (HomotopyCategory.Plus.quotient A).obj L
-  have hunit : IsIso (F.rightDerivedFunctorPlusUnit.app Lq) := by
+  have hunit : IsIso (F.rightDerivedFunctorPlusUnith.app Lq) := by
     have : ∀ i, Injective (Lq.obj.as.X i) := fun _ => inferInstance
     infer_instance
   let eR : F.rightDerivedFunctorPlus.obj E ≅ DerivedCategory.Plus.Q.obj N :=

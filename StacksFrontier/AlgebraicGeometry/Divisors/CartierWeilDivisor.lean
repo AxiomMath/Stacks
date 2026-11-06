@@ -4,6 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Divisors.CartierDivisor
 public import StacksFrontier.AlgebraicGeometry.Divisors.Meromorphic.Stalks
 public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartierWeilDivisor
 public import StacksFrontier.Topology.Sheaves.OpenImmersion.ExtensionByInitial
+public import Mathlib.Topology.Sheaves.LocallySurjective
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

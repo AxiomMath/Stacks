@@ -112,17 +112,19 @@ theorem pullback_map_pullbackFreeEnd (a : W ⟶ Y) (h : Y ⟶ Z)
 /-- The pullback of an automorphism of a free module, as an automorphism of the free module. -/
 def pullbackFreeAut (h : Y ⟶ Z) : Aut (freeModule Z I) →* Aut (freeModule Y I) where
   toFun g :=
-    { hom := pullbackFreeEnd h g.hom
-      inv := pullbackFreeEnd h g.inv
-      hom_inv_id := by rw [← pullbackFreeEnd_comp, g.hom_inv_id, pullbackFreeEnd_id]
-      inv_hom_id := by rw [← pullbackFreeEnd_comp, g.inv_hom_id, pullbackFreeEnd_id] }
-  map_one' := Iso.ext (pullbackFreeEnd_id h)
-  map_mul' g g' := Iso.ext (pullbackFreeEnd_comp h g'.hom g.hom)
+    .of { hom := pullbackFreeEnd h g.asIso.hom
+          inv := pullbackFreeEnd h g.asIso.inv
+          hom_inv_id := by
+            rw [← pullbackFreeEnd_comp, g.asIso.hom_inv_id, pullbackFreeEnd_id]
+          inv_hom_id := by
+            rw [← pullbackFreeEnd_comp, g.asIso.inv_hom_id, pullbackFreeEnd_id] }
+  map_one' := Aut.ext (Iso.ext (pullbackFreeEnd_id h))
+  map_mul' g g' := Aut.ext (Iso.ext (pullbackFreeEnd_comp h g'.asIso.hom g.asIso.hom))
 
 /-- The underlying endomorphism of the pullback of an automorphism `g` is `h^* g.hom`. -/
 @[simp]
 theorem pullbackFreeAut_hom (h : Y ⟶ Z) (g : Aut (freeModule Z I)) :
-    (pullbackFreeAut h g).hom = pullbackFreeEnd h g.hom := rfl
+    (pullbackFreeAut h g).asIso.hom = pullbackFreeEnd h g.asIso.hom := rfl
 
 end FreeEnd
 
@@ -133,13 +135,13 @@ variable {k : Type u} [Field k] [Fintype k] {p f : ℕ} [Fact p.Prime] [CharP k 
 group `Aut(𝒪_N^r)`. -/
 def levelAut (S : Over (Spec (.of k))) (g : Aut (freeModule N.left (ULift.{u} (Fin r)))) :
     freeModule (product N S) (ULift.{u} (Fin r)) ≅ freeModule (product N S) (ULift.{u} (Fin r)) :=
-  pullbackFreeAut (pullback.fst N.hom S.hom) g
+  (pullbackFreeAut (pullback.fst N.hom S.hom) g).asIso
 
 omit [Fintype k] in
 /-- The underlying endomorphism of `levelAut S g` is `pr_N^* g.hom`. -/
 @[simp]
 theorem levelAut_hom (S : Over (Spec (.of k))) (g : Aut (freeModule N.left (ULift.{u} (Fin r)))) :
-    (levelAut S g).hom = pullbackFreeEnd (pullback.fst N.hom S.hom) g.hom := rfl
+    (levelAut S g).hom = pullbackFreeEnd (pullback.fst N.hom S.hom) g.asIso.hom := rfl
 
 variable (p f hcard) in
 /-- **Elements of the level group are constant along `S`**: the pullback along
@@ -180,7 +182,7 @@ instance instMulAction :
       exact (congrArg (_ ≫ ·) (pullbackFreeEnd_id _)).trans (Category.comp_id _)
   mul_smul g g' ℓ := by
     ext : 1 <;> refine Iso.ext ?_ <;>
-      exact (congrArg (_ ≫ ·) (pullbackFreeEnd_comp _ g'.hom g.hom)).trans
+      exact (congrArg (_ ≫ ·) (pullbackFreeEnd_comp _ g'.asIso.hom g.asIso.hom)).trans
         (Category.assoc _ _ _).symm
 
 /-- The isomorphism `ι` of `g • ℓ` is `ℓ.ι` followed by `pr_N^* g`. -/

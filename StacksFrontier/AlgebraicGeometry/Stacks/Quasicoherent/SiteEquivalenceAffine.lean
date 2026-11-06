@@ -207,11 +207,11 @@ public theorem isSheafFppfOfQuasicoherentOnSite_siteKind (τ : SiteKind) :
     Φf.objObjPreimageIso _
   have nat : (inclusion B S hS p).op ⋙ Z.obj ≅ (inclusion B S hS p).op ⋙ M.val.presheaf :=
     (sheafToPresheaf _ _).mapIso eZ
-  have e : (⟨Z.obj, Z.cond.of_le (BigFppfOver.associatedTopology_le_fppf B S hS p τ)⟩ :
+  have e : (⟨Z.obj, Z.property.of_le (BigFppfOver.associatedTopology_le_fppf B S hS p τ)⟩ :
       Sheaf (BigFppfOver.associatedTopology B S hS p τ) AddCommGrpCat.{u}) ≅
       ⟨M.val.presheaf, M.isSheaf⟩ :=
     Φt.preimageIso ((sheafToPresheaf _ _).preimageIso nat)
-  exact (Presheaf.isSheaf_of_iso_iff ((sheafToPresheaf _ _).mapIso e)).mp Z.cond
+  exact (Presheaf.isSheaf_of_iso_iff ((sheafToPresheaf _ _).mapIso e)).mp Z.property
 
 /-- **The second input of Stacks 0EM8, at every one of the five topologies and with no
 hypothesis.**  A sheaf of modules on the inherited fppf site of a category fibred in groupoids

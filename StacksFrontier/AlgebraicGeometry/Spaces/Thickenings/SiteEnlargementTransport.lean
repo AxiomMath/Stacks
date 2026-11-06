@@ -84,7 +84,7 @@ structure SiteTransport {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
   /-- The transported square-zero extension. -/
   extension : SquareZeroExtension B' S hS' f'
   /-- The extension sheaf is the restriction of the transported extension sheaf. -/
-  extensionIso : E.A.val ≅ chartTransport.op ⋙ extension.A.val
+  extensionIso : E.A.obj ≅ chartTransport.op ⋙ extension.A.obj
   /-- The kernel is the restriction of the transported kernel. -/
   kernelIso : E.I.val.presheaf ≅ chartTransport.op ⋙ extension.I.val.presheaf
   /-- The two comparisons are compatible with the inclusions of the kernels. -/
@@ -93,8 +93,8 @@ structure SiteTransport {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
       extension.ι (chartTransport.op.obj U) (kernelIso.hom.app U x)
   /-- The structure sheaf of `X` is the restriction of the structure sheaf of `X'`. -/
   structureIso :
-    (smallEtaleRingedTopos B S hS X).O.val ≅
-      chartTransport.op ⋙ (smallEtaleRingedTopos B' S hS' X').O.val
+    (smallEtaleRingedTopos B S hS X).O.obj ≅
+      chartTransport.op ⋙ (smallEtaleRingedTopos B' S hS' X').O.obj
   /-- The comparisons are compatible with the surjections onto the structure sheaves. -/
   quotient_compatibility :
     extensionIso.hom ≫ (chartTransport.op.whiskerLeft extension.π.hom) =
@@ -102,10 +102,10 @@ structure SiteTransport {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
   /-- The inverse image `f⁻¹𝒪_Y` is the restriction of `f'⁻¹𝒪_{Y'}`. -/
   baseAlgebraIso :
     ((smallEtaleRingedToposHom B S hS f).toToposHom.inverseImageRing.obj
-      (smallEtaleRingedTopos B S hS Y).O).val ≅
+      (smallEtaleRingedTopos B S hS Y).O).obj ≅
     chartTransport.op ⋙
       ((smallEtaleRingedToposHom B' S hS' f').toToposHom.inverseImageRing.obj
-        (smallEtaleRingedTopos B' S hS' Y').O).val
+        (smallEtaleRingedTopos B' S hS' Y').O).obj
   /-- The comparisons are compatible with the algebra structures. -/
   baseAlgebra_compatibility :
     baseAlgebraIso.hom ≫ (chartTransport.op.whiskerLeft extension.toBase.hom) =

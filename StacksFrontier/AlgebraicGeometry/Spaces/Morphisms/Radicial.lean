@@ -132,6 +132,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_Radicial (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for a single pullback of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_Radicial (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0481.** A morphism of algebraic spaces over `S` is *radicial* if for every
 field `k` in the chosen site and every `k`-valued point of the target, the reduction of the
 fibre is either empty or is represented, over `Spec(k)`, by the spectrum of a purely
@@ -244,6 +257,8 @@ private theorem exists_lift_reducedClosedSubspace_yoneda
     rw [range_pointsMap_ι_reducedClosedSubspace B S hS P hP Set.univ isClosed_univ]
     exact Set.mem_univ _)
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Two sections of the source of a radicial morphism over a field spectrum in the site with
 the same image in the target are equal.
 
@@ -304,7 +319,7 @@ private theorem eq_of_isRadicial_section
         (r ≫ e.hom) ≫ yoneda.map m = 𝟙 _ := by
       rw [hproj.symm]
       simpa [Category.assoc] using hr
-    have hr : r₁ = r₂ := (cancel_mono e.hom).mp <|
+    have hr : r₁ = r₂ := (Iso.cancel_iso_hom_right _ _ e).mp <|
       eq_of_comp_yoneda_map_eq_id B S hS m eT eU hstruct
         (hsection r₁ (by rw [hr₁]; simp [p₁, pullback.lift_fst]))
         (hsection r₂ (by rw [hr₂]; simp [p₂, pullback.lift_fst]))
@@ -517,6 +532,8 @@ private theorem exists_isPurelyInseparable_of_mono_pullback
     (yoneda.preimage (i ≫ pullback.fst g f)) eU eT (by rw [hm]; exact hinjm)
   exact ⟨_, inst, hpure, hm, hstr⟩
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0484, part (1).** A universally injective decent morphism of algebraic spaces over
 `S` is radicial.
 
@@ -558,6 +575,8 @@ theorem isRadicial_of_universallyInjective_of_isDecent
   right
   obtain ⟨M, L, hL, ⟨eU⟩, ⟨e⟩⟩ :=
     exists_iso_yoneda_spec_of_subsingleton_points B S hS hZalg hZdec hne hZsub hZred
+  haveI hZι : Mono Z.ι := inferInstance
+  haveI : Mono (e.inv ≫ Z.ι) := mono_comp _ _
   obtain ⟨m, inst, hpure, hm, hstr⟩ :=
     exists_isPurelyInseparable_of_mono_pullback B S hS hX hY f hinj eU eT g (e.inv ≫ Z.ι)
   exact ⟨L, hL, inst, hpure, M, m, eU, e, by simpa using hm.symm, hstr⟩

@@ -64,18 +64,18 @@ section Act
 variable (act : G →* Aut W)
 
 /-- Acting by a product is acting by the two factors in turn. -/
-theorem act_hom_mul (g g' : G) : (act (g * g')).hom = (act g').hom ≫ (act g).hom := by
+theorem act_hom_mul (g g' : G) : (act (g * g')).asIso.hom = (act g').asIso.hom ≫ (act g).asIso.hom := by
   rw [map_mul]
   rfl
 
 /-- Acting by the unit is the identity. -/
-theorem act_hom_one : (act (1 : G)).hom = 𝟙 W := by
+theorem act_hom_one : (act (1 : G)).asIso.hom = 𝟙 W := by
   rw [map_one]
   rfl
 
 /-- The action of `G` on the morphisms into `W` by postcomposition with the automorphisms. -/
 def actEnd (V : C) : G →* Function.End (V ⟶ W) where
-  toFun g φ := φ ≫ (act g).hom
+  toFun g φ := φ ≫ (act g).asIso.hom
   map_one' := funext fun φ => by
     simp only [act_hom_one, Category.comp_id]
     rfl
@@ -85,7 +85,7 @@ def actEnd (V : C) : G →* Function.End (V ⟶ W) where
 
 /-- The action on morphisms into `W` is postcomposition with the automorphism. -/
 @[simp]
-theorem actEnd_apply (V : C) (g : G) (φ : V ⟶ W) : actEnd act V g φ = φ ≫ (act g).hom := rfl
+theorem actEnd_apply (V : C) (g : G) (φ : V ⟶ W) : actEnd act V g φ = φ ≫ (act g).asIso.hom := rfl
 
 variable (χ : G →* ℤˣ)
 
@@ -124,7 +124,7 @@ def splittingSieve (W V : C) : Sieve V where
 /-- The sieve on `V` consisting of the arrows along which two morphisms `φ ψ : V ⟶ W` become
 translates of each other under the action of `G`. -/
 def translationSieve (act : G →* Aut W) {V : C} (φ ψ : V ⟶ W) : Sieve V where
-  arrows _ f := ∃ g : G, f ≫ ψ = f ≫ φ ≫ (act g).hom
+  arrows _ f := ∃ g : G, f ≫ ψ = f ≫ φ ≫ (act g).asIso.hom
   downward_closed := by
     rintro Y Z f ⟨g, hg⟩ k
     refine ⟨g, ?_⟩
@@ -141,7 +141,7 @@ structure IsTorsorObject (act : G →* Aut W) (J : GrothendieckTopology C) : Pro
   /-- Two morphisms into `W` are translates of each other, locally on the source. -/
   translationSieve_mem {V : C} (φ ψ : V ⟶ W) : translationSieve act φ ψ ∈ J V
   /-- The action is free, over the objects that the empty sieve does not cover. -/
-  eq_one_of_comp_act {V : C} (φ : V ⟶ W) (g : G) (hg : φ ≫ (act g).hom = φ) :
+  eq_one_of_comp_act {V : C} (φ : V ⟶ W) (g : G) (hg : φ ≫ (act g).asIso.hom = φ) :
     (⊥ : Sieve V) ∈ J V ∨ g = 1
 
 namespace IsTorsorObject
@@ -156,10 +156,10 @@ not cover. -/
 theorem injective_comp_act {V : C} (p : V ⟶ W) (hV : (⊥ : Sieve V) ∉ J V) :
     Function.Injective fun g : G => actEnd act V g p := by
   intro g g' hgg
-  have hcancel : (act g').hom ≫ (act g'⁻¹).hom = 𝟙 W := by
+  have hcancel : (act g').asIso.hom ≫ (act g'⁻¹).asIso.hom = 𝟙 W := by
     rw [← act_hom_mul, inv_mul_cancel, act_hom_one]
-  have hgg' : p ≫ (act g).hom = p ≫ (act g').hom := hgg
-  have key : p ≫ (act (g'⁻¹ * g)).hom = p := by
+  have hgg' : p ≫ (act g).asIso.hom = p ≫ (act g').asIso.hom := hgg
+  have key : p ≫ (act (g'⁻¹ * g)).asIso.hom = p := by
     rw [act_hom_mul, ← Category.assoc, hgg', Category.assoc, hcancel, Category.comp_id]
   rcases h.eq_one_of_comp_act p _ key with hbot | hone
   · exact absurd hbot hV
@@ -226,7 +226,7 @@ private theorem exists_sieve_twistedGenerator_zsmul_mk {V : C} (p : V ⟶ W)
     obtain ⟨g, hg⟩ := hf
     refine ⟨(χ g : ℤ), ?_⟩
     rw [twistProjection_of, characterTwistPresheaf_map_twistedGenerator,
-      show f ≫ φ = (f ≫ p) ≫ (act g).hom by rw [hg, Category.assoc], twistedGenerator_act]
+      show f ≫ φ = (f ≫ p) ≫ (act g).asIso.hom by rw [hg, Category.assoc], twistedGenerator_act]
   | neg φ ih =>
     obtain ⟨S, hS, hfam⟩ := ih
     refine ⟨S, hS, fun V' f hf => ?_⟩

@@ -61,7 +61,7 @@ variable {A : Type uA} [Category.{vA} A] [Abelian A] [HasDerivedCategory.{wA} A]
 transformation `c : G ⟶ G'` of additive functors. -/
 def rightDerivedFunctorPlusMap {G G' : A ⥤ B'} [G.Additive] [G'.Additive] (c : G ⟶ G') :
     G.rightDerivedFunctorPlus ⟶ G'.rightDerivedFunctorPlus :=
-  Functor.rightDerivedNatTrans _ _ G.rightDerivedFunctorPlusUnit G'.rightDerivedFunctorPlusUnit
+  Functor.rightDerivedNatTrans _ _ G.rightDerivedFunctorPlusUnith G'.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (Functor.whiskerRight (Functor.mapHomotopyCategoryPlusNatTrans c) DerivedCategory.Plus.Qh)
 

@@ -330,6 +330,8 @@ theorem exists_isFiniteType_submodule_mem_of_qcqs (hZ : B.Contains (⊤_ Scheme.
       N.toSheafOfModules.IsFiniteTypeOnSite ∧ ∀ i, s i ∈ N.obj (op (T i)) :=
   hasFiniteTypeSubmoduleCapture_of_qcqs hZ X hqc hqs M hM ι T hT s
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck in
 /-- **Stacks 0829.** On a quasi-compact quasi-separated algebraic space `X`, a quasi-coherent

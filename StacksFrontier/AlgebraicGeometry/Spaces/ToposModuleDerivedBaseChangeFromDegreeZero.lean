@@ -223,7 +223,7 @@ theorem isIso_toposModuleDerivedBaseChangeMap_app_of_isIso_toposModuleBaseChange
   refine Stacks.Cohomology.BaseChange.isIso_derived_app_Qh_of_acyclic
     (toposModulePushforward f) (toposModulePushforward f') (modulePullback B S hS g)
     (modulePullback B S hS g') (toposModuleBaseChangeMap f g f' g' comm)
-    (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnit) _ ?_ ?_ ?_ ?_
+    (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnith) _ ?_ ?_ ?_ ?_
   · infer_instance
   · infer_instance
   · have hinj' : ∀ i : ℤ, Injective ((((modulePullback B S hS g').mapHomotopyCategoryPlus).obj

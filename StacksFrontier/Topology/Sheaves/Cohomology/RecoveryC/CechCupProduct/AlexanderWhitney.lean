@@ -424,7 +424,7 @@ private theorem cechAlexanderWhitney_comp_π
       tensorModulesMap ℤ
         (cechFaceRestriction X U F (fun i => ⟨i.val, by omega⟩) t)
         (cechFaceRestriction X U G (fun i => ⟨r + i.val, by omega⟩) t) := by
-  rw [cechAlexanderWhitney, Pi.lift_π]
+  rw [cechAlexanderWhitney, Pi.lift_comp_π]
 
 private theorem cechAlexanderWhitney_comp_restriction
     (F : ZPresheaf.{u, max v w} X) (G : ZPresheaf.{u, max v w'} X)
@@ -469,7 +469,7 @@ private theorem cechAlexanderWhitneyTo_comp_π
     tensorModulesMap ℤ
       (cechFaceRestriction X U F (fun i => ⟨i.val, by omega⟩) t)
       (cechFaceRestriction X U G (fun i => ⟨r + i.val, by omega⟩) t) := by
-  exact Pi.lift_π _ t
+  exact Pi.lift_comp_π _ t
 
 /-- Tensoring in the first variable is additive. -/
 private def tensorModulesMapAddLeft {M M' : ModuleCat.{w} ℤ} {N N' : ModuleCat.{w'} ℤ}

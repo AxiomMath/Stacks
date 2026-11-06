@@ -259,6 +259,7 @@ theorem isClosedMorphismULift_whiskerRight_iff
     exact ((pointsHomeomorphPointsULift.{w} B S hS G).isClosedMap.comp h').comp
       (pointsHomeomorphPointsULift.{w} B S hS F).symm.isClosedMap
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The universe lift of a universally closed morphism of presheaves of `Type u` is
 universally closed: an algebraic space over `S` with values in `Type (max w u)` is isomorphic
 to the universe lift of a presheaf of `Type u`, so a base change of the lift along a morphism

@@ -57,7 +57,7 @@ instance isIso_residueSpecMap_residueFieldObject :
       have h' : a.down = b.down := by
         rw [← ha, ← hb]
         exact h
-      exact ULift.ext _ _ h'
+      exact ULift.ext h'
     · exact residueFieldObject_residue.{u, u, u} k k (ULift.up.{u, u} c)
   have : IsIso (CommRingCat.ofHom (Deformation.Artin.residueMap
       (residueFieldObject.{u, u, u} k k))) :=

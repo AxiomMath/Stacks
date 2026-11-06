@@ -90,7 +90,9 @@ private theorem epi_restrictFunctor_map_of_epi_pullback_map {Y : Scheme.{u}} (f 
   have := h
   have e := Scheme.Modules.restrictFunctorIsoPullback f
   have h2 : Epi ((Scheme.Modules.restrictFunctor f).map φ ≫ e.hom.app N) := by
-    rw [e.hom.naturality φ]; infer_instance
+    rw [e.hom.naturality φ]
+    exact epi_comp' (inferInstance : Epi (e.app M).hom) h
+  haveI : IsIso (e.hom.app N) := (inferInstance : IsIso (e.app N).hom)
   exact (epi_comp_iff_of_isIso _ (e.hom.app N)).mp h2
 
 /-- **Surjectivity of a morphism of sheaves of modules is local on the scheme.** If every point of

@@ -272,7 +272,7 @@ public theorem uliftForPresentationMap_down {M N : SheafOfModules.{m} R}
     (g : uliftForPresentation.{u, v, r, m, t} M ⟶ uliftForPresentation.{u, v, r, m, t} N) :
     uliftForPresentationMap.{u, v, r, m, t} (uliftForPresentationMapDown g) = g := by
   ext X x
-  exact ULift.ext _ _ rfl
+  exact ULift.ext rfl
 
 /-- The universe lift is injective on morphisms. -/
 public theorem uliftForPresentationMap_injective {M N : SheafOfModules.{m} R} {f g : M ⟶ N}
@@ -286,7 +286,7 @@ public theorem uliftForPresentationMap_injective {M N : SheafOfModules.{m} R} {f
 public theorem uliftForPresentationMap_zero (M N : SheafOfModules.{m} R) :
     uliftForPresentationMap.{u, v, r, m, t} (0 : M ⟶ N) = 0 := by
   ext X x
-  exact ULift.ext _ _ rfl
+  exact ULift.ext rfl
 
 /-- The universe lift of sheaves of modules is full. -/
 public instance full_uliftForPresentationFunctor (R : Sheaf J RingCat.{r}) :

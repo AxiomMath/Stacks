@@ -95,7 +95,7 @@ theorem Algebra.IsPushout.ulift_tensorProduct (R : Type u) [CommRing R] (A : Typ
       [IsScalarTower R X (A ⊗[R] B)],
       IsScalarTower (ULift.{v} R) (ULift.{v} X) (ULift.{v} (A ⊗[R] B)) := fun X _ _ _ _ =>
     IsScalarTower.of_algebraMap_eq fun r =>
-      ULift.ext _ _ (IsScalarTower.algebraMap_apply R X (A ⊗[R] B) r.down)
+      ULift.ext (IsScalarTower.algebraMap_apply R X (A ⊗[R] B) r.down)
   have := key A
   have := key B
   exact Algebra.IsPushout.of_equiv (h := TensorProduct.isPushout)

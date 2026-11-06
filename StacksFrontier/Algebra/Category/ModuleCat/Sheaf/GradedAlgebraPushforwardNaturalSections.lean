@@ -85,10 +85,8 @@ theorem natural_family_one
     (A : SheafOfModules.GradedAlgebra (Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite X).O)) :
     θ (underlyingPiece A 0) ((pushforwardGradedAlgebra f A).one.eval U) = A.one.eval Q := by
   obtain ⟨h, -, sU, tU, tI, hs, ht, hc⟩ := isPushforwardGradedAlgebra_pushforwardGradedAlgebra f A
-  have hterm : IsTerminal ((⊤_ (Sheaf Y.J (Type w'))).obj.obj U) :=
-    IsTerminal.isTerminalObj ((sheafToPresheaf Y.J (Type w')) ⋙
-      (CategoryTheory.evaluation Y.Cᵒᵖ (Type w')).obj U) _ terminalIsTerminal
-  let z : (⊤_ (Sheaf Y.J (Type w'))).obj.obj U := hterm.from PUnit.{w' + 1} PUnit.unit
+  let z : (⊤_ (Sheaf Y.J (Type w'))).obj.obj U :=
+    (Stacks.Sheaves.GradedAlgebraPushforward.terminalPUnitIso (X := Y)).hom.hom.app U PUnit.unit
   exact (congrArg (θ (underlyingPiece A 0))
     ((ht U z).symm.trans (congrArg (fun k => k.hom.app U z) hc))).trans
       ((hθ sU _).trans (hs Q _))

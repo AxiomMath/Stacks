@@ -73,10 +73,10 @@ public def pushforwardTildeMapDerivedCategoryIso (R S : CommRingCat.{u}) (φ : R
         (Scheme.Modules.pushforward (Spec.map φ)).mapDerivedCategory ≅
       (ModuleCat.restrictScalars φ.hom).mapDerivedCategory ⋙
         (tilde.functor R).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (tilde.functor S ⋙ Scheme.Modules.pushforward (Spec.map φ))) ≪≫
     Functor.mapDerivedCategoryCongr (pushforwardTildeIso R S φ) ≪≫
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (ModuleCat.restrictScalars φ.hom ⋙ tilde.functor R))).symm
 
 namespace RingedSpace

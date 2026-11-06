@@ -157,7 +157,7 @@ lemma toPresheafModuleFiber_smul (M : PresheafOfModules.{w} R) (U : C) (x : Φ.f
     (hcR := Φ.isColimitPresheafFiberCocone R)
     (hcM := colimit.isColimit
       ((PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber)
-        (𝟙 _)).obj M).presheaf) (U := op (⟨U, x⟩ : Φ.fiber.Elements)) r m).symm
+        (𝟙 _)).obj M).presheaf) (U := op (Φ.fiber.elementsMk U x)) r m).symm
 
 /-- The germ maps are compatible with restriction along a morphism of neighbourhoods. -/
 lemma toPresheafModuleFiber_w (M : PresheafOfModules.{w} R) {U V : C} (f : U ⟶ V)
@@ -286,7 +286,9 @@ lemma isIso_of_isIso_sheafModuleFiber (hP : P.IsConservativeFamilyOfPoints)
     (hP.jointlyReflectIsomorphisms AddCommGrpCat.{w}).isIso_iff]
   intro Φ
   have := hf Φ
-  exact Functor.map_isIso (forget₂ _ AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f)
+  exact (NatIso.isIso_map_iff (sheafModuleFiberCompForget₂ Φ.obj R) f).1
+    (Functor.map_isIso (forget₂ (ModuleCat.{w} ((Φ.obj.presheafFiber (A := RingCat.{w})).obj R.obj))
+      AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f))
 
 /-- A morphism of sheaves of modules which is a monomorphism on the stalks at a conservative
 family of points is a monomorphism. -/
@@ -296,7 +298,10 @@ lemma mono_of_mono_sheafModuleFiber (hP : P.IsConservativeFamilyOfPoints)
   refine (SheafOfModules.toSheaf R).mono_of_mono_map ?_
   refine ((hP.jointlyReflectMonomorphisms AddCommGrpCat.{w}).mono_iff _).2 (fun Φ ↦ ?_)
   have := hf Φ
-  exact Functor.map_mono (forget₂ _ AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f)
+  exact ((MorphismProperty.monomorphisms _).arrow_mk_iso_iff
+    (Arrow.isoOfNatIso (sheafModuleFiberCompForget₂ Φ.obj R) (Arrow.mk f))).1
+    (Functor.map_mono (forget₂ (ModuleCat.{w} ((Φ.obj.presheafFiber (A := RingCat.{w})).obj R.obj))
+      AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f))
 
 /-- A morphism of sheaves of modules which is an epimorphism on the stalks at a conservative
 family of points is an epimorphism. -/
@@ -307,7 +312,10 @@ lemma epi_of_epi_sheafModuleFiber [HasWeakSheafify J AddCommGrpCat.{w}]
   refine (SheafOfModules.toSheaf R).epi_of_epi_map ?_
   refine ((hP.jointlyReflectEpimorphisms AddCommGrpCat.{w}).epi_iff _).2 (fun Φ ↦ ?_)
   have := hf Φ
-  exact Functor.map_epi (forget₂ _ AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f)
+  exact ((MorphismProperty.epimorphisms _).arrow_mk_iso_iff
+    (Arrow.isoOfNatIso (sheafModuleFiberCompForget₂ Φ.obj R) (Arrow.mk f))).1
+    (Functor.map_epi (forget₂ (ModuleCat.{w} ((Φ.obj.presheafFiber (A := RingCat.{w})).obj R.obj))
+      AddCommGrpCat.{w}) ((sheafModuleFiber Φ.obj R).map f))
 
 end Conservative
 

@@ -105,9 +105,9 @@ public theorem LAdicSheaf.CoefficientSheaf.exists_rationalLinearEquiv_of_fieldEx
         G.toLAdicSheaf) (N : ℕ)
     (h₁ : φ ≫ ψ = (ℓ ^ N) • 𝟙 _) (h₂ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _)
     (hφ : ∀ (o : O) (o' : O'), algebraMap O E o = algebraMap O' E o' →
-      φ ≫ (LAdicSheaf.CoefficientSheaf.inverseImage α
-        (LAdicSheaf.CoefficientSheaf.inverseImage (fieldExtensionProj B X f κ) F)).act o' =
-        G.act o ≫ φ)
+      φ ≫ ((LAdicSheaf.CoefficientSheaf.inverseImage α
+        (LAdicSheaf.CoefficientSheaf.inverseImage (fieldExtensionProj B X f κ) F)).act o').asHom =
+        (G.act o).asHom ≫ φ)
     (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP κ p] (hcard : Fintype.card k = p ^ q) (m : ℕ)
     (hcard' : Fintype.card κ = p ^ (q * (m + 1))) :
     letI := G.rationalCohomologyModule fY jY kbar i E

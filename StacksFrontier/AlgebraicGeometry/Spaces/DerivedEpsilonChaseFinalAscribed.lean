@@ -114,17 +114,17 @@ theorem representedAffineHomotopyPullbackIso_hom_app_ascribed
       (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((@Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
               (representedAffineAssociatedPullbackIso B S hS k)
-              (additive_representedAffineAssociated B S hS V)
-              (pullbackModules_smallEtale_additive (representedSpaceMap B S hS k))
-              (additive_extendScalars_comp_representedAffineAssociated B S hS k)
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_representedAffineAssociated B S hS V))
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (pullbackModules_smallEtale_additive (representedSpaceMap B S hS k)))
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_extendScalars_comp_representedAffineAssociated B S hS k))
               (ComplexShape.up ℤ) ≪≫
             (@Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _
               (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS k).hom)
               (representedAffineAssociated B S hS V') _ (Iso.refl _)
-              ((ModuleCat.extendRestrictScalarsAdj
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (ModuleCat.extendRestrictScalarsAdj
                 (representedAffineCommRingCatHom B S hS k).hom).left_adjoint_additive)
-              (additive_representedAffineAssociated B S hS V')
-              (additive_extendScalars_comp_representedAffineAssociated B S hS k)
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_representedAffineAssociated B S hS V'))
+              (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_extendScalars_comp_representedAffineAssociated B S hS k))
               (ComplexShape.up ℤ)).symm).hom.app N) :=
   (representedAffineHomotopyPullbackIso_hom_app B S hS k N).trans
     (StacksDraft.ComparisonSquare.functor_map_congr _
@@ -152,17 +152,17 @@ theorem smallEtalePullbackMapHomotopy_map_representedAffineHomotopyPullbackIso_a
               (ComplexShape.up ℤ)).map
           ((@Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
                 (representedAffineAssociatedPullbackIso B S hS g)
-                (additive_representedAffineAssociated B S hS U)
-                (pullbackModules_smallEtale_additive (representedSpaceMap B S hS g))
-                (additive_extendScalars_comp_representedAffineAssociated B S hS g)
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_representedAffineAssociated B S hS U))
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (pullbackModules_smallEtale_additive (representedSpaceMap B S hS g)))
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_extendScalars_comp_representedAffineAssociated B S hS g))
                 (ComplexShape.up ℤ) ≪≫
               (@Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _
                 (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom)
                 (representedAffineAssociated B S hS U') _ (Iso.refl _)
-                ((ModuleCat.extendRestrictScalarsAdj
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (ModuleCat.extendRestrictScalarsAdj
                   (representedAffineCommRingCatHom B S hS g).hom).left_adjoint_additive)
-                (additive_representedAffineAssociated B S hS U')
-                (additive_extendScalars_comp_representedAffineAssociated B S hS g)
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_representedAffineAssociated B S hS U'))
+                (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (additive_extendScalars_comp_representedAffineAssociated B S hS g))
                 (ComplexShape.up ℤ)).symm).hom.app M)) :=
   (smallEtalePullbackMapHomotopy_map_representedAffineHomotopyPullbackIso B S hS h g M).trans
     (StacksDraft.ComparisonSquare.functor_map_congr _
@@ -185,11 +185,11 @@ theorem representedAffineHomotopyAssociated_map_extendScalarsCompIso_ascribed
             (ComplexShape.up ℤ)).map
           ((@Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
             (representedAffineExtendScalarsCompIso B S hS h g)
-            ((ModuleCat.extendRestrictScalarsAdj
+            (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (ModuleCat.extendRestrictScalarsAdj
               (representedAffineCommRingCatHom B S hS g).hom).left_adjoint_additive)
-            ((ModuleCat.extendRestrictScalarsAdj
+            (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (ModuleCat.extendRestrictScalarsAdj
               (representedAffineCommRingCatHom B S hS h).hom).left_adjoint_additive)
-            ((ModuleCat.extendRestrictScalarsAdj
+            (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _ (ModuleCat.extendRestrictScalarsAdj
               (representedAffineCommRingCatHom B S hS (h ≫ g)).hom).left_adjoint_additive)
             (ComplexShape.up ℤ)).hom.app M)) :=
   (representedAffineHomotopyAssociated_map B S hS U''

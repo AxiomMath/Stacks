@@ -93,7 +93,7 @@ theorem isDerivedComplete_of_isZero
     Functor.map_isZero _ hK
   have h1 : (1 : End ((SheafOfModules.overFunctor.{max u v}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V).mapDerivedCategory.obj K)) = 0 :=
-    hz.eq_of_src _ _
+    End.homEquiv.injective (hz.eq_of_src _ _)
   rw [pow_one, h1, smul_zero]
 
 end AlgebraicGeometry.RingedSite

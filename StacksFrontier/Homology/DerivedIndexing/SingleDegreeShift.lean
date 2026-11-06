@@ -324,7 +324,7 @@ lemma natTransCommShift_mapCochainComplexPlusDerivedUnit (P : A ⥤ B) [P.Additi
       Functor.whiskerRight (mapCochainComplexPlusQuotientIso P).hom DerivedCategory.Plus.Qh ≫
       (Functor.associator (HomotopyCategory.Plus.quotient A) P.mapHomotopyCategoryPlus
         DerivedCategory.Plus.Qh).hom ≫
-      Functor.whiskerLeft (HomotopyCategory.Plus.quotient A) P.rightDerivedFunctorPlusUnit ≫
+      Functor.whiskerLeft (HomotopyCategory.Plus.quotient A) P.rightDerivedFunctorPlusUnith ≫
       (Functor.associator (HomotopyCategory.Plus.quotient A) DerivedCategory.Plus.Qh
         P.rightDerivedFunctorPlus).inv ≫
       Functor.whiskerRight (DerivedCategory.Plus.quotientCompQhIso A).hom
@@ -529,7 +529,7 @@ theorem mapSinglePlus_comm (n a a' : ℤ) (h : n + a = a') (Z : A) :
         (CochainComplex.Plus.ι B).map
           ((P.mapCochainComplexPlus.commShiftIso n).hom.app
             ((singlePlusFunctor A a').obj Z)) = 𝟙 _ by
-      simp)
+      rw [← Functor.map_comp, Iso.inv_hom_id_app]; exact (CochainComplex.Plus.ι B).map_id _)
     G4 (Iso.hom_inv_id_app _ _)
   have ht₂ : (CochainComplex.Plus.ι B).map
         ((P.mapCochainComplexPlus.commShiftIso n).inv.app

@@ -152,6 +152,7 @@ theorem modulePushforwardPushforwardSetSheafHom'_eq (N : Modules.{u, u} B S hS X
     ((smallEtaleDirectImage B S hS i).obj
       ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).obj N))
 
+set_option maxHeartbeats 1000000 in
 /-- The comparison of the two composite direct images of modules around a commutative square,
 read on underlying sheaves of sets one factor at a time, is the comparison of the two composite
 direct images of sheaves of sets (Stacks 03G2, part (3)). -/

@@ -4,6 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Intersection.AlgebraicMultiplicit
 public import StacksFrontier.RingTheory.HilbertSamuel.Function
 public import StacksFrontier.RingTheory.Support.Basic
 public import StacksFrontier.RingTheory.Support.Finite
+public import Mathlib.Topology.JacobsonSpace
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

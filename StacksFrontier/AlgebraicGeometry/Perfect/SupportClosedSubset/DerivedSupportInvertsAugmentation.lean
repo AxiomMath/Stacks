@@ -136,11 +136,22 @@ public theorem nonempty_rightDerived_obj_single_iso
   obtain ⟨eR⟩ :=
     Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus G RG β hcomp E 0 hE
   let J := (HomotopyCategory.Plus.singleFunctor A 0).obj M
-  have hunit : IsIso (G.rightDerivedFunctorPlusUnit.app J) := hacyclic
+  have hunit : IsIso (G.rightDerivedFunctorPlusUnith.app J) := by
+    let α' := (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
+    haveI : IsIso (α'.app J) := hacyclic
+    let φ := ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).rightDerivedDesc α'
+      (HomotopyCategory.Plus.quasiIso A) G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    haveI : IsIso φ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ α' _ _ _).1
+      inferInstance
+    rw [← Functor.rightDerived_fac_app _ α' (HomotopyCategory.Plus.quasiIso A)
+      G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith J]
+    infer_instance
   let eRF : G.rightDerivedFunctorPlus.obj E ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (G.obj M) :=
     G.rightDerivedFunctorPlus.mapIso ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).app M) ≪≫
-      (asIso (G.rightDerivedFunctorPlusUnit.app J)).symm ≪≫
+      (asIso (G.rightDerivedFunctorPlusUnith.app J)).symm ≪≫
       (Functor.mapSingleFunctorCompQhIso G).app M
   exact ⟨RG.mapIso eE.symm ≪≫ eR ≪≫ DerivedCategory.Plus.ι.mapIso eRF ≪≫
     (DerivedCategory.Plus.singleFunctorιIso B 0).app (G.obj M)⟩

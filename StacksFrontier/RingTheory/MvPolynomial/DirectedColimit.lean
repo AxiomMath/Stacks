@@ -198,15 +198,15 @@ theorem exists_ge_map_eq_of_directed [IsDirectedOrder ι] [Nonempty ι]
     ∃ (j : ι) (_ : i₀ ≤ j) (q : MvPolynomial σ (G j)), map (φ j) q = p := by
   classical
   obtain ⟨j, hj, x, hx⟩ := Ring.exists_ge_forall_eq_of_directed hφ hsurj
-    (fun m : {m // m ∈ p.support} ↦ coeff (m : σ →₀ ℕ) p) i₀
+    (fun m : {m // m ∈ p.support} ↦ p.coeff (m : σ →₀ ℕ)) i₀
   refine ⟨j, hj, ∑ m ∈ p.support.attach, monomial (m : σ →₀ ℕ) (x m), ?_⟩
   rw [map_sum]
   calc ∑ m ∈ p.support.attach, map (φ j) (monomial (m : σ →₀ ℕ) (x m))
-      = ∑ m ∈ p.support.attach, monomial (m : σ →₀ ℕ) (coeff (m : σ →₀ ℕ) p) := by
+      = ∑ m ∈ p.support.attach, monomial (m : σ →₀ ℕ) (p.coeff (m : σ →₀ ℕ)) := by
         refine Finset.sum_congr rfl fun m _ ↦ ?_
         rw [map_monomial, hx]
-    _ = ∑ m ∈ p.support, monomial m (coeff m p) :=
-        Finset.sum_attach p.support fun m ↦ monomial m (coeff m p)
+    _ = ∑ m ∈ p.support, monomial m (p.coeff m) :=
+        Finset.sum_attach p.support fun m ↦ monomial m (p.coeff m)
     _ = p := support_sum_monomial_coeff p
 
 /-- **Finitely many polynomials over a directed colimit of rings come from a common stage.** -/
@@ -228,12 +228,12 @@ theorem exists_ge_map_eq_zero_of_directed [IsDirectedOrder ι]
     {i : ι} (q : MvPolynomial σ (G i)) (hq : map (φ i) q = 0) :
     ∃ (j : ι) (h : i ≤ j), map (f i j h) q = 0 := by
   classical
-  have hcoeff : ∀ m : σ →₀ ℕ, φ i (coeff m q) = 0 := fun m ↦ by
-    rw [← coeff_map, hq, coeff_zero]
+  have hcoeff : ∀ m : σ →₀ ℕ, φ i (q.coeff m) = 0 := fun m ↦ by
+    rw [← coeff_map, hq, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   obtain ⟨j, hij, hj⟩ := Ring.exists_ge_forall_eq_zero_of_directed hzero
-    (fun m : {m // m ∈ q.support} ↦ coeff (m : σ →₀ ℕ) q) fun m ↦ hcoeff m
+    (fun m : {m // m ∈ q.support} ↦ q.coeff (m : σ →₀ ℕ)) fun m ↦ hcoeff m
   refine ⟨j, hij, MvPolynomial.ext _ _ fun m ↦ ?_⟩
-  rw [coeff_map, coeff_zero]
+  rw [coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_cases hm : m ∈ q.support
   · exact hj ⟨m, hm⟩
   · rw [notMem_support_iff.mp hm, map_zero]

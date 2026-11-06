@@ -134,6 +134,7 @@ theorem quotientRestrictAlong_comp (hc : ModulePushforwardCoherence B S hS) {π 
     (modulePullbackTriangle B S hS (rfl : a ≫ b = a ≫ b))
     (hc.modulePullbackTriangle_comp' rfl hb ha hab) K
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Restriction of quotients along a morphism whose inverse image reflects vanishing is
 injective.** -/
 theorem quotientRestrictAlong_injective_of_reflects {π : W ⟶ A} {π' : W' ⟶ A} (a : W' ⟶ W)
@@ -230,7 +231,7 @@ instance (F : Modules.{u, u} B S hS A.1 A.2) {πW : W ⟶ A} {πY : Y' ⟶ A} (j
     (hj : j ≫ πW = πY)
     (K : Subobject ((modulePullback B S hS πY).obj F)) :
     Epi (descentProjection F j hj K) :=
-  epi_comp _ _
+  epi_comp' (IsIso.epi_of_iso ((modulePullbackTriangle B S hS hj).app F).inv) inferInstance
 
 variable {I : Type*} (Yi : I → AlgebraicSpaces B S hS) (fi : ∀ i, Yi i ⟶ W)
 

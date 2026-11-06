@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Different.DedekindDifferent.Diffe
 public import StacksFrontier.AlgebraicGeometry.Different.GeneralizationDifferent.DedekindCase
 public import Mathlib.RingTheory.Etale.StandardEtale
 public import Mathlib.RingTheory.Flat.TorsionFree
+public import Mathlib.Algebra.MvPolynomial.Division
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import Mathlib.RingTheory.Localization.BaseChange
 public import Mathlib.RingTheory.Localization.FractionRing
@@ -221,8 +222,7 @@ lemma node_coordinate_syzygy (a b : nodeRing k)
     (h : x k * a + y k * b = 0) :
     ∃ c d : nodeRing k, a = y k * c ∧ b = x k * d := by
   classical
-  let I := Ideal.span {(MvPolynomial.X 0 : MvPolynomial (Fin 2) k) *
-    MvPolynomial.X 1}
+  let I := Ideal.span {(MvPolynomial.X 0 : MvPolynomial (Fin 2) k) * MvPolynomial.X 1}
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective a
   obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective b
   have hmem : p * MvPolynomial.X 0 + q * MvPolynomial.X 1 ∈ I := by
@@ -527,7 +527,6 @@ private lemma node_etale_localized (k : Type*) [Field k] (d : Bool → ℕ)
   have : IsLocalization.Away (branchCoord k i) U :=
     away_of_pow (branchCoord k i) (d i + 1) (Nat.succ_pos _)
   convert branch_etale k d hd f hf hk i U using 1
-  exact RingHom.ext fun a => (IsScalarTower.algebraMap_apply B S U (f a)).symm
 
 end
 

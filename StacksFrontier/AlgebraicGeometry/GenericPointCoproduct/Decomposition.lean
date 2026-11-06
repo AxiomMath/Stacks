@@ -85,7 +85,8 @@ theorem nonempty_coproductIso_product_genericPointStalkModule (X : Scheme.{u})
       genericPointStalkModule X η)) := by
     refine AffineBaseChange.isIso_of_isIso_restrict _ (fun V : X.affineOpens ↦ (V : X.Opens))
       (IsOpenCover.mk (iSup_affineOpens_eq_top X)) fun V ↦ ?_
-    have _ := (Scheme.Modules.restrictAdjunction (V : X.Opens).ι).leftAdjoint_preservesColimits
+    have _ : PreservesColimitsOfSize.{u, u} (Scheme.Modules.restrictFunctor (V : X.Opens).ι) :=
+      (Scheme.Modules.restrictAdjunction (V : X.Opens).ι).leftAdjoint_preservesColimits
     have _ := preservesLimit_discrete_restrictFunctor (V : X.Opens)
       (fun η : genericPoints X ↦ genericPointStalkModule X η)
     refine isIso_map_coproductToProduct_of_finite _ _ (Set.Finite.subset

@@ -40,15 +40,15 @@ variable (Λ : Type) [Ring Λ]
 
 /-- **A section of a sheaf of modules vanishing on a covering sieve vanishes.** -/
 theorem etaleModule_section_eq_zero_of_mem {X : Scheme.{u}} (G : EtaleModules.{u, 0} Λ X)
-    {V : X.Etale} (t : G.val.obj (op V)) (S : Sieve V) (hS : S ∈ X.smallEtaleTopology V)
-    (h : ∀ ⦃W : X.Etale⦄ (g : W ⟶ V), S g → (G.val.map g.op).hom t = 0) : t = 0 := by
+    {V : X.Etale} (t : G.obj.obj (op V)) (S : Sieve V) (hS : S ∈ X.smallEtaleTopology V)
+    (h : ∀ ⦃W : X.Etale⦄ (g : W ⟶ V), S g → (G.obj.map g.op).hom t = 0) : t = 0 := by
   have : HasLimitsOfSize.{u + 1, u + 1} (ModuleCat.{u + 1} Λ) :=
     ModuleCat.hasLimitsOfSize.{u + 1, u + 1, u + 1, 0}
   have hG := (CategoryTheory.isSheaf_iff_isSheaf_of_type _ _).1
-    ((CategoryTheory.Presheaf.isSheaf_iff_isSheaf_forget X.smallEtaleTopology G.val
-      (forget (ModuleCat.{u + 1} Λ))).1 G.cond)
+    ((CategoryTheory.Presheaf.isSheaf_iff_isSheaf_forget X.smallEtaleTopology G.obj
+      (forget (ModuleCat.{u + 1} Λ))).1 G.property)
   refine ((hG S hS).isSeparatedFor).ext (t₁ := t) (t₂ := 0) fun W g hg => ?_
-  show (G.val.map g.op).hom t = (G.val.map g.op).hom 0
+  show (G.obj.map g.op).hom t = (G.obj.map g.op).hom 0
   rw [h g hg, map_zero]
 
 /-- Sheafification of module presheaves on the slices of the small étale site, at the module
@@ -69,15 +69,15 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
     {X : Scheme.{u}} (G : EtaleModules.{u, 0} Λ X)
     (hG : Stacks.ConstantSheaf.IsLocallyConstantWith Λ X.smallEtaleTopology Q G)
     {V W : X.Etale} [ConnectedSpace V.left] [Nonempty W.left] (g : W ⟶ V)
-    (t : G.val.obj (op V)) (ht : (G.val.map g.op).hom t = 0) : t = 0 := by
+    (t : G.obj.obj (op V)) (ht : (G.obj.map g.op).hom t = 0) : t = 0 := by
   have hmap : ∀ {A B : X.Etale} (a : A ⟶ B) (b : B ⟶ V),
-      (G.val.map (a ≫ b).op).hom t = (G.val.map a.op).hom ((G.val.map b.op).hom t) := by
+      (G.obj.map (a ≫ b).op).hom t = (G.obj.map a.op).hom ((G.obj.map b.op).hom t) := by
     intro A B a b
     rw [op_comp, Functor.map_comp]
     rfl
   -- the sieve of étale `V`-schemes on which `t` vanishes
   let S : Sieve V :=
-    { arrows := fun _ g' => (G.val.map g'.op).hom t = 0
+    { arrows := fun _ g' => (G.obj.map g'.op).hom t = 0
       downward_closed := fun {_ _} g₁ hg₁ g₂ => by
         rw [hmap, hg₁, map_zero] }
   -- the points of `V` near which `t` vanishes
@@ -113,26 +113,26 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
         show h.left ≫ U₂.hom ≫ (fi i).left = U₁.hom ≫ (fi i).left
         rw [← Category.assoc, MorphismProperty.Over.w h]
     let Θ : ∀ U' : (Vi i).left.Etale,
-        G.val.obj (op (C.obj U')) →ₗ[Λ] LocallyConstant U'.left E :=
+        G.obj.obj (op (C.obj U')) →ₗ[Λ] LocallyConstant U'.left E :=
       fun U' => (eV.hom.hom.app (op U')).hom
     have hΘinj : ∀ U', Function.Injective (Θ U') := fun U' =>
       (ConcreteCategory.bijective_of_isIso (eV.hom.hom.app (op U'))).1
-    have hΘnat : ∀ {U₁ U₂ : (Vi i).left.Etale} (h : U₁ ⟶ U₂) (x : G.val.obj (op (C.obj U₂)))
-        (p : U₁.left), Θ U₁ ((G.val.map (C.map h).op).hom x) p = Θ U₂ x (h.left p) :=
+    have hΘnat : ∀ {U₁ U₂ : (Vi i).left.Etale} (h : U₁ ⟶ U₂) (x : G.obj.obj (op (C.obj U₂)))
+        (p : U₁.left), Θ U₁ ((G.obj.map (C.map h).op).hom x) p = Θ U₂ x (h.left p) :=
       fun {U₁ U₂} h x p => by
         have hn : (eV.hom.hom.app (op U₁)).hom
-            ((((etaleModuleRestriction.{u, 0} Λ (Vi i).hom).obj G).val.map h.op).hom x) =
-            (((smallEtaleLocallyConstantMapsModuleSheaf.{u, 0} Λ (Vi i).left E).val.map
+            ((((etaleModuleRestriction.{u, 0} Λ (Vi i).hom).obj G).obj.map h.op).hom x) =
+            (((smallEtaleLocallyConstantMapsModuleSheaf.{u, 0} Λ (Vi i).left E).obj.map
               h.op).hom ((eV.hom.hom.app (op U₂)).hom x)) :=
           ConcreteCategory.congr_hom (eV.hom.hom.naturality h.op) x
         exact congrArg (fun φ : LocallyConstant U₁.left E => φ p) hn
     let T : (Vi i).left.Etale := Scheme.Etale.mk (𝟙 (Vi i).left)
     have hres : ∀ {U' : (Vi i).left.Etale} (h : U' ⟶ T),
-        (G.val.map (toV U').op).hom t =
-          (G.val.map (C.map h).op).hom ((G.val.map (toV T).op).hom t) := by
+        (G.obj.map (toV U').op).hom t =
+          (G.obj.map (C.map h).op).hom ((G.obj.map (toV T).op).hom t) := by
       intro U' h
       rw [← htoV h, hmap]
-    let f : LocallyConstant (Vi i).left E := Θ T ((G.val.map (toV T).op).hom t)
+    let f : LocallyConstant (Vi i).left E := Θ T ((G.obj.map (toV T).op).hom t)
     let U₀ : (Vi i).left.Opens := ⟨{x | f x = f a}, f.isLocallyConstant.isOpen_fiber _⟩
     let O₀ : (Vi i).left.Etale := Scheme.Etale.mk U₀.ι
     let h₀ : O₀ ⟶ T := MorphismProperty.Over.homMk U₀.ι (Category.comp_id _) trivial
@@ -157,11 +157,11 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
         apply MorphismProperty.Over.Hom.ext
         show (pullback.fst _ _ ≫ U₀.ι) ≫ (fi i).left = pullback.snd _ _ ≫ g'.left
         rw [Category.assoc, pullback.condition]
-      have h0 : (G.val.map (toV P).op).hom t = 0 := by
-        rw [hPV, hmap, show (G.val.map g'.op).hom t = 0 from hg', map_zero]
+      have h0 : (G.obj.map (toV P).op).hom t = 0 := by
+        rw [hPV, hmap, show (G.obj.map g'.op).hom t = 0 from hg', map_zero]
       let hP : P ⟶ T := MorphismProperty.Over.homMk (pullback.fst _ _ ≫ U₀.ι)
         (Category.comp_id _) trivial
-      have h1 := hΘnat hP ((G.val.map (toV T).op).hom t) p
+      have h1 := hΘnat hP ((G.obj.map (toV T).op).hom t) p
       rw [← hres hP, h0, map_zero] at h1
       have h2 : f (U₀.ι ((pullback.fst (U₀.ι ≫ (fi i).left) g'.left) p)) = 0 := h1.symm
       rwa [hp₁] at h2
@@ -170,7 +170,7 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
     refine hΘinj O₀ ?_
     rw [map_zero]
     ext x
-    have hx := hΘnat h₀ ((G.val.map (toV T).op).hom t) x
+    have hx := hΘnat h₀ ((G.obj.map (toV T).op).hom t) x
     rw [← hres h₀] at hx
     exact hx.trans ((x.2 : f x.1 = f a).trans hfa)
   -- `Z` is everything, so `S` covers `V`

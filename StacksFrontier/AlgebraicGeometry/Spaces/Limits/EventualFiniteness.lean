@@ -159,6 +159,23 @@ section Main
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_eventualFiniteness :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasProducts_presheaf_eventualFiniteness :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_eventualFiniteness
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0A0S.** Let `X = lim X_i` be a directed limit of algebraic spaces over an algebraic
 space `Y`, with affine transition morphisms. If `Y` is quasi-compact and quasi-separated, every
 `X_i` is quasi-compact and quasi-separated, the transition morphisms are finite, every
@@ -315,7 +332,7 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
   have hrepInv {j k : Tailᵒᵖ} (g : j ⟶ k) :
       (repETail.app j).inv ≫ yoneda.map (VTail.map g) =
         ETail.map g ≫ (repETail.app k).inv := by
-    apply (cancel_mono (repETail.app k).hom).1
+    apply ((repETail.app k).cancel_iso_hom_right _ _).1
     rw [Category.assoc, hrepNat g, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     exact Iso.inv_hom_id_assoc _ _
   -- Transport the limiting cone to the system of representing objects.

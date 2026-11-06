@@ -459,12 +459,12 @@ variable {A : Type u} [CommRing A] {n : ℕ}
 /-- A polynomial all of whose monomials have exponent at least `M` in `Xₖ` is divisible by
 `Xₖ^M`. -/
 public theorem X_pow_dvd_of_forall_coeff {k : Fin (n + 1)} {M : ℕ}
-    {q : MvPolynomial (Fin (n + 1)) A} (h : ∀ m, coeff m q ≠ 0 → M ≤ m k) :
+    {q : MvPolynomial (Fin (n + 1)) A} (h : ∀ m, q.coeff m ≠ 0 → M ≤ m k) :
     X k ^ M ∣ q := by
   classical
   rw [X_pow_eq_monomial, monomial_one_dvd_iff_modMonomial_eq_zero]
   ext m
-  rw [coeff_zero]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_cases hle : Finsupp.single k M ≤ m
   · exact coeff_modMonomial_of_le _ hle
   · rw [coeff_modMonomial_of_not_le _ hle]
@@ -474,7 +474,7 @@ public theorem X_pow_dvd_of_forall_coeff {k : Fin (n + 1)} {M : ℕ}
 /-- Multiplication by `Xₖ^M` shifts the coefficients by `M` in the `k`-th exponent. -/
 public theorem coeff_single_add_X_pow_mul (k : Fin (n + 1)) (M : ℕ) (m : Fin (n + 1) →₀ ℕ)
     (q : MvPolynomial (Fin (n + 1)) A) :
-    coeff (Finsupp.single k M + m) (X k ^ M * q) = coeff m q := by
+    (X k ^ M * q).coeff (Finsupp.single k M + m) = q.coeff m := by
   rw [X_pow_eq_monomial, coeff_monomial_mul, one_mul]
 
 /-- If `X_l^{M'} q = Xₖ^M q'` for two distinct variables, then `Xₖ^M` divides `q`. -/
@@ -482,7 +482,7 @@ public theorem X_pow_dvd_of_mul_eq {k l : Fin (n + 1)} (hkl : k ≠ l) {M M' : �
     {q q' : MvPolynomial (Fin (n + 1)) A} (h : X l ^ M' * q = X k ^ M * q') : X k ^ M ∣ q := by
   classical
   refine X_pow_dvd_of_forall_coeff fun m hm => ?_
-  have hc := congrArg (coeff (Finsupp.single l M' + m)) h
+  have hc := congrArg (fun r => r.coeff (Finsupp.single l M' + m)) h
   rw [coeff_single_add_X_pow_mul, X_pow_eq_monomial, coeff_monomial_mul'] at hc
   split_ifs at hc with hle
   · have h' := Finsupp.single_le_iff.mp hle
@@ -493,7 +493,7 @@ public theorem X_pow_dvd_of_mul_eq {k l : Fin (n + 1)} (hkl : k ≠ l) {M M' : �
 of the weights of the monomials. -/
 private theorem mem_integerGrading_natCast_iff {c : ℕ} {p : MvPolynomial (Fin (n + 1)) A} :
     p ∈ integerGrading (polyGrading A n) (c : ℤ) ↔
-      ∀ m, coeff m p ≠ 0 → Finsupp.weight (1 : Fin (n + 1) → ℕ) m = c := by
+      ∀ m, p.coeff m ≠ 0 → Finsupp.weight (1 : Fin (n + 1) → ℕ) m = c := by
   rw [integerGrading_natCast, AlgebraicGeometry.ProjectiveSpectrum.Proj.mem_homogeneousSubmodule]
   exact Iff.rfl
 
@@ -501,14 +501,14 @@ private theorem mem_integerGrading_natCast_iff {c : ℕ} {p : MvPolynomial (Fin 
 public theorem weight_eq_of_X_pow_mul_mem {k : Fin (n + 1)} {M : ℕ} {c : ℤ}
     {p : MvPolynomial (Fin (n + 1)) A}
     (hp : X k ^ M * p ∈ integerGrading (polyGrading A n) ((M : ℤ) + c)) {m : Fin (n + 1) →₀ ℕ}
-    (hm : coeff m p ≠ 0) : (Finsupp.weight (1 : Fin (n + 1) → ℕ) m : ℤ) = c := by
+    (hm : p.coeff m ≠ 0) : (Finsupp.weight (1 : Fin (n + 1) → ℕ) m : ℤ) = c := by
   classical
-  have hc0 : coeff (Finsupp.single k M + m) (X k ^ M * p) ≠ 0 := by
+  have hc0 : (X k ^ M * p).coeff (Finsupp.single k M + m) ≠ 0 := by
     rwa [coeff_single_add_X_pow_mul]
   have hnn : 0 ≤ (M : ℤ) + c := by
     by_contra hneg
     rw [integerGrading_neg _ _ (not_le.mp hneg), Submodule.mem_bot] at hp
-    exact hc0 (by rw [hp, coeff_zero])
+    exact hc0 (by rw [hp, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
   rw [show (M : ℤ) + c = (((M : ℤ) + c).toNat : ℕ) by omega, mem_integerGrading_natCast_iff] at hp
   have hw := hp _ hc0
   rw [map_add, Finsupp.weight_single, Pi.one_apply, smul_eq_mul, mul_one] at hw
@@ -546,7 +546,7 @@ public theorem exists_eq_X_pow_mul (c : ℤ) (h : Fin (n + 1) → MvPolynomial (
     rw [hq k, hq 0, ← mul_assoc, ← mul_assoc, mul_comm (X 0 ^ M 0)] at h1
     exact ((isRegular_X_pow (M k)).mul (isRegular_X_pow (M 0))).left h1
   refine ⟨q 0, ?_, fun k => by rw [hq k, hqe k]⟩
-  have hwt : ∀ m, coeff m (q 0) ≠ 0 →
+  have hwt : ∀ m, (q 0).coeff m ≠ 0 →
       (Finsupp.weight (1 : Fin (n + 1) → ℕ) m : ℤ) = c := fun m hm =>
     weight_eq_of_X_pow_mul_mem (k := 0) (by rw [← hq 0]; exact hh 0) hm
   by_cases hp : q 0 = 0
@@ -666,10 +666,10 @@ public theorem bijective_matrixToEnd : Function.Bijective (matrixToEnd A n) := b
     rw [matrixEntryHom, matrixEntryHom, twistMulHom_apply, twistMulHom_apply] at hcomp
     exact congrArg Subtype.val ((h i j).1 hcomp)
   · choose q hq using fun i j : Fin (n + 1) =>
-      (h i j).2 (biproduct.ι (twistFamily A n) j ≫ φ ≫ biproduct.π (twistFamily A n) i)
+      (h i j).2 (biproduct.ι (twistFamily A n) j ≫ φ.asHom ≫ biproduct.π (twistFamily A n) i)
     refine ⟨⟨fun i j => (q i j).1, fun i j =>
       mem_homogeneousPiece_of_mem_integerGrading A n (q i j).2⟩, ?_⟩
-    refine biproduct.hom_ext' _ _ fun j => biproduct.hom_ext _ _ fun i => ?_
+    refine End.ext (biproduct.hom_ext' _ _ fun j => biproduct.hom_ext _ _ fun i => ?_)
     rw [Category.assoc, Category.assoc, components_matrixToEnd, matrixEntryHom,
       twistMulHom_apply]
     exact hq i j
@@ -687,7 +687,7 @@ public def matrixRingEquivEnd : endomorphismMatrices A n ≃+* End (projTwistSum
 `(i, j)` entry. -/
 public theorem components_matrixRingEquivEnd (M : endomorphismMatrices A n)
     (j i : Fin (n + 1)) :
-    biproduct.ι (twistFamily A n) j ≫ matrixRingEquivEnd A n M ≫
+    biproduct.ι (twistFamily A n) j ≫ (matrixRingEquivEnd A n M).asHom ≫
         biproduct.π (twistFamily A n) i = matrixEntryHom A n M i j :=
   components_matrixToEnd A n M j i
 

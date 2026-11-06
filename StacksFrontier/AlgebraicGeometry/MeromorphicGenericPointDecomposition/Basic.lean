@@ -206,7 +206,7 @@ lemma toGenericPointStalkProductPresheaf_comp_π (η : genericPoints X) :
       (Pi.π (fun η : genericPoints X ↦ stalkSpecPushforward X η.1) η).hom =
       (toStalkSpecPushforwardSheaf η).hom :=
     congrArg (fun t : X.totalQuotientSheaf ⟶ stalkSpecPushforward X η.1 ↦ t.hom)
-      (Pi.lift_π (fun η ↦ toStalkSpecPushforwardSheaf η) η)
+      (Pi.lift_comp_π (fun η ↦ toStalkSpecPushforwardSheaf η) η)
   refine (Category.assoc _ _ _).trans ?_
   refine (congrArg (fun t ↦ CategoryTheory.toSheafify (Opens.grothendieckTopology X)
     X.presheaf.totalQuotientPresheaf ≫ t) h1).trans ?_
@@ -298,7 +298,7 @@ private theorem map_π_map_lift_apply {C D : Type*} [Category C] [Category D] {F
     (F : C ⥤ D) {ι : Type*} {Y : ι → C} [HasProduct Y] {Z : C} (f : ∀ i, Z ⟶ Y i) (η : ι)
     (x : ToType (F.obj Z)) :
     F.map (Pi.π Y η) (F.map (Pi.lift f) x) = F.map (f η) x := by
-  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, Pi.lift_π]
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, Pi.lift_comp_π]
 
 /-- The comparison map from meromorphic functions to the product of the generic-point
 contributions, as `𝒪_X`-modules. -/

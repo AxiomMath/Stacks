@@ -130,8 +130,34 @@ theorem isIso_app_single_of_rightAcyclic
       I.IsKInjective ∧ QuasiIso f)
     (X : A) (hX : F.rightAcyclic X) :
     IsIso (α.app ((HomotopyCategory.singleFunctor A 0).obj X)) := by
-  have h₁ : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+  have h₁ : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+    have hfac := F.rightDerivedFunctorPlus.rightDerived_fac_app F.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso A)
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)
+    have hdesc := (F.rightDerivedFunctorPlus.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).1 inferInstance
+    have h₂ : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+    rw [← hfac] at h₂
+    exact IsIso.of_isIso_comp_right (g := F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X))
+      (f := (F.rightDerivedFunctorPlus.rightDerivedDesc F.rightDerivedFunctorPlusUnith
+        (HomotopyCategory.Plus.quasiIso A)
+        ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+        ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).app
+        (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj X)))
   exact isIso_of_comp_eq
     (@Functor.map_isIso _ _ _ _ _ _ DerivedCategory.Plus.ι _ h₁)
     ((boundedDerivedIso F RF α hres).app

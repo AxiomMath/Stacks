@@ -223,12 +223,6 @@ private lemma depth_localized_adicCompletion
     let : Small.{u} M := Module.Finite.small A M
     let M₀ := Shrink.{u} M
     let eM : M₀ ≃ₗ[A] M := Shrink.linearEquiv A M
-    let : Module A (AdicCompletion I M₀) :=
-      Module.compHom (AdicCompletion I M₀) (algebraMap A B)
-    let : IsScalarTower A B (AdicCompletion I M₀) := ⟨by
-      intro a b x
-      show ((algebraMap A B a) * b) • x = (algebraMap A B a) • (b • x)
-      exact mul_smul (algebraMap A B a) b x⟩
     have hsmall : IsBaseChange B (AdicCompletion.of I M₀) :=
       IsBaseChange.of_equiv (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀)
         (by intro x

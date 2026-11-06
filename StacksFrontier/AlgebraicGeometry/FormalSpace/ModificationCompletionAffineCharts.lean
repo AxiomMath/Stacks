@@ -52,6 +52,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_modificationCompletionAffineCharts :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_modificationCompletionAffineCharts
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Isomorphisms over the open complement are stable under base change.** If `f : X' ⟶ X`
 restricts to an isomorphism over the open complement of `T`, then its base change along
 `q : G ⟶ X` restricts to an isomorphism over the open complement of the inverse image of `T`. -/
@@ -121,7 +132,7 @@ theorem completionMap_pullback_snd_comp_eq {X' X W G : (BigFppfOver B S hS)ᵒ�
       ((completionSubfunctorMap B S hS (pullback.fst f q) _ _ ha).app Zo y) =
       (completionMap B S hS q T).app Zo
         ((completionMap B S hS (pullback.snd f q) (pointsMap B S hS G q ⁻¹' T)).app Zo y) :=
-    Subtype.ext <| ULift.ext _ _ <|
+    Subtype.ext <| ULift.ext <|
       congrFun (congrArg (fun α => α.app Zo) (pullback.condition (f := f) (g := q))) y.1.down
   show ŵ.app Zo ((completionMap B S hS q T).app Zo
     ((completionMap B S hS (pullback.snd f q) (pointsMap B S hS G q ⁻¹' T)).app Zo y)) = _

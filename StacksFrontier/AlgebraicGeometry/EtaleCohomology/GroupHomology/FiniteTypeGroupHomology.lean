@@ -87,7 +87,7 @@ theorem exists_openNormalSubgroup_smul_eq_finiteType
     ∃ U : OpenNormalSubgroup G, ∀ g ∈ U, ∀ x : N.obj.obj.obj.V, g • x = x := by
   obtain ⟨H, hn, ho, hH⟩ := exists_isOpen_normal_subgroup_ρ_eq_one_finiteType Λ G N
   refine ⟨⟨⟨H, ho⟩, hn⟩, fun g hg x => ?_⟩
-  show (N.obj.obj.obj.ρ g).hom x = x
+  show (N.obj.obj.obj.ρ g).asHom.hom x = x
   rw [hH g hg]
   rfl
 

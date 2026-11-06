@@ -363,7 +363,7 @@ theorem commShift₂_comm_of_lifting₂ (m n : M) :
               ((evaluation D₂ E).obj (L₂.obj X₂))) (shiftFunctor E m) ≫
           Functor.whiskerLeft (G'.flip.obj (L₂.obj X₂)) (shiftFunctorComm E m n).inv ≫
             Functor.whiskerLeft
-              (G'.flip.obj (L₂.obj X₂) ⋙ shiftFunctor E m ⋙ shiftFunctor E n) (h.ε m n).val)
+              (G'.flip.obj (L₂.obj X₂) ⋙ shiftFunctor E m ⋙ shiftFunctor E n) (h.ε m n).val.asHom)
       (fun X₁ => himage X₁ X₂)) Y₁
   intro Y₁ Y₂
   exact congr_app (natTrans_ext L₂ W₂
@@ -376,7 +376,7 @@ theorem commShift₂_comm_of_lifting₂ (m n : M) :
           ((evaluation D₁ E).obj Y₁)) ≫
       Functor.whiskerRight ((G'.obj Y₁).commShiftIso n).hom (shiftFunctor E m) ≫
         Functor.whiskerLeft (G'.obj Y₁) (shiftFunctorComm E m n).inv ≫
-          Functor.whiskerLeft (G'.obj Y₁ ⋙ shiftFunctor E m ⋙ shiftFunctor E n) (h.ε m n).val)
+          Functor.whiskerLeft (G'.obj Y₁ ⋙ shiftFunctor E m ⋙ shiftFunctor E n) (h.ε m n).val.asHom)
     (fun X₂ => hsnd Y₁ X₂)) Y₂
 
 end TwoVariable

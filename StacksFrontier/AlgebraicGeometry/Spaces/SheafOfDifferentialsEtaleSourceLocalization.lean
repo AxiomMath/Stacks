@@ -167,7 +167,7 @@ universe t₀ w₀ v₀ u₀ u
 
 /-! ### Calculations with derivations -/
 
-namespace PresheafOfModules.Derivation'
+namespace PresheafOfModulesOfCommRing.Derivation'
 
 variable {E : Type u₀} [Category.{v₀} E] {S₁ R : Eᵒᵖ ⥤ CommRingCat.{w₀}}
   {M N L : PresheafOfModules.{t₀} (R ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀})}
@@ -175,19 +175,19 @@ variable {E : Type u₀} [Category.{v₀} E] {S₁ R : Eᵒᵖ ⥤ CommRingCat.{
 
 /-- Postcomposition of a relative derivation by a composite is the composite of the
 postcompositions. -/
-lemma postcomp_comp (D : M.Derivation' a₁) (α : M ⟶ N) (β : N ⟶ L) :
+lemma postcomp_comp (D : PresheafOfModulesOfCommRing.Derivation' M a₁) (α : M ⟶ N) (β : N ⟶ L) :
     D.postcomp (α ≫ β) = (D.postcomp α).postcomp β := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext Z z
   rfl
 
 /-- Postcomposition of a relative derivation by the identity returns it. -/
-lemma postcomp_id (D : M.Derivation' a₁) : D.postcomp (𝟙 M) = D := by
-  apply PresheafOfModules.Derivation.ext
+lemma postcomp_id (D : PresheafOfModulesOfCommRing.Derivation' M a₁) : D.postcomp (𝟙 M) = D := by
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext Z z
   rfl
 
-end PresheafOfModules.Derivation'
+end PresheafOfModulesOfCommRing.Derivation'
 
 namespace AlgebraicGeometry.Space
 
@@ -198,13 +198,13 @@ lemma derivationEquivOfRingDataIso_postcomp {E : Type u₀} [Category.{v₀} E]
     {g : A ⟶ P} {g' : A' ⟶ P'} (hg : g ≫ β.hom = α.hom ≫ g')
     {M N : SheafOfModules.{w₀} ((Stacks.SheafOfModules.Tensor.ringSheaf.{u₀, v₀, w₀} (J := J)) P')}
     (k : M ⟶ N)
-    (D : ((SheafOfModules.restrictScalars
-      ((Stacks.forgetCommRingSheaf.{v₀, u₀, w₀} J).map β.hom)).obj M).val.Derivation' g.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+      ((Stacks.forgetCommRingSheaf.{v₀, u₀, w₀} J).map β.hom)).obj M).val g.hom) :
     derivationEquivOfRingDataIso α β hg N
         (D.postcomp ((SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v₀, u₀, w₀} J).map β.hom)).map k).val) =
       (derivationEquivOfRingDataIso α β hg M D).postcomp k.val := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext Z z
   rfl
 
@@ -218,7 +218,7 @@ lemma differentialsHomEquiv_comp (p : X ⟶ Y) {F G : Modules.{u, u} B S hS X.1 
     (k : sheafOfDifferentials B S hS p ⟶ F) (g : F ⟶ G) :
     differentialsHomEquiv B S hS p G (k ≫ g) =
       (differentialsHomEquiv B S hS p F k).postcomp g.val :=
-  PresheafOfModules.Derivation'.postcomp_comp (universalDerivation B S hS p) k.val g.val
+  PresheafOfModulesOfCommRing.Derivation'.postcomp_comp (universalDerivation B S hS p) k.val g.val
 
 /-! ### The ring data of the comparison -/
 
@@ -297,7 +297,7 @@ abbrev etaleSourceTransposeEquiv (a : U ⟶ X) (f : X ⟶ Y)
 /-- The third bijection is natural in the coefficient module. -/
 lemma etaleSourceTransposeEquiv_postcomp (a : U ⟶ X) (f : X ⟶ Y)
     {C C' : Modules.{u, u} B S hS U.1 U.2} (g : C ⟶ C')
-    (D : ((etaleSourcePushforward B S hS a).obj C).val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' ((etaleSourcePushforward B S hS a).obj C).val
       (structureSharpInverseImage B S hS f).hom) :
     etaleSourceTransposeEquiv B S hS a f C'
         (D.postcomp ((etaleSourcePushforward B S hS a).map g).val) =
@@ -322,7 +322,7 @@ stated together because the type of a derivation over the transported ring data,
 the third bijection lands, is not expressible without naming the transport. -/
 lemma etaleSourceRingDataEquiv_postcomp (a : U ⟶ X) (ha : IsEtale B S hS a.hom) (f : X ⟶ Y)
     {C C' : Modules.{u, u} B S hS U.1 U.2} (g : C ⟶ C')
-    (D : ((etaleSourcePushforward B S hS a).obj C).val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' ((etaleSourcePushforward B S hS a).obj C).val
       (structureSharpInverseImage B S hS f).hom) :
     etaleSourceRingDataEquiv B S hS a ha f C'
         (etaleSourceTransposeEquiv B S hS a f C'
@@ -347,7 +347,8 @@ modules), and the transport of derivations along the ring data of
 def derivationEtalePullbackEquiv (a : U ⟶ X) (ha : IsEtale B S hS a.hom) (f : X ⟶ Y)
     (C : Modules.{u, u} B S hS U.1 U.2) :
     ((modulePullback B S hS a).obj (sheafOfDifferentials B S hS f) ⟶ C) ≃
-      C.val.Derivation' (structureSharpInverseImage B S hS (a ≫ f)).hom :=
+      PresheafOfModulesOfCommRing.Derivation' C.val
+        (structureSharpInverseImage B S hS (a ≫ f)).hom :=
   (etaleSourceAdjEquiv B S hS a f C).trans
     ((differentialsHomEquiv B S hS f ((etaleSourcePushforward B S hS a).obj C)).trans
       ((etaleSourceTransposeEquiv B S hS a f C).trans
@@ -388,7 +389,7 @@ theorem derivationEtalePullbackEquiv_comp (a : U ⟶ X) (ha : IsEtale B S hS a.h
   refine Eq.trans (etaleSourceRingDataEquiv_postcomp B S hS a ha f g
     (differentialsHomEquiv B S hS f ((etaleSourcePushforward B S hS a).obj C)
       (etaleSourceAdjEquiv B S hS a f C k))) ?_
-  exact congrArg (fun z ↦ PresheafOfModules.Derivation.postcomp z g.val)
+  exact congrArg (fun z ↦ PresheafOfModulesOfCommRing.Derivation.postcomp z g.val)
     (derivationEtalePullbackEquiv_apply B S hS a ha f C k).symm
 
 /-! ### Stacks 04CU, the étale-source localization -/
@@ -473,7 +474,7 @@ def sheafOfDifferentialsEtaleSourceLocalizationIso (a : U ⟶ X) (ha : IsEtale B
     rw [differentialsHomEquiv_comp, differentialsHomEquiv_etaleSourceLocalizationInv,
       ← derivationEtalePullbackEquiv_comp, Category.id_comp,
       derivationEtalePullbackEquiv_etaleSourceLocalizationHom]
-    exact (PresheafOfModules.Derivation'.postcomp_id
+    exact (PresheafOfModulesOfCommRing.Derivation'.postcomp_id
       (universalDerivation B S hS (a ≫ f))).symm
 
 /-- **Stacks 04CU, the étale-source localization on local sections.**  Reading the forward map of
@@ -489,7 +490,7 @@ theorem universalDerivation_etaleSourceLocalizationHom (a : U ⟶ X) (ha : IsEta
     (derivationEtalePullbackEquiv B S hS a ha f (sheafOfDifferentials B S hS (a ≫ f))
         (sheafOfDifferentialsEtaleSourceLocalizationIso B S hS a ha f).hom).d x =
       (universalDerivation B S hS (a ≫ f)).d x :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (derivationEtalePullbackEquiv_etaleSourceLocalizationHom B S hS a ha f) x
 
 end AlgebraicGeometry.Space

@@ -115,7 +115,7 @@ theorem relToArr_arrPt {C : SmallAlg (ringOf B S hS T') B.cutoff} (h : pairAlg P
   show morToArr a ι h.hom.hom ((pairIsom a ι).map (pairOverTo h rfl).op s).1 = _
   rw [e, op_id]
   exact congrArg (fun t => morToArr a ι h.hom.hom (Subtype.val t))
-    (FunctorToTypes.map_id_apply (pairIsom a ι) s)
+    ((pairIsom a ι).map_id_apply _ s)
 
 /-- Every point of the space of arrows over `T'` is of the form `arrPt h s`. -/
 theorem exists_arrPt {C : SmallAlg (ringOf B S hS T') B.cutoff}

@@ -303,6 +303,7 @@ instance smallEtalePostcomp_isContinuous (hX : IsFormalAlgebraicSpace B S hS X)
   Space.smallEtalePostcomp_isContinuous B S hS (RX.map RY f)
     (isEtale_map hX hY RX RY f hrep het)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 0DED.** The morphism of topoi `f_small` of Stacks 0DEC, part (3), is the morphism
 of topoi that Sites 00XO attaches to the cocontinuous functor `j`: its direct image is the
 direct image of `j`. -/

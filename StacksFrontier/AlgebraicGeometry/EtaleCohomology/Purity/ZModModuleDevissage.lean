@@ -98,7 +98,7 @@ theorem isIso_app_piFin_zmodModule
           (∀ j : Fin 0, (zmodCyclicModule.{w} N (hq j) : Type w)) :=
         { toFun := fun _ => 0
           invFun := fun _ => 0
-          left_inv := fun a => ULift.ext _ _ (Subsingleton.elim (α := ZMod 1) _ _)
+          left_inv := fun a => ULift.ext (Subsingleton.elim (α := ZMod 1) _ _)
           right_inv := fun b => funext fun j => Fin.elim0 j
           map_add' := fun _ _ => (add_zero _).symm }
       exact (zmodLinearEquivOfAddEquiv N e0).toModuleIso

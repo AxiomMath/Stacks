@@ -224,7 +224,7 @@ private theorem smooth_genericFibre_of_isPullback_quotient_span_X_pow {Y Z : Sch
   refine smooth_genericFibre_of_pow_mem_fittingIdeal k g 1 (m + 1) (by omega)
     hCM hequi hdim hQ fun U => ?_
   convert hQfit U using 1
-  case e'_4 => norm_num
+  simp only [← map_pow]
   rw [Nat.add_sub_cancel, hQ.w, Scheme.Hom.comp_appLE]
   have hnat := congrArg (fun φ => φ.hom (PowerSeries.X ^ m))
     (Scheme.ΓSpecIso_inv_naturality

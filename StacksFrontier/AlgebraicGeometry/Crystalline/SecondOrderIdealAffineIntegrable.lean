@@ -451,7 +451,8 @@ theorem splitTensorInv_tmul (t : crysSheafRing S (secondOrderThickeningObject S 
 private theorem tensor_addHom_apply_eq {R P Q N : Type*} [CommSemiring R] [AddCommMonoid P]
     [Module R P] [AddCommMonoid Q] [Module R Q] [AddCommMonoid N] {f g : P ⊗[R] Q →+ N}
     (h : ∀ p q, f (p ⊗ₜ[R] q) = g (p ⊗ₜ[R] q)) (z : P ⊗[R] Q) : f z = g z :=
-  z.induction_on (by rw [map_zero, map_zero]) h fun _ _ hx hy ↦ by rw [map_add, map_add, hx, hy]
+  z.induction_on (motive := fun z ↦ f z = g z) (by rw [map_zero, map_zero]) h
+    fun _ _ hx hy ↦ by rw [map_add, map_add, hx, hy]
 
 /-- The inverse of the splitting undoes the first middle summand. -/
 theorem splitTensorInv_leftTensorMap

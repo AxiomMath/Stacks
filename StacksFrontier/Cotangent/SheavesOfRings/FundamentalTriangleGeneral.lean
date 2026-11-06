@@ -196,7 +196,7 @@ lemma changeOfBaseTerm_prodSndTerm (n : SimplexCategoryᵒᵖ) :
   refine ((cotangentSimplicialModule.{u, v, w} J (g ≫ prodGraph J h)).derivationEquiv n
     ((prodRestrictSnd J B D).obj
       ((cotangentSimplicialModule.{u, v, w} J h).object.obj n))).injective
-    (PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_))
+    (PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_))
   have hl := squareCotangentTermMap_comp_d
     (sq₁ := towerFunctorialitySquare.{u, v, w} J g (prodGraph J h))
     (sq₂ := resolutionSquareMap.{u, v, w} J (𝟙 B) (prodSndHom J B D) (prodGraph_square_top J h))
@@ -385,7 +385,7 @@ lemma squareCotangentTermMap_prodGraph_prodSndTerm (n : SimplexCategoryᵒᵖ) :
         (prodGraphRestrictIso J h).hom.app _ =
       squareCotangentTermMap (towerBaseChangeSquare.{u, v, w} J g h) n := by
   refine squareCotangentTermMap_unique _ n _ fun U x => ?_
-  have hn := PresheafOfModules.Derivation.congr_d (X := U)
+  have hn := PresheafOfModulesOfCommRing.Derivation.congr_d (X := U)
     ((cotangentSimplicialModule.{u, v, w} J g).naturality n
       (squareCotangentTermMap (towerBaseChangeSquare.{u, v, w} J g (prodGraph J h)) n ≫
         (squareRestrict.{u, v, w} J (prodGraph J h)).map

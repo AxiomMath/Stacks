@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Sheafification
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 public import Mathlib.CategoryTheory.Sites.ConstantSheaf
 public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.ConstantBaseRing
 import StacksCore.Tactic.EgaSgaAttribute

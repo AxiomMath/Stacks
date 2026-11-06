@@ -95,8 +95,8 @@ theorem natTrans_ext_of_essImage (hG : ∀ {U : C}, G.obj (op U) → j.essImage 
   obtain ⟨B, ⟨e⟩⟩ := hG t
   show α.app (op U) t = β.app (op U) t
   have ht : G.map e.inv.op (G.map e.hom.op t) = t := by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, e.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply]
+    rw [← Functor.map_comp_apply, ← op_comp, e.inv_hom_id, op_id,
+      Functor.map_id_apply]
   have h1 := NatTrans.naturality_apply α e.inv.op (G.map e.hom.op t)
   have h2 := NatTrans.naturality_apply β e.inv.op (G.map e.hom.op t)
   rw [ht] at h1 h2
@@ -126,9 +126,9 @@ private theorem transport_naturality (γ : j.op ⋙ G ⟶ j.op ⋙ G') {U V : C�
   have hnat := NatTrans.naturality_apply γ k.op (G.map e.hom.op t)
   simp only [Functor.comp_map, Functor.op_map, Quiver.Hom.unop_op] at hnat
   have hsrc : G.map (j.map k).op (G.map e.hom.op t) = G.map e'.hom.op (G.map f t) := by
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, hsrcMor]
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, hsrcMor]
   rw [hsrc] at hnat
-  rw [hnat, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+  rw [hnat, ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
     htgtMor]
 
 variable [j.Full] [j.Faithful]
@@ -237,7 +237,7 @@ noncomputable def extend (H : Dᵒᵖ ⥤ Type w) : Cᵒᵖ ⥤ Type w where
     · refine heq_of_eq ?_
       change H.map (srcHom hsupp (f ≫ g) s).op x =
         H.map (srcHom hsupp g (F.map f s)).op (H.map (srcHom hsupp f s).op x)
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, srcHom_comp]
+      rw [← Functor.map_comp_apply, ← op_comp, srcHom_comp]
 
 /-- The sections of `extend F j hsupp H` over `U`. -/
 theorem extend_obj (H : Dᵒᵖ ⥤ Type w) (U : Cᵒᵖ) :

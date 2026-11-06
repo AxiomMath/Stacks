@@ -44,6 +44,23 @@ attribute [local instance] AlgebraicGeometry.preservesPullbacks_bigFppfOverToSch
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (P : MorphismProperty Scheme.{u})
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_etaleChartCriteria :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_etaleChartCriteria
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_etaleChartCriteria (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The chart condition of Stacks 03MJ transports along an isomorphism of arrows: if `P` holds
 on every étale chart of `f` and `g` becomes `f` after the isomorphisms `eX` of the sources and
 `eY` of the targets, then `P` holds on every étale chart of `g`. -/
@@ -187,6 +204,7 @@ private theorem exists_surjectiveEtaleChart_of_affine_baseChange
   exact (P.arrow_mk_iso_iff (Arrow.isoMk (hMapped.isoIsPullback _ _ hStd)
     (Iso.refl ((T.obj Zi))) heStd)).mp hPrZ
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Eight étale-chart criteria for a property with no cancellation.** Let `P` be a property
 of morphisms of schemes which is étale local on the source and target, stable under base
 change and Zariski local at the target. Then, for a morphism `f` of algebraic spaces over `S`,

@@ -58,13 +58,13 @@ variable [LocallySmall.{w} C]
 resulting functor to the category of elements of `Φ.fiber`. -/
 def overElements : (Φ.over x).fiber.Elements ⥤ Φ.fiber.Elements where
   obj u := Φ.fiber.elementsMk u.1.left u.2.val
-  map f := CategoryOfElements.homMk _ _ f.1.left (congrArg Subtype.val f.2)
+  map f := Functor.Elements.homMk f.hom.left (congrArg Subtype.val f.map_val)
 
 /-- `overElements` is compatible with the projections to `C`: it covers the forgetful functor
 `Over X ⥤ C`. -/
 lemma overElements_comp_π :
-    overElements Φ x ⋙ CategoryOfElements.π Φ.fiber =
-      CategoryOfElements.π (Φ.over x).fiber ⋙ Over.forget X :=
+    overElements Φ x ⋙ Functor.Elements.π Φ.fiber =
+      Functor.Elements.π (Φ.over x).fiber ⋙ Over.forget X :=
   rfl
 
 /-- `overElements Φ x` is an initial functor, so a colimit over the elements of `Φ.fiber`
@@ -75,18 +75,18 @@ functor of the over category of `x` in the cofiltered category `Φ.fiber.Element
 instance : (overElements Φ x).Initial :=
   Functor.initial_of_exists_of_isCofiltered _
     (fun d => by
-      refine ⟨⟨Over.mk (IsCofiltered.minToLeft (Φ.fiber.elementsMk X x) d).1,
+      refine ⟨Functor.elementsMk _ (Over.mk (IsCofiltered.minToLeft (Φ.fiber.elementsMk X x) d).hom)
         ⟨_, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).2
-          (IsCofiltered.minToLeft (Φ.fiber.elementsMk X x) d).2⟩⟩, ⟨?_⟩⟩
+          (IsCofiltered.minToLeft (Φ.fiber.elementsMk X x) d).map_val⟩, ⟨?_⟩⟩
       exact IsCofiltered.minToRight (Φ.fiber.elementsMk X x) d)
     (fun {_} {c} s s' =>
-      ⟨⟨Over.mk ((IsCofiltered.eqHom s s').1 ≫ c.1.hom),
+      ⟨Functor.elementsMk _ (Over.mk ((IsCofiltered.eqHom s s').hom ≫ c.obj.hom))
         ⟨_, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).2
           (map_comp_apply_eq Φ x
-            ((FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).1 c.2.property) _
-            (IsCofiltered.eqHom s s').2)⟩⟩,
-        CategoryOfElements.homMk _ _ (Over.homMk (IsCofiltered.eqHom s s').1)
-          (Subtype.ext (IsCofiltered.eqHom s s').2),
+            ((FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).1 c.val.property) _
+            (IsCofiltered.eqHom s s').map_val)⟩,
+        Functor.Elements.homMk (Over.homMk (IsCofiltered.eqHom s s').hom)
+          (Subtype.ext (IsCofiltered.eqHom s s').map_val),
         IsCofiltered.eq_condition s s'⟩)
 
 variable (A : Type u') [Category.{v'} A] [HasColimitsOfSize.{w, w} A]
@@ -96,7 +96,7 @@ at `q = Φ.over x` gives back its fibre at `Φ`. -/
 noncomputable def presheafFiberOverIso :
     (Functor.whiskeringLeft _ _ A).obj (Over.forget X).op ⋙ (Φ.over x).presheafFiber ≅
       Φ.presheafFiber :=
-  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (CategoryOfElements.π Φ.fiber).op)
+  Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ A).obj (Functor.Elements.π Φ.fiber).op)
     (Functor.Final.colimIso (overElements Φ x).op)
 
 /-- **Stacks 04H2.** The point `q = Φ.over x` of the localized site `C/U` lies above the point

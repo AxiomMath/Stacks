@@ -1,5 +1,7 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.FunctorToTypes
+public import Mathlib.CategoryTheory.Limits.Indization.FilteredColimits
 public import StacksFrontier.AlgebraicGeometry.Crystalline.AffineSite.ProObject.FiniteLevel
 
 /-!

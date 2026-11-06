@@ -89,8 +89,8 @@ def formalCoproductMap (Φ : C ⥤ D) :
 def rightOpIso {E E' : Cᵒᵖ ⥤ D} (e : E ≅ E') : E.rightOp ≅ E'.rightOp where
   hom := e.inv.rightOp
   inv := e.hom.rightOp
-  hom_inv_id := by ext n; exact congrArg Quiver.Hom.op (e.hom_inv_id_app (op n))
-  inv_hom_id := by ext n; exact congrArg Quiver.Hom.op (e.inv_hom_id_app (op n))
+  hom_inv_id := by ext n; exact e.hom_inv_id_app (op n)
+  inv_hom_id := by ext n; exact e.inv_hom_id_app (op n)
 
 variable {A : Type u''} [Category.{v''} A]
 
@@ -125,8 +125,8 @@ theorem piComparison_naturality {α β : Type} (Φ : C ⥤ D) (V : β → C) (g 
     piComparison Φ V ≫ Pi.lift (fun a ↦ Pi.π (fun b ↦ Φ.obj (V b)) (g a)) =
       Φ.map (Pi.lift (fun a ↦ Pi.π V (g a))) ≫ piComparison Φ (fun a ↦ V (g a)) := by
   refine Pi.hom_ext _ _ (fun a ↦ ?_)
-  rw [Category.assoc, Pi.lift_π, piComparison_comp_π, Category.assoc, piComparison_comp_π,
-    ← Φ.map_comp, Pi.lift_π]
+  rw [Category.assoc, Pi.lift_comp_π, piComparison_comp_π, Category.assoc, piComparison_comp_π,
+    ← Φ.map_comp, Pi.lift_comp_π]
 
 variable [HasFiniteProducts C] [HasFiniteProducts D] (Φ : C ⥤ D) [PreservesFiniteProducts Φ]
   (Z : FormalCoproduct.{w} C)

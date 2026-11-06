@@ -217,6 +217,17 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {Bas : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS Bas)
   (U₀ : ClosedSubspaces C S hS G.objects.1)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_SectionsInfinitesimal :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SectionsInfinitesimal
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The unit of the restricted groupoid -/
 
 /-- A morphism which is a section of the source evaluates to a point with the same source. -/

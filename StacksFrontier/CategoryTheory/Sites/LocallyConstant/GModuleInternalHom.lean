@@ -40,28 +40,28 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The stabilizers of a discrete `G`-module are open.** -/
 theorem isOpen_setOf_rho_apply_eq (M : ContinuousGAddCommGrp.{u, w} G) (x : M.obj.obj.V) :
-    IsOpen {g : G | (M.obj.obj.ρ g).hom x = x} := by
+    IsOpen {g : G | (M.obj.obj.ρ g).asHom.hom x = x} := by
   have hc := (Action.isContinuous_def M.obj.obj).mp M.obj.property
   have : DiscreteTopology ((forget₂ AddCommGrpCat TopCat).obj M.obj.obj.V) := ⟨rfl⟩
-  have h : Continuous fun g : G ↦ (forget₂ AddCommGrpCat TopCat).map (M.obj.obj.ρ g) x :=
+  have h : Continuous fun g : G ↦ (forget₂ AddCommGrpCat TopCat).map (M.obj.obj.ρ g).asHom x :=
     hc.comp (Continuous.prodMk continuous_id continuous_const)
   exact h.isOpen_preimage {x} (isOpen_discrete _)
 
 /-- `g⁻¹` undoes the action of `g` on a discrete `G`-module. -/
 lemma rho_inv_apply_rho_apply (M : ContinuousGAddCommGrp.{u, w} G) (g : G) (m : M.obj.obj.V) :
-    (M.obj.obj.ρ g⁻¹).hom ((M.obj.obj.ρ g).hom m) = m := by
-  change (M.obj.obj.ρ g ≫ M.obj.obj.ρ g⁻¹).hom m = m
-  rw [← End.mul_def, ← map_mul, inv_mul_cancel, map_one]
+    (M.obj.obj.ρ g⁻¹).asHom.hom ((M.obj.obj.ρ g).asHom.hom m) = m := by
+  change ((M.obj.obj.ρ g).asHom ≫ (M.obj.obj.ρ g⁻¹).asHom).hom m = m
+  rw [← End.mul_asHom, ← map_mul, inv_mul_cancel, map_one]
   rfl
 
 /-- `g` undoes the action of `g⁻¹` on a discrete `G`-module. -/
 lemma rho_apply_rho_inv_apply (M : ContinuousGAddCommGrp.{u, w} G) (g : G) (m : M.obj.obj.V) :
-    (M.obj.obj.ρ g).hom ((M.obj.obj.ρ g⁻¹).hom m) = m := by
+    (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ g⁻¹).asHom.hom m) = m := by
   simpa using rho_inv_apply_rho_apply M g⁻¹ m
 
 /-- The identity element of `G` acts trivially on a discrete `G`-module. -/
 private lemma rho_one_apply (M : ContinuousGAddCommGrp.{u, w} G) (m : M.obj.obj.V) :
-    (M.obj.obj.ρ 1).hom m = m := by
+    (M.obj.obj.ρ 1).asHom.hom m = m := by
   rw [map_one]
   rfl
 
@@ -69,39 +69,41 @@ variable (M N : ContinuousGAddCommGrp.{u, w} G)
 
 /-- Conjugation by `g` on `Hom_ℤ(M, N)`: `φ ↦ g ∘ φ ∘ g⁻¹`. -/
 def homConj (g : G) : (M.obj.obj.V →+ N.obj.obj.V) →+ (M.obj.obj.V →+ N.obj.obj.V) where
-  toFun φ := (N.obj.obj.ρ g).hom.comp (φ.comp (M.obj.obj.ρ g⁻¹).hom)
+  toFun φ := (N.obj.obj.ρ g).asHom.hom.comp (φ.comp (M.obj.obj.ρ g⁻¹).asHom.hom)
   map_zero' := by ext; simp
   map_add' φ ψ := by ext; simp
 
 /-- The value of `homConj M N g φ` at `m` is `g · φ(g⁻¹ · m)`. -/
 lemma homConj_apply (g : G) (φ : M.obj.obj.V →+ N.obj.obj.V) (m : M.obj.obj.V) :
-    homConj M N g φ m = (N.obj.obj.ρ g).hom (φ ((M.obj.obj.ρ g⁻¹).hom m)) :=
+    homConj M N g φ m = (N.obj.obj.ρ g).asHom.hom (φ ((M.obj.obj.ρ g⁻¹).asHom.hom m)) :=
   rfl
 
 /-- `Hom_ℤ(M, N)` with the conjugation action, as an action on an abelian group. -/
 def homAction : Action AddCommGrpCat.{w} G where
   V := AddCommGrpCat.of (M.obj.obj.V →+ N.obj.obj.V)
   ρ :=
-    { toFun g := AddCommGrpCat.ofHom (homConj M N g)
+    { toFun g := End.of (AddCommGrpCat.ofHom (homConj M N g))
       map_one' := by
+        apply End.ext
         apply AddCommGrpCat.hom_ext
         ext φ m
-        change (N.obj.obj.ρ 1).hom (φ ((M.obj.obj.ρ 1⁻¹).hom m)) = φ m
+        change (N.obj.obj.ρ 1).asHom.hom (φ ((M.obj.obj.ρ 1⁻¹).asHom.hom m)) = φ m
         rw [inv_one, map_one, map_one]
         rfl
       map_mul' g h := by
+        apply End.ext
         apply AddCommGrpCat.hom_ext
         ext φ m
-        change (N.obj.obj.ρ (g * h)).hom (φ ((M.obj.obj.ρ (g * h)⁻¹).hom m)) =
-          (N.obj.obj.ρ g).hom ((N.obj.obj.ρ h).hom
-            (φ ((M.obj.obj.ρ h⁻¹).hom ((M.obj.obj.ρ g⁻¹).hom m))))
-        rw [mul_inv_rev, map_mul, map_mul, End.mul_def, End.mul_def]
+        change (N.obj.obj.ρ (g * h)).asHom.hom (φ ((M.obj.obj.ρ (g * h)⁻¹).asHom.hom m)) =
+          (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ h).asHom.hom
+            (φ ((M.obj.obj.ρ h⁻¹).asHom.hom ((M.obj.obj.ρ g⁻¹).asHom.hom m))))
+        rw [mul_inv_rev, map_mul, map_mul, End.mul_asHom, End.mul_asHom]
         rfl }
 
 /-- The action of `g` on `φ` in `homAction M N` sends `m` to `g · φ(g⁻¹ · m)`. -/
 lemma homAction_ρ_apply (g : G) (φ : M.obj.obj.V →+ N.obj.obj.V) (m : M.obj.obj.V) :
-    (show M.obj.obj.V →+ N.obj.obj.V from ((homAction M N).ρ g).hom φ) m =
-      (N.obj.obj.ρ g).hom (φ ((M.obj.obj.ρ g⁻¹).hom m)) :=
+    (show M.obj.obj.V →+ N.obj.obj.V from ((homAction M N).ρ g).asHom.hom φ) m =
+      (N.obj.obj.ρ g).asHom.hom (φ ((M.obj.obj.ρ g⁻¹).asHom.hom m)) :=
   rfl
 
 /-- **The conjugation action on `Hom_ℤ(M, N)` is continuous for `M` finite.** The set of `g` with
@@ -118,7 +120,7 @@ theorem isContinuous_homAction [IsTopologicalGroup G] [Finite M.obj.obj.V] :
   rw [isOpen_iff_forall_mem_open]
   intro g₀ hg₀
   let O : Set G := ⋂ m : M.obj.obj.V,
-    ({g | (M.obj.obj.ρ g).hom m = m} ∩ {g | (N.obj.obj.ρ g).hom (φ m) = φ m})
+    ({g | (M.obj.obj.ρ g).asHom.hom m = m} ∩ {g | (N.obj.obj.ρ g).asHom.hom (φ m) = φ m})
   have hO : IsOpen O := isOpen_iInter_of_finite fun m ↦
     (isOpen_setOf_rho_apply_eq M m).inter (isOpen_setOf_rho_apply_eq N (φ m))
   have h1 : (1 : G) ∈ O := Set.mem_iInter.mpr fun m ↦
@@ -130,13 +132,13 @@ theorem isContinuous_homAction [IsTopologicalGroup G] [Finite M.obj.obj.V] :
   have hfix : homConj M N o φ = φ := by
     ext m
     rw [homConj_apply]
-    have hinv : (M.obj.obj.ρ o⁻¹).hom m = m := by
+    have hinv : (M.obj.obj.ρ o⁻¹).asHom.hom m = m := by
       conv_lhs => rw [← (ho' m).1]
       exact rho_inv_apply_rho_apply M o m
     rw [hinv]
     exact (ho' m).2
   have hmul : homConj M N (g₀ * o) φ = homConj M N g₀ (homConj M N o φ) :=
-    congrArg (fun f : (homAction M N).V ⟶ (homAction M N).V ↦ f.hom φ)
+    congrArg (fun f : End (homAction M N).V ↦ f.asHom.hom φ)
       (map_mul (homAction M N).ρ g₀ o)
   rwa [hmul, hfix]
 
@@ -148,8 +150,8 @@ def hom : ContinuousGAddCommGrp.{u, w} G :=
 
 /-- The action of `g` on `φ` in `hom M N` sends `m` to `g · φ(g⁻¹ · m)`. -/
 lemma hom_ρ_apply (g : G) (φ : M.obj.obj.V →+ N.obj.obj.V) (m : M.obj.obj.V) :
-    (show M.obj.obj.V →+ N.obj.obj.V from ((hom M N).obj.obj.ρ g).hom φ) m =
-      (N.obj.obj.ρ g).hom (φ ((M.obj.obj.ρ g⁻¹).hom m)) :=
+    (show M.obj.obj.V →+ N.obj.obj.V from ((hom M N).obj.obj.ρ g).asHom.hom φ) m =
+      (N.obj.obj.ρ g).asHom.hom (φ ((M.obj.obj.ρ g⁻¹).asHom.hom m)) :=
   rfl
 
 omit [IsTopologicalGroup G] [Finite M.obj.obj.V] in
@@ -183,7 +185,7 @@ def homOfElem (φ : ((forgetAction G).obj (hom M N)).obj.obj.V) : M.obj.obj.V �
 lemma homOfElem_rho (g : G) (φ : ((forgetAction G).obj (hom M N)).obj.obj.V)
     (m : M.obj.obj.V) :
     homOfElem (((forgetAction G).obj (hom M N)).obj.obj.ρ g φ) m =
-      (N.obj.obj.ρ g).hom (homOfElem φ ((M.obj.obj.ρ g⁻¹).hom m)) :=
+      (N.obj.obj.ρ g).asHom.hom (homOfElem φ ((M.obj.obj.ρ g⁻¹).asHom.hom m)) :=
   rfl
 
 variable (S : AlgebraicGeometry.ContinuousGSet.{u, w} G)
@@ -202,8 +204,8 @@ lemma pairing_naturality_apply
         CategoryTheory.forget AddCommGrpCat) ⟶
       (gmodulePresheaf (G := G)).obj N ⋙ CategoryTheory.forget AddCommGrpCat)
     (g : G) (s : S.obj.obj.V) (m : M.obj.obj.V) :
-    β.app (SingleObj.star G) (S.obj.obj.ρ g s, (M.obj.obj.ρ g).hom m) =
-      (N.obj.obj.ρ g).hom (β.app (SingleObj.star G) (s, m)) :=
+    β.app (SingleObj.star G) (S.obj.obj.ρ g s, (M.obj.obj.ρ g).asHom.hom m) =
+      (N.obj.obj.ρ g).asHom.hom (β.app (SingleObj.star G) (s, m)) :=
   ConcreteCategory.congr_hom (CC := fun X : Type w ↦ X)
     (β.naturality (X := SingleObj.star G) (Y := SingleObj.star G) g) (s, m)
 
@@ -216,11 +218,11 @@ def pairingOfGSetHom (f : S ⟶ (forgetAction G).obj (hom M N)) :
   app _ := TypeCat.ofHom fun p ↦ homOfElem (f.hom.hom.hom p.1) p.2
   naturality _ _ g := by
     ext ⟨s, m⟩
-    change homOfElem (f.hom.hom.hom (S.obj.obj.ρ g s)) ((M.obj.obj.ρ g).hom m) =
-      (N.obj.obj.ρ g).hom (homOfElem (f.hom.hom.hom s) m)
-    refine (congrArg (fun φ ↦ homOfElem φ ((M.obj.obj.ρ g).hom m))
+    change homOfElem (f.hom.hom.hom (S.obj.obj.ρ g s)) ((M.obj.obj.ρ g).asHom.hom m) =
+      (N.obj.obj.ρ g).asHom.hom (homOfElem (f.hom.hom.hom s) m)
+    refine (congrArg (fun φ ↦ homOfElem φ ((M.obj.obj.ρ g).asHom.hom m))
       (gsetHom_apply_rho S f g s)).trans ?_
-    refine (homOfElem_rho g (f.hom.hom.hom s) ((M.obj.obj.ρ g).hom m)).trans ?_
+    refine (homOfElem_rho g (f.hom.hom.hom s) ((M.obj.obj.ρ g).asHom.hom m)).trans ?_
     rw [rho_inv_apply_rho_apply M g m]
 
 /-- The pairing of `f` sends `(s, m)` to `f(s)(m)`. -/
@@ -243,7 +245,7 @@ def gsetHomOfPairing
       comm := fun g ↦ by
         ext s
         refine AddMonoidHom.ext fun m ↦ ?_
-        have h := pairing_naturality_apply S β g s ((M.obj.obj.ρ g⁻¹).hom m)
+        have h := pairing_naturality_apply S β g s ((M.obj.obj.ρ g⁻¹).asHom.hom m)
         rwa [rho_apply_rho_inv_apply M g m] at h })
 
 variable (M N) in
@@ -284,8 +286,8 @@ omit [IsTopologicalGroup G] in
 /-- A morphism of discrete `G`-modules commutes with the actions, on elements. -/
 lemma hom_apply_rho {P Q : (ContinuousGAddCommGrp.isFinite.{u, w} G).FullSubcategory} (f : P ⟶ Q)
     (g : G) (p : P.obj.obj.obj.V) :
-    f.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ g).hom p) =
-      (Q.obj.obj.obj.ρ g).hom (f.hom.hom.hom.hom.hom p) :=
+    f.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ g).asHom.hom p) =
+      (Q.obj.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom.hom p) :=
   ConcreteCategory.congr_hom (f.hom.hom.hom.comm g) p
 
 /-- Morphisms between `Hom_ℤ(M, N)`'s of finite discrete `G`-modules are equal if they agree on
@@ -313,10 +315,10 @@ def homIsFiniteMap {M M' N N' : (ContinuousGAddCommGrp.isFinite.{u, w} G).FullSu
       comm := fun g ↦ by
         refine AddCommGrpCat.hom_ext (AddMonoidHom.ext
           fun (φ : M.obj.obj.obj.V →+ N.obj.obj.obj.V) ↦ AddMonoidHom.ext fun m ↦ ?_)
-        change b.hom.hom.hom.hom.hom ((N.obj.obj.obj.ρ g).hom (φ ((M.obj.obj.obj.ρ g⁻¹).hom
+        change b.hom.hom.hom.hom.hom ((N.obj.obj.obj.ρ g).asHom.hom (φ ((M.obj.obj.obj.ρ g⁻¹).asHom.hom
             (a.hom.hom.hom.hom.hom m)))) =
-          (N'.obj.obj.obj.ρ g).hom (b.hom.hom.hom.hom.hom (φ (a.hom.hom.hom.hom.hom
-            ((M'.obj.obj.obj.ρ g⁻¹).hom m))))
+          (N'.obj.obj.obj.ρ g).asHom.hom (b.hom.hom.hom.hom.hom (φ (a.hom.hom.hom.hom.hom
+            ((M'.obj.obj.obj.ρ g⁻¹).asHom.hom m))))
         rw [hom_apply_rho b g, ← hom_apply_rho a g⁻¹] }))
 
 /-- The map `homIsFiniteMap a b` sends `φ` to `b ∘ φ ∘ a`. -/

@@ -654,7 +654,7 @@ theorem evalTwoTorsionFree_eq_zero_of_weightOne
     have hcoe := congrArg
       (fun z : (twoTorsionAlgebra →ₐ[ℤ] Polynomial twoTorsionAlgebra) →₀
         Polynomial twoTorsionAlgebra => z (twoTorsionScale.comp u)) hy
-    rw [Finsupp.mapDomain_apply twoTorsionScale_comp_injective, Finsupp.mapRange_apply,
+    rw [Finsupp.mapDomain_apply_of_injective twoTorsionScale_comp_injective, Finsupp.mapRange_apply,
       Finsupp.smul_apply, Finsupp.mapDomain_of_notMem_range, smul_zero] at hcoe
     · exact twoTorsionScale_injective (by rw [hcoe, map_zero])
     · intro ⟨u', hu'⟩

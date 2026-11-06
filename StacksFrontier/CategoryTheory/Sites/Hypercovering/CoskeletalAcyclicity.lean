@@ -312,8 +312,8 @@ def coskeletalImage
         ext s
         apply Subtype.ext
         exact NatTrans.naturality_apply (K.map θ) a s.1 }
-  map_id m := by ext X s; apply Subtype.ext; simp; rfl
-  map_comp θ φ := by ext X s; apply Subtype.ext; simp; rfl
+  map_id m := by ext X s; apply Subtype.ext; simp
+  map_comp θ φ := by ext X s; apply Subtype.ext; simp
 
 /-- The inclusion of `CategoryTheory.SimplicialObject.coskeletalImage` into `K`. -/
 def coskeletalImageι

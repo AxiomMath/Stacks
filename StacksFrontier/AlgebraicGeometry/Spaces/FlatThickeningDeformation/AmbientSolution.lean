@@ -47,6 +47,15 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {Y' : AlgebraicSpaces B S hS} {Z : ClosedSubspaces B S hS Y'.1}
   (hZ : IsFirstOrderThickening B S hS Y' Z.1) {X : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along an étale morphism preserves finite products; found
+directly, as instance search times out on it under Lean v4.35.0. -/
+local instance (priority := high) preservesFiniteProducts_smallEtalePostcomp_AmbientSolution
+    {X X₀ : AlgebraicSpaces B S hS} (a : X ⟶ X₀) (ha : IsEtale B S hS a.hom) :
+    Limits.PreservesFiniteProducts ((smallEtalePostcomp B S hS a ha).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS X₀.1)) :=
+  inferInstance
+
 /-- A composite with `eqToHom`s, computed from its two pieces. -/
 theorem eqToHom_comp_chain {𝒞 : Type*} [Category 𝒞] {A₁ A₂ R T O : 𝒞} (e₁ : A₁ = A₂)
     (α : A₂ ⟶ R) (c₁ : R = T) (c₂ : T = R) (r : R ⟶ O) (s' : A₂ ⟶ O) (s : A₁ ⟶ O)

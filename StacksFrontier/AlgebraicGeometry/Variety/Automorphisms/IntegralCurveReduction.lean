@@ -231,7 +231,7 @@ private lemma exists_covBy_singleton {X : Type*} [TopologicalSpace X] [Noetheria
     ∃ Z : IrreducibleCloseds X,
       (⟨{x}, isIrreducible_singleton, hx⟩ : IrreducibleCloseds X) ⋖ Z := by
   have : WellFoundedLT (IrreducibleCloseds X) :=
-    ⟨InvImage.wf (fun Z : IrreducibleCloseds X ↦ (⟨Z, Z.isClosed⟩ : Closeds X)) wellFounded_lt⟩
+    InvImage.wf (fun Z : IrreducibleCloseds X ↦ (⟨Z, Z.isClosed⟩ : Closeds X)) wellFounded_lt
   apply exists_covBy_of_wellFoundedLT
   intro hmax
   have hsubset : (Set.univ : Set X) ⊆ {x} :=

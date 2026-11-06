@@ -109,6 +109,21 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### The inverse image of abelian sheaves -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pushforward of abelian sheaves along base change of étale scheme charts is a right adjoint.
+Supplied explicitly because instance search no longer finds it. -/
+theorem isRightAdjoint_smallBaseChange_addCommGrp (i : Z ⟶ X)
+    (hr : yoneda.relativelyRepresentable i.hom)
+    [(smallBaseChange B S hS i hr).IsContinuous (SmallEtale.topology B S hS X.1)
+      (SmallEtale.topology B S hS Z.1)] :
+    ((smallBaseChange B S hS i hr).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)).IsRightAdjoint := by
+  have h1 : HasWeakSheafify (SmallEtale.topology B S hS Z.1) AddCommGrpCat.{u + 1} :=
+    inferInstance
+  have h2 : ∀ F : (SmallEtale B S hS X.1)ᵒᵖ ⥤ AddCommGrpCat.{u + 1},
+      (smallBaseChange B S hS i hr).op.HasLeftKanExtension F := fun _ => inferInstance
+  exact (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
+
 /-- The inverse image of abelian sheaves along a morphism of algebraic spaces with
 representable underlying morphism: the left adjoint of restriction along base change of étale
 scheme charts. -/
@@ -117,6 +132,7 @@ abbrev smallEtaleAbelianInverseImage (i : Z ⟶ X)
     Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} ⥤
       Sheaf (SmallEtale.topology B S hS Z.1) AddCommGrpCat.{u + 1} :=
   letI := (smallBaseChange_isMorphismOfSites B S hS i hr).toIsContinuous
+  haveI := isRightAdjoint_smallBaseChange_addCommGrp B S hS i hr
   (smallBaseChange B S hS i hr).sheafPullback AddCommGrpCat.{u + 1}
     (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)
 
@@ -127,6 +143,7 @@ abbrev smallEtaleAbelianInverseImageAdjunction (i : Z ⟶ X)
     smallEtaleAbelianInverseImage B S hS i hr ⊣
       smallEtaleAbelianPushforward.{u + 1} B S hS i hr :=
   letI := (smallBaseChange_isMorphismOfSites B S hS i hr).toIsContinuous
+  haveI := isRightAdjoint_smallBaseChange_addCommGrp B S hS i hr
   (smallBaseChange B S hS i hr).sheafAdjunctionContinuous AddCommGrpCat.{u + 1}
     (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Z.1)
 

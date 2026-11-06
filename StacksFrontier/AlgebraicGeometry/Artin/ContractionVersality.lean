@@ -188,82 +188,85 @@ theorem mapTriple_Z_eq_univ_iff {T V : BigFppfOver B S hS} (φ : T ⟶ V) (t : T
 sense of Stacks 0GI9: a lifting problem for `ξ` is one for `x̂`, because a triple on the spectrum
 of an Artinian local ring whose closed point goes to `Z` is a point of `W`. -/
 theorem isVersalAt_iff_isVersalAtCompletion (x : (contractionFunctor c).Elementsᵒᵖ)
-    (v : (BigFppfOver.toScheme B S hS).obj x.unop.1.unop.obj)
-    (hv : (Space.pointsEquivScheme B S hS x.unop.1.unop.obj).symm v ∈
-      (x.unop.2 : Triple c x.unop.1.unop.obj).Z) :
+    (v : (BigFppfOver.toScheme B S hS).obj x.unop.obj.unop.obj)
+    (hv : (Space.pointsEquivScheme B S hS x.unop.obj.unop.obj).symm v ∈
+      (x.unop.val : Triple c x.unop.obj.unop.obj).Z) :
     Deformation.Artin.IsVersalAt
         ((LocallyNoetherianOver.elementsToOver B S hS (contractionFunctor c)).obj x)
         (LocallyNoetherianOver.elementsToOver B S hS (contractionFunctor c)) v x rfl ↔
-      FormalSpace.IsVersalAtCompletion B S hS x.unop.1.unop.obj
-        (x.unop.2 : Triple c x.unop.1.unop.obj).Z c.W
-        (x.unop.2 : Triple c x.unop.1.unop.obj).xhat v := by
-  let ξ : Triple c x.unop.1.unop.obj := x.unop.2
+      FormalSpace.IsVersalAtCompletion B S hS x.unop.obj.unop.obj
+        (x.unop.val : Triple c x.unop.obj.unop.obj).Z c.W
+        (x.unop.val : Triple c x.unop.obj.unop.obj).xhat v := by
+  let ξ : Triple c x.unop.obj.unop.obj := x.unop.val
   constructor
   · intro hver A A' f hf T T' hT hT' i hi φ hφ hres w' hw'
     have := subsingleton_of_over_spec hT
     have := subsingleton_of_over_spec hT'
     let TN : LocallyNoetherianOver B S hS := ⟨T, isLocallyNoetherian_of_over_spec hT⟩
     let T'N : LocallyNoetherianOver B S hS := ⟨T', isLocallyNoetherian_of_over_spec hT'⟩
-    let z : (contractionFunctor c).Elementsᵒᵖ := op ⟨op T'N, c.tripleOfSection T' w'⟩
-    let y : (contractionFunctor c).Elementsᵒᵖ := op ⟨op TN, mapTriple c φ ξ⟩
+    let z : (contractionFunctor c).Elementsᵒᵖ :=
+      op (Functor.elementsMk _ (op T'N) (c.tripleOfSection T' w'))
+    let y : (contractionFunctor c).Elementsᵒᵖ :=
+      op (Functor.elementsMk _ (op TN) (mapTriple c φ ξ))
     have hyZ : (mapTriple c φ ξ).Z = Set.univ := (mapTriple_Z_eq_univ_iff c φ ξ).2 hφ
     have hi' : mapTriple c i (c.tripleOfSection T' w') = mapTriple c φ ξ := by
       refine Triple.eq_of_Z_eq_univ c _ _ (Triple.mapTriple_Z_eq_univ c i _ rfl) hyZ ?_
       rw [wSection_mapTriple c i _ rfl, wSection_tripleOfSection, hw',
         wSection_mapTriple_eq c φ ξ hφ hyZ]
     let iE : y ⟶ z := Quiver.Hom.op ⟨(ObjectProperty.homMk i : TN ⟶ T'N).op, hi'⟩
-    let aE : y ⟶ x := Quiver.Hom.op ⟨(ObjectProperty.homMk φ : TN ⟶ x.unop.1.unop).op, rfl⟩
+    let aE : y ⟶ x := Quiver.Hom.op ⟨(ObjectProperty.homMk φ : TN ⟶ x.unop.obj.unop).op, rfl⟩
     obtain ⟨b, hb⟩ := hver A A' f hf y z hT hT' iE hi aE (by
       simp only [eqToHom_refl, Category.comp_id]
       exact hres)
-    have hb' : mapTriple c b.unop.1.unop.hom ξ = c.tripleOfSection T' w' := b.unop.2
-    have hZ' : (mapTriple c b.unop.1.unop.hom ξ).Z = Set.univ := by rw [hb']; rfl
+    have hb' : mapTriple c b.unop.hom.unop.hom ξ = c.tripleOfSection T' w' := b.unop.map_val
+    have hZ' : (mapTriple c b.unop.hom.unop.hom ξ).Z = Set.univ := by rw [hb']; rfl
     have hφ' := (mapTriple_Z_eq_univ_iff c _ ξ).1 hZ'
-    refine ⟨b.unop.1.unop.hom, hφ', ?_, ?_⟩
-    · exact congrArg (fun m : y ⟶ x => m.unop.1.unop.hom) hb
+    refine ⟨b.unop.hom.unop.hom, hφ', ?_, ?_⟩
+    · exact congrArg (fun m : y ⟶ x => m.unop.hom.unop.hom) hb
     · rw [← wSection_mapTriple_eq c _ ξ hφ' hZ', wSection_congr c hb' hZ' rfl,
         wSection_tripleOfSection]
   · intro hlift A A' f hf y z hy hz i hi a ha
-    have : Subsingleton ((BigFppfOver.toScheme B S hS).obj y.unop.1.unop.obj) :=
+    have : Subsingleton ((BigFppfOver.toScheme B S hS).obj y.unop.obj.unop.obj) :=
       subsingleton_of_over_spec hy
-    have : Subsingleton ((BigFppfOver.toScheme B S hS).obj z.unop.1.unop.obj) :=
+    have : Subsingleton ((BigFppfOver.toScheme B S hS).obj z.unop.obj.unop.obj) :=
       subsingleton_of_over_spec hz
     have ha' := ha
     simp only [eqToHom_refl, Category.comp_id] at ha'
-    obtain ⟨t, ht⟩ := exists_map_eq_of_residue (T := y.unop.1.unop.obj)
-      (V := x.unop.1.unop.obj) v (congrArg Over.left hy).symm _ a.unop.1.unop.hom ha'
-    have hφ : Space.HasImageIn B S hS (yoneda.obj x.unop.1.unop.obj) ξ.Z y.unop.1.unop.obj
-        a.unop.1.unop.hom :=
-      (Space.hasImageIn_iff_of_subsingleton (T := y.unop.1.unop.obj) _ t _).2
+    obtain ⟨t, ht⟩ := exists_map_eq_of_residue (T := y.unop.obj.unop.obj)
+      (V := x.unop.obj.unop.obj) v (congrArg Over.left hy).symm _ a.unop.hom.unop.hom ha'
+    have hφ : Space.HasImageIn B S hS (yoneda.obj x.unop.obj.unop.obj) ξ.Z y.unop.obj.unop.obj
+        a.unop.hom.unop.hom :=
+      (Space.hasImageIn_iff_of_subsingleton (T := y.unop.obj.unop.obj) _ t _).2
         (by rw [ht]; exact hv)
-    have hya : mapTriple c a.unop.1.unop.hom ξ = y.unop.2 := a.unop.2
-    have hzi : mapTriple c i.unop.1.unop.hom z.unop.2 = y.unop.2 := i.unop.2
-    have hZa := (mapTriple_Z_eq_univ_iff c a.unop.1.unop.hom ξ).2 hφ
-    have hyZ : (y.unop.2 : Triple c y.unop.1.unop.obj).Z = Set.univ := by rw [← hya]; exact hZa
-    have hzZ : (z.unop.2 : Triple c z.unop.1.unop.obj).Z = Set.univ := by
-      rcases Triple.Z_eq_empty_or_eq_univ (z.unop.2 : Triple c z.unop.1.unop.obj) with h | h
+    have hya : mapTriple c a.unop.hom.unop.hom ξ = y.unop.val := a.unop.map_val
+    have hzi : mapTriple c i.unop.hom.unop.hom z.unop.val = y.unop.val := i.unop.map_val
+    have hZa := (mapTriple_Z_eq_univ_iff c a.unop.hom.unop.hom ξ).2 hφ
+    have hyZ : (y.unop.val : Triple c y.unop.obj.unop.obj).Z = Set.univ := by
+      rw [← hya]; exact hZa
+    have hzZ : (z.unop.val : Triple c z.unop.obj.unop.obj).Z = Set.univ := by
+      rcases Triple.Z_eq_empty_or_eq_univ (z.unop.val : Triple c z.unop.obj.unop.obj) with h | h
       · exfalso
-        have h0 := Triple.mapTriple_Z_eq_empty c i.unop.1.unop.hom _ h
+        have h0 := Triple.mapTriple_Z_eq_empty c i.unop.hom.unop.hom _ h
         rw [hzi, hyZ] at h0
         exact (Set.mem_empty_iff_false ((Space.pointsEquivScheme B S hS _).symm t)).1
           (h0 ▸ Set.mem_univ _)
       · exact h
-    have hw' : c.W.obj.map i.unop.1.unop.hom.op (wSection c z.unop.2 hzZ) =
-        ξ.xhat.hom.app (op y.unop.1.unop.obj)
-          (FormalSpace.presheafSection B S hS (T := ξ.Z) a.unop.1.unop.hom hφ) := by
+    have hw' : c.W.obj.map i.unop.hom.unop.hom.op (wSection c z.unop.val hzZ) =
+        ξ.xhat.hom.app (op y.unop.obj.unop.obj)
+          (FormalSpace.presheafSection B S hS (T := ξ.Z) a.unop.hom.unop.hom hφ) := by
       rw [← wSection_mapTriple c _ _ hzZ (Triple.mapTriple_Z_eq_univ c _ _ hzZ),
         wSection_congr c hzi _ hyZ,
         ← wSection_congr c hya hZa hyZ,
         wSection_mapTriple_eq c _ ξ hφ]
     obtain ⟨φ', hφ', hcomp, hval⟩ :=
-      hlift A A' f hf _ _ hy hz i.unop.1.unop.hom hi _ hφ ha' _ hw'
+      hlift A A' f hf _ _ hy hz i.unop.hom.unop.hom hi _ hφ ha' _ hw'
     have hZ' := (mapTriple_Z_eq_univ_iff c φ' ξ).2 hφ'
-    have hb : mapTriple c φ' ξ = z.unop.2 :=
-      Triple.eq_of_Z_eq_univ c _ _ hZ' hzZ (by rw [wSection_mapTriple_eq c φ' ξ hφ' hZ', hval])
-    refine ⟨Quiver.Hom.op ⟨(ObjectProperty.homMk φ' : z.unop.1.unop ⟶ x.unop.1.unop).op, hb⟩,
+    have hb : mapTriple c φ' ξ = z.unop.val :=
+      Triple.eq_of_Z_eq_univ c _ _ hZ' hzZ (by rw [wSection_mapTriple_eq c φ' ξ hφ' hZ']; exact hval)
+    refine ⟨Quiver.Hom.op ⟨(ObjectProperty.homMk φ' : z.unop.obj.unop ⟶ x.unop.obj.unop).op, hb⟩,
       ?_⟩
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply ObjectProperty.hom_ext
     exact hcomp

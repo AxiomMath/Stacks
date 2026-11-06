@@ -93,7 +93,7 @@ public theorem map_maximalIdeal_eq_span_germ_of_mem_blowupChart {X : Scheme.{u}}
     Ideal.map ((blowUpToBase I).stalkMap q).hom
         (hq.symm ▸ IsLocalRing.maximalIdeal (X.presheaf.stalk p)) =
       Ideal.span {((blowUpToBase I).stalkMap q).hom
-        (hq.symm ▸ X.presheaf.germ U.1 p hpU (a : Γ(X, U.1)))} := by
+                    (hq.symm ▸ X.presheaf.germ U.1 p hpU (a : Γ(X, U.1)))} := by
   have hqU : blowUpToBase I q ∈ U.1 := by rw [hq]; exact hpU
   have h0 := (mem_affineBlowupStandardOpen_iff_exceptionalIdeal_stalk_eq_span I U a q hqU).mp hmem
   rw [AlgebraicGeometry.IdealSheafData.stalk_comap, stalk_cast I hq, hI,

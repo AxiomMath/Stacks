@@ -152,7 +152,7 @@ def isLimitContCone : IsLimit (contCone ρ D hopen) := by
       let : TopologicalSpace (M ⧸ (D.obj j).toSubmodule) := ⊥
       have : DiscreteTopology (M ⧸ (D.obj j).toSubmodule) := ⟨rfl⟩
       exact (IsLocallyConstant.iff_continuous _).2 (((s.π.app j).hom x).down.2.2 A a hA)
-  let lift : ∀ s : Cone F, s.pt ⟶ (contSheaf Λ ρ).val.obj V := fun s ↦ ModuleCat.ofHom
+  let lift : ∀ s : Cone F, s.pt ⟶ (contSheaf Λ ρ).obj.obj V := fun s ↦ ModuleCat.ofHom
     { toFun x := ⟨⟨G s x, hGmem s x⟩⟩
       map_add' x x' := by
         apply ULift.ext

@@ -306,8 +306,8 @@ private theorem chartPivot_mem_nonZeroDivisors :
       p * X (Sum.inr (Sum.inl ())) = 0 → p = 0 := by
     intro p hp
     ext d
-    have h := congrArg (coeff (d + Finsupp.single (Sum.inr (Sum.inl ())) 1)) hp
-    rwa [coeff_mul_X, coeff_zero] at h
+    have h := congrArg (fun q ↦ q.coeff (d + Finsupp.single (Sum.inr (Sum.inl ())) 1)) hp
+    simpa only [coeff_mul_X, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] using h
   rw [mem_nonZeroDivisors_iff]
   exact ⟨fun p hp ↦ key p (by rwa [mul_comm]), key⟩
 
@@ -435,8 +435,8 @@ end Chart
 public theorem coordinateChart_exceptionalIdeal (i : Fin n) :
     Ideal.map (algebraMap (MvPolynomial (Fin m ⊕ Fin n) R) (coordinateChartAlgebra R m n i))
         (coordinateRingIdeal R m n) =
-      Ideal.span {algebraMap (MvPolynomial (Fin m ⊕ Fin n) R) (coordinateChartAlgebra R m n i)
-        (X (Sum.inr i))} := by
+      Ideal.span {(algebraMap (MvPolynomial (Fin m ⊕ Fin n) R) (coordinateChartAlgebra R m n i)
+        (X (Sum.inr i)))} := by
   refine le_antisymm ?_ ?_
   · rw [Ideal.map_le_iff_le_comap]
     intro y hy

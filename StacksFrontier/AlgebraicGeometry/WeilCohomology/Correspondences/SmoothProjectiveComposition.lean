@@ -91,14 +91,13 @@ theorem corrCongr_rfl {X Y : Scheme.{u}} (sX : X ⟶ (fieldChowSituation k).S)
     [IsSeparated sY] {r : ℤ} (c : Stacks.WeilCohomology.Corr k sX sY r) :
     corrCongr k sX sY (rfl : r = r) c = c := by
   induction c using Stacks.WeilCohomology.Corr.induction_on with
-  | zero => simp
-  | add a b ha hb => rw [map_add, ha, hb]
+  | zero => exact LinearEquiv.map_zero _
+  | add a b ha hb => rw [LinearEquiv.map_add, ha, hb]
   | lof d e x =>
       rw [corrCongr_lof_lof]
       congr 2
-      induction x using TensorProduct.induction_on with
-      | zero => simp
-      | add a b ha hb => rw [map_add, ha, hb]
+      induction x using TensorProduct.inductionOn with
+      | add a b ha hb => rw [LinearEquiv.map_add, ha, hb]
       | tmul q α => rw [correspondenceCongr_tmul]; rfl
 
 namespace SmoothProjectiveScheme

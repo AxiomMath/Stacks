@@ -74,6 +74,20 @@ variable {X : AlgebraicGeometry.RingedSite.{c, u, u}}
       (ComplexShape.up ℤ)]
   [HasDerivedCategory.{d} (Modules.{c, u, u} X)]
 
+/-- Supplied explicitly: since Mathlib v4.35.0 instance search for these coproducts times out. -/
+local instance (J : Type u) : HasColimitsOfShape (Discrete J)
+    (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{c, u, u} X.O).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+/-- Supplied explicitly: since Mathlib v4.35.0 instance search for these coproducts times out. -/
+local instance (J : Type u) :
+    HasColimitsOfShape (Discrete J) (CochainComplex (Modules.{c, u, u} X) ℤ) :=
+  have : HasColimitsOfShape (Discrete J) (Modules.{c, u, u} X) := inferInstance
+  ⟨fun F ↦
+    have (n : ℤ) : HasColimit (F ⋙ HomologicalComplex.eval _ _ n) :=
+      HasColimitsOfShape.has_colimit _
+    ⟨⟨⟨_, HomologicalComplex.isColimitCoconeOfHasColimitEval F⟩⟩⟩⟩
+
 /-- Tensoring sheaves of modules commutes with direct sums in the second variable
 (Stacks 05NB). -/
 @[ega "0 4.1.5" "partial", sga "4 IV 12.9" "special case"]

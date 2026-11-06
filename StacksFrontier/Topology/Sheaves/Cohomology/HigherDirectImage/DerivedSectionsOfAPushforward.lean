@@ -184,7 +184,7 @@ noncomputable def squareIso :
   (compIso F₁ G₁ h₁).symm.trans
     ((Functor.rightDerivedNatIso
         (F₁ ⋙ G₁).rightDerivedFunctorPlus (F₂ ⋙ G₂).rightDerivedFunctorPlus
-        (F₁ ⋙ G₁).rightDerivedFunctorPlusUnit (F₂ ⋙ G₂).rightDerivedFunctorPlusUnit
+        (F₁ ⋙ G₁).rightDerivedFunctorPlusUnith (F₂ ⋙ G₂).rightDerivedFunctorPlusUnith
         (HomotopyCategory.Plus.quasiIso A)
         (squareUnitIso F₁ G₁ F₂ G₂ e)).trans (compIso F₂ G₂ h₂))
 
@@ -194,14 +194,14 @@ under the localization, followed by the units of `RG₂` and of `RF₂`. Since t
 `R(G₁ ∘ F₁)` and `R(G₂ ∘ F₂)` determine both canonical isomorphisms and the induced
 isomorphism of right derived functors, this equation determines `squareIso`. -/
 theorem squareIso_hom_app (K : HomotopyCategory.Plus A) :
-    G₁.rightDerivedFunctorPlusUnit.app (F₁.mapHomotopyCategoryPlus.obj K) ≫
-        G₁.rightDerivedFunctorPlus.map (F₁.rightDerivedFunctorPlusUnit.app K) ≫
+    G₁.rightDerivedFunctorPlusUnith.app (F₁.mapHomotopyCategoryPlus.obj K) ≫
+        G₁.rightDerivedFunctorPlus.map (F₁.rightDerivedFunctorPlusUnith.app K) ≫
         (squareIso F₁ G₁ F₂ G₂ e h₁ h₂).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso (F := F₁) (G := G₁) e).hom.app K ≫
             (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F₂ ⋙ G₂))).inv.app K) ≫
-        G₂.rightDerivedFunctorPlusUnit.app (F₂.mapHomotopyCategoryPlus.obj K) ≫
-        G₂.rightDerivedFunctorPlus.map (F₂.rightDerivedFunctorPlusUnit.app K) := by
+        G₂.rightDerivedFunctorPlusUnith.app (F₂.mapHomotopyCategoryPlus.obj K) ≫
+        G₂.rightDerivedFunctorPlus.map (F₂.rightDerivedFunctorPlusUnith.app K) := by
   -- The factorizations pinning the two canonical isomorphisms, read on `compIso` through
   -- `compIso_hom`; `Functor.rightDerivedFunctorPlusComp_fac_app` needs no acyclicity
   -- hypothesis, so this is the only place `h₁` and `h₂` enter.
@@ -355,7 +355,7 @@ theorem rightDerivedSectionsRestrictionIso_hom_app
       (SheafOfModules.{u} (structureSheafRing X))) :
     (ModuleCat.restrictScalars.{u}
         ((RingedSpaceModuleAdjunction.structureSheafHom f).hom.app
-          (op V)).hom).rightDerivedFunctorPlusUnit.app
+          (op V)).hom).rightDerivedFunctorPlusUnith.app
         ((SheafOfModules.evaluation.{u} (structureSheafRing X)
           (op ((RingedSpaceModuleAdjunction.opensMap f).obj V))).mapHomotopyCategoryPlus.obj
             K) ≫
@@ -364,7 +364,7 @@ theorem rightDerivedSectionsRestrictionIso_hom_app
             (op V)).hom).rightDerivedFunctorPlus.map
           ((SheafOfModules.evaluation.{u} (structureSheafRing X)
             (op ((RingedSpaceModuleAdjunction.opensMap f).obj
-              V))).rightDerivedFunctorPlusUnit.app K) ≫
+              V))).rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedSectionsRestrictionIso f V).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusCompIso
@@ -378,11 +378,11 @@ theorem rightDerivedSectionsRestrictionIso_hom_app
                 SheafOfModules.evaluation.{u} (structureSheafRing Y)
                   (op V)))).inv.app K) ≫
         (SheafOfModules.evaluation.{u} (structureSheafRing Y)
-          (op V)).rightDerivedFunctorPlusUnit.app
+          (op V)).rightDerivedFunctorPlusUnith.app
           ((RingedSpaceModuleAdjunction.modulePushforward f).mapHomotopyCategoryPlus.obj K) ≫
         (SheafOfModules.evaluation.{u} (structureSheafRing Y)
           (op V)).rightDerivedFunctorPlus.map
-          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit.app
+          ((RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith.app
             K) :=
   squareIso_hom_app _ _ _ _ (sectionsRestrictionIso f V)
     (fun _ _ => rightAcyclic_restrictScalars _ _) (rightAcyclic_modulePushforward_obj f V) K

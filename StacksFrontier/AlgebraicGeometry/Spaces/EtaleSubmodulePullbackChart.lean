@@ -145,7 +145,7 @@ direct image along `G` with identity structure map, followed by raising the univ
 sections, forgetting to presheaves, the direct image along `F` and any further functor `Q`, is
 the same composite along `F ⋙ G` without the first step. -/
 theorem pushforward_comp_ulift_comp_pushforward_eq {T : Type*} [Category T]
-    (ρ : RC ⟶ (F ⋙ G).op ⋙ R.val) (Q : PresheafOfModules.{max w'' v} RC ⥤ T) :
+    (ρ : RC ⟶ (F ⋙ G).op ⋙ R.obj) (Q : PresheafOfModules.{max w'' v} RC ⥤ T) :
     _root_.SheafOfModules.pushforward.{v}
         (𝟙 ((G.sheafPushforwardContinuous RingCat.{w} K L).obj R)) ⋙
       (_root_.SheafOfModules.uliftForPresentationFunctor.{u₂, v₂, w, v, w''} ⋙

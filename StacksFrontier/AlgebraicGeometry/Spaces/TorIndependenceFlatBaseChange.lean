@@ -267,6 +267,23 @@ private lemma isPullback_productChartFibre
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_torIndependenceFlatBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_torIndependenceFlatBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_torIndependenceFlatBaseChange B S hS).has_limit _
+
+/-- Discrete limits of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_torIndependence
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- **A chart of `(X ×_B Y) ×_{X' ×_{B'} Y'} Cc` is a base change of a chart of `B ×_{B'} W`.**
 Let `P` be a fibre product of `P'` and `Bb` over `B'`, let `Qb` be one of `Bb` and `W` over
 `B'`, let `Cc ⟶ P'` be a morphism commuting with the two maps to `B'` through `W`, let `PU` be

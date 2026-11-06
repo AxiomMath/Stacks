@@ -109,7 +109,6 @@ private lemma baseChange_injective_of_isPushout
       eN.symm ((f.restrictScalars R).lTensor S z) = f.baseChange B (eM.symm z) := by
     intro z
     induction z with
-    | zero => simp
     | tmul s m => simp [eM, eN, Algebra.IsPushout.cancelBaseChange_symm_tmul]
     | add x y hx hy => simp_all
   intro x y h

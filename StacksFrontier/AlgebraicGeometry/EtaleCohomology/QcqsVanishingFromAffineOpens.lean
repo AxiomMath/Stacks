@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Zero
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.AbsolutelyIntegrallyClosedVanishing
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ClosedFibreTwoChartVanishing
 public import StacksFrontier.AlgebraicGeometry.InductionPrinciple.Basic

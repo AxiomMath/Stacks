@@ -278,7 +278,7 @@ public lemma quotNumerator_cross (n : ℕ)
     refine smul_eq_smul_of_mkQ_eq I (Ideal.pow_mem_pow ha n) ?_
     rw [map_smul, map_smul, hX, hY, mkQ_quotOut, mkQ_quotOut]
     exact smul_apply_comm (S := I ^ n) φ (Ideal.pow_mem_pow ha n) (Ideal.pow_mem_pow hb n)
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   simp only [quotNumerator, ULift.smul_def, ULift.pow_down, ULift.smul_down]
   have e1 : β ^ (2 * n) • (α ^ n • X) = β ^ n • (α ^ n • (β ^ n • X)) := by
     rw [smul_smul, smul_smul, smul_smul]
@@ -356,7 +356,7 @@ public lemma quotNumerator_smul (n : ℕ) (c : A)
     (x := c • quotOut (φ ⟨(a : ULift.{v} A).down ^ n, Ideal.pow_mem_pow ha n⟩))
     (by rw [map_smul, mkQ_quotOut]; rfl)]
   simp only [quotNumerator]
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   simp only [ULift.smul_def, ULift.smul_down]
   rw [smul_comm]
 
@@ -406,7 +406,7 @@ public lemma sectionOfQuotHom_map {m n : ℕ} (hmn : m ≤ n)
       ← map_smul, ← map_smul, pow_smul_mk_pow_eq ha rfl]
     rfl
   rw [quotNumerator_eq A I M (m + k) _ a hmk]
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   simp only [quotNumerator, ULift.smul_def, ULift.pow_down, ULift.smul_down]
   change α ^ (2 * m) • α ^ (m + k) • α ^ k • W = α ^ (2 * (m + k)) • α ^ m • W
   simp only [smul_smul, ← pow_add]
@@ -802,7 +802,7 @@ public lemma canonicalMapModuloAnnihilator_surjective (hI : I.FG) :
   rw [sectionOfQuotHom_val A I M K φ x (i : A) (hmemI i) hi (((i : A) ^ (K - N)) • y i) hlift,
     hyval i x hi, fractionAt]
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   simp only [Submonoid.smul_def, one_smul, ULift.smul_def, ULift.pow_down, ULift.smul_down,
     smul_smul, ← pow_add]
   rw [Nat.add_sub_cancel' hKN]

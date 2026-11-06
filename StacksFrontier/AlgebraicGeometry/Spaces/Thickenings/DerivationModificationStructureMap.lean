@@ -182,8 +182,15 @@ modified structure map of [Stacks Project, Tag 04D0]. -/
 theorem derivationModificationHom_isLocallyRinged
     (δ : Stacks.Sites.RingSheafDerivation
       (smallEtaleRingedToposHom B S hS a').fSharpInverseImage) :
-    (derivationModificationHom B S hS a' δ).IsLocallyRinged :=
-  RingedToposHom.isLocallyRinged_add (smallEtaleRingedToposHom B S hS a')
+    (derivationModificationHom B S hS a' δ).IsLocallyRinged := by
+  haveI : Limits.HasLimitsOfShape Limits.WalkingCospan
+      (Sheaf (smallEtaleRingedTopos B S hS X').J (Type u)) :=
+    Limits.HasFiniteLimits.out _
+  haveI : Limits.HasPullback (RingedTopos.unitsιOf (smallEtaleRingedTopos B S hS X').O)
+      (RingedTopos.forgetRingMap (derivationModificationHom B S hS a' δ).fSharpInverseImage) :=
+    Limits.HasLimitsOfShape.has_limit _
+  exact RingedToposHom.isLocallyRinged_add (X := smallEtaleRingedTopos B S hS X')
+    (Y := smallEtaleRingedTopos B S hS Y') (smallEtaleRingedToposHom B S hS a')
     (smallEtaleRingedToposHom_isLocallyRinged B S hS a') δ
 
 end AlgebraicGeometry.Space

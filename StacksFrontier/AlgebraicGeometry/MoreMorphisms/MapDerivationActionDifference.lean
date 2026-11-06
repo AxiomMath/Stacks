@@ -195,7 +195,7 @@ theorem pullback_relativeDifferentials_hom_ext {Y Y' S : Scheme.{u}} (j : Y ⟶ 
       (Scheme.Hom.universalRelativeDerivation q).postcomp
         (((Scheme.Modules.pullbackPushforwardAdjunction j).homEquiv
           (Scheme.Hom.relativeDifferentials q) N ψ₂)).val :=
-    PresheafOfModules.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun s ↦ h U.unop s)
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun s ↦ h U.unop s)
   obtain ⟨f, -, hu⟩ := AlgebraicGeometry.SheafOfModules.universalDerivation_isUniversal
     (inverseImageStructureMap q) ((Scheme.Modules.pushforward j).obj N)
     ((Scheme.Hom.universalRelativeDerivation q).postcomp
@@ -429,7 +429,7 @@ theorem differenceDerivation_derivationActionSheaf :
           (Scheme.Hom.relativeDifferentials (j ≫ q)) (Stacks.Conormal.conormalSheaf i)
           θ).val.app (op (j ⁻¹ᵁ V))).hom
         ((Scheme.Hom.universalRelativeDerivation (j ≫ q)).d ((j.app V).hom s)) :=
-    PresheafOfModules.Derivation.congr_d (derivationActionDifferenceDerivation_eq hi q ca θ)
+    PresheafOfModulesOfCommRing.Derivation.congr_d (derivationActionDifferenceDerivation_eq hi q ca θ)
       ((j.app V).hom s)
   refine (derivationActionSheaf_app hi q ca θ V s).trans ?_
   exact congrArg (fun z : Γ(X', a' ⁻¹ᵁ V) ↦ (a'.app V).hom s + z)

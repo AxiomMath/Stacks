@@ -127,6 +127,15 @@ private theorem etaleAt_of_etale_opens_ι_comp {X Y : Scheme.{u}} (k : X ⟶ Y)
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+local instance (priority := high) hasLimitsOfSize_presheaf_EtaleFromCompletionSpace :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfSize
+
+local instance (priority := high) hasPullback_presheaf_EtaleFromCompletionSpace
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An étale morphism of algebraic spaces over `S` is locally of finite type: on a commuting
 square of étale charts both charts of the square and the composite of the source chart with
 the morphism are étale, so the induced morphism of schemes is étale by Stacks 03FV and

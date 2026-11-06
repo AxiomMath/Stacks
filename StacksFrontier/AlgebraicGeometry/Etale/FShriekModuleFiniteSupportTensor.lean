@@ -113,12 +113,12 @@ public theorem tensorSupportedSectionsHom_comp_scalar
     (hZ : IsLocallyClosed Z) (a : Λ) :
     (supportedSectionsSheafMap B X.obj X.property
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) (F ⊗ H) a) W Z hZ).comp
+            (SmallEtale.topology B X.obj X.property) (F ⊗ H) a).asHom W Z hZ).comp
         (tensorSupportedSectionsHom B Λ F H W h Z hZ) =
       (tensorSupportedSectionsHom B Λ F H W h Z hZ).comp
         (supportedSectionsSheafMap B X.obj X.property
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a) W Z hZ) :=
+            (SmallEtale.topology B X.obj X.property) F a).asHom W Z hZ) :=
   AddMonoidHom.ext fun s => Subtype.ext
     (((tensorSectionHom B Λ F H W h
       (supportOpen B X.obj X.property W Z hZ)).hom.map_smul a s.val).symm)
@@ -136,10 +136,10 @@ public theorem finiteSupportTensorSectionsHom_scalar
         colim.map (finiteSupportDiagramMap B f
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
             (SmallEtale.topology B X.obj X.property)
-            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a) V) =
+            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a).asHom V) =
       colim.map (finiteSupportDiagramMap B f
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a) V) ≫
+            (SmallEtale.topology B X.obj X.property) F a).asHom V) ≫
         finiteSupportTensorSectionsHom B Λ f F G V t := by
   have hΘ :
       (tensorOpenSectionMap B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
@@ -148,10 +148,10 @@ public theorem finiteSupportTensorSectionsHom_scalar
         finiteSupportDiagramMap B f
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
             (SmallEtale.topology B X.obj X.property)
-            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a) V =
+            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a).asHom V =
       finiteSupportDiagramMap B f
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a) V ≫
+            (SmallEtale.topology B X.obj X.property) F a).asHom V ≫
         (tensorOpenSectionMap B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
           (baseChange B f V) (modPullbackUnitSection B Λ f G V t)).finiteSupportDiagramHom
             B f :=
@@ -182,10 +182,10 @@ public theorem finiteSupportTensorSectionsHom_eqToHom_scalar
         ((finiteSupportPushforward.{u, max (u + 1) v} B f (fun _ => inferInstance)).1.map
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
             (SmallEtale.topology B X.obj X.property)
-            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a)).app (op V) =
+            (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G) a).asHom).app (op V) =
       ((finiteSupportPushforward.{u, max (u + 1) v} B f (fun _ => inferInstance)).1.map
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a)).app (op V) ≫
+            (SmallEtale.topology B X.obj X.property) F a).asHom).app (op V) ≫
         (eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
             (fun _ => inferInstance)).2.obj_eq
             ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) V) ≫

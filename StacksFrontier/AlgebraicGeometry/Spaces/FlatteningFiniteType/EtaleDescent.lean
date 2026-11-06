@@ -42,6 +42,19 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_FlatteningFiniteTypeEtaleDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_FlatteningFiniteTypeEtaleDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Flatness and local finite presentation of a strict transform descend along an étale cover
 of the source and a monomorphism of the base.**  Let `f : X ⟶ A`, `b : A' ⟶ A`, and let
 `f₂ : X₂ ⟶ A₂`, `b₂ : A' ⟶ A₂` be a second situation over the same `A'`, related by a

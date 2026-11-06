@@ -245,13 +245,25 @@ def injectivePageOneIso (hR : ∀ X : A, Injective X → P.rightAcyclic (R.obj X
   let H' := DerivedCategory.Plus.homologyFunctor B q
   have hiso (X : HomotopyCategory.Plus (InjectiveObject A)) :
       IsIso ((Functor.whiskerLeft (J ⋙ R.mapHomotopyCategoryPlus)
-        P.rightDerivedFunctorPlusUnit).app X) := by
+        P.rightDerivedFunctorPlusUnith).app X) := by
     let Y := (J ⋙ R.mapHomotopyCategoryPlus).obj X
-    exact P.isIso_totalRightDerivedUnit_app_of_rightAcyclic Y.obj.as
-      ((HomotopyCategory.plus_quotient_obj_iff Y.obj.as).1 Y.property)
-      (fun n => hR _ (X.obj.as.X n).property)
+    let α := (P.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _)
+    have h₁ : IsIso (α.app Y) :=
+      P.isIso_totalRightDerivedUnit_app_of_rightAcyclic Y.obj.as
+        ((HomotopyCategory.plus_quotient_obj_iff Y.obj.as).1 Y.property)
+        (fun n => hR _ (X.obj.as.X n).property)
+    let e := Functor.rightDerivedNatIso _ P.rightDerivedFunctorPlus α
+      P.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _) (Iso.refl _)
+    have h₂ : P.rightDerivedFunctorPlusUnith.app Y =
+        α.app Y ≫ e.hom.app (DerivedCategory.Plus.Qh.obj Y) := by
+      simpa [e] using (Functor.rightDerivedNatTrans_app _ P.rightDerivedFunctorPlus α
+        P.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _) (𝟙 _) Y).symm
+    change IsIso (P.rightDerivedFunctorPlusUnith.app Y)
+    rw [h₂]
+    infer_instance
   have : IsIso (Functor.whiskerLeft (J ⋙ R.mapHomotopyCategoryPlus)
-      P.rightDerivedFunctorPlusUnit) := NatIso.isIso_of_isIso_app _
+      P.rightDerivedFunctorPlusUnith) := NatIso.isIso_of_isIso_app _
   let step₁ : HomotopyCategory.Plus.ι A ⋙ (R ⋙ P).mapHomotopyCategory (ComplexShape.up ℤ) ≅
       (R ⋙ P).mapHomotopyCategoryPlus ⋙ HomotopyCategory.Plus.ι B :=
     ((HomotopyCategory.plus B).liftCompιIso
@@ -270,7 +282,7 @@ def injectivePageOneIso (hR : ∀ X : A, Injective X → P.rightAcyclic (R.obj X
   let e₂ : (J ⋙ R.mapHomotopyCategoryPlus) ⋙ P.mapHomotopyCategoryPlus ⋙
         DerivedCategory.Plus.Qh ≅
       (J ⋙ R.mapHomotopyCategoryPlus) ⋙ DerivedCategory.Plus.Qh ⋙ P.rightDerivedFunctorPlus :=
-    asIso (Functor.whiskerLeft (J ⋙ R.mapHomotopyCategoryPlus) P.rightDerivedFunctorPlusUnit)
+    asIso (Functor.whiskerLeft (J ⋙ R.mapHomotopyCategoryPlus) P.rightDerivedFunctorPlusUnith)
   exact Functor.isoWhiskerLeft J e₁ ≪≫
     (Iso.refl _ : _ ≅ ((J ⋙ R.mapHomotopyCategoryPlus) ⋙ P.mapHomotopyCategoryPlus ⋙
       DerivedCategory.Plus.Qh) ⋙ H') ≪≫
@@ -400,7 +412,7 @@ theorem abutsTo_derivedFunctor
       ((T.mapHomologicalComplex (ComplexShape.up ℤ)).obj Z)).symm ≪≫
     ((DerivedCategory.Plus.QhHomologyIso B m).app (T.mapHomotopyCategoryPlus.obj Y)).symm ≪≫
     (DerivedCategory.Plus.homologyFunctor B m).mapIso
-      ((asIso (T.rightDerivedFunctorPlusUnit.app Y)) ≪≫
+      ((asIso (T.rightDerivedFunctorPlusUnith.app Y)) ≪≫
         T.rightDerivedFunctorPlus.mapIso
           ((DerivedCategory.Plus.injectiveObjectEquivalence A).counitIso.app K))
 

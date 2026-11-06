@@ -67,6 +67,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FiniteHullOfIntegral
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Let `Q` be a property of morphisms of algebraic spaces which respects isomorphisms and is
 local on the target for the fppf topology. In a cartesian square of presheaves, if `g` base changes
 along a surjective étale `f` to a morphism with property `Q`, then `g` has property `Q`. -/

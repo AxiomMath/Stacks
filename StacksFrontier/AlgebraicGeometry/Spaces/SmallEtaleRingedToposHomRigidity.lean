@@ -399,6 +399,21 @@ private theorem twoMorphism_app_eq_id_of_corepresentation
       (congr_app (congrArg (fun z ↦ z.hom) t.commutes) (op V)) b)
     hjoint F s
 
+/-- Products of sheaves of sets on the small étale site, supplied directly: instance search
+for them times out under Lean v4.35.0. -/
+private instance (priority := high) hasLimitsOfShape_discrete_smallEtaleSheaf' (J : Type u) :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS X.1) (Type u)) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  haveI : HasLimitsOfShape (Discrete J) ((SmallEtale B S hS X.1)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
+
+private instance (priority := high) hasLimit_discreteFunctor_smallEtaleSheaf' {J : Type u}
+    (F : J → Sheaf (SmallEtale.topology B S hS X.1) (Type u)) :
+    HasLimit (Discrete.functor F) :=
+  (hasLimitsOfShape_discrete_smallEtaleSheaf' B S hS J).has_limit _
+
 section Affine
 
 variable (V : SmallEtale B S hS Y.1)

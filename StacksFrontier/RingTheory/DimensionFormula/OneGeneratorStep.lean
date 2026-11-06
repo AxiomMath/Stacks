@@ -273,8 +273,6 @@ theorem const_fiber_residue_trdeg_pos {A : Type u} [CommRing A] [IsDomain A]
     rw [hQeq, Polynomial.algebraMap_eq]
   let : Algebra (Localization.AtPrime P) (Localization.AtPrime Q) :=
     Localization.AtPrime.algebraOfLiesOver P Q
-  have : Localization.AtPrime.IsLiesOverAlgebra P Q :=
-    Localization.AtPrime.instIsLiesOverAlgebra P Q
   have e := Polynomial.residueFieldMapCAlgEquiv P Q hQeqC
   let ealg : Q.ResidueField ≃ₐ[P.ResidueField] RatFunc P.ResidueField :=
     AlgEquiv.ofRingEquiv (f := e.toRingEquiv) e.commutes

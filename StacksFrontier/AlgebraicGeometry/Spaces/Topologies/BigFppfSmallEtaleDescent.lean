@@ -50,6 +50,25 @@ namespace AlgebraicGeometry.BigFppfSpaceSite
 variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) (E : BigEtaleSpaceSite S)
   (h : T.schemeSite = E.fppfSite)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfSmallEtaleDescent
+    (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_bigFppfSmallEtaleDescent :
+    HasPullbacks ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_bigFppfSmallEtaleDescent
+    {X Y Z : (BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Restriction of big fppf sheaves of sets on an algebraic space `X` along
 `Ψ_s : (Sch/A) ⥤ (Spaces/X)` (`AlgebraicGeometry.Space.schemeSliceToSpaceSlice`), for a scheme
 `A` over `S` and a morphism `s : h_A ⟶ X`: a sheaf on the big fppf site of the scheme `A`. -/

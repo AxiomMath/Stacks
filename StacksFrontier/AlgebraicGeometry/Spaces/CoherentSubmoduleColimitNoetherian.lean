@@ -838,6 +838,7 @@ section Colimit
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- Let `X` be a Noetherian algebraic space over a scheme `S`.  Every quasi-coherent
 `𝒪_X`-module `F` is the filtered colimit of its coherent submodules: the coherent submodules of `F`
 form a filtered category, and the cocone of their inclusions into `F` is a colimit cocone. -/

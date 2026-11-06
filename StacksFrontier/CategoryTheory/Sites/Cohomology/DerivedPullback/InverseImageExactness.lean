@@ -483,6 +483,9 @@ nothing else. -/
 theorem pullbackPreservesShortExact (f : AlgebraicGeometry.RingedToposSiteHom X Y)
     (hpf : PullbackPreservesIsFlatUniv.{u}) :
     Stacks.Sheaves.DerivedPullback.KFlatPullback.PullbackPreservesShortExact f :=
+  -- Mathlib's global instance, not the omitted section variable
+  letI : HasSheafify Y.J AddCommGrpCat.{u} :=
+    instHasSheafifyOfPreservesLimitsForgetOfHasFiniteLimitsOfSmallOppositeCover Y.J _
   pullbackPreservesShortExact_of_univ f hpf (inverseImagePreservesShortExact f)
 
 section Consumer

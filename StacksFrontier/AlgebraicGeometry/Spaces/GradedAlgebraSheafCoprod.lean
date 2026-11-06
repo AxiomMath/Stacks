@@ -72,6 +72,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hc : ∀ (i j : ℤ) (V : (SmallEtale B S hS W.1)ᵒᵖ) (a : (A.piece i).val.obj V)
       (b : (A.piece j).val.obj V), HEq ((A.mul i j).app V a b) ((A.mul j i).app V b a))
 
+/-- Coproducts of presheaves of modules over the structure ring, supplied directly: instance
+search for them times out. -/
+local instance (priority := high) hasColimitsOfShape_discrete_gradedAlgebraSheafCoprod
+    (J : Type u) :
+    HasColimitsOfShape (Discrete J) (PresheafOfModules.{u} (structureRingSheaf B S hS W).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
 /-- The sheafification unit of the ungraded realization is compatible with the structure map of
 the graded algebra and the structure morphism of `AlgebraicGeometry.Space.gradedAlgebraSheaf`. -/
 theorem structureHom_comp_toTotalSheaf_gradedAlgebraSheaf :

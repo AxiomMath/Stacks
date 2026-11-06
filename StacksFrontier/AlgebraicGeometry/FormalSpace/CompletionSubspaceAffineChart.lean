@@ -96,6 +96,14 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_completionSubspaceAffineChart
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### The ideal of a closed subspace of a representable -/
 
 /-- The object of the site cutting out a closed subspace of a representable algebraic space:

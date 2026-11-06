@@ -83,28 +83,31 @@ public noncomputable def conjFiberAut {R S : C} {x : p.Fiber R} {y : p.Fiber S} 
     [IsIso H] (hH : p.IsHomLift (𝟙 R) H) (b : Aut y) : Aut x :=
   have hbase : R = S := (IsHomLift.codomain_eq p (𝟙 R) H).symm.trans y.2
   have := hH
-  have := isHomLift_id_of_base_eq hbase.symm b.hom.val b.hom.2
-  have := isHomLift_id_of_base_eq hbase.symm b.inv.val b.inv.2
+  have := isHomLift_id_of_base_eq hbase.symm b.asIso.hom.val b.asIso.hom.2
+  have := isHomLift_id_of_base_eq hbase.symm b.asIso.inv.val b.asIso.inv.2
   have : p.IsHomLift (𝟙 R) (inv H) := by simpa using IsHomLift.inv p (𝟙 R) H
-  have hhi : b.hom.val ≫ b.inv.val = 𝟙 _ := congrArg Subtype.val b.hom_inv_id
-  have hih : b.inv.val ≫ b.hom.val = 𝟙 _ := congrArg Subtype.val b.inv_hom_id
-  { hom := ⟨H ≫ b.hom.val ≫ inv H, IsHomLift.comp_of_lift_id p _ H (b.hom.val ≫ inv H)⟩
-    inv := ⟨H ≫ b.inv.val ≫ inv H, IsHomLift.comp_of_lift_id p _ H (b.inv.val ≫ inv H)⟩
+  have hhi : b.asIso.hom.val ≫ b.asIso.inv.val = 𝟙 _ := congrArg Subtype.val b.asIso.hom_inv_id
+  have hih : b.asIso.inv.val ≫ b.asIso.hom.val = 𝟙 _ := congrArg Subtype.val b.asIso.inv_hom_id
+  Aut.of
+  { hom := ⟨H ≫ b.asIso.hom.val ≫ inv H,
+      IsHomLift.comp_of_lift_id p _ H (b.asIso.hom.val ≫ inv H)⟩
+    inv := ⟨H ≫ b.asIso.inv.val ≫ inv H,
+      IsHomLift.comp_of_lift_id p _ H (b.asIso.inv.val ≫ inv H)⟩
     hom_inv_id := by
       apply Functor.Fiber.hom_ext
-      change (H ≫ b.hom.val ≫ inv H) ≫ H ≫ b.inv.val ≫ inv H = 𝟙 _
+      change (H ≫ b.asIso.hom.val ≫ inv H) ≫ H ≫ b.asIso.inv.val ≫ inv H = 𝟙 _
       simp only [Category.assoc, IsIso.inv_hom_id_assoc]
-      rw [← Category.assoc b.hom.val, hhi, Category.id_comp, IsIso.hom_inv_id]
+      rw [← Category.assoc b.asIso.hom.val, hhi, Category.id_comp, IsIso.hom_inv_id]
     inv_hom_id := by
       apply Functor.Fiber.hom_ext
-      change (H ≫ b.inv.val ≫ inv H) ≫ H ≫ b.hom.val ≫ inv H = 𝟙 _
+      change (H ≫ b.asIso.inv.val ≫ inv H) ≫ H ≫ b.asIso.hom.val ≫ inv H = 𝟙 _
       simp only [Category.assoc, IsIso.inv_hom_id_assoc]
-      rw [← Category.assoc b.inv.val, hih, Category.id_comp, IsIso.hom_inv_id] }
+      rw [← Category.assoc b.asIso.inv.val, hih, Category.id_comp, IsIso.hom_inv_id] }
 
 /-- The underlying arrow of the conjugate automorphism is the conjugate arrow. -/
 public theorem conjFiberAut_hom_val {R S : C} {x : p.Fiber R} {y : p.Fiber S} (H : x.1 ⟶ y.1)
     [IsIso H] (hH : p.IsHomLift (𝟙 R) H) (b : Aut y) :
-    (conjFiberAut H hH b).hom.val = H ≫ b.hom.val ≫ inv H :=
+    (conjFiberAut H hH b).asIso.hom.val = H ≫ b.asIso.hom.val ≫ inv H :=
   rfl
 
 end Conj
@@ -165,15 +168,15 @@ public theorem surjective_mapFiberAut_dualNumbersUnder (q : BasedFunctor 𝓖 �
     exact congrArg Subtype.val ((localizedTangentEquivKernel PF).apply_symm_apply ⟨β, hβmem⟩)
   have hkey := hconj tG
   rw [show (localizedTangentEquivKernel PF
-      (inducedInfinitesimalLinearMapOfEq q.toFunctor q.w hrsG hrsF PG PF tG)).1.hom.val =
-      H ≫ b.hom.val ≫ inv H from congrArg
-      (fun c : Aut (PF.obj (dualNumbersUnder (p := 𝓕.p) (x := q.obj z₀))) => c.hom.val)
+      (inducedInfinitesimalLinearMapOfEq q.toFunctor q.w hrsG hrsF PG PF tG)).1.asIso.hom.val =
+      H ≫ b.asIso.hom.val ≫ inv H from congrArg
+      (fun c : Aut (PF.obj (dualNumbersUnder (p := 𝓕.p) (x := q.obj z₀))) => c.asIso.hom.val)
       hval] at hkey
-  have hcancel : H ≫ b.hom.val =
-      H ≫ q.map (localizedTangentEquivKernel PG tG).1.hom.val := by
+  have hcancel : H ≫ b.asIso.hom.val =
+      H ≫ q.map (localizedTangentEquivKernel PG tG).1.asIso.hom.val := by
     refine Eq.trans ?_ hkey
     simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
-  exact Aut.ext (Functor.Fiber.hom_ext ((cancel_epi H).mp hcancel).symm)
+  exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext ((cancel_epi H).mp hcancel).symm))
 
 end DualNumbers
 

@@ -143,8 +143,8 @@ theorem closedPointDivisorRestriction_mapDomain_scalarExtensionClosedPoint
   by_cases hx' : x' ∈ Set.range (scalarExtensionClosedPoint (j ≫ q) k')
   · obtain ⟨x, rfl⟩ := hx'
     rw [closedPointsMapOfOpenImmersion_scalarExtensionClosedPoint,
-      Finsupp.mapDomain_apply (injective_scalarExtensionClosedPoint q k'),
-      Finsupp.mapDomain_apply (injective_scalarExtensionClosedPoint (j ≫ q) k'),
+      Finsupp.mapDomain_apply_of_injective (injective_scalarExtensionClosedPoint q k'),
+      Finsupp.mapDomain_apply_of_injective (injective_scalarExtensionClosedPoint (j ≫ q) k'),
       closedPointDivisorRestriction_apply]
   · rw [Finsupp.mapDomain_notin_range _ _ hx', Finsupp.mapDomain_notin_range]
     rintro ⟨y, hy⟩

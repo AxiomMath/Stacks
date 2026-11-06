@@ -572,7 +572,7 @@ theorem exists_algHom_tensorProduct_of_formallySmooth (R : Type u) [CommRing R] 
   let (n : MaximalSpectrum T) : Field (T ⧸ n.asIdeal) := Ideal.Quotient.field n.asIdeal
   let mn (n : MaximalSpectrum T) : MaximalSpectrum A :=
     ⟨Ideal.comap (algebraMap A T) n.asIdeal,
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) n.asIdeal⟩
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) n.asIdeal⟩
   let τ (n : MaximalSpectrum T) : A ⧸ (mn n).asIdeal →+* T ⧸ n.asIdeal :=
     Ideal.quotientMap n.asIdeal (algebraMap A T) le_rfl
   have hkerg : RingHom.ker g = maximalIdeal C := ker_eq_maximalIdeal_of_surjective g hgsurj

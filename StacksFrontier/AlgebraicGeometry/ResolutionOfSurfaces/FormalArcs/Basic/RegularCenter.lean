@@ -699,6 +699,7 @@ private theorem exists_regular_center_of_balanced_relations
         (algebraMap Γ(s.scheme i, U.1) B) (RingHom.ker f) (RingHom.ker g)
         a x y l k (c l) hp hker hdiv haB (n + 1) (n + 1)
         (Nat.zero_lt_succ n) (Nat.zero_lt_succ n) (hrel l))
+      set_option synthInstance.maxHeartbeats 200000 in
       simpa only [Nat.add_sub_cancel, map_sub, map_mul, map_pow,
         RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, φ, F, RingHom.comp_apply] using hmap
 

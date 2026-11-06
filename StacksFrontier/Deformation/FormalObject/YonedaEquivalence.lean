@@ -68,7 +68,7 @@ namespace Deformation
 -- category, and across `BasedFunctor.comp`.  Those definitions are made reducible here so
 -- that `simp`, `rw` and instance search can traverse the chain.
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-  CategoryTheory.BasedFunctor.comp CategoryTheory.Functor.Elements
+  CategoryTheory.BasedFunctor.comp
 
 universe u v w uF vF
 universe u₁ v₁ u₂ v₂
@@ -91,11 +91,11 @@ public noncomputable def pushforwardMap (t : x ⟶ y) (g : α ⟶ β) :
   have := (P β.2).cocartesian y
   have := t.2
   exact Functor.IsStronglyCocartesian.map q α.2 ((P α.2).inclusion x)
-    g.property.symm (t.1 ≫ (P β.2).inclusion y)
+    g.map_val.symm (t.1 ≫ (P β.2).inclusion y)
 
 /-- The induced arrow lies over the given arrow between points. -/
 public lemma pushforwardMap_lift (t : x ⟶ y) (g : α ⟶ β) :
-    q.IsHomLift g.val (pushforwardMap q P t g) := by
+    q.IsHomLift g.hom (pushforwardMap q P t g) := by
   unfold pushforwardMap
   infer_instance
 
@@ -129,7 +129,7 @@ public lemma pushforwardMap_comp (t : x ⟶ y) (s : y ⟶ z)
   have := pushforwardMap_lift q P (t ≫ s) (g ≫ h)
   have := pushforwardMap_lift q P t g
   have := pushforwardMap_lift q P s h
-  apply Functor.IsStronglyCocartesian.ext q α.2 ((P α.2).inclusion x) (g.val ≫ h.val)
+  apply Functor.IsStronglyCocartesian.ext q α.2 ((P α.2).inclusion x) (g.hom ≫ h.hom)
   rw [pushforwardMap_fac, ← Category.assoc, pushforwardMap_fac,
     Category.assoc, pushforwardMap_fac]
   exact Category.assoc _ _ _
@@ -138,7 +138,7 @@ public lemma pushforwardMap_comp (t : x ⟶ y) (s : y ⟶ z)
 Its arrows are uniquely induced by the chosen cocartesian arrows. -/
 public noncomputable def yonedaPushforward (x : q.Fiber R) :
     BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (coyoneda.obj (Opposite.op R))))
+      (BasedCategory.ofFunctor (Functor.Elements.π (coyoneda.obj (Opposite.op R))))
       (BasedCategory.ofFunctor q) := by
   let H : (coyoneda.obj (Opposite.op R)).Elements ⥤ D :=
     { obj := fun α ↦ ((P α.2).obj x).1
@@ -148,7 +148,7 @@ public noncomputable def yonedaPushforward (x : q.Fiber R) :
         simpa only [Category.id_comp] using pushforwardMap_comp q P (𝟙 x) (𝟙 x) g h }
   refine ⟨H, CategoryTheory.Functor.ext (fun α ↦ ((P α.2).obj x).2) fun α β g => ?_⟩
   have := pushforwardMap_lift q P (𝟙 x) g
-  exact IsHomLift.fac' q g.val _
+  exact IsHomLift.fac' q g.hom _
 
 end AnyBase
 
@@ -210,7 +210,7 @@ public noncomputable def yonedaPushforwardEvaluationIso
         inv_hom_id := Subtype.ext (IsIso.inv_hom_id _) }
   refine NatIso.ofComponents e fun t => ?_
   apply Subtype.ext
-  exact (pushforwardMap_fac q P t (𝟙 ⟨R, 𝟙 R⟩)).symm
+  exact (pushforwardMap_fac q P t (𝟙 (Functor.elementsMk _ R (𝟙 R)))).symm
 
 end Pushforwards
 
@@ -226,26 +226,26 @@ public theorem restrictedRepresentableProjection_comp_inclusion
   have hobj (X : Restriction (representedProjection R)) :
       ((representedRestrictionInverseBased R).comp
         (restrictedRepresentableInclusion R)).obj X = X := by
-    rcases X with ⟨⟨S, f⟩, A, h⟩
+    rcases X with ⟨@⟨S, f⟩, A, h⟩
     change S = artinianToComplete.obj A at h
     subst S
-    show (Restriction.mk (p := representedProjection R) ⟨_, f ≫ 𝟙 _⟩ A rfl) = _
+    show (Restriction.mk (p := representedProjection R) ⟨f ≫ 𝟙 _⟩ A rfl) = _
     rw [Category.comp_id]
   have hfun : ((representedRestrictionInverseBased R).comp
       (restrictedRepresentableInclusion R)).toFunctor = 𝟭 _ := by
     refine CategoryTheory.Functor.ext hobj ?_
     intro X Y g
-    rcases X with ⟨⟨S, f⟩, A, h⟩
-    rcases Y with ⟨⟨T, f'⟩, B, h'⟩
+    rcases X with ⟨@⟨S, f⟩, A, h⟩
+    rcases Y with ⟨@⟨T, f'⟩, B, h'⟩
     change S = artinianToComplete.obj A at h
     change T = artinianToComplete.obj B at h'
     subst S T
     simp only [Functor.id_obj, Functor.id_map]
     apply Restriction.Hom.ext
-    · apply Subtype.ext
-      show artinianToComplete.map g.base = g.obj.val
+    · apply Functor.Elements.hom_ext
+      show artinianToComplete.map g.base = g.obj.hom
       have hc := g.comm
-      change 𝟙 _ ≫ artinianToComplete.map g.base = g.obj.val ≫ 𝟙 _ at hc
+      change 𝟙 _ ≫ artinianToComplete.map g.base = g.obj.hom ≫ 𝟙 _ at hc
       simpa only [Category.id_comp, Category.comp_id] using hc
     · rfl
   have ext : ∀ (a b : BasedFunctor
@@ -297,7 +297,7 @@ public noncomputable def iota (R : CompleteLocalAlgCat.{u, v, w} Λ k)
 public theorem iota_obj (R S : CompleteLocalAlgCat.{u, v, w} Λ k)
     (P : ChosenCompletePushforwards (FormalObject.projection (p := p)))
     (ξ : (FormalObject.projection (p := p)).Fiber R) (f : R ⟶ S) :
-    ((iota R P).obj ξ).obj ⟨S, f⟩ = ((P f).obj ξ).1 := rfl
+    ((iota R P).obj ξ).obj ⟨f⟩ = ((P f).obj ξ).1 := rfl
 
 /-- `Ψ` from Tag 06HA, using the canonical identification of the two presentations
 of the restriction of the represented cofibered set. -/
@@ -320,7 +320,7 @@ public noncomputable def phi (hp : IsCofiberedInGroupoids p)
 public theorem phi_obj (hp : IsCofiberedInGroupoids p)
     (R : CompleteLocalAlgCat.{u, v, w} Λ k)
     (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) :
     (phi hp R).obj φ =
       (unitBasedFunctor (representedProjection R)
@@ -387,7 +387,7 @@ public noncomputable def formalObjectsYonedaEquivalence
     (R : CompleteLocalAlgCat.{u, v, w} Λ k)
     (P : ChosenCompletePushforwards (FormalObject.projection (p := p))) :
     BasedFunctor
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
         (BasedCategory.ofFunctor p) ≌
       (FormalObject.projection (p := p)).Fiber R :=
   (representableMorphismFormalObjectEquivalence p hp R).equivalence.changeInverse
@@ -490,12 +490,12 @@ public theorem associatedMorphism_maps_to
   have hx : x.base = ξ.base := by
     simpa [x, xFiber, FormalObject.projection_obj] using xFiber.2
   let qpt (n : ℕ) : (restrictedCoyoneda ξ.base).Elements :=
-    ⟨AdicTruncation.obj ξ.base n, E.quotientPoint n⟩
+    Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)
   let qobj (n : ℕ) :
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))).obj := qpt n
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))).obj := qpt n
   let assocObj (n : ℕ) : F := a.toBasedFunctor.obj (qobj n)
   let edge (n : ℕ) : qobj (n + 1) ⟶ qobj n :=
-    CategoryOfElements.homMk (qpt (n + 1)) (qpt n)
+    Functor.Elements.homMk (x := qpt (n + 1)) (y := qpt n)
       (AdicTruncation.transition ξ.base n) (E.projectionPoint n)
   let assocMap (n : ℕ) : assocObj (n + 1) ⟶ assocObj n :=
     a.toBasedFunctor.map (edge n)

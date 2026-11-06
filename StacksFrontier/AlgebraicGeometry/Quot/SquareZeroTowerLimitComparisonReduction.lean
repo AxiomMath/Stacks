@@ -50,15 +50,15 @@ theorem exists_mem_sections_of_surjective_map {F : ℕᵒᵖ ⥤ Type v}
       F.map (homOfLE (Nat.add_le_add_left h n)).op (b l) = b k := by
     intro k l h
     induction l, h using Nat.le_induction with
-    | base => exact FunctorToTypes.map_id_apply F (b k)
-    | succ l hl ih => rw [← ih, ← hb l, ← FunctorToTypes.map_comp_apply]; rfl
+    | base => exact F.map_id_apply _ (b k)
+    | succ l hl ih => rw [← ih, ← hb l, ← Functor.map_comp_apply]; rfl
   let s : (j : ℕᵒᵖ) → F.obj j := fun j ↦
     F.map (homOfLE (Nat.le_add_left (unop j) n)).op (b (unop j))
   refine ⟨s, fun {j j'} g ↦ ?_, ?_⟩
   · have hle : unop j' ≤ unop j := leOfHom g.unop
     show F.map g (F.map (homOfLE (Nat.le_add_left (unop j) n)).op (b (unop j))) =
       F.map (homOfLE (Nat.le_add_left (unop j') n)).op (b (unop j'))
-    rw [← FunctorToTypes.map_comp_apply, ← hchain _ _ hle, ← FunctorToTypes.map_comp_apply]
+    rw [← Functor.map_comp_apply, ← hchain _ _ hle, ← Functor.map_comp_apply]
     rfl
   · show F.map (homOfLE (Nat.le_add_left n n)).op (b n) = b 0
     rw [← hchain 0 n (Nat.zero_le n)]

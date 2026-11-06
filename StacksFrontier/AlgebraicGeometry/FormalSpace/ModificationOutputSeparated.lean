@@ -202,6 +202,30 @@ theorem isSeparatedMorphism_isIso_comp {W' W Y : FppfSheaf B S hS} (i : W' ⟶ W
   isSeparatedMorphism_of_isPullback B S hS
     (IsPullback.of_horiz_isIso (fst := i) (snd := i ≫ h) (f := h) (g := 𝟙 Y) ⟨by simp⟩) hh
 
+/-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
+search for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ModificationOutputSeparated :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+/-- The pullback of two morphisms of fppf sheaves in `Type (u + 1)`. -/
+local instance (priority := high) hasLimit_cospan_sheaf_ModificationOutputSeparated
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ModificationOutputSeparated :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_ModificationOutputSeparated
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0ARW.** Let `X` be a locally Noetherian algebraic space over `S`, let `T ⊆ |X|` be
 closed with open complement `U`, and let `f : X' ⟶ X` be a finite-type modification of `X`
 outside `U` (Stacks 0AS2), corresponding to an object `g : W ⟶ X_{/T}` of the right-hand
@@ -232,7 +256,7 @@ theorem isSeparated_iff_isSeparatedMorphism_and_isRigSurjective_diagonal_of_iso
       rw [← (Subfunctor.isPullback_fromPreimage (Space.openSubspaceOfPoints B S hS X Tᶜ)
         M.obj.hom).flip.isoPullback_hom_snd]
       infer_instance
-    have : IsIso e.inv.left := Functor.map_isIso (Over.forget _) e.inv
+    have : IsIso e.inv.left := ((Over.forget _).mapIso e).isIso_inv
     have key : ∀ {φ : P.obj.left ⟶ Space.completionSheaf B S hS X T},
         φ = e.inv.left ≫ Space.completionSheafMap B S hS M.obj.hom T →
           IsSeparatedMorphism B S hS φ ∧ IsRigSurjective B S hS (pullback.diagonal φ) := by
@@ -240,14 +264,14 @@ theorem isSeparated_iff_isSeparatedMorphism_and_isRigSurjective_diagonal_of_iso
       exact ⟨isSeparatedMorphism_isIso_comp e.inv.left _
           (isSeparatedMorphism_completionSheafMap B S hS hX' hX _ T hf),
         isRigSurjective_diagonal_isIso_comp e.inv.left _
-          (isRigSurjective_diagonal_completionSheafMap hX' hX _ T hT hf inferInstance)⟩
+          (isRigSurjective_diagonal_completionSheafMap hX' hX _ T hT hf (IsIso.mono_of_iso _))⟩
     exact key (Over.w e.inv).symm
   · rintro ⟨hsep, hΔ⟩
     have hN : Space.HasEtaleLocalProperty B S hS X
         (fun T : Scheme.{u} ↦ _root_.AlgebraicGeometry.IsLocallyNoetherian T) :=
       (Space.exists_atlas_iff_forall_etale B S hS X _ hX).mpr fun W q hq ↦
         hXN W q ((Space.isEtale_iff_presheaf_of_yoneda B S hS q).2 hq)
-    have : IsIso e.hom.left := Functor.map_isIso (Over.forget _) e.hom
+    have : IsIso e.hom.left := ((Over.forget _).mapIso e).isIso_hom
     have hg : Space.completionSheafMap B S hS M.obj.hom T = e.hom.left ≫ P.obj.hom :=
       (Over.w e.hom).symm
     refine isSeparated_of_isSeparatedMorphism_completionSheafMap hX' hX hN M.obj.hom

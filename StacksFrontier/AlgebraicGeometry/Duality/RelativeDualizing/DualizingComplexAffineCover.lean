@@ -101,9 +101,9 @@ def tildeRestrictDerivedIso :
   letI : PreservesFiniteLimits (Scheme.Modules.restrictFunctor (Spec.map φ)) :=
     Stacks.DerivedQCoh.preservesFiniteLimits_restrictFunctor _
   letI : PreservesFiniteColimits (Scheme.Modules.restrictFunctor (Spec.map φ)) := inferInstance
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr (tildeRestrictIso φ) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm
 
 end Stacks.AffineTilde
 

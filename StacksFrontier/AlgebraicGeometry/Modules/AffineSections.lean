@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicGeometry.ResidueField
 public import StacksFrontier.AlgebraicGeometry.AffinePushforward.Basic
 public import StacksFrontier.AlgebraicGeometry.Modules.FreeSections
 public import StacksFrontier.AlgebraicGeometry.Modules.TildePullbackBaseChange

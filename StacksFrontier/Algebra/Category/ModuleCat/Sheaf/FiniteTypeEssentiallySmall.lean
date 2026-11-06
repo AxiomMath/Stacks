@@ -7,6 +7,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.SheafOfModules
 public import Mathlib.CategoryTheory.ObjectProperty.Small
 public import Mathlib.CategoryTheory.Abelian.Subobject
 public import Mathlib.Geometry.RingedSpace.Basic
+public import Mathlib.Algebra.Category.Ring.Limits
 import StacksCore.Tactic.StacksAttribute
 import StacksFrontier.AlgebraicGeometry.Properties.CardinalGeneratedSmall
 

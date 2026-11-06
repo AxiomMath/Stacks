@@ -155,18 +155,19 @@ the identity and the unit `-1` by the switch, which is an involution. -/
 @[stacks 0FEK "the action of the group of units {±1} on the tensor square by switching the two \
   factors"]
 def swapSquareAction (L : C) : ℤˣ →* End (L ⊗ L) where
-  toFun u := if (u : ℤ) = 1 then 𝟙 (L ⊗ L) else swapSquare L
-  map_one' := by norm_num; rfl
+  toFun u := End.of (if (u : ℤ) = 1 then 𝟙 (L ⊗ L) else swapSquare L)
+  map_one' := by ext; simp
   map_mul' x y := by
     rcases Int.units_eq_one_or x with hx | hx <;> rcases Int.units_eq_one_or y with hy | hy <;>
-      subst hx <;> subst hy <;> norm_num [End.mul_def, End.one_def]
+      subst hx <;> subst hy <;> ext <;> norm_num [End.mul_asHom]
 
 /-- The unit `1` acts on `L ⊗ L` by the identity. -/
-@[simp] theorem swapSquareAction_one (L : C) : swapSquareAction L 1 = 𝟙 (L ⊗ L) := by
+@[simp] theorem swapSquareAction_one (L : C) : (swapSquareAction L 1).asHom = 𝟙 (L ⊗ L) := by
   simp [swapSquareAction]
 
 /-- The unit `-1` acts on `L ⊗ L` by the switch of the two factors. -/
-@[simp] theorem swapSquareAction_neg_one (L : C) : swapSquareAction L (-1) = swapSquare L := by
+@[simp] theorem swapSquareAction_neg_one (L : C) :
+    (swapSquareAction L (-1)).asHom = swapSquare L := by
   norm_num [swapSquareAction]
 
 end Swap
@@ -415,7 +416,7 @@ def derivedSwapSquareAction (L : DerivedCategory (StructureSheafModules Rc)) :
 /-- The unit `-1` acts on `L ⊗^L_{O_X} L` by the switch of the two factors. -/
 @[simp] theorem derivedSwapSquareAction_neg_one
     (L : DerivedCategory (StructureSheafModules Rc)) :
-    derivedSwapSquareAction Rc L (-1) = derivedSwapSquare Rc L :=
+    (derivedSwapSquareAction Rc L (-1)).asHom = derivedSwapSquare Rc L :=
   swapSquareAction_neg_one L
 
 end Derived

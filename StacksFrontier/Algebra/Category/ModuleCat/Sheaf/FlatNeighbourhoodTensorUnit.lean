@@ -134,7 +134,7 @@ private lemma isIso_sheafification_tensorHom
       (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).map b)) :
     IsIso ((PresheafOfModules.sheafification
       (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).map
-        (PresheafOfModules.Monoidal.tensorHom a b)) := by
+        (PresheafOfModulesOfCommRing.Monoidal.tensorHom a b)) := by
   let S := _root_.PresheafOfModules.moduleSheafification J (𝟙 O.obj)
   let T := Functor.uncurry.obj
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O)
@@ -144,17 +144,17 @@ private lemma isIso_sheafification_tensorHom
   have : IsIso (Prod.mkHom (S.map a) (S.map b)) :=
     (isIso_prod_iff _ _).mpr ⟨ha, hb⟩
   have h : T.map (Prod.mkHom (S.map a) (S.map b)) ≫ (e.app (P', Q')).hom =
-      (e.app (P, Q)).hom ≫ S.map (PresheafOfModules.Monoidal.tensorHom a b) :=
+      (e.app (P, Q)).hom ≫ S.map (PresheafOfModulesOfCommRing.Monoidal.tensorHom a b) :=
     (e.hom.naturality (show (P, Q) ⟶ (P', Q') from (a, b))).trans
       (congrArg (fun morphism ↦ (e.app (P, Q)).hom ≫ S.map morphism)
         (PresheafOfModules.tensorBifunctor_uncurry_map (O := O.obj) a b))
-  have heq : S.map (PresheafOfModules.Monoidal.tensorHom a b) =
+  have heq : S.map (PresheafOfModulesOfCommRing.Monoidal.tensorHom a b) =
       (e.app (P, Q)).inv ≫ T.map
         (Prod.mkHom (S.map a) (S.map b)) ≫
           (e.app (P', Q')).hom := by
     apply (cancel_epi (e.app (P, Q)).hom).1
     exact h.symm.trans ((e.app (P, Q)).hom_inv_id_assoc _).symm
-  change IsIso (S.map (PresheafOfModules.Monoidal.tensorHom a b))
+  change IsIso (S.map (PresheafOfModulesOfCommRing.Monoidal.tensorHom a b))
   rw [heq]
   exact ((e.app (P, Q)).symm ≪≫
     T.mapIso (Iso.prod (@asIso _ _ _ _ (S.map a) ha)
@@ -293,7 +293,7 @@ noncomputable def tensorUnitMap {O O' : Sheaf J CommRingCat.{w}} (f : O ⟶ O')
           (rf.hom.app X).hom r • (rf.hom.app X).hom m'
         simpa only [smul_eq_mul] using map_mul (rf.hom.app X).hom r m')
   letI : MonoidalCategory (PresheafOfModules R.obj) :=
-    PresheafOfModules.monoidalCategory
+    PresheafOfModulesOfCommRing.monoidalCategory
   let c : F.val ⟶ MonoidalCategoryStruct.tensorObj F.val
       (RestrictedRingModule f).val :=
     (MonoidalCategoryStruct.rightUnitor F.val).inv ≫
@@ -737,7 +737,7 @@ lemma isIso_tensorUnitMap_of_pow_smul_eq_zero
       ((F.val.obj X).smul
         (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from
           (Finset.univ.prod (fun k ↦ show O.obj.obj X from (i.val.app X) (a k)) :
-            O.obj.obj X))).hom x = 0) :
+            O.obj.obj X))).asHom x = 0) :
     IsIso (tensorUnitMap f F).val := by
   obtain ⟨n, hn⟩ := hF
   apply (isIso_tensorUnitMap_iff_sheafification_map f F).mpr

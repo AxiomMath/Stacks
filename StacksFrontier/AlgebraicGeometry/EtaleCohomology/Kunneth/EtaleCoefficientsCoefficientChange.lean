@@ -53,6 +53,12 @@ variable {Λ Λ' : Type (u + 1)} [CommRing Λ] [CommRing Λ'] (φ : Λ →+* Λ'
 
 section Hom
 
+/-- Sheafification of presheaves of commutative rings on the small model of the small étale site,
+with its universes pinned. -/
+instance (priority := high) hasSheafify_topology_coefficientChange (Z : Scheme.{u}) :
+    HasSheafify (topology Z) CommRingCat.{u + 1} :=
+  Stacks.SheafifyCommRing.hasSheafifyCommRingCat.{0, u + 1, u + 1} (topology Z)
+
 /-- **The map of constant sheaves of rings `Λ̲ ⟶ Λ̲'`** induced by `φ` on the small model of the
 small étale site of `Z`. -/
 def coefficientMap (Z : Scheme.{u}) : (ringedTopos Λ Z).O ⟶ (ringedTopos Λ' Z).O :=

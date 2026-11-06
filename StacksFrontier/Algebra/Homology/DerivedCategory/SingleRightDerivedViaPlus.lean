@@ -146,7 +146,7 @@ theorem comp_boundedDerivedIso_inv_app
     (K : HomotopyCategory.Plus A) :
     α.app ((HomotopyCategory.Plus.ι A).obj K) ≫
         (Functor.boundedDerivedIso w Rw α hres).inv.app (DerivedCategory.Plus.Qh.obj K) =
-      DerivedCategory.Plus.ι.map (w.rightDerivedFunctorPlusUnit.app K) :=
+      DerivedCategory.Plus.ι.map (w.rightDerivedFunctorPlusUnith.app K) :=
   comp_cancel_right (Functor.boundedDerivedIso_hom_app w Rw α hres K).symm
     (Iso.hom_inv_id_app (Functor.boundedDerivedIso w Rw α hres)
       (DerivedCategory.Plus.Qh.obj K))
@@ -189,7 +189,7 @@ theorem comp_resCompUnitIso_inv_app_comp
     Rw.map ((singleIsoResCompQh (A := A)).hom.app X) ≫
         (resCompUnitIso w Rw α hres).inv.app X ≫
           DerivedCategory.Plus.ι.map
-              (w.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj X)) ≫
+              (w.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj X)) ≫
             DerivedCategory.Plus.ι.map (w.rightDerivedFunctorPlus.map
               ((Stacks.DerivedIndexing.singleIsoResPlusQh (C := A)).inv.app X)) =
       (Functor.boundedDerivedIso w Rw α hres).inv.app
@@ -228,7 +228,7 @@ private lemma rightDerivedPlusIsoRes_inv_app_eq (n : ℤ) (X : A) :
               (DerivedCategory.homologyFunctor B n).map (𝟙 _)) ≫
           (DerivedCategory.homologyFunctor B n).map
             (DerivedCategory.Plus.ι.map
-              (w.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj X)))) ≫
+              (w.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj X)))) ≫
         (DerivedCategory.homologyFunctor B n).map
           (DerivedCategory.Plus.ι.map (w.rightDerivedFunctorPlus.map
             ((Stacks.DerivedIndexing.singleIsoResPlusQh (C := A)).inv.app X))) :=

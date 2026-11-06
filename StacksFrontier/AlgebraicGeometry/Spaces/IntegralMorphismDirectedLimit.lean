@@ -118,7 +118,7 @@ def integralFiniteSystemOfIsIntegralHom (f : X ⟶ Y) (hX : IsAlgebraicSpace B S
     have hc : IsLimit ((relativeSpecPointsFunctor B S hS Ya).mapCone (Cocone.mk _ t).op) :=
       isLimitMapConeRelativeSpecPointsFunctor B S hS ht
     have hlim : IsLimit c := hc.ofIsoLimit
-      (Cones.ext (asIso (toRelativeSpecPoints B S hS fa)).symm fun j => by
+      (Cone.ext (asIso (toRelativeSpecPoints B S hS fa)).symm fun j => by
         change relativeSpecPointsMap B S hS (t.app j.unop) =
           inv (toRelativeSpecPoints B S hS fa) ≫ toRelativeSpecPoints B S hS fa ≫
             relativeSpecPointsMap B S hS (t.app j.unop)

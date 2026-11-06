@@ -132,20 +132,20 @@ private lemma moduleDifference_π (E : ℕᵒᵖ ⥤ ModuleCat.{u} A) (m : ℕ) 
     CompletionSequences.moduleDifference A E ≫ Pi.π (fun n : ℕ ↦ E.obj (op n)) m =
       Pi.π (fun n : ℕ ↦ E.obj (op n)) m -
         Pi.π (fun n : ℕ ↦ E.obj (op n)) (m + 1) ≫ InverseSequence.tr E (Nat.le_succ m) :=
-  Pi.lift_π _ m
+  Pi.lift_comp_π _ m
 
 /-- The components of the level-dropping map. -/
 private lemma levelShiftMap_π (E : ℕᵒᵖ ⥤ ModuleCat.{u} A) (c m : ℕ) :
     levelShiftMap E c ≫ Pi.π (fun n : ℕ ↦ E.obj (op n)) m =
       Pi.π (fun n : ℕ ↦ E.obj (op n)) (m + c) ≫ InverseSequence.tr E (Nat.le_add_right m c) :=
-  Pi.lift_π _ m
+  Pi.lift_comp_π _ m
 
 /-- The components of the telescoping map. -/
 private lemma telescopeMap_π (E : ℕᵒᵖ ⥤ ModuleCat.{u} A) (c m : ℕ) :
     telescopeMap E c ≫ Pi.π (fun n : ℕ ↦ E.obj (op n)) m =
       ∑ k ∈ Finset.range c,
         Pi.π (fun n : ℕ ↦ E.obj (op n)) (m + k) ≫ InverseSequence.tr E (Nat.le_add_right m k) :=
-  Pi.lift_π _ m
+  Pi.lift_comp_π _ m
 
 /-- **The telescoping identity.** Composing the telescoping map with `1 - shift` is the
 difference between the identity and dropping `c` levels. -/
@@ -263,10 +263,10 @@ private theorem nonempty_firstDerivedLimit_iso_of_shifted
       Pi.π (fun n : ℕ ↦ ((K₂ ⋙ W) ⋙ H).obj (op n)) (n + c) ≫ H.map (W.map (bwd n))
   have hPπ : ∀ n : ℕ, P ≫ Pi.π (fun n : ℕ ↦ ((K₂ ⋙ W) ⋙ H).obj (op n)) n =
       Pi.π (fun n : ℕ ↦ ((K₁ ⋙ W) ⋙ H).obj (op n)) n ≫ H.map (W.map (fwd n)) :=
-    fun n ↦ Pi.lift_π _ n
+    fun n ↦ Pi.lift_comp_π _ n
   have hVπ : ∀ n : ℕ, V ≫ Pi.π (fun n : ℕ ↦ ((K₁ ⋙ W) ⋙ H).obj (op n)) n =
       Pi.π (fun n : ℕ ↦ ((K₂ ⋙ W) ⋙ H).obj (op n)) (n + c) ≫ H.map (W.map (bwd n)) :=
-    fun n ↦ Pi.lift_π _ n
+    fun n ↦ Pi.lift_comp_π _ n
   have hP : CompletionSequences.moduleDifference A ((K₁ ⋙ W) ⋙ H) ≫ P =
       P ≫ CompletionSequences.moduleDifference A ((K₂ ⋙ W) ⋙ H) := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
@@ -316,19 +316,19 @@ attribute [local instance] HasDerivedCategory.standard
 `ℱ ⊗_{𝒪_X} (𝒪_X --f^(n+1)--> 𝒪_X)`, realized as the tower of two-term complexes
 `ℱ --f^(n+1)--> ℱ`, is pro-isomorphic to the tower of honest quotients `ℱ/f^(n+1)ℱ`. -/
 theorem nonempty_proIso_koszulTower_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ)) :
+    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ)) :
     Nonempty
-      (InverseSequence.ProIso (Ksys ((baseSmul X ρ f).app ℱ)) (Csys ((baseSmul X ρ f).app ℱ))) :=
-  proIso_Ksys_Csys ((baseSmul X ρ f).app ℱ) hstab
+      (InverseSequence.ProIso (Ksys ((baseSmul X ρ f).asHom.app ℱ)) (Csys ((baseSmul X ρ f).asHom.app ℱ))) :=
+  proIso_Ksys_Csys ((baseSmul X ρ f).asHom.app ℱ) hstab
 
 /-- **The derived limits of the Koszul tower and of the quotient tower agree.** If the `f`-power
 torsion of `ℱ` stabilizes then any derived limit of the `f`-power Koszul tower is isomorphic to
 any derived limit of the tower of quotients `ℱ/f^(n+1)ℱ`. -/
 theorem nonempty_iso_isDerivedLimit_koszulTower_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Ehat Fhat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-    (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).app ℱ)) Ehat)
-    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).app ℱ)) Fhat) :
+    (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ)) Ehat)
+    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat) :
     Nonempty (Ehat ≅ Fhat) := by
   obtain ⟨a⟩ := nonempty_proIso_koszulTower_quotientTower X ρ f ℱ hstab
   exact Rlim.Pro.nonempty_iso_of_isDerivedLimit_of_pro_isomorphism _ _ _ _ hEhat hFhat a
@@ -349,14 +349,14 @@ the corresponding sequence for the Koszul tower. -/
 the pro-isomorphism of Tag 0H3D; its two maps normalized by the Milnor triangle of the quotient
 tower itself"]
 theorem exists_shortExact_homology_derivedSections_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Fhat Ehat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
-    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).app ℱ)) Fhat)
-    (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).app ℱ)) Ehat) :
+    (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat)
+    (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ)) Ehat) :
     let F : ℕᵒᵖ ⥤ DerivedCategory (ModuleCat.{u} A) :=
-      Csys ((baseSmul X ρ f).app ℱ) ⋙ derivedSectionsOver X ρ
+      Csys ((baseSmul X ρ f).asHom.app ℱ) ⋙ derivedSectionsOver X ρ
     let G : ℕᵒᵖ ⥤ DerivedCategory (ModuleCat.{u} A) :=
-      Ksys ((baseSmul X ρ f).app ℱ) ⋙ derivedSectionsOver X ρ
+      Ksys ((baseSmul X ρ f).asHom.app ℱ) ⋙ derivedSectionsOver X ρ
     let Y : ℕ → DerivedCategory (ModuleCat.{u} A) := fun n ↦ F.obj (op n)
     let d : (∏ᶜ Y) ⟶ ∏ᶜ Y := Pi.lift fun n : ℕ ↦
       Pi.π Y n - Pi.π Y (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op
@@ -391,27 +391,27 @@ theorem exists_shortExact_homology_derivedSections_quotientTower (f : A)
                   CompletionSequences.firstDerivedLimit A (G ⋙ H₁)) := by
   obtain ⟨c, hc, hstab'⟩ := hstab
   obtain ⟨a, b, hT, hp⟩ := DerivedSectionsOverBase.exists_shortExact_homology_derivedSectionsOver
-    X ρ (Csys ((baseSmul X ρ f).app ℱ)) Fhat hFhat
+    X ρ (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat hFhat
   refine ⟨nonempty_iso_isDerivedLimit_koszulTower_quotientTower X ρ f ℱ ⟨c, hc, hstab'⟩
       Ehat Fhat hEhat hFhat, a, b, hT, fun p ↦ ?_⟩
   obtain ⟨e, i, q, w, he, hi, hq, hse⟩ := hp p
   refine ⟨e, i, q, w, he, hi, hq, hse, ?_, ?_⟩
-  · exact (nonempty_limit_iso_of_shifted (Ksys ((baseSmul X ρ f).app ℱ))
-      (Csys ((baseSmul X ρ f).app ℱ)) c (Kproj ((baseSmul X ρ f).app ℱ))
-      (Cinv ((baseSmul X ρ f).app ℱ) c hstab')
-      (fun _ _ h ↦ Kproj_naturality ((baseSmul X ρ f).app ℱ) h)
-      (fun _ _ h ↦ Cinv_naturality ((baseSmul X ρ f).app ℱ) c hstab' h)
-      (Cinv_Kproj ((baseSmul X ρ f).app ℱ) c hstab')
-      (Kproj_Cinv ((baseSmul X ρ f).app ℱ) c hstab')
+  · exact (nonempty_limit_iso_of_shifted (Ksys ((baseSmul X ρ f).asHom.app ℱ))
+      (Csys ((baseSmul X ρ f).asHom.app ℱ)) c (Kproj ((baseSmul X ρ f).asHom.app ℱ))
+      (Cinv ((baseSmul X ρ f).asHom.app ℱ) c hstab')
+      (fun _ _ h ↦ Kproj_naturality ((baseSmul X ρ f).asHom.app ℱ) h)
+      (fun _ _ h ↦ Cinv_naturality ((baseSmul X ρ f).asHom.app ℱ) c hstab' h)
+      (Cinv_Kproj ((baseSmul X ρ f).asHom.app ℱ) c hstab')
+      (Kproj_Cinv ((baseSmul X ρ f).asHom.app ℱ) c hstab')
       (derivedSectionsOver X ρ)
       (DerivedCategory.homologyFunctor (ModuleCat.{u} A) p)).map Iso.symm
-  · exact (nonempty_firstDerivedLimit_iso_of_shifted (Ksys ((baseSmul X ρ f).app ℱ))
-      (Csys ((baseSmul X ρ f).app ℱ)) c (Kproj ((baseSmul X ρ f).app ℱ))
-      (Cinv ((baseSmul X ρ f).app ℱ) c hstab')
-      (fun _ _ h ↦ Kproj_naturality ((baseSmul X ρ f).app ℱ) h)
-      (fun _ _ h ↦ Cinv_naturality ((baseSmul X ρ f).app ℱ) c hstab' h)
-      (Cinv_Kproj ((baseSmul X ρ f).app ℱ) c hstab')
-      (Kproj_Cinv ((baseSmul X ρ f).app ℱ) c hstab')
+  · exact (nonempty_firstDerivedLimit_iso_of_shifted (Ksys ((baseSmul X ρ f).asHom.app ℱ))
+      (Csys ((baseSmul X ρ f).asHom.app ℱ)) c (Kproj ((baseSmul X ρ f).asHom.app ℱ))
+      (Cinv ((baseSmul X ρ f).asHom.app ℱ) c hstab')
+      (fun _ _ h ↦ Kproj_naturality ((baseSmul X ρ f).asHom.app ℱ) h)
+      (fun _ _ h ↦ Cinv_naturality ((baseSmul X ρ f).asHom.app ℱ) c hstab' h)
+      (Cinv_Kproj ((baseSmul X ρ f).asHom.app ℱ) c hstab')
+      (Kproj_Cinv ((baseSmul X ρ f).asHom.app ℱ) c hstab')
       (derivedSectionsOver X ρ)
       (DerivedCategory.homologyFunctor (ModuleCat.{u} A) (p - 1))).map Iso.symm
 

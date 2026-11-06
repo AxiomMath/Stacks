@@ -146,7 +146,7 @@ theorem exists_isImmersion_selfProdOverBase {T : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   | zero =>
       intro 𝒴 k hk
       refine ⟨Pi.lift fun i ↦ ((toSpaces B S hS X).map (Pi.π (fun _ : Fin 1 ↦ U) i)).hom ≫ k i,
-        ?_, fun i ↦ Pi.lift_π _ i⟩
+        ?_, fun i ↦ Pi.lift_comp_π _ i⟩
       have ha : IsIso ((toSpaces B S hS X).map (Pi.π (fun _ : Fin 1 ↦ U) 0)).hom := by
         rw [← ObjectProperty.ι_map]
         infer_instance
@@ -155,7 +155,7 @@ theorem exists_isImmersion_selfProdOverBase {T : (BigFppfOver B S hS)ᵒᵖ ⥤ 
             ((toSpaces B S hS X).map (Pi.π (fun _ : Fin 1 ↦ U) i)).hom ≫ k i) =
           (((toSpaces B S hS X).map (Pi.π (fun _ : Fin 1 ↦ U) 0)).hom ≫ k 0) ≫
             inv (Pi.π 𝒴 0) :=
-        (IsIso.eq_comp_inv _).2 (Pi.lift_π _ 0)
+        (IsIso.eq_comp_inv _).2 (Pi.lift_comp_π _ 0)
       rw [hval]
       refine isImmersion_comp B S hS _ _ (isImmersion_comp B S hS _ _ ?_ (hk 0)) ?_
       · exact isImmersion_of_isOpenImmersion B S hS (isOpenImmersion_of_isIso B S hS _)

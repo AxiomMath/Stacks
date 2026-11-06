@@ -110,7 +110,7 @@ public theorem exists_algEquiv_image_eq_of_irreducibleComponentsBaseChangeMap_eq
     (h : irreducibleComponentsBaseChangeMap k K X Z =
       irreducibleComponentsBaseChangeMap k K X W) :
     ∃ σ : K ≃ₐ[k] K,
-      ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).base '' Z.1 = W.1 := by
+      ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom.base '' Z.1 = W.1 := by
   have hmem : W ∈ (irreducibleComponentsBaseChangeMap k K X) ⁻¹'
       {irreducibleComponentsBaseChangeMap k K X Z} := by
     simp only [Set.mem_preimage, Set.mem_singleton_iff]
@@ -207,7 +207,7 @@ public theorem exists_algEquiv_image_baseChangeComparison_eq
     (h : (pullback.fst X.hom (Spec.map (ofHom (algebraMap k K)))).base '' Z.1 =
       (pullback.fst X.hom (Spec.map (ofHom (algebraMap k K)))).base '' W.1) :
     ∃ σ : ↥(separableClosure k K) ≃ₐ[k] ↥(separableClosure k K),
-      ((galoisActionOnBaseChange k ↥(separableClosure k K) X).ρ (MulOpposite.op σ)).base ''
+      ((galoisActionOnBaseChange k ↥(separableClosure k K) X).ρ (MulOpposite.op σ)).asHom.base ''
           ((baseChangeComparison k ↥(separableClosure k K) K X.left X.hom).base '' Z.1) =
         (baseChangeComparison k ↥(separableClosure k K) K X.left X.hom).base '' W.1 := by
   have hbij := bijOn_image_baseChangeComparison k ↥(separableClosure k K) K

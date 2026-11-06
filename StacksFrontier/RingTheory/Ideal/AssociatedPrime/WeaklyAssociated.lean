@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Ideal.AssociatedPrime.Basic
+public import Mathlib.RingTheory.Ideal.MinimalPrime.Colon
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic

@@ -118,11 +118,11 @@ public instance preservesSheafification_uliftFunctor :
     rw [GrothendieckTopology.W_iff_isLocallyBijective] at hf
     rw [MorphismProperty.inverseImage_iff, GrothendieckTopology.W_iff_isLocallyBijective]
     refine ⟨⟨fun a b h => ?_⟩, ⟨fun a => ?_⟩⟩
-    · exact J.superset_covering (fun _ _ hg => ULift.ext _ _ hg)
+    · exact J.superset_covering (fun _ _ hg => ULift.ext hg)
         (hf.1.equalizerSieve_mem a.down b.down (congrArg ULift.down h))
     · refine J.superset_covering ?_ (hf.2.imageSieve_mem a.down)
       intro Y g hg
-      exact ⟨ULift.up hg.choose, ULift.ext _ _ hg.choose_spec⟩
+      exact ⟨ULift.up hg.choose, ULift.ext hg.choose_spec⟩
 
 end AddCommGrpCat
 

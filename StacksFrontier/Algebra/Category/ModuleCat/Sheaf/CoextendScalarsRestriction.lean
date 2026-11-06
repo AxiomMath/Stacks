@@ -156,7 +156,7 @@ iterated-slice functor: its value on `W ⟶ V` at `a' ∈ O'(W.left.left)` is th
 original at the composite `W.left.left ⟶ V.left`. -/
 theorem coextOverHom_app_apply (φ : O ⟶ O') (U : C) (B : _root_.SheafOfModules.{u} O)
     (V : (Over U)ᵒᵖ) (α : coextSec φ.hom B.val (op V.unop.left)) (W : (Over V.unop)ᵒᵖ)
-    (a' : (O'.val.obj (op W.unop.left.left) : Type u)) :
+    (a' : (O'.obj.obj (op W.unop.left.left) : Type u)) :
     ((((coextOverHom φ U B).val.app V).hom α).app W).hom a' =
       (α.app (op (Over.mk W.unop.hom.left))).hom a' :=
   (invSecVal_smul φ.hom B.val (op W.unop.left.left) a'

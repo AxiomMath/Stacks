@@ -138,7 +138,7 @@ theorem unitHomEquiv_symm_app {X : Scheme.{u}} (M : X.Modules) (s : M.sections) 
     (r : Γ(X, U)) :
     Scheme.Modules.Hom.app
         ((SheafOfModules.unitHomEquiv M).symm s : Scheme.unitModule X ⟶ M) U r =
-      (M.smul r).hom (s.val (op U)) :=
+      (M.smul r).asHom.hom (s.val (op U)) :=
   rfl
 
 /-- The morphism out of the structure sheaf attached to a global section acts on sections over an
@@ -146,9 +146,9 @@ open set by multiplication with the restriction of that global section. -/
 theorem unitHomEquivTop_app {X : Scheme.{u}} (M : X.Modules) (x : Γ(M, ⊤)) (U : X.Opens)
     (r : Γ(X, U)) :
     (Scheme.Modules.unitHomEquivTop M x).app U r =
-      (M.smul r).hom (M.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op x) :=
+      (M.smul r).asHom.hom (M.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op x) :=
   (unitHomEquiv_symm_app M (Scheme.Modules.sectionsTopEquiv M x) U r).trans
-    (congrArg (M.smul r).hom (Scheme.Modules.sectionsTopEquiv_val M x (op U)))
+    (congrArg (M.smul r).asHom.hom (Scheme.Modules.sectionsTopEquiv_val M x (op U)))
 
 /-- **A morphism out of a free sheaf prescribed by global sections of a direct image, read on
 the `i`-th summand.** The morphism `free I ⟶ p_* M` whose `i`-th section is the direct image of
@@ -213,7 +213,7 @@ is a finite sum of such, by `Stacks.Sites.bijective_freeSectionsMap`, whose comp
 theorem toPushforwardTwistOver_app_monomialBasisHom_app (n : ℕ) (S : Scheme.{u}) (d : ℤ)
     (W : S.Opens) (e : MonomialIndex.{u} n d) (r : Γ(S, W)) :
     (toPushforwardTwistOver n S d).app W ((monomialBasisHom n S d e).app W r) =
-      ((twistOver n S d).smul ((projectiveSpaceOver n S ↘ S).app W r)).hom
+      ((twistOver n S d).smul ((projectiveSpaceOver n S ↘ S).app W r)).asHom.hom
         ((twistOver n S d).presheaf.map
           (homOfLE (le_top : (projectiveSpaceOver n S ↘ S) ⁻¹ᵁ W ≤ ⊤)).op
           (twistOverSection n S d e)) :=
@@ -269,7 +269,7 @@ theorem restrict_unitHomEquivTop {X : Scheme.{u}} (U : X.Opens) (M : X.Modules) 
     (Stacks.Conormal.Restriction.restrictUnitModuleIso_ι_hom_app U W r)).symm
   refine Eq.trans ?_ (unitHomEquivTop_app ((Scheme.Modules.restrictFunctor U.ι).obj M)
     (restrictGlobalSection U M x) W r).symm
-  refine Eq.trans ?_ (congrArg (((Scheme.Modules.restrictFunctor U.ι).obj M).smul r).hom
+  refine Eq.trans ?_ (congrArg (((Scheme.Modules.restrictFunctor U.ι).obj M).smul r).asHom.hom
     (presheaf_map_restrictGlobalSection U M x W)).symm
   have hsmul : ((Scheme.Modules.restrictFunctor U.ι).obj M).smul r =
       M.smul ((U.ι.appIso W).inv r) := rfl

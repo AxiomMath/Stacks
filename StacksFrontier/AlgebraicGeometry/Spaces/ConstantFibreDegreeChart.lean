@@ -49,6 +49,14 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_constantFibreDegreeChart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
 /-! ### Base change of a representable morphism along a composite -/
 
 /-- **Base change along a composite.** For a representable `f : h_W ⟶ X`, a morphism

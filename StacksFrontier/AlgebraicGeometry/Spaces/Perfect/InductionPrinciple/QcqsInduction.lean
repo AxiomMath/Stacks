@@ -262,7 +262,7 @@ private noncomputable def emptySubspaceIso
   have hIunique (a b : I.toFunctor ⟶ I.toFunctor) : a = b := by
     apply bot.to_sheafify_lift_unique hI
     ext T x
-    exact False.elim (by simpa [bot] using x.property)
+    exact (Set.notMem_empty _ x.property).elim
   have hEterm : IsTerminal (eE.1.obj (Opposite.op (BigFppfOver.initialObj B S hS))) :=
     Sheaf.isTerminalOfBotCover eE _ (initialObj_bot_mem B S hS)
   have hEunique (a b : eE.1 ⟶ eE.1) : a = b := by
@@ -271,11 +271,11 @@ private noncomputable def emptySubspaceIso
       Types.isTerminalEquivUnique _ hEterm
     exact Subsingleton.elim _ _
   let f0 : bot.toFunctor ⟶ eE.1 := {
-    app T := ↾fun x => False.elim (by simpa [bot] using x.property)
+    app T := ↾fun x => (Set.notMem_empty _ x.property).elim
     naturality := by
       intro T T' f
       ext x
-      exact False.elim (by simpa [bot] using x.property)
+      exact (Set.notMem_empty _ x.property).elim
   }
   let f : eI.1 ⟶ eE.1 := bot.sheafifyLift f0 ((isSheaf_iff_isSheaf_of_type J _).mp hEY)
   let x : eI.1.obj (Opposite.op (BigFppfOver.initialObj B S hS)) := by

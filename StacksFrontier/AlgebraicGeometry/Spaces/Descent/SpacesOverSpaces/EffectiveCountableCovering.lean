@@ -149,6 +149,7 @@ theorem isAlgebraicSpace_of_isPullback_of_isAlgebraicSpace_sigma [Small.{u} ι]
   have hcov' := isFppfCovering_sigmaDesc_of_isAlgebraicSpace (hT := hT) hY hcov
   let Fs : Sheaf J (Type u) := ⟨F, hF⟩
   let gG : Fs ⟶ spaceSheaf T hT := ObjectProperty.homMk π
+  haveI : HasPullback gG σ := HasLimitsOfShape.has_limit (C := Sheaf J (Type u)) _
   let A := pullback gG σ
   have hA : IsPullback (pullback.fst gG σ).hom (pullback.snd gG σ).hom π σ.hom :=
     (IsPullback.of_hasPullback gG σ).map (sheafToPresheaf J (Type u))

@@ -416,7 +416,7 @@ private theorem span_universalDerivation_le_span_restrict (f : X ⟶ Y)
 universal derivation `d_{X/Y}` is by construction this morphism composed with the sectionwise
 Kähler differential. -/
 noncomputable def differentialsSheafifyUnit (f : X ⟶ Y) :
-    PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (structureSharpInverseImage B S hS f).hom ⟶
       (PresheafOfModules.restrictScalars
           (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).obj)).obj
@@ -443,7 +443,7 @@ theorem toPresheaf_differentialsSheafifyUnit (f : X ⟶ Y) :
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).obj).map
         (differentialsSheafifyUnit B S hS f) =
       CategoryTheory.toSheafify (smallEtaleRingedSite B S hS X.1 X.2).J
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
           (structureSharpInverseImage B S hS f).hom).presheaf :=
   PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app _ _
 
@@ -466,11 +466,11 @@ theorem exists_sieve_mem_span_universalDerivation (f : X ⟶ Y) (W : SmallEtale 
             Submodule (chartRing B S hS X.1 X.2 Bo)
               ((sheafOfDifferentials B S hS f).val.obj (op Bo))) := by
   have hls := ((smallEtaleRingedSite B S hS X.1 X.2).J.W_toSheafify (A := AddCommGrpCat.{u})
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
       (structureSharpInverseImage B S hS f).hom).presheaf).isLocallySurjective
   refine ⟨Presheaf.imageSieve (CategoryTheory.toSheafify
     (smallEtaleRingedSite B S hS X.1 X.2).J
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (structureSharpInverseImage B S hS f).hom).presheaf) x, hls.imageSieve_mem x, ?_⟩
   rintro Bo g ⟨t, ht⟩
   let _ : Algebra (inverseImageStructureRing B S hS f Bo)

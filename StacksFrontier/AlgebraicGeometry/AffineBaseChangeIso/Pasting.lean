@@ -95,7 +95,7 @@ lemma pushforwardSquareIso_paste (w : g' ≫ f = f' ≫ g) (w' : h' ≫ f' = f''
         TwoSquare.mk _ _ _ _ (AffinePushforward.pushforwardSquareIso w).hom).whiskerBottom
           (Scheme.Modules.pushforwardComp h g).hom).whiskerTop
         (Scheme.Modules.pushforwardComp h' g').inv := by
-  ext M U : 2
+  ext M U : 3
   simp only [Functor.comp_obj, Scheme.Modules.pushforward_obj_obj, Scheme.Hom.comp_base,
     Opens.map_comp_obj, AffinePushforward.pushforwardSquareIso, Iso.trans_hom, Iso.symm_hom,
     NatTrans.comp_app, Scheme.Modules.Hom.comp_app,

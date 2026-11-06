@@ -366,7 +366,7 @@ theorem isLocallyBijective_completionMap_of_cover {X X' A : (BigFppfOver B S hS)
   refine ⟨Presheaf.isLocallyInjective_of_injective _ _ fun V x₁ x₂ hx => ?_, ⟨fun {V} y => ?_⟩⟩
   · have hinj : Function.Injective (ι₁.app V) :=
       (mono_iff_injective _).1 ((NatTrans.mono_iff_mono_app ι₁).1 inferInstance V)
-    exact Subtype.ext (ULift.ext _ _ (hinj (congrArg (fun z => z.1.down) hx)))
+    exact Subtype.ext (ULift.ext (hinj (congrArg (fun z => z.1.down) hx)))
   · obtain ⟨⟨a⟩, ha⟩ := y
     refine (BigFppfOver.topology B S hS).transitive
       (sieveOfSection_mem_of_sheafify_eq_top B S hS hcov a) _ fun V' q hq => ?_

@@ -121,7 +121,6 @@ private theorem tmul_decomp (aug : D →ₐ[k] k) (σ : D →ₗ[k] k) (ε : D)
     (hD : ∀ d : D, algebraMap k D (aug d) + σ d • ε = d) (x : D ⊗[k] P) :
     (1 : D) ⊗ₜ[k] (trivialDeformationReduction aug x) + ε ⊗ₜ[k] (sndPart σ x) = x := by
   induction x with
-  | zero => simp
   | tmul d p =>
       rw [trivialDeformationReduction_tmul, sndPart_tmul, ← Algebra.smul_def, ← Algebra.smul_def,
         ← TensorProduct.smul_tmul, ← TensorProduct.smul_tmul,
@@ -220,7 +219,6 @@ private theorem exists_algEquiv (aug : D →ₐ[k] k) (σ : D →ₗ[k] k) (ε :
   have hcomp : ∀ x, π (φ x) = trivialDeformationReduction aug x := by
     intro x
     induction x with
-    | zero => simp
     | tmul d p => rw [hφ_tmul, map_mul, haug, hs, trivialDeformationReduction_tmul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   have hsurjφ : Function.Surjective φ := by
@@ -358,8 +356,7 @@ public theorem isPushout_trivialDeformation (P : Type w) [CommRing P] [Algebra k
     refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
     show s.inl.hom ((1 : (Aε : Type w)) ⊗ₜ[k]
       (trivialDeformationReduction (residueAugmentation hsec) x)) = s.inl.hom x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul d p =>
         rw [trivialDeformationReduction_tmul,
           show ((1 : (Aε : Type w)) ⊗ₜ[k]

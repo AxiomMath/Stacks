@@ -49,7 +49,7 @@ compact-generation cluster needs:
 `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`; a statement proved at
 `CategoryTheory.HasDerivedCategory.standard` says nothing about it. Nothing in the arguments
 needs a particular model: they are composites of
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`,
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`,
 `CategoryTheory.Functor.mapDerivedCategoryCongr` and
 `CategoryTheory.Functor.mapDerivedCategoryId`, all three of which carry their models as instance
 arguments.
@@ -105,12 +105,12 @@ variable {X Y Z : Scheme.{u}} (g : Z ⟶ Y) (j : Y ⟶ X) [IsOpenImmersion g] [I
 
 /-- **Restricting twice is restricting along the composite**, on derived categories and at an
 object. This is `AlgebraicGeometry.Scheme.Modules.restrictFunctorComp` carried across the
-localization by `CategoryTheory.Functor.mapDerivedCategoryCompIso`. -/
+localization by `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`. -/
 def derivedRestrictCompObjIso (M : DerivedCategory X.Modules) :
     (Scheme.Modules.restrictFunctor g).mapDerivedCategory.obj
         ((Scheme.Modules.restrictFunctor j).mapDerivedCategory.obj M) ≅
       (Scheme.Modules.restrictFunctor (g ≫ j)).mapDerivedCategory.obj M :=
-  (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorComp g j).symm).app M
+  (Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorComp g j).symm).app M
 
 /-- An object of `D(𝒪_X)` vanishing on `Y` vanishes on `Z`, for open immersions `Z ⟶ Y ⟶ X`. -/
 theorem isZero_derivedRestrict_comp {M : DerivedCategory X.Modules}
@@ -175,7 +175,7 @@ def derivedRestrictCompIsoId :
     (Scheme.Modules.restrictFunctor b).mapDerivedCategory ⋙
         (Scheme.Modules.restrictFunctor a).mapDerivedCategory ≅
       𝟭 (DerivedCategory Y.Modules) :=
-  Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctorCompIsoId a b hab) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorCompIsoId a b hab) ≪≫
     Functor.mapDerivedCategoryId Y.Modules
 
 /-- Restriction along a morphism admitting a section is faithful on derived categories: composing

@@ -170,7 +170,7 @@ def proetaleModuleDerivedInverseImageCompIso {Y Z X : Scheme.{u}} (a : Y ⟶ Z) 
     proetaleModuleDerivedInverseImage.{u, v, w} (Λ := Λ) b ⋙
         proetaleModuleDerivedInverseImage.{u, v, w} a ≅
       proetaleModuleDerivedInverseImage.{u, v, w} (a ≫ b) :=
-  Functor.mapDerivedCategoryCompIso (proetaleModuleInverseImageCompIso.{u, v, w} Λ a b)
+  Functor.mapDerivedCategoryCompIsoOfCompIso (proetaleModuleInverseImageCompIso.{u, v, w} Λ a b)
 
 section BaseChange
 

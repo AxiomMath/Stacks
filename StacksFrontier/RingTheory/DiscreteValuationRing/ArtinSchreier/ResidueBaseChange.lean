@@ -108,7 +108,7 @@ private theorem isExtension_integralClosure_of_isDiscreteValuationRing
   let : IsLocalHom (algebraMap A S) :=
     ((IsLocalRing.local_hom_TFAE _).out 5 1).mp
       (IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) (IsLocalRing.maximalIdeal S)))
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (IsLocalRing.maximalIdeal S)))
   exact {}
 
 private theorem isSeparable_tensorProduct_of_isField

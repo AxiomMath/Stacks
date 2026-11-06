@@ -197,12 +197,12 @@ comparison, which is an identity, cancelled. -/
 theorem rightDerivedFunctorPlusIdIsoOf_refl_inv_app_Qh (K : HomotopyCategory.Plus A) :
     (rightDerivedFunctorPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app
         (DerivedCategory.Plus.Qh.obj K) =
-      (𝟭 A).rightDerivedFunctorPlusUnit.app K :=
+      (𝟭 A).rightDerivedFunctorPlusUnith.app K :=
   (rightDerivedFunctorPlusIdIsoOf_inv_app (𝟭 A) (Iso.refl (𝟭 A)) K).trans
     ((congrArg (fun t => DerivedCategory.Plus.Qh.map t ≫
-          (𝟭 A).rightDerivedFunctorPlusUnit.app K)
+          (𝟭 A).rightDerivedFunctorPlusUnith.app K)
         (mapHomotopyCategoryPlusIdIsoOf_refl_inv_app K)).trans
-      ((congrArg (fun t => t ≫ (𝟭 A).rightDerivedFunctorPlusUnit.app K)
+      ((congrArg (fun t => t ≫ (𝟭 A).rightDerivedFunctorPlusUnith.app K)
           (DerivedCategory.Plus.Qh.map_id _)).trans (Category.id_comp _)))
 
 end SingleFunctor
@@ -231,7 +231,7 @@ theorem singleRightDerivedUnit_id_app (M : A) :
       (Functor.rightDerivedFunctorPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app
         ((DerivedCategory.Plus.singleFunctor A 0).obj M) := by
   have hnat : (Functor.singleFunctorPlusIsoCompQh (A := A) 0).hom.app M ≫
-        (𝟭 A).rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj M) =
+        (𝟭 A).rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj M) =
       (Functor.rightDerivedFunctorPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app
           ((DerivedCategory.Plus.singleFunctor A 0).obj M) ≫
         (𝟭 A).rightDerivedFunctorPlus.map
@@ -268,16 +268,16 @@ theorem compComparison_id :
         (Functor.rightDerivedFunctorPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv
         G.rightDerivedFunctorPlus := by
   refine Functor.rightDerived_ext ((𝟭 A ⋙ G).rightDerivedFunctorPlus)
-    (𝟭 A ⋙ G).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A) _ _ _ ?_
+    (𝟭 A ⋙ G).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) _ _ _ ?_
   rw [Functor.rightDerivedFunctorPlusComp_fac]
   refine NatTrans.ext (funext fun K => ?_)
   have hnat : DerivedCategory.Plus.Qh.map (G.mapHomotopyCategoryPlus.map
           ((Functor.mapHomotopyCategoryPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app K)) ≫
-        G.rightDerivedFunctorPlusUnit.app ((𝟭 A).mapHomotopyCategoryPlus.obj K) =
-      G.rightDerivedFunctorPlusUnit.app K ≫
+        G.rightDerivedFunctorPlusUnith.app ((𝟭 A).mapHomotopyCategoryPlus.obj K) =
+      G.rightDerivedFunctorPlusUnith.app K ≫
         G.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app K)) :=
-    G.rightDerivedFunctorPlusUnit.naturality _
+    G.rightDerivedFunctorPlusUnith.naturality _
   have hkey : (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl ((𝟭 A) ⋙ G))).inv.app K =
       G.mapHomotopyCategoryPlus.map
         ((Functor.mapHomotopyCategoryPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app K) :=
@@ -287,9 +287,9 @@ theorem compComparison_id :
         (G.mapHomotopyCategoryPlus.map_id _)))
   show DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
           (Iso.refl ((𝟭 A) ⋙ G))).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app ((𝟭 A).mapHomotopyCategoryPlus.obj K) ≫
-          G.rightDerivedFunctorPlus.map ((𝟭 A).rightDerivedFunctorPlusUnit.app K) =
-      G.rightDerivedFunctorPlusUnit.app K ≫
+        G.rightDerivedFunctorPlusUnith.app ((𝟭 A).mapHomotopyCategoryPlus.obj K) ≫
+          G.rightDerivedFunctorPlus.map ((𝟭 A).rightDerivedFunctorPlusUnith.app K) =
+      G.rightDerivedFunctorPlusUnith.app K ≫
         G.rightDerivedFunctorPlus.map
           ((Functor.rightDerivedFunctorPlusIdIsoOf (𝟭 A) (Iso.refl (𝟭 A))).inv.app
             (DerivedCategory.Plus.Qh.obj K))

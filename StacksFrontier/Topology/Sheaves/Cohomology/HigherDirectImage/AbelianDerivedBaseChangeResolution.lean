@@ -77,20 +77,20 @@ theorem isIso_derived_app_single_of_isIso_Qh_map (X : A)
   let K := Stacks.DerivedIndexing.resPlus.obj X
   refine (NatTrans.isIso_app_iff_of_iso _
     ((Stacks.DerivedIndexing.singleIsoResPlusQh (C := A)).app X)).2 ?_
-  have hF : IsIso (F.rightDerivedFunctorPlusUnit.app K) :=
-    inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnit.app
+  have hF : IsIso (F.rightDerivedFunctorPlusUnith.app K) :=
+    inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnith.app
       (Stacks.DerivedIndexing.resPlus.obj X)))
-  have hG' : IsIso (G'.rightDerivedFunctorPlusUnit.app K) :=
+  have hG' : IsIso (G'.rightDerivedFunctorPlusUnith.app K) :=
     have := exactUnit_isIso G'
     inferInstance
   refine (isIso_derived_app_Qh_iff F F' G G' τ e K hF hG').2 ?_
-  have hL : IsIso (F'.rightDerivedFunctorPlusUnit.app L) := inferInstance
+  have hL : IsIso (F'.rightDerivedFunctorPlusUnith.app L) := inferInstance
   have hR : IsIso ((DerivedCategory.Plus.Qh ⋙ F'.rightDerivedFunctorPlus).map φ) :=
     inferInstanceAs (IsIso (F'.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map φ)))
   have h' : IsIso (DerivedCategory.Plus.Qh.map ((mapPlus τ).app K) ≫
       DerivedCategory.Plus.Qh.map (F'.mapHomotopyCategoryPlus.map φ)) :=
     cast (congrArg IsIso (Functor.map_comp DerivedCategory.Plus.Qh _ _)) h
-  exact isIso_comp_of_square _ _ _ _ _ (F'.rightDerivedFunctorPlusUnit.naturality φ).symm h'
+  exact isIso_comp_of_square _ _ _ _ _ (F'.rightDerivedFunctorPlusUnith.naturality φ).symm h'
 
 /-- The extension by zero of an injective resolution, as an object of the bounded below homotopy
 category. -/

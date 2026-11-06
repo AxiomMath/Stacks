@@ -159,8 +159,8 @@ private theorem isEtale_fst_of_isEtale {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
 theorem range_pullback_snd_eq_of_isPullback {F G H K : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {fst : K ⟶ F} {snd : K ⟶ G} {f : F ⟶ H} {g : G ⟶ H} (sq : IsPullback fst snd f g) :
     Subfunctor.range (pullback.snd f g) = Subfunctor.range snd := by
-  rw [← sq.isoPullback_inv_snd, Subfunctor.range_comp, Subfunctor.range_eq_top,
-    Subfunctor.image_top]
+  rw [← sq.isoPullback_inv_snd, Subfunctor.range_comp,
+    @Subfunctor.range_eq_top _ _ _ _ _ (IsIso.epi_of_iso _), Subfunctor.image_top]
 
 /-- The preimage of the scheme-theoretic image of a quasi-compact morphism under an étale morphism
 is the scheme-theoretic image of any morphism with the same range as the base change. -/
@@ -474,7 +474,7 @@ theorem exists_finiteSchemeCover_of_algebraHom (hZ : B.Contains (⊤_ Scheme.{u}
     have hsnd : pullback.snd (gk k) gY = sq.isoPullback.inv ≫
         (yoneda.map (openSubHom _ (T.map m ⁻¹ᵁ O k)) ≫ hYrep.fst p) := sq.isoPullback_inv_snd.symm
     rw [hsnd]
-    exact mono_comp _ _
+    exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ this
   -- The scheme-theoretic image `C` of `g`, whose points are those of `g(Y)`.
   have hgint : IsIntegralHom B S hS gY :=
     isIntegralHom_of_comp_of_isSeparated B S hS gY qP (by rwa [hgq])

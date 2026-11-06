@@ -84,7 +84,7 @@ theorem X_notMem_span_two_mul_X :
   rw [Ideal.mem_span_singleton]
   rintro ⟨q, hq⟩
   have h2 : (2 : MvPolynomial (Fin 1) ℤ) = C 2 := by simp
-  have hc := congrArg (coeff (Finsupp.single 0 1)) hq
+  have hc := congrArg (fun p : MvPolynomial (Fin 1) ℤ ↦ p.coeff (Finsupp.single 0 1)) hq
   rw [h2, mul_assoc, coeff_C_mul, coeff_X_same] at hc
   omega
 

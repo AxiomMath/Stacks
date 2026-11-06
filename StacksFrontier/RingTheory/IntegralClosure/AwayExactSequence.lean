@@ -3,6 +3,7 @@ module
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.LinearMap
 public import Mathlib.RingTheory.IntegralClosure.Algebra.Basic
 public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Basic
+public import Mathlib.RingTheory.Adjoin.Polynomial.Basic
 
 /-!
 # A short exact sequence from two nonzerodivisors

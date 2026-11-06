@@ -53,14 +53,14 @@ noncomputable abbrev presheafOf : SheafOfModules.{u} R ⥤ ((Opens X)ᵒᵖ ⥤ 
 
 /-- The Čech complex of a sheaf of modules is the Čech complex of its underlying presheaf. -/
 lemma cechFunctor_eq (V : OpenCover X) :
-    cechFunctor R V = presheafOf R ⋙ cechComplexFunctor V.obj := rfl
+    cechFunctor.{u, u} R V = presheafOf R ⋙ cechComplexFunctor V.obj := rfl
 
 /-- Sections over `W` are evaluation of the underlying presheaf at `W`. -/
 lemma secF_eq (W : Opens X) :
     presheafOf R ⋙ (evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).obj (op W) = secF R W := rfl
 
 /-- `cechFunctor R V` is an additive functor. -/
-instance cechFunctorAdditive (V : OpenCover X) : (cechFunctor.{u} R V).Additive := by
+instance cechFunctorAdditive (V : OpenCover X) : (cechFunctor.{u, u} R V).Additive := by
   unfold cechFunctor
   infer_instance
 

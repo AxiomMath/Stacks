@@ -104,7 +104,7 @@ presheaf `A(-)[E(-)]` is the family of values at the variables of a derivation o
 lemma exists_derivation_polynomialPresheaf (A : Sheaf J CommRingCat.{w}) (E : Cᵒᵖ ⥤ Type w)
     (N : PresheafOfModules.{w} (polynomialPresheaf J A E ⋙ forget₂ CommRingCat RingCat))
     (g : E ⟶ N.presheaf ⋙ forget AddCommGrpCat) :
-    ∃ D : N.Derivation' (polynomialCoefficientMap J A E),
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' N (polynomialCoefficientMap J A E),
       ∀ (X : Cᵒᵖ) (e : E.obj X), D.d (MvPolynomial.X e) = g.app X e := by
   choose d hX using fun X : Cᵒᵖ =>
     exists_mvPolynomial_derivation_X (A.obj.obj X) (E.obj X) (N.obj X) (g.app X)
@@ -139,7 +139,7 @@ lemma exists_derivation_polynomialPresheaf (A : Sheaf J CommRingCat.{w}) (E : C�
       refine Eq.trans ?_ (map_add (ConcreteCategory.hom (N.map h)) _ _).symm
       exact congrArg₂ (· + ·) (PresheafOfModules.map_smul N h p _).symm
         (PresheafOfModules.map_smul N h (MvPolynomial.X e) _).symm
-  exact ⟨PresheafOfModules.Derivation'.mk d (fun {X Y} h x => hn h x), hX⟩
+  exact ⟨PresheafOfModulesOfCommRing.Derivation'.mk d (fun {X Y} h x => hn h x), hX⟩
 
 /-- A derivation with values in a sheaf of modules extends along a locally bijective morphism
 `α : P ⟶ Q` of presheaves of commutative rings into the sheaf of rings `Q`. -/
@@ -149,9 +149,9 @@ lemma exists_derivation_comp_of_isLocallyBijective
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
     {S P : Cᵒᵖ ⥤ CommRingCat.{w}} (a : S ⟶ P) (α : P ⟶ Q.obj)
     [Presheaf.IsLocallySurjective J α] [Presheaf.IsLocallyInjective J α]
-    (D : ((PresheafOfModules.restrictScalars
-      (Functor.whiskerRight α (forget₂ CommRingCat RingCat))).obj M.val).Derivation' a) :
-    ∃ D' : M.val.Derivation' (a ≫ α),
+    (D : PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight α (forget₂ CommRingCat RingCat))).obj M.val) a) :
+    ∃ D' : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ α),
       ∀ (X : Cᵒᵖ) (x : P.obj X), D'.d (α.app X x) = D.d x := by
   let alphaAdd := Functor.whiskerRight α
     (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat)
@@ -222,7 +222,7 @@ lemma exists_derivation_of_polynomialVariable
     [Presheaf.IsLocallySurjective J α] [Presheaf.IsLocallyInjective J α]
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
     (f : E ⟶ M.val.presheaf ⋙ forget AddCommGrpCat) :
-    ∃ D : M.val.Derivation' (polynomialCoefficientMap J A E ≫ α),
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' M.val (polynomialCoefficientMap J A E ≫ α),
       ∀ (X : Cᵒᵖ) (e : E.obj X), D.d (α.app X (MvPolynomial.X e)) = f.app X e := by
   obtain ⟨D₀, hD₀⟩ := exists_derivation_polynomialPresheaf J A E
     ((PresheafOfModules.restrictScalars
@@ -243,7 +243,7 @@ lemma derivation_ext_of_polynomialVariable
     [Presheaf.IsLocallySurjective J α]
     (hα : polynomialCoefficientMap J A E ≫ α = φ.hom)
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
-    (D₁ D₂ : M.val.Derivation' φ.hom)
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val φ.hom)
     (h : ∀ (X : Cᵒᵖ) (e : E.obj X),
       D₁.d (α.app X (MvPolynomial.X e)) = D₂.d (α.app X (MvPolynomial.X e))) : D₁ = D₂ := by
   have hp (X : Cᵒᵖ) (p : MvPolynomial (E.obj X) (A.obj.obj X)) :

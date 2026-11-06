@@ -2,6 +2,8 @@ module
 
 public import Mathlib.Algebra.CharP.MixedCharZero
 public import Mathlib.Algebra.CharP.Quotient
+public import Mathlib.RingTheory.DedekindDomain.Dvr
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.Ideal.Int
 public import Mathlib.RingTheory.RamificationInertia.Ramification
 public import StacksCore.Tactic.StacksAttribute

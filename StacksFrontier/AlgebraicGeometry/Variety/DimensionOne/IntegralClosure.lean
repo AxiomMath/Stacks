@@ -114,7 +114,8 @@ private lemma mem_of_algebraMap_mem_jacobson (R S : Type*) [CommRing R] [CommRin
   have hqm : q.asIdeal.comap (algebraMap R S) = P := by
     simpa using congrArg (fun z : PrimeSpectrum R => z.asIdeal) hq
   have : q.asIdeal.IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap q.asIdeal (hqm ▸ ‹P.IsMaximal›)
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) q.asIdeal
+      (show (q.asIdeal.comap (algebraMap R S)).IsMaximal from hqm ▸ ‹P.IsMaximal›)
   rw [← hqm]
   exact Ideal.mem_comap.mpr (Ring.jacobson_le_of_isMaximal q.asIdeal hr)
 
@@ -143,7 +144,7 @@ public lemma finite_maximalSpectrum (B : Type u) (K : Type v) (C : Type w)
   let g : MaximalSpectrum C →
       Σ m : MaximalSpectrum B, {q : Ideal C // q ∈ m.asIdeal.primesOver C} := fun n => by
     refine ⟨⟨n.asIdeal.comap (algebraMap B C),
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal n.asIdeal⟩, ⟨n.asIdeal, ?_⟩⟩
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) n.asIdeal⟩, ⟨n.asIdeal, ?_⟩⟩
     simp only [Ideal.primesOver]
     exact ⟨n.isMaximal.isPrime, Ideal.LiesOver.mk rfl⟩
   exact Finite.of_injective g fun _ _ h => MaximalSpectrum.ext (congrArg (fun z => z.2.1) h)
@@ -193,7 +194,7 @@ public lemma exists_pow_mul_mem_range (B : Type u) (K : Type v) (C : Type w)
     have hIle : I ≤ P.comap (algebraMap B A) := (Ideal.map_le_iff_le_comap).mp hP.1
     have hPcomapne : P.comap (algebraMap B A) ≠ ⊥ := fun hbot =>
       hIne (le_antisymm (by simpa [hbot] using hIle) bot_le)
-    have : P.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_comap P
+    have : P.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := B) P
       (Ring.DimensionLEOne.maximalOfPrime hPcomapne (hPprime.comap (algebraMap B A)))
     exact mem_of_algebraMap_mem_jacobson A C P xA hxj
   obtain ⟨m, hxm⟩ := Ideal.mem_radical_iff.mp hxrad

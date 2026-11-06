@@ -321,7 +321,7 @@ private lemma flat_of_isNormalRing_of_ringKrullDim_eq_two
   intro P hP
   let : P.IsPrime := hP.isPrime
   have hPunder : Ideal.under A P = IsLocalRing.maximalIdeal A :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) P)
   have hPmax : (Ideal.under A P).IsMaximal := hPunder ▸ IsLocalRing.maximalIdeal.isMaximal A
   have hPheight : (P.height : WithBot ℕ∞) = ringKrullDim A :=
     height_eq_ringKrullDim_of_liesOver_maximalIdeal A B hB P hPunder

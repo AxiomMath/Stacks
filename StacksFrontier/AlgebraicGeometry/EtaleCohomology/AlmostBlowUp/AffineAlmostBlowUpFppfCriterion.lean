@@ -196,7 +196,7 @@ sufficiency direction of Stacks 0EVF for the fppf topology, read on the square-i
 theorem isAffineAlmostBlowUpDetecting_fppfTopology :
     IsAffineAlmostBlowUpDetecting B S hS (fppfTopology B S hS) := by
   intro G hG
-  refine isSheaf_of_isFppfSheaf_of_isAffineAlmostBlowUpSheaf B S hS G.obj G.cond ?_
+  refine isSheaf_of_isFppfSheaf_of_isAffineAlmostBlowUpSheaf B S hS G.obj G.property ?_
   intro X X' Z E b z p e I haffine hb hZ hpb
   have hfac : p ≫ b = e ≫ z :=
     (BigHOver.toScheme B S hS).map_injective (by

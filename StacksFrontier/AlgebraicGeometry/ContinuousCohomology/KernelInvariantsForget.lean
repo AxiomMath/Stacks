@@ -106,7 +106,7 @@ lemma kernelInvariants_eq_invariantsSubmodule
     kernelInvariants R π M = continuousModuleInvariantsSubmodule R G
       ((continuousModuleRes.{u, v + 1, max u (v + 1)} R φ).obj M) := by
   ext x
-  change (∀ γ : Γ, π γ = 1 → (M.obj.obj.ρ γ).hom x = x) ↔ ∀ g : G, (M.obj.obj.ρ (φ g)).hom x = x
+  change (∀ γ : Γ, π γ = 1 → (M.obj.obj.ρ γ).asHom.hom x = x) ↔ ∀ g : G, (M.obj.obj.ρ (φ g)).asHom.hom x = x
   constructor
   · intro h g
     exact h _ (show (φ : G →* Γ) g ∈ (π : Γ →* Q).ker from hφπ ▸ ⟨g, rfl⟩)

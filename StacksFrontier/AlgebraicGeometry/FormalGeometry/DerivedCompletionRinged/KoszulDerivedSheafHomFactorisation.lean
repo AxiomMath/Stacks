@@ -98,21 +98,21 @@ theorem single_map_globalSectionToEnd_app
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     (single (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (up ℤ) p).map
         ((Stacks.SheafOfModules.globalSectionToEnd
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).app M) =
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.app M) =
       Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a •
         𝟙 ((single (SheafOfModules.{u}
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (up ℤ) p).obj M) := by
   have key : ∀ {Y Z : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (e : Y ≅ Z),
       e.hom ≫ (Stacks.SheafOfModules.globalSectionToEnd
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).app Z ≫ e.inv =
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.app Z ≫ e.inv =
         (Stacks.SheafOfModules.globalSectionToEnd
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).app Y := fun e => by
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.app Y := fun e => by
     have hnat : e.hom ≫ (Stacks.SheafOfModules.globalSectionToEnd
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).app _ =
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.app _ =
         (Stacks.SheafOfModules.globalSectionToEnd
-          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).app _ ≫ e.hom :=
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.app _ ≫ e.hom :=
       (Stacks.SheafOfModules.globalSectionToEnd
-        (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).naturality e.hom
+        (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).asHom.naturality e.hom
     rw [← Category.assoc, hnat, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
   by_cases hn : n = p
@@ -219,12 +219,12 @@ theorem smul_id_Q_obj_koszulPowerComplex_eq_zero (i : Fin r) (k : ℕ) :
     have e1 : (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
         (koszulFamily X f (singleExp i k)) • 𝟙 (koszulPowerComplex X f k)).f p =
         (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (koszulFamily X f (singleExp i k))).app _ := by
+          (koszulFamily X f (singleExp i k))).asHom.app _ := by
       rw [smul_f_apply, id_f]
       exact Category.comp_id _
     rw [e1]
     exact ((Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-      (koszulFamily X f (singleExp i k))).naturality _).symm.trans
+      (koszulFamily X f (singleExp i k))).asHom.naturality _).symm.trans
         (constSmulTerm_comp_pi (koszulScalar X f) (koszulScalar_zero X f)
           (koszulScalar_comp X f) k (singleExp i k) p A).symm
   rw [← CategoryTheory.Functor.map_id, ← Functor.Linear.map_smul, h]
@@ -256,7 +256,7 @@ theorem derivedSheafHomIterated_map_single_map_koszulScalar_eq_zero
     · simp [singleExp, hj]
   have h1 : koszulScalar X f (singleExp i k) =
       (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        (koszulFamily X f (singleExp i k))).app
+        (koszulFamily X f (singleExp i k))).asHom.app
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
     rfl
   rw [he, CategoryTheory.Functor.map_comp, op_comp, CategoryTheory.Functor.map_comp, h1,

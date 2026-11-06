@@ -176,20 +176,20 @@ theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_fieldEx
         (m + 1)).charpoly := by
   have h := congrArg (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
     (LAdicSheaf.fieldExtensionCohomologyIso_comm B X ℓ f j k' kbar F i p q hcard m hcard')
-  have hmp := ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).mapEnd
-    (LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F i)).map_pow
-    (End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) (m + 1)
-  rw [Functor.map_comp, Functor.map_comp] at h
-  rw [show (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
-      ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) ^
-        (m + 1)) = _ from hmp] at h
+  rw [Functor.map_comp, Functor.map_comp, map_end_pow] at h
   have hl := congrArg ModuleCat.Hom.hom h
   simp only [ModuleCat.hom_comp] at hl
   have hp : ((End.of (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q
-      hcard F i)) ^ (m + 1)).hom =
+      hcard F i)) ^ (m + 1)).asHom.hom =
       (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i).hom ^
-        (m + 1) :=
-    map_pow (ModuleCat.endRingEquiv _) (End.of _) (m + 1)
+        (m + 1) := by
+    have h₀ := map_pow (ModuleCat.endRingEquiv
+      (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i))
+      (End.of (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F
+        i))
+      (m + 1)
+    simp only [ModuleCat.endRingEquiv_apply] at h₀
+    exact h₀
   set e := LAdicSheaf.rationalFieldExtensionCohomologyIso B X ℓ f j k' kbar F i
   have hconj : (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B
       (fieldExtensionScheme B X f k') ℓ (pullback.snd f (specAlgebraMap k k'))

@@ -126,7 +126,7 @@ private theorem residueFieldMap_genericPoint_comp_eq {X S : Scheme.{u}} (f : X �
     show (hgen ▸ f.stalkMap (genericPoint X)).hom = _
     rw [congrArg CommRingCat.Hom.hom (stalkMap_cast_target f (genericPoint X) hgen)]
   rw [hcast]
-  simpa only [RingEquiv.toRingHom_trans, Scheme.functionField,
+  simpa only [RingEquiv.toRingHom_trans, RingEquiv.toRingHom_trans', Scheme.functionField,
     genericStalkRingEquivResidueField, stalkRingEquivResidueField_toRingHom,
     commRingCatIso_toRingEquiv_toRingHom, TopCat.Presheaf.stalkCongr_hom,
     ← CommRingCat.hom_comp, Category.assoc, RingHom.comp_assoc, RingHom.comp_apply] using

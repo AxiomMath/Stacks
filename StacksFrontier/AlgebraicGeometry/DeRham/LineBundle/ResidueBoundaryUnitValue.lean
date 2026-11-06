@@ -49,24 +49,24 @@ realization comparison, then the boundary map of the residue sequence takes the 
 theorem Situation.deRhamEvalOne_residueBoundary_eq_of_cech
     (p : Stacks.SheafOfModules.Picard.PicardGroup D.X.toRingedSpace.sheaf.obj
       (_root_.structureSheaf D.X.toRingedSpace.sheaf).property)
-    (t : (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₃.val.obj (op ⊤))
+    (t : (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₃.obj.obj (op ⊤))
     {I : Type u} (Ui : I → Opens D.baseSpace.carrier)
     (hUi : (⊤ : Opens D.baseSpace.carrier) = ⨆ i, Ui i)
     (e : CechCochains.Cochain Ui
-      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₂.val 0)
+      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₂.obj 0)
     (he : ∀ i : Fin 1 → I, (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence)
         0).g.hom.app (op (CechCochains.inter Ui i)) (e i) =
-      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₃.val.map
+      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₃.obj.map
         (homOfLE le_top).op t)
-    (z : CechCochains.cocycles1 Ui D.unitsSheafBase.val)
+    (z : CechCochains.cocycles1 Ui D.unitsSheafBase.obj)
     (ω : CechCochains.cocycles1 Ui
-      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₁.val)
+      (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₁.obj)
     (hωz : ∀ i : Fin 2 → I, ω.val i =
       D.logarithmicDifferentialClosed.hom.app (op (CechCochains.inter Ui i)) (z.val i))
     (hω : ∀ i : Fin 2 → I, (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence)
         0).f.hom.app (op (CechCochains.inter Ui i)) (ω.val i) =
       CechCochains.cechD Ui
-        (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₂.val 0 e i)
+        (HomologicalComplex.shortExactCycles (toSC D.residueAbelianSequence) 0).X₂.obj 0 e i)
     (hz : Stacks.Cohomology.CechOne.cechH1ToRightDerivedSections D.baseSpace.carrier ⊤ Ui hUi
         D.unitsSheafBase (CechCochains.cls Ui _ z) =
       (Stacks.Cohomology.Generators.h1UnitsAddEquivPicardGroup D.X.toRingedSpace).symm p)

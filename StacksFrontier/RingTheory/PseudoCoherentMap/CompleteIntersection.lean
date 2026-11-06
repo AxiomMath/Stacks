@@ -103,7 +103,7 @@ private noncomputable def koszulResolution {R : Type u} [CommRing R]
     cases n with
     | zero =>
       rw [ChainComplex.quasiIsoAt₀_iff,
-        ShortComplex.quasiIso_iff_of_zeros' _ (by simp; rfl) (by simp; rfl) (by simp; rfl)]
+        ShortComplex.quasiIso_iff_of_zeros' _ (by simp <;> rfl) (by simp <;> rfl) (by simp <;> rfl)]
       constructor
       · rw [ShortComplex.moduleCat_exact_iff]
         intro x hx

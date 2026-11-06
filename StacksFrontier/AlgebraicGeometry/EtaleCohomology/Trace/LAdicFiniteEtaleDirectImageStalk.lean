@@ -328,6 +328,7 @@ theorem LAdicSheaf.directImageStalkLift_comp_inc_of_ne {x x' : GeometricLifts B 
     rw [LinearMap.comp_apply, LAdicSheaf.directImageStalkLift_inc, Pi.single_eq_of_ne h]
     rfl
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The integral inclusions and components decompose the stalk of `π_* F`:
 `∑ x̄, inc x̄ ∘ lift x̄ = id`. -/
 theorem LAdicSheaf.sum_directImageStalkInc_comp_lift [Fintype (GeometricLifts B π y)] :

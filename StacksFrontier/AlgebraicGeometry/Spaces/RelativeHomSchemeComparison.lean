@@ -145,6 +145,17 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {V Zs Xs : BigFppfOver B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_RelativeHomSchemeComparison :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RelativeHomSchemeComparison
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The fibre product in the site and the product in the slice over the base scheme -/
 
 /-- The fibre product `T ×_V Z` taken in the big fppf site of `S` has underlying scheme a fibre
@@ -354,7 +365,7 @@ theorem relativeMorphismOfSigma_inj (z : Zs ⟶ V) (x : Xs ⟶ V) {T : BigFppfOv
   have hm : (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) a z).inv ≫ yoneda.map b =
       (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) a z).inv ≫ yoneda.map b' :=
     eq_of_heq (RelativeMorphism.mk.inj h).2
-  have hbb : b = b' := yoneda.map_injective ((cancel_epi _).mp hm)
+  have hbb : b = b' := yoneda.map_injective ((Iso.cancel_iso_inv_left _ _ _).mp hm)
   subst hbb
   rfl
 

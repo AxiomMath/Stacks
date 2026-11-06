@@ -115,7 +115,7 @@ instance isIso_δ_lan (P Q : C ⥤ H) : IsIso (OplaxMonoidal.δ L.lan P Q) := by
         dsimp [LeftExtension.coconeAt]
         exact (Category.assoc _ _ _).trans (lanUnit_app_app_map_δ_app L P Q X f) }
   have := IsColimit.hom_isIso hPQ hT φ
-  exact (Cocones.forget _).map_isIso φ
+  exact (Cocone.forget _).map_isIso φ
 
 attribute [local instance] IsFiltered.isConnected in
 /-- **The unit comparison of `L.lan` is an isomorphism** when the comma categories are
@@ -148,7 +148,7 @@ instance isIso_η_lan : IsIso (OplaxMonoidal.η (L.lan : (C ⥤ H) ⥤ (D ⥤ H)
         refine (congrArg (· ≫ _) h').trans ?_
         simp }
   have := IsColimit.hom_isIso hU hC φ
-  exact (Cocones.forget _).map_isIso φ
+  exact (Cocone.forget _).map_isIso φ
 
 /-- **The left Kan extension functor is monoidal** for the pointwise tensor products, when the
 comma categories `CostructuredArrow L X` are filtered and the tensor product of `H` commutes with

@@ -44,7 +44,6 @@ def tensorProductFanIsoOfFinitePresentation [Module.FinitePresentation R S] :
   apply CommRingCat.mkUnder_ext
   intro c
   induction c with
-  | zero => simp only [map_zero, CategoryTheory.Under.comp_right]
   | tmul x f =>
     simp only [AlgHom.toUnder_right, Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq,
       Pi.evalAlgHom_apply, CategoryTheory.Under.comp_right, comp_apply,

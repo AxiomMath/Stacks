@@ -132,7 +132,7 @@ theorem exists_etale_contraction_of_isAffine {S : Scheme.{u}} [IsAffine S] (s : 
                exact ((Category.assoc _ _ _).trans
                  (congrArg (S.isoSpec.hom ≫ ·) (c₀.w a))).symm } }
   have hS : IsLimit cS := IsLimit.ofIsoLimit (isLimit_specAdjoinFinsetCone Γ(S, ⊤))
-    (Cones.ext (S.isoSpec.symm : c₀.pt ≅ S) fun i => (Iso.inv_hom_id_assoc _ _).symm)
+    (Cone.ext (S.isoSpec.symm : c₀.pt ≅ S) fun i => (Iso.inv_hom_id_assoc _ _).symm)
   have : ∀ i, CompactSpace (B.obj i) := fun i => inferInstance
   have : ∀ i, QuasiSeparatedSpace (B.obj i) := fun i => quasiSeparatedSpace_of_isAffine _
   obtain ⟨i₀, X₀, fX₀, gX, hX₀p, hX₀f, hX₀l, sqX₀⟩ := exists_properFlat_stageModel B cS hS fX

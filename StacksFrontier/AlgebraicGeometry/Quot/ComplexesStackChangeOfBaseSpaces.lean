@@ -140,7 +140,7 @@ theorem baseIso_hom_comp : C.baseIso.hom ≫ C.eY'.hom = toPoint C.D.Y.obj := by
 /-- `Λ_g f` is `f₁`, through the identifications of the sources and of the bases. -/
 theorem map_f_comp_baseIso :
     (Λg).map C.D.f.hom ≫ C.baseIso.hom = C.sourceIso.hom ≫ C.D₁.f.hom := by
-  rw [← cancel_mono C.eY'.hom, Category.assoc, Category.assoc, baseIso_hom_comp,
+  rw [← Iso.cancel_iso_hom_right _ _ C.eY', Category.assoc, Category.assoc, baseIso_hom_comp,
     sourceIso_hom_comp]
   exact map_toPoint _
 
@@ -179,7 +179,7 @@ theorem w_of_targetPoint {A₁ A₁' : SchemesOver C.D₁.Y} (q : A₁.left ⟶ 
     (hq : q ≫ C.targetPoint A₁' = C.targetPoint A₁) :
     (schemeSpaceFunctor B S hS).map q ≫ A₁'.hom = A₁.hom := by
   apply ObjectProperty.hom_ext
-  rw [← cancel_mono C.eY'.hom, ObjectProperty.FullSubcategory.comp_hom, Category.assoc,
+  rw [← Iso.cancel_iso_hom_right _ _ C.eY', ObjectProperty.FullSubcategory.comp_hom, Category.assoc,
     ← targetPoint_spec, ← targetPoint_spec, ← ObjectProperty.FullSubcategory.comp_hom,
     ← CategoryTheory.Functor.map_comp, hq]
 
@@ -374,7 +374,7 @@ structural morphism of `A₁`. -/
 theorem Match.map_hom_comp_baseIso {A : SchemesOver C.D.Y} {A₁ : SchemesOver C.D₁.Y}
     (m : C.Match A A₁) :
     (Λg).map A.hom.hom ≫ C.baseIso.hom = m.testIso.hom ≫ A₁.hom.hom := by
-  rw [← cancel_mono C.eY'.hom, Category.assoc, Category.assoc, baseIso_hom_comp, map_toPoint,
+  rw [← Iso.cancel_iso_hom_right _ _ C.eY', Category.assoc, Category.assoc, baseIso_hom_comp, map_toPoint,
     Match.testIso_hom, Category.assoc, ← targetPoint_spec,
     ← ObjectProperty.FullSubcategory.comp_hom,
     ← CategoryTheory.Functor.map_comp, m.w, representedIso_hom_comp_pointHom]

@@ -142,7 +142,7 @@ theorem sectionsPi_hom_apply (F : genericPoints X → X.Modules) (U : X.Opens)
   have h2 : (productSectionsIso F U).hom ≫
       Pi.π (fun η ↦ (sectionsFunctor X U).obj (F η)) η =
       (sectionsFunctor X U).map (Pi.π F η) := by
-    rw [productSectionsIso, PreservesProduct.iso_hom, piComparison, Pi.lift_π]
+    rw [productSectionsIso, PreservesProduct.iso_hom, piComparison, Pi.lift_comp_π]
   exact h1.trans (by rw [← ConcreteCategory.comp_apply, h2])
 
 /-- The `η`-coordinate of the image of a meromorphic function under the decomposition is the
@@ -153,7 +153,7 @@ theorem sectionsPi_hom_decomposition (U : X.Opens)
         ((sectionsFunctor X U).map (decomposition X) t) η =
       (comparison X).app (op U) t η := by
   rw [sectionsPi_hom_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp, decomposition,
-    Pi.lift_π]
+    Pi.lift_comp_π]
   exact germModuleHom_val_app_apply X η (op U) t
 
 variable {X}

@@ -150,7 +150,7 @@ public def constantSheafIsoLocallyConstantMaps_bigFppf (B : BigFppfSite.{u}) (S 
     ((constantSheaf (BigFppfOver.topology B S hS) (Type (max (u + 1) v))).obj G).obj ≅
     ((BigFppfOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigFppfOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigFppfOver.toScheme B S hS) G
     (BigFppfOver.topology B S hS) (bigFppfOver_openCoverData B S hS)
     (openCoverData_bottom (BigFppfOver.toScheme B S hS) (BigFppfOver.topology B S hS)
       (bigFppfOver_openCoverData B S hS))
@@ -165,7 +165,7 @@ public def zariskiConstantSheafIsoLocallyConstantMaps_bigFppf (B : BigFppfSite.{
       (Type (max (u + 1) v))).obj G).obj ≅
     ((BigFppfOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigFppfOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigFppfOver.toScheme B S hS) G
     ((BigFppfOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigFppfOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigFppfOver.toScheme B S hS)
@@ -180,7 +180,7 @@ public theorem constantSheafIsoLocallyConstantMaps_bigFppf_unit (B : BigFppfSite
     ConstantSheafIso.UnitCompatible (BigFppfOver.toScheme B S hS)
       (BigFppfOver.topology B S hS) G
       (constantSheafIsoLocallyConstantMaps_bigFppf B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigFppfOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigFppfOver.toScheme B S hS) G
     (BigFppfOver.topology B S hS) (bigFppfOver_openCoverData B S hS)
     (openCoverData_bottom (BigFppfOver.toScheme B S hS) (BigFppfOver.topology B S hS)
       (bigFppfOver_openCoverData B S hS))
@@ -193,7 +193,7 @@ public theorem zariskiConstantSheafIsoLocallyConstantMaps_bigFppf_unit (B : BigF
     ConstantSheafIso.UnitCompatible (BigFppfOver.toScheme B S hS)
       ((BigFppfOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology) G
       (zariskiConstantSheafIsoLocallyConstantMaps_bigFppf B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigFppfOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigFppfOver.toScheme B S hS) G
     ((BigFppfOver.toScheme B S hS).restrictedTopology Scheme.zariskiTopology)
     (bigFppfOver_zariski_openCoverData B S hS)
     (openCoverData_bottom (BigFppfOver.toScheme B S hS)

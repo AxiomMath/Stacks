@@ -313,7 +313,7 @@ theorem map_reesShift_eq_zero (t : ℤ) (y : ProjectiveSpectrum.top (reesGrading
     LocalizedModule.map y.asHomogeneousIdeal.toIdeal.primeCompl (reesShift I t)
         (LocalizedModule.mk m σ) =
       r • (0 : ModuleFiber (M := reesAlgebra I) (reesGrading I) y) := by
-  rw [hm0, LocalizedModule.zero_mk, map_zero, smul_zero]
+  rw [hm0, LocalizedModule.zero_mk, LinearMap.map_zero, smul_zero]
 
 /-- **The fraction identity with the scalar read as a degree-zero fraction of the structure
 sheaf.** This is `Stacks.Blowup.map_reesShift_mk` with `b` replaced by any element of the

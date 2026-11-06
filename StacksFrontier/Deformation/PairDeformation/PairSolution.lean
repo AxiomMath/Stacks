@@ -62,8 +62,8 @@ public noncomputable abbrev sectionTensor {X : RingedTopos.{v, u, w}}
     [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
     (M N : SheafOfModules.{w}
       ((sheafCompose X.J (forget₂ CommRingCat.{w} RingCat.{w})).obj X.O)) :
-    PresheafOfModules.{w} (X.O.val ⋙ forget₂ CommRingCat.{w} RingCat.{w}) :=
-  PresheafOfModules.tensorObj (O := X.O.val) M.val N.val
+    PresheafOfModules.{w} (X.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}) :=
+  PresheafOfModules.tensorObj (O := X.O.obj) M.val N.val
 
 /-- The fixed data of an extension problem for a pair: the ring part `S`, an `O_X`-module `L`,
 the prescribed kernel `GL` of a thickening of `L`, and an `O_X`-bilinear pairing
@@ -84,7 +84,7 @@ public structure PairExtensionProblem
     SheafOfModules.{w} ((sheafCompose X.J (forget₂ CommRingCat.{w} RingCat.{w})).obj X.O)
   /-- The pairing `G ⊗ L ⟶ GL` through which the kernel of the ring part acts. -/
   μ : sectionTensor S.G L ⟶
-    (moduleKernel.val : PresheafOfModules.{w} (X.O.val ⋙ forget₂ CommRingCat.{w} RingCat.{w}))
+    (moduleKernel.val : PresheafOfModules.{w} (X.O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}))
 
 namespace PairExtensionProblem
 
@@ -98,7 +98,7 @@ variable {X : RingedTopos.{v, u, w}}
 /-- The pairing of a pair extension problem on local sections: `μ(g ⊗ l)`. -/
 public noncomputable def pairing (P : PairExtensionProblem X B) (U : X.Cᵒᵖ)
     (g : P.S.G.val.obj U) (l : P.L.val.obj U) : P.moduleKernel.val.obj U :=
-  P.μ.app U (g ⊗ₜ[X.O.val.obj U] l)
+  P.μ.app U (g ⊗ₜ[X.O.obj.obj U] l)
 
 /-- The restriction of scalars of an `O_X`-module along the reduction `O' ⟶ O_X` of a solution
 of the ring part. -/
@@ -136,7 +136,7 @@ public structure Solution (P : PairExtensionProblem X B) where
   /-- A section `g` of the kernel of `O' ⟶ O_X` acts on `l'` by `μ(g ⊗ l̄')`. -/
   smul_eq : ∀ (U : X.Cᵒᵖ) (g : P.S.G.val.obj U) (l : module.val.obj U),
     (show ((sheafCompose X.J (forget₂ CommRingCat.{w} RingCat.{w})).obj
-        ring.extension).val.obj U from ring.kernelInclusion.val.app U g) • l =
+        ring.extension).obj.obj U from ring.kernelInclusion.val.app U g) • l =
       kernelInclusion.val.app U (P.pairing U g (reduction.val.app U l))
 
 end PairExtensionProblem

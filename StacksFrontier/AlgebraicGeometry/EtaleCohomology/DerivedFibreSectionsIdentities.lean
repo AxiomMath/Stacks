@@ -353,6 +353,26 @@ variable {C₁ : Type u₁} [Category.{v₁} C₁] [Abelian C₁] [HasDerivedCat
   {C₂ : Type u₂} [Category.{v₂} C₂] [Abelian C₂] [HasDerivedCategory.{w₂} C₂]
   {C₃ : Type u₃} [Category.{v₃} C₃] [Abelian C₃] [HasDerivedCategory.{w₃} C₃]
 
+attribute [local instance] CategoryTheory.Limits.comp_preservesFiniteLimits
+  CategoryTheory.Limits.comp_preservesFiniteColimits in
+/-- Mathlib's composition isomorphism followed by the change of functor along `e` is the
+project's composition isomorphism attached to `e`. -/
+private theorem mapDerivedCategoryCompIso_hom_comp_mapDerivedCategory_hom
+    {F : C₁ ⥤ C₂} [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
+    {G : C₂ ⥤ C₃} [G.Additive] [PreservesFiniteLimits G] [PreservesFiniteColimits G]
+    {H : C₁ ⥤ C₃} [H.Additive] [PreservesFiniteLimits H] [PreservesFiniteColimits H]
+    (e : F ⋙ G ≅ H) :
+    (mapDerivedCategoryCompIso F G).hom ≫ NatTrans.mapDerivedCategory e.hom =
+      (mapDerivedCategoryCompIsoOfCompIso e).hom := by
+  refine Localization.natTrans_ext DerivedCategory.Q
+    (HomologicalComplex.quasiIso C₁ (ComplexShape.up ℤ)) (fun K => ?_)
+  rw [NatTrans.comp_app, mapDerivedCategoryCompIso_hom_app_Q_obj,
+    NatTrans.mapDerivedCategory_app_Q_obj, mapDerivedCategoryCompIso_hom_app_Q]
+  simp only [Category.assoc, Iso.inv_hom_id_app_assoc, ← DerivedCategory.Q.map_comp_assoc]
+  congr 4
+  ext n
+  simp
+
 /-- **The composition isomorphism on the image of `DerivedCategory.Qh`, with the two
 factorizations of the composed actions cancelled.** This is
 `CategoryTheory.Functor.mapDerivedCategoryCompIso_hom_app_Qh` read against the inverses of the
@@ -368,7 +388,7 @@ public theorem mapDerivedCategoryFactorsh_inv_comp_mapDerivedCategoryCompIso_hom
     G.mapDerivedCategoryFactorsh.inv.app
           ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj J) ≫
         G.mapDerivedCategory.map (F.mapDerivedCategoryFactorsh.inv.app J) ≫
-        (mapDerivedCategoryCompIso e).hom.app (DerivedCategory.Qh.obj J) =
+        (mapDerivedCategoryCompIsoOfCompIso e).hom.app (DerivedCategory.Qh.obj J) =
       DerivedCategory.Qh.map ((mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)).hom.app J) ≫
         H.mapDerivedCategoryFactorsh.inv.app J := by
   rw [mapDerivedCategoryCompIso_hom_app_Qh, ← Category.assoc
@@ -467,9 +487,10 @@ public theorem fibreSections_app (K : smallEtaleDerivedCategory X) :
           ((smallEtaleDerivedPullbackAb
             (strictHenselizationBaseChangeToSource B hS f s)).obj K) ≫
         (smallEtaleDerivedGlobalSections (geometricFibre f s)).map
-          ((Functor.mapDerivedCategoryCompIso
-            (geometricFibrePullbackAbCompIso B hS f s)).hom.app K) :=
-  Stacks.DerivedFunctor.id_middle _ _
+          ((Functor.mapDerivedCategoryCompIsoOfCompIso
+            (geometricFibrePullbackAbCompIso B hS f s)).hom.app K) := by
+  rw [← Functor.mapDerivedCategoryCompIso_hom_comp_mapDerivedCategory_hom]
+  exact Stacks.DerivedFunctor.id_middle _ _
 
 /-- The three composition isomorphisms in front of the identification of the two iterated inverse
 images cancel, leaving the degreewise comparison and the identification for the composite. This is
@@ -496,7 +517,7 @@ private theorem lhsCompIso_app
             ((smallEtalePullbackAb (strictHenselizationBaseChangeToSource B hS f s)
               |>.mapDerivedCategoryFactorsh.inv.app J))) ≫
         (smallEtaleDerivedGlobalSections (geometricFibre f s)).map
-          ((Functor.mapDerivedCategoryCompIso E).hom.app (DerivedCategory.Qh.obj J)) =
+          ((Functor.mapDerivedCategoryCompIsoOfCompIso E).hom.app (DerivedCategory.Qh.obj J)) =
       (smallEtaleDerivedGlobalSections (geometricFibre f s)).map
           (DerivedCategory.Qh.map
             ((Functor.mapHomotopyCategoryCompIso E (.up ℤ)).hom.app J)) ≫

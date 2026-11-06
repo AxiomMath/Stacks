@@ -239,7 +239,7 @@ private theorem exists_factorization_of_finiteType (k k' : Type u) [Field k] [Fi
     rw [h, A.val.commutes]
   -- The residue field of `H` is that of `R`, which is `k` by construction of `p`.
   let eR : IsLocalRing.ResidueField R ≃+* k :=
-    (IsLocalization.AtPrime.equivQuotMaximalIdeal m R).symm.trans
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal m R).symm.toRingEquiv.trans
       (RingHom.quotientKerEquivOfSurjective hp)
   let eHR : IsLocalRing.ResidueField R ≃+* IsLocalRing.ResidueField H :=
     RingEquiv.ofBijective (IsLocalRing.ResidueField.map (algebraMap R H))
@@ -260,7 +260,7 @@ private theorem exists_factorization_of_finiteType (k k' : Type u) [Field k] [Fi
     change RingHom.quotientKerEquivOfSurjective hp
       ((IsLocalization.AtPrime.equivQuotMaximalIdeal m R).symm
         (IsLocalization.AtPrime.equivQuotMaximalIdeal m R _)) = x
-    rw [RingEquiv.symm_apply_apply, RingHom.quotientKerEquivOfSurjective_apply_mk]
+    rw [AlgEquiv.symm_apply_apply, RingHom.quotientKerEquivOfSurjective_apply_mk]
     exact p.commutes x
   have hbij : Function.Bijective ((Ideal.Quotient.mk (IsLocalRing.maximalIdeal H)).comp
       (b.comp (algebraMap k A))) := by

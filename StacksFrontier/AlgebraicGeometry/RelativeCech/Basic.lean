@@ -397,6 +397,14 @@ public noncomputable def relativeCechRestriction (u : Y ⟶ Z) (b : Z ⟶ X) (a 
     (pushforward (u ≫ (b ≫ f))).map ((pullbackCongr hh).hom.app F) ≫
     (pushforwardCongr (by rw [← Category.assoc, hh])).hom.app _
 
+/-- A functor's image of a transport followed by a transport is one transport.  Stated for
+abstract objects, so that the kernel never compares two spellings of the same object. -/
+private theorem map_eqToHom_comp_eqToHom {C D : Type*} [Category C] [Category D] (G : C ⥤ D)
+    {A B : C} {E : D} (e₁ : A = B) (e₂ : G.obj B = E) (hE : G.obj A = E) :
+    G.map (eqToHom e₁) ≫ eqToHom e₂ = eqToHom hE := by
+  subst e₁ e₂
+  simp
+
 /-- Two successive transports compose to one.  Every datum here is a variable, which is what
 makes the conversion between the two spellings of the source object cheap. -/
 public theorem relativeCechRestriction_tail_eqToHom (u : Y ⟶ Z) (b : Z ⟶ X) (a : Y ⟶ X)
@@ -406,8 +414,8 @@ public theorem relativeCechRestriction_tail_eqToHom (u : Y ⟶ Z) (b : Z ⟶ X) 
         = (pushforward (a ≫ f)).obj ((pullback a).obj F))
     (hE : (pushforward (u ≫ b ≫ f)).obj ((pullback (u ≫ b)).obj F)
         = (pushforward (a ≫ f)).obj ((pullback a).obj F)) :
-    (pushforward (u ≫ b ≫ f)).map (eqToHom e₁) ≫ eqToHom e₂ = eqToHom hE := by
-  rw [eqToHom_map, eqToHom_trans]
+    (pushforward (u ≫ b ≫ f)).map (eqToHom e₁) ≫ eqToHom e₂ = eqToHom hE :=
+  map_eqToHom_comp_eqToHom _ e₁ e₂ hE
 
 /-- The last two factors of `relativeCechRestriction` are together a single transport. -/
 public theorem relativeCechRestriction_tail (u : Y ⟶ Z) (b : Z ⟶ X) (a : Y ⟶ X)

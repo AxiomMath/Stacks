@@ -121,7 +121,7 @@ public lemma pi_π_alternatingSumFaces_apply (n : ℕ) (k : Fin (n + 2) → E.I�
         F.map (faceProjection E k j).left.op
           (Pi.π (cochainFactor E F n) (fun b ↦ k (j.succAbove b)) y) := by
   rw [← ConcreteCategory.comp_apply, Preadditive.sum_comp]
-  simp only [Preadditive.zsmul_comp, Pi.lift_π, hom_sum_apply, AddCommGrpCat.hom_zsmul,
+  simp only [Preadditive.zsmul_comp, Pi.lift_comp_π, hom_sum_apply, AddCommGrpCat.hom_zsmul,
     AddMonoidHom.zsmul_apply, ConcreteCategory.comp_apply, faceProjection]
 
 /-- The Čech differential of a cochain, read off at a tuple of indices: the alternating sum

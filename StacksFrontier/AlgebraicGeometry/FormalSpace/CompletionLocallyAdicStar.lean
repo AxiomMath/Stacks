@@ -55,6 +55,17 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_CompletionLocallyAdicStar :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_CompletionLocallyAdicStar
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Quasi-compactness of `X ∖ T ⟶ X` restricts to the charts.** Let `X` be an algebraic space
 over `S`, let `T ⊆ |X|` be closed with `X ∖ T ⟶ X` quasi-compact, and let `a : U ⟶ X` be a
 morphism from a scheme `U` of the site with quasi-compact underlying space. Then the complement

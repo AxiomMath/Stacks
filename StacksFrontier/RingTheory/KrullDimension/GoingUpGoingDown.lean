@@ -278,4 +278,4 @@ theorem integral_dim_up
     rw [PrimeSpectrum.isClosed_singleton_iff_isMaximal] at hq ⊢
     rw [PrimeSpectrum.comap_asIdeal, ← halg]
     have := hq
-    exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal
+    exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal q.asIdeal

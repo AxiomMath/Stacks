@@ -90,12 +90,12 @@ theorem finiteGSetHom_ext_of_counit
 theorem whiskerRight_finiteGModulePairing (f : M' ⟶ M)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M'.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M'.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M'.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M'.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P (f.hom.hom.hom.hom.hom a) b) :
     (finiteGModuleCommGrpMap f).hom.hom.hom ▷ (finiteGModuleCommGrp G N).X ≫
         finiteGModulePairing M N L P hP = finiteGModulePairing M' N L P' hP' := by
@@ -113,12 +113,12 @@ theorem whiskerRight_finiteGModulePairing (f : M' ⟶ M)
 theorem whiskerLeft_finiteGModulePairing (f : N' ⟶ N)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N'.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N'.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N'.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N'.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P a (f.hom.hom.hom.hom.hom b)) :
     (finiteGModuleCommGrp G M).X ◁ (finiteGModuleCommGrpMap f).hom.hom.hom ≫
         finiteGModulePairing M N L P hP = finiteGModulePairing M N' L P' hP' := by
@@ -136,12 +136,12 @@ theorem whiskerLeft_finiteGModulePairing (f : N' ⟶ N)
 theorem finiteGModulePairing_comp_map (f : L ⟶ L')
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L'.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L'.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L'.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = f.hom.hom.hom.hom.hom (P a b)) :
     finiteGModulePairing M N L P hP ≫ (finiteGModuleCommGrpMap f).hom.hom.hom =
       finiteGModulePairing M N L' P' hP' := by
@@ -266,12 +266,12 @@ omit [∀ U : C, HasWeakSheafify (J.over U) AddCommGrpCat.{max u v}] in
 theorem whiskerRight_finiteLocallyConstantInternalPairing (f : M' ⟶ M)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M'.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M'.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M'.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M'.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P (f.hom.hom.hom.hom.hom a) b) :
     letI : e.inverse.Braided := .ofChosenFiniteProducts _
     (isFiniteLocallyConstantSetSheaf.{v, u, u} J).ι.map
@@ -289,12 +289,12 @@ omit [∀ U : C, HasWeakSheafify (J.over U) AddCommGrpCat.{max u v}] in
 theorem whiskerLeft_finiteLocallyConstantInternalPairing (f : N' ⟶ N)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N'.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N'.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N'.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N'.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P a (f.hom.hom.hom.hom.hom b)) :
     letI : e.inverse.Braided := .ofChosenFiniteProducts _
     _ ◁ (isFiniteLocallyConstantSetSheaf.{v, u, u} J).ι.map
@@ -312,12 +312,12 @@ omit [∀ U : C, HasWeakSheafify (J.over U) AddCommGrpCat.{max u v}] in
 theorem finiteLocallyConstantInternalPairing_comp_map (f : L ⟶ L')
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L'.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L'.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L'.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = f.hom.hom.hom.hom.hom (P a b)) :
     letI : e.inverse.Braided := .ofChosenFiniteProducts _
     finiteLocallyConstantInternalPairing J e M N L P hP ≫
@@ -337,12 +337,12 @@ pairing attached to `P ∘ (f × 1)` evaluated on `a`. -/
 theorem finiteLocallyConstantPairing_map_left (f : M' ⟶ M)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M'.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M'.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M'.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M'.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P (f.hom.hom.hom.hom.hom a) b) (U : Cᵒᵖ)
     (a : ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj
       M').obj.obj.obj U)
@@ -366,12 +366,12 @@ theorem finiteLocallyConstantPairing_map_left (f : M' ⟶ M)
 theorem finiteLocallyConstantPairing_map_right (f : N' ⟶ N)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N'.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N'.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N'.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N'.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = P a (f.hom.hom.hom.hom.hom b)) (U : Cᵒᵖ)
     (a : ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj
       M).obj.obj.obj U)
@@ -395,12 +395,12 @@ theorem finiteLocallyConstantPairing_map_right (f : N' ⟶ N)
 theorem map_finiteLocallyConstantPairing (f : L ⟶ L')
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b))
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b))
     (P' : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L'.obj.obj.obj.V)
     (hP' : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P' ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L'.obj.obj.obj.ρ g).hom (P' a b))
+      P' ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L'.obj.obj.obj.ρ g).asHom.hom (P' a b))
     (hPP' : ∀ a b, P' a b = f.hom.hom.hom.hom.hom (P a b)) (U : Cᵒᵖ)
     (a : ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj
       M).obj.obj.obj U)

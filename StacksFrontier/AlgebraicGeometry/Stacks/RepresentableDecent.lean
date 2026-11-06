@@ -110,6 +110,17 @@ attribute [local instance] Space.pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_RepresentableDecent :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RepresentableDecent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- The implication of **Stacks 03KG** at a quasi-compact morphism of the site: a morphism of the
 big fppf category of `S` whose underlying morphism of schemes is quasi-compact is quasi-compact
 as a morphism of algebraic spaces over `S`.

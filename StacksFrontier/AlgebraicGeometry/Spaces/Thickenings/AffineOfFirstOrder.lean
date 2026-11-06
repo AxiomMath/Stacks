@@ -45,6 +45,32 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {hT : B.Contains (⊤_ Scheme.{u})}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_AffineOfFirstOrder
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_AffineOfFirstOrder
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_AffineOfFirstOrder B S hS).has_limit _
+
+/-- Pullbacks in `BigFppfOver B S hS`, given directly: instance search for them times out under
+Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_bigFppfOver_AffineOfFirstOrder
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks (BigFppfOver B S hS) :=
+  hasPullbacks_bigFppfOver B S hS
+
+local instance (priority := high) hasPullback_bigFppfOver_AffineOfFirstOrder
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_bigFppfOver_AffineOfFirstOrder B S hS).has_limit _
+
 /-- **An algebraic space over `Spec ℤ` whose affine chart is the Čech cover of a faithfully flat
 ring map is affine.** Let `φ : V ⟶ W` be a surjective étale chart with `V` affine and with
 relation `t, s : R ⟶ V`, `R` affine. Let `A → Γ(V)` be faithfully flat with

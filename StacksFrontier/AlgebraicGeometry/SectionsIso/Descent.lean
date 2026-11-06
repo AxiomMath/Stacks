@@ -59,8 +59,8 @@ transparency setting:
   explicit-argument forms, because instance search does not look through the `let` binding the
   transformation.
 
-A local `implicit_reducible` attribute on the five `Under` combinators replaces the
-transparency options.
+A local `implicit_reducible` attribute on four `Under` combinators (Mathlib tags
+`Under.forget` itself) replaces the transparency options.
 
 The second result takes the cover of an arbitrary open `UX` by *all* affine opens contained in
 it, exactly as `Stacks.Tag0CKW.mono_pushoutSection_of_isAffineOpen_base` does. What makes the
@@ -91,7 +91,7 @@ universe u
 namespace Stacks.Tag0CKW
 
 attribute [local implicit_reducible] CategoryTheory.Under.lift CategoryTheory.Under.liftCone
-  CategoryTheory.Under.pushout CategoryTheory.Under.forget CategoryTheory.Under.homMk
+  CategoryTheory.Under.pushout CategoryTheory.Under.homMk
 
 variable {X Y S T : Scheme.{u}} {f : T ⟶ S} {g : Y ⟶ X} {iX : X ⟶ S} {iY : Y ⟶ T}
   (H : IsPullback g iY iX f)

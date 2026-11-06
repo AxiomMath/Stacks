@@ -105,6 +105,8 @@ theorem comm_iff (M : QuasicoherentModule G) (𝒢 : G.objects.left.Modules)
   have hS : IsIso ((coinductionSourceBaseChange G).app
       ((Scheme.Modules.pullback G.target.left).obj 𝒢)) :=
     isIso_coinductionSourceBaseChange_app G _
+  have hMono : Mono ((coinductionSourceBaseChange G).app
+      ((Scheme.Modules.pullback G.target.left).obj 𝒢)) := IsIso.mono_of_iso _
   have hinv : (coinductionSourceBaseChangeIso G
         ((Scheme.Modules.pullback G.target.left).obj 𝒢)).inv ≫
       (coinductionSourceBaseChange G).app
@@ -163,6 +165,10 @@ theorem reindex_comm (M : QuasicoherentModule G) (𝒢 : G.objects.left.Modules)
     coinductionComparison] at X
   simp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, Category.assoc,
     Iso.inv_hom_id_app_assoc, Stacks.Modules.pullbackCongr_hom_app] at X
+  have hEpi : Epi ((Scheme.Modules.pullbackComp (pullback.snd G.source G.target).left
+      G.target.left).hom.app M.module) := IsIso.epi_of_iso _
+  have hMono : Mono ((Scheme.Modules.pullbackComp G.comp.left G.target.left).inv.app 𝒢) :=
+    IsIso.mono_of_iso _
   rw [← cancel_epi ((Scheme.Modules.pullbackComp (pullback.snd G.source G.target).left
       G.target.left).hom.app M.module),
     ← cancel_mono ((Scheme.Modules.pullbackComp G.comp.left G.target.left).inv.app 𝒢),
@@ -405,6 +411,10 @@ theorem eq_pullback_map_of_baseComparison_comm {W : Scheme.{u}} {a b : W ⟶ V}
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc] at h
   have hE0 : baseComparison q hd A ≫ (Scheme.Modules.pullback (d ≫ b)).map φ =
       (Scheme.Modules.pullback (d ≫ a)).map φ ≫ baseComparison q hd B := by
+    have : Epi ((Scheme.Modules.pullbackComp d a).hom.app
+        ((Scheme.Modules.pullback q).obj A)) := IsIso.epi_of_iso _
+    have : Mono ((Scheme.Modules.pullbackComp d b).inv.app
+        ((Scheme.Modules.pullback q).obj B)) := IsIso.mono_of_iso _
     rw [← cancel_epi ((Scheme.Modules.pullbackComp d a).hom.app
         ((Scheme.Modules.pullback q).obj A)),
       ← cancel_mono ((Scheme.Modules.pullbackComp d b).inv.app
@@ -427,6 +437,10 @@ theorem eq_pullback_map_of_baseComparison_comm {W : Scheme.{u}} {a b : W ⟶ V}
   rw [← hnatB, reassoc_of% hnatA] at hE0
   have hE : baseComparison q h₃ A ≫ (Scheme.Modules.pullback (𝟙 V)).map φ =
       (Scheme.Modules.pullback (q ≫ e)).map φ ≫ baseComparison q h₃ B := by
+    have : Epi ((Scheme.Modules.pullbackCongr hda).hom.app
+        ((Scheme.Modules.pullback q).obj A)) := IsIso.epi_of_iso _
+    have : Mono ((Scheme.Modules.pullbackCongr hdb.symm).hom.app
+        ((Scheme.Modules.pullback q).obj B)) := IsIso.mono_of_iso _
     rw [← cancel_epi ((Scheme.Modules.pullbackCongr hda).hom.app
         ((Scheme.Modules.pullback q).obj A)),
       ← cancel_mono ((Scheme.Modules.pullbackCongr hdb.symm).hom.app
@@ -453,6 +467,10 @@ theorem eq_pullback_map_of_baseComparison_comm {W : Scheme.{u}} {a b : W ⟶ V}
         ((sectionPullbackIso q e he).hom.app A) ≫ φ =
       (Scheme.Modules.pullback q).map ((Scheme.Modules.pullback e).map φ) ≫
         (Scheme.Modules.pullback q).map ((sectionPullbackIso q e he).hom.app B) := by
+    have : Epi ((Scheme.Modules.pullbackComp q e).inv.app
+        ((Scheme.Modules.pullback q).obj A)) := IsIso.epi_of_iso _
+    have : Mono ((Scheme.Modules.pullbackId V).inv.app
+        ((Scheme.Modules.pullback q).obj B)) := IsIso.mono_of_iso _
     rw [← cancel_epi ((Scheme.Modules.pullbackComp q e).inv.app
         ((Scheme.Modules.pullback q).obj A)),
       ← cancel_mono ((Scheme.Modules.pullbackId V).inv.app
@@ -460,6 +478,8 @@ theorem eq_pullback_map_of_baseComparison_comm {W : Scheme.{u}} {a b : W ⟶ V}
     simpa only [Category.assoc] using hE
   have hiso : IsIso ((Scheme.Modules.pullback q).map
       ((sectionPullbackIso q e he).hom.app A)) := Functor.map_isIso _ _
+  have hepi : Epi ((Scheme.Modules.pullback q).map
+      ((sectionPullbackIso q e he).hom.app A)) := IsIso.epi_of_iso _
   rw [← cancel_epi ((Scheme.Modules.pullback q).map ((sectionPullbackIso q e he).hom.app A)),
     Functor.map_comp, Functor.map_comp, ← Category.assoc, ← Functor.map_comp,
     Iso.hom_inv_id_app, CategoryTheory.Functor.map_id, Category.id_comp]

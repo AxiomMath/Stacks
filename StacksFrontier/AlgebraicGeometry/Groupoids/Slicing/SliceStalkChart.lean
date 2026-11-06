@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Flat.Basic
 public import StacksFrontier.AlgebraicGeometry.Groupoids.Slicing.SliceBaseChangeChart
 
 /-!

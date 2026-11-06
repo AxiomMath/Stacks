@@ -65,13 +65,13 @@ theorem pullbackTerminalSection_constantSectionHom (a : Λ) :
 identification `f^*Λ̲ ≅ Λ̲`. -/
 theorem pullbackModules_map_constantScalar (a : Λ) :
     (constantRingedToposHom Λ f).toModulesHom.pullbackModules.map
-        ((Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection J Λ a)).app
+        ((Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection J Λ a)).asHom.app
           (SheafOfModules.unit _)) ≫
         (Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso
           (constantRingedToposHom Λ f).toModulesHom).inv =
       (Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso
           (constantRingedToposHom Λ f).toModulesHom).inv ≫
-        (Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection K Λ a)).app
+        (Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection K Λ a)).asHom.app
           (SheafOfModules.unit _) := by
   have h := Stacks.Sheaves.RingedToposModules.pullbackModules_map_globalSectionToEnd_unit
     (constantRingedToposHom Λ f).toModulesHom (RingedTopos.constantSectionHom J Λ a)
@@ -117,7 +117,7 @@ theorem constantPullbackUnitIso_naturality (φ : ModuleCat.of Λ Λ ⟶ ModuleCa
   have hD := RingedSite.constantModuleFunctor_map_smul_unitIso K Λ a
   have hD' : (RingedSite.constantModuleFunctorUnitIso K Λ).inv ≫
       (RingedSite.constantModuleFunctor K Λ).map (a • 𝟙 (ModuleCat.of Λ Λ)) =
-      (Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection K Λ a)).app
+      (Stacks.SheafOfModules.globalSectionToEnd _ (RingedSite.constantSection K Λ a)).asHom.app
           (SheafOfModules.unit _) ≫ (RingedSite.constantModuleFunctorUnitIso K Λ).inv := by
     rw [Iso.inv_comp_eq, ← Category.assoc, ← hD, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]

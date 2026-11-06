@@ -179,7 +179,7 @@ noncomputable def isLimitProductChartCone [IsCofiltered I] (c : Cone T)
   refine (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight (productChartSystemIso X₀ T i₀ a₀)
     (BigFppfOver.toScheme B S hS)) _) ?_
   refine IsLimit.ofIsoLimit (isLimitPostPullbackCone T c i₀ (productChartBase X₀ a₀) hc) ?_
-  refine Cones.ext ((BigFppfOver.toScheme B S hS).mapIso
+  refine Cone.ext ((BigFppfOver.toScheme B S hS).mapIso
     (pullbackSymmetry (productChartBase X₀ a₀) ((Over.conePost T i₀).obj c).pt.hom).symm)
     fun k => ?_
   have key : (postPullbackCone T c i₀ (productChartBase X₀ a₀)).π.app k =

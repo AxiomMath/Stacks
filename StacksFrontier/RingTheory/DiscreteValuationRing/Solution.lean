@@ -370,7 +370,7 @@ theorem adjoinRoot_isDiscreteValuationRing
     apply IsLocalRing.of_unique_max_ideal
     refine ⟨m, hm, fun q hq => ?_⟩
     have hc : q.comap (algebraMap R (AdjoinRoot p)) = IsLocalRing.maximalIdeal R :=
-      IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+      IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q)
     exact (hm.eq_of_le hq.ne_top (Ideal.map_le_iff_le_comap.mpr hc.symm.le)).symm
   have he : m = IsLocalRing.maximalIdeal (AdjoinRoot p) := IsLocalRing.eq_maximalIdeal hm
   obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible R

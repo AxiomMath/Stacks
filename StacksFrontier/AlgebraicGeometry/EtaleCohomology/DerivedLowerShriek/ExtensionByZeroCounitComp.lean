@@ -461,9 +461,9 @@ theorem etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_comp :
     (etaleModuleExtensionByZeroCompIso.{u, 0} Λ₀ a b).symm
   have f1 := Functor.rightDerivedFunctorPlusCompIsoOfExact_fac Ea Eb Eab
     (etaleModuleExtensionByZeroCompIso.{u, 0} Λ₀ a b).symm K
-  have F1 : Eab.rightDerivedFunctorPlusUnit.app K ≫ RCO.inv.app (DerivedCategory.Plus.Qh.obj K) =
-      DerivedCategory.Plus.Qh.map CId ≫ Eb.rightDerivedFunctorPlusUnit.app Ka ≫
-        Eb.rightDerivedFunctorPlus.map (Ea.rightDerivedFunctorPlusUnit.app K) := by
+  have F1 : Eab.rightDerivedFunctorPlusUnith.app K ≫ RCO.inv.app (DerivedCategory.Plus.Qh.obj K) =
+      DerivedCategory.Plus.Qh.map CId ≫ Eb.rightDerivedFunctorPlusUnith.app Ka ≫
+        Eb.rightDerivedFunctorPlus.map (Ea.rightDerivedFunctorPlusUnith.app K) := by
     rw [← cancel_epi (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
           (etaleModuleExtensionByZeroCompIso.{u, 0} Λ₀ a b).symm).hom.app K)),
       ← Category.assoc, ← f1]
@@ -474,9 +474,9 @@ theorem etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso_comp :
   have F5 := Functor.mapDerivedCategoryPlusCompIsoh_compatible
     (etaleModuleInverseImageCompIso.{u, 0} Λ₀ a b).symm N
   have nic := (etaleModuleDerivedInverseImagePlusCompIso Λ₀ a b).inv.naturality
-    (Eab.rightDerivedFunctorPlusUnit.app K)
+    (Eab.rightDerivedFunctorPlusUnith.app K)
   have nεb := (etaleModuleDerivedExtensionByZeroCompInverseImagePlusIso Λ₀ b).hom.naturality
-    (Ea.rightDerivedFunctorPlusUnit.app K)
+    (Ea.rightDerivedFunctorPlusUnith.app K)
   simp only [Functor.comp_map, Functor.id_map] at nic nεb ⊢
   rw [F4, reassoc_of% nic]
   let c := (Functor.mapHomotopyCategoryPlusNatTrans

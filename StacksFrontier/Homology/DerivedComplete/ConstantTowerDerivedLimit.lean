@@ -61,13 +61,13 @@ omit [HasZeroObject D] [HasShift D ℤ] [∀ (n : ℤ), (shiftFunctor D n).Addit
   [Pretriangulated D] in
 private theorem constTowerSection_π (Y : D) (n : ℕ) :
     constTowerSection Y ≫ constTowerπ Y n = -∑ k ∈ Finset.range n, constTowerπ Y k :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [HasZeroObject D] [HasShift D ℤ] [Preadditive D] [∀ (n : ℤ), (shiftFunctor D n).Additive]
   [Pretriangulated D] in
 private theorem constTowerDiag_π (Y : D) (n : ℕ) :
     constTowerDiag Y ≫ constTowerπ Y n = 𝟙 Y :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [HasZeroObject D] [HasShift D ℤ] [∀ (n : ℤ), (shiftFunctor D n).Additive]
   [Pretriangulated D] in
@@ -189,7 +189,7 @@ public theorem isIso_of_comp_eq_of_hasEventualInverses_const {Y : D} {G : ℕᵒ
         apply Pi.hom_ext
         intro n
         simp only [tY, tL, p, Rlim.Hom.DerivedLimitTriangle.triangle, Triangle.mk_mor₁,
-          Category.assoc, Pi.map_π, Pi.lift_π_assoc, Pi.lift_π, hθ]
+          Category.assoc, Pi.map_π, Pi.lift_comp_π_assoc, Pi.lift_comp_π, hθ]
         simp)
       (productMap_delta φ)
       (by simp [tY, tL, hd])

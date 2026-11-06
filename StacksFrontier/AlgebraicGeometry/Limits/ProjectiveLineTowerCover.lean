@@ -169,7 +169,7 @@ theorem exists_surjective_projectiveLineTower (S : Scheme.{u}) (n : ℕ) :
           (terminal.from (ProjectiveSpaceZ.{u} 1)) c (𝟙 _) (𝟙 _) (terminal.hom_ext _ _)
           (by simp)
       have hc₁ : Surjective c₁ :=
-        MorphismProperty.pullback_map (P := @Surjective.{u}) hc
+        MorphismProperty.pullbackMap (P := @Surjective.{u}) hc
           (inferInstanceAs (Surjective (𝟙 _))) (terminal.hom_ext _ _) (by simp)
       have hm := surjective_mulOver n S
       refine ⟨c₁ ≫ mulOver n S, inferInstanceAs (Surjective (c₁ ≫ mulOver n S)), ?_⟩

@@ -187,7 +187,7 @@ public theorem primeToChar_divides_tameRamificationIndex
       (Algebra.IsIntegral.isIntegral (R := A) (A := integralClosure A L) x).tower_top⟩
   have hq : q.IsMaximal := by
     show (Ideal.comap (algebraMap C (integralClosure A L)) P).IsMaximal
-    exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P
+    exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := C) P
   refine ⟨hq, ?_⟩
   let : IsDedekindDomain C := IsIntegralClosure.isDedekindDomain A K F C
   let : P.LiesOver (IsLocalRing.maximalIdeal A) :=

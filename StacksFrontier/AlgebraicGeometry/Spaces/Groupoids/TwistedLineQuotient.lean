@@ -142,7 +142,7 @@ theorem specMap_twistedTranslationEquiv_zpow_comp (n : ℤ) :
 /-- The automorphism of `Spec K` over `S` induced by `σ`. -/
 def twistedBaseGenerator (hs : Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ s = s) :
     Aut (twistedBase s) :=
-  Over.isoMk (Scheme.Spec.mapIso σ.toCommRingCatIso.op) hs
+  .of <| Over.isoMk (Scheme.Spec.mapIso σ.toCommRingCatIso.op) hs
 
 /-- The action of the integers on `Spec K` over `S` through the powers of `σ`, as in
 Stacks 0AC4. -/
@@ -154,7 +154,7 @@ def twistedBaseAction (hs : Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ s = s)
 on the coefficients by `σ` and sends the coordinate to itself plus one. -/
 def twistedLineGenerator (hs : Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ s = s) :
     Aut (twistedLine s) :=
-  Over.isoMk (Scheme.Spec.mapIso (twistedTranslationEquiv σ).toCommRingCatIso.op)
+  .of <| Over.isoMk (Scheme.Spec.mapIso (twistedTranslationEquiv σ).toCommRingCatIso.op)
     (show Spec.map (CommRingCat.ofHom (twistedTranslationEquiv σ).toRingHom) ≫
         Spec.map (CommRingCat.ofHom (C : K →+* K[X])) ≫ s =
       Spec.map (CommRingCat.ofHom (C : K →+* K[X])) ≫ s from by
@@ -193,32 +193,32 @@ variable (hs : Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ s = s)
 
 /-- The twisted translation of the affine line is induced by `twistedTranslationEquiv σ`. -/
 theorem twistedLineGenerator_hom_left :
-    (twistedLineGenerator s σ hs).hom.left =
+    (twistedLineGenerator s σ hs).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (twistedTranslationEquiv σ).toRingHom) := rfl
 
 /-- The inverse of the twisted translation of the affine line is induced by the inverse of
 `twistedTranslationEquiv σ`. -/
 theorem twistedLineGenerator_inv_left :
-    (twistedLineGenerator s σ hs).inv.left =
+    (twistedLineGenerator s σ hs).asIso.inv.left =
       Spec.map (CommRingCat.ofHom (twistedTranslationEquiv σ).symm.toRingHom) := rfl
 
 /-- The generator of the action on `Spec K` is induced by `σ`. -/
 theorem twistedBaseGenerator_hom_left :
-    (twistedBaseGenerator s σ hs).hom.left =
+    (twistedBaseGenerator s σ hs).asIso.hom.left =
       Spec.map (CommRingCat.ofHom σ.toRingHom) := rfl
 
 /-- The inverse of the generator of the action on `Spec K` is induced by `σ⁻¹`. -/
 theorem twistedBaseGenerator_inv_left :
-    (twistedBaseGenerator s σ hs).inv.left =
+    (twistedBaseGenerator s σ hs).asIso.inv.left =
       Spec.map (CommRingCat.ofHom σ.symm.toRingHom) := rfl
 
 /-- The `n`-th power of an automorphism of an affine scheme over `S` coming from a ring
 automorphism `e` is induced by the `n`-th power of `e`. -/
 theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
     (a : Aut (Over.mk p)) (e : R ≃+* R)
-    (ha : a.hom.left = Spec.map (CommRingCat.ofHom e.toRingHom))
-    (hai : a.inv.left = Spec.map (CommRingCat.ofHom e.symm.toRingHom)) (n : ℤ) :
-    (a ^ n).hom.left = Spec.map (CommRingCat.ofHom (e ^ n).toRingHom) := by
+    (ha : a.asIso.hom.left = Spec.map (CommRingCat.ofHom e.toRingHom))
+    (hai : a.asIso.inv.left = Spec.map (CommRingCat.ofHom e.symm.toRingHom)) (n : ℤ) :
+    (a ^ n).asIso.hom.left = Spec.map (CommRingCat.ofHom (e ^ n).toRingHom) := by
   induction n using Int.induction_on with
   | zero =>
       rw [zpow_zero]
@@ -226,8 +226,8 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
       rw [← Spec.map_id, Spec.map_inj]
       rfl
   | succ i ih =>
-      rw [add_comm (i : ℤ) 1, zpow_add, zpow_one, Aut.Aut_mul_def (Over.mk p)]
-      show (a ^ (i : ℤ)).hom.left ≫ a.hom.left = _
+      rw [add_comm (i : ℤ) 1, zpow_add, zpow_one, Aut.mul_asIso]
+      show (a ^ (i : ℤ)).asIso.hom.left ≫ a.asIso.hom.left = _
       rw [ih, ha, ← Spec.map_comp, Spec.map_inj]
       apply CommRingCat.hom_ext
       ext x
@@ -235,8 +235,8 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
       simpa [zpow_add] using h.symm
   | pred i ih =>
       rw [show -(i : ℤ) - 1 = -1 + (-(i : ℤ)) by omega, zpow_add, zpow_neg_one,
-        Aut.Aut_mul_def (Over.mk p)]
-      show (a ^ (-(i : ℤ))).hom.left ≫ a.inv.left = _
+        Aut.mul_asIso]
+      show (a ^ (-(i : ℤ))).asIso.hom.left ≫ a.asIso.inv.left = _
       rw [ih, hai, ← Spec.map_comp, Spec.map_inj]
       apply CommRingCat.hom_ext
       ext x
@@ -253,7 +253,7 @@ theorem specZpow_hom_left {R : Type u} [CommRing R] (p : Spec (.of R) ⟶ S)
 
 /-- The integer `n` acts on `Spec K` through the `n`-th power of `σ`. -/
 theorem twistedBaseAction_hom_left (n : ℤ) :
-    (twistedBaseAction s σ hs (ofAdd n)).hom.left =
+    (twistedBaseAction s σ hs (ofAdd n)).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (σ ^ n).toRingHom) :=
   specZpow_hom_left s (twistedBaseGenerator s σ hs) σ
     (twistedBaseGenerator_hom_left s σ hs) (twistedBaseGenerator_inv_left s σ hs) n
@@ -261,7 +261,7 @@ theorem twistedBaseAction_hom_left (n : ℤ) :
 /-- The integer `n` acts on the affine line through the `n`-th power of the twisted
 translation. -/
 theorem twistedLineAction_hom_left (n : ℤ) :
-    (twistedLineAction s σ hs (ofAdd n)).hom.left =
+    (twistedLineAction s σ hs (ofAdd n)).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (twistedTranslationEquiv σ ^ n).toRingHom) :=
   specZpow_hom_left _ (twistedLineGenerator s σ hs) (twistedTranslationEquiv σ)
     (twistedLineGenerator_hom_left s σ hs) (twistedLineGenerator_inv_left s σ hs) n
@@ -269,7 +269,7 @@ theorem twistedLineAction_hom_left (n : ℤ) :
 /-- The integer `n` sends the standard coordinate of the affine line to that coordinate plus
 `n`. -/
 theorem twistedLineAction_appTop_coord (n : ℤ) :
-    ((twistedLineAction s σ hs (ofAdd n)).hom.left).appTop (twistedLineCoord K) =
+    ((twistedLineAction s σ hs (ofAdd n)).asIso.hom.left).appTop (twistedLineCoord K) =
       twistedLineCoord K + (n : Γ(Spec (.of K[X]), ⊤)) := by
   rw [twistedLineAction_hom_left, specMap_appTop_twistedLineCoord,
     twistedTranslationEquiv_zpow_X, map_add, twistedLineCoord]
@@ -285,7 +285,7 @@ theorem twistedLineAction_actsNontrivially [CharZero K] :
   have hn : g.toAdd ≠ 0 := mt toAdd_eq_zero.mp hne
   have hg : Multiplicative.ofAdd g.toAdd = g := by simp
   set U : Scheme.{u} := Spec (.of K[X]) with hU
-  set f : U ⟶ U := (twistedLineAction s σ hs g).hom.left with hf
+  set f : U ⟶ U := (twistedLineAction s σ hs g).asIso.hom.left with hf
   have heval : U.Γevaluation x (f.appTop (twistedLineCoord K)) =
       U.Γevaluation x (twistedLineCoord K) := by
     calc
@@ -367,12 +367,12 @@ theorem twistedBaseToLine_appTop_coord :
 /-- The inclusion of the constants is equivariant for the two actions. -/
 theorem twistedLineToBase_comp_twistedBaseAction
     (hs : Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ s = s) (g : Multiplicative ℤ) :
-    (twistedLineAction s σ hs g).hom ≫ twistedLineToBase s =
-      twistedLineToBase s ≫ (twistedBaseAction s σ hs g).hom := by
+    (twistedLineAction s σ hs g).asIso.hom ≫ twistedLineToBase s =
+      twistedLineToBase s ≫ (twistedBaseAction s σ hs g).asIso.hom := by
   apply Over.OverMorphism.ext
   have hg : Multiplicative.ofAdd g.toAdd = g := by simp
-  show (twistedLineAction s σ hs g).hom.left ≫ (twistedLineToBase s).left =
-    (twistedLineToBase s).left ≫ (twistedBaseAction s σ hs g).hom.left
+  show (twistedLineAction s σ hs g).asIso.hom.left ≫ (twistedLineToBase s).left =
+    (twistedLineToBase s).left ≫ (twistedBaseAction s σ hs g).asIso.hom.left
   rw [← hg, twistedBaseAction_hom_left, twistedLineAction_hom_left, twistedLineToBase_left]
   exact specMap_twistedTranslationEquiv_zpow_comp σ g.toAdd
 
@@ -400,15 +400,15 @@ theorem actionRelationMap_comp_source (q : U ⟶ U') :
 projections. -/
 @[reassoc]
 theorem actionRelationMap_comp_target (a : G →* Aut U) (b : G →* Aut U') (q : U ⟶ U')
-    (h : ∀ g : G, (a g).hom ≫ q = q ≫ (b g).hom) :
+    (h : ∀ g : G, (a g).asIso.hom ≫ q = q ≫ (b g).asIso.hom) :
     actionRelationMap G q ≫ actionRelationTarget U' G b =
       actionRelationTarget U G a ≫ q := by
   refine Sigma.hom_ext _ _ fun g ↦ ?_
   calc
     Sigma.ι (fun _ : G ↦ U) g ≫ actionRelationMap G q ≫ actionRelationTarget U' G b
-        = q ≫ (b g).hom := by
+        = q ≫ (b g).asIso.hom := by
           simp [actionRelationMap, actionRelationTarget]
-    _ = (a g).hom ≫ q := (h g).symm
+    _ = (a g).asIso.hom ≫ q := (h g).symm
     _ = Sigma.ι (fun _ : G ↦ U) g ≫ actionRelationTarget U G a ≫ q := by
           simp [actionRelationTarget]
 
@@ -463,8 +463,8 @@ theorem exists_isPullback_toQuotientSheaf_actionQuotient {V V' : BigFppfOver B S
     (ha : ActsNontriviallyOnFixedResidueFields (underlyingOver B hS V) G a)
     (hb : ActsNontriviallyOnFixedResidueFields (underlyingOver B hS V') G b)
     (q : V ⟶ V')
-    (hq : ∀ g : G, (a g).hom ≫ (Over.post B.inclusion).map q =
-      (Over.post B.inclusion).map q ≫ (b g).hom) :
+    (hq : ∀ g : G, (a g).asIso.hom ≫ (Over.post B.inclusion).map q =
+      (Over.post B.inclusion).map q ≫ (b g).asIso.hom) :
     ∃ f : (Stacks.Groupoids.quotientSheaf (BigFppfOver.topology B S hS)
         (Over.post B.inclusion) (actionRelation (underlyingOver B hS V) G a)).obj ⟶
       (Stacks.Groupoids.quotientSheaf (BigFppfOver.topology B S hS)
@@ -569,14 +569,14 @@ theorem actionProjection_app {T : BigFppfOver B S hS} (f : T ⟶ V) :
 
 /-- The automorphism of an object of the site realizing the action of a group element, which
 exists because the site is a full subcategory of the schemes over `S`. -/
-def siteActionHom (g : G) : V ⟶ V := (Over.post B.inclusion).preimage (a g).hom
+def siteActionHom (g : G) : V ⟶ V := (Over.post B.inclusion).preimage (a g).asIso.hom
 
 omit [Small.{u} G] [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- The image in the schemes over `S` of the site automorphism of `g` is the automorphism
 `a g`. -/
 @[simp]
 theorem post_map_siteActionHom (g : G) :
-    (Over.post B.inclusion).map (siteActionHom G B hS V a g) = (a g).hom :=
+    (Over.post B.inclusion).map (siteActionHom G B hS V a g) = (a g).asIso.hom :=
   (Over.post (X := B.obj hS) B.inclusion).map_preimage _
 
 /-- The projection onto the quotient is invariant under the action. -/

@@ -70,7 +70,7 @@ underlying space; over the empty scheme there is exactly one point and freeness 
 force the group to be trivial. -/
 def ActsFreelyOnNonemptyPoints (a : G →* Aut U) : Prop :=
   ∀ T : Over S, Nonempty T.left → ∀ (x : T ⟶ U) (g g' : G),
-    x ≫ (a g).hom = x ≫ (a g').hom → g = g'
+    x ≫ (a g).asIso.hom = x ≫ (a g').asIso.hom → g = g'
 
 /-- A free action of an abstract group on a scheme over `S` has residue-field-faithful
 stabilizers: the canonical point `Spec κ(x) ⟶ U` at a fixed point `x` of a group element
@@ -82,11 +82,11 @@ theorem actsNontriviallyOnFixedResidueFields_of_actsFreelyOnNonemptyPoints
   refine hg (ha (Over.mk (U.left.fromSpecResidueField x ≫ U.hom)) ?_
     (Over.homMk (U.left.fromSpecResidueField x)) g 1 ?_)
   · exact ⟨(IsLocalRing.closedPoint (U.left.residueField x) : PrimeSpectrum _)⟩
-  have h1 : (a (1 : G)).hom = 𝟙 U := by rw [map_one]; rfl
+  have h1 : (a (1 : G)).asIso.hom = 𝟙 U := by rw [map_one]; rfl
   rw [h1, Category.comp_id]
   apply Over.OverMorphism.ext
-  change U.left.fromSpecResidueField x ≫ (a g).hom.left = U.left.fromSpecResidueField x
-  have h := ((a g).hom.left).SpecMap_residueFieldMap_fromSpecResidueField x
+  change U.left.fromSpecResidueField x ≫ (a g).asIso.hom.left = U.left.fromSpecResidueField x
+  have h := ((a g).asIso.hom.left).SpecMap_residueFieldMap_fromSpecResidueField x
   rw [hres, Scheme.residueFieldCongr_fromSpecResidueField hx] at h
   exact h.symm
 
@@ -100,21 +100,21 @@ theorem actsFreelyOnNonemptyPoints_of_actsNontriviallyOnFixedResidueFields
   intro T hT x g g' hgg'
   obtain ⟨t⟩ := hT
   set d : G := g'⁻¹ * g with hd
-  have hcancel : (a g').hom ≫ (a g'⁻¹).hom = 𝟙 U := by
-    rw [a.map_inv g', Aut.Aut_inv_def]
+  have hcancel : (a g').asIso.hom ≫ (a g'⁻¹).asIso.hom = 𝟙 U := by
+    rw [a.map_inv g', Aut.inv_asIso]
     exact Iso.hom_inv_id _
-  have hmul : (a d).hom = (a g).hom ≫ (a g'⁻¹).hom := by
-    rw [hd, a.map_mul, Aut.Aut_mul_def]
+  have hmul : (a d).asIso.hom = (a g).asIso.hom ≫ (a g'⁻¹).asIso.hom := by
+    rw [hd, a.map_mul, Aut.mul_asIso]
     rfl
-  have hfix : x ≫ (a d).hom = x := by
+  have hfix : x ≫ (a d).asIso.hom = x := by
     rw [hmul, ← Category.assoc, hgg', Category.assoc, hcancel, Category.comp_id]
-  have hfixl : x.left ≫ (a d).hom.left = x.left := congrArg Over.Hom.left hfix
-  have hbase : (a d).hom.left (x.left t) = x.left t := by
+  have hfixl : x.left ≫ (a d).asIso.hom.left = x.left := congrArg Over.Hom.left hfix
+  have hbase : (a d).asIso.hom.left (x.left t) = x.left t := by
     simpa using congrArg (fun f : T.left ⟶ U.left ↦ f.base t) hfixl
   have hmono : Mono (x.left.residueFieldMap t) :=
     ConcreteCategory.mono_of_injective _
       (RingHom.injective (x.left.residueFieldMap t).hom)
-  have hres : (a d).hom.left.residueFieldMap (x.left t) ≫ x.left.residueFieldMap t =
+  have hres : (a d).asIso.hom.left.residueFieldMap (x.left t) ≫ x.left.residueFieldMap t =
       (U.left.residueFieldCongr hbase).hom ≫ x.left.residueFieldMap t := by
     rw [← Scheme.residueFieldMap_comp, Scheme.Hom.residueFieldMap_congr hfixl t]
     rfl

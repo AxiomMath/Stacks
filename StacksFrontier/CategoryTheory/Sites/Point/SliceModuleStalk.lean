@@ -66,7 +66,7 @@ theorem presheafFiberOverIso_hom_toPresheafFiber_apply {A : Type*} [Category A]
   (ConcreteCategory.comp_apply _ _ s).symm.trans
     (ConcreteCategory.congr_hom
       (Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Φ x).op
-        ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨W, y⟩)) s)
+        ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ((Φ.over x).fiber.elementsMk W y))) s)
 
 /-- **The stalk of a restricted sheaf of rings at a lifted point** (Stacks 04H2): the ring
 `(O|_U)_{Φ.over x}` is `O_Φ`. -/

@@ -562,10 +562,10 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
         (hτO (N' + 1))))))
     (hΦ : ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E),
       algebraMap O E o = algebraMap (integralClosure ℤ_[ℓ] E) E o' →
-        ℓ ^ t • (G.act o ≫ Φ) = ℓ ^ t • (Φ ≫ act' o'))
+        ℓ ^ t • ((G.act o).asHom ≫ Φ) = ℓ ^ t • (Φ ≫ act' o'))
     (hΨ : ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E),
       algebraMap O E o = algebraMap (integralClosure ℤ_[ℓ] E) E o' →
-        ℓ ^ t • (act' o' ≫ Ψ) = ℓ ^ t • (Ψ ≫ G.act o)) :
+        ℓ ^ t • (act' o' ≫ Ψ) = ℓ ^ t • (Ψ ≫ (G.act o).asHom)) :
     ∃ c t : ℕ, ∀ N' : ℕ,
       ∃ (h : (LAdicSheaf.padicTower B X ℓ G.toLAdicSheaf).obj (op N') ⟶
         (etaleModuleRestrictScalars
@@ -591,7 +591,7 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
         h ≫ h' = ℓ ^ c • 𝟙 _ ∧ h' ≫ h = ℓ ^ c • 𝟙 _ ∧
         ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E), algebraMap O E o = algebraMap
           (integralClosure ℤ_[ℓ] E) E o' →
-          ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o)).app (op N') ≫ h) =
+          ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N') ≫ h) =
             ℓ ^ t • (h ≫ (etaleModuleRestrictScalars
               ((Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)})).comp
               (algebraMap ℤ_[ℓ] (integralClosure ℤ_[ℓ] E))) X.1).map
@@ -616,7 +616,7 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
             ((Matrix.GeneralLinearGroup.map
             (Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)}))).comp τO)
             (hτO (N' + 1))))) ≫ h') =
-            ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o)).app (op N'))
+            ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N'))
  := by
   refine ⟨c, t, fun N' => ⟨(LAdicSheaf.padicTowerMap Φ).app (op N') ≫ (W N').hom,
     (W N').inv ≫ (LAdicSheaf.padicTowerMap Ψ).app (op N'),
@@ -626,7 +626,8 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
     iso_inv_comp_comp_iso_hom_eq ((LAdicSheaf.padicTowerMap Φ).app (op N'))
       ((LAdicSheaf.padicTowerMap Ψ).app (op N')) (W N')
         (padicTowerMap_app_comp_eq_nsmul Ψ Φ hΨΦ (op N')),
-    fun o o' he => ⟨nsmul_comp_comp_eq_of_comm ((LAdicSheaf.padicTowerMap (G.act o)).app (op N'))
+    fun o o' he => ⟨nsmul_comp_comp_eq_of_comm
+      ((LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N'))
       ((LAdicSheaf.padicTowerMap Φ).app (op N')) ((LAdicSheaf.padicTowerMap (act' o')).app (op N'))
       (W N').hom ((etaleModuleRestrictScalars
         ((Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)})).comp
@@ -639,7 +640,8 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
         (integralClosure ℤ_[ℓ] E ⧸ Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)})
         ((Matrix.GeneralLinearGroup.map
         (Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)}))).comp τO)
-        (hτO (N' + 1)))))) (padicTowerMap_app_nsmul_comp_eq (G.act o) Φ Φ (act' o') (hΦ o o' he)
+        (hτO (N' + 1))))))
+        (padicTowerMap_app_nsmul_comp_eq (G.act o).asHom Φ Φ (act' o') (hΦ o o' he)
         (op N'))
       (hW N' o'),
     nsmul_comp_comp_eq_of_comm'
@@ -655,9 +657,10 @@ theorem exists_levelIsogeny_of_isogenies (B : BigEtaleSite.{u}) (ℓ : ℕ)
       ((Matrix.GeneralLinearGroup.map
       (Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)}))).comp τO)
       (hτO (N' + 1)))))) (W N').inv ((LAdicSheaf.padicTowerMap (act' o')).app (op N'))
-      ((LAdicSheaf.padicTowerMap Ψ).app (op N')) ((LAdicSheaf.padicTowerMap (G.act o)).app (op N'))
+      ((LAdicSheaf.padicTowerMap Ψ).app (op N'))
+      ((LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N'))
       (comp_inv_eq_inv_comp_of_comp_hom_eq (W N') (hW N' o'))
-      (padicTowerMap_app_nsmul_comp_eq (act' o') Ψ Ψ (G.act o) (hΨ o o' he) (op N'))⟩⟩⟩
+      (padicTowerMap_app_nsmul_comp_eq (act' o') Ψ Ψ (G.act o).asHom (hΨ o o' he) (op N'))⟩⟩⟩
 
 /-- **The representation side from integral intertwiners**: integral intertwiners `L_Q` of
 `ρ₀` and `Res_β τ_E`, `L_P` back, with `L_P L_Q = L_Q L_P = ℓᵏ`, carrying the matrix of
@@ -697,11 +700,11 @@ theorem exists_levelIsogeny_of_integralIntertwiners (B : BigEtaleSite.{u}) (ℓ 
     (hQP : LQ * LP = ℓ ^ k • (1 : Matrix (Fin (mτ * D)) (Fin (mτ * D)) ℤ_[ℓ]))
     (hMQ : ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E),
       algebraMap O E o = algebraMap (integralClosure ℤ_[ℓ] E) E o' →
-        LQ * representationLAdicSheafHomMatrix B X x hρ₀ hρ₀ (ψ₀ ≫ G.act o ≫ φ) =
+        LQ * representationLAdicSheafHomMatrix B X x hρ₀ hρ₀ (ψ₀ ≫ (G.act o).asHom ≫ φ) =
           ℓ ^ N • (coefficientScalarRingHom β mτ o' * LQ))
     (hMP : ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E),
       algebraMap O E o = algebraMap (integralClosure ℤ_[ℓ] E) E o' →
-        representationLAdicSheafHomMatrix B X x hρ₀ hρ₀ (ψ₀ ≫ G.act o ≫ φ) * LP =
+        representationLAdicSheafHomMatrix B X x hρ₀ hρ₀ (ψ₀ ≫ (G.act o).asHom ≫ φ) * LP =
           ℓ ^ N • (LP * coefficientScalarRingHom β mτ o')) :
     ∃ c t : ℕ, ∀ N' : ℕ,
       ∃ (h : (LAdicSheaf.padicTower B X ℓ G.toLAdicSheaf).obj (op N') ⟶
@@ -728,7 +731,7 @@ theorem exists_levelIsogeny_of_integralIntertwiners (B : BigEtaleSite.{u}) (ℓ 
         h ≫ h' = ℓ ^ c • 𝟙 _ ∧ h' ≫ h = ℓ ^ c • 𝟙 _ ∧
         ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E), algebraMap O E o = algebraMap
           (integralClosure ℤ_[ℓ] E) E o' →
-          ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o)).app (op N') ≫ h) =
+          ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N') ≫ h) =
             ℓ ^ t • (h ≫ (etaleModuleRestrictScalars
               ((Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)})).comp
               (algebraMap ℤ_[ℓ] (integralClosure ℤ_[ℓ] E))) X.1).map
@@ -753,7 +756,7 @@ theorem exists_levelIsogeny_of_integralIntertwiners (B : BigEtaleSite.{u}) (ℓ 
             ((Matrix.GeneralLinearGroup.map
             (Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)}))).comp τO)
             (hτO (N' + 1))))) ≫ h') =
-            ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o)).app (op N'))
+            ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N'))
  :=
   exists_levelIsogeny_of_isogenies B ℓ X x E O G τO hτO
     (φ ≫ representationLAdicSheafMap B X x
@@ -770,9 +773,9 @@ theorem exists_levelIsogeny_of_integralIntertwiners (B : BigEtaleSite.{u}) (ℓ 
       (fun g => coefficientScalarRingHom_commute β mτ o' (τO g).val))
     (fun N' => padicTowerRestrictScalarsIntegersIso B X x β τO hRes N' (hτO (N' + 1)))
     (fun N' o' => padicTowerRestrictScalarsIntegersIso_smul B X x β τO hRes N' (hτO (N' + 1)) o')
-    (fun o o' he => nsmul_comp_comp_eq_of_isogeny φ ψ₀ hφψ (G.act o) _ _
+    (fun o o' he => nsmul_comp_comp_eq_of_isogeny φ ψ₀ hφψ (G.act o).asHom _ _
       (comp_representationLAdicSheafMap_eq_nsmul B X x hρ₀ hRes _ LQ hLQ _ _ _ (hMQ o o' he)))
-    (fun o o' he => nsmul_comp_comp_eq_of_isogeny' φ ψ₀ hφψ (G.act o) _ _
+    (fun o o' he => nsmul_comp_comp_eq_of_isogeny' φ ψ₀ hφψ (G.act o).asHom _ _
       (nsmul_representationLAdicSheafMap_comp_eq B X x hρ₀ hRes _ LP hLP _ _ _ (hMP o o' he)))
 
 /-- **The representation side of Laumon's level isogeny**
@@ -821,13 +824,13 @@ theorem laumonFourierRepresentationLevelIsogenyInput :
     (integralClosure ℤ_[ℓ] E) E p.2},
       (D' * restrictScalarsMatrix b (T⁻¹ : GL (Fin mτ) E).val * Q) *
         (representationLAdicSheafHomMatrix B X x (continuous_integralModel ρ hρ)
-          (continuous_integralModel ρ hρ) (ψ₀ ≫ G.act i.1.1 ≫ φ)).map
+          (continuous_integralModel ρ hρ) (ψ₀ ≫ (G.act i.1.1).asHom ≫ φ)).map
             (PadicInt.Coe.ringHom (p := ℓ)) =
       ((ℓ : ℚ_[ℓ]) ^ N) • ((coefficientScalarRingHom (padicIntegerRingBasisOf b) mτ i.1.2).map
           (PadicInt.Coe.ringHom (p := ℓ)) *
         (D' * restrictScalarsMatrix b (T⁻¹ : GL (Fin mτ) E).val * Q)) := fun i => by
     have hMα : (representationLAdicSheafHomMatrix B X x (continuous_integralModel ρ hρ)
-          (continuous_integralModel ρ hρ) (ψ₀ ≫ G.act i.1.1 ≫ φ)).map
+          (continuous_integralModel ρ hρ) (ψ₀ ≫ (G.act i.1.1).asHom ≫ φ)).map
             (PadicInt.Coe.ringHom (p := ℓ)) = ((ℓ : ℚ_[ℓ]) ^ N) •
           isogenyCoefficientAlgHom B X x G ρ hρ φ ψ₀ N E hφψ hψφ hOE (algebraMap O E i.1.1) := by
       rw [isogenyCoefficientAlgHom_algebraMap,
@@ -850,7 +853,7 @@ theorem laumonFourierRepresentationLevelIsogenyInput :
     (fun i : {p : O × integralClosure ℤ_[ℓ] E // algebraMap O E p.1 = algebraMap
       (integralClosure ℤ_[ℓ] E) E p.2} =>
       representationLAdicSheafHomMatrix B X x (continuous_integralModel ρ hρ)
-        (continuous_integralModel ρ hρ) (ψ₀ ≫ G.act i.1.1 ≫ φ))
+        (continuous_integralModel ρ hρ) (ψ₀ ≫ (G.act i.1.1).asHom ≫ φ))
     (fun i => coefficientScalarRingHom (padicIntegerRingBasisOf b) mτ i.1.2) N _ _ hPQr hQPr hρr
     hMr).elim fun k hk => hk.elim fun LQ hLQ => hLQ.elim fun LP hLP =>
       exists_levelIsogeny_of_integralIntertwiners B ℓ X x E O G (continuous_integralModel ρ hρ) φ ψ₀

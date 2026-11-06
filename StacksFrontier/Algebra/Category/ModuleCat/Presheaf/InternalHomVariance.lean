@@ -88,17 +88,23 @@ homomorphism into the endomorphism ring. -/
 private noncomputable def scalarToEnd
     (G : _root_.PresheafOfModules.{max u v} (Oforget O)) (U : C) :
     (Oforget O).obj (op U) →+* End ((restrFun O U).obj G) where
-  toFun := multEndoHom O G U
+  toFun r := .of (multEndoHom O G U r)
   map_one' := by
+    ext1
     change multEndoHom O G U 1 = 𝟙 _
     simpa only [smulHom, Category.id_comp] using homModule_one_smul O G G U (𝟙 _)
   map_mul' f g := by
+    ext1
     change multEndoHom O G U (f * g) =
       multEndoHom O G U g ≫ multEndoHom O G U f
     simpa only [smulHom, Category.id_comp] using homModule_mul_smul O G G U f g (𝟙 _)
   map_zero' := by
+    ext1
+    change multEndoHom O G U 0 = 0
     simpa only [smulHom, Category.id_comp] using homModule_zero_smul O G G U (𝟙 _)
   map_add' f g := by
+    ext1
+    change multEndoHom O G U (f + g) = multEndoHom O G U f + multEndoHom O G U g
     simpa only [smulHom, Category.id_comp] using homModule_add_smul O G G U f g (𝟙 _)
 
 /-- The internal Hom against `G`, evaluated at `U`, as a functor into the opposite category

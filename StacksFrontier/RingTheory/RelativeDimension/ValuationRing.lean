@@ -479,7 +479,8 @@ private theorem ringKrullDim_lt_natCard_of_quasiFinite_of_mem_ker {κ : Type*} [
   have h2 : ringKrullDim (MvPolynomial σ κ ⧸ Ideal.span {f}) + 1
       ≤ ringKrullDim (MvPolynomial σ κ) :=
     ringKrullDim_quotient_succ_le_of_nonZeroDivisor (mem_nonZeroDivisors_of_ne_zero hf)
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add] at h2
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
+    ENat.card_eq_coe_natCard] at h2
   exact lt_of_le_of_lt (Order.krullDim_le_of_strictMono _ hsm) (lt_of_add_one_le h2)
 
 /-- The fibre over `𝔭` of an algebra `T` which is quasi-finite over a polynomial ring

@@ -193,7 +193,7 @@ than writing `r • d(a)` out a second time.
     at these concrete small étale ringed topoi none of them fits the default heartbeat budget
     when it is left to unification — the identification of
     `AlgebraicGeometry.Space.conormalSequenceUnitDerivation` with the universal derivation
-    followed by the unit of the adjunction (`PresheafOfModules.Derivation.postcomp_d_apply`), the
+    followed by the unit of the adjunction (`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply`), the
     naturality `CategoryTheory.Adjunction.homEquiv_naturality_right_symm` of the transposition,
     and the identification of `AlgebraicGeometry.Space.conormalSequenceFirstMap` with
     `AlgebraicGeometry.Space.conormalSequenceIdealPullbackMap`.  Delta-reducing the two
@@ -507,7 +507,7 @@ noncomputable def submoduleDerivationHom
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       a ∈ I.obj U →
@@ -538,7 +538,7 @@ Stacks 05ZA at which the ideal is used. -/
 noncomputable def conormalSequenceIdealHom (Z : ClosedSubspaces B S hS X.1)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj U),
@@ -551,7 +551,7 @@ ideal sheaf is the value of the derivation on that section, read in `𝒪_X`. -/
 theorem conormalSequenceIdealHom_val_app_apply (Z : ClosedSubspaces B S hS X.1)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (N : Modules.{u, u} B S hS X.1 X.2) (D : N.val.Derivation' φ.hom)
+    (N : Modules.{u, u} B S hS X.1 X.2) (D : PresheafOfModulesOfCommRing.Derivation' N.val φ.hom)
     (hann : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj U),
@@ -626,7 +626,7 @@ spaces and a structure morphism `g : X ⟶ B`, this is the universal `B`-derivat
 **This definition exists so that the morphism of algebraic spaces stays a variable.**  Every
 statement about this derivation — the identification of its value on a local section with the
 unit applied to a universal differential, which is
-`PresheafOfModules.Derivation.postcomp_d_apply` — elaborates at the default heartbeat budget while
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` — elaborates at the default heartbeat budget while
 `f` is a variable and does *not* elaborate once `f` is a concrete inclusion of a closed subspace,
 because the coefficient module must then be compared with the one the adjunction writes through
 the composite functor `f^* ⋙ f_*`, which unfolds the construction of the small étale ringed topos.
@@ -636,8 +636,8 @@ This is the same device, for the same reason, as
 `AlgebraicGeometry.Space.submoduleTranspose` above. -/
 noncomputable def pullbackUnitDerivation {Bb : AlgebraicSpaces B S hS} (f : X' ⟶ X)
     (g : X ⟶ Bb) :
-    ((modulePushforward B S hS f).obj
-      ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS g))).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj
+      ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS g))).val
       (structureSharpInverseImage B S hS g).hom :=
   (universalDerivation B S hS g).postcomp
     ((modulePullbackAdjunction B S hS f).unit.app (sheafOfDifferentials B S hS g)).val
@@ -657,9 +657,10 @@ It is a derivation and not a morphism of `𝒪_X`-modules; what makes the first 
 its restriction to the defining ideal sheaf *is* a morphism of `𝒪_X`-modules, by
 `AlgebraicGeometry.Space.conormalSequenceIdealHom`. -/
 noncomputable def conormalSequenceUnitDerivation (Z : ClosedSubspaces B S hS X.1) (b : X ⟶ Bb) :
-    ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj
-      ((modulePullback B S hS (subspaceInclusion B S hS X Z)).obj
-        (sheafOfDifferentials B S hS b))).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj
+        ((modulePullback B S hS (subspaceInclusion B S hS X Z)).obj
+          (sheafOfDifferentials B S hS b))).val
       (structureSharpInverseImage B S hS b).hom :=
   pullbackUnitDerivation B S hS (subspaceInclusion B S hS X Z) b
 

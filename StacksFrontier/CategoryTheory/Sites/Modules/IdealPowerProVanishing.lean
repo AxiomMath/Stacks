@@ -413,7 +413,7 @@ theorem globalSectionDerivedCenter_app_singleFunctor
       (DerivedCategory.singleFunctor
         (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) n).map
           ((Stacks.SheafOfModules.globalSectionToEnd
-            (Stacks.SheafOfModules.Tensor.ringSheaf O) g).app F) := by
+            (Stacks.SheafOfModules.Tensor.ringSheaf O) g).asHom.app F) := by
   change ((CatCenter.homologicalComplex (ComplexShape.up ℤ)
       (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O)
         g)).localization _ _).app
@@ -424,7 +424,7 @@ theorem globalSectionDerivedCenter_app_singleFunctor
         (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))
           (ComplexShape.up ℤ) n).map
           ((Stacks.SheafOfModules.globalSectionToEnd
-            (Stacks.SheafOfModules.Tensor.ringSheaf O) g).app F))
+            (Stacks.SheafOfModules.Tensor.ringSheaf O) g).asHom.app F))
   rw [CatCenter.localization_app, CatCenter.homologicalComplex_app_single]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
@@ -441,7 +441,7 @@ theorem smul_eq_zero_of_globalSectionDerivedCenter_app_eq_zero
         (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) 0).obj F) = 0)
     (U : Cᵒᵖ) (y : F.val.obj U) : g.val U • y = 0 := by
   have h0 : (Stacks.SheafOfModules.globalSectionToEnd
-      (Stacks.SheafOfModules.Tensor.ringSheaf O) g).app F = 0 :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf O) g).asHom.app F = 0 :=
     (DerivedCategory.singleFunctor
       (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) 0).map_injective
         (((globalSectionDerivedCenter_app_singleFunctor g 0 F).symm.trans h).trans
@@ -572,7 +572,7 @@ theorem homProVanishing_idealPowTower_singleFunctor_of_isGE_of_isLE_of_locally_s
       DerivedCategory.singleFunctor
         (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) 0) E :=
   homProVanishing_idealPowTower_singleFunctor_of_isGE_of_isLE I N
-    (fun i => globalSectionDerivedCenter (g i))
+    (fun i => (globalSectionDerivedCenter (g i)).asHom)
     (fun _ hF U r hr y => by
       obtain ⟨S, hS, hmem⟩ := hspan U r hr
       exact smul_eq_zero_of_locally_mem_span g

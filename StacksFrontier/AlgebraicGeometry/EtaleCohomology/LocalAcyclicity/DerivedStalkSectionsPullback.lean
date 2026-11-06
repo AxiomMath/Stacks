@@ -33,7 +33,7 @@ therefore agree as soon as the transformations on abelian sheaves they descend d
 Both sides are read in the unbounded derived global sections on `T'` of the inverse image along
 the structure morphism of `T'` over `X`, which the two composition isomorphisms for inverse image
 provide on derived categories through
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`.
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`.
 
 ## Main results
 
@@ -86,14 +86,14 @@ whole input: each side is a transformation out of the degreewise action of the s
 right derived functor of its action on homotopy categories. -/
 public theorem vanishingCyclesMap_pullback
     (hι : q' ≫ strictHenselizationSquareMap B hX' hX g x' = ι ≫ q) :
-    (Functor.mapDerivedCategoryCompIso (smallEtaleStalkPullbackAbIso g x'.hom)).inv ≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (smallEtaleStalkPullbackAbIso g x'.hom)).inv ≫
         Functor.whiskerLeft (smallEtaleDerivedPullbackAb g)
             (vanishingCyclesMap B X' hX' x' q') ≫
           (Functor.associator (smallEtaleDerivedPullbackAb g)
               (smallEtaleDerivedPullbackAb
                 (q' ≫ strictHenselizationToBase B X' hX' x'))
               (smallEtaleDerivedGlobalSections T')).inv ≫
-            Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+            Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
                 (smallEtalePullbackAbCompIso
                   (q' ≫ strictHenselizationToBase B X' hX' x') g)).hom
               (smallEtaleDerivedGlobalSections T') =
@@ -105,7 +105,7 @@ public theorem vanishingCyclesMap_pullback
                 (q ≫ strictHenselizationToBase B X hX (x'.map g)))
               (smallEtaleDerivedPullbackAb ι)
               (smallEtaleDerivedGlobalSections T')).inv ≫
-            Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+            Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
                 (smallEtalePullbackAbCompIso ι
                     (q ≫ strictHenselizationToBase B X hX (x'.map g)) ≪≫
                   eqToIso (congrArg (fun m : T' ⟶ X => smallEtalePullbackAb m)

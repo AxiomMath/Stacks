@@ -104,6 +104,17 @@ theorem limitCone_π_comp_laterStagesToBaseStage (i : {i : I // D.base ≤ i}ᵒ
       D.limitCone.π.app (op D.base) :=
   D.limitCone.w (homOfLE i.unop.2).op
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_LimitsBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_LimitsBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {U₀ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hU₀ : IsAlgebraicSpace B S hS U₀)
   (hU₀qc : IsQuasiCompactSpace B S hS U₀) (hU₀qs : IsAbsolutelyQuasiSeparated B S hS hZ U₀)
   (u : U₀ ⟶ D.system.obj (op D.base))

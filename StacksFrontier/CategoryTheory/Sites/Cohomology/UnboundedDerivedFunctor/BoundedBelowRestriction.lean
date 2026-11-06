@@ -76,7 +76,7 @@ abbrev boundedHomotopyMap : HomotopyCategory.Plus A ⥤ DerivedCategory B :=
 def boundedUnitPlus :
     boundedHomotopyMap F ⟶
       DerivedCategory.Plus.Qh ⋙ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-  Functor.whiskerRight F.rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι
+  Functor.whiskerRight F.rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι
 
 /-- The comparison `F(K) ⟶ RF(K)` for a bounded below complex `K`. -/
 def boundedUnitBig :
@@ -89,11 +89,11 @@ def boundedUnitBig :
 /-- The comparison through `RF⁺` is invertible on a bounded below complex of injectives. -/
 instance isIso_boundedUnitPlus_app (Z : HomotopyCategory.Plus (InjectiveObject A)) :
     IsIso ((boundedUnitPlus F).app ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj Z)) := by
-  have h : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have h : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj Z)) :=
     (HomotopyCategory.Plus.localizerMorphism_derives
         (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)).isIso_of_isRightDerivedFunctor
-      F.rightDerivedFunctorPlusUnit Z
+      F.rightDerivedFunctorPlusUnith Z
   exact @Functor.map_isIso _ _ _ _ _ _ DerivedCategory.Plus.ι _ h
 
 /-- The comparison through the unbounded `RF` is invertible on a bounded below complex of
@@ -146,7 +146,7 @@ theorem rightDerivedFunctorPlusCompιIso_fac :
 /-- The componentwise form of `rightDerivedFunctorPlusCompιIso_fac`, at a bounded below
 complex. -/
 theorem rightDerivedFunctorPlusCompιIso_hom_app (K : HomotopyCategory.Plus A) :
-    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedFunctorPlusCompιIso F).hom.app (DerivedCategory.Plus.Qh.obj K) =
       ((homotopyMap F).totalRightDerivedUnit DerivedCategory.Qh
         (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))).app

@@ -121,6 +121,11 @@ theorem quasicoherent_hasSeparator (X : Scheme.{u}) :
     refine ⟨equivShrink.{u} (Subtype Qc) ⟨A, hA⟩, ?_⟩
     simp [f]
   have : HasColimitsOfShape (Discrete β) (X.Modules) := inferInstance
+  have : (SheafOfModules.isQuasicoherent X.ringCatSheaf).IsClosedUnderColimitsOfShape
+      (Discrete β) :=
+    Stacks.AlgebraicGeometry.QuasicoherentColimits.isClosedUnderColimitsOfShape X
+  have : HasColimitsOfShape (Discrete β) C :=
+    Limits.hasColimitsOfShape_of_closedUnderColimits (Discrete β) _
   have : HasCoproduct f := by infer_instance
   exact ⟨∐ f, (isSeparator_sigma f).2 (ObjectProperty.IsSeparating.of_le hQcSep hOf)⟩
 

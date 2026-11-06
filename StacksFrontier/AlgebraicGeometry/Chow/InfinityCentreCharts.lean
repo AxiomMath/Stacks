@@ -117,7 +117,7 @@ private theorem map_span_singleton_eq {R S F : Type*} [CommRing R] [CommRing S] 
 theorem ideal_comap_lineInfinityDivisor_infinityChartOver (U : X.affineOpens) :
     ((lineInfinityDivisor X).comap (infinityChartOver U)).ideal ⟨⊤, isAffineOpen_top _⟩ =
       Ideal.span {(Scheme.ΓSpecIso (CommRingCat.of (Polynomial Γ(X, U.1)))).inv
-        Polynomial.X} := by
+                    Polynomial.X} := by
   set q : Spec (CommRingCat.of (Polynomial Γ(X, U.1))) ⟶ affineLineOver X :=
     (affineLineOverIsoSpecPolynomial Γ(X, U.1)).inv ≫ affineLineOverMap U.2.fromSpec with hqdef
   have := U.2.isOpenImmersion_fromSpec
@@ -494,9 +494,10 @@ theorem mem_range_blowupAtInfinityPolyChart_iff (a : Polynomial Γ(X, U.1))
     (hw : blowupAtInfinityToLine ℐ w ∈ (infinityChartAffineOpen U).1) :
     w ∈ Set.range (blowupAtInfinityPolyChart ℐ U a ha) ↔
       IdealSheafData.stalk (exceptionalIdealAtInfinity ℐ) w =
-        Ideal.span {(blowupAtInfinityToLine ℐ).stalkMap w
-          ((relativeProjectiveLine X).presheaf.germ (infinityChartAffineOpen U).1 _ hw
-            (infinityChartSectionsEquiv U a))} := by
+        Ideal.span
+          {(blowupAtInfinityToLine ℐ).stalkMap w
+            ((relativeProjectiveLine X).presheaf.germ (infinityChartAffineOpen U).1 _ hw
+              (infinityChartSectionsEquiv U a))} := by
   let := (reesSituation (infinityCentreIdeal ℐ)).sectionRingGradedRing
     (infinityChartAffineOpen U).1
   let := (reesSituation (infinityCentreIdeal ℐ)).sectionRingGradingGradedRing
@@ -525,9 +526,10 @@ by the coordinate `s`. -/
 theorem stalk_fibreIdealAtInfinity (w : blowupAtInfinity ℐ)
     (hw : blowupAtInfinityToLine ℐ w ∈ (infinityChartAffineOpen U).1) :
     IdealSheafData.stalk (fibreIdealAtInfinity ℐ) w =
-      Ideal.span {(blowupAtInfinityToLine ℐ).stalkMap w
-        ((relativeProjectiveLine X).presheaf.germ (infinityChartAffineOpen U).1 _ hw
-          (infinityChartSectionsEquiv U Polynomial.X))} := by
+      Ideal.span
+        {(blowupAtInfinityToLine ℐ).stalkMap w
+            ((relativeProjectiveLine X).presheaf.germ (infinityChartAffineOpen U).1 _ hw
+              (infinityChartSectionsEquiv U Polynomial.X))} := by
   rw [fibreIdealAtInfinity, IdealSheafData.stalk_comap,
     IdealSheafData.stalk_eq_map_germ _ _ (infinityChartAffineOpen U) hw,
     ideal_lineInfinityDivisor_infinityChartAffineOpen, map_span_singleton_eq,
@@ -592,9 +594,10 @@ theorem ideal_comap_exceptionalIdealAtInfinity_polyChart (a : Polynomial Γ(X, U
     (ha : a ∈ infinityChartIdeal (ℐ.ideal U)) :
     ((exceptionalIdealAtInfinity ℐ).comap (blowupAtInfinityPolyChart ℐ U a ha)).ideal
         ⟨⊤, isAffineOpen_top _⟩ =
-      Ideal.span {(Scheme.ΓSpecIso (CommRingCat.of
-        (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a))).inv.hom
-          (algebraMap _ (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a) a)} := by
+      Ideal.span
+        {(Scheme.ΓSpecIso (CommRingCat.of
+            (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a))).inv.hom
+              (algebraMap _ (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a) a)} := by
   have h := ideal_comap_comap_blowupAtInfinityPolyChart ℐ U a ha (infinityCentreIdeal ℐ) _
       (ideal_comap_infinityCentreIdeal_infinityChartOver ℐ U)
   exact h.trans ((congrArg (Ideal.map _)
@@ -605,10 +608,11 @@ theorem ideal_comap_fibreIdealAtInfinity_polyChart (a : Polynomial Γ(X, U.1))
     (ha : a ∈ infinityChartIdeal (ℐ.ideal U)) :
     ((fibreIdealAtInfinity ℐ).comap (blowupAtInfinityPolyChart ℐ U a ha)).ideal
         ⟨⊤, isAffineOpen_top _⟩ =
-      Ideal.span {(Scheme.ΓSpecIso (CommRingCat.of
-        (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a))).inv.hom
-          (algebraMap (Polynomial Γ(X, U.1)) (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a)
-            Polynomial.X)} := by
+      Ideal.span
+        {(Scheme.ΓSpecIso (CommRingCat.of
+            (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a))).inv.hom
+              (algebraMap (Polynomial Γ(X, U.1)) (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a)
+                Polynomial.X)} := by
   have h := ideal_comap_comap_blowupAtInfinityPolyChart ℐ U a ha (lineInfinityDivisor X)
     (Ideal.span {(Polynomial.X : Polynomial Γ(X, U.1))})
     (ideal_comap_lineInfinityDivisor_infinityChartOver_eq_map U)

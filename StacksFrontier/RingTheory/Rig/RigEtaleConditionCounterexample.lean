@@ -333,7 +333,7 @@ theorem etale_evalFirst : evalFirst.Etale := by
   let _ : Algebra Source Target := evalFirst.toAlgebra
   have : IsLocalization.Away (Pi.single i0 1 : Source) Target :=
     IsLocalization.away_of_isIdempotentElem (by simp [IsIdempotentElem, ← Pi.single_mul_left])
-      (RingHom.ker_evalRingHom _ _) (Function.surjective_eval i0)
+      (RingHom.ker_evalRingHom _ _) (@Function.surjective_eval _ _ (fun _ ↦ ⟨0⟩) i0)
   exact RingHom.etale_algebraMap.mpr (Algebra.Etale.of_isLocalizationAway (Pi.single i0 1))
 
 /-- The source `ℚ⟦X⟧⟨t⟩ × ℚ⟦X⟧⟨t⟩` is an adic topological ring. -/
@@ -359,7 +359,7 @@ theorem exists_ringEquiv_target : ∃ ε : Target ≃+* CompletionOver evalFirst
     (∀ a, ε a = CompletionOver.ofTarget evalFirst a) ∧ Continuous ε ∧ Continuous ε.symm := by
   obtain ⟨I, hdef, hadic⟩ := isAdic_source.1
   have hfadic : _root_.IsAdic (I.map evalFirst) :=
-    isAdic_map_of_isOpenMap evalFirst (Function.surjective_eval i0) (isOpenMap_eval i0)
+    isAdic_map_of_isOpenMap evalFirst (@Function.surjective_eval _ _ (fun _ ↦ ⟨0⟩) i0) (isOpenMap_eval i0)
       (continuous_apply i0) hadic
   have hc : IsAdicComplete (I.map evalFirst) Target :=
     hfadic.isAdicComplete_iff.mpr ⟨isAdic_target.2.2, isAdic_target.2.1⟩

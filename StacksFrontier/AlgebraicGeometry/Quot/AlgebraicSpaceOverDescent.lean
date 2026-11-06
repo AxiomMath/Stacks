@@ -90,7 +90,7 @@ theorem heq_map_map_of_left_eq {U : BigFppfOver B S hS} {T T' : SchemesOver Y}
     (hk : k₁.left = k₂.left ≫ k₃.left) (r : R.obj (op T)) :
     R.map k₁.op r ≍ R.map k₂.op (R.map k₃.op r) := by
   subst e
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [← Functor.map_comp_apply, ← op_comp]
   obtain rfl : k₁ = k₂ ≫ k₃ := CostructuredArrow.hom_ext _ _ hk
   rfl
 
@@ -144,7 +144,7 @@ theorem overTotalToValue_self {U : BigFppfOver B S hS} (a : OverTotal R U) :
     overTotalToValue R (CostructuredArrow.mk a.1) a rfl = a.2 :=
   (congrArg (fun k ↦ R.map (Quiver.Hom.op k) a.2)
     (CostructuredArrow.hom_ext _ (𝟙 (CostructuredArrow.mk a.1)) rfl)).trans
-    (FunctorToTypes.map_id_apply R a.2)
+    (Functor.map_id_apply R _ a.2)
 
 /-- **The total presheaf of a sheaf on the test schemes over an algebraic space is a sheaf.** -/
 theorem isSheaf_overTotalPresheaf (hR : Presheaf.IsSheaf (SchemesOver.topology Y) R) :
@@ -297,7 +297,7 @@ theorem overTotalToValue_pointsModelEquiv (T : SchemesOver Y) (y : spacePointsOv
     (hy : (pointsModelEquiv p c T.left ⟨y.1⟩).1 = T.hom) :
     overTotalToValue R T (pointsModelEquiv p c T.left ⟨y.1⟩) hy = c.hom.app (op T) ⟨y⟩ := by
   refine (NatTrans.naturality_apply c.hom _ _).symm.trans (congrArg _ ?_)
-  exact ULift.ext _ _ (Subtype.ext (by
+  exact ULift.ext (Subtype.ext (by
     show H.1.map (𝟙 (op T.left)) y.1 = y.1
     exact H.1.map_id_apply _ y.1))
 
@@ -318,7 +318,7 @@ theorem pointsModelEquiv_naturality {U V : BigFppfOver B S hS} (f : V ⟶ U)
   have key4 := NatTrans.naturality_apply c.hom g.op (⟨toPointsOver p x⟩ :
     ULift.{u + 1} (spacePointsOverObj p (CostructuredArrow.mk (pointBase p x))))
   have key5 : (spacePointsOver p ⋙ uliftFunctor.{u + 1, u}).map g.op ⟨toPointsOver p x⟩ = ⟨y⟩ :=
-    ULift.ext _ _ (Subtype.ext rfl)
+    ULift.ext (Subtype.ext rfl)
   apply overTotalToValue_injective R T h1 rfl
   exact key.trans ((congrArg (c.hom.app (op T)) key5.symm).trans
     (key4.trans ((congrArg (R.map g.op) key3.symm).trans key2.symm)))
@@ -452,7 +452,7 @@ theorem injective_map_of_generate_singleton_mem
   intro x y hxy
   refine ((hR' _ hcov).isSeparatedFor).ext fun V f hf ↦ ?_
   obtain ⟨W, a, b, ⟨⟩, rfl⟩ := hf
-  rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, hxy]
+  rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hxy]
 
 end Small
 
@@ -481,7 +481,7 @@ theorem small_obj_of_isAlgebraicSpaceOver_map (hflat : IsFlat B S hS g.hom)
     small_of_injective (f := fun r ↦ (c.inv.app (op (CostructuredArrow.mk h')) r).down)
       fun a b hab ↦ by
         rw [← iso_hom_app_inv_app_apply c _ a, ← iso_hom_app_inv_app_apply c _ b]
-        exact congrArg (c.hom.app _) (ULift.ext _ _ hab)
+        exact congrArg (c.hom.app _) (ULift.ext hab)
   exact small_of_injective hinj
 
 include c in

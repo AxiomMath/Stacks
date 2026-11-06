@@ -476,7 +476,7 @@ private lemma exists_prime_pow_witness_of_asIdeal_subset_range
     (specOrderIsoPrimeSpectrum (CommRingCat.of S)).symm (OrderDual.toDual q)
   have : (fLoc qSpec).asIdeal.IsMaximal := hcomapmax
   have : qSpec.asIdeal.IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) (S := S) q.asIdeal hcomapmax
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) (S := S) q.asIdeal hcomapmax
   obtain ⟨hevalAsurj, -⟩ := Γevaluation_surjective_and_eq_zero_iff (fLoc qSpec)
   obtain ⟨hevalCsurj, hevalCzero⟩ := Γevaluation_surjective_and_eq_zero_iff qSpec
   exact exists_prime_pow_witness_of_residueField (algebraMap R S) _ _ _ q.asIdeal

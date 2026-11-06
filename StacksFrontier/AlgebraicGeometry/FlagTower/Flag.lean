@@ -270,6 +270,7 @@ section Pullback
 variable {T' : Scheme.{u}} (k : T' ⟶ T) {M : T.Modules} {M' : T'.Modules}
   (e : M' ≅ (Scheme.Modules.pullback k).obj M)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The cokernel of the base change of a subobject inclusion is the base change of the cokernel. -/
 def cokernelPullbackIso (S : Subobject M) :
     cokernel ((Scheme.Modules.pullback k).map S.arrow ≫ e.inv) ≅

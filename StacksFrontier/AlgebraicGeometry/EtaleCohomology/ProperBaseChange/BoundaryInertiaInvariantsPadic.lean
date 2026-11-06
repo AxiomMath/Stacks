@@ -103,7 +103,7 @@ theorem padicLevelStalkIso_hom_apply {s : GeometricPoint X.1}
 /-- **The maps of Tag 04FN on the stalks of the `ℤ_ℓ`-levels of `ℱ_ρ` are `ρ mod ℓⁿ⁺¹`.** -/
 theorem padicLevelStalkIso_geometricPointStalkMap {s : GeometricPoint X.1}
     (p : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) (n : ℕ)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) (n : ℕ)
     (y : (forget₂ (ModuleCat.{u + 1} ℤ_[ℓ]) AddCommGrpCat.{u + 1}).obj
         (etaleStalk B X.1 X.2 s (LAdicSheaf.padicLevel B X ℓ (representationLAdicSheaf B X x
           (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ) n).obj)) :
@@ -126,8 +126,8 @@ theorem padicLevelStalkIso_geometricPointStalkMap {s : GeometricPoint X.1}
   let I2 := ConcreteCategory.hom ((finiteLocallyConstantAbelianStalkIso B X p).hom.app
     (e.inverse.obj L))
   let C := ConcreteCategory.hom (e.counitIso.hom.app L).hom.hom.hom.hom
-  let ρ1 := ConcreteCategory.hom ((e.functor.obj (e.inverse.obj L)).obj.obj.obj.ρ g)
-  let ρL := ConcreteCategory.hom (L.obj.obj.obj.ρ g)
+  let ρ1 := ConcreteCategory.hom ((e.functor.obj (e.inverse.obj L)).obj.obj.obj.ρ g).asHom
+  let ρL := ConcreteCategory.hom (L.obj.obj.obj.ρ g).asHom
   have s1 : I1 (m y) = abM (I1 y) := ConcreteCategory.congr_hom
     (geometricPointStalkMap_preservesColimitIso B X.1 X.2
       (forget₂ (ModuleCat.{u + 1} ℤ_[ℓ]) AddCommGrpCat.{u + 1}) a G.obj) y
@@ -156,6 +156,7 @@ theorem sheafCompose_forget₂_map_padicTransition (n : ℕ) :
   ext U z
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- **The transitions of the `ℤ_ℓ`-levels of `ℱ_ρ` are reduction on stalks.** -/
 theorem padicLevelStalkIso_padicTransition {s : GeometricPoint X.1}
     (p : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (n : ℕ)
@@ -463,7 +464,7 @@ theorem padicLevelDirectImageStalkHom_injective (n : ℕ) :
 theorem padicLevelPointStalkTrivialization_geometricPointStalkMap
     (a : GeometricPoint.Hom (t.map (B'.inclusion.map g)) (t.map (B'.inclusion.map g)))
     (σ : EtaleFundamentalGroup U.1 (t.map (B'.inclusion.map g)))
-    (hσ : σ.hom = finiteEtaleFiberMap a) (n : ℕ)
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap a) (n : ℕ)
     (w : (pointStalkAb B' U K hK g t ℤ_[ℓ]).obj (padicLevelMathlib B' U x ρ hρ n)) :
     (ConcreteCategory.hom (padicLevelPointStalkTrivialization B' U x K hK g t ρ hρ p n).hom
         (ConcreteCategory.hom ((forget₂ (ModuleCat.{u + 1} ℤ_[ℓ]) AddCommGrpCat.{u + 1}).map
@@ -528,7 +529,7 @@ theorem padicLevelDirectImageStalkHom_pointSmallEtaleHom (a : GeometricPoint.Hom
       e.hom)
     (hãg : ã ≫ t.hom ≫ B'.inclusion.map g = t.hom ≫ B'.inclusion.map g)
     (σ : EtaleFundamentalGroup U.1 (t.map (B'.inclusion.map g)))
-    (hσ : σ.hom = finiteEtaleFiberMap
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap
       (⟨ã, hãg⟩ : GeometricPoint.Hom (t.map (B'.inclusion.map g)) (t.map (B'.inclusion.map g))))
     (n : ℕ) (w : (directImageStalkAb S s B' U j ℤ_[ℓ]).obj (padicLevelMathlib B' U x ρ hρ n)) :
     (ConcreteCategory.hom
@@ -627,12 +628,12 @@ theorem mem_range_padicLevelDirectImageStalkHom_iff (ht : t.IsAlgebraic) (n : �
       (GeometricPoint.sourceAutElement (S := U.1) (t.map (B'.inclusion.map g)) α (by
         change α.hom ≫ t.hom ≫ _ = t.hom ≫ _
         rw [← Category.assoc, hαt]))) w.down))
-    (fun w => ULift.ext _ _
+    (fun w => ULift.ext
       (padicLevelPointStalkTrivialization_geometricPointStalkMap B' U x K hK g t ρ hρ p
         _ _ (GeometricPoint.sourceAutElement_hom_eq_finiteEtaleFiberMap (S := U.1)
           (t.map (B'.inclusion.map g)) α _
           ((⟨α.hom, hαt⟩ : GeometricPoint.Hom t t).mapHom (B'.inclusion.map g)) rfl) n w)) v).trans
-    ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+    ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
 
 /-! ### The same statements on the module-valued stalk of `j_*` -/
 
@@ -673,7 +674,7 @@ theorem padicLevelDirectImageStalkHom_sheafFiber_pointSmallEtaleHom (a : Geometr
       e.hom)
     (hãg : ã ≫ t.hom ≫ B'.inclusion.map g = t.hom ≫ B'.inclusion.map g)
     (σ : EtaleFundamentalGroup U.1 (t.map (B'.inclusion.map g)))
-    (hσ : σ.hom = finiteEtaleFiberMap
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap
       (⟨ã, hãg⟩ : GeometricPoint.Hom (t.map (B'.inclusion.map g)) (t.map (B'.inclusion.map g))))
     (n : ℕ) (w : ((pointSmallEtale s.hom).sheafFiber (A := ModuleCat.{u + 1} ℤ_[ℓ])).obj
       ((etaleModuleDirectImage.{u, 0} ℤ_[ℓ] j).obj (padicLevelMathlib B' U x ρ hρ n))) :

@@ -308,7 +308,7 @@ theorem existsUnique_sheafDerivation_of_cover {ι : Type*} (U : ι → Opens X.c
     exact key.trans (map_zero _).symm
   refine ⟨sheafDerivationOfOrderOne φ E hEord hone, hEres, ?_⟩
   intro E' hE'
-  refine PresheafOfModules.Derivation.ext ?_
+  refine PresheafOfModulesOfCommRing.Derivation.ext ?_
   funext W
   exact congrFun (huniq (globalOpOfSheafDerivation φ E')
     ⟨isGlobalDiffOpOfOrder_one_globalOpOfSheafDerivation φ E', hE'⟩) W

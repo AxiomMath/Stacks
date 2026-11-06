@@ -464,28 +464,27 @@ private theorem categoryOfElements_map_isEquivalence
     faithful := {
       map_injective := by
         intro X Y f g h
-        apply Subtype.ext
-        simpa [E, CategoryOfElements.map] using congrArg Subtype.val h
+        ext
+        have h' := congrArg Functor.Elements.Hom.hom h
+        exact h'
     }
     full := {
       map_surjective := by
         intro X Y g
-        refine ⟨⟨g.val, ?_⟩, ?_⟩
-        · apply (hbij Y.1).1
-          calc
-            α.app Y.1 ((F.map g.val) X.2) = G.map g.val (α.app X.1 X.2) :=
-              α.naturality_apply g.val X.2
-            _ = α.app Y.1 Y.2 := g.property
-        · apply Subtype.ext
+        refine ⟨Functor.Elements.homMk g.hom ?_, ?_⟩
+        · apply (hbij Y.obj).1
+          exact (α.naturality_apply g.hom X.val).trans g.map_val
+        · ext
           rfl
     }
     essSurj := {
       mem_essImage := by
         intro Y
-        obtain ⟨x, hx⟩ := (hbij Y.1).2 Y.2
-        let X : F.Elements := ⟨Y.1, x⟩
-        refine ⟨X, ⟨CategoryOfElements.isoMk (E.obj X) Y (Iso.refl _) ?_⟩⟩
-        simpa [X, E, CategoryOfElements.map] using hx
+        obtain ⟨x, hx⟩ := (hbij Y.obj).2 Y.val
+        let X : F.Elements := F.elementsMk Y.obj x
+        refine ⟨X, ⟨Functor.Elements.isoMk (x := E.obj X) (y := Y) (Iso.refl Y.obj) ?_⟩⟩
+        change G.map (𝟙 Y.obj) (α.app Y.obj x) = Y.val
+        simpa using hx
     }
   }
 

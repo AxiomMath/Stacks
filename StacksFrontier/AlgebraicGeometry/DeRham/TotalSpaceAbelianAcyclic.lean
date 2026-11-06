@@ -85,7 +85,7 @@ theorem Situation.rightAcyclic_abelianPushforward_deRhamTermInt (n : ℤ) :
 functor of the direct image of abelian sheaves along `π` is an isomorphism at the de Rham complex
 of the total space. -/
 theorem Situation.isIso_rightDerivedFunctorPlusUnit_deRhamAbelianComplexPlus :
-    IsIso ((abelianPushforward.{u, u} D.totalSpaceToBase.base).rightDerivedFunctorPlusUnit.app
+    IsIso ((abelianPushforward.{u, u} D.totalSpaceToBase.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient
           (Stacks.Cohomology.Leray.AbelianSheaf D.totalSpace.toRingedSpace.carrier)).obj
         (AlgebraicGeometry.SheafOfModules.deRhamAbelianComplexPlus

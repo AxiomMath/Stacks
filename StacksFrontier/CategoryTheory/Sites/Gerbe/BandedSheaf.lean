@@ -1126,7 +1126,7 @@ private noncomputable def bandCompIsoULift (hsm : ∀ V : 𝒞, Small.{max u₁ 
     (by
       intro g g' k
       ext a
-      exact ULift.ext _ _ (compFun_map hp habel hsm x k.unop a))
+      exact ULift.ext (compFun_map hp habel hsm x k.unop a))
 
 end Assembly
 

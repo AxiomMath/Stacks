@@ -3,6 +3,8 @@ module
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 public import Mathlib.AlgebraicGeometry.Morphisms.OpenImmersion
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.RingTheory.Unramified.Basic
 public import StacksFrontier.AlgebraicGeometry.WeilCohomology.FurtherProperties.ScalarExtension
 

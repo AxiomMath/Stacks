@@ -317,7 +317,7 @@ theorem exists_conormalCanonicalMap_val_app_tensorSectionsAt_ratio
     (hg : (tautologicalTwist E (symPieces E)).presheaf.map
           (homOfLE (tautologicalChart_le E W t)).op
           (tautologicalSectionOver E W ((kernel.ι Q.q).val.app (op W) κ)) =
-        ((tautologicalTwist E (symPieces E)).smul g).hom
+        ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W t)).op (tautologicalSectionOver E W t))) :
     ∃ y : Γ(kernel (structureSheafUnit σ), tautologicalChart E W t),

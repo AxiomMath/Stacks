@@ -176,13 +176,13 @@ public theorem isZero_homology_fibreTransform_obj₃
     obtain rfl | hlt := hj₁.eq_or_lt
     · exact epi_of_isZero_target hlow _
     · have := hstable j (by omega) hj₂
-      infer_instance
+      exact IsIso.epi_of_iso _
   have hm : Mono ((DerivedCategory.homologyFunctor Y.Modules (j + 1)).map
       ((fibreTransformFunctor f g F).map T.mor₁)) := by
     obtain rfl | hlt := hj₂.eq_or_lt
     · exact mono_of_isZero_source hhigh _
     · have := hstable (j + 1) (by omega) (by omega)
-      infer_instance
+      exact IsIso.mono_of_iso _
   exact isZero_homology_obj₃_of_epi_of_mono _
     ((fibreTensorFunctor f g F ⋙ fourierMukaiPushforward f g).map_distinguished T hT)
     j (j + 1) rfl he hm

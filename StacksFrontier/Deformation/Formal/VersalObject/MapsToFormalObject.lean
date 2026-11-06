@@ -32,7 +32,7 @@ The existence of a morphism is expressed by `Nonempty (ξ ⟶ η)`; the morphism
 includes its map between the underlying complete local algebras.
 
 The morphism associated to a formal object is a `BasedFunctor` out of
-`BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))`, so
+`BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))`, so
 its values are indexed by objects of that based category rather than by elements
 of `restrictedCoyoneda ξ.base`. The two index types agree only after unfolding
 `BasedCategory.ofFunctor`, which is why that definition is made locally
@@ -59,7 +59,7 @@ representable functor is the `n`-th adic truncation of its base. -/
 public theorem sourceLevelEq
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {R : CompleteLocalAlgCat.{u, v, w} Λ k}
-    (X : FormalObject (CategoryOfElements.π (restrictedCoyoneda R)))
+    (X : FormalObject (Functor.Elements.π (restrictedCoyoneda R)))
     (n : ℕ) : (X.level n).1 = AdicTruncation.obj X.base n :=
   X.level_eq n
 
@@ -83,24 +83,24 @@ public theorem adicTruncation_maximalIdeal_pow
 private noncomputable def sourceAdicSection
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {R : CompleteLocalAlgCat.{u, v, w} Λ k}
-    (X : FormalObject (CategoryOfElements.π (restrictedCoyoneda R))) :
+    (X : FormalObject (Functor.Elements.π (restrictedCoyoneda R))) :
     AdicSection
       (artinianToComplete ⋙ coyoneda.obj (Opposite.op R)) X.base where
   value n := (restrictedCoyoneda R).map
     (eqToHom (sourceLevelEq X n)) (X.level n).2
   compatible n := by
-    let q := CategoryOfElements.π (restrictedCoyoneda R)
+    let q := Functor.Elements.π (restrictedCoyoneda R)
     let f := (AdicTruncation.transitionNat n).app X.base
     let a := X.transition n
     have h₁ := sourceLevelEq X (n + 1)
     have h₀ := sourceLevelEq X n
     let := X.transition_lift n
     have hbase := IsHomLift.fac' q f a
-    have hcomp : eqToHom h₁ ≫ f = a.val ≫ eqToHom h₀ := by
+    have hcomp : eqToHom h₁ ≫ f = a.hom ≫ eqToHom h₀ := by
       simpa [q, a, f] using (congrArg (· ≫ eqToHom h₀) hbase).symm
     change (restrictedCoyoneda R).map f ((restrictedCoyoneda R).map (eqToHom h₁) _) = _
     rw [← Functor.map_comp_apply, hcomp, Functor.map_comp_apply]
-    exact congrArg _ (X.transition n).property
+    exact congrArg _ (X.transition n).map_val
 
 private lemma associated_pointInclusion_lift
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
@@ -119,7 +119,7 @@ private lemma associated_pointInclusion_lift
 private noncomputable def sourceBaseMap
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {R : CompleteLocalAlgCat.{u, v, w} Λ k}
-    (X : FormalObject (CategoryOfElements.π (restrictedCoyoneda R))) :
+    (X : FormalObject (Functor.Elements.π (restrictedCoyoneda R))) :
     R ⟶ X.base :=
   (coyonedaIsoAdicCompletion R).inv.app X.base
     (sourceAdicSection X)
@@ -127,7 +127,7 @@ private noncomputable def sourceBaseMap
 private theorem sourceBaseMap_quotient
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {R : CompleteLocalAlgCat.{u, v, w} Λ k}
-    (X : FormalObject (CategoryOfElements.π (restrictedCoyoneda R)))
+    (X : FormalObject (Functor.Elements.π (restrictedCoyoneda R)))
     (n : ℕ) :
     (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal X.base n)).comp
         (sourceBaseMap X).hom =
@@ -152,12 +152,12 @@ public theorem nonempty_hom_completionMap_obj
     {F : Type uF} [Category.{vF} F]
     {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
     (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p) (P : ChosenPushforwards p)
-    (X : FormalObject (CategoryOfElements.π (restrictedCoyoneda ξ.base))) :
+    (X : FormalObject (Functor.Elements.π (restrictedCoyoneda ξ.base))) :
     Nonempty (ξ ⟶ (completionMap (associatedMorphism hp ξ P).toBasedFunctor).obj X) := by
   classical
   let M := associatedMorphism hp ξ P
   let φ := M.toBasedFunctor
-  let X₀ : FormalObject (CategoryOfElements.π
+  let X₀ : FormalObject (Functor.Elements.π
       (restrictedCoyoneda ξ.base)) := X
   let f := sourceBaseMap X₀
   have hlevel (n : ℕ) : M.level (X₀.level n) ≤ n := by
@@ -274,8 +274,7 @@ public theorem nonempty_hom_completionMap_obj
             eqToHom (completionMap_obj_level φ X₀ n).symm) := by
               simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl,
                 Category.id_comp]
-  have hbaseT : T.base = X₀.base := by
-    simp [T, X₀]
+  have hbaseT : T.base = X₀.base := completionMap_obj_base φ X₀
   let fT : ξ.base ⟶ T.base := f ≫ eqToHom hbaseT.symm
   let g : ξ ⟶ T :=
     { base := fT
@@ -312,8 +311,8 @@ public theorem nonempty_hom_of_isVersal (hp : IsPredeformationCategory p)
   let M := associatedMorphism hp.cofibered ξ push
   let φ := M.toBasedFunctor
   let K := residueFieldObject Λ k
-  let α : (restrictedCoyoneda ξ.base).Elements := ⟨K, residuePoint ξ.base⟩
-  let sourceProjection := CategoryOfElements.π (restrictedCoyoneda ξ.base)
+  let α : (restrictedCoyoneda ξ.base).Elements := (restrictedCoyoneda ξ.base).elementsMk K (residuePoint ξ.base)
+  let sourceProjection := Functor.Elements.π (restrictedCoyoneda ξ.base)
   let x : sourceProjection.Fiber K := ⟨α, rfl⟩
   have h₀ : (fiberFunctor φ K).EssSurj := by
     let E := Classical.choice hp.specialFiber

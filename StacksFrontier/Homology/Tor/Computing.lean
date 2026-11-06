@@ -11,6 +11,7 @@ public import Mathlib.CategoryTheory.Adjunction.Additive
 public import Mathlib.CategoryTheory.Adjunction.Comma
 public import Mathlib.CategoryTheory.Adjunction.Whiskering
 public import Mathlib.CategoryTheory.Functor.Derived.LeftDerived
+public import Mathlib.CategoryTheory.Localization.OfQuotient
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic
 public import StacksFrontier.Algebra.Homology.HomotopyCategory.Minus
 public import StacksFrontier.Algebra.Homology.Resolution.ProjectiveResolution

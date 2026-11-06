@@ -143,6 +143,8 @@ instance : (u.sheafPushforwardContinuous AddCommGrpCat.{w} J K).Additive :=
   have : PreservesLimitsOfSize.{0, 0}
       (u.sheafPushforwardContinuous AddCommGrpCat.{w} J K) :=
     (lowerShriekAdjunction J K u).rightAdjoint_preservesLimits
+  have : HasFiniteProducts (Sheaf K AddCommGrpCat.{w}) := inferInstance
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{w}) := inferInstance
   Functor.additive_of_preserves_binary_products _
 
 /-- Lower shriek `g_!` is additive, being a left adjoint between additive categories. -/

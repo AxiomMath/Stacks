@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Sites.BigZariski
+public import Mathlib.CategoryTheory.Sites.EffectiveEpimorphic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.CategoryTheory.Sites.Representable.EffectiveEpiFamily
 

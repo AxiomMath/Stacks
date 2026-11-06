@@ -60,7 +60,7 @@ abbrev oToA (s : (site A).O.obj.obj (op (pt A))) : A := s
 theorem mulEnd_app_unit_apply (a : A)
     (s : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (site A).O))).val.obj
       (op (pt A))) :
-    unitToA (((mulEnd A a).app (SheafOfModules.unit _)).val.app (op (pt A)) s) =
+    unitToA (((mulEnd A a).asHom.app (SheafOfModules.unit _)).val.app (op (pt A)) s) =
       a * unitToA s :=
   rfl
 
@@ -78,7 +78,7 @@ def annihilatorα (h1 : e * x ^ n = 0) :
     Stacks.Sites.adicQuotientModule (X := site A) (idealX A x) n ⟶
       SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (site A).O)) :=
   cokernel.desc (Stacks.Sites.idealPow (idealX A x) n).ι
-    ((mulEnd A e).app (SheafOfModules.unit _)) (by
+    ((mulEnd A e).asHom.app (SheafOfModules.unit _)) (by
       refine hom_ext_pt fun s => ?_
       obtain ⟨t, ht⟩ := s
       obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.1 ((mem_idealPow_iff A x n t).1 ht)
@@ -88,7 +88,7 @@ def annihilatorα (h1 : e * x ^ n = 0) :
 /-- The projection `𝒪 ⟶ 𝒪/ℐⁿ` followed by `annihilatorα` is multiplication by `e` on `𝒪`. -/
 theorem adicQuotientModuleπ_comp_annihilatorα (h1 : e * x ^ n = 0) :
     Stacks.Sites.adicQuotientModuleπ (X := site A) (idealX A x) n ≫ annihilatorα x e n h1 =
-      (mulEnd A e).app (SheafOfModules.unit _) :=
+      (mulEnd A e).asHom.app (SheafOfModules.unit _) :=
   cokernel.π_desc _ _ _
 
 /-- The sections of `ℐⁿ` die in `𝒪/ℐⁿ`, read on the point. -/
@@ -104,7 +104,7 @@ def annihilatorβ :
     SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (site A).O)) ⟶
       (Stacks.Sites.idealPow (idealX A x) n).toSheafOfModules :=
   Abelian.monoLift (Stacks.Sites.idealPow (idealX A x) n).ι
-    ((mulEnd A (x ^ n)).app (SheafOfModules.unit _)) (by
+    ((mulEnd A (x ^ n)).asHom.app (SheafOfModules.unit _)) (by
       refine hom_ext_pt fun s => ?_
       exact adicQuotientModuleπ_app_eq_zero x n
         (Ideal.mem_span_singleton'.2 ⟨s, mul_comm _ _⟩))
@@ -112,7 +112,7 @@ def annihilatorβ :
 /-- `annihilatorβ` followed by the inclusion `ℐⁿ ⟶ 𝒪` is multiplication by `xⁿ` on `𝒪`. -/
 theorem annihilatorβ_comp_ι :
     annihilatorβ x n ≫ (Stacks.Sites.idealPow (idealX A x) n).ι =
-      (mulEnd A (x ^ n)).app (SheafOfModules.unit _) :=
+      (mulEnd A (x ^ n)).asHom.app (SheafOfModules.unit _) :=
   Abelian.monoLift_comp _ _ _
 
 /-- On the sections over the point, `annihilatorβ` sends `s` to `xⁿ s`. -/
@@ -187,13 +187,13 @@ the sequence of `(e', n + 1)` to that of `(e, n)`. -/
 def annihilatorShortComplexMap (e' : A) (h1' : e' * x ^ (n + 1) = 0) (he : x * e' = e) :
     annihilatorShortComplex x e' (n + 1) h1' ⟶ annihilatorShortComplex x e n h1 where
   τ₁ := Stacks.Sites.adicQuotientModuleMap (X := site A) (idealX A x) (Nat.le_succ n)
-  τ₂ := (mulEnd A x).app (SheafOfModules.unit _)
+  τ₂ := (mulEnd A x).asHom.app (SheafOfModules.unit _)
   τ₃ := Stacks.SheafOfModules.Submodule.homOfLE
     (Stacks.Sites.idealPow_antitone (idealX A x) (Nat.le_succ n))
   comm₁₂ := by
     change Stacks.Sites.adicQuotientModuleMap (X := site A) (idealX A x) (Nat.le_succ n) ≫
         annihilatorα x e n h1 =
-      annihilatorα x e' (n + 1) h1' ≫ (mulEnd A x).app (SheafOfModules.unit _)
+      annihilatorα x e' (n + 1) h1' ≫ (mulEnd A x).asHom.app (SheafOfModules.unit _)
     symm
     rw [← cancel_epi (Stacks.Sites.adicQuotientModuleπ (X := site A) (idealX A x) (n + 1)),
       ← Category.assoc, adicQuotientModuleπ_comp_annihilatorα, ← Category.assoc,
@@ -203,7 +203,7 @@ def annihilatorShortComplexMap (e' : A) (h1' : e' * x ^ (n + 1) = 0) (he : x * e
     change x * (e' * unitToA s) = e * unitToA s
     rw [← mul_assoc, he]
   comm₂₃ := by
-    change (mulEnd A x).app (SheafOfModules.unit _) ≫ annihilatorβ x n =
+    change (mulEnd A x).asHom.app (SheafOfModules.unit _) ≫ annihilatorβ x n =
       annihilatorβ x (n + 1) ≫ Stacks.SheafOfModules.Submodule.homOfLE
         (Stacks.Sites.idealPow_antitone (idealX A x) (Nat.le_succ n))
     symm

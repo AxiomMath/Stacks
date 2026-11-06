@@ -65,6 +65,13 @@ namespace AlgebraicGeometry.FormalSpace
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance (priority := high) hasPullback_presheaf_QuasiFiniteRepresentableULift.{v}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type v} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A property of scheme morphisms which holds on every étale chart of a morphism holds on
 every étale chart of that morphism precomposed with an isomorphism. -/
 theorem holdsOnEveryEtaleChartULift_iso_comp (P : MorphismProperty Scheme.{u})

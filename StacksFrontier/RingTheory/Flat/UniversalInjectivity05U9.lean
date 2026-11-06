@@ -185,7 +185,6 @@ theorem rTensor_mkQ_comm (P : Type*) [AddCommGroup P] [Module R P] (f : M →ₗ
       (Submodule.mapQ _ _ f (Submodule.smul_top_le_comap_smul_top I f)).rTensor P
         ((I • ⊤ : Submodule R M).mkQ.rTensor P x) := by
   induction x with
-  | zero => simp
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul m p => simp [Submodule.mapQ_apply]
 
@@ -202,7 +201,6 @@ theorem rTensor_mapQSMulTop_comm (f : M →ₗ[R] M')
       (Submodule.mapQ _ _ f (Submodule.smul_top_le_comap_smul_top I f)).rTensor P
         (quotientTensorEquiv I _ P x) := by
   induction x with
-  | zero => simp
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul m p =>
       rw [LinearMap.rTensor_tmul, quotientTensorEquiv_tmul, quotientTensorEquiv_tmul,

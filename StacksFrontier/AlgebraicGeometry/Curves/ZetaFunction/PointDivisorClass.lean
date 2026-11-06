@@ -137,7 +137,7 @@ omit [IsAlgClosed Ω] [IsProper g] in
 /-- The class of the divisor `n x` is `n [x]`. -/
 theorem divisorClass_single (x : ClosedPoint C) (n : ℤ) :
     divisorClass g (Finsupp.single x n) = n • pointClass g x := by
-  simp [divisorClass]
+  rw [divisorClass, Finsupp.liftAddHom_apply_single, zmultiplesHom_apply]
 
 omit [IsAlgClosed Ω] [IsProper g] in
 /-- The class of `D = ∑ n_x x` is `∑ n_x [x]`. -/
@@ -186,7 +186,8 @@ theorem picardDegree_divisorClass (D : ClosedPoint C →₀ ℤ) :
     Stacks.Picard.picardDegree g (topologicalKrullDim_le_one g) (divisorClass g D) =
       D.sum fun _ n => n := by
   rw [divisorClass_apply, map_finsuppSum]
-  simp [picardDegree_pointClass]
+  refine Finsupp.sum_congr fun x _ => ?_
+  rw [map_zsmul, picardDegree_pointClass, smul_eq_mul, mul_one]
 
 /-! ### Pullback along an automorphism -/
 

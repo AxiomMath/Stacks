@@ -79,12 +79,13 @@ theorem exists_section_of_finite_stage_univ
       ∀ (x : {a : w.source ⟶ XV.1 // a ≫ B.inclusion.map pk ≫ B.inclusion.map zk = w.hom}),
         colimit.ι ((CategoryOfElements.π (geometricPointFiber B XV.1 XV.property
             ⟨w.residueField, x.1⟩)).op ⋙ FV.obj)
-          (op ⟨(smallEtaleBaseChange B pk).obj ((smallEtaleBaseChange B zk).obj W.1),
-            baseChangeEtalePoint B pk (x := ⟨w.residueField, x.1⟩)
+          (op (Functor.elementsMk _
+            ((smallEtaleBaseChange B pk).obj ((smallEtaleBaseChange B zk).obj W.1))
+            (baseChangeEtalePoint B pk (x := ⟨w.residueField, x.1⟩)
               (y := ⟨w.residueField, x.1 ≫ B.inclusion.map pk⟩) rfl
               ((smallEtaleBaseChange B zk).obj W.1)
               (liftedEtaleNeighborhood B zk w ⟨x.1 ≫ B.inclusion.map pk,
-                (Category.assoc _ _ _).trans x.2⟩ W).2⟩) s =
+                (Category.assoc _ _ _).trans x.2⟩ W).2))) s =
           pushforwardEtaleStalkComponentUniv B pk ⟨w.residueField, x.1⟩
             ⟨w.residueField, x.1 ≫ B.inclusion.map pk⟩ rfl FV
             (t ⟨x.1 ≫ B.inclusion.map pk, (Category.assoc _ _ _).trans x.2⟩) := by
@@ -155,7 +156,7 @@ theorem exists_stage_section_cylinder_univ
         (cartesianLiftEquiv B g' f' f g sq y' p₀) :=
     congrArg (fun m => (⟨y'.residueField, m⟩ : GeometricPoint (B.inclusion.obj X))) hx₀
   let UV : (geometricPointFiber B XV.1 XV.property ⟨y'.residueField, x₀⟩).Elements :=
-    ⟨(smallEtaleBaseChange B ιX).obj U.1, baseChangeEtalePoint B ιX hz U.1 U.2⟩
+    Functor.elementsMk _ ((smallEtaleBaseChange B ιX).obj U.1) (baseChangeEtalePoint B ιX hz U.1 U.2)
   obtain ⟨i, W, φ, hφ⟩ := P.exists_stage_neighborhood ⟨y'.residueField, x₀⟩ UV
   let T := cylinderObjGeneral B ιX P y' i x₀ W
   let TSV := SmallEtale.toScheme B XV.1 XV.property
@@ -189,7 +190,7 @@ theorem exists_stage_section_cylinder_univ
   let pt := geometricPointLift (B.inclusion.map f) (y'.map (B.inclusion.map g))
     (cartesianLiftEquiv B g' f' f g sq y' p₀)
   let Tel : (geometricPointFiber B X.1 X.property pt).Elements :=
-    ⟨T, cylinderPointGeneral B sq ιX P y' i x₀ W p₀ x₀ hx₀ rfl⟩
+    Functor.elementsMk _ T (cylinderPointGeneral B sq ιX P y' i x₀ W p₀ x₀ hx₀ rfl)
   let ψe : Tel ⟶ U := ⟨ψ, Subtype.ext hcylψ⟩
   have H₀ : cylinderGermGeneral B sq F ιX P y' i x₀ W τ p₀ x₀ hx₀ rfl =
       pullbackStalkComponentUniv B sq F y' c p₀ :=
@@ -226,9 +227,10 @@ theorem smallEtaleRestrictionStalkMap_stageComponent_general
   refine (congrArg (smallEtaleRestrictionStalkMapUniv B ιX x (p.1 ≫ B.inclusion.map g') hx F)
     e₁).trans ?_
   exact smallEtaleRestrictionStalkMap_germ_univ B ιX x (p.1 ≫ B.inclusion.map g') hx F
-    ⟨(smallEtaleBaseChange B (P.proj.app i)).obj W.1, baseChangeEtalePoint B (P.proj.app i)
+    (Functor.elementsMk _ ((smallEtaleBaseChange B (P.proj.app i)).obj W.1)
+      (baseChangeEtalePoint B (P.proj.app i)
       (x := ⟨y'.residueField, x⟩) (y := ⟨y'.residueField, x₀ ≫ B.inclusion.map (P.proj.app i)⟩)
-      (geometricPoint_mk_eq hxi) W.1 W.2⟩ τ
+      (geometricPoint_mk_eq hxi) W.1 W.2)) τ
 
 /-- **Stage elements from a cylinder.** Let `τ` be a stage section on a cylinder around `x₀` whose
 germs represent `c_p` at every lift agreeing with `x₀` at stage `j`. For a later stage `k` and a
@@ -339,14 +341,14 @@ private theorem exists_pushforwardEtaleStalk_eq_restriction_stageGerm_univ
           (colimit.ι ((CategoryOfElements.π (geometricPointFiber B XV.1 XV.property
               ⟨y'.residueField, x⟩)).op ⋙
               ((smallEtaleRestrictionAlong B ιX (Type (max (u + 1) v))).obj F).obj)
-            (op ⟨(smallEtaleBaseChange B (P.proj.app k)).obj
-                ((smallEtaleBaseChange B (P.str.app k)).obj W.1),
-              baseChangeEtalePoint B (P.proj.app k) (x := ⟨y'.residueField, x⟩)
+            (op (Functor.elementsMk _ ((smallEtaleBaseChange B (P.proj.app k)).obj
+                ((smallEtaleBaseChange B (P.str.app k)).obj W.1))
+              (baseChangeEtalePoint B (P.proj.app k) (x := ⟨y'.residueField, x⟩)
                 (y := ⟨y'.residueField, x ≫ B.inclusion.map (P.proj.app k)⟩) rfl
                 ((smallEtaleBaseChange B (P.str.app k)).obj W.1)
                 (liftedEtaleNeighborhood B (P.str.app k) ⟨y'.residueField, yV⟩
                   ⟨x ≫ B.inclusion.map (P.proj.app k), by
-                    rw [Category.assoc, ← Functor.map_comp, P.fac, hxV]⟩ W).2⟩) s) := by
+                    rw [Category.assoc, ← Functor.map_comp, P.fac, hxV]⟩ W).2))) s) := by
   let incl := B.inclusion
   let pJ := P.proj.app k
   let sJ := P.str.app k
@@ -434,17 +436,20 @@ private theorem exists_pushforwardEtaleStalk_eq_restriction_stageGerm_univ
   have hκpt : (bcpY.1 ≫ κs) ≫ incl.map LT.obj.hom = qpt.hom :=
     (Category.assoc _ _ _).trans ((congrArg (bcpY.1 ≫ ·) hκ).trans bcpY.2)
   let BCel : (geometricPointFiber B X.1 X.property qpt).Elements :=
-    ⟨(smallEtaleBaseChange B f).obj NY.1, bcpY⟩
-  let LTel : (geometricPointFiber B X.1 X.property qpt).Elements := ⟨LT, ⟨bcpY.1 ≫ κs, hκpt⟩⟩
+    Functor.elementsMk _ ((smallEtaleBaseChange B f).obj NY.1) bcpY
+  let LTel : (geometricPointFiber B X.1 X.property qpt).Elements :=
+    Functor.elementsMk _ LT ⟨bcpY.1 ≫ κs, hκpt⟩
   let κe : BCel ⟶ LTel := ⟨κ, Subtype.ext rfl⟩
   have step₁ := pushforwardEtaleStalkComponent_germ_baseChange_univ B f
     (geometricPointLift_map (B.inclusion.map f) (y'.map (B.inclusion.map g))
       (cartesianLiftEquiv B g' f' f g sq y' p)) NY.1 NY.2 F (F.obj.map κ.op s)
   have step₂ := (ConcreteCategory.congr_hom (colimit.w DF κe.op) s)
   have step₃ := smallEtaleRestrictionStalkMap_germ_univ B ιX x (p.1 ≫ incl.map g') hx F
-    ⟨(smallEtaleBaseChange B pJ).obj ((smallEtaleBaseChange B sJ).obj W.1), pt⟩ s
+    (Functor.elementsMk _
+      ((smallEtaleBaseChange B pJ).obj ((smallEtaleBaseChange B sJ).obj W.1)) pt) s
   let Eel := (smallEtaleRestrictionNeighborhoods B ιX x (p.1 ≫ incl.map g') hx).obj
-    ⟨(smallEtaleBaseChange B pJ).obj ((smallEtaleBaseChange B sJ).obj W.1), pt⟩
+    (Functor.elementsMk _
+      ((smallEtaleBaseChange B pJ).obj ((smallEtaleBaseChange B sJ).obj W.1)) pt)
   have hid : (SmallEtale.toScheme B X.1 X.property).map (𝟙 LT) = 𝟙 _ :=
     CategoryTheory.Functor.map_id _ _
   let idE : LTel ⟶ Eel := ⟨𝟙 LT, Subtype.ext ((congrArg (_ ≫ ·) hid).trans

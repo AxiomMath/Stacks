@@ -674,7 +674,10 @@ theorem exists_chart_forall_isClosed_baseChange_affineSpaceChart_of_isClosed_aff
       (Stack.schemeStackMap.{u, w} B S hS (affineSpaceChartHom B S hS V n)) := by
     refine isLocallyOfFinitePresentation_schemeStackMap B S hS _ ?_
     rw [affineSpaceChartHom_toScheme]
-    exact AffineSpace.instLocallyOfFinitePresentationOverSchemeInferInstanceOverClassOfFinite _
+    have : Finite (ULift.{u, 0} (Fin n)) := Finite.of_equiv _ Equiv.ulift.symm
+    have hsm : Smooth (𝔸(ULift.{u, 0} (Fin n); (BigFppfOver.toScheme B S hS).obj V) ↘
+        (BigFppfOver.toScheme B S hS).obj V) := inferInstance
+    exact AlgebraicGeometry.instLocallyOfFinitePresentationOfSmooth (hf := hsm)
   refine isClosed_baseChange_of_forall_affineChart B S hS f (affineSpaceChart B S hS V n) _
     fun i => ?_
   refine h (affineChart (affineSpaceChart B S hS V n) i)

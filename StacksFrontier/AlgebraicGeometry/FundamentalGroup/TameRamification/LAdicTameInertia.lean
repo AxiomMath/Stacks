@@ -246,7 +246,7 @@ public theorem exists_tameInertiaCharacter_finiteLevel
       let : IsScalarTower A C (integralClosure A L) :=
         IsScalarTower.of_algebraMap_eq fun x ↦ (f.commutes x).symm
       let : Algebra.IsIntegral C (integralClosure A L) := Algebra.IsIntegral.tower_top A
-      exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P
+      exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := C) P
     let : qF.IsMaximal := hq
     let : MulSemiringAction Gal(F/K) C := IsIntegralClosure.MulSemiringAction A K F C
     obtain ⟨heS, -⟩ := hSfin F

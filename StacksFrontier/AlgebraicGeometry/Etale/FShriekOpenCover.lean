@@ -943,7 +943,7 @@ private def isColimit_of_locally_lifting_of_univLE {C : Type u} [Category.{v} C]
   · intro i
     have hmi : Mono (c.ι.app i) := hm i
     refine Sheaf.mono_of_injective _ fun V a b h => ?_
-    exact ULift.ext _ _ <| injective_app_of_mono (c.ι.app i) V (congrArg ULift.down h)
+    exact ULift.ext <| injective_app_of_mono (c.ι.app i) V (congrArg ULift.down h)
   · intro V s
     obtain ⟨R, hR, h⟩ := hl V s.down
     refine ⟨R, hR, fun W a ha => ?_⟩

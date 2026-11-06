@@ -256,7 +256,7 @@ theorem free_localizedModule_baseQuotient (f : S.A) (hI : S.I = Ideal.span {f})
   subst hy
   have := free_localizedModule_of_isFiniteLocallyFreeAdic S F f hI hfreeAdic M e y
   have hbot : (Ideal.span {algebraMap S.A
-        (Localization.AtPrime (underlyingPrime S y).asIdeal) f} •
+                              (Localization.AtPrime (underlyingPrime S y).asIdeal) f} •
       (⊤ : Submodule (Localization.AtPrime (underlyingPrime S y).asIdeal)
         (LocalizedModule (underlyingPrime S y).asIdeal.primeCompl (M : Type u)))) = ⊥ := by
     refine le_antisymm (Submodule.smul_le.2 fun c hc w _ => ?_) bot_le

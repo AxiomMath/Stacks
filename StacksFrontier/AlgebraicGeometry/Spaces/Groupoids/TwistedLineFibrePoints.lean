@@ -164,7 +164,7 @@ theorem toScheme_map_siteActionHom_twistedLine (g : Multiplicative ℤ) :
     (BigFppfOver.toScheme B S hS).map
         (siteActionHom (Multiplicative ℤ) B hS (twistedLineSite hS hL s)
           (twistedLineSiteAction hS hL s σ hs) g) =
-      (twistedLineAction s σ hs g).hom.left :=
+      (twistedLineAction s σ hs g).asIso.hom.left :=
   congrArg Over.Hom.left (post_map_siteActionHom (Multiplicative ℤ) B hS
     (twistedLineSite hS hL s) (twistedLineSiteAction hS hL s σ hs) g)
 
@@ -307,7 +307,7 @@ the integer `n`, and this persists after precomposition with a morphism of field
 theorem appTop_twistedTranslate_origin_coord {Ω : Type u} [Field Ω]
     (F : Spec (.of Ω) ⟶ Spec (.of K)) (n : ℤ) :
     (F ≫ (twistedBaseToLine s).left ≫
-        (twistedLineAction s σ hs (ofAdd n)).hom.left).appTop (twistedLineCoord K) =
+        (twistedLineAction s σ hs (ofAdd n)).asIso.hom.left).appTop (twistedLineCoord K) =
       (n : Γ(Spec (.of Ω), ⊤)) := by
   simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
     twistedLineAction_appTop_coord s σ hs n, map_add,
@@ -319,8 +319,8 @@ translate is `n`, and in characteristic zero distinct integers stay distinct in 
 receiving `K`. -/
 theorem twistedTranslate_origin_inj [CharZero K] {Ω : Type u} [Field Ω]
     (F G : Spec (.of Ω) ⟶ Spec (.of K)) {n m : ℤ}
-    (h : F ≫ (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd n)).hom.left =
-      G ≫ (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd m)).hom.left) :
+    (h : F ≫ (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd n)).asIso.hom.left =
+      G ≫ (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd m)).asIso.hom.left) :
     n = m := by
   have hcast : ((n : ℤ) : Γ(Spec (.of Ω), ⊤)) = ((m : ℤ) : Γ(Spec (.of Ω), ⊤)) :=
     ((appTop_twistedTranslate_origin_coord s σ hs F n).symm.trans
@@ -414,7 +414,7 @@ theorem twistedFibrePoint_injective [CharZero K] :
   have hg' : g ≫ (twistedFibreFieldPoint hS hK hL s σ hs m).value = r.value := hg
   have hmap (k : ℤ) :
       (BigFppfOver.toScheme B S hS).map (twistedFibreFieldPoint hS hK hL s σ hs k).value =
-        (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd k)).hom.left := by
+        (twistedBaseToLine s).left ≫ (twistedLineAction s σ hs (ofAdd k)).asIso.hom.left := by
     have h1 := (BigFppfOver.toScheme B S hS).map_comp (twistedBaseToLineSite hS hK hL s)
       (siteActionHom (Multiplicative ℤ) B hS (twistedLineSite hS hL s)
         (twistedLineSiteAction hS hL s σ hs) (ofAdd k))
@@ -424,7 +424,7 @@ theorem twistedFibrePoint_injective [CharZero K] :
       (v : Y ⟶ twistedLineSite hS hL s)
       (hu : u ≫ (twistedFibreFieldPoint hS hK hL s σ hs k).value = v) :
       (BigFppfOver.toScheme B S hS).map u ≫ (twistedBaseToLine s).left ≫
-        (twistedLineAction s σ hs (ofAdd k)).hom.left =
+        (twistedLineAction s σ hs (ofAdd k)).asIso.hom.left =
       (BigFppfOver.toScheme B S hS).map v := by
     rw [← hmap k]
     exact ((BigFppfOver.toScheme B S hS).map_comp _ _).symm.trans (congrArg _ hu)

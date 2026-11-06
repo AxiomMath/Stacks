@@ -49,9 +49,9 @@ theorem natTransCommShift_rightComparisonUnit :
   have e : rightComparisonUnit F G =
       Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv
           DerivedCategory.Plus.Qh ≫ (Functor.associator _ _ _).hom ≫
-        Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
+        Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
         (Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+        Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
         (Functor.associator _ _ _).hom := by
     ext K
     simp [rightComparisonUnit]
@@ -83,30 +83,30 @@ theorem rightDerivedFunctorPlusComp_natIso_whiskerLeft (F : C ⥤ D) {H H' : D �
         rightDerivedFunctorPlusComp F H' =
       rightDerivedFunctorPlusComp F H ≫
         Functor.whiskerLeft F.rightDerivedFunctorPlus (rightDerivedFunctorPlusNatIso e).hom := by
-  refine (F ⋙ H).rightDerivedFunctorPlus.rightDerived_ext (F ⋙ H).rightDerivedFunctorPlusUnit
+  refine (F ⋙ H).rightDerivedFunctorPlus.rightDerived_ext (F ⋙ H).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) _ _ _ (NatTrans.ext (funext fun K ↦ ?_))
-  have hl : (F ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+  have hl : (F ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusNatIso (Functor.isoWhiskerLeft F e)).hom.app
           (DerivedCategory.Plus.Qh.obj K) ≫
         (rightDerivedFunctorPlusComp F H').app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso e).hom.app
           (F.mapHomotopyCategoryPlus.obj K)) ≫
-        H'.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-          H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) :=
+        H'.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+          H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) :=
     (Category.assoc _ _ _).symm.trans
       ((CategoryTheory.eq_whisker
           (rightDerivedFunctorPlusNatIso_hom_fac_app (Functor.isoWhiskerLeft F e) K)
           ((rightDerivedFunctorPlusComp F H').app (DerivedCategory.Plus.Qh.obj K))).trans
         ((Category.assoc _ _ _).trans
           (CategoryTheory.whisker_eq _ (unit_comp_rightDerivedFunctorPlusComp_app F H' K))))
-  have hr : (F ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+  have hr : (F ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj K) ≫
         (rightDerivedFunctorPlusNatIso e).hom.app
           (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso e).hom.app
           (F.mapHomotopyCategoryPlus.obj K)) ≫
-        H'.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-          H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) :=
+        H'.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+          H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) :=
     (Category.assoc _ _ _).symm.trans
       ((CategoryTheory.eq_whisker (unit_comp_rightDerivedFunctorPlusComp_app F H K)
           ((rightDerivedFunctorPlusNatIso e).hom.app
@@ -114,11 +114,11 @@ theorem rightDerivedFunctorPlusComp_natIso_whiskerLeft (F : C ⥤ D) {H H' : D �
         ((Category.assoc _ _ _).trans
           ((CategoryTheory.whisker_eq _
               ((rightDerivedFunctorPlusNatIso e).hom.naturality
-                (F.rightDerivedFunctorPlusUnit.app K))).trans
+                (F.rightDerivedFunctorPlusUnith.app K))).trans
             ((Category.assoc _ _ _).symm.trans
               ((CategoryTheory.eq_whisker
                   (rightDerivedFunctorPlusNatIso_hom_fac_app e (F.mapHomotopyCategoryPlus.obj K))
-                  (H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K))).trans
+                  (H'.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K))).trans
                 (Category.assoc _ _ _))))))
   exact hl.trans hr.symm
 

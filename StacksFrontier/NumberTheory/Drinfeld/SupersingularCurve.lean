@@ -545,7 +545,8 @@ public theorem exists_place_of_prime {f : (ZMod 2)[X]} (hf : Prime f) :
   have hQ0 : Q ≠ ⊥ := by
     rintro rfl
     refine haprime.ne_zero (Ideal.span_singleton_eq_bot.1 ?_)
-    rw [← hQ, ← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).1 hinj]
+    rw [← hQ, Ideal.under_def, ← RingHom.ker_eq_comap_bot,
+      (RingHom.injective_iff_ker_eq_bot _).1 hinj]
   let P : IsDedekindDomain.HeightOneSpectrum (intClosure (ZMod 2) t) := ⟨Q, hQmax.isPrime, hQ0⟩
   refine ⟨Place.ofHeightOneSpectrum (K := K) P, ?_, ?_⟩
   · have htmem : t ∈ intClosure (ZMod 2) t :=
@@ -553,7 +554,7 @@ public theorem exists_place_of_prime {f : (ZMod 2)[X]} (hf : Prime f) :
         (x := ⟨t, Algebra.self_mem_adjoin_singleton (ZMod 2) t⟩))
     exact (Valuation.mem_valuationSubring_iff _ _).2 (P.valuation_le_one (K := K) ⟨t, htmem⟩)
   · have hbQ : algebraMap (polySubalg (ZMod 2) t) (intClosure (ZMod 2) t) a ∈ Q := by
-      rw [← Ideal.mem_comap, hQ]
+      rw [← Ideal.mem_comap, ← Ideal.under_def, hQ]
       exact Ideal.subset_span rfl
     have hlt := (P.valuation_lt_one_iff_mem (K := K) _).2 hbQ
     change (P.valuation K) (aeval x f) < 1 at hlt

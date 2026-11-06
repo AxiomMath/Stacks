@@ -178,15 +178,15 @@ variable {S : Scheme.{u}}
 
 /-- The point of the free sheaf of modules on `I` with coordinates `v`. -/
 def vecPoint {I : Type u} [Fintype I] (v : I → R₀ S) :
-    𝟙_ (ModuleSheaf S) ⟶ freeModule S I := ∑ i : I, v i ≫ freeInj i
+    𝟙_ (ModuleSheaf S) ⟶ freeModule S I := ∑ i : I, (v i).asHom ≫ freeInj i
 
 /-- The covector of the free sheaf of modules on `I` with coordinates `w`. -/
 def vecCovec {I : Type u} [Fintype I] [DecidableEq I] (w : I → R₀ S) :
-    freeModule S I ⟶ 𝟙_ (ModuleSheaf S) := ∑ i : I, freeProj i ≫ w i
+    freeModule S I ⟶ 𝟙_ (ModuleSheaf S) := ∑ i : I, freeProj i ≫ (w i).asHom
 
 /-- A covector reads off the coefficient at a tautological point. -/
 theorem freeInj_comp_vecCovec {I : Type u} [Fintype I] [DecidableEq I] (w : I → R₀ S) (a : I) :
-    freeInj (S := S) a ≫ vecCovec w = w a := by
+    freeInj (S := S) a ≫ vecCovec w = (w a).asHom := by
   rw [vecCovec, Preadditive.comp_sum,
     Finset.sum_eq_single_of_mem a (Finset.mem_univ a)
       (fun b _ hb => by
@@ -195,7 +195,7 @@ theorem freeInj_comp_vecCovec {I : Type u} [Fintype I] [DecidableEq I] (w : I �
 
 /-- A tautological coordinate reads off the coefficient of a point. -/
 theorem vecPoint_comp_freeProj {I : Type u} [Fintype I] [DecidableEq I] (v : I → R₀ S) (b : I) :
-    vecPoint v ≫ freeProj b = v b := by
+    vecPoint v ≫ freeProj b = (v b).asHom := by
   rw [vecPoint, Preadditive.sum_comp,
     Finset.sum_eq_single_of_mem b (Finset.mem_univ b)
       (fun c _ hc => by
@@ -204,8 +204,8 @@ theorem vecPoint_comp_freeProj {I : Type u} [Fintype I] [DecidableEq I] (v : I �
 
 /-- **The pairing of a point and a covector is the dot product of their coefficient vectors.** -/
 theorem vecPoint_comp_vecCovec {I : Type u} [Fintype I] [DecidableEq I] (v w : I → R₀ S) :
-    vecPoint v ≫ vecCovec w = ∑ i : I, v i * w i := by
-  rw [vecPoint, Preadditive.sum_comp]
+    vecPoint v ≫ vecCovec w = (∑ i : I, v i * w i).asHom := by
+  rw [vecPoint, Preadditive.sum_comp, End.sum_asHom]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Category.assoc, freeInj_comp_vecCovec, unitEnd_mul_eq_comp]
 
@@ -245,8 +245,8 @@ private theorem vecPoint_comp_vecCovec_ulift_eq_id {J : Type} [Fintype J] [Decid
     (a b : J → R₀ S) (h : ∑ g, a g * b g = 1) :
     vecPoint (fun k : ULift.{u, 0} J => a k.down) ≫ vecCovec (fun k : ULift.{u, 0} J => b k.down)
       = 𝟙 (𝟙_ (ModuleSheaf S)) := by
-  rw [vecPoint_comp_vecCovec, ← End.one_def, ← h]
-  exact Fintype.sum_equiv (Equiv.ulift (α := J)) _ _ fun _ => rfl
+  rw [vecPoint_comp_vecCovec, ← End.one_asHom, ← h]
+  exact congrArg End.asHom (Fintype.sum_equiv (Equiv.ulift (α := J)) _ _ fun _ => rfl)
 
 /-- **The alternating point pairs to the identity of the unit with the standard-basis
 covector**, because the coordinate of the alternating vector at the identity index is `1`. -/

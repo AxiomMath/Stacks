@@ -98,7 +98,7 @@ instance commonUp_faithful.{vX, uX, w} (X : Type uX) [Category.{vX} X] :
 
 /-- The functor out of the universe-lifted copy of a category is faithful. -/
 instance commonDown_faithful.{vX, uX, w} (X : Type uX) [Category.{vX} X] :
-    (commonDown.{vX, uX, w} X).Faithful := Functor.Faithful.mk (fun h => ULift.ext _ _ h)
+    (commonDown.{vX, uX, w} X).Faithful := Functor.Faithful.mk (fun h => ULift.ext h)
 
 /-- Universe lifting preserves the property of being fibred in groupoids. -/
 theorem lift_isFiberedInGroupoids.{vX, uX, w}

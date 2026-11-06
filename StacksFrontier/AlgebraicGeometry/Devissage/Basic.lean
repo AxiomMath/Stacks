@@ -101,7 +101,7 @@ recorded in `StacksFrontier/AlgebraicGeometry/SerreAffinenessCriterion/LongExact
 
 **Condition (2) is proved by a retraction, not by additivity of a biproduct.** `∏ᶜ` over
 `Fin (n+1)` is what 01YM's statement uses; `Pi.lift (fun _ ↦ 𝟙 ℱ)` followed by `Pi.π _ 0` is the
-identity by `Pi.lift_π`, so `H¹(ℱ)`'s identity factors through `H¹(∏ᶜ ℱ) = 0`. The generic
+identity by `Pi.lift_comp_π`, so `H¹(ℱ)`'s identity factors through `H¹(∏ᶜ ℱ) = 0`. The generic
 lemma `isZero_obj_of_isZero_obj_of_retraction` is stated with every typeclass argument a
 variable: instantiating it is then a unification, and instance search is never asked to cross
 the `AlgebraicGeometry.Scheme.Modules`/`SheafOfModules` spelling. Stating the split equation
@@ -174,7 +174,7 @@ theorem isZero_hgroup_of_isZero_hgroup_pi (n : ℕ) (F : X.Modules) (k : ℕ)
     IsZero (Hgroup X.ringCatSheaf ⊤ n F) :=
   isZero_obj_of_isZero_obj_of_retraction (Hfunctor X.ringCatSheaf ⊤ n)
     (Pi.lift (fun _ : Fin (k + 1) => 𝟙 F)) (Pi.π (fun _ : Fin (k + 1) => F) 0)
-    (Pi.lift_π (fun _ : Fin (k + 1) => 𝟙 F) 0) h
+    (Pi.lift_comp_π (fun _ : Fin (k + 1) => 𝟙 F) 0) h
 
 /-- Higher cohomology of a direct image from an affine scheme along an affine morphism vanishes. -/
 theorem isZero_hgroup_pushforward_of_isAffine {Y : Scheme.{u}} (f : Y ⟶ X) [IsAffineHom f]

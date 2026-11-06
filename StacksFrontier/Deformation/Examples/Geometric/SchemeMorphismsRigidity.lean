@@ -125,9 +125,9 @@ theorem infinitesimalAutomorphisms_schemeMorphismDeformation_eq_bot
   rw [Subgroup.eq_bot_iff_forall]
   intro a _
   obtain ⟨y, rfl⟩ := xε
-  exact Iso.ext <| Functor.Fiber.hom_ext <|
-    schemeMorphismDeformation_hom_eq_id_of_derivations f pX pY hf hX hY y iε a.hom.1
-      (map_eq_id_of_isHomLift_id a.hom.1 a.hom.2)
+  exact Aut.ext <| Iso.ext <| Functor.Fiber.hom_ext <|
+    schemeMorphismDeformation_hom_eq_id_of_derivations f pX pY hf hX hY y iε a.asIso.hom.1
+      (map_eq_id_of_isHomLift_id a.asIso.hom.1 a.asIso.hom.2)
 
 end Deformation.Examples
 

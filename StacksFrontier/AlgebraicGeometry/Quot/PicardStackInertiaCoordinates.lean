@@ -263,9 +263,9 @@ def PicardObject.unitsSMulAut (A : PicardObject s)
     (u : (Scheme.Γ.obj (op ((BigFppfOver.toScheme B S hS).obj A.T.left)))ˣ) :
     A.lineBundle ≅ A.lineBundle where
   hom := (globalFunctionSMul B S hS (s.baseChange A.T)
-    (baseChangeGlobalFunctions s.f A.T u)).app A.lineBundle
+    (baseChangeGlobalFunctions s.f A.T u)).asHom.app A.lineBundle
   inv := (globalFunctionSMul B S hS (s.baseChange A.T)
-    (baseChangeGlobalFunctions s.f A.T ↑u⁻¹)).app A.lineBundle
+    (baseChangeGlobalFunctions s.f A.T ↑u⁻¹)).asHom.app A.lineBundle
   hom_inv_id := by
     rw [globalFunctionSMul_app_comp _ _ _ (baseChangeGlobalFunctions s.f A.T (↑u⁻¹ * ↑u))
       (baseChangeGlobalFunctions_val_mul s.f A.T _ _)]
@@ -282,9 +282,9 @@ an invertible module of `X_T` are equal. -/
 private theorem eq_of_globalFunctionSMul_app_eq (h : s.StructureSheafMapIso) (A : PicardObject s)
     {a b : Scheme.Γ.obj (op ((BigFppfOver.toScheme B S hS).obj A.T.left))}
     (hab : (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T a)).app A.lineBundle =
+        (baseChangeGlobalFunctions s.f A.T a)).asHom.app A.lineBundle =
       (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T b)).app A.lineBundle) : a = b :=
+        (baseChangeGlobalFunctions s.f A.T b)).asHom.app A.lineBundle) : a = b :=
   (bijective_baseChangeGlobalFunctions h A.T).1
     (globalFunctionSMul_injective_of_isInvertibleModule (s.baseChange A.T) A.lineBundle
       A.invertible hab)
@@ -295,7 +295,7 @@ theorem PicardObject.unitsSMulAut_bijective (h : s.StructureSheafMapIso) (A : Pi
     Function.Bijective A.unitsSMulAut := by
   have hπ := (bijective_baseChangeGlobalFunctions h A.T).2
   have hex : ∀ f : A.lineBundle ⟶ A.lineBundle, ∃ c, f = (globalFunctionSMul B S hS
-      (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T c)).app A.lineBundle := fun f ↦ by
+      (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T c)).asHom.app A.lineBundle := fun f ↦ by
     obtain ⟨b, hb⟩ := exists_eq_globalFunctionSMul_of_isInvertibleModule (s.baseChange A.T)
       A.lineBundle A.invertible f
     obtain ⟨c, hc⟩ := hπ b
@@ -361,12 +361,12 @@ theorem PicardHom.comp_unitsSMulAut_iff (h : s.StructureSheafMapIso) {A C : Pica
     (globalFunctionsCompatible_baseChangeGlobalFunctions s.f m.base (w : _)) C.lineBundle
   have hnat := (globalFunctionSMul B S hS (baseChangeSpace s.f A.T)
     (baseChangeGlobalFunctions s.f A.T
-      ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))).naturality
+      ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))).asHom.naturality
       m.fibre
   have e : (modulePullback B S hS (baseChangeMap s.f m.base)).map (C.unitsSMulAut w).hom ≫
       m.fibre = m.fibre ≫ (globalFunctionSMul B S hS (baseChangeSpace s.f A.T)
         (baseChangeGlobalFunctions s.f A.T
-          ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))).app
+          ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))).asHom.app
             A.lineBundle :=
     (congrArg (fun k ↦ k ≫ m.fibre) hpull).trans hnat.symm
   rw [e]
@@ -417,7 +417,7 @@ an object over `T` it is `AlgebraicGeometry.Space.PicardObject.autEquivMultiplic
 -/
 def multiplicativeGroupCoordinates (h : s.StructureSheafMapIso) :
     (picardCategoryData (modulePushforwardCoherence B S hS) s).MultiplicativeGroupCoordinates where
-  equiv A := A.autEquivMultiplicativeGroupPoints h
+  equiv A := Aut.isoEquiv.trans (A.autEquivMultiplicativeGroupPoints h)
   comm {A C} m v w := by
     let : Category.{u + 1} (PicardObject s) :=
       (picardCategoryData (modulePushforwardCoherence B S hS) s).category
@@ -434,13 +434,12 @@ def multiplicativeGroupCoordinates (h : s.StructureSheafMapIso) :
         (x : (picardCategoryData (modulePushforwardCoherence B S hS) s).siteProjection.VerticalAut
           D),
         (picardCategoryData (modulePushforwardCoherence B S hS) s).verticalAutEquivAut D x =
-          verticalEquivAut (modulePushforwardCoherence B S hS) D
+          Aut.of (verticalEquivAut (modulePushforwardCoherence B S hS) D
             ((picardCategoryData (modulePushforwardCoherence B S hS) s).verticalAutEquivVertical
-              D x) := fun x ↦ by
-      rw [PicardCategoryData.verticalAutEquivAut]
-      exact Equiv.trans_apply _ _ _
+              D x)) := fun _ ↦ rfl
     rw [e, e]
-    rwa [← hv, ← hw] at key
+    rw [← hv, ← hw] at key
+    exact key
 
 /-- For the category of Section 0372 and under the hypothesis of Stacks 0375, the coordinates of
 Stacks 0375 are compatible with the composition of `Picardstack_{X/B}`, as in Stacks 0DNH. -/

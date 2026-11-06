@@ -40,6 +40,14 @@ namespace AlgebraicGeometry.GaloisSheaf
 
 variable {K : Type u} [Field K]
 
+/-- The absolute Galois group is locally compact, being compact and Hausdorff (instance search
+does not find this within its budget). -/
+instance : LocallyCompactSpace (galoisGroup K) :=
+  haveI : R1Space (galoisGroup K) := T2Space.r1Space (X := galoisGroup K)
+  haveI : WeaklyLocallyCompactSpace (galoisGroup K) :=
+    ⟨fun _ ↦ ⟨Set.univ, isCompact_univ, Filter.univ_mem⟩⟩
+  WeaklyLocallyCompactSpace.locallyCompactSpace (X := galoisGroup K)
+
 /-! ### The geometric points of `Spec Kˢᵉᵖ` -/
 
 /-- The geometric point `Spec Kˢᵉᵖ` is affine. -/
@@ -110,8 +118,7 @@ lemma pointHomeomorph_apply (g : galoisGroup K) : pointHomeomorph g = g • unit
 /-- The inverse of `pointHomeomorph` is equivariant for left multiplication. -/
 lemma pointHomeomorph_symm_smul (g : galoisGroup K) (φ : GeomPt K (pointObj K)) :
     pointHomeomorph.symm (g • φ) = g * pointHomeomorph.symm φ := by
-  apply pointHomeomorph.injective
-  rw [Homeomorph.apply_symm_apply, pointHomeomorph_apply, mul_smul, ← pointHomeomorph_apply,
+  rw [Homeomorph.symm_apply_eq, pointHomeomorph_apply, mul_smul, ← pointHomeomorph_apply,
     Homeomorph.apply_symm_apply]
 
 end GeomPt
@@ -216,7 +223,7 @@ private lemma repAbSheaf_section_eq_iff {Y : TopRep.{w} Λ (galoisGroup K)} {V :
     {z z' : ToType (((repAbSheaf Λ).obj Y).obj.obj (op V))} :
     z = z' ↔ ∀ φ : GeomPt K V, z.down.1 φ = z'.down.1 φ :=
   ⟨fun h φ ↦ congrArg (fun w : ToType (((repAbSheaf Λ).obj Y).obj.obj (op V)) ↦ w.down.1 φ) h,
-    fun h ↦ ULift.ext _ _ (Subtype.ext (funext h))⟩
+    fun h ↦ ULift.ext (Subtype.ext (funext h))⟩
 
 /-- The action of a product is the composite of the actions. -/
 lemma TopRep_ρ_mul_apply (Y : TopRep.{w} Λ (galoisGroup K)) (g h : galoisGroup K) (y : Y) :
@@ -230,6 +237,7 @@ lemma TopRep_ρ_apply_inv_apply (Y : TopRep.{w} Λ (galoisGroup K)) (g : galoisG
   rw [← TopRep_ρ_mul_apply, mul_inv_cancel, map_one]
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- **Local splitting.** Let `Y₁ ⟶ Y₂ ⟶ Y₃` be a complex of topological representations whose
 first two terms have jointly continuous actions, and suppose that a continuous function
 `s : Y₂ → Y₁` splits the first map on the kernel of the second. Then the induced complex of
@@ -265,8 +273,9 @@ theorem exact_repAbSheaf
       rw [hγ, hzg, mul_inv_rev, TopRep_ρ_mul_apply Y₂ (γ ψ)⁻¹ g⁻¹, ← TopRep_ρ_mul_apply Y₂ g⁻¹ g,
         inv_mul_cancel, map_one, TopRep_ρ_mul_apply Y₁]
       rfl
-    · have hγc : Continuous fun φ ↦ γ (GeomPt.map c φ) :=
-        GeomPt.pointHomeomorph.symm.continuous.comp
+    · have hγc : Continuous fun φ ↦ γ (GeomPt.map c φ) := by
+        show Continuous fun φ ↦ GeomPt.pointHomeomorph.symm (GeomPt.map t (GeomPt.map c φ))
+        exact GeomPt.pointHomeomorph.symm.continuous.comp
           ((GeomPt.continuous_map t).comp (GeomPt.continuous_map c))
       have hzc : Continuous fun φ ↦ z.down.1 (GeomPt.map p (GeomPt.map c φ)) := by
         convert z.down.2.2 A (c ≫ p) hA using 1

@@ -129,7 +129,7 @@ private noncomputable def tensorSwapIso {R : Sheaf J CommRingCat.{w}}
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} R).obj G).obj F :=
   letI : SymmetricCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.symmetricCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)
   (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).mapIso
       (β_ F.val G.val)
@@ -147,7 +147,7 @@ private lemma tensorSwap_naturality {R : Sheaf J CommRingCat.{w}}
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} R).obj _).map f) := by
   let _ : SymmetricCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
-    PresheafOfModules.symmetricCategory (R := R.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)
   let sh := PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
   refine (congrArg (fun morphism ↦ morphism ≫ (tensorSwapIso F' G').hom)
@@ -262,7 +262,7 @@ noncomputable def tensorOverIso (O : Sheaf J CommRingCat.{w}) (U : C)
   let L := presheafRestriction R.obj U
   let pf := PresheafOfModules.pushforward₀OfCommRingCat.{w} (Over.forget U) O.obj
   letI : MonoidalCategory (PresheafOfModules.{w} (R.over U).obj) :=
-    PresheafOfModules.monoidalCategory (R := (Over.forget U).op ⋙ O.obj)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := (Over.forget U).op ⋙ O.obj)
   let f := sheafificationUnit (R := R.over U) ((F.over U).val ⊗ (G.over U).val)
   let g := L.map (sheafificationUnit (R := R) (F.val ⊗ G.val))
   let e : (F.over U).val ⊗ (G.over U).val ≅ L.obj (F.val ⊗ G.val) :=

@@ -185,7 +185,7 @@ theorem imageY_inf_compl
       htY
     rw [← hbc] at hmem
     obtain ⟨x, hx⟩ := hmem
-    exact ⟨x, by rw [FunctorToTypes.comp, hx]; rfl⟩
+    exact ⟨x, by rw [NatTrans.comp_app_apply, hx]; rfl⟩
   · rintro ⟨x, rfl⟩
     have hmem : u.app V x ∈ (Subfunctor.range u).obj V := ⟨x, rfl⟩
     rw [hbc] at hmem

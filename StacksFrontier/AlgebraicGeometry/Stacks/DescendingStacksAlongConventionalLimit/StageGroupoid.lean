@@ -118,6 +118,24 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
     [Nonempty I] (C : ConventionalStackDescentSystem B S hS hZ I)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_stageGroupoid :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_stageGroupoid
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance hasPullbacks_over_presheaf_stageGroupoid
+    (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : HasPullbacks (Over X) := inferInstance
+
+local instance (priority := high) hasPullback_over_presheaf_stageGroupoid
+    {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {Y Z W : Over X} (f : Y ⟶ W) (g : Z ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {C} (G : GroupoidInAlgebraicSpaces B S hS C.limitSpace)
 
 namespace StageMaps

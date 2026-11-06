@@ -170,7 +170,7 @@ def isLimitToSchemeAdjoinSiteCone (hZ : B.Contains (⊤_ Scheme.{u})) (A : Type 
 def isLimitMapConeExtendOfIsIso {J C D : Type*} [Category* J] [Category* C] [Category* D]
     (F : C ⥤ D) {K : J ⥤ C} (c : Cone K) {X : C} (e : X ≅ c.pt)
     (h : IsLimit (F.mapCone c)) : IsLimit (F.mapCone (c.extend e.hom)) :=
-  (IsLimit.extendIso (F.map e.hom) h).ofIsoLimit (Cones.ext (Iso.refl _) fun j => by simp)
+  (IsLimit.extendIso (F.map e.hom) h).ofIsoLimit (Cone.ext (Iso.refl _) fun j => by simp)
 
 /-- A cartesian square whose top morphism ends with an isomorphism `i` stays cartesian when `i` is
 moved to the bottom-left morphism. -/

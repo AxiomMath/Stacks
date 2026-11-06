@@ -296,15 +296,13 @@ theorem noetherPairing_flip_baseChange_bijective_iff_away
   refine pairing_flip_baseChange_bijective_iff
     (noetherPairing F) (noetherPairing G) i jmap hi hjmap fun ω j₀ => ?_
   let eJ := diagonalAnnihilatorBaseChangeEquiv F
-  have he0 : eJ 0 = 0 := map_zero eJ
-  have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => map_add eJ z t
+  have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => eJ.map_add z t
   induction ω using dualizingModule.induction_on generalizing j₀ with
   | zero => simp
   | add ω η hω hη => simp [hω, hη]
   | tmul f y₀ =>
       obtain ⟨z, rfl⟩ := eJ.surjective j₀
-      induction z using TensorProduct.induction_on with
-      | zero => rw [he0, map_zero, map_zero, map_zero, map_zero]
+      induction z using TensorProduct.inductionOn with
       | add z t hz ht => rw [headd, map_add, map_add, map_add, map_add, hz, ht]
       | tmul y j' =>
           have hi' : i (dualizingModule.tmul F f y₀) =

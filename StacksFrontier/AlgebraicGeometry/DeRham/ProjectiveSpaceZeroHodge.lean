@@ -217,7 +217,7 @@ theorem isZero_projectiveForms_of_lt {p : ℕ} (hp : n < p) : IsZero (projective
         (Scheme.Modules.isExteriorAlgebra_exteriorAlgebra _) p x).toEquiv
       (@exteriorPower.subsingleton_of_span_eq_top_of_card_lt
         (projStalk A 0 x) _ _ _ (moduleStalkProjDifferentials A 0 x)
-        {j : Fin (0 + 1) // j ≠ i} _ _
+        {j : Fin (0 + 1) // j ≠ i} _
         (fun j ↦ chartDiffGerm A 0 x i hxi j.1)
         (span_range_chartDiffGerm_eq_top A 0 x i hxi hxi) p hcard)
   · exact Stacks.AlgebraicGeometry.ProjectiveSpaceForms.isZero_relativeDifferentialForms_of_lt m p

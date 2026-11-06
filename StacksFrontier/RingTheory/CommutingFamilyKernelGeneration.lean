@@ -128,7 +128,7 @@ theorem exists_ker_le_iSup_map_ker [IsNoetherianRing R] [∀ n, Module.Finite R 
   set sh : Fin (r + 1) → Module.End R (⨁ n, M n) := fun i => shift (τ i) with hsh
   set 𝔄 := Algebra.adjoin R (Set.range sh)
   have : IsMulCommutative 𝔄 := Algebra.isMulCommutative_adjoin R <| by
-    rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩
+    rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ -
     exact shift_mul_shift_comm (τ j) (τ i) (hcomm j i)
   let : CommRing 𝔄 := { (inferInstance : Ring 𝔄) with mul_comm := mul_comm' }
   let φ : MvPolynomial (Fin (r + 1)) R →ₐ[R] 𝔄 :=

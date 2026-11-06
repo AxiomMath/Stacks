@@ -79,7 +79,7 @@ private theorem map_piLift_comp_piComparison
     H.map (Pi.lift w) ≫ piComparison H Y = Pi.lift (fun n ↦ H.map (w n)) := by
   apply Pi.hom_ext
   intro n
-  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
 
 /-- The comparison morphism `H(∏ Yₙ) ⟶ ∏ H(Yₙ)` conjugates the map `1 - shift` of an inverse
 system into the map `1 - shift` of the inverse system of the images. -/
@@ -97,7 +97,7 @@ private theorem map_piLift_sub_comp_piComparison
   rw [map_piLift_comp_piComparison]
   apply Pi.hom_ext
   intro n
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, H.map_sub, H.map_comp, ← Category.assoc,
     piComparison_comp_π]
 

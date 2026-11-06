@@ -115,6 +115,14 @@ def comapHomOfIso :
 
 end Generic
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_RelativeProjPointBaseChange
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (s : RelativeProjSituation.{u, m}) {X' : AlgebraicSpaces s.site s.base s.containsBase}
   (g : X' ⟶ s.space)
 

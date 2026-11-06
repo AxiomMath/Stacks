@@ -411,7 +411,8 @@ private theorem isDerivedCompleteModule_of_pow_le_annihilator (I : Ideal A) (n :
   rw [isDerivedCompleteAt_single_iff_isIso_oneSubSmulShift,
     ← isDerivedCompleteAt_iff_isIso]
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow]
+  ext1
+  rw [smul_id_pow, End.zero_asHom]
   exact (smul_id_eq_zero_iff_mem_annihilator N (a ^ n)).2 (h (Ideal.pow_mem_pow ha n))
 
 /-- If a power of `I` annihilates `M`, then `RΓ_{V(J)}(M)` is derived `I`-complete. -/

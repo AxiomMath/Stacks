@@ -169,7 +169,7 @@ theorem exists_isCutOutBy_descentSubfunctor_of_isCutOutBy (W : SmallEtale B S hS
         (fun i => by have := hπ i; infer_instance) hcov fun i => ?_
       have e : Y.1.map (π i).op (Y.1.map qs.op (yonedaEquiv W.1.hom)) =
           Y.1.map (π i ≫ qs).op (yonedaEquiv W.1.hom) := by
-        rw [op_comp, FunctorToTypes.map_comp_apply]
+        rw [op_comp, Functor.map_comp_apply]
       rw [e]
       exact (hcut (V i) (hVaff i) (π i ≫ qs)).2 ((hfac (V i) (hVaff i) _).2 ⟨π i, rfl⟩)
     have h' : IsUniversallyFreeBottom (pushforwardComplex f E) 0 r

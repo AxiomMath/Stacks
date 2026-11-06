@@ -99,14 +99,14 @@ noncomputable def higherDirectImagesComparison {X Y Z : RingedSpace.{u}}
       (pushforward f).rightDerivedFunctorPlus ⋙
         (pushforward g).rightDerivedFunctorPlus :=
   (pushforward (f ≫ g)).rightDerivedFunctorPlus.rightDerivedDesc
-    (pushforward (f ≫ g)).rightDerivedFunctorPlusUnit
+    (pushforward (f ≫ g)).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (Modules X)) _
     (Functor.whiskerRight
           (Functor.mapHomotopyCategoryPlusCompIso (pushforwardComp f g).symm).inv
           DerivedCategory.Plus.Qh ≫
       Functor.whiskerLeft (pushforward f).mapHomotopyCategoryPlus
-        (pushforward g).rightDerivedFunctorPlusUnit ≫
-      Functor.whiskerRight (pushforward f).rightDerivedFunctorPlusUnit
+        (pushforward g).rightDerivedFunctorPlusUnith ≫
+      Functor.whiskerRight (pushforward f).rightDerivedFunctorPlusUnith
         (pushforward g).rightDerivedFunctorPlus)
 
 universe wA wB
@@ -184,7 +184,7 @@ private instance evaluation_hasRightDerivedFunctor (X : RingedSpace.{u, u})
     Stacks.Cohomology.FlasqueAcyclic.evaluation_additive
       (structureSheafRing X) (op V)
   exact Functor.HasRightDerivedFunctor.mk' ev.rightDerivedFunctorPlus
-    ev.rightDerivedFunctorPlusUnit
+    ev.rightDerivedFunctorPlusUnith
 
 private theorem pushforward_rightDerived_positive_of_injective
     {X Y Z : RingedSpace.{u, u}}
@@ -288,27 +288,27 @@ theorem higherDirectImagesComparison_isIso {X Y Z : RingedSpace.{u}}
   let : PreservesFiniteLimits G := inferInstance
   let : (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso (Modules Y)) :=
-    Functor.HasRightDerivedFunctor.mk' G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnit
+    Functor.HasRightDerivedFunctor.mk' G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
   let W' := HomotopyCategory.Plus.quasiIso (Modules X)
   let eKC :=
     (Functor.mapHomotopyCategoryPlusCompIso (pushforwardComp f g).symm).symm ≪≫
       Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))
   let eK := Functor.isoWhiskerRight eKC (DerivedCategory.Plus.Qh)
   let eR := Functor.rightDerivedNatIso P.rightDerivedFunctorPlus
-    (F ⋙ G).rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnit
-    (F ⋙ G).rightDerivedFunctorPlusUnit W' eK
+    (F ⋙ G).rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnith
+    (F ⋙ G).rightDerivedFunctorPlusUnith W' eK
   let β₀ : (F ⋙ G).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙
         (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus) := Functor.whiskerRight
       (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv
       (DerivedCategory.Plus.Qh) ≫
-    Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus
+    Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus
   let t₀ : (F ⋙ G).rightDerivedFunctorPlus ⟶
       F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus :=
     (F ⋙ G).rightDerivedFunctorPlus.rightDerivedDesc
-      (F ⋙ G).rightDerivedFunctorPlusUnit W' _ β₀
-  have ht₀ : (F ⋙ G).rightDerivedFunctorPlusUnit ≫
+      (F ⋙ G).rightDerivedFunctorPlusUnith W' _ β₀
+  have ht₀ : (F ⋙ G).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh t₀ = β₀ :=
     Functor.rightDerived_fac _ _ _ _ _
   have ht₀iso : IsIso t₀ :=
@@ -316,24 +316,24 @@ theorem higherDirectImagesComparison_isIso {X Y Z : RingedSpace.{u}}
       pushforward_rightAcyclic_of_injective f g I
   have hcomp : higherDirectImagesComparison f g = eR.hom ≫ t₀ := by
     apply Functor.rightDerived_ext P.rightDerivedFunctorPlus
-      P.rightDerivedFunctorPlusUnit W' _ _ _
+      P.rightDerivedFunctorPlusUnith W' _ _ _
     calc
-      P.rightDerivedFunctorPlusUnit ≫ Functor.whiskerLeft DerivedCategory.Plus.Qh
+      P.rightDerivedFunctorPlusUnith ≫ Functor.whiskerLeft DerivedCategory.Plus.Qh
           (higherDirectImagesComparison f g) =
         Functor.whiskerRight
             (Functor.mapHomotopyCategoryPlusCompIso (pushforwardComp f g).symm).inv
             DerivedCategory.Plus.Qh ≫
-          Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-          Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus :=
+          Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+          Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus :=
         Functor.rightDerived_fac _ _ _ _ _
       _ = eK.hom ≫ β₀ := by
         dsimp [β₀, eK, eKC]
         cat_disch
       _ = eK.hom ≫
-          ((F ⋙ G).rightDerivedFunctorPlusUnit ≫
+          ((F ⋙ G).rightDerivedFunctorPlusUnith ≫
             Functor.whiskerLeft DerivedCategory.Plus.Qh t₀) := by
         rw [← ht₀]
-      _ = P.rightDerivedFunctorPlusUnit ≫
+      _ = P.rightDerivedFunctorPlusUnith ≫
           Functor.whiskerLeft DerivedCategory.Plus.Qh (eR.hom ≫ t₀) := by
         simp [eR, Functor.whiskerLeft_comp]
   rw [hcomp]

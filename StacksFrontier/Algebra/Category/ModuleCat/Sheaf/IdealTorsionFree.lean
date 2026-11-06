@@ -197,7 +197,7 @@ private noncomputable def tensorUnitIso (F : SheafOfModules.{u} Oₓ) :
       ⟨X.presheaf, X.IsSheaf⟩).obj (𝒪)).obj (F)) ≅ F := by
   letI : MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.TensorStalkRingedSpace.O X))
     :=
-    PresheafOfModules.monoidalCategory
+    PresheafOfModulesOfCommRing.monoidalCategory
   let e : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj (𝒪)).obj (F)) ≅ F := by
     change (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
@@ -216,7 +216,7 @@ public noncomputable def idealTensorMultiplication
       ⟨X.presheaf, X.IsSheaf⟩).obj (I)).obj (F)) ⟶ F := by
   letI : MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.TensorStalkRingedSpace.O X))
     :=
-    PresheafOfModules.monoidalCategory
+    PresheafOfModulesOfCommRing.monoidalCategory
   let e : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj 𝒪).obj F ≅ F := by
     change (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
@@ -1100,7 +1100,7 @@ private lemma restrictScalars_original_smul {R S : Type*} [Ring R] [Ring S]
     (letI : Module S ((ModuleCat.restrictScalars f).obj M) :=
       ModuleCat.instModuleCarrierObjRestrictScalars
      r • (show (ModuleCat.restrictScalars f).obj M from m)) =
-      (M.smul r).hom m :=
+      (M.smul r).asHom m :=
   rfl
 
 private lemma isGeneratorRegularOn_of_isIdealTorsionFree
@@ -1199,7 +1199,7 @@ private lemma idealSection_pow_smul_eq_zero
       (z : (ModuleCat.restrictScalars fId).obj (F.val.obj (op W))) :
       eF.hom z = z := rfl
   simp only [eF_hom_id] at hkill₁
-  show ((F.val.obj (op W)).smul (idealSection X i (op W) fW ^ n)).hom sW = 0
+  show ((F.val.obj (op W)).smul (idealSection X i (op W) fW ^ n)).asHom sW = 0
   have hmap : (F.val.map (𝟙 (op W))).hom sW = sW := by
     simp [PresheafOfModules.map_id, ModuleCat.restrictScalarsId'_inv_app]
     rfl

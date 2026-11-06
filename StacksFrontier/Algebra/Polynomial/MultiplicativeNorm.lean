@@ -78,7 +78,7 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
     (h10 : MvPolynomial.eval (fun k : Fin 2 => if k = 0 then 1 else 0) P = 1) :
     (charPolyOf P).Monic ∧ (charPolyOf P).natDegree = N := by
   classical
-  have hexp : charPolyOf P = ∑ s ∈ P.support, C (MvPolynomial.coeff s P) * (-X) ^ (s 0) := by
+  have hexp : charPolyOf P = ∑ s ∈ P.support, C (P.coeff s) * (-X) ^ (s 0) := by
     rw [charPolyOf, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq']
     refine sum_congr rfl fun s _ => ?_
     rw [Fin.prod_univ_two, if_pos rfl, if_neg (by decide), one_pow, mul_one,
@@ -87,7 +87,7 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
     intro s hs
     have := hP (MvPolynomial.mem_support_iff.mp hs)
     simpa [Finsupp.weight_apply, Finsupp.sum_fintype, Fin.sum_univ_two] using this
-  have hcoeffN : MvPolynomial.coeff (Finsupp.single 0 N) P = 1 := by
+  have hcoeffN : P.coeff (Finsupp.single 0 N) = 1 := by
     rw [← h10, MvPolynomial.eval_eq']
     rw [sum_eq_single (Finsupp.single 0 N)]
     · simp [Fin.prod_univ_two]
@@ -107,7 +107,7 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
     intro q e
     rw [neg_pow, C_mul, C_pow, C_neg, C_1, mul_assoc]
   have hdeg : ∀ s ∈ P.support,
-      (C (MvPolynomial.coeff s P) * (-X : ℚ[X]) ^ (s 0)).natDegree ≤ N := by
+      (C (P.coeff s) * (-X : ℚ[X]) ^ (s 0)).natDegree ≤ N := by
     intro s hs
     rw [hterm]
     refine (natDegree_C_mul_le _ _).trans ?_

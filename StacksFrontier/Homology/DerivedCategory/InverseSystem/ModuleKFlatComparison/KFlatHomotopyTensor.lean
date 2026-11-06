@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.ModuleCat.AB
 public import Mathlib.Algebra.Category.ModuleCat.LeftResolution
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Free
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Generator
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Limits
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Monoidal

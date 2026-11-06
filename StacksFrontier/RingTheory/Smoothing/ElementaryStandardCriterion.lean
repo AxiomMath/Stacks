@@ -140,8 +140,7 @@ theorem standardCond2_pow_of_pow_mul_mem_firstRelIdeal (P : Presentation R A) {a
     exact Ideal.mul_mem_mul (sub_mem_relIdeal_of_presentationLift_eq P (by rw [hlift, hαe]))
       (Ideal.subset_span ⟨_, rfl⟩)
   convert Ideal.add_mem _ (Submodule.mem_sup_left hfirst) (Submodule.mem_sup_right hsq) using 1
-  · rfl
-  · ring
+  ring
 
 /-- The criterion. Suppose `P` is a presentation of `A` over `R`, `c ≤ min (P.n) (P.m)`, and
 `α` is a lift of `a`. If the element of `A` represented by the principal `c × c` Jacobian minor

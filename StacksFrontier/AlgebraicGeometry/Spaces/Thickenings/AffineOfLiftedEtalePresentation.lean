@@ -116,6 +116,17 @@ section
 
 variable {B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_AffineOfLiftedEtalePresentation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_AffineOfLiftedEtalePresentation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The base change to an affine chart `V` of the inclusion of a thickening is affine. -/
 theorem isAffine_of_isPullback_isThickening {X : AlgebraicSpaces B S hS} {G : Subfunctor X.1}
     (hG : IsThickening B S hS X G) {V U : BigFppfOver B S hS}

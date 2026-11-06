@@ -204,7 +204,7 @@ private theorem exists_finite_free_lift
     show Finsupp.subtypeDomain _ (b.repr (b.repr.symm (Finsupp.mapDomain Subtype.val v))) = v
     rw [LinearEquiv.apply_symm_apply]
     ext i
-    exact Finsupp.mapDomain_apply Subtype.val_injective v i
+    exact Finsupp.mapDomain_apply_of_injective Subtype.val_injective v i
   · apply LinearMap.ext
     intro m
     apply b.repr.injective

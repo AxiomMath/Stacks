@@ -126,7 +126,6 @@ theorem isLocalCompleteIntersectionRing_of_faithfullyFlat (R : Type u) (S : Type
   have : P.asIdeal.LiesOver p := ⟨(congrArg PrimeSpectrum.asIdeal hP).symm⟩
   let _ : Algebra (Localization.AtPrime p) (Localization.AtPrime P.asIdeal) :=
     Localization.AtPrime.algebraOfLiesOver p P.asIdeal
-  let _ : Localization.AtPrime.IsLiesOverAlgebra p P.asIdeal := ⟨rfl⟩
   let _ : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime P.asIdeal)) :=
     Localization.isLocalHom_localRingHom p P.asIdeal (algebraMap R S) Ideal.LiesOver.over
   exact isCompleteIntersectionRing_of_flat (Localization.AtPrime p)

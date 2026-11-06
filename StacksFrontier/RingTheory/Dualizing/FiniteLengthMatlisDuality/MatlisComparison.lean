@@ -592,11 +592,11 @@ private lemma finiteLength_restrictScalars_ringEquiv
     isFiniteLength_iff_isNoetherian_isArtinian]
   constructor
   · intro h
-    exact ⟨isNoetherian_mk ⟨q.dual.toOrderEmbedding.wellFounded h.1.wf⟩,
-      ⟨q.toOrderEmbedding.wellFounded h.2.wf⟩⟩
+    exact ⟨isNoetherian_mk (q.dual.toOrderEmbedding.wellFounded h.1.wf),
+      q.toOrderEmbedding.wellFounded h.2⟩
   · intro h
-    exact ⟨isNoetherian_mk ⟨q.symm.dual.toOrderEmbedding.wellFounded h.1.wf⟩,
-      ⟨q.symm.toOrderEmbedding.wellFounded h.2.wf⟩⟩
+    exact ⟨isNoetherian_mk (q.symm.dual.toOrderEmbedding.wellFounded h.1.wf),
+      q.symm.toOrderEmbedding.wellFounded h.2⟩
 
 private noncomputable def finiteLengthRingEquiv
     {R : Type u} {S : Type u'} [CommRing R] [CommRing S]

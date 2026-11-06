@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.ModuleEmbedding.Opposite
+public import Mathlib.CategoryTheory.Generator.Abelian
 public import StacksFrontier.Homology.Injectives.Sheaf.EpiTopologyEmbedding
 import StacksCore.Tactic.StacksAttribute
 

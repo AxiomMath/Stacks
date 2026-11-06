@@ -59,7 +59,7 @@ variable {R : Type u} [Ring R] {G : Type v} [Group G] [TopologicalSpace G]
 continuous `G`-action. -/
 def finiteTypeContinuousModuleIsoMk {M N : FiniteTypeContinuousModule.{u, v, w} R G}
     (e : M.obj.obj.obj.V ≃ₗ[R] N.obj.obj.obj.V)
-    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).hom x) = (N.obj.obj.obj.ρ g).hom (e x)) : M ≅ N where
+    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).asHom.hom x) = (N.obj.obj.obj.ρ g).asHom.hom (e x)) : M ≅ N where
   hom := ObjectProperty.homMk ((Stacks.GroupCohomology.homEquiv R G _ _).symm ⟨e.toLinearMap, he⟩)
   inv := ObjectProperty.homMk ((Stacks.GroupCohomology.homEquiv R G _ _).symm
     ⟨e.symm.toLinearMap, fun g y ↦ e.injective (by
@@ -77,7 +77,7 @@ def finiteTypeContinuousModuleIsoMk {M N : FiniteTypeContinuousModule.{u, v, w} 
 is `e`. -/
 lemma finiteTypeContinuousModuleIsoMk_hom {M N : FiniteTypeContinuousModule.{u, v, w} R G}
     (e : M.obj.obj.obj.V ≃ₗ[R] N.obj.obj.obj.V)
-    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).hom x) = (N.obj.obj.obj.ρ g).hom (e x)) :
+    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).asHom.hom x) = (N.obj.obj.obj.ρ g).asHom.hom (e x)) :
     (finiteTypeContinuousModuleIsoMk e he).hom.hom.hom.hom.hom.hom = e.toLinearMap :=
   rfl
 
@@ -97,7 +97,7 @@ lemma representation_eq_one_of_ρ_eq_one (M : FiniteTypeContinuousModule.{u, v, 
     finiteTypeContinuousModuleRepresentation R G M h = 1 :=
   LinearMap.ext fun m ↦ by
     rw [finiteTypeContinuousModuleRepresentation_apply, Module.End.one_apply]
-    exact (congrArg (fun φ ↦ ModuleCat.Hom.hom φ m) (hH h hh)).trans rfl
+    exact (congrArg (fun φ : End _ ↦ ModuleCat.Hom.hom φ.asHom m) (hH h hh)).trans rfl
 
 variable {R H} in
 /-- The action of a coset `x = gH` on a module on which `H` acts trivially: `ρ(g)`. -/

@@ -162,7 +162,6 @@ theorem exists_single_counit (F w : A ⥤ Bc) [F.Additive] [w.Additive] (hF : F 
   rw [singleFunctorIsoCompQh_inv_app]
   refine (quotientCompQhIso_shape _ _ _ _ _ (complex_counit_comp F P mp adjT adjM a)).trans ?_
   simp only [Functor.mapIso_hom, Iso.trans_hom, Functor.map_comp, Iso.app_hom, asIso_hom, τ]
-  rfl
 
 
 /-- Bookkeeping shape for `exists_single_counit_comparison`. -/

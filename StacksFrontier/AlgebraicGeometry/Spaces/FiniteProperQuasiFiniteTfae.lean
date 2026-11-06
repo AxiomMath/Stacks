@@ -65,6 +65,13 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_finiteProperQuasiFiniteTfae
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0A4X**, the four conditions collected as a `List.TFAE`. For a morphism
 `f : X ⟶ Y` of algebraic spaces over `S` the following are equivalent: `f` is finite; `f` is
 proper and locally quasi-finite; `f` is proper and the point space of its fibre over every

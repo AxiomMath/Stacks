@@ -71,6 +71,11 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+local instance (priority := high) hasLimit_cospan_presheaf_UniversallyClosedValuative
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- **A valuation subring realizing a specialization along a morphism to a local spectrum.**
 Let `t : V ⟶ Spec R` be a morphism of schemes with `R` a local ring, let `g : Spec L ⟶ V` be
 a field-valued point of `V` whose image specializes to `z`, and assume `t z` is the closed

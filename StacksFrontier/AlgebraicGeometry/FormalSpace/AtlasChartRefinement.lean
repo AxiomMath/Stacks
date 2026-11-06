@@ -131,7 +131,7 @@ theorem exists_affineEtaleFamily_over_chart_of_atlas
   have := (Sheaf.isLocallySurjective_iff_epi _).mp
     (Sheaf.isLocallySurjective_sigmaDesc_pullback_snd g fi hcover)
   rw [← hcomp]
-  exact (Sheaf.isLocallySurjective_iff_epi _).mpr inferInstance
+  exact (Sheaf.isLocallySurjective_iff_epi _).mpr (epi_comp e _)
 
 end AlgebraicGeometry.FormalSpace
 

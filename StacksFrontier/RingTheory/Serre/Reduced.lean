@@ -1,6 +1,7 @@
 module
 
 import Mathlib.RingTheory.Etale.Weakly
+public import Mathlib.RingTheory.Ideal.Height
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit

@@ -165,7 +165,8 @@ theorem mem_irreducibleComponents_of_maximal_subset_preimage
   obtain ⟨⟨⟨C', hC'⟩, hcC'⟩, hmap⟩ :=
     surjective_componentOfChartComponent B S hS hX hdec W c ⟨⟨T, hT⟩, hCsub hcC⟩
   have hgen : closure ({chartSchemeToPoints B S hS X W
-        (genericPoints.ofComponent (⟨C', hC'⟩ : irreducibleComponents (chartScheme W))).1} :
+                          (genericPoints.ofComponent
+                            (⟨C', hC'⟩ : irreducibleComponents (chartScheme W))).1} :
       Set (points B S hS X)) = T := by
     rw [← coe_componentOfChartComponent B S hS hX hdec W c ⟨⟨C', hC'⟩, hcC'⟩]
     exact congrArg (fun V => (V.1.1 : Set (points B S hS X))) hmap

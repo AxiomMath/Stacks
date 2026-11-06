@@ -127,8 +127,9 @@ private theorem subset_preimage_iff_closure_singleton_of_isGood
     (W : irreducibleComponents (chartScheme V)) {T : Set (points D.site D.base D.base_mem X)}
     (hT : T ∈ irreducibleComponents (points D.site D.base D.base_mem X)) :
     (W.1 : Set (chartScheme V)) ⊆ chartSchemeToPoints D.site D.base D.base_mem X V ⁻¹' T ↔
-      closure ({chartSchemeToPoints D.site D.base D.base_mem X V
-        (genericPoints.ofComponent W).1} : Set (points D.site D.base D.base_mem X)) = T :=
+      closure
+        ({chartSchemeToPoints D.site D.base D.base_mem X V (genericPoints.ofComponent W).1} :
+          Set (points D.site D.base D.base_mem X)) = T :=
   subset_preimage_iff_closure_singleton_chartSchemeToPoints_eq D.site D.base D.base_mem hX.1
     (D.isDecentSpace_of_isGood sX hX) V W hT
 
@@ -159,8 +160,9 @@ chart: the closure of the image of its generic point. -/
 def ambientComponentOfChartComponent (V : SmallEtale D.site D.base D.base_mem X)
     (W : irreducibleComponents (chartScheme V)) :
     IrreducibleCloseds (points D.site D.base D.base_mem X) where
-  carrier := closure ({chartSchemeToPoints D.site D.base D.base_mem X V
-    (genericPoints.ofComponent W).1} : Set (points D.site D.base D.base_mem X))
+  carrier := closure
+    ({chartSchemeToPoints D.site D.base D.base_mem X V (genericPoints.ofComponent W).1} :
+      Set (points D.site D.base D.base_mem X))
   isIrreducible' := isIrreducible_singleton.closure
   isClosed' := isClosed_closure
 
@@ -194,8 +196,9 @@ theorem subspacePointSet_integralComponentOfChartComponent
     (W : irreducibleComponents (chartScheme V)) :
     subspacePointSet D.site D.base D.base_mem X
         (integralComponentOfChartComponent D sX hX V W).subspace =
-      closure ({chartSchemeToPoints D.site D.base D.base_mem X V
-        (genericPoints.ofComponent W).1} : Set (points D.site D.base D.base_mem X)) :=
+      closure
+        ({chartSchemeToPoints D.site D.base D.base_mem X V (genericPoints.ofComponent W).1} :
+          Set (points D.site D.base D.base_mem X)) :=
   subspacePointSet_integralClosedSubspaceOfPoints D.site D.base D.base_mem hX.1
     (D.isDecentSpace_of_isGood sX hX) (ambientComponentOfChartComponent D V W)
 

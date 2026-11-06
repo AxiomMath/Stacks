@@ -142,7 +142,6 @@ lemma exists_legHom_rTensor_eq [Nonempty J] (hc : IsColimit c) (T : Type v)
     [AddCommGroup T] [Module R T] (x : (↥c.pt) ⊗[R] T) :
     ∃ (i : J) (y : (F.obj i : Type v) ⊗[R] T), (legHom c i).rTensor T y = x := by
   induction x with
-  | zero => exact ⟨Classical.arbitrary J, 0, map_zero _⟩
   | tmul m s =>
     obtain ⟨i, y, hy⟩ := exists_legHom_eq hc m
     exact ⟨i, y ⊗ₜ s, by simp [hy]⟩
@@ -248,7 +247,6 @@ private lemma exists_map_rTensor_eq_zero [Small.{v} R] (hc : IsColimit c) (T : T
         TensorProduct.lift (hc.desc t).hom ((legHom c j).rTensor T z) := by
     intro j z
     induction z with
-    | zero => simp
     | tmul y s => simpa using hfac j y s
     | add z₁ z₂ h₁ h₂ => simp [map_add, h₁, h₂]
   have hzero := key i x

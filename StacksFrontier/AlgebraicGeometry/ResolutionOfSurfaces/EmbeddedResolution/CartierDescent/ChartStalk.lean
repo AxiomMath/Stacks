@@ -122,7 +122,7 @@ public theorem nonempty_ringEquiv_stalk_chart (K : (Stacks.Blowup.blowUp ℐ).Id
   refine ⟨(asIso ((Stacks.Blowup.blowUpAffineChart ℐ U ha).stalkMap
       w)).commRingCatIsoToRingEquiv.trans
     (Spec.stalkIso (CommRingCat.of (affineBlowup (ℐ.ideal U) a)) w).commRingCatIsoToRingEquiv, ?_⟩
-  rw [RingEquiv.toRingHom_trans]
+  rw [RingEquiv.toRingHom_trans']
   exact h2.symm.trans ((congrArg (Ideal.map
       (Spec.stalkIso (CommRingCat.of (affineBlowup (ℐ.ideal U) a))
         w).commRingCatIsoToRingEquiv.toRingHom) h1).trans

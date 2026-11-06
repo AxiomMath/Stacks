@@ -83,6 +83,7 @@ theorem NatTrans.mapDerivedCategory_app_Q (η : F ⟶ G) (K : CochainComplex C �
         G.mapDerivedCategoryFactors.inv.app K := by
   rw [NatTrans.mapDerivedCategory, Localization.liftNatTrans_app]
   simp [Localization.Lifting.compLeft_iso]
+  rfl
 
 /-- Two natural transformations of derived functors agreeing on the image of the localization
 are equal. -/
@@ -189,7 +190,7 @@ transformation, and the identification of the derived functor of `𝟭` with `�
 theorem NatTrans.mapDerivedCategoryCompToId_app (η : G ⋙ F ⟶ 𝟭 C) (Z : DerivedCategory C) :
     (NatTrans.mapDerivedCategoryCompToId G F η).app Z =
       (Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso G F).inv.app Z ≫
-        (NatTrans.mapDerivedCategory η).app Z ≫ Functor.mapDerivedCategoryIdIso.hom.app Z :=
+        (NatTrans.mapDerivedCategory η).app Z ≫ (Functor.mapDerivedCategoryIdIso C).hom.app Z :=
   rfl
 
 /-- **The counit-shaped derived transformation at an object in the image of the localization.**
@@ -202,7 +203,7 @@ theorem NatTrans.mapDerivedCategoryCompToId_app_Q (η : G ⋙ F ⟶ 𝟭 C) (K :
             DerivedCategory.Q.map
               ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K) ≫
             (𝟭 C).mapDerivedCategoryFactors.inv.app K) ≫
-          Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj K) := by
+          (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Q.obj K) := by
   rw [NatTrans.mapDerivedCategoryCompToId_app, NatTrans.mapDerivedCategory_app_Q]
 
 /-- **The counit-shaped derived transformation at an arbitrary object, composed with a morphism

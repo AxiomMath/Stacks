@@ -120,7 +120,6 @@ public theorem isWeakTriangulatedGenerator_single_of_projective_separating
       apply (cancel_mono (L.iCycles n)).1
       simp [φ, HomologicalComplex.cyclesMap_i,
         HomologicalComplex.singleObjCyclesSelfIso_hom, Category.assoc]
-      rfl
     have hg : (HomologicalComplex.singleObjCyclesSelfIso (.up ℤ) n (P i)).hom ≫ g = 0 := by
       rw [← Projective.factorThru_comp g (L.homologyπ n), ← Category.assoc,
         ← hc, ← HomologicalComplex.homologyπ_naturality,

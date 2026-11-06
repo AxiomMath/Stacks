@@ -242,7 +242,7 @@ theorem countable_hom_shift_etaleRestrict_of_isAffineSpace (X Y : AlgebraicSpace
         (etaleModulePullbackCompIso B S hS e.hom e.inv he₁ he₂ he ≪≫
           etaleModulePullbackCongr B S hS he hid e.hom_inv_id ≪≫
           etaleModulePullbackIdIso B S hS hid) ≪≫
-      Functor.mapDerivedCategoryIdIso
+      Functor.mapDerivedCategoryIdIso _
   have : G.Faithful := Functor.Faithful.of_comp_iso hGF
   have hc := countable_hom_shift_etaleRestrict_yoneda X Y' T hY' (e.inv ≫ g) hg' E K hE hKq hK n
   have hc' := countable_hom_shift_of_iso

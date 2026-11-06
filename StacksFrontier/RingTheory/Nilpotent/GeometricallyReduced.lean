@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.TensorProduct.Pi
+public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.RingTheory.Nilpotent.GeometricallyReduced
 public import StacksFrontier.RingTheory.MinimalPrimes.Reduced
 import StacksCore.Tactic.EgaSgaAttribute
@@ -50,7 +51,6 @@ private theorem finsuppOfBasis_lTensor (b : Module.Basis κ R N) {X Y : Type*} [
     finsuppOfBasis b Y (LinearMap.lTensor N g z)
       = Finsupp.mapRange.linearMap g (finsuppOfBasis b X z) := by
   induction z with
-  | zero => simp
   | tmul n x => ext j; simp [finsuppOfBasis]
   | add z w hz hw => simp only [map_add, hz, hw]
 

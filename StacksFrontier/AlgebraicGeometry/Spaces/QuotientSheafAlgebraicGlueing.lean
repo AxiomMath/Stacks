@@ -124,6 +124,7 @@ private noncomputable def cofanIsColimitOfLeft {D : Type v} [Category.{w} D] {Z 
   isColimitOfReflects (Over.forget Z)
     ((Cofan.isColimitMapCoconeEquiv (Over.forget Z) Y c).symm hc)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The coproduct of the presheaves represented by a covering family is locally surjective onto
 the presheaf represented by the base of the family. -/
 public theorem locallySurjective_sigmaDesc_yoneda_map {C : Type (u + 1)} [Category.{u} C]
@@ -134,6 +135,8 @@ public theorem locallySurjective_sigmaDesc_yoneda_map {C : Type (u + 1)} [Catego
   have : Presheaf.IsLocallySurjective J (Sigma.desc fun i ↦ shrinkYoneda.map (f i)) :=
     (GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_shrinkYoneda_map
       J f).mp hcover
+  haveI : HasColimitsOfShape (Discrete I) (Cᵒᵖ ⥤ Type u) :=
+    functorCategoryHasColimitsOfShape
   let e : (∐ fun i ↦ shrinkYoneda.{u}.obj (Y i)) ≅ ∐ fun i ↦ yoneda.obj (Y i) :=
     Sigma.mapIso fun i ↦ shrinkYonedaIsoYoneda.app (Y i)
   have hfac : e.hom ≫ Sigma.desc (fun i ↦ yoneda.map (f i)) =

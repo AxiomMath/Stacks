@@ -6,6 +6,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.Bifun
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorInvertible
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.ChangeOfRings
 public import Mathlib.CategoryTheory.Retract
+public import Mathlib.Algebra.Category.Ring.Limits
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPushforwardModules.HasSheafComposeForget
 
 /-!
@@ -256,6 +257,18 @@ namespace ProductPresentation
 
 variable [HasLimitsOfShape (Discrete ι) CommRingCat.{w}]
 
+/-- Products of sheaves of commutative rings, given products in `CommRingCat`, through
+presheaves (instance search no longer finds this unaided; a local instance below). -/
+theorem hasLimitsOfShape_sheaf_discrete : HasLimitsOfShape (Discrete ι) (Sheaf J CommRingCat.{w}) :=
+  haveI : HasLimitsOfShape (Discrete ι) (Cᵒᵖ ⥤ CommRingCat.{w}) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J CommRingCat.{w})
+
+theorem hasProduct_factor (factor : ι → Sheaf J CommRingCat.{w}) : HasProduct factor :=
+  HasLimitsOfShape.has_limit (self := hasLimitsOfShape_sheaf_discrete) _
+
+attribute [local instance high] hasProduct_factor
+
 /-- **A limit fan of sheaves of commutative rings is a product presentation.**  Taking sections
 over an object of the site preserves the product, and the resulting limit cone in types is tested
 against the one-point set, which gives injectivity and surjectivity at once. -/
@@ -299,6 +312,18 @@ end ProductPresentation
 section OfIso
 
 variable [HasLimitsOfShape (Discrete ι) CommRingCat.{w}]
+
+/-- Products of sheaves of commutative rings, given products in `CommRingCat`, through
+presheaves (instance search no longer finds this unaided; a local instance below). -/
+theorem hasLimitsOfShape_sheaf_discrete' : HasLimitsOfShape (Discrete ι) (Sheaf J CommRingCat.{w}) :=
+  haveI : HasLimitsOfShape (Discrete ι) (Cᵒᵖ ⥤ CommRingCat.{w}) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J CommRingCat.{w})
+
+theorem hasProduct_factor' (factor : ι → Sheaf J CommRingCat.{w}) : HasProduct factor :=
+  HasLimitsOfShape.has_limit (self := hasLimitsOfShape_sheaf_discrete') _
+
+attribute [local instance high] hasProduct_factor'
 
 /-- **A factor of a product of sheaves of commutative rings is a direct summand of the structure
 sheaf.**  For `e : R ≅ ∏ factor`, the sheaf `factor n` read as a sheaf of `R`-modules along

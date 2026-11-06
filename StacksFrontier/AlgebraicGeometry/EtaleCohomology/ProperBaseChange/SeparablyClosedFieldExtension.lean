@@ -176,7 +176,7 @@ theorem bijective_etaleCohomologyRestrictionMap_scalarExtensionFst_of_torsion
     Stacks.Torsion.isIso_torsionFiltrationDesc _ F hF
   have hc : IsColimit (Cocone.mk F (Stacks.Torsion.torsionFiltrationι X.smallEtaleTopology F)) :=
     IsColimit.ofIsoColimit (colimit.isColimit _)
-      (Cocones.ext (asIso (Stacks.Torsion.torsionFiltrationDesc X.smallEtaleTopology F))
+      (Cocone.ext (asIso (Stacks.Torsion.torsionFiltrationDesc X.smallEtaleTopology F))
         (fun j ↦ Stacks.Torsion.ι_torsionFiltrationDesc _ F j))
   refine bijective_etaleCohomologyRestrictionMap_of_isColimit hc _ q (fun n ↦ ?_)
   exact etaleCohomologyRestrictionMap_bijective_of_nsmul_id_eq_zero (scalarExtensionFst k K f)

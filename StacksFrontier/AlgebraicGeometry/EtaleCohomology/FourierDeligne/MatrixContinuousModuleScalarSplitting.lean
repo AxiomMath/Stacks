@@ -60,7 +60,7 @@ def finiteTypeContinuousModuleLinearHom
     {P Q : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G}
     (f : P.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V)
     (hf : ∀ (g : G) (x : P.obj.obj.obj.V),
-      f ((P.obj.obj.obj.ρ g).hom x) = (Q.obj.obj.obj.ρ g).hom (f x)) : P ⟶ Q :=
+      f ((P.obj.obj.obj.ρ g).asHom.hom x) = (Q.obj.obj.obj.ρ g).asHom.hom (f x)) : P ⟶ Q :=
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom f
       comm := fun g => by
@@ -142,7 +142,7 @@ def matrixContinuousModuleHom {σ : G →* GL (Fin m) Λ} {σ' : G →* GL (Fin 
   finiteTypeContinuousModuleLinearHom
     ((ULift.moduleEquiv (R := Λ)).symm.toLinearMap ∘ₗ Matrix.toLin' A ∘ₗ
       (ULift.moduleEquiv (R := Λ)).toLinearMap)
-    fun g x => ULift.ext _ _ (by
+    fun g x => ULift.ext (by
       change A *ᵥ ((σ g).val *ᵥ x.down) = (σ' g).val *ᵥ (A *ᵥ x.down)
       rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, hA g])
 
@@ -164,7 +164,7 @@ theorem matrixContinuousModuleHom_comp {σ : G →* GL (Fin m) Λ} {σ' : G →*
     matrixContinuousModuleHom Λ hσ hσ' A hA ≫ matrixContinuousModuleHom Λ hσ' hσ'' A' hA' =
       matrixContinuousModuleHom Λ hσ hσ'' (A' * A) (fun g => by
         rw [Matrix.mul_assoc, hA g, ← Matrix.mul_assoc, hA' g, Matrix.mul_assoc]) :=
-  finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext _ _ (by
+  finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
     show A' *ᵥ (A *ᵥ x.down) = (A' * A) *ᵥ x.down
     rw [Matrix.mulVec_mulVec])
 
@@ -174,7 +174,7 @@ theorem matrixContinuousModuleHom_smul_one {σ : G →* GL (Fin m) Λ}
     (hA : ∀ g, (c • 1 : Matrix (Fin m) (Fin m) Λ) * (σ g).val = (σ g).val * (c • 1)) :
     matrixContinuousModuleHom Λ hσ hσ (c • 1) hA =
       finiteTypeContinuousModuleSMul Λ (matrixContinuousModule.{u + 1, u + 1} Λ σ hσ) c :=
-  finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext _ _ (by
+  finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
     show (c • 1 : Matrix (Fin m) (Fin m) Λ) *ᵥ x.down = c • x.down
     rw [Matrix.smul_mulVec, Matrix.one_mulVec])
 
@@ -185,10 +185,10 @@ def matrixContinuousModuleIsoOfEq {σ₁ σ₂ : G →* GL (Fin m) Λ} (hσ₁ :
       matrixContinuousModule.{u + 1, u + 1} Λ σ₂ hσ₂ where
   hom := matrixContinuousModuleHom Λ hσ₁ hσ₂ 1 fun g => by rw [h g, Matrix.one_mul, Matrix.mul_one]
   inv := matrixContinuousModuleHom Λ hσ₂ hσ₁ 1 fun g => by rw [h g, Matrix.one_mul, Matrix.mul_one]
-  hom_inv_id := finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext _ _ (by
+  hom_inv_id := finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
     change (1 : Matrix (Fin m) (Fin m) Λ) *ᵥ ((1 : Matrix (Fin m) (Fin m) Λ) *ᵥ x.down) = x.down
     rw [Matrix.one_mulVec, Matrix.one_mulVec])
-  inv_hom_id := finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext _ _ (by
+  inv_hom_id := finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
     change (1 : Matrix (Fin m) (Fin m) Λ) *ᵥ ((1 : Matrix (Fin m) (Fin m) Λ) *ᵥ x.down) = x.down
     rw [Matrix.one_mulVec, Matrix.one_mulVec])
 
@@ -211,9 +211,9 @@ def matrixContinuousModuleCoordHom (k : Fin e) :
           hσ'') ⟶ matrixContinuousModule.{u + 1, u + 1} Λ σ hσ :=
   finiteTypeContinuousModuleLinearHom
     { toFun := fun v => ULift.up fun t => π k ((show ULift.{u + 1} (Fin m → Λ'') from v).down t)
-      map_add' := fun v w => ULift.ext _ _ (funext fun t => map_add (π k) _ _)
-      map_smul' := fun c v => ULift.ext _ _ (funext fun t => h₁ k c _) }
-    fun g x => ULift.ext _ _ (funext fun s => by
+      map_add' := fun v w => ULift.ext (funext fun t => map_add (π k) _ _)
+      map_smul' := fun c v => ULift.ext (funext fun t => h₁ k c _) }
+    fun g x => ULift.ext (funext fun s => by
       change π k (((σ g).val.map ρ *ᵥ (show ULift.{u + 1} (Fin m → Λ'') from x).down) s) =
         ((σ g).val *ᵥ fun t => π k ((show ULift.{u + 1} (Fin m → Λ'') from x).down t)) s
       simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, map_sum, h₁])
@@ -227,13 +227,13 @@ def matrixContinuousModuleBasisHom (i : Fin e) :
   finiteTypeContinuousModuleLinearHom
     { toFun := fun v => (show ULift.{u + 1} (Fin m → Λ'') from
         ULift.up fun t => ρ ((show ULift.{u + 1} (Fin m → Λ) from v).down t) * β i)
-      map_add' := fun v w => ULift.ext _ _ (funext fun t => by
+      map_add' := fun v w => ULift.ext (funext fun t => by
         change ρ (_ + _) * β i = ρ _ * β i + ρ _ * β i
         rw [map_add, add_mul])
-      map_smul' := fun c v => ULift.ext _ _ (funext fun t => by
+      map_smul' := fun c v => ULift.ext (funext fun t => by
         change ρ (c * _) * β i = ρ c * (ρ _ * β i)
         rw [map_mul, mul_assoc]) }
-    fun g x => ULift.ext _ _ (funext fun s => by
+    fun g x => ULift.ext (funext fun s => by
       change ρ (((σ g).val *ᵥ (show ULift.{u + 1} (Fin m → Λ) from x).down) s) * β i =
         ((σ g).val.map ρ *ᵥ fun t => ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) s
       simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, map_sum, map_mul, Finset.sum_mul,
@@ -249,11 +249,11 @@ def matrixContinuousModuleRestrictScalarsMulHom (o : Λ'') :
   finiteTypeContinuousModuleLinearHom
     { toFun := fun v => (show ULift.{u + 1} (Fin m → Λ'') from
         ULift.up (o • (show ULift.{u + 1} (Fin m → Λ'') from v).down))
-      map_add' := fun v w => ULift.ext _ _ (smul_add o _ _)
-      map_smul' := fun c v => ULift.ext _ _ (by
+      map_add' := fun v w => ULift.ext (smul_add o _ _)
+      map_smul' := fun c v => ULift.ext (by
         change o • (ρ c • _) = ρ c • (o • _)
         rw [smul_comm]) }
-    fun g x => ULift.ext _ _ (by
+    fun g x => ULift.ext (by
       change o • ((σ g).val.map ρ *ᵥ (show ULift.{u + 1} (Fin m → Λ'') from x).down) =
         (σ g).val.map ρ *ᵥ (o • (show ULift.{u + 1} (Fin m → Λ'') from x).down)
       rw [Matrix.mulVec_smul])
@@ -274,7 +274,7 @@ theorem matrixContinuousModuleBasisHom_comp_coordHom
     matrixContinuousModuleBasisHom ρ β hσ hσ'' i ≫ matrixContinuousModuleCoordHom ρ π h₁ hσ hσ'' j =
       if i = j then 𝟙 _ else 0 := by
   apply finiteTypeContinuousModule_hom_ext_apply fun x => ?_
-  refine ULift.ext _ _ (funext fun t => ?_)
+  refine ULift.ext (funext fun t => ?_)
   show π j (ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) = _
   rw [h₁, h₂]
   split_ifs
@@ -291,7 +291,7 @@ theorem sum_matrixContinuousModuleCoordHom_comp_basisHom
         matrixContinuousModuleBasisHom ρ β hσ hσ'' i = 𝟙 _ := by
   apply finiteTypeContinuousModule_hom_ext_apply fun x => ?_
   refine (finiteTypeContinuousModule_hom_sum_apply _ _ x).trans ?_
-  refine ULift.ext _ _ (funext fun t => ?_)
+  refine ULift.ext (funext fun t => ?_)
   exact (ulift_fin_down_sum_apply _ _ t).trans (h₃ _)
 
 include h₁ in
@@ -305,7 +305,7 @@ theorem matrixContinuousModuleBasisHom_comp_mulHom
         matrixContinuousModuleBasisHom ρ β hσ hσ'' k := by
   apply finiteTypeContinuousModule_hom_ext_apply fun x => ?_
   refine Eq.trans ?_ (finiteTypeContinuousModule_hom_sum_apply _ _ x).symm
-  refine ULift.ext _ _ (funext fun t => ?_)
+  refine ULift.ext (funext fun t => ?_)
   have hk : ∀ k, ((finiteTypeContinuousModuleSMul Λ _ (π k (o * β i)) ≫
       matrixContinuousModuleBasisHom ρ β hσ hσ'' k).hom.hom.hom.hom.hom x).down t =
         ρ (π k (o * β i)) * β k * ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) := fun k => by

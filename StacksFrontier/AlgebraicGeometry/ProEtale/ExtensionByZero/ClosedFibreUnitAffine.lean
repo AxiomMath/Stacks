@@ -136,7 +136,7 @@ theorem appSheafAdjunction_unit_app_hom_app (G : Sheaf (AppSmallProetale.induced
     sheafificationAdjunction_unit_app, Functor.whiskeringLeft_obj_map, Functor.comp_map,
     ObjectProperty.ι_map, ObjectProperty.FullSubcategory.id_hom, Functor.whiskerLeft_id',
     Category.comp_id, NatTrans.comp_app, Functor.op_obj, Adjunction.whiskerLeft_unit_app_app,
-    Adjunction.op_unit, NatTrans.op_app, Functor.id_obj, Functor.whiskerLeft_app]
+    Adjunction.op_unit_app, NatTrans.op_app, Functor.id_obj, Functor.whiskerLeft_app]
   exact Category.comp_id _
 
 end Adjunction

@@ -49,20 +49,20 @@ variable {Λ : Type} [CommRing Λ] [Finite Λ] {H : Type v} [Group H] [Topologic
 
 /-- **A stable submodule of a finite continuous module, as a finite continuous module.** -/
 def finiteTypeContinuousModuleOfStable (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     FiniteTypeContinuousModule.{0, v, w} Λ H :=
   haveI : Finite (ToType P.obj.obj.obj.V) := (moduleCat_isFG_iff_finite Λ _).mp P.property
   ⟨ofRepresentation (R := Λ) (M := W)
-      { toFun := fun h => (P.obj.obj.obj.ρ h).hom.restrict (fun x hx => hW h x hx)
+      { toFun := fun h => (P.obj.obj.obj.ρ h).asHom.hom.restrict (fun x hx => hW h x hx)
         map_one' := by
           ext ⟨x, hx⟩
-          change (P.obj.obj.obj.ρ 1).hom x = x
+          change (P.obj.obj.obj.ρ 1).asHom.hom x = x
           rw [map_one]
           rfl
         map_mul' := fun g g' => by
           ext ⟨x, hx⟩
-          change (P.obj.obj.obj.ρ (g * g')).hom x =
-            (P.obj.obj.obj.ρ g).hom ((P.obj.obj.obj.ρ g').hom x)
+          change (P.obj.obj.obj.ρ (g * g')).asHom.hom x =
+            (P.obj.obj.obj.ρ g).asHom.hom ((P.obj.obj.obj.ρ g').asHom.hom x)
           rw [map_mul]
           rfl }
       ((isContinuous_actionOfRepresentation_iff _).2 fun x => by
@@ -73,7 +73,7 @@ def finiteTypeContinuousModuleOfStable (P : FiniteTypeContinuousModule.{0, v, w}
 
 /-- The inclusion of `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStable`. -/
 def finiteTypeContinuousModuleOfStableι (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     finiteTypeContinuousModuleOfStable P W hW ⟶ P :=
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     ⟨ModuleCat.ofHom W.subtype, fun _ => ModuleCat.hom_ext (LinearMap.ext fun _ => rfl)⟩))
@@ -81,13 +81,13 @@ def finiteTypeContinuousModuleOfStableι (P : FiniteTypeContinuousModule.{0, v, 
 /-- The inclusion `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStableι` sends an element of
 `W` to itself. -/
 theorem finiteTypeContinuousModuleOfStableι_apply (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) (x : W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) (x : W) :
     (finiteTypeContinuousModuleOfStableι P W hW).hom.hom.hom.hom.hom x = x.1 := rfl
 
 /-- The inclusion `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStableι` is a
 monomorphism. -/
 instance mono_finiteTypeContinuousModuleOfStableι (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     Mono (finiteTypeContinuousModuleOfStableι P W hW) := by
   let Uf : FiniteTypeContinuousModule.{0, v, w} Λ H ⥤ ModuleCat.{w} Λ :=
     finiteTypeContinuousModuleι Λ H ⋙ Stacks.Injectives.continuousModuleUnderlying Λ H
@@ -113,7 +113,7 @@ private theorem additive_finiteTypeContinuousModuleι_comp_underlying (Λ : Type
 `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStable`. -/
 theorem nsmul_id_finiteTypeContinuousModuleOfStable_ne_zero
     (P : FiniteTypeContinuousModule.{0, v, w} Λ H) (W : Submodule Λ P.obj.obj.obj.V)
-    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) {n : ℕ} (hne : ∃ x ∈ W, n • x ≠ 0) :
+    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) {n : ℕ} (hne : ∃ x ∈ W, n • x ≠ 0) :
     n • 𝟙 (finiteTypeContinuousModuleOfStable P W hW) ≠ 0 := by
   obtain ⟨w, hw, hw0⟩ := hne
   intro h0
@@ -132,7 +132,7 @@ theorem nsmul_id_finiteTypeContinuousModuleOfStable_ne_zero
 stable submodule. -/
 theorem nsmul_mem_of_comp_finiteTypeContinuousModuleOfStableι_eq
     (P : FiniteTypeContinuousModule.{0, v, w} Λ H) (W : Submodule Λ P.obj.obj.obj.V)
-    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) {n : ℕ}
+    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) {n : ℕ}
     (r : P ⟶ finiteTypeContinuousModuleOfStable P W hW)
     (hr : r ≫ finiteTypeContinuousModuleOfStableι P W hW = n • 𝟙 P) (y : P.obj.obj.obj.V) :
     n • y ∈ W := by

@@ -308,8 +308,7 @@ private theorem galoisTensorPi_bijective [FiniteDimensional k k'] [IsGalois k k'
   let e := Algebra.TensorProduct.equivPiOfFiniteBasis k' b
   let M : Matrix (Gal(k'/k)) (Gal(k'/k)) k' := Matrix.of fun g h => g (b h)
   have heval (z : k' ⊗[k] k') (g : Gal(k'/k)) : φ z g = M.mulVec (e z) g := by
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp [e, φ, Algebra.TensorProduct.equivPiOfFiniteBasis, M]
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro a y
       change a * g y = _
       conv_lhs => rw [← b.sum_repr y]

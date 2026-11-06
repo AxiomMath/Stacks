@@ -253,6 +253,7 @@ public theorem exists_conj_of_isEtaleFundamentalGroupHomInducedBy
 
 end Twist
 
+set_option maxHeartbeats 400000 in
 /-- **(c) The fibres of Laumon's family over the `t`-line**
 ([Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)): the `E`-linear Frobenius of `κ(v)` on
 `H¹_c(Y_κ̄, K|_Y ⊗ ℚ_ℓ)` has the characteristic polynomial of the one on
@@ -437,18 +438,19 @@ public theorem laumonFamilyFibreLinearInput : LaumonFamilyFibreLinearInput.{u} :
   have hV : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
       X' ℓ f' j' kbar Fτ.toLAdicSheaf 1) :=
     LinearEquiv.finiteDimensional (eY.restrictScalars ℚ_[ℓ])
-  refine hC hX' x' hx' p₀' hτ j' hV ?_
   have : Module.Finite E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B Y ℓ fY jY
       kbar G0.toLAdicSheaf 1) := Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
   have : Module.Finite E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X' ℓ f' j'
       kbar Fτ.toLAdicSheaf 1) := Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
-  show (G0.rationalGeometricCompactlySupportedFrobenius fY jY kbar 1 E p n hcard).charpoly =
-    (Fτ.rationalGeometricCompactlySupportedFrobenius f' j' kbar 1 E p n hcard).charpoly
-  rw [← eY.charpoly_conj]
-  congr 1
-  refine LinearMap.ext fun w => ?_
-  rw [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
-    LinearEquiv.coe_coe, heY, LinearEquiv.apply_symm_apply]
+  have hcp : (G0.rationalGeometricCompactlySupportedFrobenius fY jY kbar 1 E p n hcard).charpoly =
+      (Fτ.rationalGeometricCompactlySupportedFrobenius f' j' kbar 1 E p n hcard).charpoly := by
+    rw [← eY.charpoly_conj]
+    congr 1
+    refine LinearMap.ext fun w => ?_
+    rw [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
+      LinearEquiv.coe_coe, heY, LinearEquiv.apply_symm_apply]
+  set_option maxRecDepth 4000 in
+  exact hC hX' x' hx' p₀' hτ j' hV hcp
 
 end Stacks.EtaleCohomology
 

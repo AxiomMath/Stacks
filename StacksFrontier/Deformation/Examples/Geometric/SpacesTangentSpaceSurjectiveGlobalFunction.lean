@@ -42,6 +42,24 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
 universe u
 
+/-- Presheaves of sets have products indexed by `Type u`, stated directly so that instance search
+does not time out. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheafType_spaceSurjGlobalFunction
+    {C : Type*} [Category C] (K : Type u) : HasLimitsOfShape (Discrete K) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Presheaves of sets have products indexed by `Type`, stated directly so that instance search
+does not time out. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheafType₀_spaceSurjGlobalFunction
+    {C : Type*} [Category C] (K : Type) : HasLimitsOfShape (Discrete K) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Sheaves of sets have a terminal object, stated directly so that instance search does not
+time out. -/
+local instance (priority := high) hasTerminal_sheafType_spaceSurjGlobalFunction
+    {C : Type*} [Category C] (J : GrothendieckTopology C) : HasTerminal (Sheaf J (Type u)) :=
+  inferInstanceAs (HasLimitsOfShape (Discrete PEmpty) (Sheaf J (Type u)))
+
 namespace Deformation.Examples
 
 variable {Λ : Type u} {k : Type u} [CommRing Λ] [Field k] [Algebra Λ k]

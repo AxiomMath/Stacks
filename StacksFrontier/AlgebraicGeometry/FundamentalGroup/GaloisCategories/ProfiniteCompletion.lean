@@ -71,28 +71,30 @@ public def IsProfiniteCompletion
 automorphism of the forgetful functor. -/
 public def actionOnForget (G : Type u) [Group G] [TopologicalSpace G] :
     G →* Aut (forget (ContAction FintypeCat.{u} G)) where
-  toFun g := NatIso.ofComponents
-    (fun X => (forget FintypeCat).mapAut X.obj.V (Action.ρAut X.obj g)) (by
+  toFun g := .of <| NatIso.ofComponents
+    (fun X => ((forget FintypeCat).mapAut X.obj.V (Action.ρAut X.obj g)).asIso) (by
     intro X Y f
     ext x
     exact congrArg (fun (k : X.obj.V ⟶ Y.obj.V) => ConcreteCategory.hom k x)
       (f.hom.comm g).symm)
   map_one' := by
     apply Aut.ext
+    apply Iso.ext
     apply NatTrans.ext
     funext X
     apply ConcreteCategory.ext_apply
     intro x
-    change ConcreteCategory.hom (X.obj.ρ 1) x = x
+    change ConcreteCategory.hom (X.obj.ρ 1).asHom x = x
     simp
   map_mul' g h := by
     apply Aut.ext
+    apply Iso.ext
     apply NatTrans.ext
     funext X
     apply ConcreteCategory.ext_apply
     intro x
-    change ConcreteCategory.hom (X.obj.ρ (g * h)) x =
-      ConcreteCategory.hom (X.obj.ρ g) (ConcreteCategory.hom (X.obj.ρ h) x)
+    change ConcreteCategory.hom (X.obj.ρ (g * h)).asHom x =
+      ConcreteCategory.hom (X.obj.ρ g).asHom (ConcreteCategory.hom (X.obj.ρ h).asHom x)
     simp [map_mul]
 
 private theorem contAction_topology_eq (G : Type u) [Group G] [TopologicalSpace G]
@@ -125,7 +127,7 @@ public theorem continuous_actionOnForget (G : Type u) [Group G]
   apply continuous_pi_iff.mpr
   intro X
   show Continuous (fun g : G =>
-    ((forget FintypeCat).mapAut X.obj.V (Action.ρAut X.obj g)).toEquiv)
+    ((forget FintypeCat).mapAut X.obj.V (Action.ρAut X.obj g)).asIso.toEquiv)
   let : MulAction G X.obj.V.obj := by
     show MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj X.obj)
     infer_instance
@@ -153,9 +155,9 @@ public theorem canonicalHom_apply (G : Type u) [Group G] [TopologicalSpace G]
     (x : X.obj.V.obj) :
     let _ : TopologicalSpace (Aut (forget (ContAction FintypeCat.{u} G))) :=
       functorAutomorphismTopology _
-    ConcreteCategory.hom (((canonicalHom G) g).hom.app X) x =
-      ConcreteCategory.hom (X.obj.ρ g) x := by
-  show ConcreteCategory.hom (((actionOnForget G) g).hom.app X) x = _
+    ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app X) x =
+      ConcreteCategory.hom (X.obj.ρ g).asHom x := by
+  show ConcreteCategory.hom (((actionOnForget G) g).asIso.hom.app X) x = _
   rfl
 
 private theorem exists_action_matching_finite_family (G : Type u) [Group G]
@@ -163,8 +165,8 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     (γ : Aut (forget (ContAction FintypeCat.{u} G)))
     {I : Type v} [Finite I] (X : I → ContAction FintypeCat.{u} G)
     (x : ∀ i, (X i).obj.V.obj) :
-    ∃ g : G, ∀ i, ConcreteCategory.hom ((X i).obj.ρ g) (x i) =
-      ConcreteCategory.hom (γ.hom.app (X i)) (x i) := by
+    ∃ g : G, ∀ i, ConcreteCategory.hom ((X i).obj.ρ g).asHom (x i) =
+      ConcreteCategory.hom (γ.asIso.hom.app (X i)) (x i) := by
   have : Fintype I := Fintype.ofFinite I
   let (i : I) : MulAction G ((X i).obj.V.obj) := by
     show MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj (X i).obj)
@@ -212,8 +214,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     rw [hOtop]
     infer_instance
   let Q' : ContAction FintypeCat.{u} G := ⟨Q, hQ⟩
-  change (forget (ContAction FintypeCat.{u} G)) ≅
-    (forget (ContAction FintypeCat.{u} G)) at γ
+  obtain ⟨γ⟩ := γ
   let xO : O := ⟨x', MulAction.mem_orbit_self _⟩
   let e₁ : ∀ i, Q' ⟶ X i := fun i => ObjectProperty.homMk {
     hom := FintypeCat.homMk (fun y : O => e y.1 i)
@@ -243,7 +244,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
   have hcoord : (g • (fun j => x j)) i = e yO.1 i :=
     congrArg (fun z : E => z i) htuple
   calc
-    ConcreteCategory.hom ((X i).obj.ρ g) (x i) = g • x i := rfl
+    ConcreteCategory.hom ((X i).obj.ρ g).asHom (x i) = g • x i := rfl
     _ = ConcreteCategory.hom ((γ.hom).app (X i)) (x i) := by
       simpa using hcoord.trans hnat.symm
 
@@ -272,8 +273,8 @@ private theorem denseRange_canonicalHom (G : Type u) [Group G]
       (componentEmbedding (forget (ContAction FintypeCat.{u} G)) γ) j := by
     apply Equiv.ext
     intro y
-    show ConcreteCategory.hom (((canonicalHom G) g).hom.app j) y =
-      ConcreteCategory.hom (γ.hom.app j) y
+    show ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app j) y =
+      ConcreteCategory.hom (γ.asIso.hom.app j) y
     rw [canonicalHom_apply]
     simpa [X, x] using hg (⟨⟨j, hj⟩, y⟩ : I)
   exact Set.mem_of_eq_of_mem heq (hJ1 j hj).right
@@ -323,20 +324,19 @@ private noncomputable def quotientAutComponent
       change (ψ g * y') * z' = ψ g * (y' * z')
       simp [mul_assoc] }
   have hformula (γ : Aut (forget (ContAction FintypeCat.{u} G))) (z : X.obj.V.obj) :
-      ConcreteCategory.hom (γ.hom.app X) z =
-        ConcreteCategory.hom (γ.hom.app X) (1 : X.obj.V.obj) * z := by
-    change (forget (ContAction FintypeCat.{u} G)) ≅
-      (forget (ContAction FintypeCat.{u} G)) at γ
+      ConcreteCategory.hom (γ.asIso.hom.app X) z =
+        ConcreteCategory.hom (γ.asIso.hom.app X) (1 : X.obj.V.obj) * z := by
+    obtain ⟨γ⟩ := γ
     have h := NatTrans.naturality_apply γ.hom (r z) (1 : X.obj.V.obj)
     change ConcreteCategory.hom (γ.hom.app X) ((1 : X.obj.V.obj) * z) =
       ConcreteCategory.hom (γ.hom.app X) (1 : X.obj.V.obj) * z at h
     rwa [one_mul] at h
   let φ : Aut (forget (ContAction FintypeCat.{u} G)) →* X.obj.V.obj := {
-    toFun γ := ConcreteCategory.hom (γ.hom.app X) 1
+    toFun γ := ConcreteCategory.hom (γ.asIso.hom.app X) 1
     map_one' := rfl
     map_mul' γ δ := by
-      change ConcreteCategory.hom ((δ ≪≫ γ).hom.app X) 1 =
-        ConcreteCategory.hom (γ.hom.app X) 1 * ConcreteCategory.hom (δ.hom.app X) 1
+      change ConcreteCategory.hom ((δ.asIso ≪≫ γ.asIso).hom.app X) 1 =
+        ConcreteCategory.hom (γ.asIso.hom.app X) 1 * ConcreteCategory.hom (δ.asIso.hom.app X) 1
       exact hformula γ _ }
   have hφ : Continuous φ := by
     change Continuous (fun γ =>
@@ -391,7 +391,7 @@ private theorem quotientAutComponent_canonicalHom
     infer_instance
   let X : ContAction FintypeCat.{u} G := ⟨Xact, hXact⟩
   let : Group X.obj.V.obj := e.group
-  show e (ConcreteCategory.hom (((canonicalHom G) g).hom.app X) 1) =
+  show e (ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app X) 1) =
     QuotientGroup.mk' U.toOpenSubgroup.toSubgroup (f g)
   rw [canonicalHom_apply]
   show e (ψ g * (1 : Csmall.obj)) = q g

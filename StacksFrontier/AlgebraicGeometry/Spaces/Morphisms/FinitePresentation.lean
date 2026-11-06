@@ -148,6 +148,17 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_finitePresentation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_finitePresentation
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_finitePresentation B S hS).has_limit _
+
 /-! ### Quasi-compact and quasi-separated source -/
 
 /-- **Stacks 06G5, quasi-separatedness.** If `f : X ⟶ Y` is of finite presentation and `Y` is

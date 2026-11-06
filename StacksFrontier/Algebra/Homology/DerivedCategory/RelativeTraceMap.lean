@@ -314,7 +314,6 @@ theorem isBijectiveAt_obj₂ (h₁ : IsBijectiveAt Φ t T.obj₁) (h₃ : IsBije
       apply (h₃ m c h).1
       rw [traceMap_comp_shift (m := m - 1) (c := c - 1) _ (show m - 1 + 1 = m by omega)
         (show c₀ + (m - 1) = c - 1 by omega) h (show c - 1 + 1 = c by omega), ← hw', hδ]
-      rfl
     rw [hzw, ShiftedHom.mk₀_comp]
     simp only [ShiftedHom.comp]
     rw [← Category.assoc, comp_distTriang_mor_zero₂₃ T hT, zero_comp]

@@ -128,7 +128,7 @@ theorem continuous_autMulEquivEtaleFundamentalGroup :
     (TopologicalSpace.induced (componentEmbedding F) inferInstance) _
   refine continuous_induced_rng.mpr (continuous_pi fun Y ↦ ?_)
   have key : (fun σ : Aut finF ↦ componentEmbedding F (autMulEquivEtaleFundamentalGroup X x σ) Y)
-      = (fun τ : Aut (finF.obj Y) ↦ (FintypeCat.incl.mapIso τ).toEquiv) ∘
+      = (fun τ : Aut (finF.obj Y) ↦ (FintypeCat.incl.mapIso τ.asIso).toEquiv) ∘
         (fun σ ↦ PreGaloisCategory.autEmbedding finF σ Y) :=
     rfl
   exact key ▸ continuous_of_discreteTopology.comp ((continuous_apply Y).comp continuous_induced_dom)
@@ -183,10 +183,10 @@ theorem finiteEtaleEquivalenceOfIsGaloisCategory_action (Y : FiniteEtaleOver X)
     (y : ((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.V.obj) :
     ((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y)
         (ConcreteCategory.hom
-          (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ) y) =
-      (σ.app Y).hom (((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y) y) :=
+          (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ σ).asHom y) =
+      (σ.asIso.app Y).hom (((finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x).hom.app Y) y) :=
   ConcreteCategory.congr_hom
-    (congrArg (fun τ : Aut (finiteEtaleFiberFunctor x) ↦ τ.hom.app Y)
+    (congrArg (fun τ : Aut (finiteEtaleFiberFunctor x) ↦ τ.asIso.hom.app Y)
       ((autMulEquivEtaleFundamentalGroup X x).apply_symm_apply σ)) y
 
 /-- **Stacks 0BND, the existential form, for a fibre functor with the Galois category axioms.**
@@ -203,8 +203,8 @@ theorem exists_finiteEtaleEquivalence_of_isGaloisCategory :
             FintypeCat.{u} ⋙ FintypeCat.incl ≅ finiteEtaleFiberFunctor x,
         ∀ (Y : FiniteEtaleOver X) (σ : EtaleFundamentalGroup X x)
           (y : (E.functor.obj Y).obj.V.obj),
-          (α.hom.app Y) (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ) y) =
-            (σ.app Y).hom ((α.hom.app Y) y) :=
+          (α.hom.app Y) (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y) =
+            (σ.asIso.app Y).hom ((α.hom.app Y) y) :=
   ⟨finiteEtaleEquivalenceOfIsGaloisCategory X x,
     finiteEtaleEquivalenceOfIsGaloisCategoryFiberIso X x,
     finiteEtaleEquivalenceOfIsGaloisCategory_action X x⟩

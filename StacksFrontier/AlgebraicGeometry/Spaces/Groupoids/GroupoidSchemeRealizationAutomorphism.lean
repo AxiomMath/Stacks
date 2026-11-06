@@ -150,12 +150,12 @@ private theorem surjective_verticalAutMap_quotientStackMap_realization
   have hT : (Stack.quotientStack H').p.obj ((Stack.quotientStackMap Φ).obj A.1) = T := by
     rw [← Functor.comp_obj, (Stack.quotientStackMap Φ).w]
     exact A.2
-  have hβ : (Stack.quotientStack H').p.IsHomLift (𝟙 T) β.1.hom :=
+  have hβ : (Stack.quotientStack H').p.IsHomLift (𝟙 T) β.1.asIso.hom :=
     IsHomLift.of_fac' _ _ _ hT hT (by
       rw [Functor.verticalAut.cond β, Category.id_comp, eqToHom_trans]
       rfl)
   let n : B' ⟶ B' := Functor.Fiber.homMk _ T (α.hom.app X) ≫
-    Functor.Fiber.homMk _ T β.1.hom ≫ Functor.Fiber.homMk _ T (α.inv.app X)
+    Functor.Fiber.homMk _ T β.1.asIso.hom ≫ Functor.Fiber.homMk _ T (α.inv.app X)
   let r' := hFH.preimage n
   let b := H'.toGroupoidInFunctors.evaluationArrowEquiv (op T) x' x' r'
   obtain ⟨a, has, hat, hab⟩ := realization_arrow_lift_of_stabilizer C hS φ hGU hGR hGP hHU hHR
@@ -171,17 +171,18 @@ private theorem surjective_verticalAutMap_quotientStackMap_realization
     rw [Equiv.apply_symm_apply]
     exact hab
   let m := (Stack.pointwiseToQuotientStackFiber G' T).map r
-  refine ⟨⟨Functor.Fiber.fiberInclusion.mapIso (asIso m),
+  refine ⟨⟨Aut.of (Functor.Fiber.fiberInclusion.mapIso (asIso m)),
     (Functor.mem_verticalAut_iff _ _).mpr (Functor.map_fiberInclusion_map_eq_id _ m)⟩, ?_⟩
   apply Subtype.ext
   apply Aut.ext
-  show (Stack.quotientStackMap Φ).toFunctor.map m.1 = β.1.hom
+  apply Iso.ext
+  show (Stack.quotientStackMap Φ).toFunctor.map m.1 = β.1.asIso.hom
   rw [Stack.quotientStackMap_map_pointwiseToQuotientStackFiber, hr,
     congrArg Subtype.val (hFH.map_preimage n)]
-  show α.inv.app X ≫ (α.hom.app X ≫ β.1.hom ≫ α.inv.app X) ≫ α.hom.app X = _
+  show α.inv.app X ≫ (α.hom.app X ≫ β.1.asIso.hom ≫ α.inv.app X) ≫ α.hom.app X = _
   have aux : ∀ {𝒞 : Type (u + 1)} [Category.{u + 1} 𝒞] {P Q : 𝒞} (i : P ≅ Q) (c : Q ⟶ Q),
       i.inv ≫ (i.hom ≫ c ≫ i.inv) ≫ i.hom = c := fun _ _ => by simp
-  exact aux (α.app X) β.1.hom
+  exact aux (α.app X) β.1.asIso.hom
 
 /-- **`[φ]` preserves the automorphism group of an object presented by a point over `u`.** Let
 `φ : G ⟶ H` be a morphism of groupoid schemes which is an open immersion on arrows and an
@@ -207,8 +208,8 @@ theorem bijective_verticalAutMap_quotientStackMap_realization [IsOpenImmersion �
     (mono_realization_mapArrows C hS φ hGU hGR hGP hHU hHR hHP)
   refine ⟨fun α β h => ?_, surjective_verticalAutMap_quotientStackMap_realization C hS φ hGU hGR
     hGP hHU hHR hHP e hφ u hstab T x hx⟩
-  exact Subtype.ext <| Iso.ext <| (Stack.quotientStackMap _).toFunctor.map_injective
-    (congrArg (fun z => (z : Aut _).hom) (congrArg Subtype.val h))
+  exact Subtype.ext <| Aut.ext <| Iso.ext <| (Stack.quotientStackMap _).toFunctor.map_injective
+    (congrArg (fun z => (z : Aut _).asIso.hom) (congrArg Subtype.val h))
 
 end Stacks.Groupoids.GroupoidScheme.Hom
 

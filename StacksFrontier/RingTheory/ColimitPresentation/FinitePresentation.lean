@@ -170,7 +170,7 @@ private lemma exists_le_range_ap (Q : Submodule R N) (hQ : Q.FG) :
     eq_top_iff.mpr fun x _ => by
       obtain ⟨a, y, hy⟩ := hsurj x
       exact Submodule.mem_iSup_of_mem a ⟨y, hy⟩
-  obtain ⟨s, hs⟩ := CompleteLattice.IsCompactElement.exists_finset_of_le_iSup _
+  obtain ⟨s, hs⟩ := IsCompactElement.exists_finset_of_le_iSup
     ((Submodule.fg_iff_compact Q).mp hQ) _ (by rw [htop]; exact le_top)
   obtain ⟨S, hS⟩ := IsFiltered.sup_objs_exists s
   refine ⟨S, hs.trans (iSup_le fun a => iSup_le fun ha => ?_)⟩

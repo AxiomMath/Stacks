@@ -535,6 +535,18 @@ open GroupoidInAlgebraicSpaces
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X : AlgebraicSpaces B S hS}
   (P : Presentation B S hS X.obj X.property)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_PresentationSchemeDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_PresentationSchemeDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The space of composable pairs of the groupoid of a presentation maps to the represented
 scheme of composable pairs `R ×_U R`.** -/
 def composableToPresentationDouble :

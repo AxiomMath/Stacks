@@ -43,8 +43,8 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1]
 lemma sheafScalarEnd_homOpSheaf {C : Type (u + 1)} [Category.{u} C] (K : GrothendieckTopology C)
     {R : Type} [Ring R] (G : Sheaf K (ModuleCat.{u + 1} R)) (F : Sheaf K AddCommGrpCat.{u + 1})
     (a : Rᵐᵒᵖ) :
-    sheafScalarEnd Rᵐᵒᵖ K (homOpSheaf K G F) a =
-      Stacks.Sites.internalHomSheafPrecomp K (sheafScalarEnd R K G a.unop) F := by
+    (sheafScalarEnd Rᵐᵒᵖ K (homOpSheaf K G F) a).asHom =
+      Stacks.Sites.internalHomSheafPrecomp K (sheafScalarEnd R K G a.unop).asHom F := by
   apply Sheaf.hom_ext
   ext U α
   rfl

@@ -131,6 +131,14 @@ def representingInverseImageCommRingIso :
       (representingChartFunctor B S hS α).sheafPushforwardContinuous
         CommRingCat.{u} (SmallEtale.topology B S hS (representedAlgebraicSpace B S hS U).1)
         (SmallEtale.topology B S hS X.1) :=
+  -- the instance `restrictionCommRingNatIso` uses; instance search for it times out here
+  letI : PreservesFiniteProducts ((representingChartFunctor B S hS α).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS (representedAlgebraicSpace B S hS U).1)
+      (SmallEtale.topology B S hS X.1)) :=
+    instPreservesFiniteProductsOfPreservesFiniteLimits _
+  letI : PreservesFiniteProducts (smallEtaleRingedToposHom B S hS α.hom).toToposHom.inverseImage :=
+    letI := (smallEtaleRingedToposHom B S hS α.hom).toToposHom.preservesFiniteLimits
+    instPreservesFiniteProductsOfPreservesFiniteLimits _
   pullbackCommRingSheafFunctorIsoOfNatIso.{u, u, u, u + 1, u, u + 1} _
       (Φ' := (representingChartFunctor B S hS α).sheafPushforwardContinuous (Type u)
         (SmallEtale.topology B S hS (representedAlgebraicSpace B S hS U).1)

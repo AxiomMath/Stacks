@@ -112,6 +112,14 @@ private theorem preservesInjectiveObjects_of_iso {𝒜 ℬ : Type*} [Category �
 variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) {X : T.Spaces} (A : T.Schemes)
   (s : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj A ⟶ X)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfRepresentableTransport
+    (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- Restriction of abelian sheaves along `Ψ_s`, from the big fppf site of `X` to the big fppf
 site of the scheme `A`. -/
 abbrev schemeSliceRestriction :

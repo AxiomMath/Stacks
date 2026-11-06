@@ -274,7 +274,7 @@ theorem indEtale_of_equiv {A B A' B' : Type*}
   exact indEtale_ofEquivAux
     (ULift.ringEquiv.trans (eA.trans ULift.ringEquiv.symm))
     (ULift.ringEquiv.trans (eB.trans ULift.ringEquiv.symm))
-    (fun a => ULift.ext _ _ (he a.down)) hi
+    (fun a => ULift.ext (he a.down)) hi
 
 /-- In a common universe the lifted condition is the unlifted one. -/
 theorem indEtale_iff {A B : Type u} [CommRing A] [CommRing B] [Algebra A B] :

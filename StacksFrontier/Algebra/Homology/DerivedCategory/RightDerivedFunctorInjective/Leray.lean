@@ -1,6 +1,7 @@
 module
 
 import Mathlib.Algebra.Homology.DerivedCategory.SingleTriangle
+import all Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
 import StacksCore.Tactic.EgaSgaAttribute
 public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFunctorInjective.Exactness
@@ -104,16 +105,16 @@ of `RF`. -/
 @[instance_reducible]
 public noncomputable def commShiftRightDerivedFunctorPlus :
     F.rightDerivedFunctorPlus.CommShift ℤ :=
-  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
+  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) ℤ
 
 attribute [local instance] commShiftRightDerivedFunctorPlus
 
 /-- The unit of `RF` is compatible with the shift. -/
 public lemma natTransCommShiftRightDerivedFunctorPlusUnit :
-    NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
+    NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ :=
   Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
+    F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) ℤ
 
 attribute [local instance] natTransCommShiftRightDerivedFunctorPlusUnit
 
@@ -121,7 +122,7 @@ attribute [local instance] natTransCommShiftRightDerivedFunctorPlusUnit
 public lemma isTriangulated_rightDerivedFunctorPlus :
     F.rightDerivedFunctorPlus.IsTriangulated :=
   isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F _
-    F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith
 
 attribute [local instance] isTriangulated_rightDerivedFunctorPlus
 
@@ -137,7 +138,7 @@ public noncomputable def homologyUnitAppSingleAt (i : ℤ) :
       HomotopyCategory.Plus.singleFunctor C i ⋙ Plus.Qh ⋙ F.rightDerivedFunctorPlus ⋙
         Plus.homologyFunctor D i :=
   Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor C i)
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit (Plus.homologyFunctor D i))
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith (Plus.homologyFunctor D i))
 
 /-- **The unit of `RF` at `A[i]`, read by `H ⁱ`, is invertible for a left exact `F`**: the
 degree-`i` form of the `⇐` direction of [Stacks, Tag 05TD] part (3), whose case `i = 0` is
@@ -155,33 +156,33 @@ with isomorphisms on three sides:
   which is natural. -/
 public lemma isIso_homologyFunctor_map_rightDerivedFunctorPlusUnit_app_single
     [PreservesFiniteLimits F] (i : ℤ) (X : C) :
-    IsIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnit.app
+    IsIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C i).obj X))) := by
   -- The degree-zero statement, which is where left exactness of `F` is used.
-  have h₀ : IsIso ((Plus.homologyFunctor D 0).map (F.rightDerivedFunctorPlusUnit.app
+  have h₀ : IsIso ((Plus.homologyFunctor D 0).map (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj X))) :=
     (isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 ‹_› X
+      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 ‹_› X
   -- Step 3: `H ⁱ` of a `⟦-i⟧`-shift is `H ⁰`, naturally.
   have hs : shiftFunctor (DerivedCategory.Plus D) (-i) ⋙ Plus.homologyFunctor D i ≅
       Plus.homologyFunctor D 0 :=
     (Plus.homologyFunctor D 0).shiftIso (-i) i 0 (by omega)
   have h₃ : IsIso ((Plus.homologyFunctor D i).map ((shiftFunctor
-      (DerivedCategory.Plus D) (-i)).map (F.rightDerivedFunctorPlusUnit.app
+      (DerivedCategory.Plus D) (-i)).map (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C 0).obj X)))) :=
-    (NatIso.isIso_map_iff hs (F.rightDerivedFunctorPlusUnit.app
+    (NatIso.isIso_map_iff hs (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj X))).mpr h₀
   -- Step 2: the unit commutes with the shift.
-  have h₂ : IsIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnit.app
+  have h₂ : IsIso ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnith.app
       ((shiftFunctor (HomotopyCategory.Plus C) (-i)).obj
         ((HomotopyCategory.Plus.singleFunctor C 0).obj X)))) := by
-    rw [NatTrans.shift_app F.rightDerivedFunctorPlusUnit (-i)
+    rw [NatTrans.shift_app F.rightDerivedFunctorPlusUnith (-i)
       ((HomotopyCategory.Plus.singleFunctor C 0).obj X), Functor.map_comp,
       Functor.map_comp] at h₃
     have := IsIso.of_isIso_comp_left ((Plus.homologyFunctor D i).map
         ((Functor.commShiftIso (F.mapHomotopyCategoryPlus ⋙ Plus.Qh)
           (-i)).inv.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X)))
-      ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnit.app
+      ((Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnith.app
           ((shiftFunctor (HomotopyCategory.Plus C) (-i)).obj
             ((HomotopyCategory.Plus.singleFunctor C 0).obj X))) ≫
         (Plus.homologyFunctor D i).map
@@ -194,7 +195,7 @@ public lemma isIso_homologyFunctor_map_rightDerivedFunctorPlusUnit_app_single
   have e : HomotopyCategory.Plus.singleFunctor C 0 ⋙
       shiftFunctor (HomotopyCategory.Plus C) (-i) ≅ HomotopyCategory.Plus.singleFunctor C i :=
     (HomotopyCategory.Plus.singleFunctors C).shiftIso (-i) i 0 (by omega)
-  exact (NatTrans.isIso_app_iff_of_iso (Functor.whiskerRight F.rightDerivedFunctorPlusUnit
+  exact (NatTrans.isIso_app_iff_of_iso (Functor.whiskerRight F.rightDerivedFunctorPlusUnith
     (Plus.homologyFunctor D i)) (e.app X)).1 h₂
 
 /-- For a left exact `F` the canonical map `F ⟶ H ⁱ(RF((-)[i]))` is an isomorphism, in the
@@ -248,7 +249,7 @@ public lemma isoRightDerivedPlusSingle_hom_app [PreservesFiniteLimits F] (i : �
     (F.isoRightDerivedPlusSingle i).hom.app X =
       (Plus.singleFunctorCompHomologyFunctorIso i).inv.app (F.obj X) ≫
         (Plus.homologyFunctor D i).map ((mapSingleFunctorCompQhIsoOfDegree F i).inv.app X) ≫
-          (Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnit.app
+          (Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor C i).obj X)) ≫
             (Plus.homologyFunctor D i).map (F.rightDerivedFunctorPlus.map
               ((singleFunctorPlusIsoCompQh i).inv.app X)) := by
@@ -925,7 +926,7 @@ lemma isGE_rightDerivedFunctorPlus_obj (Y : DerivedCategory.Plus C) (a : ℤ) [Y
     show CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
       (((InjectiveObject.ι C).mapHomologicalComplex _).obj L.obj)) a
     infer_instance
-  have hiso : IsIso (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient C).obj
+  have hiso : IsIso (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj
       ((InjectiveObject.ι C).mapCochainComplexPlus.obj L))) := by
     have : ∀ (i : ℤ), Injective (((HomotopyCategory.Plus.quotient C).obj
       ((InjectiveObject.ι C).mapCochainComplexPlus.obj L)).obj.as.X i) := fun _ ↦ inferInstance
@@ -943,8 +944,10 @@ lemma isGE_rightDerivedFunctorPlus_obj (Y : DerivedCategory.Plus C) (a : ℤ) [Y
 statement of Leray's acyclicity lemma. -/
 private lemma isGE_totalRightDerived_obj (X : DerivedCategory.Plus C) (a : ℤ) [X.IsGE a] :
     (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
-      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).obj X).IsGE a :=
-  isGE_rightDerivedFunctorPlus_obj F X a
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).obj X).IsGE a := by
+  have h := isGE_rightDerivedFunctorPlus_obj F X a
+  unfold rightDerivedFunctorPlus at h
+  exact h
 
 end LerayEnoughInjectives
 

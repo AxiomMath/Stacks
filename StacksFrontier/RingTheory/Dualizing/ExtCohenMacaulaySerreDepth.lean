@@ -150,7 +150,7 @@ theorem min_two_supportDim_le_moduleDepth_ext_of_le_depth [IsNoetherianRing S] [
       rw [htop] at hle
       exact Module.maximalIdeal_smul_top_ne_top M (top_le_iff.mp hle)
     have hsub : Subsingleton (Ext N M c) :=
-      ModuleCat.subsingleton_ext_of_lt_depth I M N hIM (k := 1) (by simpa using hN)
+      ModuleCat.subsingleton_ext_of_lt_ideal_depth I M N hIM (k := 1) (by simpa using hN)
         (lt_of_lt_of_le (by exact_mod_cast Nat.lt_succ_self c) hc)
     let e := extQuotSMulTopLinearEquiv hreg hxN c hsub
     rw [← moduleDepth_eq_of_linearEquiv e]

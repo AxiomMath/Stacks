@@ -84,6 +84,13 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasLimit_cospan_presheaf_FlatImageSystem
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 attribute [local simp] pullback.lift_fst pullback.lift_snd pullback.lift_fst_assoc
   pullback.lift_snd_assoc
 
@@ -784,6 +791,8 @@ of `Y ⟶ Y_l`, whose image is all of `Y_l`, along the flat morphism `U_l ⟶ Y_
 lemma schemeTheoreticImage_d (algY : IsAlgebraicSpace B S hS Y)
     (small : Cardinal.mk I < B.cutoff.ord.cof) (l : Over M.n) :
     schemeTheoreticImageSubfunctor B S hS (M.d l) = ⊤ := by
+  have : Epi (M.isPullback_d l).flip.isoPullback.hom :=
+    IsIso.epi_of_iso (M.isPullback_d l).flip.isoPullback.hom
   rw [← (M.isPullback_d l).flip.isoPullback_hom_snd, schemeTheoreticImageSubfunctor_comp_of_epi,
     schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact' B S hS (M.pr l)
       ((tailCone GY leY).π.app l.left) (M.isAlgebraicSpace_Us l)

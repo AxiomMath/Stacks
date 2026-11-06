@@ -65,7 +65,7 @@ theorem sheafAb_section_eq_zero_of_mem {X : Scheme.{u}}
     (h : ∀ ⦃W : X.Etale⦄ (g : W ⟶ V), S g → G.obj.map g.op t = 0) : t = 0 := by
   have hG := (CategoryTheory.isSheaf_iff_isSheaf_of_type _ _).1
     ((CategoryTheory.Presheaf.isSheaf_iff_isSheaf_forget (smallEtaleTopology X) G.obj
-      (forget Ab.{u + 1})).1 G.cond)
+      (forget Ab.{u + 1})).1 G.property)
   refine ((hG S hS).isSeparatedFor).ext (t₁ := t) (t₂ := (0 : ToType (G.obj.obj (op V))))
     fun W g hg => ?_
   show G.obj.map g.op t = G.obj.map g.op 0

@@ -53,6 +53,29 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Limits of presheaves on the big fppf site over `S`, given directly: instance search for them
+times out under Lean v4.35.0. These are `local` instances, with names unique to this file. -/
+local instance (priority := high) hasLimitsOfSize_presheaf_dominantChartLimit :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfSize
+
+local instance (priority := high) epi_isoHom_presheaf_dominantChartLimit
+    {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : X ≅ Y) : Epi e.hom :=
+  IsIso.epi_of_iso _
+
+local instance (priority := high) epi_isoInv_presheaf_dominantChartLimit
+    {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : X ≅ Y) : Epi e.inv :=
+  IsIso.epi_of_iso _
+
+local instance (priority := high) hasPullbacks_presheaf_dominantChartLimit :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_dominantChartLimit
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_dominantChartLimit.has_limit _
+
 /-- **The scheme-theoretic image is unchanged by postcomposition with an isomorphism**, when it is
 everything. -/
 theorem schemeTheoreticImageSubfunctor_comp_isIso_eq_top

@@ -180,16 +180,18 @@ theorem baseChangeIsSheaf_of_isSheaf (R : Sheaf K RingCat.{u + 1})
   intro M
   let Pab := (SheafOfModules.toSheaf _).obj ((associatedSheaf V₀ hV₀ e).obj M)
   let Q : Sheaf K AddCommGrpCat.{u + 1} := ⟨Pab.obj, hK Pab⟩
-  let eb : (toSlice T V).op ⋙ Q.obj ≅
-      ((Stacks.TerminalBaseChange.baseChangePresheaf.{u + 1} (ringPresheaf (T := T) (V := V))
-          (isTerminalOfIso V₀ hV₀ e)).obj M).presheaf :=
-    (sheafToPresheaf _ _).mapIso ((SheafOfModules.toSheaf _).mapIso
+  let eb₀ := (sheafToPresheaf _ _).mapIso ((SheafOfModules.toSheaf _).mapIso
       ((Stacks.DenseSubsiteBaseChange.associatedSheafRestrictionIso
         (baseChangeIsSheaf V₀ hV₀ e)).app M))
+  let eb : (toSlice T V).op ⋙ Q.obj ≅
+      ((Stacks.TerminalBaseChange.baseChangePresheaf.{u + 1} (ringPresheaf (T := T) (V := V))
+          (isTerminalOfIso V₀ hV₀ e)).obj M).presheaf := eb₀
   exact (Presheaf.isSheaf_of_iso_iff eb).1 ((toSlice T V).op_comp_isSheaf _ _ Q)
 
 end AffineSchemesOver
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
 open AffineSchemesOver Stacks.DenseSubsiteBaseChange in
 /-- **The unit of `ε_X^* ⊣ ε_{X,*}` is invertible on sections over an affine object** over which
 the module has a global presentation. -/
@@ -216,7 +218,7 @@ theorem isIso_fppfToBigEtale_unit_val_app_of_hasGlobalPresentation
     intro P
     have := ((fppfToBigEtaleRingedHom T E h X).localized W).isMorphismOfSites.isContinuous
     exact ((((fppfToBigEtaleRingedHom T E h X).localized W).u.sheafPushforwardContinuous
-      AddCommGrpCat.{u + 1} _ _).obj P).cond
+      AddCommGrpCat.{u + 1} _ _).obj P).property
   cases E with
   | mk eSchemeSite eSchemeMem eFppfSite eFppfMem eInitial eInitialSmall eInitialEtale eBound
       eOrdinal eOrdinalLim eInitialBounded eIsSite eRepresentative =>
@@ -253,6 +255,13 @@ theorem isIso_fppfToBigEtale_unit_val_app_of_hasGlobalPresentation
         (isTerminalOfIso V₀ hV₀ e) :=
       baseChangeIsSheaf_of_isSheaf T _ (hcd := hcd) R rfl hK0 V₀ hV₀ e
     let hT : IsTerminal (vs.obj A₀) := isTerminal_toSlice_ofIso V₀ hV₀ e
+    have iK1 : HasSheafify K AddCommGrpCat.{u + 1} := inferInstance
+    have iK2 : K.WEqualsLocallyBijective AddCommGrpCat.{u + 1} := inferInstance
+    have iD : vs.IsDenseSubsite (vs.inducedTopology K) K := inferInstance
+    have iL : ∀ X, HasLimitsOfShape (StructuredArrow X vs.op) AddCommGrpCat.{u + 1} :=
+      fun _ => HasLimitsOfSize.has_limits_of_shape _
+    have iK3 : (vs.sheafPushforwardContinuous AddCommGrpCat.{u + 1} (vs.inducedTopology K)
+      K).IsEquivalence := inferInstance
     obtain ⟨M, ⟨i⟩⟩ := exists_iso_associatedSheaf_of_presentation hs hT p
     let t : Over Wy := vs.obj A₀
     let hb := AffineSchemesOver.baseChangeIsSheaf (V := W') V₀ hV₀ e

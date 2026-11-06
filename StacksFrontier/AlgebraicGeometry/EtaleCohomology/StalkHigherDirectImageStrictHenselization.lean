@@ -232,7 +232,7 @@ def levelGammaCoconeIso :
           (strictHenselizationToSourceOverOpen B S hS s U hU f)
           (fun a => (strictHenselizationDirectedLimitCone_π_snd B S hS s U hU f a).symm)) ≅
       levelGammaCocone B S hS s U hU f F :=
-  Cocones.ext (Iso.refl _) (fun a => by
+  Cocone.ext (Iso.refl _) (fun a => by
     simp only [levelGammaCocone_ι_app, levelGammaDiagramIso, Iso.refl_hom]
     rfl)
 

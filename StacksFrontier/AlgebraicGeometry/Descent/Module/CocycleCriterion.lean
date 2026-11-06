@@ -115,7 +115,6 @@ lemma lTensor_assoc_smul_tmul (a₁ a₂ : A) (y : A ⊗[R] restrictModule R A N
       = LinearMap.lTensor A
           (targetSmulMap R A N (a₁ ⊗ₜ[R] a₂) ∘ₗ unitTransition R A N e) y := by
   induction y with
-  | zero => simp
   | add u v hu hv =>
     rw [smul_add, TensorProduct.add_tmul, map_add, map_add, hu, hv, map_add]
   | tmul x n =>
@@ -132,7 +131,6 @@ lemma assoc_symm_lTensor_mk (a₁ a₂ : A) (z : A ⊗[R] restrictModule R A N) 
       = (TensorProduct.rightComm R A (restrictModule R A N) A)
           ((((1 : A) ⊗ₜ[R] a₂) • z) ⊗ₜ[R] a₁) := by
   induction z with
-  | zero => simp
   | add u v hu hv =>
     rw [map_add, map_add, hu, hv, smul_add, TensorProduct.add_tmul, map_add]
   | tmul x n =>
@@ -158,7 +156,6 @@ theorem cocycle_of_unitTransition
   apply TensorProduct.ext'
   intro x a₂
   induction x with
-  | zero => simp
   | add u v hu hv => rw [TensorProduct.add_tmul, map_add, map_add, hu, hv]
   | tmul n a₁ =>
     show (TensorProduct.assoc R A A (restrictModule R A N)).symm

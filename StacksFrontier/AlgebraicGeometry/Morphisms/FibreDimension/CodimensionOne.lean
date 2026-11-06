@@ -115,7 +115,6 @@ public theorem finite_residueField_of_quasiFiniteAt_specializes
   let A := Localization.AtPrime Q
   let B := Localization.AtPrime P
   let algAB : Algebra A B := Localization.AtPrime.algebraOfLiesOver Q P
-  have hliesAlg : Localization.AtPrime.IsLiesOverAlgebra Q P := ⟨rfl⟩
   have hlocalhom : IsLocalHom (algebraMap A B) := by infer_instance
   -- `A` is the stalk of `Y` at `f η`
   let algsec : Algebra Γ(Y, U) (Y.presheaf.stalk (f η)) :=

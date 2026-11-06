@@ -305,7 +305,7 @@ public instance initiallySmall_elementaryEtaleFiber_elements (X : Scheme.{u}) (x
   initiallySmall_of_essentiallySmall_weakly_initial_objectProperty
     (Functor.Elements.precomp (Scheme.AffineEtale.Spec X)
       (elementaryEtaleFiber X x)).essImage (by
-    rintro ⟨W, p⟩
+    rintro @⟨W, p⟩
     cases W with | _ Y f
     obtain ⟨y, hy, rfl⟩ := Over.homMk_surjective p
     dsimp at y hy

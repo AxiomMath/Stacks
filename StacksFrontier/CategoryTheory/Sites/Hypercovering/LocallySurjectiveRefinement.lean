@@ -113,7 +113,7 @@ private theorem uliftYonedaEquiv_inclIso_inv_comp_map {Z U : FormalCoproduct.{ma
     simp only [Functor.comp_obj, Over.forget_obj, Functor.comp_map, Over.forget_map,
       uliftYoneda_map_app, TypeCat.hom_ofHom, yoneda_obj_obj, TypeCat.Fun.coe_mk,
       Category.id_comp, uliftYoneda_obj_map, Quiver.Hom.unop_op, E, f, xZ, xB]
-    exact ULift.ext _ _ (Category.comp_id _).symm
+    exact ULift.ext (Category.comp_id _).symm
   have hsectionRight :
       (ConcreteCategory.hom ((E.map f ≫ eB.inv ≫ τ).app (Opposite.op (Z.obj p).left))) xZ =
         (ConcreteCategory.hom ((eB.inv ≫ τ).app (Opposite.op (Z.obj p).left)))

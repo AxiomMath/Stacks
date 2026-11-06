@@ -371,12 +371,13 @@ theorem baseRingTensorPreimageIdealHom_ι :
 theorem mono_baseRingTensorPreimageIdealHom (hg : IsFlat B S hS g.hom)
     (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj T)) :
     Mono (baseRingTensorPreimageIdealHom B S hS g Z) := by
-  have : Mono ((baseRingTensorModule B S hS W (baseRingHomOfMap g)).map
+  have hm : Mono ((baseRingTensorModule B S hS W (baseRingHomOfMap g)).map
       (ModuleCat.ofHom (closedSubspaceBaseIdeal B S hS Z).subtype)) :=
     mono_baseRingTensorModule_map g hg hT _ Subtype.val_injective
   have : Mono (baseRingTensorPreimageIdealHom B S hS g Z ≫ preimageIdealι B S hS g Z) := by
     rw [baseRingTensorPreimageIdealHom_ι]
-    infer_instance
+    have hi := isIso_baseRingTensorModuleSelfHom B S hS W (baseRingHomOfMap g)
+    exact mono_comp' hm (IsIso.mono_of_iso _)
   exact mono_of_mono _ (preimageIdealι B S hS g Z)
 
 /-- The global section `a ∈ I` of `𝒪_W ⊗_R I`, read as a morphism out of `𝒪_W`, is carried by

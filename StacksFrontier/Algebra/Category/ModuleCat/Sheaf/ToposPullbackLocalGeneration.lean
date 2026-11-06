@@ -620,6 +620,7 @@ noncomputable def prodSectionEquiv {C : Type u} [Category.{v} C]
     {J : GrothendieckTopology C} (A B : Sheaf J (Type w)) (U : Cᵒᵖ) :
     (A ⨯ B).obj.obj U ≃ A.obj.obj U × B.obj.obj U := by
   let E := sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U
+  have : HasBinaryProduct A B := inferInstance
   exact ((asIso (prodComparison E A B)) ≪≫ Types.binaryProductIso _ _).toEquiv
 
 /-- The first component of `prodSectionEquiv A B U x` is the first projection of `x`. -/
@@ -628,6 +629,7 @@ theorem prodSectionEquiv_fst {C : Type u} [Category.{v} C]
     (x : (A ⨯ B).obj.obj U) :
     (prodSectionEquiv A B U x).1 = (prod.fst : A ⨯ B ⟶ A).hom.app U x := by
   let E := sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U
+  have : HasBinaryProduct A B := inferInstance
   show (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.fst) x = _
   rw [Types.binaryProductIso_hom_comp_fst, prodComparison_fst]
   rfl
@@ -638,6 +640,7 @@ theorem prodSectionEquiv_snd {C : Type u} [Category.{v} C]
     (x : (A ⨯ B).obj.obj U) :
     (prodSectionEquiv A B U x).2 = (prod.snd : A ⨯ B ⟶ B).hom.app U x := by
   let E := sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U
+  have : HasBinaryProduct A B := inferInstance
   show (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.snd) x = _
   rw [Types.binaryProductIso_hom_comp_snd, prodComparison_snd]
   rfl
@@ -990,6 +993,7 @@ theorem locallySpans_of_generatingSections_over
 /-- The sections of the terminal sheaf of types over any object form a singleton. -/
 private noncomputable abbrev terminalSectionUnique {C : Type u} [Category.{v} C]
     (J : GrothendieckTopology C) (U : Cᵒᵖ) : Unique ((⊤_ (Sheaf J (Type w))).obj.obj U) :=
+  haveI : HasTerminal (Sheaf J (Type w)) := inferInstance
   Types.isTerminalEquivUnique _ (terminalIsTerminal.isTerminalObj
     (sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U))
 

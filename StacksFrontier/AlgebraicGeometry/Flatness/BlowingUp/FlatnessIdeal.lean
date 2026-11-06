@@ -308,9 +308,9 @@ private lemma flat_basicOpen_sections {A : Type u} [CommRing A]
   let e : Γ(F, W) ≃ₗ[A] ((modulesSpecToSheaf.obj (tilde M)).presheaf.obj (.op V)) :=
     { __ := AddEquiv.refl _
       map_smul' a m := by
-        show ((tilde M).smul ((U.ι.appIso W).inv ((U.ι.appLE ⊤ W hWtop) (φ a)))).hom m =
+        show ((tilde M).smul ((U.ι.appIso W).inv ((U.ι.appLE ⊤ W hWtop) (φ a)))).asHom.hom m =
           ((tilde M).smul ((Spec (.of A)).presheaf.map
-            (homOfLE (show V ≤ ⊤ from le_top)).op (φ a))).hom m
+            (homOfLE (show V ≤ ⊤ from le_top)).op (φ a))).asHom.hom m
         rw [Scheme.Hom.appLE_appIso_inv_apply] }
   have := Module.Flat.of_linearEquiv e.symm
   let eV := (modulesSpecToSheaf.obj (tilde M)).presheaf.mapIso (eqToIso hV).op

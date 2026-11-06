@@ -1193,6 +1193,13 @@ private noncomputable def cellIso (n : ℤ) :
     cell (R := R) n ≅ (cell (R := R) 0)⟦-n⟧ :=
   ((singleFunctors (ModuleCat.{v} R)).shiftIso (-n) n 0 (neg_add_cancel n)).symm.app _
 
+/-- Coproducts of cochain complexes of modules, stated directly: instance search no longer
+finds them within the default budget. -/
+private local instance hasCoproductsCochainComplex :
+    HasCoproducts.{v} (CochainComplex (ModuleCat.{v} R) ℤ) := fun J => by
+  haveI : HasColimitsOfShape (Discrete J) (ModuleCat.{v} R) := inferInstance
+  exact ⟨fun F => ⟨⟨⟨_, HomologicalComplex.isColimitCoconeOfHasColimitEval F⟩⟩⟩⟩
+
 private noncomputable def cellsIso {I : Type v} (n : I → ℤ) :
     (∐ fun i => cell (R := R) (n i)) ≅ ∐ fun i => (cell (R := R) 0)⟦-n i⟧ :=
   Sigma.mapIso (fun i => cellIso (n i))

@@ -323,7 +323,6 @@ public theorem isHomLift_psiIso_post (w : TwoFibreProductOver p𝒳 p𝒵 p𝒴 
   simp only [Over.post_map, Over.homMk_left, CategoryTheory.Functor.map_comp, Over.comp_left,
     Category.id_comp, Over.eqToHom_left]
   simp only [eqToHom_map, eqToHom_trans]
-  rfl
 
 /-- The mediating `1`-morphism comparing the 2-fibre product formed over the site with the
 2-fibre product formed over all schemes over `S`. On objects it only replaces the base object

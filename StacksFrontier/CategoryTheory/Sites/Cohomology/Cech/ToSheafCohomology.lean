@@ -269,7 +269,7 @@ lemma cechAugmentationPre_π (F : Cᵒᵖ ⥤ Ab.{max a u v w}) (k : Fin 1 → E
     cechAugmentationPre.{a} E F ≫ Pi.π (cochainFactor E F 0) k =
       F.map ((Over.forget U).map (Over.mkIdTerminal.from
         (∏ᶜ fun b : Fin 1 ↦ Over.mk (E.f (k b))))).op :=
-  Pi.lift_π _ k
+  Pi.lift_comp_π _ k
 
 /-- The components of the augmentation, on elements. -/
 lemma cechAugmentationPre_π_apply (F : Cᵒᵖ ⥤ Ab.{max a u v w}) (k : Fin 1 → E.I₀)

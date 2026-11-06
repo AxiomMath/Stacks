@@ -136,6 +136,7 @@ theorem isIso_fromPreimage_range_of_isEtale (hV : IsAlgebraicSpace B S hS V)
     isEtale_pullback_fst B S hS hT hX hV T.ι f hf
   set σ : yoneda.obj R ⟶ pullback T.ι f := pullback.lift l ρ hlι
   have hσfst : σ ≫ pullback.fst T.ι f = l := pullback.lift_fst _ _ _
+  have hlmono : Mono l := IsIso.mono_of_iso l
   have hσmono : Mono σ := mono_of_mono_fac hσfst
   have hWloc : ∀ (P : ObjectProperty Scheme.{u}) [P.IsLocal Scheme.etalePrecoverage],
       P ((BigFppfOver.toScheme B S hS).obj R) → HasEtaleLocalProperty B S hS (pullback T.ι f) P :=

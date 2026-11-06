@@ -6,6 +6,7 @@ public import Mathlib.RingTheory.QuasiFinite.Basic
 public import Mathlib.RingTheory.RingHom.Etale
 public import Mathlib.RingTheory.RingHom.Flat
 public import Mathlib.RingTheory.Unramified.LocalRing
+public import Mathlib.RingTheory.LocalProperties.Reduced
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.AdicCompletion.Finiteness
 public import StacksFrontier.RingTheory.Rig.AdicBasic

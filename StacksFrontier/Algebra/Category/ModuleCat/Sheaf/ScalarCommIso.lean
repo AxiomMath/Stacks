@@ -35,7 +35,8 @@ sheaves of `Λ`-modules.** -/
 def sheafIsoOfScalarComm {F G : Sheaf J (ModuleCat.{w} Λ)}
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (he : ∀ a : Λ, sheafScalarEnd Λ J F a ≫ e.hom = e.hom ≫ sheafScalarEnd Λ J G a) :
+    (he : ∀ a : Λ,
+      (sheafScalarEnd Λ J F a).asHom ≫ e.hom = e.hom ≫ (sheafScalarEnd Λ J G a).asHom) :
     F ≅ G where
   hom := sheafHomOfScalarComm Λ J e.hom he
   inv := sheafHomOfScalarComm Λ J e.inv (fun a => by
@@ -54,7 +55,8 @@ def sheafIsoOfScalarComm {F G : Sheaf J (ModuleCat.{w} Λ)}
 lemma sheafCompose_map_sheafIsoOfScalarComm_hom {F G : Sheaf J (ModuleCat.{w} Λ)}
     (e : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ≅
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (he : ∀ a : Λ, sheafScalarEnd Λ J F a ≫ e.hom = e.hom ≫ sheafScalarEnd Λ J G a) :
+    (he : ∀ a : Λ,
+      (sheafScalarEnd Λ J F a).asHom ≫ e.hom = e.hom ≫ (sheafScalarEnd Λ J G a).asHom) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
       (sheafIsoOfScalarComm Λ J e he).hom = e.hom :=
   sheafCompose_map_sheafHomOfScalarComm Λ J e.hom he

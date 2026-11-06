@@ -6,6 +6,8 @@ public import StacksFrontier.Algebra.Homology.HomotopyCategory.Adjunction
 public import Mathlib.Algebra.Homology.DerivedCategory.TStructure
 public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.Algebra.Category.Grp.Zero
+public import Mathlib.Algebra.Category.Grp.Limits
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.Basic
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import StacksCore.CategoryTheory.Abelian.SerreClass.Basic
 public import StacksCore.CategoryTheory.Abelian.SerreClass.Weak
@@ -536,6 +538,7 @@ private theorem exists_local_kernel_lift {S : ShortComplex (Sheaf J AddCommGrpCa
   have : PreservesFiniteLimits E :=
     preservesFiniteLimits_of_natIso
       (sheafSectionsNatIsoEvaluation J AddCommGrpCat.{w} (X := V)).symm
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{w}) := inferInstance
   have : E.Additive := E.additive_of_preserves_binary_products
   let hlim : IsLimit (E.mapCone (KernelFork.ofι S.f S.zero)) :=
     isLimitOfPreserves E hS.fIsKernel

@@ -139,11 +139,14 @@ theorem colimMap_comp_comparisonMap (A : Type u) [CommRing A] (I a : Ideal A)
   rw [← Category.assoc, ι_colimMap, Category.assoc, colimit_ι_comp_comparisonMap,
     ← Category.assoc, colimit_ι_comp_comparisonMap]
   refine limit.hom_ext fun n ↦ ?_
+  have : Mono (resNearVanishing A I a G V n) := IsIso.mono_of_iso _
   rw [Category.assoc, comparisonAt_π, Category.assoc, limMap_π, comparisonAt_π_assoc,
     ← cancel_mono (resNearVanishing A I a G V n)]
   simp only [Category.assoc]
-  rw [IsIso.inv_hom_id, Category.comp_id, ← resNearVanishing_comp_quotientMapNearVanishing,
-    ← Category.assoc (inv (resNearVanishing A I a F V n)), IsIso.inv_hom_id, Category.id_comp,
+  rw [IsIso.inv_hom_id (resNearVanishing A I a G V n), Category.comp_id,
+    ← resNearVanishing_comp_quotientMapNearVanishing,
+    ← Category.assoc (inv (resNearVanishing A I a F V n)),
+    IsIso.inv_hom_id (resNearVanishing A I a F V n), Category.id_comp,
     projNearVanishing_comp_quotientMapNearVanishing]
 
 /-- The induced map on the colimit, read on a section over a single neighbourhood. -/

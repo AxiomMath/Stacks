@@ -356,12 +356,12 @@ structure LevelReduction07JG (S : GlobalCrystallineSituation.{u}) (A : Type u) [
   /-- The ring `D ⊕ Ω` maps to the sections of `𝒪_{X/S}` over the first-order thickening of the
   level `e`. -/
   thickeningRingHom : ∀ e : ℕ, firstOrderExtension D Omega →+*
-    (structureSheaf S).val.obj (op (firstOrderThickeningCrysObject S (L.levelSystem.obj e)))
+    (structureSheaf S).obj.obj (op (firstOrderThickeningCrysObject S (L.levelSystem.obj e)))
   /-- On the `D` summand it is the reduction of `D` to the level followed by restriction along the
   projection of [Stacks, Tag 07J2]. -/
   thickeningRingHom_p₀ : ∀ (e : ℕ) (a : (D : Type u)),
     thickeningRingHom e (firstOrderP₀ D Omega a) =
-      ((structureSheaf S).val.map
+      ((structureSheaf S).obj.map
         (firstOrderThickeningCrysP₀ S (L.levelSystem.obj e)).op).hom ((L.ringEquiv a).val e)
   /-- The base change `(D ⊕ Ω) ⊗_D M` maps to the sections over the first-order thickening of the
   level `e`. -/

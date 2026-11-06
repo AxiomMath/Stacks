@@ -477,9 +477,9 @@ def presheafTensorRestrictionApp (W : Cᵒᵖ) :
     (M₂ := ((pushforward₀OfCommRingCat.{w} F O).obj N).obj W)
     (fun a b => tmulRestrict F O M N W a b)
     (fun a a' b => TensorProduct.add_tmul a a' b)
-    (fun r a b => TensorProduct.smul_tmul' r a b)
+    (fun r a b => TensorProduct.smul_tmul' (R := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) (R' := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) r a b)
     (fun a b b' => TensorProduct.tmul_add a b b')
-    (fun r a b => TensorProduct.tmul_smul r a b)
+    (fun r a b => TensorProduct.tmul_smul (R := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) (R' := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) r a b)
 
 /-- The comparison on sections in the other direction, constructed out of the same bilinear
 map. -/
@@ -492,9 +492,9 @@ def presheafTensorRestrictionAppInv (W : Cᵒᵖ) :
     (M₂ := ((pushforward₀OfCommRingCat.{w} F O).obj N).obj W)
     (fun a b => restrictTmul F O M N W a b)
     (fun a a' b => TensorProduct.add_tmul a a' b)
-    (fun r a b => TensorProduct.smul_tmul' r a b)
+    (fun r a b => TensorProduct.smul_tmul' (R := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) (R' := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) r a b)
     (fun a b b' => TensorProduct.tmul_add a b b')
-    (fun r a b => TensorProduct.tmul_smul r a b)
+    (fun r a b => TensorProduct.tmul_smul (R := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) (R' := ↑(((F.op ⋙ O) ⋙ forget₂ CommRingCat RingCat).obj W)) r a b)
 
 /-- `presheafTensorRestrictionApp` sends the restriction of `a ⊗ₜ b` to the tensor product of the
 restrictions of `a` and `b`. -/

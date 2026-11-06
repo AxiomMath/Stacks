@@ -86,7 +86,8 @@ private theorem isDerivedCompleteModule_of_pow_annihilates (I : Ideal A) (m : �
   intro a ha
   rw [isDerivedCompleteAt_single_iff_isIso_oneSubSmulShift, ← isDerivedCompleteAt_iff_isIso]
   refine isDerivedCompleteAt_of_isNilpotent ⟨m, ?_⟩
-  rw [smul_id_pow]
+  apply End.ext
+  rw [smul_id_pow, End.zero_asHom]
   exact (Stacks.Algebraization.smul_id_eq_zero_iff_mem_annihilator N (a ^ m)).2
     (h (Ideal.pow_mem_pow ha m))
 

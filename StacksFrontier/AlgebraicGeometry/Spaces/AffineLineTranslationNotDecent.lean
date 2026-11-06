@@ -202,11 +202,11 @@ variable {S : Scheme.{u}}
 the graph relation of the action. -/
 theorem actionRelation_rel_of_smul (U : Over S) (G : Type) [Group G] (a : G →* Aut U)
     {T : Over S} (y : T ⟶ U) (g : G) :
-    (actionRelation U G a).Rel (y ≫ (a g).hom) y := by
+    (actionRelation U G a).Rel (y ≫ (a g).asIso.hom) y := by
   refine ⟨y ≫ Sigma.ι (fun _ : G ↦ U) g, ?_, ?_⟩
   · rw [Category.assoc, show (actionRelation U G a).target = actionRelationTarget U G a from
       prod.lift_fst _ _]
-    show y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).hom) = _
+    show y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
     rw [Sigma.ι_desc]
   · rw [Category.assoc, show (actionRelation U G a).source = actionRelationSource U G from
       prod.lift_snd _ _]
@@ -219,7 +219,7 @@ relation scheme witnessing the relation factors through one of its summands. -/
 theorem exists_smul_eq_of_actionRelation_rel (U : Over S) (G : Type) [Group G]
     (a : G →* Aut U) {T : Over S} [Unique T.left] {x y : T ⟶ U}
     (h : (actionRelation U G a).Rel x y) :
-    ∃ g : G, x = y ≫ (a g).hom := by
+    ∃ g : G, x = y ≫ (a g).asIso.hom := by
   obtain ⟨r, hrt, hrs⟩ := h
   have htgt : (actionRelation U G a).target = actionRelationTarget U G a := prod.lift_fst _ _
   have hsrc : (actionRelation U G a).source = actionRelationSource U G := prod.lift_snd _ _
@@ -257,7 +257,7 @@ theorem exists_smul_eq_of_actionRelation_rel (U : Over S) (G : Type) [Group G]
     show c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun _ : G ↦ 𝟙 U) = c
     rw [Sigma.ι_desc, Category.comp_id]
   rw [← hrt, ← hcr, Category.assoc, hy]
-  show c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).hom) = _
+  show c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
   rw [Sigma.ι_desc]
 
 /-- A monomorphic field-valued representative separates the morphisms into the object of the
@@ -429,7 +429,7 @@ theorem comp_eq_comp_of_translationAction (k : Type u) [Field k] (B : BigFppfSit
         (op T) ℓ = (translationQuotient k B hS hU).map s.op p.value)
     (e e' : T' ⟶ T) (g : Multiplicative ℤ)
     (h : (Over.post B.inclusion).map (e ≫ ℓ) =
-      (Over.post B.inclusion).map (e' ≫ ℓ) ≫ (translationAction k g).hom) :
+      (Over.post B.inclusion).map (e' ≫ ℓ) ≫ (translationAction k g).asIso.hom) :
     e ≫ s = e' ≫ s := by
   refine Space.eq_of_mono_fieldMorphism p ?_
   have key : ∀ f : T' ⟶ T, (translationQuotient k B hS hU).map (f ≫ s).op p.value =
@@ -478,7 +478,7 @@ theorem exists_comp_genericPointMap_of_quotientChart_eq (k : Type u) [Field k] [
   obtain ⟨g, hg⟩ := Space.exists_smul_eq_of_actionRelation_rel (affineLine k)
     (Multiplicative ℤ) (translationAction k) hrel
   have hg' : (F.map ℓ : F.obj T ⟶ affineLine k) =
-      F.map ℓ' ≫ (translationAction k (Multiplicative.ofAdd g.toAdd)).hom := hg
+      F.map ℓ' ≫ (translationAction k (Multiplicative.ofAdd g.toAdd)).asIso.hom := hg
   have hℓ'' : (F.map ℓ' : F.obj T ⟶ affineLine k) = μ ≫ genericPointMap k := hℓ'
   refine ⟨μ ≫ (genericPointTranslationIso k g.toAdd).hom, hg'.trans ?_⟩
   rw [hℓ'']
@@ -527,7 +527,7 @@ theorem comp_toScheme_map_eq_of_genericPointTranslation (k : Type u) [Field k]
     rw [Functor.map_comp, hν']
     exact (Category.assoc _ _ _).symm
   have hshift : (F.map (eaP ≫ ℓ) : F.obj Pobj ⟶ affineLine k) =
-      F.map (ebP ≫ ℓ) ≫ (translationAction k (Multiplicative.ofAdd (1 : ℤ))).hom := by
+      F.map (ebP ≫ ℓ) ≫ (translationAction k (Multiplicative.ofAdd (1 : ℤ))).asIso.hom := by
     rw [hA eaP, hA ebP, hea_eb]
     refine (Category.assoc _ _ _).trans ?_
     refine (congrArg (fun f ↦ F.map ebP ≫ f) ((Category.assoc _ _ _).trans

@@ -36,8 +36,8 @@ functor of sites.
 ## On the formalization of the module of differentials
 
 Mathlib provides modules of differentials and derivations only at the level of
-*presheaves of modules* (`PresheafOfModules.Derivation`,
-`PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`).  There is
+*presheaves of modules* (`PresheafOfModulesOfCommRing.Derivation`,
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'`).  There is
 currently no sheaf-level module of differentials in Mathlib.
 
 Following the Stacks project, the sheaf module of differentials `Ω_{X/Y}` is
@@ -50,7 +50,7 @@ is faithful to the Stacks definition: there `Ω_{X/Y}` *is* by definition the
 representing object.
 
 A `Y`-derivation `O_X → F` of a genuine sheaf of modules `F` is, by definition,
-a `PresheafOfModules.Derivation'` of the underlying presheaf of modules `F.val`
+a `PresheafOfModulesOfCommRing.Derivation'` of the underlying presheaf of modules `F.val`
 (relative to `g♯ : g⁻¹O_Y ⟶ O_X`); since `F` is a sheaf, this is the genuine
 sheaf-theoretic notion of derivation (Tag 04BK).
 
@@ -95,7 +95,7 @@ noncomputable abbrev ringSheaf {C : Type u} [Category.{v} C]
 
 /-- The `CommRingCat`-valued presheaf of rings `O ⋙ forget₂ CommRingCat RingCat`
 underlying the structure sheaf, regarded as a presheaf of rings; this is what
-`PresheafOfModules.Derivation'` is taken relative to. -/
+`PresheafOfModulesOfCommRing.Derivation'` is taken relative to. -/
 abbrev ringPsh {C : Type u} [Category.{v} C] (O : Cᵒᵖ ⥤ CommRingCat.{u}) :
     Cᵒᵖ ⥤ RingCat.{u} :=
   O ⋙ forget₂ CommRingCat.{u} RingCat.{u}
@@ -129,7 +129,7 @@ set_option linter.checkUnivs false in
   04BL) of `Ω_{X/Y}` as the representing object of the derivation functor.
 
 A `Y`-derivation `O_X ⟶ F` into a sheaf of modules `F` is encoded as a
-`PresheafOfModules.Derivation'` of the underlying presheaf of modules `F.val`
+`PresheafOfModulesOfCommRing.Derivation'` of the underlying presheaf of modules `F.val`
 relative to `φ`; because `F` is a sheaf, this is the genuine sheaf-theoretic
 notion of `Y`-derivation. -/
 structure RingedToposOverBase where
@@ -152,7 +152,7 @@ structure RingedToposOverBase where
   /-- The sheaf module of differentials `Ω_{X/Y}` (a genuine sheaf of modules). -/
   Ω : SheafOfModules.{v} (ringSheaf O)
   /-- The universal `Y`-derivation `d_{X/Y} : O_X ⟶ Ω_{X/Y}`. -/
-  d : Ω.val.Derivation' φ
+  d : PresheafOfModulesOfCommRing.Derivation' Ω.val φ
   /-- `d_{X/Y}` is universal (Tag 04BN): the Stacks definition (Tag 04BL) of
   `Ω_{X/Y}` as the object representing the functor of `Y`-derivations. -/
   universal : d.Universal
@@ -278,7 +278,7 @@ Leibniz rule (which holds because `f♯` is a ring map and `d_{X'/Y'}` is a
 derivation) and naturality; the annihilation of the image of the `Y`-structure
 uses the commutativity `f.hcomm` of the square. -/
 theorem statement1_isDerivation :
-    ∃ D : (f.pushΩ).val.Derivation' X.φ,
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' (f.pushΩ).val X.φ,
       ∀ (U : X.Cᵒᵖ) (a : X.ringSheaf'.obj.obj U),
         (D.app U).d a = (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U a) := by
   refine ⟨{ d := fun {U} => (AddMonoidHom.mk'
@@ -330,7 +330,7 @@ Statement 1, there is a **unique** `O_X`-linear map
 `f^* ⊣ f_*` adjunction this corresponds to a canonical `O_{X'}`-linear map
 `c_f : f^* Ω_{X/Y} ⟶ Ω_{X'/Y'}`, with `c'_f = (adjunction transpose of) c_f`. -/
 theorem statement2_existence
-    (D : (f.pushΩ).val.Derivation' X.φ) :
+    (D : PresheafOfModulesOfCommRing.Derivation' (f.pushΩ).val X.φ) :
     ∃! cf' : X.Ω ⟶ f.pushΩ, X.d.postcomp (SheafOfModules.forget _ |>.map cf') = D := by
   refine ⟨(SheafOfModules.forget _).preimage (X.universal.desc D), ?_, ?_⟩
   · simpa only [Functor.map_preimage] using X.universal.fac D
@@ -361,7 +361,7 @@ universal-property equation `c'_f ∘ d_{X/Y} = D` for the adjoint transpose
 exactly the content of the notational-abuse correction above: the
 `f⁻¹ h_U^#` equation and the universal-property equation determine the same map. -/
 theorem statement3_localSection_iff
-    (D : (f.pushΩ).val.Derivation' X.φ)
+    (D : PresheafOfModulesOfCommRing.Derivation' (f.pushΩ).val X.φ)
     (hD : ∀ (U : X.Cᵒᵖ) (a : X.ringSheaf'.obj.obj U),
       (D.app U).d a = (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U a))
     (cf : f.pullΩ ⟶ X'.Ω)
@@ -384,7 +384,7 @@ theorem statement3_localSection_iff
     exact PresheafOfModules.pushforward_map_app_apply f.fsharp.hom cf.val U _
   rw [SheafOfModules.forget_map]
   refine ⟨fun hP => ?_, fun hQ U t => ?_⟩
-  · apply PresheafOfModules.Derivation.ext
+  · apply PresheafOfModulesOfCommRing.Derivation.ext
     funext U
     apply AddMonoidHom.ext
     intro t

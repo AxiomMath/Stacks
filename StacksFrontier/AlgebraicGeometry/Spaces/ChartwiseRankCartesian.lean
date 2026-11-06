@@ -360,7 +360,7 @@ theorem exists_isColimitCofanUnit_of_basis (H : Modules.{u, u} B S hS F hF)
       (hasEnoughObjects_isAffine_over B S hS F W) fun T hT => (hbij T hT).surjective
   have : IsIso φ := Stacks.SheafOfModules.isIso_of_isLocallyBijective φ
   exact ⟨fun i => Limits.Sigma.ι (fun _ : Fin s => SheafOfModules.unit (R.over W)) i ≫ φ,
-    ⟨IsColimit.ofIsoColimit hP (Cocones.ext (asIso φ) fun ⟨_⟩ => rfl)⟩⟩
+    ⟨IsColimit.ofIsoColimit hP (Cocone.ext (asIso φ) fun ⟨_⟩ => rfl)⟩⟩
 
 /-! ### Shrinking to a basic-open chart on which the sections are free -/
 

@@ -162,7 +162,7 @@ theorem isProper_projectiveLinePowerToBase :
 the automorphism attached to a matrix is multiplicative, so it carries the identity matrix to the
 identity automorphism in each coordinate. -/
 theorem projectiveSpacePowerMatrixAut_one_hom :
-    (projectiveSpacePowerMatrixAut k 1 m 1).hom = 𝟙 (projectiveSpacePowerOver k 1 m) := by
+    (projectiveSpacePowerMatrixAut k 1 m 1).asIso.hom = 𝟙 (projectiveSpacePowerOver k 1 m) := by
   refine Pi.hom_ext _ _ fun i => ?_
   rw [projectiveSpacePowerMatrixAut_hom_π,
     show ((1 : Fin m → Matrix.GeneralLinearGroup (Fin 2) k) i) = 1 from rfl, map_one]
@@ -337,6 +337,19 @@ theorem projectiveLinePowerPointSection_one_comp_generalLinearTwoPowerAction :
     projectiveLinePowerFunctorMatrixAut_one_hom]
 
 /-! ### The triangle over the group that Stacks 0AEJ is applied to -/
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `Spec k` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_GeneralLinearTwoPowerContraction :
+    HasPullbacks ((BigFppfOver B (Spec (CommRingCat.of k)) hk)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `Spec k` exist (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_GeneralLinearTwoPowerContraction
+    {X Y Z : (BigFppfOver B (Spec (CommRingCat.of k)) hk)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 section Contraction
 

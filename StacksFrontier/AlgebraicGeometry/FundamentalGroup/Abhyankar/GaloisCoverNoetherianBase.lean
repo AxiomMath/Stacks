@@ -67,8 +67,8 @@ whose restriction to the generic fibre is `Z`, equivariantly. -/
 def GaloisExtendsOver (U : S.Opens) : Prop :=
   ∃ (hη : genericPoint S ∈ U) (Y : FiniteEtaleGaloisCover (f ⁻¹ᵁ U).toScheme G)
     (e : (finiteEtaleBaseChange (genericFiberToPreimage f U hη)).obj Y.obj ≅ Z.obj),
-    ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (genericFiberToPreimage f U hη)).map (Y.action g).hom ≫
-      e.hom = e.hom ≫ (Z.action g).hom
+    ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (genericFiberToPreimage f U hη)).map (Y.action g).asIso.hom ≫
+      e.hom = e.hom ≫ (Z.action g).asIso.hom
 
 /-- **The maximal-open argument.** On a Noetherian space, if `Z` extends over some open and every
 proper open over which it extends lies in a strictly larger one, then `Z` extends over `S`. -/
@@ -88,8 +88,8 @@ theorem galoisExtendsOver_top [TopologicalSpace.NoetherianSpace S]
 theorem exists_of_galoisExtendsOver_top (h : GaloisExtendsOver f Z ⊤) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   obtain ⟨hη, Y, e, he⟩ := h
   let θ : X ⟶ (f ⁻¹ᵁ ⊤).toScheme := X.topIso.inv
   have : IsIso θ := ⟨⟨X.topIso.hom, X.topIso.inv_hom_id, X.topIso.hom_inv_id⟩⟩
@@ -102,10 +102,10 @@ theorem exists_of_galoisExtendsOver_top (h : GaloisExtendsOver f Z ⊤) :
     exact (Category.comp_id _).symm.trans (congrArg _ (Scheme.toIso_inv_ι X).symm)
   let c := finiteEtaleBaseChangeComp (f.fiberι (genericPoint S)) θ _ hfac
   refine ⟨Y.baseChange θ hconn, (c.app Y.obj).symm ≪≫ e, fun g ↦ ?_⟩
-  have hnat := c.inv.naturality (Y.action g).hom
+  have hnat := c.inv.naturality (Y.action g).asIso.hom
   simp only [Functor.comp_map] at hnat
   show (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map
-      ((finiteEtaleBaseChange θ).map (Y.action g).hom) ≫ c.inv.app Y.obj ≫ e.hom = _
+      ((finiteEtaleBaseChange θ).map (Y.action g).asIso.hom) ≫ c.inv.app Y.obj ≫ e.hom = _
   rw [← Category.assoc, hnat, Category.assoc, he]
   rfl
 

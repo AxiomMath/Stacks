@@ -190,7 +190,7 @@ theorem isIso_homologyMap_of_isIso_rightDerivedFunctorPlus_map
       ((E.mapHomologicalComplex (.up ℤ)).map f.hom)) := by
   let q := HomotopyCategory.Plus.quotient A
   let H := DerivedCategory.Plus.homologyFunctor B j
-  let α := Functor.whiskerRight E.rightDerivedFunctorPlusUnit H
+  let α := Functor.whiskerRight E.rightDerivedFunctorPlusUnith H
   have hα (Z : CochainComplex.Plus A) (hZ : ∀ n, Injective (Z.obj.X n)) :
       IsIso (α.app (q.obj Z)) := by
     have : ∀ n : ℤ, Injective ((q.obj Z).obj.as.X n) := hZ
@@ -356,7 +356,7 @@ lemma map_mappingCocone_proj_comp_map
   have hstep (n : ℕ) : H.map (p ≫ Pi.π X (n + 1)) ≫
       H.map (I.map (homOfLE (Nat.le_succ n)).op) = H.map (p ≫ Pi.π X n) := by
     have hh := congrArg (fun f => f ≫ H.map (Pi.π X n)) hp'
-    rw [← H.map_comp, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+    rw [← H.map_comp, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
       H.map_sub, zero_comp] at hh
     simpa only [H.map_comp, Category.assoc] using (sub_eq_zero.mp hh).symm
   intro m n hmn
@@ -430,8 +430,8 @@ theorem exists_mappingCocone_iso_of_isKInjective_tower
     refine Pi.hom_ext _ _ fun n => ?_
     rw [Category.assoc, ha, ← Category.assoc, ← Q.map_comp]
     dsimp only [d, dK]
-    rw [Pi.lift_π, Q.map_sub, Q.map_comp, Preadditive.sub_comp, Category.assoc,
-      Category.assoc a.hom, Pi.lift_π, Preadditive.comp_sub, ha, ← Category.assoc a.hom, ha]
+    rw [Pi.lift_comp_π, Q.map_sub, Q.map_comp, Preadditive.sub_comp, Category.assoc,
+      Category.assoc a.hom, Pi.lift_comp_π, Preadditive.comp_sub, ha, ← Category.assoc a.hom, ha]
     simp only [Category.assoc]
     exact congrArg (fun t => Q.map (Pi.π X n) ≫ e.hom.app (.op n) -
       Q.map (Pi.π X (n + 1)) ≫ t)

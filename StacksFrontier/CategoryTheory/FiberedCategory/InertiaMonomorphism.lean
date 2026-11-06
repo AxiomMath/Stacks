@@ -110,8 +110,8 @@ private noncomputable def inertiaPullbackTransportedAuto
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y)
     (P : inertiaPullbackProduct pX pY F) : Aut (F.obj P.y) :=
   let e : P.x.obj ≅ F.obj P.y := P.iso
-  let α : P.x.obj ≅ P.x.obj := P.x.auto
-  e.symm ≪≫ α ≪≫ e
+  let α : P.x.obj ≅ P.x.obj := P.x.auto.asIso
+  .of (e.symm ≪≫ α ≪≫ e)
 
 /-- The conjugated automorphism, in terms of the data it is built from. Rewriting with this
 named equation is what lets the calculations below be done on `P.iso` and `P.x.auto`
@@ -124,8 +124,8 @@ private lemma inertiaPullbackTransportedAuto_hom
     {Y : Type uY} [Category.{vY} Y]
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y)
     (P : inertiaPullbackProduct pX pY F) :
-    (inertiaPullbackTransportedAuto pX pY F P).hom =
-      P.iso.inv ≫ P.x.auto.hom ≫ P.iso.hom := rfl
+    (inertiaPullbackTransportedAuto pX pY F P).asIso.hom =
+      P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom := rfl
 
 private noncomputable def inertiaPullbackAuto
     {C : Type uC} [Category.{vC} C]
@@ -133,7 +133,7 @@ private noncomputable def inertiaPullbackAuto
     {Y : Type uY} [Category.{vY} Y]
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y)
     (hFF : F.FullyFaithful) (P : inertiaPullbackProduct pX pY F) : Aut P.y :=
-  hFF.preimageIso (inertiaPullbackTransportedAuto pX pY F P)
+  .of (hFF.preimageIso (inertiaPullbackTransportedAuto pX pY F P).asIso)
 
 private lemma inertiaPullbackAuto_map
     {C : Type uC} [Category.{vC} C]
@@ -141,8 +141,8 @@ private lemma inertiaPullbackAuto_map
     {Y : Type uY} [Category.{vY} Y]
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y)
     (hFF : F.FullyFaithful) (P : inertiaPullbackProduct pX pY F) :
-    F.map (inertiaPullbackAuto pX pY F hFF P).hom =
-      (inertiaPullbackTransportedAuto pX pY F P).hom := by
+    F.map (inertiaPullbackAuto pX pY F hFF P).asIso.hom =
+      (inertiaPullbackTransportedAuto pX pY F P).asIso.hom := by
   simp [inertiaPullbackAuto, Functor.FullyFaithful.preimageIso]
 
 private lemma inertiaPullbackAuto_cond
@@ -151,9 +151,9 @@ private lemma inertiaPullbackAuto_cond
     {Y : Type uY} [Category.{vY} Y]
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y) (hF : F ⋙ pY = pX)
     (hFF : F.FullyFaithful) (P : inertiaPullbackProduct pX pY F) :
-    pX.map (inertiaPullbackAuto pX pY F hFF P).hom = 𝟙 (pX.obj P.y) := by
+    pX.map (inertiaPullbackAuto pX pY F hFF P).asIso.hom = 𝟙 (pX.obj P.y) := by
   cases hF
-  let β : P.y ≅ P.y := inertiaPullbackAuto (F ⋙ pY) pY F hFF P
+  let β : P.y ≅ P.y := (inertiaPullbackAuto (F ⋙ pY) pY F hFF P).asIso
   have hx : pY.obj P.x.obj = P.base := by simpa using P.hx
   have hy : pY.obj (F.obj P.y) = P.base := by simpa using P.hy
   let hbase : pY.obj P.x.obj = pY.obj (F.obj P.y) := hx.trans hy.symm
@@ -164,13 +164,13 @@ private lemma inertiaPullbackAuto_cond
   have hmapIso : pY.mapIso P.iso = eqToIso hbase := Iso.ext hhom
   have hinv : pY.map P.iso.inv = (eqToIso hbase).inv := by
     simpa only [Functor.mapIso_inv] using congrArg Iso.inv hmapIso
-  have hβmap : F.map β.hom = (inertiaPullbackTransportedAuto (F ⋙ pY) pY F P).hom := by
+  have hβmap : F.map β.hom = (inertiaPullbackTransportedAuto (F ⋙ pY) pY F P).asIso.hom := by
     simpa [β] using inertiaPullbackAuto_map (F ⋙ pY) pY F hFF P
-  have hconjmap : pY.map (inertiaPullbackTransportedAuto (F ⋙ pY) pY F P).hom =
+  have hconjmap : pY.map (inertiaPullbackTransportedAuto (F ⋙ pY) pY F P).asIso.hom =
       𝟙 (pY.obj (F.obj P.y)) := by
     dsimp [inertiaPullbackTransportedAuto]
     let e : P.x.obj ≅ F.obj P.y := by simpa using P.iso
-    let α : P.x.obj ≅ P.x.obj := P.x.auto
+    let α : P.x.obj ≅ P.x.obj := P.x.auto.asIso
     have hhinv : pY.map e.inv = (eqToIso hbase).inv := by simpa [e] using hinv
     have hhhom : pY.map e.hom = eqToHom hbase := by simpa [e] using hhom
     calc
@@ -201,8 +201,8 @@ private lemma inertiaPullbackAuto_naturality
     {Y : Type uY} [Category.{vY} Y]
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y) (_hF : F ⋙ pY = pX)
     (hFF : F.FullyFaithful) {P Q : inertiaPullbackProduct pX pY F} (u : P ⟶ Q) :
-    u.b ≫ (inertiaPullbackAuto pX pY F hFF Q).hom =
-      (inertiaPullbackAuto pX pY F hFF P).hom ≫ u.b := by
+    u.b ≫ (inertiaPullbackAuto pX pY F hFF Q).asIso.hom =
+      (inertiaPullbackAuto pX pY F hFF P).asIso.hom ≫ u.b := by
   apply hFF.map_injective
   have hw : u.a.hom ≫ Q.iso.hom = P.iso.hom ≫ F.map u.b := by simpa using u.w
   rw [Functor.map_comp, Functor.map_comp, inertiaPullbackAuto_map pX pY F hFF Q,
@@ -237,7 +237,7 @@ private lemma inertiaPullbackInverse_compare_auto_hom
     (pX : X ⥤ C) (pY : Y ⥤ C) (F : X ⥤ Y) (hF : F ⋙ pY = pX)
     (hFF : F.FullyFaithful) (A : RelativeInertia pX) :
     ((inertiaPullbackInverse pX pY F hF hFF).obj
-      ((inertiaPullbackComparison pX pY F hF).obj A)).auto.hom = A.auto.hom := by
+      ((inertiaPullbackComparison pX pY F hF).obj A)).auto.asIso.hom = A.auto.asIso.hom := by
   cases A with
   | mk x α hα =>
     dsimp [inertiaPullbackInverse]
@@ -247,7 +247,6 @@ private lemma inertiaPullbackInverse_compare_auto_hom
         ({ obj := x, auto := α, cond := hα } : RelativeInertia pX))]
     simp [inertiaPullbackTransportedAuto_hom, inertiaPullbackComparison,
       RelativeInertia.functoriality]
-    rfl
 
 private lemma inertiaPullbackInverse_compare_obj_eq
     {C : Type uC} [Category.{vC} C]
@@ -337,8 +336,8 @@ private noncomputable def inertiaPullbackCounitIso
   · let a : (cmp.obj (inv.obj P)).x ⟶ P.x :=
       { hom := P.iso.inv
         comm := by
-          change P.iso.inv ≫ P.x.auto.hom =
-            F.map (inertiaPullbackAuto pX pY F hFF P).hom ≫ P.iso.inv
+          change P.iso.inv ≫ P.x.auto.asIso.hom =
+            F.map (inertiaPullbackAuto pX pY F hFF P).asIso.hom ≫ P.iso.inv
           rw [inertiaPullbackAuto_map pX pY F hFF P,
             inertiaPullbackTransportedAuto_hom]
           simp }
@@ -364,8 +363,8 @@ private noncomputable def inertiaPullbackCounitIso
     let a' : P.x ⟶ (cmp.obj (inv.obj P)).x :=
       { hom := P.iso.hom
         comm := by
-          change P.iso.hom ≫ F.map (inertiaPullbackAuto pX pY F hFF P).hom =
-            P.x.auto.hom ≫ P.iso.hom
+          change P.iso.hom ≫ F.map (inertiaPullbackAuto pX pY F hFF P).asIso.hom =
+            P.x.auto.asIso.hom ≫ P.iso.hom
           rw [inertiaPullbackAuto_map pX pY F hFF P,
             inertiaPullbackTransportedAuto_hom]
           simp }

@@ -122,6 +122,12 @@ end Torsion
 variable {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G] {H : Subgroup G} {ℓ : ℕ}
 
+/-- A compact totally disconnected topological group is zero-dimensional. -/
+private instance : ZeroDimensionalSpace G :=
+  haveI : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.mpr
+    (connectedComponent_eq_singleton (1 : G) ▸ isClosed_connectedComponent)
+  inferInstance
+
 section Coinduced
 
 variable {N : ContinuousGModule.{v, w} H}
@@ -171,14 +177,14 @@ abbrev coindVal (f : CoindRes H M) : G → M.obj.obj.V := f.1
 omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- A function `f` in the coinduced module satisfies `f (h * x) = h • f x` for `h ∈ H`. -/
 lemma coindVal_mul (f : CoindRes H M) (h : G) (hh : h ∈ H) (x : G) :
-    coindVal f (h * x) = (M.obj.obj.ρ h).hom (coindVal f x) :=
+    coindVal f (h * x) = (M.obj.obj.ρ h).asHom.hom (coindVal f x) :=
   coinductionCarrier_apply_mul f ⟨h, hh⟩ x
 
 /-- An open normal subgroup is *adapted* to `f` if `f` is invariant under right translation by
 it and it fixes the values of `f`. -/
 def IsAdapted (f : CoindRes H M) (N : OpenNormalSubgroup G) : Prop :=
   N.toSubgroup ≤ rightStabilizer (coindVal f) ∧
-    ∀ x, ∀ n ∈ N.toSubgroup, (M.obj.obj.ρ n).hom (coindVal f x) = coindVal f x
+    ∀ x, ∀ n ∈ N.toSubgroup, (M.obj.obj.ρ n).asHom.hom (coindVal f x) = coindVal f x
 
 /-- An open normal subgroup contained in one adapted to `f` is adapted to `f`. -/
 lemma IsAdapted.mono {f : CoindRes H M} {N N' : OpenNormalSubgroup G} (h : IsAdapted f N)
@@ -197,7 +203,7 @@ lemma exists_isAdapted (f : CoindRes H M) : ∃ N : OpenNormalSubgroup G, IsAdap
 
 /-- The averaged function `y ↦ y • f (y⁻¹)`. -/
 def averagedFunction (f : CoindRes H M) (y : G) : M.obj.obj.V :=
-  (M.obj.obj.ρ y).hom (coindVal f y⁻¹)
+  (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹)
 
 omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- If `N` is adapted to `f`, the averaged function `y ↦ y • f (y⁻¹)` is invariant under right
@@ -210,7 +216,7 @@ lemma averagedFunction_mul_right {f : CoindRes H M} {N : OpenNormalSubgroup G}
     have : n⁻¹ * h⁻¹ * y⁻¹ = h⁻¹ * y⁻¹ * ((y * h) * n⁻¹ * (y * h)⁻¹) := by group
     rw [this]
     exact hN.1 (N.isNormal'.conj_mem _ (N.toSubgroup.inv_mem hn) _) _
-  have h2 : coindVal f (h⁻¹ * y⁻¹) = (M.obj.obj.ρ h⁻¹).hom (coindVal f y⁻¹) :=
+  have h2 : coindVal f (h⁻¹ * y⁻¹) = (M.obj.obj.ρ h⁻¹).asHom.hom (coindVal f y⁻¹) :=
     coinductionCarrier_apply_mul f ⟨h⁻¹, H.inv_mem hh⟩ y⁻¹
   unfold averagedFunction
   rw [mul_inv_rev, mul_inv_rev, ← mul_assoc, h1, ρ_mul_apply, ρ_mul_apply, hN.2 _ n hn, h2,
@@ -325,7 +331,7 @@ lemma average_add (f g : CoindRes H M) :
       show coindVal f (x * n) + coindVal g (x * n) = coindVal f x + coindVal g x
       rw [hf.1 hn x, hg.1 hn x],
       fun x n hn ↦ by
-        show (M.obj.obj.ρ n).hom (coindVal f x + coindVal g x) =
+        show (M.obj.obj.ρ n).asHom.hom (coindVal f x + coindVal g x) =
           coindVal f x + coindVal g x
         rw [map_add, hf.2 x n hn, hg.2 x n hn]⟩
   rw [average_eq hH hM _ hfg, average_eq hH hM _ hf, average_eq hH hM _ hg]
@@ -335,7 +341,7 @@ lemma average_add (f g : CoindRes H M) :
   funext c
   induction c using QuotientGroup.induction_on with
   | H y =>
-    show (M.obj.obj.ρ y).hom (coindVal f y⁻¹ + coindVal g y⁻¹) = _
+    show (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹ + coindVal g y⁻¹) = _
     rw [map_add]
     rfl
 
@@ -347,7 +353,7 @@ lemma average_zero : average hH hM (0 : CoindRes H M) = 0 := by
 
 /-- The average is equivariant. -/
 lemma average_translate (g : G) (f : CoindRes H M) :
-    average hH hM (coinductionTranslate g f) = (M.obj.obj.ρ g).hom (average hH hM f) := by
+    average hH hM (coinductionTranslate g f) = (M.obj.obj.ρ g).asHom.hom (average hH hM f) := by
   obtain ⟨N, hN⟩ := exists_isAdapted f
   have hgN : IsAdapted (coinductionTranslate g f) N :=
     ⟨fun n hn x ↦ by
@@ -358,7 +364,7 @@ lemma average_translate (g : G) (f : CoindRes H M) :
       fun x n hn ↦ hN.2 (x * g) n hn⟩
   rw [average_eq hH hM _ hgN, average_eq hH hM _ hN]
   unfold averageAt averagedSum
-  have hcomm := nsmulInv_comm hM (coprime_index_sup hH N) (M.obj.obj.ρ g).hom.toAddMonoidHom
+  have hcomm := nsmulInv_comm hM (coprime_index_sup hH N) (M.obj.obj.ρ g).asHom.hom.toAddMonoidHom
     (∑ c, averagedQuotient f N hN c)
   simp only [LinearMap.toAddMonoidHom_coe] at hcomm
   rw [← hcomm]
@@ -368,8 +374,8 @@ lemma average_translate (g : G) (f : CoindRes H M) :
     fun c ↦ ?_
   induction c using QuotientGroup.induction_on with
   | H y =>
-    show (M.obj.obj.ρ y).hom (coindVal f (y⁻¹ * g)) =
-      (M.obj.obj.ρ g).hom ((M.obj.obj.ρ (g⁻¹ * y)).hom (coindVal f (g⁻¹ * y)⁻¹))
+    show (M.obj.obj.ρ y).asHom.hom (coindVal f (y⁻¹ * g)) =
+      (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ (g⁻¹ * y)).asHom.hom (coindVal f (g⁻¹ * y)⁻¹))
     rw [← ρ_mul_apply, mul_inv_cancel_left, mul_inv_rev, inv_inv]
 
 end Average
@@ -388,19 +394,19 @@ lemma average_unit (m : M.obj.obj.V) :
       (((restrictionCoinductionAdjunction.{v, w} H).unit.app M).hom.hom.hom.hom m) = m := by
   set f : CoindRes H M :=
     ((restrictionCoinductionAdjunction.{v, w} H).unit.app M).hom.hom.hom.hom m
-  have hf : ∀ x, coindVal f x = (M.obj.obj.ρ x).hom m :=
+  have hf : ∀ x, coindVal f x = (M.obj.obj.ρ x).asHom.hom m :=
     restrictionCoinductionAdjunction_unit_app_apply M m
   obtain ⟨N, hN⟩ := ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one
     (isOpen_stabilizer ℤ G M m) (elementStabilizer G M m).one_mem
   have hNf : IsAdapted f N :=
     ⟨fun n hn x ↦ by
       show coindVal f (x * n) = coindVal f x
-      rw [hf, hf, ρ_mul_apply, show (M.obj.obj.ρ n).hom m = m from hN hn],
+      rw [hf, hf, ρ_mul_apply, show (M.obj.obj.ρ n).asHom.hom m = m from hN hn],
       fun x n hn ↦ by
         rw [hf]
         have : n * x = x * (x⁻¹ * n * x) := by group
         rw [← ρ_mul_apply, this, ρ_mul_apply,
-          show (M.obj.obj.ρ (x⁻¹ * n * x)).hom m = m from
+          show (M.obj.obj.ρ (x⁻¹ * n * x)).asHom.hom m = m from
             hN (show x⁻¹ * n * x ∈ (N.toSubgroup : Set G) by
               simpa using N.isNormal'.conj_mem n hn x⁻¹)]⟩
   rw [average_eq hH hM _ hNf]
@@ -409,7 +415,7 @@ lemma average_unit (m : M.obj.obj.V) :
     intro c
     induction c using QuotientGroup.induction_on with
     | H y =>
-      show (M.obj.obj.ρ y).hom (coindVal f y⁻¹) = m
+      show (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹) = m
       rw [hf, ρ_apply_ρ_inv_apply]
   simp only [hc, Finset.sum_const, Finset.card_univ]
   rw [← Nat.card_eq_fintype_card, ← Subgroup.index_eq_card, nsmulInv_nsmul]
@@ -459,8 +465,11 @@ theorem subsingleton_ext_of_subsingleton_ext_restriction (n : ℕ)
     [Subsingleton (Abelian.Ext (trivialGModule.{v, max v w} H (ULift.{max v w} ℤ))
       ((restriction H.subtype continuous_subtype_val).obj M) n)] :
     Subsingleton (Abelian.Ext (trivialGModule.{v, max v w} G (ULift.{max v w} ℤ)) M n) :=
-  ⟨fun e e' ↦ injective_ext_comp_unit hH hM _ n
-    ((shapiroAddEquiv.{v, w} H _ n).symm.injective (Subsingleton.elim _ _))⟩
+  ⟨fun e e' ↦ by
+    apply injective_ext_comp_unit hH hM _ n
+    apply (shapiroAddEquiv.{v, w} H
+      ((restriction H.subtype continuous_subtype_val).obj M) n).symm.injective
+    exact Subsingleton.elim _ _⟩
 
 end Retraction
 

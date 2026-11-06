@@ -238,7 +238,7 @@ noncomputable def resolutionDerivationsEquiv (n : ℕ) (M : targetModules J B) :
     ((existsUnique_resolutionDerivation J f n M
       (restrictResolutionDerivation J f n M D)).choose_spec.2 D fun _ _ => rfl).symm
   right_inv d :=
-    PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun p =>
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun p =>
       (existsUnique_resolutionDerivation J f n M d).choose_spec.1 U p)
 
 /-! ## The sheafification of the sectionwise base-changed differentials -/
@@ -300,7 +300,7 @@ theorem cotangentTermSheafifiedHomEquiv_comp (n : ℕ) {M N : targetModules J B}
   apply (sheafifiedSectionwiseModulesHomEquiv J f n N).injective
   dsimp only [cotangentTermSheafifiedHomEquiv, Equiv.trans_apply]
   rw [Equiv.apply_symm_apply]
-  refine PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun p => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun p => ?_)
   rw [sheafifiedSectionwiseModulesHomEquiv_d, Equiv.apply_symm_apply]
   exact congrArg (fun D : resolutionDerivations J f (op ⦋n⦌) N =>
       D.d (((sectionsResolutionComparison J f (op ⦋n⦌)).app U).hom p))

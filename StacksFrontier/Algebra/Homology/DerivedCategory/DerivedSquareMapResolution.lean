@@ -110,7 +110,7 @@ def rightDerivedFunctorPlusObjSingleIsoOfResolution {X : C} {J : HomotopyCategor
       DerivedCategory.Plus.Qh.obj (Γ.mapHomotopyCategoryPlus.obj J) :=
   haveI := isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic Γ J hJ
   Γ.rightDerivedFunctorPlus.mapIso (singleFunctorPlusObjIsoQhOfIsIso ι hι) ≪≫
-    (asIso (Γ.rightDerivedFunctorPlusUnit.app J)).symm
+    (asIso (Γ.rightDerivedFunctorPlusUnith.app J)).symm
 
 end Resolution
 
@@ -201,12 +201,12 @@ theorem derivedSquareMap_eq_of_resolutions (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) {X : 
   let e := singleFunctorPlusObjIsoQhOfIsIso ι hι
   let e' := singleFunctorPlusObjIsoQhOfIsIso ι' hι'
   -- the derived comparison, read after the unit of `RΓ₀` at `J`
-  have core : Γ₀.rightDerivedFunctorPlusUnit.app J ≫ Γ₀.rightDerivedFunctorPlus.map e.inv ≫
+  have core : Γ₀.rightDerivedFunctorPlusUnith.app J ≫ Γ₀.rightDerivedFunctorPlus.map e.inv ≫
       derivedSquareMap α X ≫ r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlus.map e'.hom) =
         DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatTrans α).app J ≫
           r.mapHomotopyCategoryPlus.map (Γ.mapHomotopyCategoryPlus.map τ)) ≫
         r.mapDerivedCategoryPlusFactorsh.inv.app (Γ.mapHomotopyCategoryPlus.obj J') ≫
-        r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlusUnit.app J') := by
+        r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlusUnith.app J') := by
     have hnat := (derivedSquareTrans' α).naturality e.inv
     simp only [Functor.comp_map] at hnat
     rw [derivedSquareMap]
@@ -225,25 +225,27 @@ theorem derivedSquareMap_eq_of_resolutions (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) {X : 
           r.mapDerivedCategoryPlus.map
             (Γ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map τ)) := by
       simp only [← Functor.map_comp, hk]
-    have hu := Γ.rightDerivedFunctorPlusUnit.naturality τ
+    have hu := Γ.rightDerivedFunctorPlusUnith.naturality τ
     simp only [Functor.comp_map] at hu
     have hu2 : r.mapDerivedCategoryPlus.map
-          (Γ.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj J)) ≫
+          (Γ.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj J)) ≫
         r.mapDerivedCategoryPlus.map
           (Γ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map τ)) =
         r.mapDerivedCategoryPlus.map
           (DerivedCategory.Plus.Qh.map (Γ.mapHomotopyCategoryPlus.map τ)) ≫
-        r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlusUnit.app J') := by
+        r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlusUnith.app J') := by
       simp only [← Functor.map_comp, hu]
     have hr := r.mapDerivedCategoryPlusFactorsh.inv.naturality (Γ.mapHomotopyCategoryPlus.map τ)
     simp only [Functor.comp_map] at hr
-    exact bookkeeping _ _ _ _ _ _ _ _ _ _ _ _ _ (Functor.map_comp _ _ _) hk2 hu2 hr
+    simpa only [derivedSquareNu, Functor.comp_map, Category.assoc] using
+      bookkeeping (DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatTrans α).app J))
+        _ _ _ _ _ _ _ _ _ _ _ _ (Functor.map_comp _ _ _) hk2 hu2 hr
   have hΦ₀ : (rightDerivedFunctorPlusObjSingleIsoOfResolution Γ₀ ι hι hJ).hom =
       Γ₀.rightDerivedFunctorPlus.map e.hom ≫
-        CategoryTheory.inv (Γ₀.rightDerivedFunctorPlusUnit.app J) := rfl
+        CategoryTheory.inv (Γ₀.rightDerivedFunctorPlusUnith.app J) := rfl
   have hΦ' : (rightDerivedFunctorPlusObjSingleIsoOfResolution Γ ι' hι' hJ').inv =
-      Γ.rightDerivedFunctorPlusUnit.app J' ≫ Γ.rightDerivedFunctorPlus.map e'.inv := rfl
-  rw [hΦ₀, hΦ', Functor.map_comp, ← reassoc_of% core]
+      Γ.rightDerivedFunctorPlusUnith.app J' ≫ Γ.rightDerivedFunctorPlus.map e'.inv := rfl
+  rw [hΦ₀, hΦ', Functor.map_comp r.mapDerivedCategoryPlus, ← reassoc_of% core]
   simp only [Category.assoc, IsIso.inv_hom_id_assoc, ← Functor.map_comp_assoc, Iso.hom_inv_id,
     Functor.map_id, Category.id_comp]
   rw [← Functor.map_comp, ← Functor.map_comp, Iso.hom_inv_id, Functor.map_id, Functor.map_id,

@@ -699,16 +699,16 @@ theorem isMaximal_comap_of_finite_local_bases
     [Module.Finite A R] [Module.Finite B S]
     (q : Ideal S) [q.IsMaximal] : (q.comap (algebraMap R S)).IsMaximal := by
   have hqB : (q.comap (algebraMap B S)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := B) q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q
   have hqBeq : q.comap (algebraMap B S) = IsLocalRing.maximalIdeal B :=
     IsLocalRing.eq_maximalIdeal hqB
   have hqA : q.comap (algebraMap A S) = IsLocalRing.maximalIdeal A := by
     rw [IsScalarTower.algebraMap_eq A B S, ← Ideal.comap_comap, hqBeq,
       IsLocalRing.maximalIdeal_comap]
-  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A)
+  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A)
   have heq : (q.comap (algebraMap R S)).comap (algebraMap A R) = IsLocalRing.maximalIdeal A := by
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq, hqA]
-  rw [heq]
+  rw [Ideal.under_def, heq]
   infer_instance
 
 theorem isDiscreteValuationRing_atMaximal_of_finite_of_isPrincipalIdealRing

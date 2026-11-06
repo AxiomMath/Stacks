@@ -326,6 +326,8 @@ theorem exists_eq_coboundary_of_forall_exists_coprime_pow_mem {G : Type*} [Group
   have h1O : (1 : G) ∈ O := by
     have : (1 : I) ∈ Subtype.val ⁻¹' O := by rw [hOeq]; exact hc1
     exact this
+  have : T1Space G := ⟨fun x => connectedComponent_eq_singleton x ▸ isClosed_connectedComponent⟩
+  have : ZeroDimensionalSpace G := inferInstance
   obtain ⟨Nn, hNn⟩ := ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one (hO.inter hW)
     ⟨h1O, h1W⟩
   have : Nn.toSubgroup.Normal := Nn.isNormal'

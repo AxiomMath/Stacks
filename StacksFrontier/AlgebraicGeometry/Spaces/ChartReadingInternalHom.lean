@@ -206,15 +206,15 @@ theorem chartSliceHomRestrict_val {T' T : SmallEtale B S hS Y.1} (f : T' ⟶ T)
 /-- **A function on a chart as a global function on the chart space**: `r ∈ 𝒪_Y(T)` restricted
 to every étale chart of `T`, through the comparison of Stacks 04M0. -/
 def chartRingMap (T : SmallEtale B S hS Y.1) :
-    (structureRingSheaf B S hS Y).val.obj (op T) →+*
+    (structureRingSheaf B S hS Y).obj.obj (op T) →+*
       globalFunctions' B S hS (chartSpace B S hS Y T).1 where
   toFun r := ⟨fun T'' => fRestr (smallEtaleStructurePresheaf B S hS Y.1 Y.2) T r
       (op ((SmallEtale.chartLocalization B S hS Y.1 T).obj T''.unop)), fun {T₁ T₂} g => by
-    change ((structureRingSheaf B S hS Y).val.map
+    change ((structureRingSheaf B S hS Y).obj.map
         ((SmallEtale.chartLocalization B S hS Y.1 T).map g.unop).left.op).hom
-        (((structureRingSheaf B S hS Y).val.map
+        (((structureRingSheaf B S hS Y).obj.map
           ((SmallEtale.chartLocalization B S hS Y.1 T).obj T₁.unop).hom.op).hom r) =
-      ((structureRingSheaf B S hS Y).val.map
+      ((structureRingSheaf B S hS Y).obj.map
         ((SmallEtale.chartLocalization B S hS Y.1 T).obj T₂.unop).hom.op).hom r
     rw [← RingCat.comp_apply, ← Functor.map_comp, ← op_comp, Over.w]⟩
   map_one' := by ext T''; exact map_one _
@@ -224,7 +224,7 @@ def chartRingMap (T : SmallEtale B S hS Y.1) :
 
 /-- **The reading of morphisms through Stacks 04M0 is linear.** -/
 theorem chartHomEquiv_smul (T : SmallEtale B S hS Y.1)
-    (r : (structureRingSheaf B S hS Y).val.obj (op T))
+    (r : (structureRingSheaf B S hS Y).obj.obj (op T))
     (β : (SheafOfModules.overFunctor (structureRingSheaf B S hS Y) T).obj A ⟶
       (SheafOfModules.overFunctor (structureRingSheaf B S hS Y) T).obj C) :
     chartHomEquiv B S hS A C T
@@ -257,7 +257,7 @@ theorem chartHomEquiv_symm_add (T : SmallEtale B S hS Y.1)
 /-- The inverse of the reading of morphisms through Stacks 04M0 sends multiplication by the global
 function `chartRingMap r` to multiplication by `r`. -/
 theorem chartHomEquiv_symm_comp_smul (T : SmallEtale B S hS Y.1)
-    (r : (structureRingSheaf B S hS Y).val.obj (op T))
+    (r : (structureRingSheaf B S hS Y).obj.obj (op T))
     (ψ : (modulePullback B S hS (chartToSpace B S hS Y T)).obj A ⟶
       (modulePullback B S hS (chartToSpace B S hS Y T)).obj C) :
     (chartHomEquiv B S hS A C T).symm (ψ ≫ globalFunctionsSmul B S hS (chartRingMap B S hS T r)
@@ -292,7 +292,7 @@ variable {Y : AlgebraicSpaces B S hS} (A C : Modules.{u, u} B S hS Y.1 Y.2)
     e T' (F.val.map f.op s) =
       QuasiCoherentDescent.restrictForm B S hS (chartMap B S hS Y f) (chartToSpace B S hS Y T)
         (chartToSpace B S hS Y T') (chartMap_comp_chartToSpace B S hS Y f) (e T s))
-  (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).val.obj (op T))
+  (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).obj.obj (op T))
     (s : F.val.obj (op T)),
     e T (r • s) = e T s ≫ globalFunctionsSmul B S hS (chartRingMap B S hS T r)
       ((modulePullback B S hS (chartToSpace B S hS Y T)).obj C))
@@ -313,7 +313,7 @@ def chartInternalHomIso :
 include hlin in
 /-- The sections of `F` over a chart, as sections of the internal Hom, linearly. -/
 def chartReadingLinearEquiv (T : SmallEtale B S hS Y.1) :
-    F.val.obj (op T) ≃ₗ[(structureRingSheaf B S hS Y).val.obj (op T)]
+    F.val.obj (op T) ≃ₗ[(structureRingSheaf B S hS Y).obj.obj (op T)]
       (chartInternalHom B S hS A C).val.obj (op T) where
   toFun s := ((chartHomEquiv B S hS A C T).symm (e T s)).val
   invFun γ := (e T).symm (chartHomEquiv B S hS A C T ⟨γ⟩)
@@ -384,7 +384,7 @@ theorem isQuasicoherentOnSite_of_chartReading {Y : AlgebraicSpaces B S hS}
       e T' (F.val.map f.op s) =
         QuasiCoherentDescent.restrictForm B S hS (chartMap B S hS Y f) (chartToSpace B S hS Y T)
           (chartToSpace B S hS Y T') (chartMap_comp_chartToSpace B S hS Y f) (e T s))
-    (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).val.obj (op T))
+    (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).obj.obj (op T))
       (s : F.val.obj (op T)),
       e T (r • s) = e T s ≫ globalFunctionsSmul B S hS (chartRingMap B S hS T r)
         ((modulePullback B S hS (chartToSpace B S hS Y T)).obj C)) :
@@ -502,7 +502,7 @@ theorem isQuasicoherentOnSite_of_chartReading_comp (j : Y ⟶ X) (A C : Modules.
         QuasiCoherentDescent.restrictForm B S hS (chartMap B S hS Y f)
           (chartToSpace B S hS Y T ≫ j) (chartToSpace B S hS Y T' ≫ j)
           (by rw [← Category.assoc, chartMap_comp_chartToSpace]) (e T s))
-    (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).val.obj (op T))
+    (hlin : ∀ (T : SmallEtale B S hS Y.1) (r : (structureRingSheaf B S hS Y).obj.obj (op T))
       (s : F.val.obj (op T)),
       e T (r • s) = e T s ≫ globalFunctionsSmul B S hS (chartRingMap B S hS T r)
         ((modulePullback B S hS (chartToSpace B S hS Y T ≫ j)).obj C)) :

@@ -23,6 +23,19 @@ universe u v u₁ v₁
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_actionGroupoid
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_actionGroupoid
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Coordinate permutations restricted to the distinct-tuple locus. -/
 noncomputable def distinctFiberPowerPermute
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -166,10 +179,11 @@ noncomputable def distinctFiberPowerAction
     (hc : AlgebraicGeometry.Space.IsClosedImmersion B S hS (pullback.diagonal f)) (n : ℕ) :
     Equiv.Perm (Fin (n + 1)) →*
       End (distinctFiberPowerLocus B S hS f hf ho hc n).toScheme where
-  toFun σ := distinctFiberPowerPermute B S hS f hf ho hc n σ.symm
-  map_one' := distinctFiberPowerPermute_refl B S hS f hf ho hc n
+  toFun σ := .of (distinctFiberPowerPermute B S hS f hf ho hc n σ.symm)
+  map_one' := End.ext (distinctFiberPowerPermute_refl B S hS f hf ho hc n)
   map_mul' σ τ := by
-    rw [End.mul_def, distinctFiberPowerPermute_comp, Equiv.Perm.mul_def,
+    ext1
+    rw [End.mul_asHom, distinctFiberPowerPermute_comp, Equiv.Perm.mul_def,
       Equiv.symm_trans]
 
 /-- A set-theoretic mapping condition between two opens, read as an inequality of opens. -/
@@ -355,14 +369,14 @@ noncomputable def distinctFiberPowerSiteAction
     (hc : AlgebraicGeometry.Space.IsClosedImmersion B S hS (pullback.diagonal f)) (n : ℕ) :
     Equiv.Perm (Fin (n + 1)) →* End (opensSiteObject B S hS
       (fiberPower f hf n).1 (distinctFiberPowerLocus B S hS f hf ho hc n)) where
-  toFun σ := openSubschemeMap B S hS
+  toFun σ := .of (openSubschemeMap B S hS
     (distinctFiberPowerLocus B S hS f hf ho hc n)
     (distinctFiberPowerLocus B S hS f hf ho hc n) (fiberPowerPermute f hf n σ.symm)
-    (mapsTo_distinctFiberPowerLocus B S hS f hf ho hc n σ.symm)
-  map_one' := (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
+    (mapsTo_distinctFiberPowerLocus B S hS f hf ho hc n σ.symm))
+  map_one' := End.ext <| (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
     (distinctFiberPowerPermute_refl B S hS f hf ho hc n)
-  map_mul' σ τ := (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
-    ((distinctFiberPowerAction B S hS f hf ho hc n).map_mul σ τ)
+  map_mul' σ τ := End.ext <| (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
+    (congrArg End.asHom ((distinctFiberPowerAction B S hS f hf ho hc n).map_mul σ τ))
 
 theorem injective_distinctFiberPowerSiteAction
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -374,7 +388,8 @@ theorem injective_distinctFiberPowerSiteAction
     (g : T ⟶ opensSiteObject B S hS (fiberPower f hf n).1
       (distinctFiberPowerLocus B S hS f hf ho hc n))
     (hT : Nonempty ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj T)) :
-    Function.Injective (fun σ => g ≫ distinctFiberPowerSiteAction B S hS f hf ho hc n σ) := by
+    Function.Injective
+      (fun σ => g ≫ (distinctFiberPowerSiteAction B S hS f hf ho hc n σ).asHom) := by
   let i := opensSiteObjectInclusion B S hS (fiberPower f hf n).1
     (distinctFiberPowerLocus B S hS f hf ho hc n)
   have hg : Set.range ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (g ≫ i)) ⊆
@@ -395,7 +410,7 @@ theorem residueFieldFaithful_of_siteFree
     (a : G →* Aut U)
     (hfree : ∀ (T : AlgebraicGeometry.BigFppfOver B S hS) (g : T ⟶ U),
       Nonempty ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj T) →
-        Function.Injective (fun σ => g ≫ (a σ).hom)) :
+        Function.Injective (fun σ => g ≫ (a σ).asIso.hom)) :
     AlgebraicGeometry.Space.ActsNontriviallyOnFixedResidueFields
       ((Over.post B.inclusion).obj U) G
       (((Over.post B.inclusion).mapAut U).comp a) := by
@@ -410,15 +425,15 @@ theorem residueFieldFaithful_of_siteFree
   let T : AlgebraicGeometry.BigFppfOver B S hS := Over.mk (z ≫ U.hom)
   let g : T ⟶ U := Over.homMk z (by rfl)
   have hfixed : Y.fromSpecResidueField x ≫
-      ((q.mapAut U).comp a σ).hom.left = Y.fromSpecResidueField x := by
+      ((q.mapAut U).comp a σ).asIso.hom.left = Y.fromSpecResidueField x := by
     have hmap := Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField
-      (f := ((q.mapAut U).comp a σ).hom.left) x
+      (f := ((q.mapAut U).comp a σ).asIso.hom.left) x
     rw [hres] at hmap
     exact hmap.symm.trans (Y.residueFieldCongr_fromSpecResidueField hx)
-  have hsite : g ≫ (a σ).hom = g := by
+  have hsite : g ≫ (a σ).asIso.hom = g := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (z ≫ (a σ).hom.left) = B.inclusion.map z
+    show B.inclusion.map (z ≫ (a σ).asIso.hom.left) = B.inclusion.map z
     rw [Functor.map_comp]
     have hz : B.inclusion.map z = Y.fromSpecResidueField x := by
       dsimp only [z]
@@ -431,7 +446,7 @@ theorem residueFieldFaithful_of_siteFree
   apply hσ
   apply hfree T g hT
   simp only [map_one]
-  show g ≫ (a σ).hom = g ≫ 𝟙 U
+  show g ≫ (a σ).asIso.hom = g ≫ 𝟙 U
   simpa only [Category.comp_id] using hsite
 
 private theorem actionRelationSource_desc
@@ -451,7 +466,7 @@ private theorem actionRelationTarget_desc
     (a : G →* Aut U) :
     (actionRelationUnderlyingIso U G).inv ≫
         (AlgebraicGeometry.Space.actionRelationTarget U G a).left =
-      Sigma.desc (fun g : G ↦ (a g).hom.left) := by
+      Sigma.desc (fun g : G ↦ (a g).asIso.hom.left) := by
   apply Sigma.hom_ext
   intro g
   rw [← Category.assoc, actionRelationUnderlyingIso_inv_ι]
@@ -517,8 +532,8 @@ theorem actionRelationTarget_isFiniteLocallyFree
     (a : G →* Aut U) :
     Stacks.Morphisms.IsFiniteLocallyFree
       (AlgebraicGeometry.Space.actionRelationTarget U G a).left :=
-  let (g : G) : IsIso (a g).hom.left := ((Over.forget S).mapIso (a g)).isIso_hom
-  isFiniteLocallyFree_of_inv_comp_eq_sigmaDesc U G _ (fun g : G ↦ (a g).hom.left)
+  let (g : G) : IsIso (a g).asIso.hom.left := ((Over.forget S).mapIso (a g).asIso).isIso_hom
+  isFiniteLocallyFree_of_inv_comp_eq_sigmaDesc U G _ (fun g : G ↦ (a g).asIso.hom.left)
     (actionRelationTarget_desc U G a)
 
 /-- A property of the source and target maps holds for a groupoid scheme extending a

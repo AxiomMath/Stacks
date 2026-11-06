@@ -1156,7 +1156,8 @@ private lemma extensionActionPairing_smul_left
     E.f.val.app (Opposite.op V)
         ((extensionActionPairing hi E).app (Opposite.op V)
           (q • aV, E.g.val.app (Opposite.op V) yV)) =
-        r₀R • ((hi.incl.val.app (Opposite.op V) aV) • yV) := by
+        r₀R • ((show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj (Opposite.op V) from
+          hi.incl.val.app (Opposite.op V) aV) • yV) := by
       rw [extensionActionPairing_lift, extensionActionLift_spec]
       rw [hqI]
       have hinc : (hi.incl.val.app (Opposite.op V)).hom (r₀R • aV) =

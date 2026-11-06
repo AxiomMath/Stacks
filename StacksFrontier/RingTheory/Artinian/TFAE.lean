@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.Artinian.Basic
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section

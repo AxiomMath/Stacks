@@ -116,22 +116,22 @@ public theorem geometricPointFiber_jointly_surjective
       let y' := Functor.elementsMk (geometricPointFiber B S hS s) Y x
       let t' := Functor.elementsMk (geometricPointFiber B S hS s) X
         ((geometricPointFiber B S hS s).map f x)
-      let a : z' ⟶ t' := CategoryOfElements.homMk z' t' g hz
-      let b : y' ⟶ t' := CategoryOfElements.homMk y' t' f rfl
+      let a : z' ⟶ t' := Functor.Elements.homMk (x := z') (y := t') g hz
+      let b : y' ⟶ t' := Functor.Elements.homMk (x := y') (y := t') f rfl
       obtain ⟨W, p, q, hpq⟩ := IsCofilteredOrEmpty.cone_objs z' y'
       obtain ⟨W', e, he⟩ := IsCofilteredOrEmpty.cone_maps (p ≫ a) (q ≫ b)
-      let eBase : W'.1 ⟶ W.1 := e.val
-      let pBase : W.1 ⟶ Z := p.val
-      let qBase : W.1 ⟶ Y := q.val
+      let eBase : W'.obj ⟶ W.obj := e.hom
+      let pBase : W.obj ⟶ Z := p.hom
+      let qBase : W.obj ⟶ Y := q.hom
       have heBase : eBase ≫ pBase ≫ g = eBase ≫ qBase ≫ f := by
-        simpa [eBase, pBase, qBase, a, b, CategoryOfElements.comp_val,
-          Category.assoc] using congrArg Subtype.val he
-      refine ⟨W'.1, eBase ≫ qBase, ?_, W'.2, ?_⟩
+        simpa [eBase, pBase, qBase, a, b, Functor.Elements.comp_hom,
+          Category.assoc] using congrArg Functor.Elements.Hom.hom he
+      refine ⟨W'.obj, eBase ≫ qBase, ?_, W'.val, ?_⟩
       · show R ((eBase ≫ qBase) ≫ f)
         rw [Category.assoc, ← heBase, ← Category.assoc]
         exact R.downward_closed hg _
-      · have hePoint : (geometricPointFiber B S hS s).map eBase W'.2 = W.2 := e.property
-        have hqPoint : (geometricPointFiber B S hS s).map qBase W.2 = x := q.property
+      · have hePoint : (geometricPointFiber B S hS s).map eBase W'.val = W.val := e.map_val
+        have hqPoint : (geometricPointFiber B S hS s).map qBase W.val = x := q.map_val
         rw [Functor.map_comp_apply, hePoint, hqPoint]
   | transitive X R T hR hlocal ihR ihlocal =>
       obtain ⟨Y, f, hf, y, hy⟩ := ihR x

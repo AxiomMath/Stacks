@@ -42,14 +42,14 @@ variable (Λ : Type r) [Ring Λ] (G : Type u') [Group G] [TopologicalSpace G]
 /-- **The action of `G` on a finite `Λ`-module with continuous action, as a representation.** -/
 def finiteTypeContinuousModuleRepresentation (N : FiniteTypeContinuousModule.{r, u', w} Λ G) :
     Representation Λ G N.obj.obj.obj.V where
-  toFun g := (N.obj.obj.obj.ρ g).hom
+  toFun g := (N.obj.obj.obj.ρ g).asHom.hom
   map_one' := by rw [map_one]; rfl
   map_mul' g h := by rw [map_mul]; rfl
 
 /-- The representation acts on `x` by the action of `g` on `N`. -/
 lemma finiteTypeContinuousModuleRepresentation_apply
     (N : FiniteTypeContinuousModule.{r, u', w} Λ G) (g : G) (x : N.obj.obj.obj.V) :
-    finiteTypeContinuousModuleRepresentation Λ G N g x = (N.obj.obj.obj.ρ g).hom x := rfl
+    finiteTypeContinuousModuleRepresentation Λ G N g x = (N.obj.obj.obj.ρ g).asHom.hom x := rfl
 
 variable {Λ G} in
 /-- A morphism of finite `Λ`-modules with continuous `G`-action commutes with the action. -/

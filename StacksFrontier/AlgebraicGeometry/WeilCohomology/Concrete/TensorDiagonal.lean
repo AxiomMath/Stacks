@@ -320,6 +320,7 @@ theorem tensor_diagonalCorr_eq_sum {D D' : Finset ℕ}
   exact Finset.sum_congr rfl fun d _ ↦ Finset.sum_congr rfl fun d' _ ↦
     tensor_diagonalBlock k sX sX' d d'
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- `[Δ_{X × X'}]` is the sum of the diagonals of the pieces `X_d × X'_{d'}`. -/
 theorem corrCongr_diagonalCorr_prodBase_eq_sum {D D' : Finset ℕ}
     (hD : ∀ d, (dimPart sX d : Set X).Nonempty → d ∈ D)

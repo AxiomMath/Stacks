@@ -3,11 +3,13 @@ module
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.HopkinsLevitzki
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 public import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.RegularLocalRing.Defs

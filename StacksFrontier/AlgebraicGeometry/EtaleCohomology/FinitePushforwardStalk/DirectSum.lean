@@ -57,7 +57,7 @@ private def liftedNeighborhood
   let hpb := (IsPullback.of_hasPullback
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion
   let p := hpb.lift U.2.1 x.1 hxy.symm
-  refine ⟨(smallEtaleBaseChange B f).obj U.1, ?_⟩
+  refine Functor.elementsMk _ ((smallEtaleBaseChange B f).obj U.1) ?_
   refine ⟨p, ?_⟩
   change p ≫ B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1
   simp [p]
@@ -145,7 +145,7 @@ private def pointedPullbackNeighborhoodMap
     V ⟶ liftedNeighborhood B f y U x := by
   let hpb := (IsPullback.of_hasPullback
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion
-  refine CategoryOfElements.homMk V (liftedNeighborhood B f y U x) t ?_
+  refine Functor.Elements.homMk (x := V) (y := liftedNeighborhood B f y U x) t ?_
   apply Subtype.ext
   apply hpb.hom_ext
   · change V.2.1 ≫ (SmallEtale.toScheme B X.1 X.property).map t ≫
@@ -196,9 +196,8 @@ private noncomputable def stalkPushforwardComponentCocone
         exact colimit.ι E (Opposite.op (liftedNeighborhood B f y U.unop x))
       naturality := by
         intro U V g
-        let h := CategoryOfElements.homMk
-          (liftedNeighborhood B f y V.unop x)
-          (liftedNeighborhood B f y U.unop x)
+        let h : liftedNeighborhood B f y V.unop x ⟶ liftedNeighborhood B f y U.unop x :=
+          Functor.Elements.homMk
           (u.map g.unop.1)
           (liftedNeighborhood_map B f y g.unop x)
         change F.obj.map ((u.map g.unop.1).op) ≫
@@ -431,7 +430,7 @@ private theorem isIso_pi_lift_of_bijective
     show ((U.map (Pi.lift a) ≫ (PreservesProduct.iso U G).hom) ≫
       Pi.π (fun i => U.obj (G i)) i) z = _
     rw [Category.assoc, PreservesProduct.iso_hom, piComparison_comp_π,
-      ← U.map_comp, Pi.lift_π]
+      ← U.map_comp, Pi.lift_comp_π]
     rfl
   have : IsIso (U.map (Pi.lift a) ≫ e.hom) := by
     rw [he]
@@ -509,7 +508,7 @@ private theorem stalkPushforwardHomIntoSum_π
   show Limits.Pi.lift (fun x => stalkPushforwardComponentHom B f y F x) ≫
     (biproduct.isoProduct G).inv ≫
       ((biproduct.isoCoproduct G).hom ≫ Limits.Sigma.π G x) = _
-  rw [hb, biproduct.isoProduct_inv, biproduct.lift_π, Limits.Pi.lift_π]
+  rw [hb, biproduct.isoProduct_inv, biproduct.lift_π, Limits.Pi.lift_comp_π]
 
 private theorem stalkPushforwardComponentHom_natural
     [IsFinite (B.inclusion.map f)]

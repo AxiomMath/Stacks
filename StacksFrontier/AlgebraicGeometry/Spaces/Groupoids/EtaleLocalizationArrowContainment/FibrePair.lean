@@ -23,6 +23,19 @@ namespace AlgebraicGeometry.Space
 
 open GroupoidInAlgebraicSpaces
 
+/-- Pullbacks of presheaves on `BigFppfOver C S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_FibrePair
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_FibrePair
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The pair named by the point `u'` -/
 
 section Fibre
@@ -211,7 +224,7 @@ theorem exists_lift_fibrePair_iff (V' : BigFppfOver C S hS)
     rw [← hk₀]
     constructor
     · intro h
-      exact (cancel_mono (fibreYonedaIso G C hS hU hR u hK).hom).1
+      exact (Iso.cancel_iso_hom_right _ _ (fibreYonedaIso G C hS hU hR u hK)).1
         ((Category.assoc l (yoneda.map (fibreOpenSiteMap G C hS hU hR u hK W))
           (fibreYonedaIso G C hS hU hR u hK).hom).trans h)
     · intro h

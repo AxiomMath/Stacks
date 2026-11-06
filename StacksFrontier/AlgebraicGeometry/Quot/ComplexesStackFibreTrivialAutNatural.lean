@@ -132,12 +132,12 @@ theorem fibreLiftEndOfAut_hom_comp_eq {V W : FGModuleCat.{u} k}
     (hα : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj V))).baseChange.map
-          α.hom = 𝟙 _)
+          α.asIso.hom = 𝟙 _)
     (β : Aut (fibreLiftDerivedLift (hDer := hDer W) b hK).K.obj)
     (hβ : (derivedExtensionOfScalarsData.{d, u + 1}
       (sqZeroExtSheafAnySiteProj
         ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).obj W))).baseChange.map
-          β.hom = 𝟙 _)
+          β.asIso.hom = 𝟙 _)
     (hφ : φ.a.fibre ≫ (fibreDataComplexAut (hDer := hDer W) b.1.right.x b.1.hom.a
           (fibreLiftRetraction b) (fibreLiftSection_comp_retraction b)
           (isSquareZeroClosedImmersion_fibreLiftSection b) (fibreLiftScheme_left_eq b)
@@ -178,6 +178,10 @@ theorem fibreLiftUnipotentAut_hom_comp_eq (hK : DerivedCategory.TStructure.t.min
     ((coefficientModule (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)).map f)
     (fibreLiftDerivedLift (hDer := hDer V) a hK) (fibreLiftDerivedLift (hDer := hDer W) b hK)
     e he (Multiplicative.ofAdd g)
+  have hαβ' := Aut.ext (x := Aut.of (e.symm ≪≫ (coefficientReductionBaseChange.{d, u + 1}
+      (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) f).functor.mapIso
+        (comparisonHom (coefficientReduction.{d, u + 1} (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) V)
+          (fibreLiftDerivedLift (hDer := hDer V) a hK) (Multiplicative.ofAdd g)).asIso ≪≫ e)) hαβ
   have hmem : ∀ {U : FGModuleCat.{u} k}
       (y : FibreLift D iΛ x₀ hx₀ hk ((fgSiteModule B hk).obj U))
       (g' : (coefficientHomLinearFunctor.{u + 1} (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)
@@ -187,11 +191,11 @@ theorem fibreLiftUnipotentAut_hom_comp_eq (hK : DerivedCategory.TStructure.t.min
           automorphismsOfLift _ (fibreLiftDerivedLift (hDer := hDer U) y hK) :=
     fun _ _ => mem_of_range_eq _ (comparisonHom_range _ _) _
   have hα := (mem_automorphismsOfLift_iff _).1 (hmem a g)
-  have hβ := (mem_automorphismsOfLift_iff _).1 (hαβ ▸ hmem b _)
+  have hβ := (mem_automorphismsOfLift_iff _).1 (hαβ' ▸ hmem b _)
   have hU : fibreLiftUnipotentAut (hDer' := hDer) b hK
       ((coefficientHomLinearFunctor.{u + 1} (fieldPointCoefficientMap D iΛ x₀ hx₀ hk)
         x₀.E).map f g) = fibreLiftEndOfAut (hDer := hDer W) b hK _ hβ :=
-    fibreLiftEndOfAut_congr (hDer := hDer W) b hK hαβ.symm _ hβ
+    fibreLiftEndOfAut_congr (hDer := hDer W) b hK hαβ'.symm _ hβ
   have key := fibreLiftEndOfAut_hom_comp_eq a b φ.right hK _ hα _ hβ (hnat _)
   rw [hU]
   exact Under.UnderMorphism.ext key

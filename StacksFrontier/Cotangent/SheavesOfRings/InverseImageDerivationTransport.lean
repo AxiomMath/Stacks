@@ -79,11 +79,11 @@ values in `M` read along `augP`. -/
 noncomputable def derivationPrecompRing (rho : P ⟶ P')
     {baseP : A' ⟶ P} {baseP' : A' ⟶ P'} {augP : P ⟶ B'} {augP' : P' ⟶ B'}
     (hbase : baseP ≫ rho = baseP') (haug : rho ≫ augP' = augP)
-    (DD : ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val.Derivation'
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val
           baseP'.hom) :
-    ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val
           baseP.hom where
   d {U} := (DD.d (X := U)).comp (rho.hom.app U).hom.toAddMonoidHom
   d_mul {U} x y := by
@@ -124,8 +124,8 @@ derivation, preceded by the morphism of sheaves of sets of `ρ`. -/
 lemma derivationSheafHom_derivationPrecompRing (rho : P ⟶ P')
     {baseP : A' ⟶ P} {baseP' : A' ⟶ P'} {augP : P ⟶ B'} {augP' : P' ⟶ B'}
     (hbase : baseP ≫ rho = baseP') (haug : rho ≫ augP' = augP)
-    (DD : ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val.Derivation'
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val
           baseP'.hom) :
     derivationSheafHom baseP ((SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M)
@@ -139,11 +139,11 @@ lemma derivationSheafHom_derivationPrecompRing (rho : P ⟶ P')
 noncomputable def derivationRingEquiv (rho : P ≅ P')
     {baseP : A' ⟶ P} {baseP' : A' ⟶ P'} {augP : P ⟶ B'} {augP' : P' ⟶ B'}
     (hbase : baseP ≫ rho.hom = baseP') (haug : rho.hom ≫ augP' = augP) :
-    ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val
           baseP.hom ≃
-      ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M).val
           baseP'.hom where
   toFun := derivationPrecompRing M rho.inv
     (by rw [← hbase, Category.assoc, rho.hom_inv_id, Category.comp_id])
@@ -167,8 +167,8 @@ composes its morphism of underlying sheaves of sets with the inverse isomorphism
 lemma derivationSheafHom_derivationRingEquiv (rho : P ≅ P')
     {baseP : A' ⟶ P} {baseP' : A' ⟶ P'} {augP : P ⟶ B'} {augP' : P' ⟶ B'}
     (hbase : baseP ≫ rho.hom = baseP') (haug : rho.hom ≫ augP' = augP)
-    (DD : ((SheafOfModules.restrictScalars
-        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val.Derivation'
+    (DD : PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars
+        ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP)).obj M).val
           baseP.hom) :
     derivationSheafHom baseP' ((SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v, u, w} J).map augP')).obj M)

@@ -180,7 +180,8 @@ theorem range_graphSpaceMap :
           hproper)).Z := by
   change Subfunctor.range ((graphSourceIso p).hom ≫ graphMap p ≫ _) =
     (Subfunctor.range (graphMap p)).image _
-  rw [Subfunctor.range_comp, Subfunctor.range_eq_top (p := (graphSourceIso p).hom),
+  rw [Subfunctor.range_comp,
+    @Subfunctor.range_eq_top _ _ _ _ (graphSourceIso p).hom (IsIso.epi_of_iso _),
     Subfunctor.image_top]
   exact Subfunctor.range_comp _ _
 

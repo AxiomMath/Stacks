@@ -85,8 +85,8 @@ attribute [local instance] Stacks.DiscreteModuleTopology.hasForget₂ModuleCatTo
 theorem nsmul_id_continuousGroupCohomology_one_eq_zero
     (M : ContinuousGModule.{u, max u v} G) (e : ℕ)
     (hM : ∀ c : G → M.obj.obj.V, IsLocallyConstant c →
-        (∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (c g₂) + c g₁) →
-        ∃ x : M.obj.obj.V, ∀ g : G, (M.obj.obj.ρ g).hom x - x = e • c g) :
+        (∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (c g₂) + c g₁) →
+        ∃ x : M.obj.obj.V, ∀ g : G, (M.obj.obj.ρ g).asHom.hom x - x = e • c g) :
     e • 𝟙 (continuousGroupCohomology.{u, v} G 1 M) = 0 := by
   let : PreservesFiniteLimits (continuousGModuleInvariants.{u, max u v} G) :=
     preservesFiniteLimits_invariants G
@@ -109,24 +109,24 @@ theorem nsmul_id_continuousGroupCohomology_one_eq_zero
   have hgfl : ∀ m : M.obj.obj.V, gl (fl m) = 0 :=
     fun m ↦ ShortComplex.moduleCat_zero_apply (S.map U) m
   have hfeq : ∀ (g : G) (m : M.obj.obj.V),
-      fl ((M.obj.obj.ρ g).hom m) = (P.J.obj.obj.ρ g).hom (fl m) :=
+      fl ((M.obj.obj.ρ g).asHom.hom m) = (P.J.obj.obj.ρ g).asHom.hom (fl m) :=
     fun g m ↦ ConcreteCategory.congr_hom (P.f.hom.hom.comm g) m
   have hgeq : ∀ (g : G) (z : P.J.obj.obj.V),
-      gl ((P.J.obj.obj.ρ g).hom z) = ((cokernel P.f).obj.obj.ρ g).hom (gl z) :=
+      gl ((P.J.obj.obj.ρ g).asHom.hom z) = ((cokernel P.f).obj.obj.ρ g).asHom.hom (gl z) :=
     fun g z ↦ ConcreteCategory.congr_hom ((cokernel.π P.f).hom.hom.comm g) z
-  have hmul : ∀ (g₁ g₂ : G) (z : P.J.obj.obj.V), (P.J.obj.obj.ρ (g₁ * g₂)).hom z =
-      (P.J.obj.obj.ρ g₁).hom ((P.J.obj.obj.ρ g₂).hom z) := by
+  have hmul : ∀ (g₁ g₂ : G) (z : P.J.obj.obj.V), (P.J.obj.obj.ρ (g₁ * g₂)).asHom.hom z =
+      (P.J.obj.obj.ρ g₁).asHom.hom ((P.J.obj.obj.ρ g₂).asHom.hom z) := by
     intro g₁ g₂ z
     rw [map_mul]
     rfl
   refine nsmul_id_rightDerivedPlus_one_eq_zero
     (continuousGModuleInvariants.{u, max u v} G) hS P.injective e fun y => ?_
   obtain ⟨x, hx⟩ := hgsurj y.1
-  have hyinv : ∀ g : G, ((cokernel P.f).obj.obj.ρ g).hom y.1 = y.1 := y.2
-  have hker : ∀ g : G, ∃ m : M.obj.obj.V, fl m = (P.J.obj.obj.ρ g).hom x - x :=
+  have hyinv : ∀ g : G, ((cokernel P.f).obj.obj.ρ g).asHom.hom y.1 = y.1 := y.2
+  have hker : ∀ g : G, ∃ m : M.obj.obj.V, fl m = (P.J.obj.obj.ρ g).asHom.hom x - x :=
     fun g ↦ hexact _ (by rw [map_sub, hgeq, hx, hyinv]; exact sub_self _)
   choose c hc using hker
-  have hcoc : ∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (c g₂) + c g₁ := by
+  have hcoc : ∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (c g₂) + c g₁ := by
     intro g₁ g₂
     refine hfinj ?_
     simp only [hc, map_add, hfeq, map_sub, hmul]
@@ -135,9 +135,9 @@ theorem nsmul_id_continuousGroupCohomology_one_eq_zero
     isLocallyConstant_of_stabilizer G P.J x c fun g₁ g₂ h ↦ hfinj (by rw [hc, hc, h])
   obtain ⟨m₀, hm₀⟩ := hM c hcloc hcoc
   -- `e • x - m₀` is invariant and lifts `e • y`
-  have hfix : ∀ g : G, (P.J.obj.obj.ρ g).hom (e • x - fl m₀) = e • x - fl m₀ := by
+  have hfix : ∀ g : G, (P.J.obj.obj.ρ g).asHom.hom (e • x - fl m₀) = e • x - fl m₀ := by
     intro g
-    have hmg : (M.obj.obj.ρ g).hom m₀ = e • c g + m₀ := by rw [← hm₀ g]; abel
+    have hmg : (M.obj.obj.ρ g).asHom.hom m₀ = e • c g + m₀ := by rw [← hm₀ g]; abel
     rw [map_sub, ← hfeq, hmg, map_add, map_nsmul, map_nsmul, hc, smul_sub]
     abel
   refine ⟨⟨e • x - fl m₀, hfix⟩, ?_⟩

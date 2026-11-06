@@ -176,6 +176,19 @@ theorem derivationModificationHomOfMap_fSharp_comp_eq :
   (thickeningRingSheafDerivation B S hS Z hZ a' W p a hcompat θ).add_comp_eq _
     (structureSharp_map_thickeningDerivationFun_eq_zero B S hS Z hZ a' W p a hcompat θ)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of sheaves on the small étale site of `X'` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullbacks_sheaf_DerivationModificationMorphism :
+    Limits.HasPullbacks (Sheaf (smallEtaleRingedTopos B S hS X').J (Type u)) :=
+  inferInstance
+
+/-- Pullbacks of sheaves on the small étale site of `X'`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_sheaf_DerivationModificationMorphism
+    {P Q R : Sheaf (smallEtaleRingedTopos B S hS X').J (Type u)} (f : P ⟶ R) (g : Q ⟶ R) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- **`α` is a morphism of locally ringed topoi**, with nothing assumed beyond the source's
 hypotheses.  This is the `isLocallyRinged` input that [Stacks Project, Tag 05ZN] consumes for
 [Stacks Project, Tag 04D0].

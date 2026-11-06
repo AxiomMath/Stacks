@@ -69,11 +69,11 @@ theorem isAffineOpen_chartThickening (U : SmallEtale B S hS X.1)
 theorem contains_chartThickening_of_mk_le (U : SmallEtale B S hS X.1) {κ : Cardinal.{u}}
     (hκ : κ < B.cutoff)
     (h : ∀ V : (chartScheme U).affineOpens,
-      #(E.A.val.obj (op ((chartOpens B S hS U).obj V.1))) ≤ κ) :
+      #(E.A.obj.obj (op ((chartOpens B S hS U).obj V.1))) ≤ κ) :
     B.Contains (chartThickening B S hS E U) := by
   have hne : Nonempty (chartScheme U).affineOpens := ⟨⟨⊥, isAffineOpen_bot _⟩⟩
   have h' : ∀ V : (chartScheme U).affineOpens,
-      #(E.A.val.obj (op ((openChartFunctor B S hS X.1 U).obj V.1))) ≤ κ := fun V =>
+      #(E.A.obj.obj (op ((openChartFunctor B S hS X.1 U).obj V.1))) ≤ κ := fun V =>
     chartOpens_obj_eq_openChartFunctor_obj B S hS U V.1 ▸ h V
   let O : (chartScheme U).affineOpens → (chartThickening B S hS E U).Opens := fun V => V.1
   have hle := Scheme.size_le_of_iSup_eq_top (X := chartThickening B S hS E U) O
@@ -90,8 +90,8 @@ theorem contains_chartThickening_of_mk_le (U : SmallEtale B S hS X.1) {κ : Card
 `𝒜(W) ⟶ 𝒪_X(W)` is additive with kernel the image of `ℐ(W)`, so each of its fibres is in
 bijection with a subset of `ℐ(W)`. -/
 theorem mk_A_le_mk_mul (W : (SmallEtale B S hS X.1)ᵒᵖ) :
-    #(E.A.val.obj W) ≤
-      #((smallEtaleRingedTopos B S hS X).O.val.obj W) * #(E.I.val.obj W) := by
+    #(E.A.obj.obj W) ≤
+      #((smallEtaleRingedTopos B S hS X).O.obj.obj W) * #(E.I.val.obj W) := by
   classical
   refine Cardinal.mk_le_mk_mul_of_mk_preimage_le (E.π.hom.app W) fun o => ?_
   by_cases hne : (E.π.hom.app W ⁻¹' {o}).Nonempty

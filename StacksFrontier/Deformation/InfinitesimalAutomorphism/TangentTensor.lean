@@ -356,8 +356,8 @@ coordinate transports are prescribed, provided each is trivial after reduction. 
 @[sga "7 VI 2.6(c)" "more general"]
 public theorem existsUnique_prodAut (hp : SatisfiesRS p)
     (α : Aut (P.obj (squareZeroUnder p x M))) (β : Aut (P.obj (squareZeroUnder p x N)))
-    (hα : α.hom.val ≫ P.map (squareZeroUnderRed p x M) = P.map (squareZeroUnderRed p x M))
-    (hβ : β.hom.val ≫ P.map (squareZeroUnderRed p x N) = P.map (squareZeroUnderRed p x N)) :
+    (hα : α.asIso.hom.val ≫ P.map (squareZeroUnderRed p x M) = P.map (squareZeroUnderRed p x M))
+    (hβ : β.asIso.hom.val ≫ P.map (squareZeroUnderRed p x N) = P.map (squareZeroUnderRed p x N)) :
     ∃! γ : Aut (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))),
       P.transportAut (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) γ = α ∧
         P.transportAut (squareZeroUnderMap p x
@@ -397,23 +397,23 @@ public theorem existsUnique_prodAut (hp : SatisfiesRS p)
     simp
   have build : ∀ (a : Aut (P.obj (squareZeroUnder p x M)))
       (b : Aut (P.obj (squareZeroUnder p x N))),
-      a.hom.val ≫ P.map (squareZeroUnderRed p x M) = P.map (squareZeroUnderRed p x M) →
-      b.hom.val ≫ P.map (squareZeroUnderRed p x N) = P.map (squareZeroUnderRed p x N) →
+      a.asIso.hom.val ≫ P.map (squareZeroUnderRed p x M) = P.map (squareZeroUnderRed p x M) →
+      b.asIso.hom.val ≫ P.map (squareZeroUnderRed p x N) = P.map (squareZeroUnderRed p x N) →
       ∃ g : (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1 ⟶
           (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1,
         p.IsHomLift (𝟙 (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N))).right) g ∧
         g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) =
           P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫
-            a.hom.val ∧
+            a.asIso.hom.val ∧
         g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) =
           P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫
-            b.hom.val := by
+            b.asIso.hom.val := by
     intro a b ha hb
     have hcond :
         (P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫
-            a.hom.val) ≫ P.map (squareZeroUnderRed p x M) =
+            a.asIso.hom.val) ≫ P.map (squareZeroUnderRed p x M) =
           (P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫
-            b.hom.val) ≫ P.map (squareZeroUnderRed p x N) := by
+            b.asIso.hom.val) ≫ P.map (squareZeroUnderRed p x N) := by
       rw [Category.assoc, ha, Category.assoc, hb]
       exact prodCone_condition P M N
     obtain ⟨g, hl1, hl2⟩ :
@@ -421,10 +421,10 @@ public theorem existsUnique_prodAut (hp : SatisfiesRS p)
           (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1,
         g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) =
             P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫
-              a.hom.val ∧
+              a.asIso.hom.val ∧
           g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) =
             P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫
-              b.hom.val :=
+              b.asIso.hom.val :=
       ⟨PullbackCone.IsLimit.lift hlim _ _ hcond,
         PullbackCone.IsLimit.lift_fst hlim _ _ hcond,
         PullbackCone.IsLimit.lift_snd hlim _ _ hcond⟩
@@ -432,47 +432,48 @@ public theorem existsUnique_prodAut (hp : SatisfiesRS p)
     · rw [← p.map_comp, hl1, p.map_comp, p_map_aut P a, Category.comp_id]
     · rw [← p.map_comp, hl2, p.map_comp, p_map_aut P b, Category.comp_id]
   have hinv : ∀ (L : FGModuleCat.{max v w} k) (a : Aut (P.obj (squareZeroUnder p x L))),
-      a.hom.val ≫ P.map (squareZeroUnderRed p x L) = P.map (squareZeroUnderRed p x L) →
-      a.inv.val ≫ P.map (squareZeroUnderRed p x L) = P.map (squareZeroUnderRed p x L) := by
+      a.asIso.hom.val ≫ P.map (squareZeroUnderRed p x L) = P.map (squareZeroUnderRed p x L) →
+      a.asIso.inv.val ≫ P.map (squareZeroUnderRed p x L) = P.map (squareZeroUnderRed p x L) := by
     intro L a ha
-    have hii : a.inv.val ≫ a.hom.val = 𝟙 (P.obj (squareZeroUnder p x L)).1 :=
-      congrArg Subtype.val a.inv_hom_id
-    calc a.inv.val ≫ P.map (squareZeroUnderRed p x L)
-        = a.inv.val ≫ a.hom.val ≫ P.map (squareZeroUnderRed p x L) := by rw [ha]
+    have hii : a.asIso.inv.val ≫ a.asIso.hom.val = 𝟙 (P.obj (squareZeroUnder p x L)).1 :=
+      congrArg Subtype.val a.asIso.inv_hom_id
+    calc a.asIso.inv.val ≫ P.map (squareZeroUnderRed p x L)
+        = a.asIso.inv.val ≫ a.asIso.hom.val ≫ P.map (squareZeroUnderRed p x L) := by rw [ha]
       _ = P.map (squareZeroUnderRed p x L) := by rw [← Category.assoc, hii, Category.id_comp]
   obtain ⟨g, hgl, hg1, hg2⟩ := build α β hα hβ
-  obtain ⟨g', hgl', hg1', hg2'⟩ := build α.symm β.symm (hinv M α hα) (hinv N β hβ)
+  obtain ⟨g', hgl', hg1', hg2'⟩ := build α⁻¹ β⁻¹ (hinv M α hα) (hinv N β hβ)
   have hcomp : ∀ (a : Aut (P.obj (squareZeroUnder p x M)))
       (b : Aut (P.obj (squareZeroUnder p x N)))
       (g g' : (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1 ⟶
         (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1),
       g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) =
-        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫ a.hom.val →
+        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫ a.asIso.hom.val →
       g ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) =
-        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫ b.hom.val →
+        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫ b.asIso.hom.val →
       g' ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) =
-        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫ a.inv.val →
+        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.fst k M N))) ≫ a.asIso.inv.val →
       g' ≫ P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) =
-        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫ b.inv.val →
+        P.map (squareZeroUnderMap p x (FGModuleCat.ofHom (LinearMap.snd k M N))) ≫ b.asIso.inv.val →
       g ≫ g' = 𝟙 (P.obj (squareZeroUnder p x (FGModuleCat.of k (↥M × ↥N)))).1 := by
     intro a b g g' h1 h2 h1' h2'
-    have ea : a.hom.val ≫ a.inv.val = 𝟙 (P.obj (squareZeroUnder p x M)).1 :=
-      congrArg Subtype.val a.hom_inv_id
-    have eb : b.hom.val ≫ b.inv.val = 𝟙 (P.obj (squareZeroUnder p x N)).1 :=
-      congrArg Subtype.val b.hom_inv_id
+    have ea : a.asIso.hom.val ≫ a.asIso.inv.val = 𝟙 (P.obj (squareZeroUnder p x M)).1 :=
+      congrArg Subtype.val a.asIso.hom_inv_id
+    have eb : b.asIso.hom.val ≫ b.asIso.inv.val = 𝟙 (P.obj (squareZeroUnder p x N)).1 :=
+      congrArg Subtype.val b.asIso.hom_inv_id
     refine huniq _ _ ?_ ?_
     · rw [Category.assoc, h1', ← Category.assoc, h1, Category.assoc, ea, Category.comp_id,
         Category.id_comp]
     · rw [Category.assoc, h2', ← Category.assoc, h2, Category.assoc, eb, Category.comp_id,
         Category.id_comp]
   have hgg := hcomp α β g g' hg1 hg2 hg1' hg2'
-  have hgg' := hcomp α.symm β.symm g' g hg1' hg2' hg1 hg2
-  refine ⟨⟨⟨g, hgl⟩, ⟨g', hgl'⟩, Functor.Fiber.hom_ext hgg, Functor.Fiber.hom_ext hgg'⟩,
+  have hgg' := hcomp α⁻¹ β⁻¹ g' g hg1' hg2' hg1 hg2
+  refine ⟨.of ⟨⟨g, hgl⟩, ⟨g', hgl'⟩, Functor.Fiber.hom_ext hgg, Functor.Fiber.hom_ext hgg'⟩,
     ⟨(transportAut_eq_iff P _ _ α).mpr hg1, (transportAut_eq_iff P _ _ β).mpr hg2⟩, ?_⟩
   intro γ' hγ'
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show γ'.hom.val = g
+  show γ'.asIso.hom.val = g
   refine huniq _ _ ?_ ?_
   · exact ((transportAut_eq_iff P _ γ' α).mp hγ'.1).trans hg1.symm
   · exact ((transportAut_eq_iff P _ γ' β).mp hγ'.2).trans hg2.symm

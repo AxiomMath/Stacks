@@ -272,8 +272,8 @@ public noncomputable def inducedAutomorphismHom (hq : IsCofiberedInGroupoids q)
 automorphism. -/
 public theorem inducedAutomorphismHom_hom_val (hq : IsCofiberedInGroupoids q)
     (U : Under ((Φ ⋙ q).obj x₀)) (a : Aut (P.obj U)) :
-    (inducedAutomorphismHom Φ P Q hq U a).hom.val =
-      comparisonPushforward Φ P Q U ≫ Φ.map a.hom.val ≫
+    (inducedAutomorphismHom Φ P Q hq U a).asIso.hom.val =
+      comparisonPushforward Φ P Q U ≫ Φ.map a.asIso.hom.val ≫
         comparisonPushforwardInv Φ P Q hq U := rfl
 
 /-- Pushing an automorphism along `Φ` commutes with transport between chosen
@@ -283,9 +283,10 @@ public theorem inducedAutomorphismHom_transportAut (hq : IsCofiberedInGroupoids 
     inducedAutomorphismHom Φ P Q hq V (P.transportAut f a) =
       Q.transportAut f (inducedAutomorphismHom Φ P Q hq U a) := by
   let := Q.map_cocartesian f
-  let := (inducedAutomorphismHom Φ P Q hq V (P.transportAut f a)).hom.2
-  let := (Q.transportAut f (inducedAutomorphismHom Φ P Q hq U a)).hom.2
+  let := (inducedAutomorphismHom Φ P Q hq V (P.transportAut f a)).asIso.hom.2
+  let := (Q.transportAut f (inducedAutomorphismHom Φ P Q hq U a)).asIso.hom.2
   apply Aut.ext
+  apply Iso.ext
   apply Subtype.ext
   refine Functor.IsStronglyCocartesian.ext q f.right (Q.map f) (𝟙 V.right) ?_
   show Q.map f ≫ comparisonPushforward Φ P Q V ≫
@@ -306,16 +307,16 @@ public theorem inducedAutomorphismHom_transportAut (hq : IsCofiberedInGroupoids 
             comparisonPushforwardInv Φ P Q hq V := by
       simp only [Category.assoc]
     _ = comparisonPushforward Φ P Q U ≫
-          (Φ.map a.hom.val ≫ Φ.map (P.map f)) ≫
+          (Φ.map a.asIso.hom.val ≫ Φ.map (P.map f)) ≫
             comparisonPushforwardInv Φ P Q hq V := by
       rw [← Φ.map_comp, ← Φ.map_comp, P.map_transportHom]
-    _ = comparisonPushforward Φ P Q U ≫ Φ.map a.hom.val ≫
+    _ = comparisonPushforward Φ P Q U ≫ Φ.map a.asIso.hom.val ≫
           (Φ.map (P.map f) ≫ comparisonPushforwardInv Φ P Q hq V) := by
       simp only [Category.assoc]
-    _ = comparisonPushforward Φ P Q U ≫ Φ.map a.hom.val ≫
+    _ = comparisonPushforward Φ P Q U ≫ Φ.map a.asIso.hom.val ≫
           comparisonPushforwardInv Φ P Q hq U ≫ Q.map f := by
       rw [comparisonPushforwardInv_naturality]
-    _ = (inducedAutomorphismHom Φ P Q hq U a).hom.val ≫ Q.map f := by
+    _ = (inducedAutomorphismHom Φ P Q hq U a).asIso.hom.val ≫ Q.map f := by
       rw [inducedAutomorphismHom_hom_val]
       simp only [Category.assoc]
     _ = Q.map f ≫ Q.transportHom f (inducedAutomorphismHom Φ P Q hq U a) :=
@@ -421,6 +422,7 @@ public theorem inducedAutomorphismHom_comp (hcomp : IsCofiberedInGroupoids (Ψ �
     inducedAutomorphismHom (Φ ⋙ Ψ) P R hr U a =
       inducedAutomorphismHom Ψ Q R hr U (inducedAutomorphismHom Φ P Q hcomp U a) := by
   apply Aut.ext
+  apply Iso.ext
   apply Subtype.ext
   rw [inducedAutomorphismHom_hom_val, inducedAutomorphismHom_hom_val,
     inducedAutomorphismHom_hom_val, comparisonPushforward_comp Φ Ψ r P Q R U,
@@ -561,9 +563,9 @@ public theorem inducedInfinitesimalLinearMap_apply (hp : SatisfiesRS (Φ ⋙ q))
     letI := naturalLocalizedTangentModule Q hq
     ∀ a : localizedAutomorphismFunctorTangent P,
       (localizedTangentEquivKernel Q
-          (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.hom.val =
+          (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.asIso.hom.val =
         comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)) ≫
-          Φ.map (localizedTangentEquivKernel P a).1.hom.val ≫
+          Φ.map (localizedTangentEquivKernel P a).1.asIso.hom.val ≫
             comparisonPushforwardInv Φ P Q hq.1
               (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)) := by
   let := naturalLocalizedTangentAddCommGroup P hp
@@ -571,7 +573,7 @@ public theorem inducedInfinitesimalLinearMap_apply (hp : SatisfiesRS (Φ ⋙ q))
   let := naturalLocalizedTangentAddCommGroup Q hq
   let := naturalLocalizedTangentModule Q hq
   intro a
-  show (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq.1 a)).1.hom.val = _
+  show (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq.1 a)).1.asIso.hom.val = _
   rw [localizedTangentEquivKernel_inducedInfinitesimalFun]
   exact inducedAutomorphismHom_hom_val Φ P Q hq.1 _ (localizedTangentEquivKernel P a).1
 
@@ -615,8 +617,8 @@ public theorem exists_inducedInfinitesimalLinearMap
         q.IsHomLift (𝟙 (dualNumbersUnder (p := q) (x := Φ.obj x₀)).right) H ∧
           Q.inclusion (dualNumbersUnder (p := q) (x := Φ.obj x₀)) ≫ H =
             Φ.map (P.inclusion (dualNumbersUnder (p := p) (x := x₀))) ∧
-          ∀ a, (localizedTangentEquivKernel Q (T a)).1.hom.val ≫ H =
-            H ≫ Φ.map (localizedTangentEquivKernel P a).1.hom.val := by
+          ∀ a, (localizedTangentEquivKernel Q (T a)).1.asIso.hom.val ≫ H =
+            H ≫ Φ.map (localizedTangentEquivKernel P a).1.asIso.hom.val := by
   subst hw
   refine ⟨inducedInfinitesimalLinearMap Φ P Q hp hq,
     comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)),
@@ -638,6 +640,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
   (P : ChosenPushforwardsAt (Φ ⋙ Ψ ⋙ r) x₀) (Q : ChosenPushforwardsAt (Ψ ⋙ r) (Φ.obj x₀))
   (R : ChosenPushforwardsAt r (Ψ.obj (Φ.obj x₀)))
 
+set_option maxHeartbeats 1000000 in
 /-- The homomorphism of infinitesimal automorphism kernels induced by a composite morphism
 over the base is the composite of the two induced homomorphisms: this is
 `Deformation.inducedAutomorphismHom_comp` restricted to the infinitesimal kernel. -/
@@ -646,8 +649,12 @@ public theorem inducedInfinitesimalAutomorphismHom_comp
     (a : infinitesimalAutomorphismKernel P (tangentReduction (p := Φ ⋙ Ψ ⋙ r) (x := x₀))) :
     (inducedInfinitesimalAutomorphismHom (Φ ⋙ Ψ) P R hr a).1 =
       (inducedInfinitesimalAutomorphismHom Ψ Q R hr
-        (inducedInfinitesimalAutomorphismHom Φ P Q hcomp a)).1 :=
-  inducedAutomorphismHom_comp Φ Ψ r P Q R hcomp hr _ a.1
+        (inducedInfinitesimalAutomorphismHom Φ P Q hcomp a)).1 := by
+  apply Aut.ext
+  apply Iso.ext
+  apply Subtype.ext
+  exact congrArg (fun b => b.asIso.hom.val) (inducedAutomorphismHom_comp Φ Ψ r P Q R hcomp hr
+    (dualNumbersUnder (p := Φ ⋙ Ψ ⋙ r) (x := x₀)) a.1)
 
 /-- The underlying map on infinitesimal automorphisms induced by a composite morphism over the
 base is the composite of the two induced maps. -/

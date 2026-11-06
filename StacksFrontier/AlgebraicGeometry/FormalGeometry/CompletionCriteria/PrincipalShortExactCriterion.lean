@@ -71,7 +71,7 @@ def principalRaise {f : S.A} (hf : f ∈ S.I) (n : ℕ) :
 /-- Multiplication by `f` on `F_{n+1}` is the transition map followed by `ι_n`. -/
 theorem map_comp_principalRaise {f : S.A} (hf : f ∈ S.I) (n : ℕ) :
     systemMapSucc S F n ≫ principalRaise S F hf n =
-      (mulBySection S f).app (systemObj S F (n + 1)) :=
+      (mulBySection S f).asHom.app (systemObj S F (n + 1)) :=
   (Stacks.Coherent.IsCoherentAdicSystem.map_comp_principalRaise F.property (scalarMap S f)
       (restrictTop_scalarMap_mem_idealOnOpen S hf) n).trans
     (Stacks.Coherent.mulGlobalSection_app (scalarMap S f) (systemObj S F (n + 1))).symm

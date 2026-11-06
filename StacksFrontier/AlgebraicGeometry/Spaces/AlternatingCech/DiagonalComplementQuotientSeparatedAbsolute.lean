@@ -90,7 +90,7 @@ theorem isAbsolutelySeparated_of_iso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
     (hG : IsAbsolutelySeparated B S hS hZ G) :
     IsAbsolutelySeparated B S hS hZ F :=
   isAbsolutelySeparated_of_isSeparated B S hS hZ hG
-    (isSeparated_of_mono e.hom inferInstance)
+    (isSeparated_of_mono e.hom (IsIso.mono_of_iso e.hom))
 
 variable (X : AlgebraicSpaces B S hS)
 

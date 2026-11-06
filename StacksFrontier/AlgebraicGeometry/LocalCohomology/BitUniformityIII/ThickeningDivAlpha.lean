@@ -398,6 +398,7 @@ theorem kernel_Î¹_comp_ambientTwistMap_comp_thickeningTwistProj_eq_zero (n q : â
       (twistedThickeningIdealMap I n (q + 1))
       (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I n (q + 1))) :=
     isIso_kernelLift_twistedThickeningIdealMap I n (q + 1)
+  haveI := @IsIso.epi_of_iso _ _ _ _ _ this
   refine (cancel_epi (kernel.lift (thickeningTwistProj I n (q + 1))
     (twistedThickeningIdealMap I n (q + 1))
     (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I n (q + 1)))).mp ?_

@@ -165,7 +165,7 @@ theorem exists_stage_totalMap_of_isLimit (i : I) (Fi Gi : CurveFamily B hZ)
       Fi.pullbackTotalIsoOfEq_hom_fst]
   · apply ObjectProperty.hom_ext
     rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom, hk_hom,
-      ← cancel_mono eGk.hom]
+      ← Iso.cancel_iso_hom_right _ _ eGk]
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     unfold coneBaseRestrict at hcomp
     rw [reassoc_of% keyF, hcomp, keyG]

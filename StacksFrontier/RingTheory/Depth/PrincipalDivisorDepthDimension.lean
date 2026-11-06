@@ -425,7 +425,8 @@ theorem two_le_depth_localization [IsNoetherianRing A] {f : A} (hf : f ∈ nonZe
     (h : 1 ≤ Module.depth A[q] (maximalIdeal A[q]) (QuotSMulTop (algebraMap A A[q] f) A[q])) :
     2 ≤ Module.depth A[q] (maximalIdeal A[q]) A[q] := by
   rw [← depth_quotSMulTop_add_one_eq_depth_localization hf hfq]
-  exact add_le_add h le_rfl
+  calc (2 : ℕ∞) = 1 + 1 := by norm_num
+    _ ≤ _ := add_le_add h le_rfl
 
 /-- **Stacks Project, Tag 0DXU (`depth(A_𝔮) ≥ 2` when `dim(A/𝔮) = 1`).** Let `f` be a
 nonzerodivisor of a Noetherian local ring `A` satisfying hypothesis (5), and let `𝔮` be a prime

@@ -129,7 +129,7 @@ theorem finrank_globalSections_pushforwardRelativeForms_zero [IsIso (i ≫ π)] 
     intro c
     let E1 := (_root_.SheafOfModules.evaluation Z.ringCatSheaf (op U)).obj
       (SheafOfModules.unit Z.ringCatSheaf)
-    show (show (Z.ringCatSheaf.val.obj (op U) : Type u) from ψ c) •
+    show (show (Z.ringCatSheaf.obj.obj (op U) : Type u) from ψ c) •
         eθ.inv.hom (show (E1 : Type u) from (1 : Γ(Z, U))) =
       eθ.inv.hom (show (E1 : Type u) from ψ c)
     rw [← map_smul]

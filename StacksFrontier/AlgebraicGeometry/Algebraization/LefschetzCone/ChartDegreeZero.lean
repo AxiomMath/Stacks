@@ -73,7 +73,7 @@ theorem idealPowerMultiple_obj_consecutiveChart (N : GradedModuleCat.{u, u, u} (
     (Stacks.Algebraization.idealPowerMultiple (zeroScheme X L s) k
       (restrictedTilde L hL N)).obj (op ch.nv) =
       Ideal.span {Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl
-        (chartRatioOf L s ch ^ k)} •
+                    (chartRatioOf L s ch ^ k)} •
         (⊤ : Submodule Γ(X, ch.nv) Γ(restrictedTilde L hL N, ch.nv)) := by
   have := isQuasicoherent_restrictedTilde L hL N
   rw [show (Stacks.Algebraization.idealPowerMultiple (zeroScheme X L s) k

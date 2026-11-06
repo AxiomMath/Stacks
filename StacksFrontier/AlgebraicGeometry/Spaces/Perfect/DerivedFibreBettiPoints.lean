@@ -188,6 +188,7 @@ theorem exists_idChart_map_lift (p : FieldValuedPoint B S hS X.1) [IsAlgClosed p
     rw [hz]
     exact hq.symm
 
+set_option maxHeartbeats 800000 in
 open Opposite in
 /-- **On the space of the spectrum of an algebraically closed field the stalk at any geometric
 point is the module of global sections**, so the two have the same dimension. -/

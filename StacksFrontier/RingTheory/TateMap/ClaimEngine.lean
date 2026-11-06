@@ -35,7 +35,7 @@ namespace Stacks.TateMap
 /-- The coefficient of `x^E` in the universal polynomial `f_i` is the universal coefficient
 `a_{i, E}`. -/
 theorem coeff_univPoly {n d : ℕ} (i : Fin n) (E : MultiIndex n d) :
-    coeff (multiIndexExponent n d E) (univPoly.{u} n d i) = X (i, E) := by
+    (univPoly.{u} n d i).coeff (multiIndexExponent n d E) = X (i, E) := by
   classical
   rw [univPoly, coeff_map, universalPolynomial, coeff_sum, Finset.sum_eq_single E]
   · simp [universalCoefficient, univBaseMap]
@@ -53,7 +53,7 @@ theorem univBase_ringHom_ext {n d : ℕ} {T : Type*} [CommRing T] {φ φ' : univ
       ((φ.comp MvPolynomial.C).comp ULift.ringEquiv.symm.toRingHom)
       ((φ'.comp MvPolynomial.C).comp ULift.ringEquiv.symm.toRingHom)) r.down
   · obtain ⟨i, E⟩ := j
-    have := congrArg (coeff (multiIndexExponent n d E)) (H i)
+    have := congrArg (fun p ↦ p.coeff (multiIndexExponent n d E)) (H i)
     rwa [coeff_map, coeff_map, coeff_univPoly] at this
 
 /-- A ring map out of a localized complete intersection is determined by its restriction to the
@@ -116,7 +116,7 @@ section Degree
 
 /-- The coefficient of `x^m` in the universal polynomial `f_i` of degree bound `d`. -/
 theorem coeff_univPoly_eq {n d : ℕ} (i : Fin n) (m : Fin n →₀ ℕ) :
-    coeff m (univPoly.{u} n d i) =
+    (univPoly.{u} n d i).coeff m =
       if hm : ∑ j, m j ≤ d then X (i, MultiIndex.ofFinsupp m hm) else 0 := by
   classical
   split_ifs with hm

@@ -175,7 +175,7 @@ theorem isLocallySurjective_of_stageImages {T : FppfSheaf B S hS} (κ : T ⟶ X)
     (A.obj.map π'.op y)
   have hx : c.hom.app (op W') (A.obj.map π'.op y) =
       X.obj.map (π' ≫ g).op x := by
-    rw [NatTrans.naturality_apply, hy, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [NatTrans.naturality_apply, hy, ← Functor.map_comp_apply, ← op_comp]
   rw [hx] at hmem
   have hmem2 : X.obj.map (π' ≫ g).op x ∈
       ((Subfunctor.range (z m ≫ c).hom).sheafify

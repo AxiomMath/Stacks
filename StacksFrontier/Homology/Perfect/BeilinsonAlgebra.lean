@@ -646,7 +646,7 @@ private lemma diagonalSimple_isCompact_of_compact_successors
     show e l • a.val = 0
     by_cases hlj' : l < j
     · apply rowEquiv.injective
-      simpa only [hmap, map_zero] using
+      simpa only [hmap, rowEquiv.map_zero] using
         diagonalRow_vanishesAtLT k n j l hlj' (rowEquiv a.val)
     · have hEq : l = j := le_antisymm hlj (not_lt.mp hlj')
       subst l
@@ -666,7 +666,7 @@ private lemma diagonalSimple_isCompact_of_compact_successors
         have hcm : c • m = 0 := happly.symm
         exact (smul_eq_zero.mp hcm).resolve_right hm
       apply rowEquiv.injective
-      rw [hmap, map_zero]
+      rw [hmap, rowEquiv.map_zero]
       rw [hc, hc0, map_zero, zero_smul]
   let : AddCommGroup (LinearMap.ker φ) := inferInstance
   let : Module R (LinearMap.ker φ) := inferInstance

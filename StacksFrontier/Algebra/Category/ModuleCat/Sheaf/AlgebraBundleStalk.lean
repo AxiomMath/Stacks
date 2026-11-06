@@ -232,6 +232,13 @@ theorem tensorPowerMapIso_unit_tmul (e : F ≅ G) (n : ℕ) (U : Cᵒᵖ) (s : F
 
 end TensorPowers
 
+/-- Countable coproducts of sheaves of modules, stated directly: instance search for
+`HasColimit (Discrete.functor _)` in `SheafOfModules` times out under Lean v4.35.0. -/
+local instance : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+  haveI := PresheafOfModules.hasColimitsOfShape (toRingCat J Osharp).obj (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (toRingCat J Osharp) (Discrete ℕ)
+
 /-! ### Transporting the package along an isomorphism -/
 
 namespace TensorExteriorSymmetricAlgebras

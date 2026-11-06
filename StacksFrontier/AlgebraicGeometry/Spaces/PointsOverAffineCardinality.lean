@@ -150,7 +150,7 @@ theorem mk_obj_le_of_atlas {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsA
     refine (hsh.isSeparated _ hcov).ext (fun Z f hf => ?_)
     obtain ⟨_, g, k, hk, rfl⟩ := hf
     cases hk
-    simp only [op_comp, FunctorToTypes.map_comp_apply, hsep]
+    simp only [op_comp, Functor.map_comp_apply, hsep]
   refine (Cardinal.mk_le_of_injective hinj).trans ?_
   set m := max TU.size TU'.size
   have hm : ℵ₀ ≤ m := TU.aleph0_le_size.trans (le_max_left _ _)

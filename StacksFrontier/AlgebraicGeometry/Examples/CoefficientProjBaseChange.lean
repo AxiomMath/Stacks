@@ -152,7 +152,7 @@ def baseChangeGradedInv :
     rintro i _ ⟨q, hq, rfl⟩
     have hq' : q.IsHomogeneous i := (mem_homogeneousSubmodule i q).1 hq
     set z : S ⊗[R] (MvPolynomial (Fin (m + 1)) R ⧸ coefficientIdeal K) :=
-      ∑ d ∈ q.support, coeff d q ⊗ₜ[R] Ideal.Quotient.mk (coefficientIdeal K) (monomial d 1)
+      ∑ d ∈ q.support, q.coeff d ⊗ₜ[R] Ideal.Quotient.mk (coefficientIdeal K) (monomial d 1)
       with hzdef
     have hz : baseChangeAlgEquiv K S z = Ideal.Quotient.mk _ q := by
       rw [hzdef, map_sum]

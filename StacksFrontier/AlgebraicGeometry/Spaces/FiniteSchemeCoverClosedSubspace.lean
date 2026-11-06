@@ -164,7 +164,8 @@ theorem eq_of_comp_eq_of_preimage_le_range {P : (BigFppfOver B S hS)ᵒᵖ ⥤ T
   have key : a'' = b'' := by
     rw [← cancel_mono (W.ι ≫ C.ι), ← hγ₀, ← Category.assoc, ← Category.assoc, ha'', hb'']
     simpa only [Category.assoc] using hab
-  rw [← cancel_mono (eG.hom ≫ G.ι), ← ha'', ← hb'', key]
+  rw [← Iso.cancel_iso_hom_right a b eG, ← cancel_mono G.ι, Category.assoc, Category.assoc, ← ha'',
+    ← hb'', key]
 
 /-- **The graph chart.** Around a point of an open subspace `W` of a closed subspace `C ⊆ P` on
 which `C ⟶ X` factors through the étale `p : h_V ⟶ X`, there is an étale chart

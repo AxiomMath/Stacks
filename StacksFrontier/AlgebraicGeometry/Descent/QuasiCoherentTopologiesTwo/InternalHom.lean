@@ -314,7 +314,7 @@ private noncomputable def basisPiIso
           PreservesProduct.iso_hom, piComparison_comp_π]
         change ev.map e ≫ ev.map (Pi.π (fun _ : I => L) i) = _
         rw [← ev.map_comp]
-        simp only [e, Pi.lift_π]
+        simp only [e, Pi.lift_comp_π]
         rfl
       change l.hom α i = _
       rw [show l.hom α i = ((basisEval X F G (ι i)).val.app V).hom α from

@@ -94,8 +94,8 @@ theorem comm_symm {X Y : S} (a : X ≅ X) (b : Y ≅ Y) (f : X ⟶ Y)
 `(x, α) ↦ (x, α⁻¹)`, acting on morphisms by the identity. -/
 @[stacks 050R "the inverse"]
 def inverse (F : S ⥤ S') : RelativeInertia F ⥤ RelativeInertia F where
-  obj A := { obj := A.obj, auto := A.auto.symm, cond := A.cond_inv }
-  map {A B} φ := { hom := φ.hom, comm := comm_symm A.auto B.auto φ.hom φ.comm }
+  obj A := { obj := A.obj, auto := .of A.auto.asIso.symm, cond := A.cond_inv }
+  map {A B} φ := { hom := φ.hom, comm := comm_symm A.auto.asIso B.auto.asIso φ.hom φ.comm }
   map_id _ := RelativeInertiaHom.ext rfl
   map_comp _ _ := RelativeInertiaHom.ext rfl
 
@@ -107,7 +107,7 @@ theorem inverse_obj_obj (F : S ⥤ S') (A : RelativeInertia F) :
 /-- The automorphism attached by the inverse to `(x, α)` is `α⁻¹`. -/
 @[simp]
 theorem inverse_obj_auto_hom (F : S ⥤ S') (A : RelativeInertia F) :
-    ((inverse F).obj A).auto.hom = A.auto.inv := rfl
+    ((inverse F).obj A).auto.asIso.hom = A.auto.asIso.inv := rfl
 
 /-- On morphisms the inverse is the identity. -/
 @[simp]
@@ -252,7 +252,8 @@ theorem composition_pairIdNeutral :
       simp only [pairIdNeutral, TwoFibreProductOver.lift, Functor.comp_obj, π_obj, Functor.id_obj,
         neutralSection, Iso.app, Iso.refl_hom, NatTrans.id_app, Iso.refl_inv, Functor.comp_map,
         π_map, Functor.id_map, composition_obj_obj, composition_obj_auto_hom, Category.id_comp]
-      exact ((Category.id_comp (A.auto.hom ≫ 𝟙 A.obj)).trans (Category.comp_id A.auto.hom)).symm)
+      exact ((Category.id_comp (A.auto.asIso.hom ≫ 𝟙 A.obj)).trans
+        (Category.comp_id A.auto.asIso.hom)).symm)
   exact functor_ext_of_hom_eq hobj fun _ => HEq.rfl
 
 /-- The left unit axiom: `c ∘ ⟨e ∘ π, id⟩ = id`. -/
@@ -266,7 +267,8 @@ theorem composition_pairNeutralId :
         Functor.id_obj, Iso.app, Iso.refl_hom, NatTrans.id_app, Iso.refl_inv, Functor.comp_map,
         π_map, Functor.id_map, composition_obj_obj, composition_obj_auto_hom, Category.comp_id,
         Category.id_comp]
-      exact ((Category.id_comp (A.auto.hom ≫ 𝟙 A.obj)).trans (Category.comp_id A.auto.hom)).symm)
+      exact ((Category.id_comp (A.auto.asIso.hom ≫ 𝟙 A.obj)).trans
+        (Category.comp_id A.auto.asIso.hom)).symm)
   exact functor_ext_of_hom_eq hobj fun _ => HEq.rfl
 
 /-- The right inverse axiom: `c ∘ ⟨id, i⟩ = e ∘ π`. -/
@@ -282,7 +284,7 @@ theorem composition_pairIdInverse :
         Iso.app, inverse_obj_obj, Iso.refl_hom, NatTrans.id_app, Iso.refl_inv, Functor.comp_map,
         π_map, Functor.id_map, composition_obj_obj, composition_obj_auto_hom, inverse_obj_auto_hom,
         Category.id_comp, neutralSection, eqToHom_naturality, eqToHom_refl, Category.comp_id]
-      exact A.auto.inv_hom_id)
+      exact A.auto.asIso.inv_hom_id)
   exact functor_ext_of_hom_eq hobj fun _ => HEq.rfl
 
 /-- The left inverse axiom: `c ∘ ⟨i, id⟩ = e ∘ π`. -/
@@ -298,7 +300,7 @@ theorem composition_pairInverseId :
         Iso.app, inverse_obj_obj, Iso.refl_hom, NatTrans.id_app, Iso.refl_inv, Functor.comp_map,
         π_map, Functor.id_map, composition_obj_obj, composition_obj_auto_hom, inverse_obj_auto_hom,
         Category.id_comp, neutralSection, eqToHom_naturality, eqToHom_refl, Category.comp_id]
-      exact A.auto.hom_inv_id)
+      exact A.auto.asIso.hom_inv_id)
   exact functor_ext_of_hom_eq hobj fun _ => HEq.rfl
 
 end Units
@@ -448,7 +450,8 @@ theorem composition_assoc :
   have hobj : ∀ A : Triple F p, (compFstPair F p ⋙ composition F p).obj A =
       (idCompPair F p ⋙ composition F p).obj A := fun A =>
     RelativeInertia.obj_ext rfl
-      (conjugateAuto_assoc A.x.iso A.iso A.x.x.auto.hom A.x.y.auto.hom A.y.auto.hom)
+      (conjugateAuto_assoc A.x.iso A.iso A.x.x.auto.asIso.hom A.x.y.auto.asIso.hom
+        A.y.auto.asIso.hom)
   exact functor_ext_of_hom_eq hobj fun _ => HEq.rfl
 
 end Assoc

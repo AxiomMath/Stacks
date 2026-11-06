@@ -71,6 +71,8 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u v w
 
+set_option synthInstance.maxHeartbeats 400000
+
 namespace AlgebraicGeometry.Space
 
 /- The global instance `Abelian (SheafOfModules.{max u v r w} O)` of the cohomology of modules
@@ -414,6 +416,7 @@ theorem isCoherent_intersectionPushforward_transitionInclusion
     (fun V : Scheme.{u} => IsLocallyNoetherian V)) := ⟨hR⟩
   have : Mono ((modulePullback B S hS G.target).map H.obj.arrow) :=
     mono_modulePullback_target_map ht _
+  have : Mono M.alpha := by haveI := isIso_alpha M; exact IsIso.mono_of_iso _
   exact isCoherent_intersectionPushforward B S hS G.source M.F.obj _ _ (mono_comp _ _) hsqc hsqs hs
     (Stack.QuotientAtlas.isSurjective_source G) hU hR M.F.property
     (isCoherent_modulePullback B S hS G.target _ H.property)
@@ -502,10 +505,12 @@ theorem mono_arrow_hom_of_iso_intersectionPushforward (ht : IsFlat B S hS G.targ
     Mono (Hom.hom (M := (Q : QuasicoherentModule B S hS G)) (N := M) Q.arrow) := by
   have : Mono ((modulePullback B S hS G.target).map ι) :=
     mono_modulePullback_target_map ht _
+  have : Mono M.alpha := by haveI := isIso_alpha M; exact IsIso.mono_of_iso _
   have : Mono (intersectionPushforwardι B S hS G.source (transitionInclusion B S hS M ι)) :=
     mono_intersectionPushforwardι B S hS G.source _ (mono_comp _ _)
-  rw [← he]
-  exact mono_comp _ _
+  have hc := mono_comp e.hom
+    (intersectionPushforwardι B S hS G.source (transitionInclusion B S hS M ι))
+  rwa [he] at hc
 
 /-- **`ℋ ↦ ℱ ∩ s_*t^*ℋ` is monotone on submodules on the groupoid.**  If `Q` and `Q'` are
 submodules of `(ℱ, β)` on the groupoid with underlying submodules `ℱ ∩ s_*t^*ℋ` and

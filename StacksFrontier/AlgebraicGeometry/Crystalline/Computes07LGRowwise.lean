@@ -121,15 +121,15 @@ public theorem computes07LG_of_doubleComplex_rowwise
             (hsq F hF)).homology j) ≅
         ((cosimplicialDoubleComplexFunctor.obj (K F hF)).flip.X 0).homology (j : ℤ)))
     (hcolumn0 : ∀ (F : SheafOfModules.{u} (structureSheaf S)) (hF : F.IsQuasicoherentOnSite),
-      IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).val
+      IsCrystalLevelQuotient (wholeSpaceSystem S hp) (abelianSheaf F).obj
           (wholeSpaceLevelExponent hp) →
         ∀ j : ℕ, Nonempty (((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).obj
             ((K F hF).X 0)).homology j ≅
           (sectionsComplex (wholeSpaceSystem S hp) (abelianSheaf F).obj).homology j))
     (hker : ∀ (F : SheafOfModules.{u} (structureSheaf S)) (_hF : F.IsQuasicoherentOnSite)
-      (n e : ℕ) (x : (abelianSheaf F).val.obj
+      (n e : ℕ) (x : (abelianSheaf F).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj (e + 1)))),
-      levelMap (wholeSpaceSystem S hp) (abelianSheaf F).val n e x = 0 →
+      levelMap (wholeSpaceSystem S hp) (abelianSheaf F).obj n e x = 0 →
         ∃ y, x = S.p ^ wholeSpaceLevelExponent hp e • y) :
     Computes07LG S A Dr g Om der p dx wedge deRham hleib hp R h07IT hsq :=
   computes07LG_of_doubleComplex S A Dr g Om der p dx wedge deRham hleib hp R h07IT hsq K hcolumns

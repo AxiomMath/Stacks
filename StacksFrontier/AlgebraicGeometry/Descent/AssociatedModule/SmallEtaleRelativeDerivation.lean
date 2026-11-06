@@ -128,7 +128,7 @@ public noncomputable abbrev relativeImageSectionsComparison :
 variable {F : SheafOfModules.{u} (structureSheaf B X hX)}
   {R : (SmallEtale B X hX)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (commRingStructureSheaf B X hX).obj}
-  (D : PresheafOfModules.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation'
     (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
 
 /-- **The relative structure map on a section of `f⁻¹𝒪_Y` over an image open.**  Over an object
@@ -174,7 +174,7 @@ public theorem d_relativeStructureMap_imageSections_eq_zero
         ((relativeImageSectionsComparison B hX f).app V s)) = 0 := by
   have hzero : (zariskiRestrictionData B hX D).d
       (((zariskiStructureMap f).hom.app (op (imageOpen B X hX V.unop))).hom s) = 0 :=
-    PresheafOfModules.Derivation'.d_app (zariskiRestriction B hX f D hD) s
+    PresheafOfModulesOfCommRing.Derivation'.d_app (zariskiRestriction B hX f D hD) s
   have hd : D.d (X := op ((opensToSmallEtale B X hX).obj (imageOpen B X hX V.unop)))
       (((commRingStructureMap B X hX).hom.app (op (imageOpen B X hX V.unop))).hom
         (((zariskiStructureMap f).hom.app (op (imageOpen B X hX V.unop))).hom s)) = 0 :=
@@ -212,7 +212,7 @@ vanishing condition of Stacks 04BN over the relative structure map, which
 `AlgebraicGeometry.SmallEtale.d_relativeStructureMap_eq_zero` supplies. -/
 public noncomputable def relativeDerivation
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (relativeStructureMap B X hX f).hom where
   d := D.d
   d_mul := D.d_mul
@@ -221,7 +221,7 @@ public noncomputable def relativeDerivation
 
 /-- **`d^a` as a derivation of `𝒪_{X_étale}` over `ε⁻¹f⁻¹𝒪_Y`.** -/
 public noncomputable def relativeAssociatedDerivation :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
       (associatedRelativeDifferentials B hX f).val (relativeStructureMap B X hX f).hom :=
   relativeDerivation B hX f (associatedDerivation B hX f)
     (associatedDerivation_pullbackSection_eq_zero B hX f)
@@ -296,9 +296,9 @@ public theorem exists_relativeStructureMap_eq_pullbackSection (W : Y.Opens) (b :
 /-- A derivation of `𝒪_{X_étale}` over `ε⁻¹f⁻¹𝒪_Y`, read as a derivation over the constant
 presheaf of rings `ℤ`: the same values, with only the Leibniz rule recorded. -/
 public noncomputable def ofRelativeDerivation
-    (E : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    (E : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (relativeStructureMap B X hX f).hom) :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (siteConstIntMap B hX _) where
   d := E.d
   d_mul := E.d_mul
@@ -309,11 +309,11 @@ public noncomputable def ofRelativeDerivation
 /-- A derivation of `𝒪_{X_étale}` over `ε⁻¹f⁻¹𝒪_Y` annihilates every function pulled back from
 an open of `Y`, those lying in the image of the relative structure map. -/
 public theorem ofRelativeDerivation_pullbackSection_eq_zero
-    (E : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
+    (E : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) F.val
       (relativeStructureMap B X hX f).hom) (W : Y.Opens) (b : Γ(Y, W)) :
     (ofRelativeDerivation B hX f E).d (pullbackSection B hX f W b) = 0 := by
   obtain ⟨a, ha⟩ := exists_relativeStructureMap_eq_pullbackSection B hX f W b
-  exact Eq.trans (congrArg E.d ha.symm) (PresheafOfModules.Derivation'.d_app E a)
+  exact Eq.trans (congrArg E.d ha.symm) (PresheafOfModulesOfCommRing.Derivation'.d_app E a)
 
 /-! ### The universal property of `d^a` among the derivations over `ε⁻¹f⁻¹𝒪_Y` -/
 
@@ -333,7 +333,7 @@ structure map
 by `AlgebraicGeometry.SmallEtale.d_relativeStructureMap_eq_zero`.  A derivation is determined by
 its values, so the two factorization conditions are the same condition. -/
 public theorem existsUnique_postcomp_relativeAssociatedDerivation
-    (E : PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
+    (E : PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj) G.val
       (relativeStructureMap B X hX f).hom) :
     ∃! g : associatedRelativeDifferentials B hX f ⟶ G,
       (relativeAssociatedDerivation B hX f).postcomp g.val = E := by
@@ -341,8 +341,8 @@ public theorem existsUnique_postcomp_relativeAssociatedDerivation
       ((relativeAssociatedDerivation B hX f).postcomp g.val = E ↔
         (associatedDerivation B hX f).postcomp g.val = ofRelativeDerivation B hX f E) := by
     refine fun g => ⟨fun h => ?_, fun h => ?_⟩ <;>
-      exact PresheafOfModules.Derivation.ext (funext fun V => AddMonoidHom.ext fun a =>
-        PresheafOfModules.Derivation.congr_d h a)
+      exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun V => AddMonoidHom.ext fun a =>
+        PresheafOfModulesOfCommRing.Derivation.congr_d h a)
   obtain ⟨g, hg, hu⟩ := existsUnique_postcomp_associatedDerivation B hX f
     (ofRelativeDerivation B hX f E) (ofRelativeDerivation_pullbackSection_eq_zero B hX f E)
   exact ⟨g, (key g).2 hg, fun g' hg' => hu g' ((key g').1 hg')⟩

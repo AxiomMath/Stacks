@@ -30,10 +30,10 @@ universe u
 variable {C : Type u} [SmallCategory C]
 
 /-- Cocone compatibility: a morphism `φ : Vy ⟶ Vy'` in `p.Elements` lets us
-absorb `φ.val` into the representable section. -/
+absorb `φ.hom` into the representable section. -/
 lemma colimit_ι_yoneda_compatible (p : C ⥤ Type u) (U : C) (Vy Vy' : p.Elements)
-    (φ : Vy ⟶ Vy') (f : Vy'.fst ⟶ U) :
-    colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op Vy) (φ.val ≫ f) =
+    (φ : Vy ⟶ Vy') (f : Vy'.obj ⟶ U) :
+    colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op Vy) (φ.hom ≫ f) =
       colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op Vy') f :=
   ConcreteCategory.congr_hom
     (colimit.w ((CategoryOfElements.π p).op ⋙ yoneda.obj U) (op φ : op Vy' ⟶ op Vy)) f
@@ -53,9 +53,9 @@ theorem Phi_naturality (p : C ⥤ Type u) {U U' : C} (g : U ⟶ U') (x : p.obj U
     theta p U' (p.map g x) = (presheafStalk p).map (yoneda.map g) (theta p U x) := by
   unfold theta stalkMk
   rw [presheafStalk_map_ι_apply, show (yoneda.map g).app (op U) (𝟙 U) = g by simp]
-  have h := colimit_ι_yoneda_compatible p U' (⟨U, x⟩ : p.Elements)
-    (⟨U', p.map g x⟩ : p.Elements) ⟨g, rfl⟩ (𝟙 U')
+  have h := colimit_ι_yoneda_compatible p U' (⟨x⟩ : p.Elements)
+    (⟨p.map g x⟩ : p.Elements) ⟨g, rfl⟩ (𝟙 U')
   exact h.symm.trans
     (ConcreteCategory.congr_arg
-      (colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U') (op ⟨U, x⟩))
+      (colimit.ι ((CategoryOfElements.π p).op ⋙ yoneda.obj U') (op ⟨x⟩))
       (Category.comp_id _))

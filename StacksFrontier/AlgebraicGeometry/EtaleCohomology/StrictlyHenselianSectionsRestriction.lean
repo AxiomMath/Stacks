@@ -74,10 +74,10 @@ theorem isIso_smallEtaleGlobalSectionsRestrictionAb_of_strictlyHenselian
     smallEtaleBaseChangeLift x (Scheme.Etale.mk (𝟙 (Spec (.of R)))) x (Category.comp_id x)
   have hgT : IsIso (ΦT.toPresheafFiber _ vT F.obj) :=
     (ΦT.isColimitPresheafFiberCocone F.obj).isIso_ι_app_of_isTerminal
-      (op ⟨_, vT⟩) (isInitialPointSmallEtaleClosedPointElement x' hx').op
+      (op (ΦT.fiber.elementsMk _ vT)) (isInitialPointSmallEtaleClosedPointElement x' hx').op
   have hgP : IsIso (ΦP.toPresheafFiber _ vP G.obj) :=
     (ΦP.isColimitPresheafFiberCocone G.obj).isIso_ι_app_of_isTerminal
-      (op ⟨_, vP⟩) (isInitialPointSmallEtaleIdElement Ω).op
+      (op (ΦP.fiber.elementsMk _ vP)) (isInitialPointSmallEtaleIdElement Ω).op
   have hsub : Subsingleton (ΦP.fiber.obj
       ((smallEtaleBaseChange x).obj (Scheme.Etale.mk (𝟙 (Spec (.of R)))))) :=
     ΦP.subsingleton_fiber_obj (𝟙 _) (isTerminalSmallEtaleBaseChangeObj x hTt)

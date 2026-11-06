@@ -134,7 +134,7 @@ def laterStageChartDiagram : Over j ⥤ BigFppfOver B S hS where
   map d := stageToStage B S hS D hD hAffine T d
   map_id s := by
     apply yoneda.map_injective
-    rw [← cancel_mono (stageChartIso B S hS D hD hAffine T s).hom,
+    rw [← Iso.cancel_iso_hom_right _ _ (stageChartIso B S hS D hD hAffine T s),
       ← stageChartIso_comp B S hS D hD hAffine T (𝟙 s)]
     simp only [CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp]
   map_comp d d' := stageToStage_comp B S hS D hD hAffine T d' d
@@ -439,10 +439,10 @@ def limChartCone : Cone (laterStageChartDiagram B S hS D hD hAffine T) where
 /-- **The base change to the limit is the limit, in the site, of the base changes to the
 stages.** -/
 def limChartConeIsLimit : IsLimit (limChartCone B S hS D hc hD hAffine T) := by
-  have h : IsLimit ((Cones.postcompose (laterStageChartDiagramIso B S hS D hD hAffine T).inv).obj
+  have h : IsLimit ((Cone.postcompose (laterStageChartDiagramIso B S hS D hD hAffine T).inv).obj
       (stageChartCone B S hS D T)) :=
     (IsLimit.postcomposeInvEquiv _ _).symm (stageChartConeIsLimit B S hS D T)
-  refine isLimitOfReflects yoneda (h.ofIsoLimit (Cones.ext
+  refine isLimitOfReflects yoneda (h.ofIsoLimit (Cone.ext
     (limChartIso B S hS D hc hD hAffine T).symm (fun s => ?_)))
   change (stageChartCone B S hS D T).π.app s ≫ (stageChartIso B S hS D hD hAffine T s).inv =
     (limChartIso B S hS D hc hD hAffine T).inv ≫ yoneda.map (limToStage B S hS D hc hD hAffine T s)

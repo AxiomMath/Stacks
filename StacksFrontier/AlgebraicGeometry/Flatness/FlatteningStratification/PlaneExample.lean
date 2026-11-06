@@ -118,7 +118,6 @@ public theorem baseChangeLocalizedEquiv_comp
   simp only [LinearMap.coe_comp, Function.comp_apply, LocalizedModule.mkLinearMap_apply,
     LinearMap.coe_restrictScalars, LinearEquiv.coe_coe]
   induction x with
-  | zero => simp
   | tmul b m =>
       rw [LinearMap.baseChange_tmul]
       exact baseChangeLocalizedEquiv_mk R B f φ b m

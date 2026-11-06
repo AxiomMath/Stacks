@@ -463,8 +463,7 @@ def centreChartRestrict (h : V.1 ≤ U.1) : centreChartGrading i U →+*ᵍ cent
   toRingHom := centreChartRestrictRingHom i h
   map_mem := by
     rintro n _ ⟨w, rfl⟩
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; exact zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul s y =>
       rw [LinearMap.baseChange_tmul]
       change centreChartRestrictRingHom i h (s ⊗ₜ (y : reesAlgebra _)) ∈ _

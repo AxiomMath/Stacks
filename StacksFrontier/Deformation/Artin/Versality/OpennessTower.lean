@@ -36,7 +36,6 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.Bicategory.InducedBicategory
-  CategoryTheory.Over.post
 
 variable (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 

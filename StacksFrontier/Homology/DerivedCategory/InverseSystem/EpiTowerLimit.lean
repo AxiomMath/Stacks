@@ -53,7 +53,7 @@ private theorem map_pi_sub_shift_comp_piComparison
         Pi.π (fun n ↦ G.obj (X n)) (n + 1) ≫ G.map (t n) := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
   rw [Category.assoc, piComparison_comp_π, ← G.map_comp]
-  simp only [Pi.lift_π, G.map_sub, G.map_comp, Category.assoc,
+  simp only [Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
     Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π]
 
 private theorem isDerivedLimit_of_shortExact_product_difference
@@ -102,7 +102,7 @@ private theorem epi_pi_sub_shift_of_epi
   funext n
   change ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
     ((ModuleCat.piIsoPi X).inv x)) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   change (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
@@ -153,7 +153,7 @@ private def kernelForkOfInverseSystemConeIsLimit
     { pt := t.pt
       π := NatTrans.ofOpSequence (fun n ↦ t.ι ≫ Pi.π _ n) (fun n ↦ by
         have h := congrArg (fun f ↦ f ≫ Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n) t.condition
-        simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp] at h
+        simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h
         simpa using sub_eq_zero.mp h) }
   refine Fork.IsLimit.mk _ (fun t ↦ hs.lift (coneOfKernel t)) ?_ ?_
   · intro t

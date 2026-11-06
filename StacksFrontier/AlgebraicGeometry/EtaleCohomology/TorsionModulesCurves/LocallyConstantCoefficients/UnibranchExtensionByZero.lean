@@ -138,14 +138,21 @@ theorem module_finite_cohomology_extensionByZero_of_isFinite_of_relSeries
       ((etaleModuleExtensionByZero.{u, r} Λ i).obj K)) := by
   refine module_finite_cohomology_extensionByZero_of_relSeries Λ i K Xs h0 hl (ℓ ^ n) hK q
     fun M _ hMn => ?_
+  have hY : topologicalKrullDim Y ≤ 1 :=
+    le_trans (topologicalKrullDim_le_of_isIntegralHom πY) hX
+  have hpos : 0 < ℓ ^ n := Nat.pow_pos hℓ.pos
+  have : IsSeparated (πY ≫ π) := inferInstance
+  have : LocallyOfFiniteType πY :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType πY).mp ‹_›).2
+  have : LocallyOfFiniteType (πY ≫ π) := locallyOfFiniteType_comp πY π
+  have : QuasiCompact (πY ≫ π) := inferInstance
   refine module_finite_cohomology_extensionByZero_constantSheaf Λ
     curveTorsionCohomologyStatement_holds.{u, r}
     (by
       intros
       exact Module.Finite.equiv
         (moduleEtaleCohomology_isIntegralHom_iso.{u, r} Λ _ _ _).toLinearEquiv)
-    (πY ≫ π) ((topologicalKrullDim_le_of_isIntegralHom πY).trans hX) M (ℓ ^ n)
-    (pow_pos hℓ.pos n) hMn ?_ i q
+    (πY ≫ π) hY M (ℓ ^ n) hpos hMn ?_ i q
   rcases h with h | h
   · exact .inl (h.pow_left n)
   · exact .inr inferInstance

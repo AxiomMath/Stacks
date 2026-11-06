@@ -234,7 +234,7 @@ theorem isIso_subsiteUnitLowerShriekMap_of_bijective_sectionsPrecomp
         (T.val.presheaf ⋙ forget AddCommGrpCat) :=
       (isSheaf_iff_isSheaf_of_type _ _).1
         ((sheafCompose (associatedTopology B S hS p τ) (forget AddCommGrpCat.{u})).obj
-          ⟨T.val.presheaf, T.isSheaf⟩).cond
+          ⟨T.val.presheaf, T.isSheaf⟩).property
     have hps : Function.Bijective (SheafOfModules.pushforwardSections
         (𝟙 ((P.ι.sheafPushforwardContinuous RingCat.{u} (subsiteTopology B S hS p τ P)
           (associatedTopology B S hS p τ)).obj O)) (M := T)) :=

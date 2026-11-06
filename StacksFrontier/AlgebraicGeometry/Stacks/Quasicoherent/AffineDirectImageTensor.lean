@@ -75,9 +75,9 @@ its objectwise version.** -/
 theorem tensorHom_comp_sheafify_map_comp
     {G M M' T T' : _root_.SheafOfModules.{w₁} (TensorSheafification.structureSheaf O hO)}
     (f : M ⟶ M') (t : T ⟶ T')
-    (α : PresheafOfModules.Monoidal.tensorObj (R := O) G.val M.val ⟶ T.val)
-    (α' : PresheafOfModules.Monoidal.tensorObj (R := O) G.val M'.val ⟶ T'.val)
-    (h : PresheafOfModules.Monoidal.tensorHom (R := O) (𝟙 G.val) f.val ≫ α' = α ≫ t.val) :
+    (α : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) G.val M.val ⟶ T.val)
+    (α' : PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) G.val M'.val ⟶ T'.val)
+    (h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := O) (𝟙 G.val) f.val ≫ α' = α ≫ t.val) :
     (𝟙 G ⊗ₘ f) ≫ (sheafifyFunctor O hO).map α' ≫ (sheafifyValIso O hO T').hom =
       ((sheafifyFunctor O hO).map α ≫ (sheafifyValIso O hO T).hom) ≫ t := by
   refine (congrArg (· ≫ (sheafifyFunctor O hO).map α' ≫ (sheafifyValIso O hO T').hom)
@@ -92,12 +92,12 @@ theorem tensorHom_val_app_toSheafify_tmul
     {A A' D D' : _root_.SheafOfModules.{w₁} (TensorSheafification.structureSheaf O hO)}
     (a : A ⟶ A') (b : D ⟶ D') (V : Cᵒᵖ) (x : A.val.obj V) (y : D.val.obj V) :
     (a ⊗ₘ b).val.app V ((TensorSheafification.toSheafify O hO
-        (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)) =
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)) =
       (TensorSheafification.toSheafify O hO
-        (PresheafOfModules.Monoidal.tensorObj (R := O) A'.val D'.val)).app V
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A'.val D'.val)).app V
           (a.val.app V x ⊗ₜ b.val.app V y) :=
   (congrArg (fun h => h.val.app V ((TensorSheafification.toSheafify O hO
-      (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)))
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)))
     (tensorHom_eq_sheafify_map O hO a b)).trans
     (sheafify_map_toSheafify_app O hO (a.val ⊗ₘ b.val) V (x ⊗ₜ y))
 
@@ -120,9 +120,9 @@ theorem sheafify_tensor_hom_ext
     {f₁ f₂ : A ⊗ D ⟶ T}
     (h : ∀ (V : Cᵒᵖ) (a : A.val.obj V) (d : D.val.obj V),
       f₁.val.app V ((TensorSheafification.toSheafify O hO
-          (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D.val)).app V (a ⊗ₜ d)) =
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D.val)).app V (a ⊗ₜ d)) =
         f₂.val.app V ((TensorSheafification.toSheafify O hO
-          (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D.val)).app V (a ⊗ₜ d))) :
+          (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D.val)).app V (a ⊗ₜ d))) :
     f₁ = f₂ := by
   refine ((TensorSheafification.sheafifyAdjunction O hO).homEquiv _ _).injective ?_
   refine PresheafOfModules.hom_ext fun V => ModuleCat.MonoidalCategory.tensor_ext fun a d => ?_
@@ -134,9 +134,9 @@ theorem whiskerLeft_val_app_toSheafify_tmul
     {A D D' : _root_.SheafOfModules.{w₁} (TensorSheafification.structureSheaf O hO)}
     (b : D ⟶ D') (V : Cᵒᵖ) (x : A.val.obj V) (y : D.val.obj V) :
     (A ◁ b).val.app V ((TensorSheafification.toSheafify O hO
-        (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)) =
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D.val)).app V (x ⊗ₜ y)) =
       (TensorSheafification.toSheafify O hO
-        (PresheafOfModules.Monoidal.tensorObj (R := O) A.val D'.val)).app V
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := O) A.val D'.val)).app V
           (x ⊗ₜ b.val.app V y) := by
   rw [← MonoidalCategory.id_tensorHom]
   exact tensorHom_val_app_toSheafify_tmul O hO (𝟙 A) b V x y
@@ -159,7 +159,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- The objectwise tensorator of `g_*`, followed by `g_*` of the sheafification unit. -/
 def directImageTensorPresheaf (N N' : Stack.fppfModules B S hS 𝒰) :
-    PresheafOfModules.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳)
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒳)
         ((affinePushforward.{u, w, u} g hg).obj N).val
         ((affinePushforward.{u, w, u} g hg).obj N').val ⟶
       ((affinePushforward.{u, w, u} g hg).obj (N ⊗ N')).val :=
@@ -169,7 +169,7 @@ def directImageTensorPresheaf (N N' : Stack.fppfModules B S hS 𝒰) :
     (PresheafOfModules.pushforwardComm (pushforwardCommRingHom g hg)).map
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒰)
         (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModules.Monoidal.tensorObj N.val N'.val))
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj N.val N'.val))
 
 /-- On a pure tensor `n ⊗ₜ n'` at `X`, the tensorator of `g_*` is the sheafification unit of
 `N ⊗ N'` at `r X`. -/
@@ -179,12 +179,12 @@ theorem directImageTensorPresheaf_app_tmul (N N' : Stack.fppfModules B S hS 𝒰
     ((directImageTensorPresheaf g hg N N').app X).hom (n ⊗ₜ n') =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒰)
         (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModules.Monoidal.tensorObj N.val N'.val)).app
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj N.val N'.val)).app
           (op ((affineRightAdjoint g hg).obj X.unop)) (n ⊗ₜ n') :=
   congrArg (((PresheafOfModules.pushforwardComm (pushforwardCommRingHom g hg)).map
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒰)
         (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModules.Monoidal.tensorObj N.val N'.val))).app X).hom
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj N.val N'.val))).app X).hom
     (PresheafOfModules.pushforwardMu_app_tmul (F := affineRightAdjoint g hg)
       (S := fppfStructurePresheaf B S hS 𝒳) (R := fppfStructurePresheaf B S hS 𝒰)
       (Functor.whiskerRight (pushforwardCommRingHom g hg) (forget₂ _ _)) N.val N'.val X n n')
@@ -213,18 +213,25 @@ theorem directImageTensorPresheaf_comp_rightUnitor (N : Stack.fppfModules B S hS
   exact (congrArg (fun z => (((affinePushforward.{u, w, u} g hg).map (ρ_ N).hom).val.app X).hom z)
     h1).trans (h2.trans h3.symm)
 
+set_option maxHeartbeats 2000000 in
 /-- **`λ_{N,𝒪} ≫ g_*(ρ_N)` is the action of `g_*𝒪` on `g_*N`.** -/
 theorem directImageTensor_comp_rightUnitor (N : Stack.fppfModules B S hS 𝒰) :
     directImageTensor g hg N (SheafOfModules.unit _) ≫
         (affinePushforward.{u, w, u} g hg).map (ρ_ N).hom =
-      directImageAct g hg N :=
-  Stacks.SheafOfModules.sheafify_map_comp_sheafifyValIso_hom_comp _ _ _ _ _
+      directImageAct g hg N := by
+  have h := Stacks.SheafOfModules.sheafify_map_comp_sheafifyValIso_hom_comp
+    (fppfStructurePresheaf B S hS 𝒳)
+    (fppfStructurePresheaf_isSheaf B S hS 𝒳) (directImageTensorPresheaf g hg N _)
+    ((affinePushforward.{u, w, u} g hg).map (ρ_ N).hom)
+    (PresheafOfModules.pushforwardAct (pushforwardCommRingHom g hg) N.val)
     (directImageTensorPresheaf_comp_rightUnitor g hg N)
+  unfold directImageTensor directImageAct
+  exact h
 
 /-- The objectwise form of the naturality of the lax structure in the right factor. -/
 theorem directImageTensorPresheaf_naturality_right (N : Stack.fppfModules B S hS 𝒰)
     {N' N'' : Stack.fppfModules B S hS 𝒰} (ψ : N' ⟶ N'') :
-    PresheafOfModules.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
+    PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := fppfStructurePresheaf B S hS 𝒳)
         (𝟙 ((affinePushforward.{u, w, u} g hg).obj N).val)
         ((affinePushforward.{u, w, u} g hg).map ψ).val ≫ directImageTensorPresheaf g hg N N'' =
       directImageTensorPresheaf g hg N N' ≫
@@ -252,7 +259,7 @@ theorem directImageTensor_naturality_right (N : Stack.fppfModules B S hS 𝒰)
 
 /-- The objectwise tensorator of `g^*` followed by `g^*` of the sheafification unit. -/
 def pullbackTensorPresheaf (M N : Stack.fppfModules B S hS 𝒳) :
-    PresheafOfModules.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒰)
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj (R := fppfStructurePresheaf B S hS 𝒰)
         ((stackModulePullback.{u, w, u} g).obj M).val
         ((stackModulePullback.{u, w, u} g).obj N).val ⟶
       ((stackModulePullback.{u, w, u} g).obj (M ⊗ N)).val :=
@@ -262,7 +269,7 @@ def pullbackTensorPresheaf (M N : Stack.fppfModules B S hS 𝒳) :
     (PresheafOfModules.pushforward (pullbackRingHom g).hom).map
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
         (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModules.Monoidal.tensorObj M.val N.val))
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val))
 
 /-- On a pure tensor `m ⊗ₜ n` at `X`, the tensorator of `g^*` is the sheafification unit of
 `M ⊗ N` at `g X`. -/
@@ -272,12 +279,12 @@ theorem pullbackTensorPresheaf_app_tmul (M N : Stack.fppfModules B S hS 𝒳)
     ((pullbackTensorPresheaf g M N).app X).hom (m ⊗ₜ n) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
         (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModules.Monoidal.tensorObj M.val N.val)).app
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val)).app
           (op (g.hom.hom.toFunctor.obj X.unop)) (m ⊗ₜ n) :=
   congrArg (((PresheafOfModules.pushforward (pullbackRingHom g).hom).map
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
         (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModules.Monoidal.tensorObj M.val N.val))).app X).hom
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val))).app X).hom
     (PresheafOfModules.pushforwardMu_app_tmul (F := g.hom.hom.toFunctor)
       (S := fppfStructurePresheaf B S hS 𝒰) (R := fppfStructurePresheaf B S hS 𝒳)
       (pullbackRingHom g).hom M.val N.val X m n)
@@ -298,11 +305,11 @@ theorem pullbackTensor_val_app_toSheafify (M N : Stack.fppfModules B S hS 𝒳)
     (n : N.val.obj (op (g.hom.hom.toFunctor.obj X.unop))) :
     (pullbackTensor g M N).val.app X ((Stacks.SheafOfModules.TensorSheafification.toSheafify
         (fppfStructurePresheaf B S hS 𝒰) (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModules.Monoidal.tensorObj ((stackModulePullback.{u, w, u} g).obj M).val
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj ((stackModulePullback.{u, w, u} g).obj M).val
           ((stackModulePullback.{u, w, u} g).obj N).val)).app X (m ⊗ₜ n)) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
         (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModules.Monoidal.tensorObj M.val N.val)).app
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val)).app
           (op (g.hom.hom.toFunctor.obj X.unop)) (m ⊗ₜ n) :=
   (Stacks.SheafOfModules.sheafify_map_comp_sheafifyValIso_hom_val_app_toSheafify
     (fppfStructurePresheaf B S hS 𝒰) (fppfStructurePresheaf_isSheaf B S hS 𝒰)
@@ -314,11 +321,11 @@ theorem directImageTensor_val_app_toSheafify (N N' : Stack.fppfModules B S hS �
     (n' : N'.val.obj (op ((affineRightAdjoint g hg).obj X.unop))) :
     (directImageTensor g hg N N').val.app X ((Stacks.SheafOfModules.TensorSheafification.toSheafify
         (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModules.Monoidal.tensorObj ((affinePushforward.{u, w, u} g hg).obj N).val
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj ((affinePushforward.{u, w, u} g hg).obj N).val
           ((affinePushforward.{u, w, u} g hg).obj N').val)).app X (n ⊗ₜ n')) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒰)
         (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModules.Monoidal.tensorObj N.val N'.val)).app
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj N.val N'.val)).app
           (op ((affineRightAdjoint g hg).obj X.unop)) (n ⊗ₜ n') :=
   (Stacks.SheafOfModules.sheafify_map_comp_sheafifyValIso_hom_val_app_toSheafify
     (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
@@ -339,7 +346,7 @@ theorem unit_app_tensor (M N : Stack.fppfModules B S hS 𝒳) :
     (fppfStructurePresheaf_isSheaf B S hS 𝒳) fun V m n => ?_
   have e1 := PresheafOfModules.naturality_apply
     (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳) (PresheafOfModules.Monoidal.tensorObj M.val N.val))
+      (fppfStructurePresheaf_isSheaf B S hS 𝒳) (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val))
     ((affineAdjunction g hg).counit.app V.unop).op (m ⊗ₜ n)
   have e2 := Stacks.SheafOfModules.tensorHom_val_app_toSheafify_tmul
     (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)

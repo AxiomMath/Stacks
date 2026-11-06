@@ -105,8 +105,8 @@ noncomputable def downRangeSubfunctorIso {F₀ : Cᵒᵖ ⥤ Type u} {Z : Cᵒ�
         rw [NatTrans.naturality_apply m h z]
         rfl }
   have happ (T : Cᵒᵖ) : IsIso (α.app T) := (isIso_iff_bijective _).2
-    ⟨fun z z' h ↦ hinj T (ULift.ext _ _ (congrArg (fun y ↦ (ULift.down y).1) h)),
-      fun ⟨⟨x, z, hz⟩⟩ ↦ ⟨z, ULift.ext _ _ (Subtype.ext (congrArg ULift.down hz))⟩⟩
+    ⟨fun z z' h ↦ hinj T (ULift.ext (congrArg (fun y ↦ (ULift.down y).1) h)),
+      fun ⟨⟨x, z, hz⟩⟩ ↦ ⟨z, ULift.ext (Subtype.ext (congrArg ULift.down hz))⟩⟩
   have _ : IsIso α := NatIso.isIso_of_isIso_app α
   exact asIso α
 

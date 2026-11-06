@@ -228,7 +228,7 @@ lemma exists_lanElt_counit_eq {A : (base K).ProEt} [IsAffine A.left]
     exact s.down.2.1 g φ
   exact ⟨specEtObj B, toSpecSub A B, ⟨⟨t, mem_contSections_of_etale N (specEtObj B) t hteq⟩⟩,
     (counit_lanElt (discSheaf N).obj (specEtObj B) (toSpecSub A B) _).trans
-      (ULift.ext _ _ (Subtype.ext (funext ht)))⟩
+      (ULift.ext (Subtype.ext (funext ht)))⟩
 
 /-- The zero section over an étale object gives the zero section of the left Kan extension. -/
 lemma lanElt_zero {V : (base K).ProEt} (Q : (base K).ProEtᵒᵖ ⥤ ModuleCat.{max (u + 1) r w} Λ)
@@ -245,7 +245,7 @@ lemma lanElt_eq_zero {V : (base K).ProEt} [IsAffine V.left] (U : (base K).Etale)
   have := etale_of_fg V B hB
   rw [← hm, lanElt_comp]
   have h0 : ((discSheaf N).obj.map ((etaleInc K).map m).op).hom t = 0 := by
-    refine ULift.ext _ _ (Subtype.ext (funext fun ψ ↦ ?_))
+    refine ULift.ext (Subtype.ext (funext fun ψ ↦ ?_))
     obtain ⟨φ, rfl⟩ := GeomPt.map_toSpecSub_surjective (V := V) B ψ
     have := congrArg (fun a : (discSheaf N).obj.obj (op V) ↦ a.down.1 φ) ht
     change t.down.1 (GeomPt.map ((etaleInc K).map m) (GeomPt.map (toSpecSub V B) φ)) = 0

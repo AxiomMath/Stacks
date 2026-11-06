@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Limits.Constructions.FiniteProductsOfBinaryProducts

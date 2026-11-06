@@ -89,7 +89,7 @@ theorem relativeDifferentialsIsoSectionwise_hom_app_d (h : X ⟶ S) (U : Opens X
     (((relativeDifferentialsIsoSectionwise h).hom.val.app (.op U)).hom
         ((universalDerivation (inverseImageStructureMap h)).d a)) =
       (Stacks.Sheaves.RingedSpaceDifferentials.universalDerivation h).d a :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalDerivation_postcomp_relativeDifferentialsIsoSectionwise h) a
 
 /-- On a local section, the inverse of the identification sends the universal differential to

@@ -318,8 +318,9 @@ theorem statement1_kerEquiv [Module.Flat R R'] (P : Algebra.Extension R S) :
   -- ASSEMBLY: build the equivalence onto the range and transport to `I'`.
   refine ⟨(LinearEquiv.ofInjective (kerMapPrime R' P) hinj).trans
       (LinearEquiv.ofEq _ _ hrange), ?_⟩
-  apply DFunLike.ext
-  intro x
+  letI : Module (P.baseChange (T := R')).Ring ((R' ⊗[R] P.Ring) ⊗[P.Ring] P.ker) :=
+    (inferInstance : Module (R' ⊗[R] P.Ring) ((R' ⊗[R] P.Ring) ⊗[P.Ring] P.ker))
+  refine LinearMap.ext fun x => ?_
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
     Submodule.subtype_apply]
   rfl
@@ -901,13 +902,10 @@ theorem bridge_surj_comm :
     rfl
   apply Algebra.TensorProduct.ext'
   intro r p
-  simp only [AlgHom.comp_apply]
   have hfac : (r ⊗ₜ[R] p : (FlatBC.pbc (R := R) (S := S) R').Ring) = r • ((1:R') ⊗ₜ[R] p) := by
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-  rw [hfac]
-  simp only [map_smul]
-  congr 1
-  exact key p
+  rw [hfac, map_smul, map_smul, AlgHom.comp_apply]
+  exact congrArg (r • ·) (key p)
 
 /-- The bridge hom of extensions `bridgeG : pbc → pap` (Extension flavor → Generators flavor),
 with underlying ring map `bridgeE`.  `toRingHom_algebraMap` by `AlgEquiv.commutes`;

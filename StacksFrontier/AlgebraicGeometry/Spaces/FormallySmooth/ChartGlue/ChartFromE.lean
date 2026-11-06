@@ -38,17 +38,17 @@ theorem relFormallyEtale_of_iso {E E' : BigFppfOver B S hS} (eT : E ⟶ T') (g�
     RelFormallyEtale B S hS T' f y (ι.hom ≫ eT) (X.map ι.hom.op g₀) := by
   intro C₀ D₀ hC hD j hj c g hg e₀ he₀ hge
   obtain ⟨e, ⟨he₁, he₂, he₃⟩, heu⟩ := h C₀ D₀ hC hD j hj c g hg (e₀ ≫ ι.hom)
-    (by rw [Category.assoc, he₀]) (by rw [op_comp, FunctorToTypes.map_comp_apply, hge])
+    (by rw [Category.assoc, he₀]) (by rw [op_comp, Functor.map_comp_apply, hge])
   refine ⟨e ≫ ι.inv, ⟨?_, ?_, ?_⟩, fun e' ⟨he'₁, he'₂, he'₃⟩ ↦ ?_⟩
   · rw [← Category.assoc, he₁, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   · rw [Category.assoc, Iso.inv_hom_id_assoc, he₂]
-  · rw [← FunctorToTypes.map_comp_apply, ← op_comp, Category.assoc, Iso.inv_hom_id,
+  · rw [← Functor.map_comp_apply, ← op_comp, Category.assoc, Iso.inv_hom_id,
       Category.comp_id, he₃]
   · rw [Iso.eq_comp_inv]
     refine heu _ ⟨?_, ?_, ?_⟩
     · rw [← Category.assoc, he'₁]
     · rw [Category.assoc, he'₂]
-    · rw [op_comp, FunctorToTypes.map_comp_apply, he'₃]
+    · rw [op_comp, Functor.map_comp_apply, he'₃]
 
 variable (B S hS T' f y) {U : BigFppfOver B S hS} (a : yoneda.obj U ⟶ X)
   (hrep : yoneda.relativelyRepresentable (a ≫ f))
@@ -79,10 +79,10 @@ theorem chart_of_etale (hfa : FormallyEtale a) (hfs : FormallySmooth (a ≫ f))
   have hιT := specIso_hom_comp B S hS T' (eZ ≫ UZsnd B S hS T' f y a hrep)
   have hyE : f.app _ (aPt (a := a) (eZ ≫ UZfst B S hS T' f y a hrep)) =
       Y.map (eZ ≫ UZsnd B S hS T' f y a hrep).op y := by
-    rw [← aPt_comp, f.naturality_apply, UZ_compat, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← aPt_comp, f.naturality_apply, UZ_compat, ← Functor.map_comp_apply, ← op_comp]
   have hpair := pairFormallyEtale_of_formallyEtale eZ hε
   refine ⟨?_, ?_, ?_⟩
-  · rw [chartPoint, f.naturality_apply, hyE, ← FunctorToTypes.map_comp_apply, ← op_comp, hιT]
+  · rw [chartPoint, f.naturality_apply, hyE, ← Functor.map_comp_apply, ← op_comp, hιT]
   · have := relFormallyEtale_of_iso _ _ (relFormallyEtale_of_pair hfa hyE hpair) ι
     rw [hιT] at this
     exact this

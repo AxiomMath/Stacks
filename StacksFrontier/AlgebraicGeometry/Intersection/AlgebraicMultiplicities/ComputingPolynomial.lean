@@ -132,7 +132,6 @@ theorem hilbertSamuelMultiplicity_eq_factorial_mul_coeff (I : Ideal R) (M : Type
   classical
   have hex : ∃ Q : ℚ[X], ComputesHilbertSamuelPoly I M Q := ⟨P, hP⟩
   rw [Ideal.hilbertSamuelMultiplicity, dite_eq_left hex]
-  congr 2
-  exact ComputesHilbertSamuelPoly.unique hex.choose_spec hP
+  rw [ComputesHilbertSamuelPoly.unique hex.choose_spec hP]
 
 end Ideal

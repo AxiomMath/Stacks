@@ -829,6 +829,7 @@ theorem exists_chart_factorization :
         ((Scheme.Modules.pullbackComp (relativeProj (schemeSheafGradedAlgebra E' hqc')).toBase
           γ).inv.app E)
   have : IsIso κ := by dsimp only [κ]; infer_instance
+  have : Epi κ := IsIso.epi_of_iso κ
   refine (cancel_epi κ).1 ?_
   refine pullback_hom_ext_of_isAffineOpen _ hU hFU E fun x => ?_
   have hk : κ.val.app (op (((relativeProj (schemeSheafGradedAlgebra E' hqc')).chart U' hU' ≫

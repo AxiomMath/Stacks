@@ -81,11 +81,11 @@ theorem coeff_single_one_mul {n : ℕ} {R : Type*} [CommRing R] (i : Fin n)
         MvPowerSeries.coeff (Finsupp.single i 1) u * MvPowerSeries.constantCoeff v := by
   have key : ∀ g : MvPowerSeries (Fin n) R,
       MvPowerSeries.coeff (Finsupp.single i 1) g =
-        MvPowerSeries.constantCoeff (MvPowerSeries.pderiv R i g) := by
+        MvPowerSeries.constantCoeff (MvPowerSeries.pderiv (R := R) i g) := by
     intro g
     rw [← MvPowerSeries.coeff_zero_eq_constantCoeff_apply, MvPowerSeries.coeff_pderiv]
     simp
-  rw [key, key, key, (MvPowerSeries.pderiv R i).leibniz]
+  rw [key, key, key, (MvPowerSeries.pderiv (R := R) i).leibniz]
   simp [mul_comm]
 
 /-- The coefficient of `x_i` in the variable `x_j` is `1` if `i = j` and `0` otherwise. -/

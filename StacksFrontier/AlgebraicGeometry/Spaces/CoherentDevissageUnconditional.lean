@@ -186,7 +186,7 @@ theorem existsIdealInjectionDevissageStep_of_isNoetherian (hZt : B.Contains (⊤
       φ ≫ ξ = 0 ↔ (e.hom ≫ φ) ≫ ξ = 0 := by
     intro W ξ
     rw [Category.assoc]
-    refine ⟨fun h => by rw [h, comp_zero], fun h => (cancel_epi e.hom).1 ?_⟩
+    refine ⟨fun h => by rw [h, comp_zero], fun h => (e.cancel_iso_hom_left _ _).1 ?_⟩
     rw [h, comp_zero]
   have hme : Mono e.hom := IsIso.mono_of_iso _
   have hw : (e.hom ≫ φ) ≫ q = 0 := by rw [Category.assoc, w, comp_zero]

@@ -296,6 +296,28 @@ theorem restrictTestPoint_val {b b' : FieldValuedPoint B S hS Z}
 
 variable {R U X : Over Z}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The pullbacks of `Over Z`, found once (the default search runs out of heartbeats) and
+cached as a local instance. -/
+noncomputable local instance (priority := high) hasPullbacksOverPresheaf :
+    HasPullbacks (Over Z) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The binary products of `Over Z`, found once (the default search runs out of heartbeats)
+and cached as a local instance. -/
+noncomputable local instance (priority := high) hasBinaryProductsOverPresheaf :
+    HasBinaryProducts (Over Z) := inferInstance
+
+/-- The pullback of two morphisms of `Over Z`, from `hasPullbacksOverPresheaf`. -/
+noncomputable local instance (priority := high) hasPullbackOverPresheaf {A B C : Over Z}
+    (f : A ⟶ C) (g : B ⟶ C) : HasPullback f g :=
+  hasPullbacksOverPresheaf.has_limit _
+
+/-- The binary product of two objects of `Over Z`, from `hasBinaryProductsOverPresheaf`. -/
+noncomputable local instance (priority := high) hasBinaryProductOverPresheaf (A B : Over Z) :
+    HasBinaryProduct A B :=
+  hasBinaryProductsOverPresheaf.has_limit _
+
 /-- The fibre product `U ×_X U` of a morphism out of `U` with itself. -/
 noncomputable abbrev selfFibreProduct (φ : U ⟶ X) : Over Z := pullback φ φ
 
@@ -667,7 +689,7 @@ private theorem isSurjective_invarianceToSelfFibreProduct_iff (j : PreRelation R
         (show a ≫ pullback.fst φ φ ≫ φ = a ≫ pullback.snd φ φ ≫ φ by
           rw [pullback.condition])
       change (a ≫ pullback.fst φ φ).left ≫ φ.left = (a ≫ pullback.snd φ φ).left ≫ φ.left
-      simpa [Over.comp_left, Category.assoc] using this
+      simpa only [Over.comp_left, Category.assoc] using this
     obtain ⟨b', f, hf, ρ, ht, hs⟩ := h b _ _ hcond
     refine ⟨b', f, hf, ?_⟩
     refine (exists_lift_invarianceToSelfFibreProduct_iff j φ

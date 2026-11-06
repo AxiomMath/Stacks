@@ -72,7 +72,7 @@ itself to be one of them.
 private theorem Algebra.FormallySmooth.of_isSeparablyGenerated (k K : Type*) [Field k] [Field K]
     [Algebra k K] [Algebra.IsSeparablyGenerated k K] : Algebra.FormallySmooth k K := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   rw [← Subtype.range_coe (s := s)] at hsep
   exact .of_algebraicIndependent_of_isSeparable hs.1
 

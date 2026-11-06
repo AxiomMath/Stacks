@@ -130,10 +130,10 @@ lemma extensionFunctor_map_app_eq
     {M M' : PresheafOfModules.{a, v, max u v, w} (overRingPresheaf O U)}
     (f : M ⟶ M') (X : Cᵒᵖ) :
     ((extensionFunctor.{v, u, w, a} O U).map f).app X =
-      Limits.Sigma.map (f := extensionSummands O U M X)
-        (g := extensionSummands O U M' X) fun p => f.app (op (Over.mk p)) :=
+      Limits.Sigma.map (f := extensionSummands O U M' X)
+        (g := extensionSummands O U M X) fun p => f.app (op (Over.mk p)) :=
   Sigma.hom_ext _ _ fun p => (ι_comp_extensionFunctor_map_app O U f X p).trans
-    (Limits.Sigma.ι_map (f := extensionSummands O U M X) (g := extensionSummands O U M' X)
+    (Limits.Sigma.ι_map (f := extensionSummands O U M' X) (g := extensionSummands O U M X)
       (fun q => f.app (op (Over.mk q))) p).symm
 
 end Construction
@@ -149,8 +149,8 @@ lemma extensionFunctor_preservesMonos :
   preserves {M M'} f hf := by
     apply PresheafOfModules.mono_of_injective
     intro X
-    have hmono : Mono (Limits.Sigma.map (f := extensionSummands O U M X)
-        (g := extensionSummands O U M' X) fun p => f.app (op (Over.mk p))) :=
+    have hmono : Mono (Limits.Sigma.map (f := extensionSummands O U M' X)
+        (g := extensionSummands O U M X) fun p => f.app (op (Over.mk p))) :=
       mono_sigmaMap _ fun p => (ModuleCat.mono_iff_injective _).2
         (PresheafOfModules.injective_of_mono f (op (Over.mk p)))
     exact (ModuleCat.mono_iff_injective _).1 (extensionFunctor_map_app_eq O U f X ▸ hmono)

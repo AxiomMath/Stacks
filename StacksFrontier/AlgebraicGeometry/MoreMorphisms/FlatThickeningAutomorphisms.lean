@@ -164,7 +164,7 @@ theorem hom_ext_universalRelativeDerivation {Z T : Scheme.{u}} (p : Z ⟶ T) {F 
         = (Scheme.Modules.Hom.app v W).hom ((Scheme.Hom.universalRelativeDerivation p).d x)) :
     u = v :=
   Scheme.Hom.eq_of_postcomp_eq_universalRelativeDerivation p
-    (PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => h W.unop x))
+    (PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => h W.unop x))
 
 section Action
 

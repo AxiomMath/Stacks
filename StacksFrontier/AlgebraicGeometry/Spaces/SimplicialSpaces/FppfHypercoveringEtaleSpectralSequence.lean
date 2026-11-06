@@ -66,6 +66,7 @@ attribute [local instance] additive_totalInverseImageAb_etaleAugmentation
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {A : SimplicialObject.Augmented (AlgebraicSpaces B S hS)}
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **`RΓ(X_étale, K) = RΓ(U_étale, a⁻¹K)` for an fppf hypercovering** (the content of
 Stacks 0DH8), naturally in `K ∈ D⁺(X_étale)`, in any model of the derived categories. Here
 `a : Sh(U_étale) → Sh(X_étale)` is the morphism of topoi of Section 0DE7. The isomorphism is the
@@ -92,6 +93,7 @@ def IsFppfHypercovering.derivedPlusGlobalSectionsIso (hA : IsFppfHypercovering A
   asIso (SimplicialSiteSituation.Augmentation.derivedPlusGlobalSectionsComparison
     (etaleSituation A) _ _ (etaleAugmentation A))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The isomorphism `RΓ(X_étale, K) = RΓ(U_étale, a⁻¹K)` is the comparison
 `derivedPlusGlobalSectionsComparison`. -/
 theorem IsFppfHypercovering.derivedPlusGlobalSectionsIso_hom (hA : IsFppfHypercovering A)

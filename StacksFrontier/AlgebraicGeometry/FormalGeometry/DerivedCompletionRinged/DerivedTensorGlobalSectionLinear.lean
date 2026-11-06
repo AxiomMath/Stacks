@@ -114,16 +114,16 @@ theorem sheafTensor_obj_map_globalSectionToEnd
     (M N : SheafOfModules.{u} (ringSheaf X.O)) :
     ((sheafTensor.{u, u, u, u, u} X.O).obj M).map
         ((globalSectionToEnd
-          (ringSheaf X.O) a).app N) =
+          (ringSheaf X.O) a).asHom.app N) =
       (globalSectionToEnd
-        (ringSheaf X.O) a).app (((sheafTensor.{u, u, u, u, u} X.O).obj M).obj N) := by
+        (ringSheaf X.O) a).asHom.app (((sheafTensor.{u, u, u, u, u} X.O).obj M).obj N) := by
   refine ((PresheafOfModules.sheafificationAdjunction
     (𝟙 (ringSheaf X.O).obj)).homEquiv _ _).injective ?_
   refine (((PresheafOfModules.sheafificationAdjunction
       (𝟙 (ringSheaf X.O).obj)).unit.naturality
     (PresheafOfModules.tensorHom (𝟙 M.val)
       ((globalSectionToEnd
-        (ringSheaf X.O) a).app N).val)).symm).trans ?_
+        (ringSheaf X.O) a).asHom.app N).val)).symm).trans ?_
   refine PresheafOfModules.hom_ext fun U => ?_
   refine ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
   refine Eq.trans ?_ ((((PresheafOfModules.sheafificationAdjunction
@@ -146,11 +146,11 @@ theorem sheafTensor_obj_map_smul_id
   (congrArg ((sheafTensor.{u, u, u, u, u} X.O).obj M).map
       (Category.comp_id
         ((globalSectionToEnd
-          (ringSheaf X.O) a).app N))).trans
+          (ringSheaf X.O) a).asHom.app N))).trans
     ((sheafTensor_obj_map_globalSectionToEnd X a M N).trans
       (Category.comp_id
         ((globalSectionToEnd
-            (ringSheaf X.O) a).app
+            (ringSheaf X.O) a).asHom.app
           (((sheafTensor.{u, u, u, u, u} X.O).obj M).obj N))).symm)
 
 /-- **The total tensor complex is linear over multiplication by a compatible family of local
@@ -174,15 +174,15 @@ theorem mapBifunctorMap_smul_id
     CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp, Linear.comp_smul,
     Category.comp_id]
   show ((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).map
-        ((globalSectionToEnd (ringSheaf X.O) a).app (Q.X i₂) ≫ 𝟙 (Q.X i₂)) ≫
+        ((globalSectionToEnd (ringSheaf X.O) a).asHom.app (Q.X i₂) ≫ 𝟙 (Q.X i₂)) ≫
       HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h =
-    (globalSectionToEnd (ringSheaf X.O) a).app
+    (globalSectionToEnd (ringSheaf X.O) a).asHom.app
         (((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).obj (Q.X i₂)) ≫
       HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h
   exact (congrArg
       (fun φ => ((sheafTensor.{u, u, u, u, u} X.O).obj (P.X i₁)).map φ ≫
         HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ) i₁ i₂ j h)
-      (Category.comp_id ((globalSectionToEnd (ringSheaf X.O) a).app (Q.X i₂)))).trans
+      (Category.comp_id ((globalSectionToEnd (ringSheaf X.O) a).asHom.app (Q.X i₂)))).trans
     (congrArg
       (fun φ => φ ≫ HomologicalComplex.ιMapBifunctor P Q (sheafTensor.{u, u, u, u, u} X.O)
         (ComplexShape.up ℤ) i₁ i₂ j h)

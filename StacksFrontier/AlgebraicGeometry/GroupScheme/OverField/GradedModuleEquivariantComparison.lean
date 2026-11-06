@@ -93,7 +93,6 @@ theorem laurentCoeffEquiv_smul (a : A) (x : TensorProduct R₀ (LaurentPolynomia
     laurentCoeffEquiv R₀ A (((1 : LaurentPolynomial R₀) ⊗ₜ[R₀] a) * x) =
       a • laurentCoeffEquiv R₀ A x := by
   induction x with
-  | zero => simp
   | tmul l b =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
       ext i
@@ -126,7 +125,6 @@ theorem laurentDoubleCoeffEquiv_smul (a : A)
           ⊗ₜ[R₀] a) * x) =
       a • laurentDoubleCoeffEquiv R₀ A x := by
   induction x with
-  | zero => simp
   | tmul l b =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
       ext i
@@ -691,7 +689,7 @@ private theorem mapDomain_diag_apply {M : Type w} [AddCommGroup M] (f : ℤ →�
   classical
   by_cases h : i = j
   · subst j
-    rw [Finsupp.mapDomain_apply (show Function.Injective (fun n : ℤ => (n, n)) from
+    rw [Finsupp.mapDomain_apply_of_injective (show Function.Injective (fun n : ℤ => (n, n)) from
       fun a b h => congrArg Prod.fst h)]
     simp
   · rw [Finsupp.mapDomain_of_notMem_range]

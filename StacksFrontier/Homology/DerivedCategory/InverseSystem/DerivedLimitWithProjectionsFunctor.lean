@@ -41,7 +41,7 @@ the first map of a distinguished triangle whose second map is the Milnor differe
 proof below compares the image of that triangle with the corresponding triangle for `F ⋙ G`: the
 two differ only by the product comparison isomorphism
 `CategoryTheory.Limits.PreservesProduct.iso` in the second and third places, and both squares
-reduce, after composing with a product projection, to `Limits.Pi.lift_π` and the additivity of
+reduce, after composing with a product projection, to `Limits.Pi.lift_comp_π` and the additivity of
 `G` — a triangulated functor being additive. The structural map of the image triangle is
 transported by the same isomorphism, which is why no hypothesis beyond the preservation of that
 one product is needed.
@@ -86,7 +86,7 @@ local instance hasProduct_map_obj : HasProduct fun n : ℕ ↦ G.obj (F.obj ⟨n
 `CategoryTheory.Limits.PreservesProduct.iso`, with its target ascribed into the spelling
 `∏ᶜ fun n ↦ (F ⋙ G).obj ⟨n⟩` that the derived-limit predicate for `F ⋙ G` is written with.
 Without the ascription every `CategoryTheory.Limits.Pi.hom_ext` below picks up the other
-spelling of the family from the type of this map, and then `Limits.Pi.lift_π` does not fire. -/
+spelling of the family from the type of this map, and then `Limits.Pi.lift_comp_π` does not fire. -/
 def productOverIso :
     G.obj (∏ᶜ fun n : ℕ ↦ F.obj ⟨n⟩) ≅ ∏ᶜ fun n : ℕ ↦ (F ⋙ G).obj ⟨n⟩ :=
   PreservesProduct.iso G (fun n : ℕ ↦ F.obj ⟨n⟩)
@@ -113,7 +113,7 @@ theorem map_pi_lift_comp_productOverIso_hom :
         (productOverIso G (F := F)).hom =
       Pi.lift (f := fun n : ℕ ↦ (F ⋙ G).obj ⟨n⟩) fun n : ℕ ↦ G.map (π n) := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Pi.lift_π, Category.assoc, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_π]
+  rw [Pi.lift_comp_π, Category.assoc, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_comp_π]
 
 /-- The image of the Milnor difference map of `F` is the Milnor difference map of `F ⋙ G`,
 through the product comparison isomorphism. -/
@@ -129,7 +129,7 @@ theorem map_milnorDifference_comp_productOverIso_hom :
               (F ⋙ G).map (homOfLE (Nat.le_succ n)).op := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
   simp only [Category.assoc]
-  rw [Pi.lift_π, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_π, G.map_sub, G.map_comp,
+  rw [Pi.lift_comp_π, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_comp_π, G.map_sub, G.map_comp,
     Preadditive.comp_sub, productOverIso_hom_comp_π, ← Category.assoc,
     productOverIso_hom_comp_π]
   rfl
@@ -212,8 +212,8 @@ theorem IsDerivedLimitWithProjections.map_of_exists_distinguished
     rfl
   · rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, ← Category.assoc, he, he (n + 1),
-      Category.assoc, he, ← G.map_comp, ← G.map_comp, ← G.map_sub, Pi.lift_π]
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, ← Category.assoc, he, he (n + 1),
+      Category.assoc, he, ← G.map_comp, ← G.map_comp, ← G.map_sub, Pi.lift_comp_π]
   · rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 end ExistsDistinguished

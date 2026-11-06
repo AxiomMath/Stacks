@@ -388,7 +388,7 @@ theorem isDerivedComplete_of_isNilpotent {I : Ideal A} (hI : IsNilpotent I) (K :
   apply isDerivedCompleteAt_of_isNilpotent
   have hfn : f ^ n ∈ I ^ n := Ideal.pow_mem_pow hf n
   rw [hn, Ideal.zero_eq_bot, Ideal.mem_bot] at hfn
-  exact ⟨n, by rw [smul_id_pow, hfn, zero_smul]⟩
+  exact ⟨n, by rw [smul_pow, one_pow, hfn, zero_smul]⟩
 
 /-- If `I` is nilpotent, the full subcategory of objects derived complete with respect to `I` is
 the whole category: its inclusion is an equivalence. -/

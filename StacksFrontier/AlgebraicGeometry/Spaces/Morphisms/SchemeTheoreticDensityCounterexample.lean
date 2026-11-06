@@ -75,6 +75,13 @@ theorem Scheme.Opens.dense_of_isSchemeTheoreticallyDense {X : Scheme.{u}} (U : X
 
 namespace Space
 
+/-- Small discrete limits of presheaves on the big fppf site (instance search for them times out
+under Lean v4.35.0). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_SchemeTheoreticDensityCounterexample
+    {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U} (J : Type) :
+    Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-! ### Open subschemes of an object of the big fppf site -/
 
 section SiteOpens
@@ -217,6 +224,7 @@ theorem isOpenSubspace_openSubspace :
   isOpenSubspace_range_of_isOpenImmersion _ _
     (isOpenImmersion_yoneda_siteOpenInclusion B (exampleScheme k) hS _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The morphism of the site representing the inverse image of `U` along a scheme chart of `X`
 has that inverse image as its image subfunctor. -/
 private lemma range_yoneda_snd
@@ -227,6 +235,7 @@ private lemma range_yoneda_snd
     (isOpenSubspace_openSubspace k B hS).2.rep φ, Subfunctor.range_comp, Subfunctor.range_eq_top,
     Subfunctor.image_top, Subfunctor.range_ι]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The presheaf map of the morphism representing `U ×_X V` is a monomorphism. -/
 private lemma mono_yoneda_snd
     {V : BigFppfOver B (exampleScheme k) hS} (φ : yoneda.obj V ⟶ space k B hS) :

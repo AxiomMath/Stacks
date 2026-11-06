@@ -54,6 +54,15 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))
 
+/- Pullbacks of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W)
+    (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-! ### Quasi-compactness of a self-intersection over the terminal scheme -/
 
 /-- **A morphism from a quasi-compact algebraic space to a quasi-separated one is

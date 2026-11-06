@@ -4,6 +4,7 @@ public import Mathlib.Algebra.MvPolynomial.Rename
 public import Mathlib.RingTheory.FinitePresentation
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.IntegralClosure.IsIntegralClosure.Basic
+public import Mathlib.RingTheory.Polynomial.Tower
 
 /-!
 # The approximating system of an integral algebra

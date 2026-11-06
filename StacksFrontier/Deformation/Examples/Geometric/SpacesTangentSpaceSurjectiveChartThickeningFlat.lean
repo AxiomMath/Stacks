@@ -44,7 +44,7 @@ variable {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y} (E : SquareZeroExtension B
 /-- The sections `r` of `𝒪_X` go to `r · s(1)`. -/
 theorem generator_app (V : (SmallEtale B S hS X.1)ᵒᵖ)
     (r : (smallEtaleRingedTopos B S hS X).O.obj.obj V) :
-    ((E.I.val.obj V).smul r).hom
+    ((E.I.val.obj V).smul r).asHom.hom
         (s.val.app V (1 : (structureRingSheaf B S hS X).obj.obj V)) = s.val.app V r := by
   exact (congrArg (fun φ => φ.hom (1 : (structureRingSheaf B S hS X).obj.obj V))
     (ModuleCat.smul_naturality (s.val.app V) r)).trans (congrArg (s.val.app V) (mul_one r))
@@ -95,7 +95,7 @@ theorem chartData_of_generator (O : (E.chartRealizedScheme W).Opens) (hO : IsAff
 
 /-- The section `s(1)` of `ℐ` over a chart, restricted to a smaller chart, is `s(1)`. -/
 theorem ι_generator_map {V V' : (SmallEtale B S hS X.1)ᵒᵖ} (m : V ⟶ V') :
-    E.A.val.map m (E.ι V (s.val.app V (1 : (structureRingSheaf B S hS X).obj.obj V))) =
+    E.A.obj.map m (E.ι V (s.val.app V (1 : (structureRingSheaf B S hS X).obj.obj V))) =
       E.ι V' (s.val.app V' (1 : (structureRingSheaf B S hS X).obj.obj V')) := by
   refine (E.naturality m _).symm.trans (congrArg (E.ι V') ?_)
   refine (PresheafOfModules.naturality_apply s.val m _).symm.trans ?_

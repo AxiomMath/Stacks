@@ -68,6 +68,13 @@ universe u
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X Y : AlgebraicSpaces B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance (priority := high) hasPullback_presheaf_hilbertFamilyQuotient
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The projection of a base change of a morphism of finite presentation is of finite
 presentation.**  For `f : X ⟶ Y` of finite presentation and a scheme `T` of the site over `Y`,
 the projection `X_T ⟶ T` is of finite presentation.

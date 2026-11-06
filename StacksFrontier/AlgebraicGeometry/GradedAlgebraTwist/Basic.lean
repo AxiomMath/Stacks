@@ -981,7 +981,7 @@ theorem tensorSectionsAt_smul_right (U : Cᵒᵖ) (F G : SheafOfModules.{w} (str
       r • (show ((sheafify O hO).obj (F.val ⊗ G.val)).val.obj U from
         tensorSectionsAt O hO U F G s t) :=
   (congrArg ((toSheafify O hO (F.val ⊗ G.val)).app U)
-    (TensorProduct.tmul_smul r s t)).trans
+    (TensorProduct.tmul_smul (show ↑(O.obj U) from r) s t)).trans
       (((toSheafify O hO (F.val ⊗ G.val)).app U).hom.map_smul r _)
 
 /-- The section of a tensor product determined by a pair of local sections is compatible with

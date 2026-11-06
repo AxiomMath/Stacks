@@ -89,16 +89,16 @@ public def pushStalkCocone (α : G ⟶ (abelianRestriction B X hX U).obj H) :
   ι :=
     { app := fun N => α.hom.app (op N.unop.1) ≫
         colimit.ι (SmallEtale.etaleStalkDiagram B X hX s H.obj)
-          (op ⟨(smallEtalePostcompose B X hX U).obj N.unop.1,
-            pushLift B X hX U s N.unop.1 p N.unop.2⟩)
+          (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj N.unop.1)
+            (pushLift B X hX U s N.unop.1 p N.unop.2)))
       naturality := by
         intro N M f
         let AM : (geometricPointFiber B X hX s).Elements :=
-          ⟨(smallEtalePostcompose B X hX U).obj M.unop.1,
-            pushLift B X hX U s M.unop.1 p M.unop.2⟩
+          Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj M.unop.1)
+            (pushLift B X hX U s M.unop.1 p M.unop.2)
         let AN : (geometricPointFiber B X hX s).Elements :=
-          ⟨(smallEtalePostcompose B X hX U).obj N.unop.1,
-            pushLift B X hX U s N.unop.1 p N.unop.2⟩
+          Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj N.unop.1)
+            (pushLift B X hX U s N.unop.1 p N.unop.2)
         let m : AM ⟶ AN :=
           ⟨(smallEtalePostcompose B X hX U).map f.unop.1,
             (pushLift_map B X hX U s f.unop.1 p M.unop.2).trans
@@ -129,12 +129,13 @@ public theorem pushStalkMap_germ (α : G ⟶ (abelianRestriction B X hX U).obj H
     (w : (geometricPointFiber B U.obj.left.1 U.obj.left.property
       (geometricPointOfLift B X hX U s p)).obj W) :
     colimit.ι (SmallEtale.etaleStalkDiagram B U.obj.left.1 U.obj.left.property
-          (geometricPointOfLift B X hX U s p) G.obj) (op ⟨W, w⟩) ≫
+          (geometricPointOfLift B X hX U s p) G.obj) (op (Functor.elementsMk _ W w)) ≫
         pushStalkMap B X hX U s p H G α =
       α.hom.app (op W) ≫
         colimit.ι (SmallEtale.etaleStalkDiagram B X hX s H.obj)
-          (op ⟨(smallEtalePostcompose B X hX U).obj W, pushLift B X hX U s W p w⟩) :=
-  colimit.ι_desc (pushStalkCocone B X hX U s p H G α) (op ⟨W, w⟩)
+          (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj W)
+            (pushLift B X hX U s W p w))) :=
+  colimit.ι_desc (pushStalkCocone B X hX U s p H G α) (op (Functor.elementsMk _ W w))
 
 /-- The germ formula of `AlgebraicGeometry.pushStalkMap`, read on an individual germ. -/
 public theorem pushStalkMap_etaleGerm (α : G ⟶ (abelianRestriction B X hX U).obj H)
@@ -172,8 +173,8 @@ public theorem pushStalkMap_comp (α : G ⟶ (abelianRestriction B X hX U).obj H
     (α ≫ (abelianRestriction B X hX U).map β) N.unop.1 N.unop.2
   have hι := colimit.ι_map (Functor.whiskerLeft
       (CategoryOfElements.π (geometricPointFiber B X hX s)).op β.1)
-    (op (⟨(smallEtalePostcompose B X hX U).obj N.unop.1,
-      pushLift B X hX U s N.unop.1 p N.unop.2⟩ :
+    (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj N.unop.1)
+      (pushLift B X hX U s N.unop.1 p N.unop.2) :
       (geometricPointFiber B X hX s).Elements))
   refine Eq.trans ?_ hright.symm
   exact (Category.assoc _ _ _).symm.trans
@@ -219,10 +220,11 @@ public theorem restrictionStalkMap_germ
       (geometricPointOfLift B X hX U s p)).obj W) :
     colimit.ι (SmallEtale.etaleStalkDiagram B U.obj.left.1 U.obj.left.property
           (geometricPointOfLift B X hX U s p)
-          ((abelianRestriction B X hX U).obj H).obj) (op ⟨W, w⟩) ≫
+          ((abelianRestriction B X hX U).obj H).obj) (op (Functor.elementsMk _ W w)) ≫
         restrictionStalkMap B X hX U s p H =
       colimit.ι (SmallEtale.etaleStalkDiagram B X hX s H.obj)
-        (op ⟨(smallEtalePostcompose B X hX U).obj W, pushLift B X hX U s W p w⟩) :=
+        (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj W)
+          (pushLift B X hX U s W p w))) :=
   (pushStalkMap_germ B X hX U s p H ((abelianRestriction B X hX U).obj H) (𝟙 _) W w).trans
     (Category.id_comp _)
 

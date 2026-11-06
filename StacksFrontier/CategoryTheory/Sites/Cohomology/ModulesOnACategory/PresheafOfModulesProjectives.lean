@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Generator
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.FunctorCategory
 public import Mathlib.CategoryTheory.Preadditive.Projective.Basic

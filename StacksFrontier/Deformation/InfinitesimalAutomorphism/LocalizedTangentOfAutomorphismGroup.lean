@@ -57,6 +57,7 @@ theorem transportAut_eq_pushforwardAutomorphismHom {A B : Under (p.obj x)} (f : 
     (a : Aut (P.obj A)) :
     P.transportAut f a = pushforwardAutomorphismHom hp f.right (P.map f) (P.map_isHomLift f) a := by
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   change P.transportHom f a = pushforwardEndomorphism hp f.right (P.map f) (P.map_isHomLift f) a
   have := P.map_cocartesian f

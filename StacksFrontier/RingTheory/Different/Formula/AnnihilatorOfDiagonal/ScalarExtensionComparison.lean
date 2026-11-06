@@ -213,13 +213,13 @@ noncomputable def coefficientBaseChangeKoszulChainMapULift
   exact HomologicalComplex.Hom.mk
     (fun k => ModuleCat.ofHom
       ({ toFun := fun x => ULift.up (coefficientBaseChangeLinearMap M k x.down)
-         map_add' x y := ULift.ext _ _ (map_add (coefficientBaseChangeLinearMap M k) x.down y.down)
-         map_smul' a x := ULift.ext _ _ (map_smul (coefficientBaseChangeLinearMap M k) a x.down) } :
+         map_add' x y := ULift.ext (map_add (coefficientBaseChangeLinearMap M k) x.down y.down)
+         map_smul' a x := ULift.ext (map_smul (coefficientBaseChangeLinearMap M k) a x.down) } :
         ULift.{v} (⋀[P]^k (Fin n → P)) →ₗ[P]
           ULift.{u} (⋀[R]^k (Fin n → R)))) (by
       intro i j hij
       obtain rfl : j + 1 = i := hij
-      refine ModuleCat.hom_ext (LinearMap.ext fun x => ULift.ext _ _ ?_)
+      refine ModuleCat.hom_ext (LinearMap.ext fun x => ULift.ext ?_)
       simp only [CategoryTheory.Functor.mapHomologicalComplex_obj_d,
         Koszul.seqComplex_d]
       change (Koszul.d (Koszul.seqDual g) j)

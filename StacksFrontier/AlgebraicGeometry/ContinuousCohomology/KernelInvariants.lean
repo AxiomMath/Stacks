@@ -55,20 +55,20 @@ variable (R : Type u) [Ring R] {Γ : Type v} {Q : Type v'} [Group Γ] [Topologic
 
 private lemma rho_mul' (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (g h : Γ)
     (x : M.obj.obj.V) :
-    (M.obj.obj.ρ (g * h)).hom x = (M.obj.obj.ρ g).hom ((M.obj.obj.ρ h).hom x) := by
+    (M.obj.obj.ρ (g * h)).asHom.hom x = (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom x) := by
   rw [map_mul]
   rfl
 
 /-- A morphism of `R`-`Γ`-modules commutes with the action of `Γ`. -/
 private lemma hom_rho_apply {M M' : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ}
     (f : M ⟶ M') (g : Γ) (x : M.obj.obj.V) :
-    f.hom.hom.hom.hom ((M.obj.obj.ρ g).hom x) = (M'.obj.obj.ρ g).hom (f.hom.hom.hom.hom x) :=
+    f.hom.hom.hom.hom ((M.obj.obj.ρ g).asHom.hom x) = (M'.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
   ConcreteCategory.congr_hom (f.hom.hom.comm g) x
 
 /-- **The invariants `M^G` under the kernel `G` of `π`.** -/
 def kernelInvariants (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) :
     Submodule R M.obj.obj.V where
-  carrier := {x | ∀ g : Γ, π g = 1 → (M.obj.obj.ρ g).hom x = x}
+  carrier := {x | ∀ g : Γ, π g = 1 → (M.obj.obj.ρ g).asHom.hom x = x}
   zero_mem' := fun _ _ ↦ map_zero _
   add_mem' := fun ha hb g hg ↦ by rw [map_add, ha g hg, hb g hg]
   smul_mem' := fun a _ hx g hg ↦ by rw [map_smul, hx g hg]
@@ -76,13 +76,13 @@ def kernelInvariants (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) :
 /-- `x` lies in `M^G` iff every `g` with `π g = 1` fixes it. -/
 lemma mem_kernelInvariants {M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ}
     {x : M.obj.obj.V} :
-    x ∈ kernelInvariants R π M ↔ ∀ g : Γ, π g = 1 → (M.obj.obj.ρ g).hom x = x :=
+    x ∈ kernelInvariants R π M ↔ ∀ g : Γ, π g = 1 → (M.obj.obj.ρ g).asHom.hom x = x :=
   Iff.rfl
 
 /-- The invariants under the kernel of `π` are preserved by the action of `Γ`. -/
 lemma rho_mem_kernelInvariants (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ)
     {x : M.obj.obj.V} (hx : x ∈ kernelInvariants R π M) :
-    (M.obj.obj.ρ γ).hom x ∈ kernelInvariants R π M := by
+    (M.obj.obj.ρ γ).asHom.hom x ∈ kernelInvariants R π M := by
   intro g hg
   have hconj : π (γ⁻¹ * g * γ) = 1 := by simp [hg]
   have hsplit : g * γ = γ * (γ⁻¹ * g * γ) := by group
@@ -91,11 +91,11 @@ lemma rho_mem_kernelInvariants (M : Stacks.Injectives.ContinuousModule.{u, v, w}
 /-- The action of `Γ` on the invariants under the kernel of `π`. -/
 def kernelInvariantsRepresentation (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) :
     Representation R Γ (kernelInvariants R π M) where
-  toFun γ := LinearMap.restrict (M.obj.obj.ρ γ).hom
+  toFun γ := LinearMap.restrict (M.obj.obj.ρ γ).asHom.hom
     fun _ hx ↦ rho_mem_kernelInvariants R π M γ hx
   map_one' := by
     ext x
-    exact congrFun (congrArg (fun f ↦ (ModuleCat.Hom.hom f).toFun) (map_one M.obj.obj.ρ)) x
+    exact congrFun (congrArg (fun f ↦ (ModuleCat.Hom.hom f.asHom).toFun) (map_one M.obj.obj.ρ)) x
   map_mul' g h := by
     ext x
     exact rho_mul' R M g h x
@@ -117,7 +117,7 @@ lemma kernelInvariantsQuotientRepresentation_apply
     (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ)
     (x : kernelInvariants R π M) :
     (kernelInvariantsQuotientRepresentation R π hπ M (π γ) x : M.obj.obj.V) =
-      (M.obj.obj.ρ γ).hom x := by
+      (M.obj.obj.ρ γ).asHom.hom x := by
   have h : (QuotientGroup.quotientKerEquivOfSurjective (π : Γ →* Q) hπ).symm (π γ) =
       (QuotientGroup.mk γ : Γ ⧸ (π : Γ →* Q).ker) :=
     (QuotientGroup.quotientKerEquivOfSurjective (π : Γ →* Q) hπ).symm_apply_apply
@@ -137,16 +137,16 @@ lemma isContinuous_kernelInvariantsQuotientRepresentation
   rw [isContinuous_actionOfRepresentation_iff]
   intro x
   let S : Subgroup Γ :=
-    { carrier := {g | (M.obj.obj.ρ g).hom x = x}
+    { carrier := {g | (M.obj.obj.ρ g).asHom.hom x = x}
       mul_mem' := fun {a b} ha hb ↦ by
-        change (M.obj.obj.ρ (a * b)).hom x = x
+        change (M.obj.obj.ρ (a * b)).asHom.hom x = x
         rw [rho_mul', hb, ha]
       one_mem' := by
-        change (M.obj.obj.ρ 1).hom x = x
+        change (M.obj.obj.ρ 1).asHom.hom x = x
         rw [map_one]; rfl
       inv_mem' := fun {a} ha ↦ by
-        change (M.obj.obj.ρ a⁻¹).hom x = x
-        conv_lhs => rw [← (show (M.obj.obj.ρ a).hom x = x from ha)]
+        change (M.obj.obj.ρ a⁻¹).asHom.hom x = x
+        conv_lhs => rw [← (show (M.obj.obj.ρ a).asHom.hom x = x from ha)]
         rw [← rho_mul', inv_mul_cancel, map_one]; rfl }
   have hSopen : IsOpen (S : Set Γ) := isOpen_stabilizer R Γ M x
   have hset : {q : Q | kernelInvariantsQuotientRepresentation R π hπ M q x = x} =

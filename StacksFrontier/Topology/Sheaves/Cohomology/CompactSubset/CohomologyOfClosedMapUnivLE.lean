@@ -644,15 +644,16 @@ theorem injective_cohomologyOfClosedMapUnivLE_succ :
     _ = Ext.comp (Ext.comp (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z g)) b (zero_add p))
           hS.extClass rfl :=
         (Ext.comp_assoc (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z g)) b hS.extClass (zero_add p) rfl
-          (show 0 + p + 1 = p + 1 by lia)).symm
+          (congrArg (· + 1) (zero_add p))).symm
     _ = Ext.comp (Ext.comp (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z f))
           (Ext.comp yV (Ext.mk₀ S.g) (add_zero p)) (zero_add p)) hS.extClass rfl := by
         rw [hfg]
     _ = Ext.comp (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z f))
           (Ext.comp (Ext.comp yV (Ext.mk₀ S.g) (add_zero p)) hS.extClass rfl)
           (zero_add (p + 1)) :=
-        Ext.comp_assoc (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z f)) _ hS.extClass (zero_add p) rfl
-          (show 0 + p + 1 = p + 1 by lia)
+        Ext.comp_assoc (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z f))
+          (Ext.comp yV (Ext.mk₀ S.g) (add_zero p)) hS.extClass (zero_add p) rfl
+          (congrArg (· + 1) (zero_add p))
     _ = 0 :=
         (congrArg (fun m ↦ Ext.comp (Ext.mk₀ (freeNhdsMapUnivLE.{t} Z f)) m
           (zero_add (p + 1))) hy').trans

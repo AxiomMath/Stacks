@@ -119,7 +119,7 @@ theorem _root_.CategoryTheory.Subfunctor.range_le_preimage_of_comp_eq.{v} {C : T
     (h : ι ≫ g = q ≫ V.ι) : Subfunctor.range ι ≤ V.preimage g := by
   rintro T _ ⟨y, rfl⟩
   change g.app T (ι.app T y) ∈ V.obj T
-  rw [← FunctorToTypes.comp, h, FunctorToTypes.comp]
+  rw [← NatTrans.comp_app_apply, h, NatTrans.comp_app_apply]
   exact (q.app T y).2
 
 /-- For a mono `ι` with `ι ≫ g = q ≫ V.ι`, the inclusion of the range of `ι` into `V.preimage g`

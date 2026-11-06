@@ -60,6 +60,45 @@ theorem reflectsIsomorphisms_mapDerivedCategoryPlus :
 
 end Reflects
 
+/-- The unit of `RG` (Mathlib's `rightDerivedFunctorPlusUnith`, whose definition is not exposed)
+followed by the comparison isomorphism with the `totalRightDerived` presentation is the unit of
+`totalRightDerived`. -/
+private lemma totalRightDerivedUnit_app_eq {D E : Type*} [Category* D] [Category* E]
+    [Abelian D] [Abelian E] [HasDerivedCategory D] [HasDerivedCategory E] [EnoughInjectives D]
+    (G : D ⥤ E) [G.Additive] (Y : HomotopyCategory.Plus D) :
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app Y =
+      G.rightDerivedFunctorPlusUnith.app Y ≫
+        (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+          (HomotopyCategory.Plus.quasiIso D) _
+          ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+            DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))).app
+          (DerivedCategory.Plus.Qh.obj Y) :=
+  (Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _ _ Y).symm
+
+private lemma isIso_rightDerivedDesc_totalRightDerivedUnit {D E : Type*} [Category* D]
+    [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D] [HasDerivedCategory E]
+    [EnoughInjectives D] (G : D ⥤ E) [G.Additive] :
+    IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+  (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+
+/-- An object is right acyclic for `G` exactly when the unit `rightDerivedFunctorPlusUnith` is
+invertible at the single complex on it in degree zero. -/
+private lemma rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app {D E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] [EnoughInjectives D] (G : D ⥤ E) [G.Additive] (X : D) :
+    G.rightAcyclic X ↔ IsIso (G.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor D 0).obj X)) := by
+  have := isIso_rightDerivedDesc_totalRightDerivedUnit G
+  change IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app _) ↔ _
+  rw [totalRightDerivedUnit_app_eq]
+  exact isIso_comp_right_iff _ _
+
 variable {A' A M' M : Type*} [Category* A'] [Category* A] [Category* M'] [Category* M]
   [Abelian A'] [Abelian A] [Abelian M'] [Abelian M]
   [HasDerivedCategory A'] [HasDerivedCategory A] [HasDerivedCategory M'] [HasDerivedCategory M]
@@ -74,15 +113,15 @@ include e hac in
 /-- The unit of `RG` at `r_A(X[0])` is invertible exactly when `r_M` of the unit of `RG'` at
 `X[0]` is. -/
 lemma isIso_unit_map_iff (X : A') :
-    IsIso (G.rightDerivedFunctorPlusUnit.app
+    IsIso (G.rightDerivedFunctorPlusUnith.app
         (rA.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A' 0).obj X))) ↔
-      IsIso (rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app
+      IsIso (rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor A' 0).obj X))) := by
   have h := map_unit_comp_rightDerivedRestrictionIso_hom_app G' G rA rM e hac
     ((HomotopyCategory.Plus.singleFunctor A' 0).obj X)
   constructor
   · intro hu
-    have : IsIso (rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app
+    have : IsIso (rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor A' 0).obj X)) ≫
           (rightDerivedRestrictionIso G' G rA rM e hac).hom.app
             (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A' 0).obj X))) := by
@@ -96,7 +135,7 @@ lemma isIso_unit_map_iff (X : A') :
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ rM))).hom.app _ ≫
             (mapHomotopyCategoryPlusNatIso e).hom.app _ ≫
             (mapHomotopyCategoryPlusCompIso (Iso.refl (rA ⋙ G))).inv.app _) ≫
-        G.rightDerivedFunctorPlusUnit.app
+        G.rightDerivedFunctorPlusUnith.app
           (rA.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A' 0).obj X)) ≫
         G.rightDerivedFunctorPlus.map (rA.mapDerivedCategoryPlusFactorsh.inv.app _)) := by
       rw [← h]; infer_instance
@@ -106,23 +145,33 @@ include e hac in
 /-- **`r_A` carries `G'`-acyclic objects to `G`-acyclic objects.** -/
 theorem rightAcyclic_obj_of_rightAcyclic (X : A') (hX : G'.rightAcyclic X) :
     G.rightAcyclic (rA.obj X) := by
-  have hX' : IsIso (G'.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A' 0).obj X)) := hX
+  have hX' : IsIso (G'.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A' 0).obj X)) :=
+    (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app G' X).1 hX
   have hu := (isIso_unit_map_iff G' G rA rM e hac X).2 inferInstance
-  exact (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
-    (rA.mapHomotopyCategoryPlusObjSingleIso 0 X)).1 hu
+  exact (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app G (rA.obj X)).2
+    ((NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnith
+      (rA.mapHomotopyCategoryPlusObjSingleIso 0 X)).1 hu)
 
 include e hac in
 /-- **Acyclicity descends along `r_A` when `r_M` reflects isomorphisms.** -/
 theorem rightAcyclic_of_rightAcyclic_obj [rM.ReflectsIsomorphisms] (X : A')
     (hX : G.rightAcyclic (rA.obj X)) : G'.rightAcyclic X := by
-  have hX' : IsIso (G.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj (rA.obj X))) := hX
-  have hu := (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
+  have hX' : IsIso (G.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj (rA.obj X))) :=
+    (rightAcyclic_iff_isIso_rightDerivedFunctorPlusUnith_app G (rA.obj X)).1 hX
+  have hu := (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnith
     (rA.mapHomotopyCategoryPlusObjSingleIso 0 X)).2 hX'
   have hm := (isIso_unit_map_iff G' G rA rM e hac X).1 hu
   have := reflectsIsomorphisms_mapDerivedCategoryPlus rM
-  exact @isIso_of_reflects_iso _ _ _ _ _ _ _ rM.mapDerivedCategoryPlus hm _
+  have := isIso_rightDerivedDesc_totalRightDerivedUnit G'
+  have hm' : IsIso (rM.mapDerivedCategoryPlus.map
+      (((G'.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A')).app
+        ((HomotopyCategory.Plus.singleFunctor A' 0).obj X))) := by
+    rw [totalRightDerivedUnit_app_eq, Functor.map_comp]
+    infer_instance
+  exact @isIso_of_reflects_iso _ _ _ _ _ _ _ rM.mapDerivedCategoryPlus hm' _
 
 end CategoryTheory.Functor
 

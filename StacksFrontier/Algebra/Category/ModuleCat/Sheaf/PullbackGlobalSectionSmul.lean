@@ -51,6 +51,12 @@ open Stacks.Sheaves.ToposPushforward Stacks.Sheaves.ToposPullback
 
 universe v u w v' u' w'
 
+/-- Binary products of sheaves of sets, supplied directly: instance search for them otherwise
+wanders through sheaves of rings and times out. -/
+local instance (priority := high) hasBinaryProduct_sheafType {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} (P Q : Sheaf J (Type w)) : HasBinaryProduct P Q :=
+  instHasLimitOfHasLimitsOfShape _
+
 namespace CategoryTheory.Sheaf
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
@@ -62,7 +68,7 @@ sets**: it is `(s, id)` followed by the multiplication of the sheaf of rings. -/
 theorem moduleSheafFunctor_map_globalSectionToEnd_unit
     (s : ⊤_ (Sheaf J (Type w)) ⟶ ringSheaf R) :
     (moduleSheafFunctor R).map
-        ((Stacks.SheafOfModules.globalSectionToEnd R (terminalHomEquivSections _ s)).app
+        ((Stacks.SheafOfModules.globalSectionToEnd R (terminalHomEquivSections _ s)).asHom.app
           (SheafOfModules.unit R)) =
       (prod.lift (terminal.from (ringSheaf R) ≫ s) (𝟙 _) ≫ ringMulHom R :
         ringSheaf R ⟶ ringSheaf R) :=
@@ -118,11 +124,11 @@ theorem pullbackModules_map_globalSectionToEnd_unit
     (s : ⊤_ (Sheaf Y.J (Type w')) ⟶ Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) :
     f.pullbackModules.map
         ((Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-          (Sheaf.terminalHomEquivSections _ s)).app (SheafOfModules.unit _)) ≫
+          (Sheaf.terminalHomEquivSections _ s)).asHom.app (SheafOfModules.unit _)) ≫
         (pullbackModulesObjUnitIso f).inv =
       (pullbackModulesObjUnitIso f).inv ≫
         (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          (Sheaf.terminalHomEquivSections _ (pullbackTerminalSection f s))).app
+          (Sheaf.terminalHomEquivSections _ (pullbackTerminalSection f s))).asHom.app
             (SheafOfModules.unit _) := by
   apply ((fSharpAdjunction f).homEquiv _ _).injective
   refine ((fSharpAdjunction f).homEquiv_naturality_left _ _).trans ?_

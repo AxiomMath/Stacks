@@ -25,6 +25,7 @@ import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.LocalRing.ResidueField.Instances
 import Mathlib.RingTheory.Localization.Away.Lemmas
+import Mathlib.RingTheory.Ideal.IdempotentFG
 import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.QuasiFinite.Basic
 import Mathlib.RingTheory.Radical.NatInt

@@ -219,8 +219,8 @@ of `Ω_{Y'/Bb}` of [Stacks Project, Tag 04CT] and the adjunction `(b')^* ⊣ (b'
 [Stacks Project, Tag 03LU].  The fourth bijection there, the only one needing an étale morphism,
 plays no part, so `b'` is arbitrary. -/
 def definingIdealHomOfDerivation (q : Y' ⟶ Bb)
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom) :
     (modulePullback B S hS b').obj (sheafOfDifferentials B S hS q) ⟶
       (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules :=
   (etaleSourceAdjEquiv B S hS b' q
@@ -239,8 +239,8 @@ It is the previous morphism with `modulePullback i` applied to it — whose valu
 ideal is the conormal module by `AlgebraicGeometry.Space.conormalModule_eq` — precomposed with
 the inverse of the composition comparison of [Stacks Project, Tag 03LU]. -/
 def liftPairActionSectionOfDerivation (q : Y' ⟶ Bb)
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom) :
     (modulePullback B S hS (IsThickening.inclusion B S hS hG ≫ b')).obj
         (sheafOfDifferentials B S hS q) ⟶
       conormalModule B S hS X' ⟨G, hG.1⟩ :=
@@ -253,8 +253,8 @@ def liftPairActionSectionOfDerivation (q : Y' ⟶ Bb)
 [Stacks Project, Tag 061D].**  The global sections of the internal hom are the morphisms, by
 `AlgebraicGeometry.Space.smallEtaleInternalHomSectionsEquiv`. -/
 def liftPairGlobalSectionOfDerivation (q : Y' ⟶ Bb)
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom) :
     (liftActionSheaf B S hS ⟨G, hG.1⟩ q
       (IsThickening.inclusion B S hS hG ≫ b')).sections :=
   (smallEtaleInternalHomSectionsEquiv B S hS G.toFunctor hG.1.1
@@ -284,8 +284,8 @@ def liftPairDerivationSecond (q : Y' ⟶ Bb) (hZ : IsFirstOrderThickening B S hS
           (sheafCompose (SmallEtale.topology B S hS X'.1)
             (forget₂ CommRingCat.{u} RingCat.{u})).map
             (inverseImageStructureSharpOfRestrictEq B S hS hG a' b' h)) :
-    (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom :=
+    PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom :=
   liftDifferenceDerivation B S hS ⟨G, hG.1⟩ (liftPairBaseMap B S hS b' q)
     (liftPairSecondSharp B S hS b')
     ((sheafCompose (SmallEtale.topology B S hS X'.1)

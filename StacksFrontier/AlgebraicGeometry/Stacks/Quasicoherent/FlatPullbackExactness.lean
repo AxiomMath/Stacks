@@ -92,8 +92,10 @@ variable (B S hS) in
 /-- `QCoh(𝒪_𝒳)` has finite biproducts: it is preadditive and has colimits, Stacks 06WV (4). -/
 instance hasFiniteBiproducts_quasicoherentModules (𝒳 : AlgebraicStacks.{u, w} B S hS) :
     HasFiniteBiproducts (quasicoherentModules B S hS 𝒳) :=
-  have := FibredSite.hasColimitsOfSize_quasicoherentModules'.{u + 1, u, u} B S hS 𝒳.val.val.p
+  have hc := FibredSite.hasColimitsOfSize_quasicoherentModules'.{u + 1, u, u} B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids
+  have : HasFiniteCoproducts (quasicoherentModules B S hS 𝒳) :=
+    @hasFiniteCoproducts_of_hasCoproducts.{u} _ _ (fun J => hc.has_colimits_of_shape _)
   HasFiniteBiproducts.of_hasFiniteCoproducts
 
 variable {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
@@ -252,6 +254,12 @@ theorem preservesFiniteLimits_quasicoherentPullback_of_isFlat
     Preadditive.hasEqualizers_of_hasKernels
   have : HasBinaryBiproducts (quasicoherentModules B S hS 𝒴) :=
     hasBinaryBiproducts_of_finite_biproducts _
+  have : HasFiniteProducts (quasicoherentModules B S hS 𝒴) :=
+    hasFiniteProducts_of_hasFiniteBiproducts _
+  have : HasZeroObject (quasicoherentModules B S hS 𝒴) :=
+    hasZeroObject_of_hasFiniteBiproducts _
+  have : HasZeroObject (quasicoherentModules B S hS 𝒳) :=
+    hasZeroObject_of_hasFiniteBiproducts _
   exact Functor.preservesFiniteLimits_of_preservesKernels _
 
 /-- **Exactness of the inverse image along a flat 1-morphism of algebraic stacks, given kernels on

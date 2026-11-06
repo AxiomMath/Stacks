@@ -367,8 +367,8 @@ theorem exists_chartSectionsKaehlerRestrict_eq_zero (U : Over d.U)
     (colimit.isColimit _) (colimit.isColimit _)
     (((chartStalkPoint B S hS f d p).presheafFiber (A := CommRingCat.{u})).map
       (chartSharp B S hS f d))
-    (fun i => colimit.ι_desc _ _) (op ⟨U, q⟩) z hz
-  exact ⟨j.unop.1, t.unop.1, j.unop.2, t.unop.2, ht⟩
+    (fun i => colimit.ι_desc _ _) (op ((chartStalkPoint B S hS f d p).fiber.elementsMk U q)) z hz
+  exact ⟨j.unop.obj, t.unop.hom, j.unop.val, t.unop.map_val, ht⟩
 
 end Stalk
 
@@ -446,7 +446,7 @@ theorem chartKaehlerTensorLiftSieve_mem (U : Over d.U) (z : chartSectionsKaehler
     rw [← chartKaehlerTensor_restrict, hg₂, ← chartSectionsKaehlerRestrict_comp]
   · have := congrArg Subtype.val
       ((congrArg ((chartStalkPoint B S hS f d p₀).fiber.map g₁) hq₂).trans hq₁)
-    rwa [Over.comp_left, FunctorToTypes.map_comp_apply]
+    rwa [Over.comp_left, Functor.map_comp_apply]
 
 end AlgebraicGeometry.Space
 

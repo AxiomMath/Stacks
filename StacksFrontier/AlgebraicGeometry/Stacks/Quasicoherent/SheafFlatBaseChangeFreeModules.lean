@@ -364,7 +364,7 @@ theorem isClosedUnderColimitsOfShape_locallyQuasicoherentSheafFlatBaseChangeFppf
               exact (cE.w f).trans (Category.comp_id _).symm) } }
     have hco : IsColimit co := by
       refine isColimitOfReflects ε (IsColimit.ofIsoColimit hcE ?_)
-      exact Cocones.ext (Iso.refl _) fun k => by
+      exact Cocone.ext (Iso.refl _) fun k => by
         show cE.ι.app k ≫ 𝟙 _ = ε.map (ff.preimage (X := c.diag.obj k) (Y := c')
           (cE.ι.app k))
         rw [Category.comp_id, hpre]

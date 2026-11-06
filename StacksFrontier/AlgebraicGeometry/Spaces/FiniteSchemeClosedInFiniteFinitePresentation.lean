@@ -255,11 +255,13 @@ theorem exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariski
   have hY'alg := isAlgebraicSpace_yoneda B S hS Y'
   let j : yoneda.obj Y ⟶ Tc.1.toFunctor := Subfunctor.lift gY hCT
   have hj : j ≫ Tc.1.ι = gY := Subfunctor.lift_ι gY hCT
+  have he'mono : Mono e'.hom := IsIso.mono_of_iso e'.hom
+  have hmono : Mono (e'.hom ≫ Tc.1.ι) := mono_comp' he'mono inferInstance
   refine ⟨Y', e'.hom ≫ Tc.1.ι ≫ qP, j ≫ e'.inv,
     isFinite_comp B S hS (isFinite_of_isIso B S hS _) hTfin, ?_, ?_, ?_⟩
   · refine isFinitePresentation_comp B S hS hY'alg Tc.2.1 hX _ _
       ⟨isLocallyOfFinitePresentation_of_isOpenImmersion B S hS (isOpenImmersion_of_isIso B S hS _),
-        isQuasiCompact_of_isIso B S hS _, isQuasiSeparated_of_mono B S hS _ inferInstance⟩
+        isQuasiCompact_of_isIso B S hS _, isQuasiSeparated_of_mono B S hS _ he'mono⟩
       (isFinitePresentation_comp B S hS Tc.2.1 P.obj.left.2 hX _ _ hTfp hPfp)
   · refine isClosedImmersion_of_comp_mono B S hS _ (e'.hom ≫ Tc.1.ι) ?_
     rw [Category.assoc, Iso.inv_hom_id_assoc, hj]

@@ -357,6 +357,8 @@ public theorem objOpensSectionsInv_comp_objOpensSectionsMap (F : S.Modules)
 public theorem objOpensSectionsMap_comp_objOpensSectionsInv (F : S.Modules)
     (V : (objScheme B S hS U).Opens) :
     objOpensSectionsMap B S hS U F V ≫ objOpensSectionsInv B S hS U F V = 𝟙 _ := by
+  have : Mono (objOpensSectionsMap B S hS U F V) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (isIso_objOpensSectionsMap B S hS U F V)
   rw [← cancel_mono (objOpensSectionsMap B S hS U F V), Category.assoc,
     objOpensSectionsInv_comp_objOpensSectionsMap, Category.comp_id, Category.id_comp]
 

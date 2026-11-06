@@ -122,7 +122,7 @@ theorem wedgeBasisMap_bijective (v : Module.Basis ι R M) {a b : ℕ}
         Units.smul_def, Units.smul_def]
       simp [w, Int.cast_smul_eq_zsmul]
     · have hnd : ¬Disjoint t.val s.val := fun h =>
-        hs (by rw [(disjoint_iff_eq_compl hab t s).1 h, Equiv.symm_apply_apply])
+        hs (by rw [(disjoint_iff_eq_compl hab (s := t) (t := s)).1 h, Equiv.symm_apply_apply])
       rw [dif_neg hnd, Pi.single_eq_of_ne hs, smul_zero]
   rw [key]
   exact LinearEquiv.bijective _

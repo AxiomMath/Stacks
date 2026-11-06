@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import StacksFrontier.AlgebraicGeometry.ProEtale.Constructible.Stratification
 
 /-!

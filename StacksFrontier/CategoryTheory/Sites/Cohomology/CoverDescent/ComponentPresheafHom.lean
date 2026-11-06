@@ -44,10 +44,10 @@ def componentPresheafDesc (F : 𝒳ᵒᵖ ⥤ Type (max u₂ v₁)) (s : (z.op �
       | tail _ hzag ih =>
         rw [ih]
         rcases hzag with ⟨⟨m⟩⟩ | ⟨⟨m⟩⟩
-        · rw [← StructuredArrow.w m, op_comp, FunctorToTypes.map_comp_apply]
+        · rw [← StructuredArrow.w m, op_comp, Functor.map_comp_apply]
           congr 1
           exact (s.2 m.right.op).symm
-        · rw [← StructuredArrow.w m, op_comp, FunctorToTypes.map_comp_apply]
+        · rw [← StructuredArrow.w m, op_comp, Functor.map_comp_apply]
           congr 1
           exact s.2 m.right.op) c
   naturality {y y'} g := TypeCat.homEquiv.injective (funext fun c => by
@@ -55,7 +55,7 @@ def componentPresheafDesc (F : 𝒳ᵒᵖ ⥤ Type (max u₂ v₁)) (s : (z.op �
     | h x =>
       change F.map (g.unop ≫ x.hom).op (s.1 (op x.right)) =
         F.map g (F.map x.hom.op (s.1 (op x.right)))
-      rw [op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply]
       rfl)
 
 /-- The morphism `componentPresheafDesc z F s` sends the class of `φ : y ⟶ z(ζ)` to the
@@ -95,7 +95,7 @@ def componentPresheafHomEquiv (F : 𝒳ᵒᵖ ⥤ Type (max u₂ v₁)) :
   right_inv s := by
     refine Subtype.ext (funext fun ζ => ?_)
     refine (componentPresheafDesc_app_mk z F s (𝟙 _)).trans ?_
-    rw [op_id, FunctorToTypes.map_id_apply]
+    rw [op_id, Functor.map_id_apply]
 
 /-- **The bijection `componentPresheafHomEquiv` is natural in the presheaf**: composing with
 `α : F ⟶ G` acts on the compatible family of sections sectionwise. -/

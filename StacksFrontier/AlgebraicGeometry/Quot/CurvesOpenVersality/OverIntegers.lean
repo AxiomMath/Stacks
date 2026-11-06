@@ -65,6 +65,9 @@ namespace CurvesVersality
 attribute [local instance] schemeCutoff_isClosedUnderIsomorphisms
 attribute [local instance] schemeCutoff_isClosedUnderPullbacks
 attribute [local instance] AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes
+attribute [local instance high] hasPullback_presheaf_ProperFlatFamilies
+attribute [local instance] hasLimits_presheaf_ProperFlatFamilies
+  hasPullbacks_presheaf_ProperFlatFamilies
 
 private theorem properFlat_relativeDimensionLE_of_hom_over
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

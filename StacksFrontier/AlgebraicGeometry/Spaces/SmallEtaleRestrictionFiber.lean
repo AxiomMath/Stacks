@@ -131,15 +131,16 @@ instance initial_liftFiberPostcomp (t : GeometricPointLift B S hS f.hom x) :
 /-- On objects the reindexing is `AlgebraicGeometry.Space.pushLift`. -/
 theorem liftFiberPostcomp_obj (t : GeometricPointLift B S hS f.hom x)
     (W : SmallEtale B S hS X.1) (w : (liftSitePoint B S hS f t).fiber.obj W) :
-    (liftFiberPostcomp B S hS f hf t).obj ⟨W, w⟩ =
-      ⟨(smallEtalePostcomp B S hS f hf).obj W, pushLift B S hS f hf W t w⟩ :=
+    (liftFiberPostcomp B S hS f hf t).obj ((liftSitePoint B S hS f t).fiber.elementsMk W w) =
+      (etaleSitePoint B S hS Y.1 x Y.2).fiber.elementsMk ((smallEtalePostcomp B S hS f hf).obj W)
+        (pushLift B S hS f hf W t w) :=
   rfl
 
 /-- The reindexing of elements covers postcomposition of charts, on the nose. -/
 theorem liftFiberPostcomp_comp_π (t : GeometricPointLift B S hS f.hom x) :
     liftFiberPostcomp B S hS f hf t ⋙
-        CategoryOfElements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber =
-      CategoryOfElements.π (liftSitePoint B S hS f t).fiber ⋙
+        Functor.Elements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber =
+      Functor.Elements.π (liftSitePoint B S hS f t).fiber ⋙
         smallEtalePostcomp B S hS f hf :=
   rfl
 
@@ -157,7 +158,7 @@ def restrictionPresheafFiberIso (t : GeometricPointLift B S hS f.hom x) :
         (liftSitePoint B S hS f t).presheafFiber ≅
       (etaleSitePoint B S hS Y.1 x Y.2).presheafFiber :=
   colimIsoOfFinalPrecomp
-    (CategoryOfElements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber).op
+    (Functor.Elements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber).op
     (liftFiberPostcomp B S hS f hf t).op
 
 /-- On germs, `AlgebraicGeometry.Space.restrictionPresheafFiberIso` carries the germ at the lift
@@ -173,7 +174,8 @@ theorem restrictionPresheafFiberIso_toPresheafFiber (t : GeometricPointLift B S 
       (etaleSitePoint B S hS Y.1 x Y.2).toPresheafFiber
         ((smallEtalePostcomp B S hS f hf).obj W) (pushLift B S hS f hf W t w) P :=
   Functor.Final.ι_colimitIso_hom (liftFiberPostcomp B S hS f hf t).op
-    ((CategoryOfElements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber).op ⋙ P) (op ⟨W, w⟩)
+    ((Functor.Elements.π (etaleSitePoint B S hS Y.1 x Y.2).fiber).op ⋙ P)
+    (op ((liftSitePoint B S hS f t).fiber.elementsMk W w))
 
 end Fiber
 

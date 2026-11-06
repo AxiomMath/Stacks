@@ -166,6 +166,17 @@ private theorem pointsToScheme_mem_closure_range_iff {U V : BigFppfOver B S hS} 
 
 /-! ### Stacks 089B -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_SchemeTheoreticImageValuativePoint :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SchemeTheoreticImageValuativePoint
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- Let `f : X ⟶ Y` be a quasi-compact morphism of algebraic spaces over `S`,

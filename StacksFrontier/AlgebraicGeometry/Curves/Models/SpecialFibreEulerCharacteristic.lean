@@ -146,7 +146,6 @@ instance subsingleton_tensor {A : Type u} [AddCommGroup A] [Module R A] [Subsing
   ⟨fun x y => by
     have h : ∀ z : k ⊗[R] A, z = 0 := fun z => by
       induction z with
-      | zero => rfl
       | tmul c a => rw [Subsingleton.elim a 0, TensorProduct.tmul_zero]
       | add x y hx hy => rw [hx, hy, add_zero]
     rw [h x, h y]⟩
@@ -870,7 +869,7 @@ variable {R : Type u} [CommRing R] {X : Scheme.{u}} (f : X ⟶ Spec (.of R)) (r 
 theorem unitHomEquiv_symm_uniformizerSection :
     (SheafOfModules.unit X.ringCatSheaf).unitHomEquiv.symm
         (Stacks.Models.uniformizerSection f r) =
-      (Scheme.smulEnd X (AlgebraicGeometry.baseSection X f r)).app
+      (Scheme.smulEnd X (AlgebraicGeometry.baseSection X f r)).asHom.app
         (SheafOfModules.unit X.ringCatSheaf) := by
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext

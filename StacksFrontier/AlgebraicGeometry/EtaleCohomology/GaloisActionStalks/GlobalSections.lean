@@ -66,7 +66,7 @@ instance subsingleton_geometricPointFiber_final :
 /-- The final object of the small étale site, pointed by the unique lift of the geometric
 point. -/
 def finalPointedNeighborhood : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements :=
-  ⟨SmallEtale.final B (Spec (.of K)) hK, finalGeometricPointLift B K hK sbar⟩
+  Functor.elementsMk _ (SmallEtale.final B (Spec (.of K)) hK) (finalGeometricPointLift B K hK sbar)
 
 /-- The germ at a geometric point of a global section of a sheaf of sets on the small étale site
 of the spectrum of a field. -/
@@ -95,7 +95,7 @@ theorem etaleStalkSmul_etaleGlobalSectionGerm
   (etaleStalkSmul_germ.{u, v} B K hK sbar F σ
       (finalPointedNeighborhood B K hK sbar) t).trans
     (congrArg (fun p ↦ etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F
-      ⟨SmallEtale.final B (Spec (.of K)) hK, p⟩ t) (Subsingleton.elim _ _))
+      (Functor.elementsMk _ (SmallEtale.final B (Spec (.of K)) hK) p) t) (Subsingleton.elim _ _))
 
 /-- For a geometric point of the spectrum of a field, taking the germ at that point is a bijection
 from the global sections of a sheaf of sets on the small étale site onto the elements of its stalk

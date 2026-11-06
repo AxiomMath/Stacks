@@ -81,7 +81,7 @@ private theorem isGalois_of_mono_of_natCard_hom_eq {A Y : C} [IsConnected A] (ι
   have : IsIso (F.map σ') :=
     (ConcreteCategory.isIso_iff_bijective _).2 ⟨Finite.injective_iff_surjective.2 hsurj, hsurj⟩
   have : IsIso σ' := isIso_of_reflects_iso σ' F
-  exact ⟨asIso σ', hσa⟩
+  exact ⟨Aut.of (asIso σ'), hσa⟩
 
 end CategoryTheory.PreGaloisCategory
 
@@ -215,26 +215,28 @@ private theorem natCard_aut_dvd_natCard_of_bijective {A Y : FiniteEtaleOver X}
     rfl
   let s₀ := β A ι
   let χfun : Aut A → Multiplicative M := fun σ =>
-    Multiplicative.ofAdd (diffConst S c hS e s₀ (β A (σ.hom ≫ ι)))
+    Multiplicative.ofAdd (diffConst S c hS e s₀ (β A (σ.asIso.hom ≫ ι)))
   have hχmul : ∀ σ τ : Aut A, χfun (σ * τ) = χfun σ * χfun τ := by
     intro σ τ
-    have h1 : β A ((σ * τ).hom ≫ ι) =
-        (fiberSheaf S c).obj.map ((finiteEtaleToEtale X).map τ.hom).op (β A (σ.hom ≫ ι)) := by
-      show β A ((τ.hom ≫ σ.hom) ≫ ι) = _
+    have h1 : β A ((σ * τ).asIso.hom ≫ ι) =
+        (fiberSheaf S c).obj.map ((finiteEtaleToEtale X).map τ.asIso.hom).op
+          (β A (σ.asIso.hom ≫ ι)) := by
+      show β A ((τ.asIso.hom ≫ σ.asIso.hom) ≫ ι) = _
       rw [Category.assoc, hβcomp]
     simp only [χfun, ← ofAdd_add]
     congr 1
-    rw [h1, diffConst_add S c hS e s₀ (β A (τ.hom ≫ ι)), hβcomp τ.hom ι, diffConst_restrict,
+    rw [h1, diffConst_add S c hS e s₀ (β A (τ.asIso.hom ≫ ι)), hβcomp τ.asIso.hom ι,
+      diffConst_restrict,
       add_comm]
   let χ : Aut A →* Multiplicative M := MonoidHom.mk' χfun hχmul
   have hχinj : Function.Injective χ := by
     rw [injective_iff_map_eq_one]
     intro σ hσ
-    have h0 : diffConst S c hS e s₀ (β A (σ.hom ≫ ι)) = 0 := by simpa [χ, χfun] using hσ
-    have h2 : σ.hom ≫ ι = 𝟙 A ≫ ι := by
+    have h0 : diffConst S c hS e s₀ (β A (σ.asIso.hom ≫ ι)) = 0 := by simpa [χ, χfun] using hσ
+    have h2 : σ.asIso.hom ≫ ι = 𝟙 A ≫ ι := by
       rw [Category.id_comp]
       exact (hYbij A).1 (eq_of_diffConst_eq_zero S c hS e h0).symm
-    exact Aut.ext ((cancel_mono ι).1 h2)
+    exact Aut.ext (Iso.ext ((cancel_mono ι).1 h2))
   have h := Subgroup.card_subgroup_dvd_card χ.range
   rwa [← Nat.card_congr (MonoidHom.ofInjective hχinj).toEquiv] at h
 

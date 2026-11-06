@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.LocalProperties.Semilocal
 public import Mathlib.RingTheory.LocalRing.Pullback
 public import StacksCore.Tactic.StacksAttribute

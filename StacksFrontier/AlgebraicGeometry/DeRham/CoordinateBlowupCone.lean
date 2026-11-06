@@ -140,7 +140,7 @@ theorem truncation_le_coordinateRingIdeal_pow (d : ℕ) {a : MvPolynomial (Fin m
     refine Ideal.sum_mem _ fun s hs => ?_
     have hw : Finsupp.weight (yWeight m n) s = e := hx (mem_support_iff.mp hs)
     exact Ideal.pow_le_pow_right (hw ▸ hde)
-      (monomial_mem_coordinateRingIdeal_pow R m n s (coeff s x))
+      (monomial_mem_coordinateRingIdeal_pow R m n s (x.coeff s))
   | zero => exact zero_mem _
   | add x y _ _ hx hy => exact add_mem hx hy
   | neg x _ hx => exact neg_mem hx

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Sites.Limits
 public import StacksFrontier.AlgebraicGeometry.Spaces.AtlasMorphismDescent
 public import StacksFrontier.AlgebraicGeometry.Spaces.MonomorphicFieldRepresentative
 public import StacksFrontier.AlgebraicGeometry.Spaces.RecoveringMorphisms.ArbitraryBaseChartComparison
@@ -226,9 +227,14 @@ def chartPointFamily' : g.toToposHom.inverseImage.obj (⊤_ Sheaf (SmallEtale.to
 instance uniqueInverseImageTerminal (U : SmallEtale B S hS X.1) :
     Unique ((g.toToposHom.inverseImage.obj (⊤_ Sheaf (SmallEtale.topology B S hS Y.1)
       (Type u))).obj.obj (op U)) :=
-  haveI := g.toToposHom.preservesFiniteLimits
-  Functor.uniqueTerminalObj (P := g.toToposHom.inverseImage ⋙
-    Sheaf.sectionsFunctor (SmallEtale.topology B S hS X.1) (op U))
+  have hF : PreservesFiniteProducts g.toToposHom.inverseImage :=
+    ⟨fun n => g.toToposHom.preservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
+  have hG : PreservesFiniteProducts
+      (Sheaf.sectionsFunctor (SmallEtale.topology B S hS X.1) (op U)) := inferInstance
+  @Functor.uniqueTerminalObj _ _
+    (inferInstanceAs (HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Y.1) (Type u))))
+    (g.toToposHom.inverseImage ⋙ Sheaf.sectionsFunctor (SmallEtale.topology B S hS X.1) (op U))
+    (@comp_preservesFiniteProducts _ _ _ _ _ _ _ _ hF hG)
 
 /-- **The point of `Y` over an étale chart `U` of `X` recovered from `g`.** -/
 def recoveredPoint' (U : SmallEtale B S hS X.1) : Y.1.obj (op U.obj.left) :=

@@ -18,6 +18,7 @@ public import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 public import Mathlib.RingTheory.NoetherNormalization

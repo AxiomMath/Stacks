@@ -163,8 +163,7 @@ private lemma finrank_tensorProduct_congr
   let tensorEquiv := TensorProduct.congr fieldLinearEquiv moduleEquiv
   have semilinear (scalar : K) (element : K ⊗[R] M) :
       tensorEquiv (scalar • element) = fieldEquiv scalar • tensorEquiv element := by
-    induction element using TensorProduct.induction_on with
-    | zero => simp
+    induction element using TensorProduct.inductionOn with
     | tmul left right =>
       simp only [TensorProduct.smul_tmul']
       exact congrArg (fun element : L => element ⊗ₜ[S] moduleEquiv right)
@@ -346,14 +345,13 @@ private theorem finrank_residueField_change {R : CommRingCat.{u}} (M : ModuleCat
   have hc : ∀ (r : K0) (m : K0 ⊗[(↑R)] ↑M),
       j (r • m) = e r • j m := by
     intro r m
-    refine TensorProduct.induction_on m ?_ ?_ ?_
-    · simp
-    · intro a b
+    induction m using TensorProduct.inductionOn with
+    | tmul a b =>
       rw [TensorProduct.smul_tmul']
       simp only [j, TensorProduct.AlgebraTensorModule.congr_tmul, LinearEquiv.refl_apply]
       rw [TensorProduct.smul_tmul']
       simp [eR', eR, LinearEquiv.ofBijective_apply, map_mul]
-    · intro x y hx hy
+    | add x y hx hy =>
       simp only [smul_add, j.map_add, hx, hy]
   have hrank : Module.rank K0 (K0 ⊗[(↑R)] ↑M) =
       Module.rank K1 (K1 ⊗[(↑R)] ↑M) :=

@@ -98,6 +98,21 @@ attribute [local instance] Space.pointTopology
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
+/-- Pullbacks of presheaves on the big fppf site over `Spec ℤ`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CurvesOpenSubstack :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_CurvesOpenSubstack
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_CurvesOpenSubstack B hZ).has_limit _
+
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_CurvesOpenSubstack
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- **Condition (o) of Stacks 0E0E.** Every family of curves `G` has an open subspace `W` of its
 base such that a family of curves `F` mapping to `G` has the property `P` exactly when the
 morphism of base schemes factors through `W`: `W` is the largest open of the base over which

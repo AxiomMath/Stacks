@@ -155,7 +155,6 @@ lemma algebraSourceEquiv_smul (a b : A)
     algebraSourceEquiv R A B ((a ⊗ₜ[R] b) • x) =
       (algebraMap A B a ⊗ₜ[R] b) * algebraSourceEquiv R A B x := by
   induction x with
-  | zero => simp
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, mul_add]
   | tmul n c =>
     rw [sourceTensor_smul_tmul, algebraSourceEquiv_tmul, algebraSourceEquiv_tmul,
@@ -170,7 +169,6 @@ lemma algebraTargetEquiv_smul (a b : A)
     algebraTargetEquiv R A B ((a ⊗ₜ[R] b) • y) =
       (a ⊗ₜ[R] algebraMap A B b) * algebraTargetEquiv R A B y := by
   induction y with
-  | zero => simp
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, mul_add]
   | tmul c n =>
     rw [targetTensor_smul_tmul, algebraTargetEquiv_tmul, algebraTargetEquiv_tmul,
@@ -197,7 +195,6 @@ lemma algebraTransition_smul (τ : (B ⊗[R] A) ≃ₐ[R] (A ⊗[R] B))
     (algebraTargetEquiv R A B).symm (τ (algebraSourceEquiv R A B (s • x))) =
       s • (algebraTargetEquiv R A B).symm (τ (algebraSourceEquiv R A B x)) := by
   induction s with
-  | zero => simp
   | add s t hs ht => simp only [add_smul, map_add, hs, ht]
   | tmul a b => rw [algebraSourceEquiv_smul, map_mul, hτ a b, algebraTargetEquiv_symm_mul]
 
@@ -353,7 +350,6 @@ theorem bijective_productMap_descentInvariants (τ : (B ⊗[R] A) ≃ₐ[R] (A �
       (descentInvariants R A B τ).val (g x) = e x := by
     intro x
     induction x with
-    | zero => simp only [map_zero]; rfl
     | add x y hx hy => simp only [map_add, hx, hy]; rfl
     | tmul a c =>
       rw [hg, TensorProduct.congr_tmul, LinearEquiv.refl_apply,

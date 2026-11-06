@@ -84,7 +84,7 @@ theorem fSharpCompatible_of_isConstantFSharp
     {φ ψ : RingedToposSiteHom (constantRingedTopos R JC) (constantRingedTopos R JD)}
     (hφ : IsConstantFSharp φ) (hψ : IsConstantFSharp ψ) (e : ψ.u ≅ φ.u) :
     FSharpCompatible φ ψ e := by
-  refine Sheaf.hom_ext (sheafify_hom_ext JD _ _ (Sheaf.cond _) ?_)
+  refine Sheaf.hom_ext (sheafify_hom_ext JD _ _ (ObjectProperty.FullSubcategory.property _) ?_)
   refine NatTrans.ext (funext fun V => ?_)
   have h₁ := app_toSheafify_comp_fSharp hφ V
   have h₂ := app_toSheafify_comp_fSharp hψ V

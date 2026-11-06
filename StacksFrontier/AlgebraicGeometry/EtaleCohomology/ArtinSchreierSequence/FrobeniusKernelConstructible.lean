@@ -312,6 +312,7 @@ theorem frobeniusFixedScheme.toΓ_C (c : Γ(Y, ⊤)) :
   rw [show Ideal.Quotient.mk _ (MvPolynomial.C c) = algebraMap A Q c from rfl]
   exact ConcreteCategory.congr_hom hc c
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The universal solution solves the Frobenius fixed-point equations. -/
 theorem frobeniusFixedScheme.coord_eq (i : Fin n) :
     ∑ j, (frobeniusFixedScheme.π p n Y a).appTop (a j i) *

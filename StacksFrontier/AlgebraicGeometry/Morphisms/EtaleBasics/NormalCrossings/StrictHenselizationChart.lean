@@ -358,14 +358,14 @@ public theorem exists_etale_chart_forall_normal_factorization
       rw [← hcp2, hcomapeq, hcp1]
       exact hmapp
     exact h2
-  have hkey2 : (Ideal.span {algebraMap B
-      ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) ys.prod}).map
+  have hkey2 : (Ideal.span {(algebraMap B
+      ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) ys.prod)}).map
       (algebraMap ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) Λ)
       = Ideal.span {(hs.take s).prod} := by
     rw [Ideal.map_span, Set.image_singleton, ← RingHom.comp_apply, hcompBSΛ, hprodys]
   have hstalkq : AlgebraicGeometry.IdealSheafData.stalk (D.comap gmor) qS
-      = Ideal.span {algebraMap B
-        ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) ys.prod} :=
+      = Ideal.span {(algebraMap B
+        ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) ys.prod)} :=
     Ideal.map_injective_of_faithfullyFlat
       (A := ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u)) (B := Λ)
       (by rw [hkey1, hkey2])
@@ -437,8 +437,8 @@ public theorem exists_etale_chart_forall_normal_factorization
       ((Spec (CommRingCat.of B)).presheaf.stalk x : Type u)
       (⟨t₀, ht₀x⟩ : x.asIdeal.primeCompl)
   have hJx : AlgebraicGeometry.IdealSheafData.stalk (D.comap gmor) x
-      = Ideal.span {algebraMap B
-          ((Spec (CommRingCat.of B)).presheaf.stalk x : Type u) ys.prod} := by
+      = Ideal.span {(algebraMap B
+          ((Spec (CommRingCat.of B)).presheaf.stalk x : Type u) ys.prod)} := by
     have e1 : AlgebraicGeometry.IdealSheafData.stalk (D.comap gmor) x
         = J.map (algebraMap B ((Spec (CommRingCat.of B)).presheaf.stalk x : Type u)) :=
       hJstalk x

@@ -350,6 +350,24 @@ theorem effectiveFppfDescent : EffectiveFppfDescent B S hS :=
         isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp B S hS π g hrep hcov)
       f hsurj hflat hfp
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Stacks 03G1 for sheaves of sets, registered directly: instance search for the limits it
+needs no longer terminates within the default budget. -/
+local instance comparisonFunctor_sheafEquivalence_type_fppfHypercoveringInverseImage
+    (X : AlgebraicSpaces B S hS) :
+    ((comparisonFunctor B S hS X).sheafPushforwardContinuous (Type (u + 1))
+      (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).IsEquivalence :=
+  comparisonFunctor_sheafEquivalence B S hS X (Type (u + 1))
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Stacks 03G1 for abelian sheaves, registered directly: instance search for the limits it
+needs no longer terminates within the default budget. -/
+local instance comparisonFunctor_sheafEquivalence_ab_fppfHypercoveringInverseImage
+    (X : AlgebraicSpaces B S hS) :
+    ((comparisonFunctor B S hS X).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).IsEquivalence :=
+  comparisonFunctor_sheafEquivalence B S hS X AddCommGrpCat.{u + 1}
+
 namespace EtaleComponent
 
 variable {B S hS} {A : SimplicialObject.Augmented (AlgebraicSpaces B S hS)}

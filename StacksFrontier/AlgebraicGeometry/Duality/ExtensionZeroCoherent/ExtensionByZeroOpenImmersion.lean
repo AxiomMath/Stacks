@@ -98,11 +98,7 @@ public lemma restrictionPointsHom_app_ι {F : ℕᵒᵖ ⥤ 𝒟} {K : 𝒞}
         colimit.ι (F.op ⋙ coyoneda) (op (op (Pro.liftedIndexDown i).unop)) := by
     refine (HasColimit.ι_isoOfEquivalence_hom (F := (Pro.liftedInverseSequence F).op ⋙ coyoneda)
       (G := F.op ⋙ coyoneda) (ULiftHomULiftCategory.equiv ℕᵒᵖ).symm.op (Iso.refl _) i).trans ?_
-    have hu : ((Pro.liftedInverseSequence F).op ⋙ coyoneda).map
-        ((ULiftHomULiftCategory.equiv ℕᵒᵖ).symm.op.unit.app i) = 𝟙 _ :=
-      Functor.map_id _ i
-    refine (congrArg (· ≫ _) hu).trans ?_
-    exact (Category.id_comp _).trans (Category.id_comp _)
+    exact Category.id_comp _
   have h₂ : (restrictionPointsHom jstar e).app N
       ((colimit.ι ((Pro.liftedInverseSequence F).op ⋙ coyoneda) i).app N f) =
         (proHomComparison F jstar (coneOfNatIso e ⟨K, 𝟙 _⟩)).app N

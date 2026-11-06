@@ -150,7 +150,7 @@ theorem isMaximal_under_baseChange (𝔭 : MaximalSpectrum (A' ⊗[A] B)) :
     rw [Ideal.under_under, ← Ideal.under_under (A := A) (B := A') 𝔭.asIdeal, h1]
     exact maximalIdeal_comap (algebraMap A A')
   have : (𝔭.asIdeal.under B).IsPrime := Ideal.IsPrime.under B 𝔭.asIdeal
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) (𝔭.asIdeal.under B) ?_
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) (𝔭.asIdeal.under B) ?_
   show ((𝔭.asIdeal.under B).under A).IsMaximal
   rw [h2]
   exact maximalIdeal.isMaximal A
@@ -408,7 +408,7 @@ theorem isMaximal_comap_baseChangeSemilocalization
   -- conclude by integrality over `A'`
   have : (Ideal.comap (baseChangeSemilocalization A A' q).toRingHom p.asIdeal).IsPrime :=
     Ideal.IsPrime.comap _
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A')
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A')
     (Ideal.comap (baseChangeSemilocalization A A' q).toRingHom p.asIdeal) ?_
   show ((Ideal.under (A' ⊗[A] B) p.asIdeal).under A').IsMaximal
   rw [Ideal.under_under, hA']

@@ -517,12 +517,12 @@ theorem sheafFiberIsoOfConstantOver_germ_constSection {G : Sheaf J (ModuleCat.{w
     (Stacks.ConstantSheaf.sheafFiberIsoOfConstantOver Ψ y G E e).hom.hom
         ((Ψ.toPresheafFiber V y G.obj).hom (constSection e m)) = m := by
   let y' : (Ψ.over y).fiber.obj (Over.mk (𝟙 V)) :=
-    ⟨y, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).2 (by simp)⟩
+    ⟨by exact y, by rw [FunctorToTypes.mem_fromOverSubfunctor_iff]; simp⟩
   have ha : (Ψ.over y).toPresheafFiber (Over.mk (𝟙 V)) y' ((Over.forget V).op ⋙ G.obj) ≫
       ((GrothendieckTopology.Point.presheafFiberOverIso Ψ y (ModuleCat.{w} R)).app G.obj).hom =
         Ψ.toPresheafFiber V y G.obj :=
     Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Ψ y).op
-      ((CategoryOfElements.π Ψ.fiber).op ⋙ G.obj) (op ⟨Over.mk (𝟙 V), y'⟩)
+      ((CategoryOfElements.π Ψ.fiber).op ⋙ G.obj) (op (Functor.elementsMk _ (Over.mk (𝟙 V)) y'))
   let c := ((toSheafify (J.over V) ((Functor.const _).obj E)).app (op (Over.mk (𝟙 V)))).hom m
   let d := (e.hom.hom.app (op (Over.mk (𝟙 V)))).hom c
   let κ := (Sites.constantSheafFiberIso (Ψ.over y) E).hom.hom
@@ -597,7 +597,7 @@ theorem exists_map_eq_zero_of_germ_eq_zero (Φ : J.Point.{w}) {H : Cᵒᵖ ⥤ M
 theorem finite_sheafFiber_of_isFiniteTypeLocallyConstant {G : Sheaf J (ModuleCat.{w} R)}
     (hG : Stacks.ConstantSheaf.IsFiniteTypeLocallyConstant R J G) (Φ : J.Point.{w}) :
     Module.Finite R ((moduleFiber R Φ).obj G) := by
-  obtain ⟨⟨X, x⟩⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
+  obtain ⟨@⟨X, x⟩⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
   obtain ⟨I, V, f, hcov, htriv⟩ := hG X
   obtain ⟨Y₀, g, ⟨Z, p, q, ⟨i⟩, rfl⟩, y₀, -⟩ := Φ.jointly_surjective _ hcov x
   obtain ⟨E, hE, ⟨e⟩⟩ := htriv i
@@ -666,7 +666,7 @@ theorem exists_isCanonicalSection_near
     exact hc _
   obtain ⟨W₂, k, w₂, hw₂, h0⟩ := exists_map_eq_zero_of_germ_eq_zero Φ.obj w₁ σ hσ
   refine ⟨W₂, k ≫ ka.1 ≫ f i, w₂, ?_, ((G ⊗ F).obj.map k.op).hom t₁, fun Ψ z g => ?_⟩
-  · simp only [FunctorToTypes.map_comp_apply, hw₂]
+  · simp only [Functor.map_comp, types_comp_apply, hw₂]
     show Φ.obj.fiber.map (f i) (Φ.obj.fiber.map ka.1 w₁) = _
     rw [ka.2]
     simpa using hy₀
@@ -683,7 +683,10 @@ theorem exists_isCanonicalSection_near
           germ Ψ.obj z₁ G (constSection e (gen j)))) = germ Ψ.obj z₁ G (constSection e (gen j))
       have h1 : germ Ψ.obj z₁ G (constSection e (gen j)) =
           germ Ψ.obj z G ((G.obj.map k.op).hom (gj j)) := by
-        rw [germ_map, germ_map, ← FunctorToTypes.map_comp_apply]
+        rw [germ_map, germ_map]
+        show germ _ (Ψ.obj.fiber.map (k ≫ ka.1) z) G _ = _
+        rw [Functor.map_comp]
+        rfl
       have h2 : ((contraction ev).hom.app (op W₂)).hom
           ((((G ⊗ F) ⊗ G).obj.map k.op).hom (tmulSection (G ⊗ F) G (op W₁) t₁ (gj j))) =
             (G.obj.map k.op).hom (((contraction ev).hom.app (op W₁)).hom
@@ -824,7 +827,7 @@ theorem isCanonical_map_coevaluation (Φ : P.FullSubcategory) :
     IsCanonical ev Φ.obj
       (((moduleFiber R Φ.obj).map (coevaluation hP ev hG hfib)).hom
         ((ε (moduleFiber R Φ.obj)).hom (ULift.up 1))) := by
-  obtain ⟨⟨X, x⟩⟩ : Nonempty Φ.obj.fiber.Elements := IsCofiltered.nonempty
+  obtain ⟨@⟨X, x⟩⟩ : Nonempty Φ.obj.fiber.Elements := IsCofiltered.nonempty
   have h := ConcreteCategory.congr_hom (ε_comp_map_coevaluation hP ev hG hfib Φ.obj x)
     (ULift.up 1)
   change ((moduleFiber R Φ.obj).map (coevaluation hP ev hG hfib)).hom

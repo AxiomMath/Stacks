@@ -6,6 +6,7 @@ public import Mathlib.CategoryTheory.Abelian.DiagramLemmas.Four
 public import Mathlib.CategoryTheory.Abelian.FunctorCategory
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Basic
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
+public import Mathlib.CategoryTheory.Preadditive.Injective.LiftingProperties
 public import StacksCore.CategoryTheory.Abelian.DeltaFunctor.Basic
 
 /-! # A δ-functor commuting with colimits in degree zero commutes with them in every degree

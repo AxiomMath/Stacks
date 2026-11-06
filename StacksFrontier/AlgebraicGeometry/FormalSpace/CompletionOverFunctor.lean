@@ -77,6 +77,20 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on the big fppf site times out under
+Lean v4.35.0, so use the shortcut instances declared upstream. -/
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CompletionOverFunctor :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_CompletionOverFunctor
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The two descriptions of the points of an object over `X` lying over `T` -/
 
 variable {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -271,6 +285,7 @@ def completionOverBaseChangeIso {X₁ X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
         ((completionOverFunctor B S hS T).obj M) :=
   completionBaseChangeIso B S hS M.hom g T
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Completion commutes with base change.** For a morphism `g : X₁ ⟶ X` of presheaves on the
 big fppf site of `S` and a set `T` of points of `X`, base change along `g` followed by
 completion along `T₁ = |g|⁻¹T` is naturally isomorphic to completion along `T` followed by base

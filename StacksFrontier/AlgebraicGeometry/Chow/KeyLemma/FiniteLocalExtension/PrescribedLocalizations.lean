@@ -146,12 +146,7 @@ public theorem exists_finite_local_extension_with_prescribed_localizations
   let : Mul B := hBRing.toCommSemiring.toNonAssocSemiring.toDistrib.toMul
   let : Add B := hBRing.toCommSemiring.toNonAssocSemiring.toDistrib.toAdd
   let r : B ≃+* T := r₀.ringEquiv
-  let fB : A →+* B :=
-    { toFun := fun a => r.symm (algebraMap A T a)
-      map_one' := by simp
-      map_mul' := by simp
-      map_zero' := by simp
-      map_add' := by simp }
+  let fB : A →+* B := r.symm.toRingHom.comp (algebraMap A T)
   let : Algebra A B := fB.toAlgebra
   let : Module A B := Algebra.toModule
   let e : B ≃ₐ[A] T := AlgEquiv.ofRingEquiv (f := r) (by

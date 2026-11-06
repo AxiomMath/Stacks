@@ -76,8 +76,8 @@ theorem map_globalSectionToEnd
     (s : (R.obj ⋙ forget RingCat).sections) (t : (S.obj ⋙ forget RingCat).sections)
     (h : ∀ U : Cᵒᵖ, φ.hom.app U (t.val U) = s.val (op (F.obj U.unop)))
     (M : _root_.SheafOfModules.{m} R) :
-    (_root_.SheafOfModules.pushforward.{m} φ).map ((globalSectionToEnd R s).app M) =
-      (globalSectionToEnd S t).app ((_root_.SheafOfModules.pushforward.{m} φ).obj M) := by
+    (_root_.SheafOfModules.pushforward.{m} φ).map ((globalSectionToEnd R s).asHom.app M) =
+      (globalSectionToEnd S t).asHom.app ((_root_.SheafOfModules.pushforward.{m} φ).obj M) := by
   ext U x
   let y : M.val.obj (op (F.obj (unop U))) := x
   show s.val (op (F.obj (unop U))) • y = _

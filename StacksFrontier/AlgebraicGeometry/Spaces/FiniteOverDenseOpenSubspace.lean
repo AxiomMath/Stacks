@@ -34,6 +34,20 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_finiteOverDenseOpenSubspace
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_finiteOverDenseOpenSubspace
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 open FiniteOverDense
 
 private theorem residueFieldValuedPoint_schemePoint
@@ -653,7 +667,7 @@ theorem exists_isDenseOpenSubspace_isFinite_pullback_snd
       · simp
       · simp
       · dsimp only [Iso.symm_hom]
-        rw [← cancel_epi er.hom]
+        rw [← Iso.cancel_iso_hom_left er]
         simp only [Iso.hom_inv_id_assoc]
         rw [← Category.assoc er.hom (pullback.snd a a ≫ a ≫ q) e.inv, her]
         simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]

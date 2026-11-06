@@ -107,6 +107,37 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_EtaleSheafSpaceCoverCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Fibre products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_EtaleSheafSpaceCoverCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in the slice over a presheaf on the big fppf site over `S` (instance search
+times out without this shortcut). -/
+local instance hasPullbacks_over_presheaf_EtaleSheafSpaceCoverCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} :
+    HasPullbacks (Over F) := inferInstance
+
+/-- Fibre products in the slice over a presheaf on the big fppf site over `S` (instance
+search times out without this shortcut). -/
+local instance (priority := high) hasPullback_over_presheaf_EtaleSheafSpaceCoverCriterion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {X Y Z : Over F} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Etale-local surjectivity of a space-level atlas -/
 
 /-- A family of morphisms of the common underlying category of the chosen big fppf and étale

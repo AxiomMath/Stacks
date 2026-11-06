@@ -51,7 +51,7 @@ theorem Q_obj_hom_singleFunctor_obj_eq_zero (E : CochainComplex C ℤ) (b : ℤ)
   obtain ⟨c, rfl⟩ := StacksDraft.Perfect.map_surjective_of_isKProjective E
     ((CochainComplex.singleFunctor C n).obj A) φ
   have hc : c = 0 := by
-    ext i
+    refine HomologicalComplex.hom_ext _ _ fun i => ?_
     by_cases hi : i = n
     · subst hi
       exact hn.eq_of_src _ _

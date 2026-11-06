@@ -123,6 +123,12 @@ instance (priority := high) hasCoproduct_transitionModulePullbackA (n m : Simple
     functorCategoryHasColimitsOfShape
   HasColimitsOfShape.has_colimit _
 
+/-- The direct sum of the case-(A) summands `f_φ^*` exists, stated with
+`transitionModulePullbackA` itself (instance search does not unfold it). -/
+instance (priority := high) hasCoproduct_transitionModulePullbackA' (n m : SimplexCategory) :
+    HasCoproduct (fun φ : n ⟶ m => transitionModulePullbackA C O φ) :=
+  hasCoproduct_transitionModulePullbackA C O n m
+
 /-- **Stacks 0D72, the componentwise direct-sum formula for sheaves of modules in case (A).**
 The restriction to simplicial degree `m` of lower shriek `g_{n!}` of sheaves of `O`-modules from
 degree `n` is the direct sum, over the simplex maps `φ : [n] ⟶ [m]`, of the pullbacks `f_φ^*` of

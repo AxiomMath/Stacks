@@ -104,6 +104,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_relFibreTransfer
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A morphism of the big fppf site of `S` whose underlying morphism of schemes is étale has
 locally quasi-finite Yoneda image, in the sense of Tag 03XJ. -/
 theorem isLocallyQuasiFinite_yoneda_map_of_etale {X Y : BigFppfOver B S hS} (k : X ⟶ Y)

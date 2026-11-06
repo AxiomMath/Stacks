@@ -138,7 +138,7 @@ lemma presheafFiberForget₂Iso_hom_toPresheafFiber (U : C) (x : Φ.fiber.obj U)
       Φ.toPresheafFiber U x (P ⋙ forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z}) m :=
   ConcreteCategory.congr_hom
     (ι_preservesColimitIso_hom (forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z})
-      ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨U, x⟩)) m
+      ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Φ.fiber.elementsMk U x))) m
 
 variable (M : SheafOfModules.{z} (commRingSheafToRingSheaf O))
   (τ : P ⋙ forget₂ (ModuleCat.{z} R) AddCommGrpCat.{z} ⟶ M.val.presheaf)
@@ -201,10 +201,11 @@ def moduleStalkIso [IsIso (Φ.presheafFiber.map τ)]
       intro r n
       obtain ⟨j, m, rfl⟩ :=
         Concrete.colimit_exists_rep ((CategoryOfElements.π Φ.fiber).op ⋙ P) n
-      obtain ⟨⟨U, x⟩⟩ := j
+      obtain ⟨@⟨U, x⟩⟩ := j
+      change ↑(P.obj (op U)) at m
       change (moduleStalkForget₂Iso Φ O P M τ).hom (r • Φ.toPresheafFiber U x P m) =
         e r • (moduleStalkForget₂Iso Φ O P M τ).hom (Φ.toPresheafFiber U x P m)
-      rw [← (Φ.toPresheafFiber U x P).hom.map_smul,
+      rw [← map_smul (Φ.toPresheafFiber U x P).hom,
         moduleStalkForget₂Iso_hom_toPresheafFiber, moduleStalkForget₂Iso_hom_toPresheafFiber,
         hτ, ← ha U x r]
       exact moduleStalkGerm_smul Φ O M U x (a (op U) r) (τ.app (op U) m)

@@ -72,7 +72,6 @@ lemma exists_one_tmul_eq {S : Type u} [CommRing S] [Algebra R S]
     (hS : Function.Surjective (algebraMap R S)) (t : S ⊗[R] M) :
     ∃ y : M, (1 : S) ⊗ₜ[R] y = t := by
   induction t with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
   | tmul s m =>
     obtain ⟨r, rfl⟩ := hS s
     exact ⟨r • m, by rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul', Algebra.smul_def,

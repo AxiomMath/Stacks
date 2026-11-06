@@ -125,7 +125,8 @@ noncomputable abbrev resolutionAugmentationRing (n : SimplexCategoryᵒᵖ) :
 /-- The derivations into a `B`-module, with its `P_n`-module structure obtained from the
 augmentation `P_n ⟶ B`. -/
 noncomputable abbrev resolutionDerivations (n : SimplexCategoryᵒᵖ) (M : targetModules J B) :=
-  (((SheafOfModules.restrictScalars (resolutionAugmentationRing J f n)).obj M).val).Derivation'
+  PresheafOfModulesOfCommRing.Derivation'
+    (((SheafOfModules.restrictScalars (resolutionAugmentationRing J f n)).obj M).val)
     (resolutionBase J f n).hom
 
 /-- A simplicial `B`-module with its universal characterization as `Ω_{P_•/A} ⊗_{P_•} B`.
@@ -319,7 +320,7 @@ private lemma cotangentSimplicialModuleData_nonempty :
      derivationEquiv := cotangentEquiv J f
      naturality := cotangentEquiv_naturality J f
      simplex_naturality g M h U x :=
-       PresheafOfModules.Derivation.congr_d (X := U)
+       PresheafOfModulesOfCommRing.Derivation.congr_d (X := U)
          (cotangentMap_naturality J f g M h) x }⟩
 
 /-- **Stacks 08SS.** The canonical simplicial sheaf of `B`-modules `Ω_{P_•/A} ⊗_{P_•} B` of the
@@ -394,8 +395,9 @@ variable {J f}
 private theorem derivation_ext {C' : Type*} [Category C'] {D' : Type*} [Category D']
     {S : C'ᵒᵖ ⥤ CommRingCat.{t}} {F : C' ⥤ D'} {R : D'ᵒᵖ ⥤ CommRingCat.{t}}
     {M : PresheafOfModules.{t} (R ⋙ forget₂ _ _)} {φ : S ⟶ F.op ⋙ R}
-    {D₁ D₂ : M.Derivation φ} (h : ∀ (X : D'ᵒᵖ) (x : R.obj X), D₁.d x = D₂.d x) : D₁ = D₂ :=
-  PresheafOfModules.Derivation.ext (funext fun X => AddMonoidHom.ext (h X))
+    {D₁ D₂ : PresheafOfModulesOfCommRing.Derivation M φ}
+    (h : ∀ (X : D'ᵒᵖ) (x : R.obj X), D₁.d x = D₂.d x) : D₁ = D₂ :=
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun X => AddMonoidHom.ext (h X))
 
 namespace CotangentSimplicialModuleData
 

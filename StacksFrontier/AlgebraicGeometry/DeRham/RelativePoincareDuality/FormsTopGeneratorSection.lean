@@ -586,12 +586,12 @@ theorem span_sectionGysinClass_eq_top [IsNoetherianRing A] [IsProper f] [IsIso f
     [LocallyOfFinitePresentation σ] [Smooth (σ ≫ f)] [FormallyUnramified (σ ≫ f)]
     (hσ : σ ≫ f = 𝟙 _) {I : Type u} [Fintype I] [LinearOrder I] (U : I → X.Opens)
     (hU : (⊤ : X.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i)) :
-    Submodule.span A {show ↑((alternatingCechModuleComplex f U
+    Submodule.span A {(show ↑((alternatingCechModuleComplex f U
         (f.relativeDifferentialForms (((0 : ℕ) : ℤ) + ((e + 1 : ℕ) : ℤ)))).homology (0 + (e + 1)))
       from (hgroupIsoAlternatingCechModuleHomology f U hU
         (fun _ s => inter_isAffineOpen f U hUaff s)
         (f.relativeDifferentialForms (((0 : ℕ) : ℤ) + ((e + 1 : ℕ) : ℤ))) (0 + (e + 1))).hom
-        (sectionGysinClass f σ (e + 1))} = ⊤ :=
+        (sectionGysinClass f σ (e + 1)))} = ⊤ :=
   span_eq_top_of_forall_closedFibre_ne_zero f e σ hσ U hU hUaff (Nat.zero_add _) (by simp)
     (by omega) (sectionGysinClass f σ (e + 1))
     (fun m _ _ f' g hsq => pullbackHgroup_sectionGysinClass_ne_zero f (e + 1) σ hσ m f' g hsq)

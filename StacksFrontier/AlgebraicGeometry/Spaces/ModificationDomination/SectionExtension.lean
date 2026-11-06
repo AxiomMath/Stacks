@@ -152,7 +152,7 @@ theorem exists_isAdmissibleBlowup_extending_section_of_isProper {X Y : Algebraic
     Subfunctor.lift (Subfunctor.homOfLe hle ≫ l) (by
       rintro T _ ⟨x, rfl⟩
       show (bW.hom ≫ W.1.ι).app T ((Subfunctor.homOfLe hle ≫ l).app T x) ∈ U.1.obj T
-      rw [← FunctorToTypes.comp, Category.assoc, key]
+      rw [← NatTrans.comp_app_apply, Category.assoc, key]
       exact ((U.1.fromPreimage b.hom).app T x).2)
   have hk : k ≫ (U'.1.preimage bW.hom).ι = Subfunctor.homOfLe hle ≫ l := Subfunctor.lift_ι _ _
   have hk' : k ≫ U'.1.fromPreimage bW.hom ≫ U.1.fromPreimage W.1.ι = U.1.fromPreimage b.hom := by

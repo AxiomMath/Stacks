@@ -5,6 +5,7 @@ public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.Constructions.Over.Basic
 public import Mathlib.Topology.Sheaves.Over
+public import Mathlib.CategoryTheory.Limits.Preserves.SigmaConst
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.CategoryTheory.Sites.Modules.Colimits
 public import StacksFrontier.Topology.Sheaves.ClosedImmersion.SupportedSectionsOnClosed

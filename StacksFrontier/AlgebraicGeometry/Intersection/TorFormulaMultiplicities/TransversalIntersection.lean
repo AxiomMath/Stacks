@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Projective
+public import Mathlib.Algebra.Module.SpanRankOperations
 public import Mathlib.CategoryTheory.Abelian.LeftDerived
 public import Mathlib.CategoryTheory.Monoidal.Tor
 public import Mathlib.LinearAlgebra.TensorProduct.Quotient

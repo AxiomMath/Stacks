@@ -110,10 +110,12 @@ theorem mapCochainComplexPlusDerivedUnit_comp_rightDerivedFunctorPlusIsoMapDeriv
     rw [hm0]
     exact DerivedCategory.Plus.Qh.map_id _
   rw [hm]
-  simp only [Category.comp_id, Category.assoc]
-  exact (congrArg (_ ≫ ·) ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) h2).trans
-    ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) h1))))).trans
-      (congrArg (· ≫ _) (Category.comp_id _)).symm
+  simp only [Category.comp_id, Category.id_comp, Category.assoc]
+  refine congrArg (_ ≫ ·) ?_
+  exact (congrArg (_ ≫ ·) h2).trans ((Category.assoc _ _ _).symm.trans
+    ((congrArg (fun x => x ≫ F.mapDerivedCategoryPlus.map
+      ((DerivedCategory.Plus.quotientCompQhIso A).hom.app M)) h1).trans
+        (Category.id_comp _).symm))
 
 /-- **The inverse comparison `F̄ ≅ RF` of an exact functor, on a complex**: it is the commutation
 `F̄(Q M) ≅ Q(F(M))` followed by the unit `Q(F(M)) ⟶ RF(Q M)`. -/
@@ -166,13 +168,13 @@ theorem rightDerivedFunctorPlus_comp_ext {H : Type*} [Category* H] [EnoughInject
         G.map (F.mapCochainComplexPlusDerivedUnit.app C) ≫ γ₂.app (DerivedCategory.Plus.Q.obj C)) :
     γ₁ = γ₂ := by
   refine Functor.rightDerived_ext (F.rightDerivedFunctorPlus ⋙ G)
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit G) (HomotopyCategory.Plus.quasiIso A) K
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith G) (HomotopyCategory.Plus.quasiIso A) K
     γ₁ γ₂ ?_
   ext N
   obtain ⟨C, rfl⟩ := HomotopyCategory.Plus.quotient_obj_surjective N
   let e := (DerivedCategory.Plus.quotientCompQhIso A).hom.app C
   let eB := (DerivedCategory.Plus.quotientCompQhIso B).inv.app (F.mapCochainComplexPlus.obj C)
-  let u := F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj C)
+  let u := F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj C)
   have key : ∀ γ : F.rightDerivedFunctorPlus ⋙ G ⟶ K,
       G.map eB ≫ (G.map u ≫ γ.app (DerivedCategory.Plus.Qh.obj
         ((HomotopyCategory.Plus.quotient A).obj C))) ≫ K.map e =
@@ -453,7 +455,7 @@ endomorphism of the forgetful functor `U : GaloisModules Λ k k̄ ⥤ ModuleCat 
 def galoisModuleAction (σ : kbar ≃ₐ[k] kbar) :
     Stacks.Injectives.continuousModuleUnderlying.{0, u, u + 1} Λ (kbar ≃ₐ[k] kbar) ⟶
       Stacks.Injectives.continuousModuleUnderlying.{0, u, u + 1} Λ (kbar ≃ₐ[k] kbar) where
-  app M := M.obj.obj.ρ σ
+  app M := (M.obj.obj.ρ σ).asHom
   naturality _ _ f := (f.hom.hom.comm σ).symm
 
 /-- **The action of `σ` on the underlying complex of an object of `D⁺(GaloisModules Λ k k̄)`**: the
@@ -707,8 +709,8 @@ theorem galoisForgetAction_app_comp_galoisCompactSupportForgetIso (σ : kbar ≃
 `Stacks.EtaleCohomology.galoisCompactSupportGroupAction`. -/
 theorem galoisCompactSupportGroupForgetIso_hom_galoisAction (σ : kbar ≃ₐ[k] kbar)
     (K : CochainComplex.Plus (EtaleModules.{u, 0} Λ X)) (i : ℤ) :
-    ((DerivedCategory.Plus.homologyFunctor (GaloisModules Λ k kbar) i).obj
-          (galoisDerivedCompactSupport Λ f j kbar K)).obj.obj.ρ σ ≫
+    (((DerivedCategory.Plus.homologyFunctor (GaloisModules Λ k kbar) i).obj
+          (galoisDerivedCompactSupport Λ f j kbar K)).obj.obj.ρ σ).asHom ≫
         (galoisCompactSupportGroupForgetIso Λ f j kbar K i).hom =
       (galoisCompactSupportGroupForgetIso Λ f j kbar K i).hom ≫
         galoisCompactSupportGroupAction.{u, 0} Λ f j kbar σ K i := by

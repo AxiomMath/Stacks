@@ -56,7 +56,6 @@ attribute [local instance] Stacks.Cohomology.QuotientTowers.moduleFiltered
 
 attribute [local implicit_reducible] CategoryTheory.SingleFunctors.lift
   DerivedCategory.Plus.singleFunctors
-attribute [local implicit_reducible] DerivedCategory.Plus.Qh
 attribute [local implicit_reducible] DerivedCategory.Plus.homologyFunctor
 attribute [local implicit_reducible] HomologicalComplex.homologyFunctor
 attribute [local implicit_reducible] ComplexShape.embeddingUpNat
@@ -485,14 +484,14 @@ private noncomputable def derivedCohomologyBoundary
     (G.rightDerivedPlus (p : ℤ)).obj S.X₃ ⟶
       (G.rightDerivedPlus ((p + 1 : ℕ) : ℤ)).obj S.X₁ := by
   letI : G.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnit
+    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) ℤ
-  letI : NatTrans.CommShift G.rightDerivedFunctorPlusUnit ℤ :=
-    Functor.IsRightDerivedFunctor.natTrans_commShift _ G.rightDerivedFunctorPlusUnit
+  letI : NatTrans.CommShift G.rightDerivedFunctorPlusUnith ℤ :=
+    Functor.IsRightDerivedFunctor.natTrans_commShift _ G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) ℤ
   letI : G.rightDerivedFunctorPlus.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus
-      G _ G.rightDerivedFunctorPlusUnit
+      G _ G.rightDerivedFunctorPlusUnith
   let d := (singleFunctorPlusDelta (C := C)).comp G.rightDerivedFunctorPlus
   let T := Triangle.mk ((DerivedCategory.Plus.singleFunctor C 0 ⋙
       G.rightDerivedFunctorPlus).map S.f)
@@ -515,14 +514,14 @@ private theorem derivedCohomologyBoundary_exact_and_naturality
           (G.rightDerivedPlus ((p + 1 : ℕ) : ℤ)).map φ.τ₁ := by
   let RF := G.rightDerivedFunctorPlus
   let : G.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnit
+    Functor.IsRightDerivedFunctor.commShift _ G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : NatTrans.CommShift G.rightDerivedFunctorPlusUnit ℤ :=
-    Functor.IsRightDerivedFunctor.natTrans_commShift _ G.rightDerivedFunctorPlusUnit
+  let : NatTrans.CommShift G.rightDerivedFunctorPlusUnith ℤ :=
+    Functor.IsRightDerivedFunctor.natTrans_commShift _ G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) ℤ
   let : G.rightDerivedFunctorPlus.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus
-      G _ G.rightDerivedFunctorPlusUnit
+      G _ G.rightDerivedFunctorPlusUnith
   let d := (singleFunctorPlusDelta (C := C)).comp RF
   let δ : ∀ {T : ShortComplex C}, T.ShortExact → ∀ i : ℕ,
       (G.rightDerivedPlus (i : ℤ)).obj T.X₃ ⟶
@@ -601,9 +600,9 @@ private def resolutionDerivedIso
       DerivedCategory.Plus.Qh.obj ((F.mapHomotopyCategoryPlus).obj (resolutionPlus I)) := by
   have : ∀ n : ℤ, Injective ((resolutionPlus I).obj.as.X n) := fun n =>
     inferInstanceAs (Injective (I.cochainComplex.X n))
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app (resolutionPlus I)) := inferInstance
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app (resolutionPlus I)) := inferInstance
   exact F.rightDerivedFunctorPlus.mapIso (resolutionSingleIso I) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app (resolutionPlus I))).symm
+    (asIso (F.rightDerivedFunctorPlusUnith.app (resolutionPlus I))).symm
 
 private lemma resolutionDerivedIso_naturality
     {C D : Type*} [Category C] [Abelian C] [HasDerivedCategory C]
@@ -617,19 +616,19 @@ private lemma resolutionDerivedIso_naturality
         DerivedCategory.Plus.Qh.map (F.mapHomotopyCategoryPlus.map (resolutionPlusMap φ)) := by
   have : ∀ n : ℤ, Injective ((resolutionPlus J).obj.as.X n) := fun n =>
     inferInstanceAs (Injective (J.cochainComplex.X n))
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app (resolutionPlus J)) := inferInstance
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app (resolutionPlus J)) := inferInstance
   dsimp only [resolutionDerivedIso, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom,
     asIso_inv]
   rw [← Category.assoc, ← Functor.map_comp, resolutionSingleIso_naturality φ,
     Functor.map_comp]
   simp only [Category.assoc]
   apply congrArg (fun t => F.rightDerivedFunctorPlus.map (resolutionSingleIso I).hom ≫ t)
-  apply (cancel_mono (F.rightDerivedFunctorPlusUnit.app (resolutionPlus J))).mp
+  apply (cancel_mono (F.rightDerivedFunctorPlusUnith.app (resolutionPlus J))).mp
   simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
-  have hnat := F.rightDerivedFunctorPlusUnit.naturality (resolutionPlusMap φ)
+  have hnat := F.rightDerivedFunctorPlusUnith.naturality (resolutionPlusMap φ)
   change DerivedCategory.Plus.Qh.map (F.mapHomotopyCategoryPlus.map (resolutionPlusMap φ)) ≫
-    F.rightDerivedFunctorPlusUnit.app (resolutionPlus J) =
-      F.rightDerivedFunctorPlusUnit.app (resolutionPlus I) ≫
+    F.rightDerivedFunctorPlusUnith.app (resolutionPlus J) =
+      F.rightDerivedFunctorPlusUnith.app (resolutionPlus I) ≫
         F.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map (resolutionPlusMap φ)) at hnat
   rw [hnat]
   simp

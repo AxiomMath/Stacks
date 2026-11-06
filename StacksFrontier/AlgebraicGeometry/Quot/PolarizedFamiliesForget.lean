@@ -243,6 +243,7 @@ theorem isStronglyCartesian_forgetPolarizationComma {X Y : PolarizedFamily B} (f
       (forgetPolarizationComma B f).right (forgetPolarizationComma B f) := by
   refine (spacesProjection_isStronglyCartesian_iff (forgetPolarizationComma B f)).mpr ?_
   have hp := ((PolarizedFamily.isPullback_totalMapOverIntegers f).map yoneda).flip
+  haveI := hp.hasPullback
   have he : pullback.lift (yoneda.map X.structureMapOverIntegers)
       (yoneda.map (PolarizedFamily.totalMapOverIntegers f)) hp.w = hp.isoPullback.hom :=
     pullback.hom_ext (by rw [pullback.lift_fst, hp.isoPullback_hom_fst])

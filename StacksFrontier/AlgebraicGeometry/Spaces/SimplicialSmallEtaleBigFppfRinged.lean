@@ -147,6 +147,7 @@ def bigFppfTotalStructureSheaf :
 abbrev bigFppfTotalRingedTopos : RingedTopos :=
   (SimplicialOver.situation T.topology U).totalRingedTopos (bigFppfTotalStructureSheaf a)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The morphism of topoi `a_{fppf} : Sh((Spaces/U)_{fppf,total}) ⟶ Sh((Spaces/X)_fppf)` of the
 continuous and cocontinuous functor `V/U_n ↦ V/X`: its inverse image is restriction. -/
 def bigFppfAugmentationToposHom :
@@ -223,6 +224,7 @@ theorem forgetFSharp_bigFppfAugmentationRingedHom :
       ((whisker_eq _ ((bigFppfAugmentationToposHom a).pushforward.map_id _)).trans
         (Category.comp_id _)))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- At a sheaf `F` on `(Spaces/U)_{fppf,total}`, the inverse of the exchange isomorphism
 `bigFppfExchangeIso a` is the base change transformation of the square `bigFppfTwoSquare a`. -/
 theorem bigFppfExchangeIso_inv_app_hom (F : Sheaf (SimplicialOver.totalTopology T.topology U)
@@ -231,6 +233,7 @@ theorem bigFppfExchangeIso_inv_app_hom (F : Sheaf (SimplicialOver.totalTopology 
   Stacks.Sites.CocontinuousExchange.sheafIsoOfTwoSquare_inv_app_hom_andMorphismsTwoSquare
     _ _ _ _ _ _ F
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0DHC.** Let `U` be a simplicial algebraic space with an augmentation `a : U → X`.
 The square of ringed topoi
 ```

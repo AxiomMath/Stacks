@@ -127,12 +127,11 @@ private lemma milnorKTwoTensorMap_range (k : Type u) [Field k] :
   rw [pow_two]
   apply le_antisymm
   · rintro z ⟨w, rfl⟩
-    refine TensorProduct.induction_on w ?_ ?_ ?_
-    · exact zero_mem _
-    · intro x y
+    induction w with
+    | tmul x y =>
       rw [milnorKTwoTensorMap_tmul]
       exact Submodule.mul_mem_mul (LinearMap.mem_range_self ι x) (LinearMap.mem_range_self ι y)
-    · intro x y hx hy
+    | add x y hx hy =>
       simpa only [map_add] using add_mem hx hy
   · refine Submodule.mul_le.2 ?_
     rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩

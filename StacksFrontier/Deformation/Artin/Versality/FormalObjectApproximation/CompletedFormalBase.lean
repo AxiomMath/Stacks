@@ -44,7 +44,6 @@ lifting of compatible reductions of formal objects to complete local bases.
 open AlgebraicGeometry CategoryTheory IsLocalRing
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber.fiberInclusion
 attribute [local implicit_reducible] Deformation.Artin.baseOver

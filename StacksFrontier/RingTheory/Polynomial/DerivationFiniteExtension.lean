@@ -189,7 +189,8 @@ omit [Algebra k B] [IsScalarTower k k[X] B] in
 theorem maximalIdeal_le_comap (v : HeightOneSpectrum O) :
     IsLocalRing.maximalIdeal A∞ ≤ v.asIdeal.comap (algebraMap A∞ O) := by
   have : (v.asIdeal.comap (algebraMap A∞ O)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := v.isMaximal) _
+    have := v.isMaximal
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A∞) v.asIdeal
   exact (IsLocalRing.eq_maximalIdeal this).ge
 
 omit [Algebra k B] [IsScalarTower k k[X] B] in
@@ -236,7 +237,7 @@ theorem exists_sub_mem [IsAlgClosed k] (v : HeightOneSpectrum O) (y : O) :
   have : IsDomain (O ⧸ v.asIdeal) := Ideal.Quotient.isDomain _
   obtain ⟨c, hc⟩ := mem_range_algebraMap_of_isIntegral hpk
   refine ⟨c, ?_⟩
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, ← Ideal.Quotient.mkₐ_eq_mk k,
+  rw [← Ideal.Quotient.eq_zero_iff_mem, RingHom.map_sub, ← Ideal.Quotient.mkₐ_eq_mk k,
     AlgHom.commutes, hc, sub_self]
 
 /-! ### The extended derivation and the logarithmic derivation `θ = X • D` -/

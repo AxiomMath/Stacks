@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.RelativeProjFiniteType.Basic
 public import StacksFrontier.AlgebraicGeometry.RelativeProjSeparated.Basic
 public import StacksFrontier.AlgebraicGeometry.RelativeProjFinitePresentation.GradedBaseChange
 public import StacksFrontier.RingTheory.HomogeneousLocalization.AwayFlatOverBase
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

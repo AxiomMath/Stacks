@@ -112,6 +112,10 @@ public lemma preservesFiniteColimits_adequateInclusion :
     PreservesFiniteColimits (adequate.{u, v, max u v w} A).ι :=
   have {X Y : (adequate.{u, v, max u v w} A).FullSubcategory} (f : X ⟶ Y) :=
     (adequate.{u, v, max u v w} A).preservesCokernels_ι f
+  have : HasFiniteCoproducts (ModuleValuedFunctor.{max u v w, v, u} A) :=
+    have : HasFiniteColimits (ModuleValuedFunctor.{max u v w, v, u} A) :=
+      PresheafOfModules.Finite.hasFiniteColimits _
+    hasFiniteCoproducts_of_hasFiniteColimits _
   (adequate.{u, v, max u v w} A).ι.preservesFiniteColimits_of_preservesCokernels
 
 /-- The image of `i` is a weak Serre subcategory as soon as the adequate functors are closed

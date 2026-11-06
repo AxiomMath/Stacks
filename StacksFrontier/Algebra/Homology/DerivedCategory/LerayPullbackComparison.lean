@@ -76,11 +76,11 @@ def derivedUnitAux :
     (DerivedCategory.Plus.Qh : HomotopyCategory.Plus D₀ ⥤ DerivedCategory.Plus D₀) ⟶
       DerivedCategory.Plus.Qh ⋙ f.mapDerivedCategoryPlus ⋙ g.rightDerivedFunctorPlus where
   app K := DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.app K) ≫
-    g.rightDerivedFunctorPlusUnit.app (f.mapHomotopyCategoryPlus.obj K) ≫
+    g.rightDerivedFunctorPlusUnith.app (f.mapHomotopyCategoryPlus.obj K) ≫
     g.rightDerivedFunctorPlus.map (f.mapDerivedCategoryPlusFactorsh.inv.app K)
   naturality K L φ := by
     have h1 := congrArg DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.naturality φ)
-    have h2 := g.rightDerivedFunctorPlusUnit.naturality (f.mapHomotopyCategoryPlus.map φ)
+    have h2 := g.rightDerivedFunctorPlusUnith.naturality (f.mapHomotopyCategoryPlus.map φ)
     have h3 := f.mapDerivedCategoryPlusFactorsh.inv.naturality φ
     simp only [Functor.id_map, Functor.comp_map, Functor.map_comp] at h1 h2 h3 ⊢
     rw [reassoc_of% h1, reassoc_of% h2, ← Functor.map_comp, h3, Functor.map_comp]
@@ -147,13 +147,13 @@ private lemma cancelComp {𝒦 : Type*} [Category* 𝒦] {X Y Z W V U : 𝒦} (q
 `RΔ₀` at `g(M)` followed by `RΔ₀` of the unit of `Rg` and by the inverse of the Leray
 factorization is `eΔ` applied degreewise followed by the unit of `RΔ`. -/
 theorem unit_comp_lerayIso_inv_app (M : HomotopyCategory.Plus D) :
-    Δ₀.rightDerivedFunctorPlusUnit.app (g.mapHomotopyCategoryPlus.obj M) ≫
-        Δ₀.rightDerivedFunctorPlus.map (g.rightDerivedFunctorPlusUnit.app M) ≫
+    Δ₀.rightDerivedFunctorPlusUnith.app (g.mapHomotopyCategoryPlus.obj M) ≫
+        Δ₀.rightDerivedFunctorPlus.map (g.rightDerivedFunctorPlusUnith.app M) ≫
         (lerayIso Δ₀ Δ eΔ).inv.app (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso eΔ).hom.app M) ≫
-        Δ.rightDerivedFunctorPlusUnit.app M := by
+        Δ.rightDerivedFunctorPlusUnith.app M := by
   have h2 := Functor.rightDerivedNatTrans_app (Functor.rightDerivedFunctorPlus (g ⋙ Δ₀))
-    Δ.rightDerivedFunctorPlus (g ⋙ Δ₀).rightDerivedFunctorPlusUnit Δ.rightDerivedFunctorPlusUnit
+    Δ.rightDerivedFunctorPlus (g ⋙ Δ₀).rightDerivedFunctorPlusUnith Δ.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso D)
     (Functor.whiskerRight (Functor.mapHomotopyCategoryPlusNatIso eΔ).hom DerivedCategory.Plus.Qh) M
   exact cancelComp _ _ _ _ _ _ _ _ _ (Functor.rightDerivedFunctorPlusComp_fac_app g Δ₀ M) h2
@@ -177,18 +177,18 @@ private lemma pasteLeray {𝒦 : Type*} [Category* 𝒦] {X₀ X₁ X₂ X₃ X�
 unit of `RΔ₀` followed by `lerayPullback` is the underived pullback `Δ₀(L) ⟶ Δ₀(g(f(L))) ≅ Δ(f(L))`
 applied degreewise, followed by the unit of `RΔ` at `f(L)`. -/
 theorem unit_comp_lerayPullback_app (L : HomotopyCategory.Plus D₀) :
-    Δ₀.rightDerivedFunctorPlusUnit.app L ≫
+    Δ₀.rightDerivedFunctorPlusUnith.app L ≫
         (lerayPullback adj Δ₀ Δ eΔ).app (DerivedCategory.Plus.Qh.obj L) =
       DerivedCategory.Plus.Qh.map (Δ₀.mapHomotopyCategoryPlus.map
           (adj.mapHomotopyCategoryPlus.unit.app L) ≫
           (Functor.mapHomotopyCategoryPlusNatIso eΔ).hom.app (f.mapHomotopyCategoryPlus.obj L)) ≫
-        Δ.rightDerivedFunctorPlusUnit.app (f.mapHomotopyCategoryPlus.obj L) ≫
+        Δ.rightDerivedFunctorPlusUnith.app (f.mapHomotopyCategoryPlus.obj L) ≫
         Δ.rightDerivedFunctorPlus.map (f.mapDerivedCategoryPlusFactorsh.inv.app L) := by
   have hlp : (lerayPullback adj Δ₀ Δ eΔ).app (DerivedCategory.Plus.Qh.obj L) =
       (Δ₀.rightDerivedFunctorPlus.map
           (DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.app L)) ≫
         Δ₀.rightDerivedFunctorPlus.map
-          (g.rightDerivedFunctorPlusUnit.app (f.mapHomotopyCategoryPlus.obj L)) ≫
+          (g.rightDerivedFunctorPlusUnith.app (f.mapHomotopyCategoryPlus.obj L)) ≫
         Δ₀.rightDerivedFunctorPlus.map
           (g.rightDerivedFunctorPlus.map (f.mapDerivedCategoryPlusFactorsh.inv.app L))) ≫
         (lerayIso Δ₀ Δ eΔ).inv.app
@@ -199,7 +199,7 @@ theorem unit_comp_lerayPullback_app (L : HomotopyCategory.Plus D₀) :
         ((Functor.map_comp _ _ _).trans (congrArg (_ ≫ ·) (Functor.map_comp _ _ _))))
   rw [hlp]
   exact pasteLeray _ _ _ _ _ _ _
-    (Δ₀.rightDerivedFunctorPlusUnit.naturality (adj.mapHomotopyCategoryPlus.unit.app L))
+    (Δ₀.rightDerivedFunctorPlusUnith.naturality (adj.mapHomotopyCategoryPlus.unit.app L))
     _ _ ((lerayIso Δ₀ Δ eΔ).inv.naturality (f.mapDerivedCategoryPlusFactorsh.inv.app L))
     _ _ _ (DerivedCategory.Plus.Qh.map_comp _ _)
     (unit_comp_lerayIso_inv_app Δ₀ Δ eΔ (f.mapHomotopyCategoryPlus.obj L))
@@ -342,7 +342,7 @@ theorem derivedUnit_app_single (Y : D₀) :
     _ _ _ (derivedUnit_app_Qh adj K) _ _ _ _ _ hm
     (((f.mapDerivedCategoryPlus ⋙ g.rightDerivedFunctorPlus).mapIso sY).inv_hom_id)
     ((g.rightDerivedFunctorPlus.mapIso (f.mapDerivedCategoryPlusFactorsh.app K)).inv_hom_id)
-    _ _ (g.rightDerivedFunctorPlusUnit.naturality (f.mapHomotopyCategoryPlusObjSingleIso 0 Y).hom)
+    _ _ (g.rightDerivedFunctorPlusUnith.naturality (f.mapHomotopyCategoryPlusObjSingleIso 0 Y).hom)
     _ _ _ (Stacks.Cohomology.singleRightDerivedUnit_app g (f.obj Y)) _ _ hmi _
     ((Functor.singleFunctorPlusIsoCompQh (A := D₀) 0).hom.naturality (adj.unit.app Y))
     (map_comp_eq_of_comp_hom DerivedCategory.Plus.Qh _ _
@@ -402,14 +402,14 @@ private lemma pasteRestriction {𝒦 : Type*} [Category* 𝒦] {X₀ X₁ X₂ X
 /-- **`restrictionIso` after the unit**: `e` applied degreewise followed by the unit of `RΔ'` at
 `Q(K)`. -/
 theorem unit_comp_restrictionIso_hom_app (K : HomotopyCategory.Plus C') :
-    G₁.rightDerivedFunctorPlusUnit.app K ≫
+    G₁.rightDerivedFunctorPlusUnith.app K ≫
         (restrictionIso G₁ Q' Δ' h e).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso e).hom.app K) ≫
-        Δ'.rightDerivedFunctorPlusUnit.app (Q'.mapHomotopyCategoryPlus.obj K) ≫
+        Δ'.rightDerivedFunctorPlusUnith.app (Q'.mapHomotopyCategoryPlus.obj K) ≫
         Δ'.rightDerivedFunctorPlus.map (Q'.mapDerivedCategoryPlusFactorsh.inv.app K) := by
   have hn := Functor.rightDerivedNatTrans_app G₁.rightDerivedFunctorPlus
-    (Q' ⋙ Δ').rightDerivedFunctorPlus G₁.rightDerivedFunctorPlusUnit
-    (Q' ⋙ Δ').rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C')
+    (Q' ⋙ Δ').rightDerivedFunctorPlus G₁.rightDerivedFunctorPlusUnith
+    (Q' ⋙ Δ').rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C')
     (Functor.whiskerRight (Functor.mapHomotopyCategoryPlusNatIso e).hom DerivedCategory.Plus.Qh) K
   exact pasteRestriction _ _ _ _ _ _ hn _ _ _ (Functor.rightDerivedFunctorPlusComp_fac_app Q' Δ' K)
     (Qh_map_mapHomotopyCategoryPlusCompIso_refl_inv_app _ _ K) _
@@ -439,14 +439,14 @@ theorem splitIso_hom : (splitIso F G).hom = Functor.derivedSquareSplitting F G :
 
 /-- `splitIso` after the unit. -/
 theorem unit_comp_splitIso_hom_app (L : HomotopyCategory.Plus X) :
-    (F ⋙ G).rightDerivedFunctorPlusUnit.app L ≫ (splitIso F G).hom.app
+    (F ⋙ G).rightDerivedFunctorPlusUnith.app L ≫ (splitIso F G).hom.app
         (DerivedCategory.Plus.Qh.obj L) = Functor.derivedSquareNu F G L :=
   Functor.unit_comp_splitting_app F G L
 
 /-- `splitIso` after the unit, solved for the unit. -/
 theorem derivedSquareNu_comp_splitIso_inv_app (L : HomotopyCategory.Plus X) :
     Functor.derivedSquareNu F G L ≫ (splitIso F G).inv.app (DerivedCategory.Plus.Qh.obj L) =
-      (F ⋙ G).rightDerivedFunctorPlusUnit.app L :=
+      (F ⋙ G).rightDerivedFunctorPlusUnith.app L :=
   comp_inv_eq_of _ ((splitIso F G).app _) _ (unit_comp_splitIso_hom_app F G L)
 
 end Splitting
@@ -537,7 +537,7 @@ theorem targetIso_fac (L : HomotopyCategory.Plus C) :
       φ₀.mapDerivedCategoryPlus.map (Functor.derivedSquareNu Γ r L) ≫
       (targetIso r φ₀ h₁ e₁).hom.app (DerivedCategory.Plus.Qh.obj L) =
     DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso e₁).hom.app L) ≫
-      Δ.rightDerivedFunctorPlusUnit.app (Q.mapHomotopyCategoryPlus.obj L) ≫
+      Δ.rightDerivedFunctorPlusUnith.app (Q.mapHomotopyCategoryPlus.obj L) ≫
       Δ.rightDerivedFunctorPlus.map (Q.mapDerivedCategoryPlusFactorsh.inv.app L) :=
   pasteTarget φ₀.mapDerivedCategoryPlus _ _ _ _ (derivedSquareNu_comp_splitIso_inv_app Γ r L) _ _
     (derivedSquareNu_comp_splitIso_inv_app (Γ ⋙ r) φ₀ L) _ _
@@ -616,14 +616,14 @@ omit [HasDerivedCategory M₀] [EnoughInjectives C] [EnoughInjectives M₀] [Pre
   [PreservesFiniteColimits φ₀] in
 /-- **`comparisonViaPullback` after the unit.** -/
 theorem unit_comp_comparisonViaPullback_app (K : HomotopyCategory.Plus C₀) :
-    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnit.app K ≫
+    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnith.app K ≫
         (comparisonViaPullback adj eΔ h₀ e₀ c).app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatIso e₀).hom.app K) ≫
         DerivedCategory.Plus.Qh.map (Δ₀.mapHomotopyCategoryPlus.map
           (adj.mapHomotopyCategoryPlus.unit.app (Q₀.mapHomotopyCategoryPlus.obj K)) ≫
           (Functor.mapHomotopyCategoryPlusNatIso eΔ).hom.app
             (f.mapHomotopyCategoryPlus.obj (Q₀.mapHomotopyCategoryPlus.obj K))) ≫
-        Δ.rightDerivedFunctorPlusUnit.app
+        Δ.rightDerivedFunctorPlusUnith.app
           (f.mapHomotopyCategoryPlus.obj (Q₀.mapHomotopyCategoryPlus.obj K)) ≫
         Δ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusNatTrans c).app K)) ≫
@@ -652,13 +652,13 @@ private lemma pasteViaSquare {𝒦 𝒦' : Type*} [Category* 𝒦] [Category* �
 
 /-- **`comparisonViaSquare` after the unit.** -/
 theorem unit_comp_comparisonViaSquare_app (K : HomotopyCategory.Plus C₀) :
-    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnit.app K ≫
+    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnith.app K ≫
         (comparisonViaSquare r φ₀ h₁ α e₁).app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map (φ₀.mapHomotopyCategoryPlus.map
           ((Functor.mapHomotopyCategoryPlusNatTrans α).app K)) ≫
         (DerivedCategory.Plus.Qh.map
             ((Functor.mapHomotopyCategoryPlusNatIso e₁).hom.app (P.mapHomotopyCategoryPlus.obj K)) ≫
-          Δ.rightDerivedFunctorPlusUnit.app
+          Δ.rightDerivedFunctorPlusUnith.app
             (Q.mapHomotopyCategoryPlus.obj (P.mapHomotopyCategoryPlus.obj K)) ≫
           Δ.rightDerivedFunctorPlus.map
             (Q.mapDerivedCategoryPlusFactorsh.inv.app (P.mapHomotopyCategoryPlus.obj K))) ≫
@@ -733,12 +733,12 @@ theorem comparisonViaPullback_eq_comparisonViaSquare
         Δ.map (c.app X)) :
     comparisonViaPullback adj eΔ h₀ e₀ c = comparisonViaSquare r φ₀ h₁ α e₁ := by
   refine Functor.rightDerived_ext (Γ₀ ⋙ φ₀).rightDerivedFunctorPlus
-    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C₀) _ _ _
+    (Γ₀ ⋙ φ₀).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C₀) _ _ _
     (NatTrans.ext (funext fun K => ?_))
   refine (unit_comp_comparisonViaPullback_app adj eΔ h₀ e₀ c K).trans
     (Eq.trans ?_ (unit_comp_comparisonViaSquare_app h₁ α e₁ K).symm)
   exact pasteMain _ _ _ _ _ _ _ _
-    (Δ.rightDerivedFunctorPlusUnit.naturality
+    (Δ.rightDerivedFunctorPlusUnith.naturality
       ((Functor.mapHomotopyCategoryPlusNatTrans c).app K)).symm
     _ _ (map_eq_three_two DerivedCategory.Plus.Qh _ _ _ _ _
       (degreewise_comparison adj eΔ α e₀ e₁ c hU K))

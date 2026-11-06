@@ -141,9 +141,9 @@ theorem bijective_tauToSheaf_app_of_isAffineOpen07Q9 {V : B.thickening.target.sc
   refine bijective_app_of_isLocallyBijective hZ₁ hZ₂
     (Functor.whiskerRight (toSheafify (Opens.grothendieckTopology B.thickening.target.scheme)
       (tauPresheaf F τ).presheaf) AddCommGrpCat.uliftFunctor.{u + 1, u}) (tauToSheaf F τ) _ ?_
-  refine ⟨fun x y hxy ↦ ULift.ext _ _ (hb.1 (congrArg ULift.down hxy)), fun y ↦ ?_⟩
+  refine ⟨fun x y hxy ↦ ULift.ext (hb.1 (congrArg ULift.down hxy)), fun y ↦ ?_⟩
   obtain ⟨x, hx⟩ := hb.2 y.down
-  exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+  exact ⟨ULift.up x, ULift.ext hx⟩
 
 end TauAffine
 

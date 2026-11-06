@@ -163,7 +163,6 @@ lemma mapHomotopyCategoryPlusIsoOfCompIso_hom_app_quotient (F : C ⥤ D) (G : D 
   congr 1
   ext n
   simp [mapHomologicalComplexCompIso]
-  rfl
 
 /-- Pasting three commutative squares. -/
 lemma comp_eq_of_three_squares {A : Type*} [Category* A]
@@ -194,7 +193,7 @@ lemma mapCochainComplexPlusDerivedUnit_app_comp_rightDerivedFunctorPlusIsoOfComp
     (ObjectProperty.homMk ((NatTrans.mapHomologicalComplex e.hom _).app K.obj) :
       (F ⋙ G).mapCochainComplexPlus.obj K ⟶ H.mapCochainComplexPlus.obj K)
   have hfac := rightDerivedNatTrans_app (F ⋙ G).rightDerivedFunctorPlus H.rightDerivedFunctorPlus
-    (F ⋙ G).rightDerivedFunctorPlusUnit H.rightDerivedFunctorPlusUnit
+    (F ⋙ G).rightDerivedFunctorPlusUnith H.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C)
     (isoWhiskerRight (Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso F G H e)
       DerivedCategory.Plus.Qh).hom ((HomotopyCategory.Plus.quotient C).obj K)

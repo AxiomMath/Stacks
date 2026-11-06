@@ -37,7 +37,7 @@ continuous discrete `R`-`G`-module with trivial action and `z ∈ H¹(G, A)` the
 `m • c = 0`. -/
 theorem exists_hom_of_trivial_of_degreeOne
     (A : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G)
-    (hA : ∀ (g : G) (a : A.obj.obj.V), (A.obj.obj.ρ g).hom a = a)
+    (hA : ∀ (g : G) (a : A.obj.obj.V), (A.obj.obj.ρ g).asHom.hom a = a)
     (z : ((invariantsDelta.{u, v, w} R (G := G)).functor 1).obj A) :
     ∃ c : G → A.obj.obj.V, (∀ g h, c (g * h) = c g + c h) ∧ IsOpen {g | c g = 0} ∧
       ∀ m : ℕ, (∀ g, m • c g = 0) → m • z = 0 := by
@@ -45,14 +45,16 @@ theorem exists_hom_of_trivial_of_degreeOne
   obtain ⟨V, hV⟩ := exists_map_coindUnit_eq_zero.{u, v, w} R 0 A z
   have hequiv : ∀ {X Y : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G} (φ : X ⟶ Y)
       (g : G) (x : X.obj.obj.V),
-      φ.hom.hom.hom.hom ((X.obj.obj.ρ g).hom x) = (Y.obj.obj.ρ g).hom (φ.hom.hom.hom.hom x) :=
+      φ.hom.hom.hom.hom ((X.obj.obj.ρ g).asHom.hom x) =
+        (Y.obj.obj.ρ g).asHom.hom (φ.hom.hom.hom.hom x) :=
     fun φ g x ↦ ConcreteCategory.congr_hom (φ.hom.hom.comm g) x
   let S := monoSeq R (coindUnit.{u, v, w} R V A)
   have hS : S.ShortExact := shortExact_monoSeq R _
   obtain ⟨q, rfl⟩ := (ShortComplex.moduleCat_exact_iff _).1
     ((invariantsDelta.{u, v, w} R (G := G)).exact_δ₂ hS 0) z hV
   have hmul : ∀ (a b : G) (y : S.X₂.obj.obj.V),
-      (S.X₂.obj.obj.ρ (a * b)).hom y = (S.X₂.obj.obj.ρ a).hom ((S.X₂.obj.obj.ρ b).hom y) := by
+      (S.X₂.obj.obj.ρ (a * b)).asHom.hom y =
+        (S.X₂.obj.obj.ρ a).asHom.hom ((S.X₂.obj.obj.ρ b).asHom.hom y) := by
     intro a b y; rw [map_mul]; rfl
   let e0 : (invariantsDelta.{u, v, w} R (G := G)).functor 0 ≅
       continuousModuleRingInvariants.{u, v, max u v w} R G :=
@@ -62,14 +64,14 @@ theorem exists_hom_of_trivial_of_degreeOne
   obtain ⟨f, hf⟩ := (epi_iff_surjective R S.g).1 hS.epi_g q0.1
   let ι := (coindUnit.{u, v, w} R V A).hom.hom.hom.hom
   have hι : Function.Injective ι := (mono_iff_injective R _).1 inferInstance
-  have hgf : ∀ g : G, S.g.hom.hom.hom.hom ((S.X₂.obj.obj.ρ g).hom f - f) = 0 := by
+  have hgf : ∀ g : G, S.g.hom.hom.hom.hom ((S.X₂.obj.obj.ρ g).asHom.hom f - f) = 0 := by
     intro g
     rw [map_sub, hequiv, show S.g.hom.hom.hom.hom f = q0.1 from hf]
     exact sub_eq_zero.2 (q0.2 g)
   have hex := (exact_iff_underlying R S).1 hS.exact
   choose c hc using fun g : G ↦ hex _ (hgf g)
-  have hcι : ∀ g, ι (c g) = (S.X₂.obj.obj.ρ g).hom f - f := hc
-  have hfix : ∀ (g : G) (a : A.obj.obj.V), (S.X₂.obj.obj.ρ g).hom (ι a) = ι a := by
+  have hcι : ∀ g, ι (c g) = (S.X₂.obj.obj.ρ g).asHom.hom f - f := hc
+  have hfix : ∀ (g : G) (a : A.obj.obj.V), (S.X₂.obj.obj.ρ g).asHom.hom (ι a) = ι a := by
     intro g a
     rw [← hequiv (coindUnit.{u, v, w} R V A), hA]
   refine ⟨c, fun g h ↦ hι ?_, ?_, fun m hm ↦ ?_⟩
@@ -78,15 +80,15 @@ theorem exists_hom_of_trivial_of_degreeOne
     rw [hcι, map_sub, sub_eq_iff_eq_add] at this
     rw [this]
     abel
-  · have : {g | c g = 0} = {g | (S.X₂.obj.obj.ρ g).hom f = f} := by
+  · have : {g | c g = 0} = {g | (S.X₂.obj.obj.ρ g).asHom.hom f = f} := by
       ext g
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq, ← sub_eq_zero (a := (S.X₂.obj.obj.ρ g).hom f),
+      rw [Set.mem_setOf_eq, Set.mem_setOf_eq, ← sub_eq_zero (a := (S.X₂.obj.obj.ρ g).asHom.hom f),
         ← hcι, map_eq_zero_iff ι hι]
     rw [this]
     exact Stacks.GroupCohomology.isOpen_stabilizer R G _ f
-  · have hinv : ∀ g : G, (S.X₂.obj.obj.ρ g).hom (m • f) = m • f := by
+  · have hinv : ∀ g : G, (S.X₂.obj.obj.ρ g).asHom.hom (m • f) = m • f := by
       intro g
-      have h0 : m • ((S.X₂.obj.obj.ρ g).hom f - f) = 0 := by
+      have h0 : m • ((S.X₂.obj.obj.ρ g).asHom.hom f - f) = 0 := by
         rw [← hcι, ← map_nsmul, hm g, map_zero]
       rw [map_nsmul]
       rw [nsmul_sub, sub_eq_zero] at h0
@@ -114,7 +116,7 @@ elements and `z ∈ H¹(G, A)` is killed by `m` only when `N ∣ m`, then there 
 `c : G → A`, additive in the group law of `G`, with open kernel. -/
 theorem exists_surjective_hom_of_trivial_of_degreeOne
     (A : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G) [Finite A.obj.obj.V]
-    (hA : ∀ (g : G) (a : A.obj.obj.V), (A.obj.obj.ρ g).hom a = a)
+    (hA : ∀ (g : G) (a : A.obj.obj.V), (A.obj.obj.ρ g).asHom.hom a = a)
     (z : ((invariantsDelta.{u, v, w} R (G := G)).functor 1).obj A)
     (hz : ∀ m : ℕ, m • z = 0 → Nat.card A.obj.obj.V ∣ m) :
     ∃ c : G → A.obj.obj.V, (∀ g h, c (g * h) = c g + c h) ∧ IsOpen {g | c g = 0} ∧

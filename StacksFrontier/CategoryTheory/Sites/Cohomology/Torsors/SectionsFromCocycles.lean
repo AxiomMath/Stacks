@@ -121,7 +121,7 @@ theorem nonempty_of_cocycle (hE : E.sieve₀ ∈ J U)
     have ha' : (h ≫ a) ≫ E.f k = (h ≫ g) ≫ m l := by rw [Category.assoc, ha, Category.assoc]
     rw [hx (h ≫ g) (S.downward_closed hg h) k (h ≫ a) ha', hx g hg k a ha]
     unfold cocycleTransport
-    rw [T.naturality, ← hnat, op_comp, FunctorToTypes.map_comp_apply]
+    rw [T.naturality, ← hnat, op_comp, Functor.map_comp_apply]
     congr 2
     rw [Category.assoc]
   obtain ⟨t, -⟩ := ((isSheaf_iff_isSheaf_of_type J T.presheaf).1 T.isSheaf S hS) x

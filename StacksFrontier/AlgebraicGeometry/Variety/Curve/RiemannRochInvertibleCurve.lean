@@ -201,7 +201,7 @@ theorem curveDegree_one_eq_curveChernDegree_of_isCurve [IsCurve k p]
   have hch := curveChernDegree_tensorObj k p hdim L (invertibleSheaf' D')
   have hchiso := curveChernDegree_congr k p hdim
     (Scheme.Modules.tensorObj L (invertibleSheaf' D')) (invertibleSheaf' D) e'
-  lia
+  linear_combination -hdeg + hdegiso + hAeq - hBeq - hch - hchiso
 
 /-- **Riemann-Roch, equation [Stacks, Tag 0BRZ], for an invertible module on a proper integral
 curve**:

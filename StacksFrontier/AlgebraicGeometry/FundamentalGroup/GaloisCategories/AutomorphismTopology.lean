@@ -55,7 +55,7 @@ variable {C : Type u} [Category.{v} C]
 /-- The homomorphism which evaluates a natural automorphism at every object. -/
 public def componentEmbedding (F : C ⥤ Type w) :
     Aut F →* ∀ X, Equiv.Perm (F.obj X) :=
-  MonoidHom.mk' (fun σ X ↦ (σ.app X).toEquiv) (fun _ _ ↦ rfl)
+  MonoidHom.mk' (fun σ X ↦ (σ.asIso.app X).toEquiv) (fun _ _ ↦ rfl)
 
 /-- The product of the pointwise-convergence topologies on the automorphism groups of the values
 of a set-valued functor. -/
@@ -84,10 +84,10 @@ public theorem functorAutomorphismIsTopologicalGroup (F : C ⥤ Type w) :
   show @IsTopologicalGroup (Aut F)
     (TopologicalSpace.induced (componentEmbedding F) inferInstance) _
   have hcomp : Continuous (componentEmbedding F) := continuous_induced_dom
-  have heval (X : C) : Continuous (fun σ : Aut F => (σ.app X).toEquiv) :=
+  have heval (X : C) : Continuous (fun σ : Aut F => (σ.asIso.app X).toEquiv) :=
     (continuous_apply X).comp hcomp
   have hcont {α : Type (max u w)} [TopologicalSpace α] (f : α → Aut F)
-      (h : ∀ X, Continuous fun a ↦ ((f a).app X).toEquiv) : Continuous f :=
+      (h : ∀ X, Continuous fun a ↦ ((f a).asIso.app X).toEquiv) : Continuous f :=
     continuous_induced_rng.mpr (continuous_pi_iff.mpr h)
   refine @IsTopologicalGroup.mk _ _ _ ⟨hcont _ fun X ↦ ?_⟩ ⟨hcont _ fun X ↦ ?_⟩
   · exact (isTopologicalGroup_aut (E := F.obj X)).continuous_mul.comp
@@ -112,6 +112,7 @@ public lemma isClosedEmbedding_componentEmbedding (F : C ⥤ Type w) :
   constructor
   · refine ⟨Topology.IsInducing.induced _, ?_⟩
     intro σ τ h
+    apply Aut.ext
     apply Iso.ext
     apply NatTrans.ext
     funext X
@@ -125,12 +126,12 @@ public lemma isClosedEmbedding_componentEmbedding (F : C ⥤ Type w) :
       simp only [Set.mem_range, Set.mem_iInter, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨σ, rfl⟩ X Y f x
-        show F.map f (ConcreteCategory.hom (σ.hom.app X) x) =
-          ConcreteCategory.hom (σ.hom.app Y) (F.map f x)
+        show F.map f (ConcreteCategory.hom (σ.asIso.hom.app X) x) =
+          ConcreteCategory.hom (σ.asIso.hom.app Y) (F.map f x)
         simpa only [types_comp_apply] using
-          ConcreteCategory.congr_hom (σ.hom.naturality f).symm x
+          ConcreteCategory.congr_hom (σ.asIso.hom.naturality f).symm x
       · intro h
-        let σ : Aut F := NatIso.ofComponents (fun X ↦ (g X).toIso) (fun {X Y} f ↦ by
+        let σ : Aut F := .of <| NatIso.ofComponents (fun X ↦ (g X).toIso) (fun {X Y} f ↦ by
           ext x
           exact (h X Y f x).symm)
         exact ⟨σ, funext fun X ↦ Equiv.ext fun _ ↦ rfl⟩

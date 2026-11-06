@@ -95,7 +95,7 @@ theorem postcomp_differentialsHom (D : SheafDerivationOf g) :
 theorem differentialsHom_app_d (D : SheafDerivationOf g) (U : X.Opens) (a : Γ(X, U)) :
     D.differentialsHom.app U ((Scheme.Hom.universalRelativeDerivation g).d (X := op U) a) =
       D.onSections a :=
-  PresheafOfModules.Derivation.congr_d D.postcomp_differentialsHom a
+  PresheafOfModulesOfCommRing.Derivation.congr_d D.postcomp_differentialsHom a
 
 /-- **A nonzero vector field has nonzero `θ`.** -/
 theorem differentialsHom_ne_zero {D : SheafDerivationOf g} (hD : D ≠ 0) :
@@ -263,7 +263,8 @@ theorem restrictOpensSection_map {W W' : U.Opens} (f : op W ⟶ op W')
 
 /-- The data of a vector field restricted along an open immersion, as a derivation relative to the
 constant presheaf of integers. -/
-def restrictOpensData : (SheafOfModules.unit U.ringCatSheaf).val.Derivation'
+def restrictOpensData :
+    PresheafOfModulesOfCommRing.Derivation' (SheafOfModules.unit U.ringCatSheaf).val
     (AlgebraicGeometry.SheafOfModules.constIntMap U.presheaf) where
   d {W} := AddMonoidHom.mk' (fun a => D.restrictOpensSection j (W := W.unop) a)
     (D.restrictOpensSection_add j)

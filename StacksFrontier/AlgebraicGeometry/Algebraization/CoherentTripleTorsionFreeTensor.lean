@@ -141,7 +141,7 @@ the section's restrictions give, with no power taken. -/
 public theorem smulPowHom_one_eq (X : Scheme.{u}) (G : X.Modules) (c : Γ(X, ⊤)) :
     smulPowHom G c 1 =
       (globalSectionToEnd X.ringCatSheaf
-        (terminalSection X.ringCatSheaf ⊤ isTerminalTop c)).app G := by
+        (terminalSection X.ringCatSheaf ⊤ isTerminalTop c)).asHom.app G := by
   rw [smulPowHom, pow_one]
   rfl
 

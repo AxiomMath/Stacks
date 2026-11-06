@@ -151,7 +151,7 @@ theorem exists_finite_affine_isPerfect_derivedPullback
     (e i).some.inv ≫ (SmallEtale.toOver B S hS X.1).map (f i)
   have h1 : ∀ i, yoneda.map (g' i) = yoneda.map (e i).some.inv ≫ (V i).1.hom := fun i => by
     rw [← CostructuredArrow.w (f i).hom]
-    simp [g', t, idEtaleChart]
+    simp only [g', Functor.map_comp]
     rfl
   have hφ : ∀ i, IsEtale B S hS (yoneda.map (g' i)) := fun i => by
     rw [h1]

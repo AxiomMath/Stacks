@@ -99,8 +99,7 @@ private theorem injective_of_comm_square {R X M β γ δ Fr Ft Fl Fb : Type*} [C
     (ht : Function.Surjective t) (hl : Function.Injective l) (hb : Function.Injective b) :
     Function.Injective r := by
   have h : ∀ z, r (t z) = b (l z) := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x m => exact hcomm x m
     | add p q hp hq => rw [map_add, map_add, hp, hq, map_add, map_add]
   intro u v huv
@@ -189,8 +188,7 @@ private def tmulCompRange {X : Type*} [AddCommGroup X] [Module R X]
   zero_mem' := ⟨0, map_zero _⟩
   smul_mem' := by
     rintro a _ ⟨u, rfl⟩
-    induction u using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction u using TensorProduct.inductionOn with
     | tmul x m => exact ⟨x ⊗ₜ[R] (a • m), by rw [tmulComp_tmul, tmulComp_tmul, tmul_smul]⟩
     | add p q hp hq =>
         obtain ⟨u, hu⟩ := hp
@@ -222,8 +220,7 @@ private theorem tmulComp_surjective {X : Type*} [AddCommGroup X] [Module R X]
     fun y => (h ▸ Submodule.mem_top : y ∈ T)
   intro z
   have hz : z ∈ tmulCompRange (M := M) ψ hψ := by
-    induction z using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul y m => exact hTtop y m
     | add p q hp hq => exact Submodule.add_mem _ hp hq
   exact hz
@@ -318,8 +315,7 @@ private theorem tmulComp_quotComp_injective (C : Ideal R) :
         = Submodule.Quotient.mk x
       ∧ TensorProduct.quotTensorEquivQuotSMul M C z = Submodule.Quotient.mk x := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
         refine ⟨r • m, ?_, ?_⟩
@@ -587,7 +583,6 @@ attribute [local simp] mulMap_tmul smulMap_tmul
 lemma coe_mulMap : (mulMap R S J : S ⊗[R] J → S) = smulMap R S J.subtype := by
   refine funext fun z => ?_
   induction z with
-  | zero => simp
   | tmul s x => simp [Algebra.smul_def]
   | add a b ha hb => simp [ha, hb]
 
@@ -596,7 +591,6 @@ lemma range_mulMap : LinearMap.range (mulMap R S J) = J.map (algebraMap R S) := 
   refine le_antisymm ?_ ?_
   · rintro y ⟨z, rfl⟩
     induction z with
-    | zero => simp
     | tmul s x => simpa using Ideal.mul_mem_right s _ (Ideal.mem_map_of_mem _ x.2)
     | add a b ha hb => simpa using add_mem ha hb
   · rw [Ideal.map_le_iff_le_comap]
@@ -631,10 +625,8 @@ lemma smulMap_mulMap_apply (w : M ⊗[S] (S ⊗[R] J)) :
     smulMap S M (mulMap R S J) w =
       smulMap R M J.subtype (TensorProduct.AlgebraTensorModule.cancelBaseChange R S S M J w) := by
   induction w with
-  | zero => simp
   | tmul m z =>
       induction z with
-      | zero => simp
       | tmul s x =>
           simp only [smulMap_tmul, mulMap_tmul, Submodule.coe_subtype,
             TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -672,7 +664,6 @@ private lemma injective_mulMap [Module.Flat R M] [Module.FaithfullyFlat S M] :
         (LinearMap.lTensor M (LinearMap.ker (mulMap R S J)).subtype t) = 0 := by
     intro t
     induction t with
-    | zero => simp
     | tmul m k =>
         have hk : mulMap R S J (k : S ⊗[R] J) = 0 := k.2
         simp [hk]

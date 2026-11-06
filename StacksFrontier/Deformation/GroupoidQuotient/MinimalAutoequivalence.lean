@@ -353,37 +353,26 @@ private theorem mapObjects_app_eq_of_mem_derivationRange
     (Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) x = x := by
   obtain ⟨D, hD⟩ := hx
   refine classOf_objectFiber_injective G.objects _ ?_
-  calc classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
-          (categoryOfElements_projection_isCofibered G.objects)
-          (objectFiber (artinianDualNumbers.{u, w, v} Λ k)
-            ((Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) x))
-      = classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
-          (categoryOfElements_projection_isCofibered G.objects)
-          ((fiberFunctor (elementsBasedFunctor (Hom.mapObjects f))
-            (artinianDualNumbers.{u, w, v} Λ k)).obj
-            (objectFiber (artinianDualNumbers.{u, w, v} Λ k) x)) :=
-        congrArg _ (Subtype.ext rfl)
-    _ = mapIsomorphismClasses (categoryOfElements_projection_isCofibered G.objects)
-          (categoryOfElements_projection_isCofibered G.objects)
-          (elementsBasedFunctor (Hom.mapObjects f)) (artinianDualNumbers.{u, w, v} Λ k)
-          (classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
-            (categoryOfElements_projection_isCofibered G.objects)
-            (objectFiber (artinianDualNumbers.{u, w, v} Λ k) x)) :=
-        (mapIsomorphismClasses_classOf _ _ _ _).symm
-    _ = mapIsomorphismClasses (categoryOfElements_projection_isCofibered G.objects)
-          (categoryOfElements_projection_isCofibered G.objects)
-          (elementsBasedFunctor (Hom.mapObjects f)) (artinianDualNumbers.{u, w, v} Λ k)
-          (derivationToTangentSpace (CategoryOfElements.π G.objects)
-            (objects_isPredeformationCategory_of_isProrepresentable G hpro) D) := by
-        rw [hD]
-    _ = derivationToTangentSpace (CategoryOfElements.π G.objects)
-          (objects_isPredeformationCategory_of_isProrepresentable G hpro) D :=
-        derivationToTangentSpace_naturality (CategoryOfElements.π G.objects)
-          (objects_isPredeformationCategory_of_isProrepresentable G hpro)
-          (CategoryOfElements.π G.objects)
-          (objects_isPredeformationCategory_of_isProrepresentable G hpro)
-          (elementsBasedFunctor (Hom.mapObjects f)) D
-    _ = _ := hD
+  refine Eq.trans (congrArg _ (Subtype.ext rfl) :
+    classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+        (categoryOfElements_projection_isCofibered G.objects)
+        (objectFiber (artinianDualNumbers.{u, w, v} Λ k)
+          ((Hom.mapObjects f).app (artinianDualNumbers.{u, w, v} Λ k) x))
+    = classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+        (categoryOfElements_projection_isCofibered G.objects)
+        ((fiberFunctor (elementsBasedFunctor (Hom.mapObjects f))
+          (artinianDualNumbers.{u, w, v} Λ k)).obj
+          (objectFiber (artinianDualNumbers.{u, w, v} Λ k) x))) ?_
+  exact (mapIsomorphismClasses_classOf _ _ _ _).symm.trans <|
+    (congrArg (mapIsomorphismClasses (categoryOfElements_projection_isCofibered G.objects)
+      (categoryOfElements_projection_isCofibered G.objects)
+      (elementsBasedFunctor (Hom.mapObjects f)) (artinianDualNumbers.{u, w, v} Λ k))
+        hD.symm).trans <|
+    (derivationToTangentSpace_naturality (CategoryOfElements.π G.objects)
+      (objects_isPredeformationCategory_of_isProrepresentable G hpro)
+      (CategoryOfElements.π G.objects)
+      (objects_isPredeformationCategory_of_isProrepresentable G hpro)
+      (elementsBasedFunctor (Hom.mapObjects f)) D).trans hD
 
 variable (G : GroupoidInFunctors.{_, max v w, max v w}
   (ArtinianLocalAlgCat.{u, max v w, w} Λ k))

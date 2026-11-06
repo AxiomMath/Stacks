@@ -244,11 +244,17 @@ private theorem scalarExtensionToCoefficientDividedPowerAlgebra_tmul
   simp [scalarExtensionToCoefficientDividedPowerAlgebra,
     Algebra.TensorProduct.liftEquivRight_apply, Algebra.TensorProduct.lift_tmul]
 
-private theorem integral_dividedPowerAlgebra_isAddTorsionFree (ι : Type w) :
-    IsAddTorsionFree (DividedPowerAlgebra ℤ (ι →₀ ℤ)) := by
+private theorem integral_dividedPowerAlgebra_hasUniqueDiv (ι : Type w) :
+    HasUniqueDiv (DividedPowerAlgebra ℤ (ι →₀ ℤ)) := by
   let : Module.Free ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
     Module.Free.of_basis (integralMonomialBasis ι)
-  exact Module.isTorsionFree_int_iff_isAddTorsionFree.mp inferInstance
+  exact (Module.isTorsionFree_int_iff_hasUniqueDiv
+    (M := DividedPowerAlgebra ℤ (ι →₀ ℤ))).mp inferInstance
+
+private theorem integral_dividedPowerAlgebra_isAddTorsionFree (ι : Type w) :
+    IsAddTorsionFree (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
+  have := integral_dividedPowerAlgebra_hasUniqueDiv ι
+  inferInstance
 
 private def coefficientPresentation (A : Type u) [CommRing A] :
     MvPolynomial A ℤ →+* A :=
@@ -460,8 +466,8 @@ private theorem polynomialIdeal_le_of_mem (A : DividedPowerRing.{u}) (ι : Type 
 
 private noncomputable def integralPositiveDividedPowers (ι : Type w) :
     _root_.DividedPowers (dividedPowerPolynomialPositiveIdeal ℤ ι) := by
-  let : IsAddTorsionFree (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
-    integral_dividedPowerAlgebra_isAddTorsionFree ι
+  let : HasUniqueDiv (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
+    integral_dividedPowerAlgebra_hasUniqueDiv ι
   apply Classical.choice
   rw [nonempty_dividedPowers_iff_exists_generators_pow_mem_factorial_mul]
   refine ⟨{x | ∃ (i : ι) (m : ℕ), m ≠ 0 ∧
@@ -490,8 +496,8 @@ private theorem integralPositiveDividedPowers_dpow_variable
     (integralPositiveDividedPowers ι).dpow n
         (dividedPowerPolynomialVariable ℤ i) =
       dividedPowerPolynomialVariableMonomial ℤ i n := by
-  let : IsAddTorsionFree (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
-    integral_dividedPowerAlgebra_isAddTorsionFree ι
+  let : HasUniqueDiv (DividedPowerAlgebra ℤ (ι →₀ ℤ)) :=
+    integral_dividedPowerAlgebra_hasUniqueDiv ι
   apply nsmul_right_injective (Nat.factorial_ne_zero n)
   have hfac := (integralPositiveDividedPowers ι).factorial_mul_dpow_eq_pow
     (n := n) (variable_mem_positiveIdeal ℤ i)

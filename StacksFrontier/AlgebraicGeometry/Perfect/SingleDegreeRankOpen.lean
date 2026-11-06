@@ -241,7 +241,7 @@ theorem nonempty_iso_singleFunctor_restrict_of_comp {Y Z : Scheme.{u}} (g : Y �
   refine ⟨(restrictFunctor h).obj M,
     (isFiniteLocallyFreeOfRank_iff _ r).1 (((isFiniteLocallyFreeOfRank_iff M r).2 hM).restrict h),
     ⟨?_⟩⟩
-  refine ((Functor.mapDerivedCategoryCompIso (restrictFunctorComp h g).symm ≪≫
+  refine ((Functor.mapDerivedCategoryCompIsoOfCompIso (restrictFunctorComp h g).symm ≪≫
       Functor.mapDerivedCategoryCongr (restrictFunctorCongr hk)).app E).symm ≪≫ ?_
   exact (restrictFunctor h).mapDerivedCategory.mapIso e ≪≫
     ((restrictFunctor h).mapDerivedCategorySingleFunctor i).app M

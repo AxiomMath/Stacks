@@ -95,6 +95,21 @@ attribute [local implicit_reducible] Bicategory.InducedBicategory fibredCategory
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_TwoArrowCocycle :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_TwoArrowCocycle
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance (priority := high) hasPullback_types_TwoArrowCocycle
+    {X Y Z : Type u} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 -- A based functor is determined by its underlying functor:
 -- `CategoryTheory.BasedCategory.BasedFunctor.ext'`, public in
 -- `StacksFrontier.CategoryTheory.FiberedCategory.IsoOver`. A `private` re-declaration,

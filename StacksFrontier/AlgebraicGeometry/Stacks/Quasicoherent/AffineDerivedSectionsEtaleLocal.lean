@@ -225,7 +225,7 @@ restriction of scalars of the termwise restriction along `u`. -/
 theorem homotopySectionsRestrict_comp_app {U V W : C} (u : U ⟶ V) (v : V ⟶ W)
     (X : HomotopyCategory (SheafOfModules.{wModule} O) (ComplexShape.up ℤ)) :
     (homotopySectionsRestrict O (u ≫ v)).app X ≫
-        (Functor.mapDerivedCategoryCompIso
+        (Functor.mapDerivedCategoryCompIsoOfCompIso
           (ModuleCat.restrictScalarsComp'.{wModule} (O.obj.map v.op).hom
             (O.obj.map u.op).hom (O.obj.map (u ≫ v).op).hom
             (by rw [op_comp, Functor.map_comp, RingCat.hom_comp])).symm).inv.app
@@ -291,7 +291,7 @@ restriction of scalars of the derived restriction along `u`. -/
 theorem derivedSectionsRestrict_comp_app {U V W : C} (u : U ⟶ V) (v : V ⟶ W)
     (K : DerivedCategory (SheafOfModules.{wModule} O)) :
     (derivedSectionsRestrict O (u ≫ v)).app K ≫
-        (Functor.mapDerivedCategoryCompIso
+        (Functor.mapDerivedCategoryCompIsoOfCompIso
           (ModuleCat.restrictScalarsComp'.{wModule} (O.obj.map v.op).hom
             (O.obj.map u.op).hom (O.obj.map (u ≫ v).op).hom
             (by rw [op_comp, Functor.map_comp, RingCat.hom_comp])).symm).inv.app
@@ -314,7 +314,7 @@ theorem derivedSectionsRestrict_comp_app {U V W : C} (u : U ⟶ V) (v : V ⟶ W)
     (O.obj.map u.op).hom (O.obj.map (u ≫ v).op).hom
     (by rw [op_comp, Functor.map_comp, RingCat.hom_comp])).symm
   have key : derivedSectionsRestrict O (u ≫ v) ≫
-      Functor.whiskerLeft (derivedSections O U) (Functor.mapDerivedCategoryCompIso e).inv =
+      Functor.whiskerLeft (derivedSections O U) (Functor.mapDerivedCategoryCompIsoOfCompIso e).inv =
       (derivedSectionsRestrict O v ≫ Functor.whiskerRight (derivedSectionsRestrict O u)
         (restrictScalarsDerived O v) : derivedSections O W ⟶ derivedSections O U ⋙
           ((ModuleCat.restrictScalars.{wModule} (O.obj.map u.op).hom).mapDerivedCategory ⋙
@@ -322,7 +322,7 @@ theorem derivedSectionsRestrict_comp_app {U V W : C} (u : U ⟶ V) (v : V ⟶ W)
     refine derivedSectionsRestrict_ext O _ _ ?_
     ext X
     exact comp_chase₂ (restrictScalarsDerived O v) _ _ _ _ _ (hfac (u ≫ v) X) _ _
-      ((Functor.mapDerivedCategoryCompIso e).inv.naturality _)
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso e).inv.naturality _)
       _ _ (homotopySectionsRestrict_comp_app O u v X) _ _ (hfac v X) _ (hfac u X)
   exact congrArg (fun τ => NatTrans.app τ K) key
 
@@ -367,7 +367,7 @@ theorem isIso_derivedSectionsBaseChange_comp_iff
     (dBaseChangeAdj.{u, u + 1} ((ambientRingStructureSheaf B S hS 𝒳).obj.map (a ≫ b).op)
       (ambientRingStructureSheaf_mul_comm B S hS 𝒳 w)
       (ambientRingStructureSheaf_mul_comm B S hS 𝒳 z))
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (ModuleCat.restrictScalarsComp'.{u + 1}
         ((ambientRingStructureSheaf B S hS 𝒳).obj.map b.op).hom
         ((ambientRingStructureSheaf B S hS 𝒳).obj.map a.op).hom

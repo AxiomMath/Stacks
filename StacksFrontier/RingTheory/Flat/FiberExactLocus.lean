@@ -4,6 +4,7 @@ public import StacksFrontier.Topology.Dimension.Equidimensional
 import StacksFrontier.RingTheory.Depth.ExactnessCriterion
 import StacksFrontier.RingTheory.Flat.LocalCriteria
 import StacksFrontier.RingTheory.Sequence.RegularLocus
+import Mathlib.RingTheory.TensorProduct.Pi
 
 /-!
 # Openness of the locus where the fibre of a complex of finite free modules is exact

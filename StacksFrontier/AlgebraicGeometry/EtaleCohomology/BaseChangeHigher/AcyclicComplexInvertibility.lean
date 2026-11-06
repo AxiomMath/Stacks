@@ -76,7 +76,7 @@ theorem isIso_derived_app_Qh_of_degreewise (K : HomotopyCategory.Plus A)
     (hF : ∀ n : ℤ, F.rightAcyclic (K.obj.as.X n))
     (hτ : ∀ n : ℤ, IsIso (τ.app (K.obj.as.X n)))
     (hac : ∀ n : ℤ, F'.rightAcyclic (G'.obj (K.obj.as.X n)))
-    [IsIso (G'.rightDerivedFunctorPlusUnit.app K)] :
+    [IsIso (G'.rightDerivedFunctorPlusUnith.app K)] :
     IsIso ((derived F F' G G' τ e).app (DerivedCategory.Plus.Qh.obj K)) :=
   isIso_derived_app_Qh_of_acyclic F F' G G' τ e K
     (Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic F K hF) inferInstance
@@ -86,14 +86,14 @@ theorem isIso_derived_app_Qh_of_degreewise (K : HomotopyCategory.Plus A)
 for `F`, `G' X` is right acyclic for `F'` and `τ` is invertible at `X`, then
 `derived F F' G G' τ e` is invertible at `X` placed in degree zero, provided the derived functor
 of `G'` is computed degreewise (for instance, `G'` exact). -/
-theorem isIso_derived_app_single_of_rightAcyclic [IsIso G'.rightDerivedFunctorPlusUnit] (X : A)
+theorem isIso_derived_app_single_of_rightAcyclic [IsIso G'.rightDerivedFunctorPlusUnith] (X : A)
     (hF : F.rightAcyclic X) (hτ : IsIso (τ.app X)) (hac : F'.rightAcyclic (G'.obj X)) :
     IsIso ((derived F F' G G' τ e).app ((DerivedCategory.Plus.singleFunctor A 0).obj X)) := by
   let K := (HomotopyCategory.Plus.singleFunctor A 0).obj X
   let i : K.obj.as.X 0 ≅ X := HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X
   have hz : ∀ n : ℤ, n ≠ 0 → IsZero (K.obj.as.X n) := fun n hn =>
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 X n hn
-  have : IsIso (G'.rightDerivedFunctorPlusUnit.app K) := NatIso.isIso_app_of_isIso _ K
+  have : IsIso (G'.rightDerivedFunctorPlusUnith.app K) := NatIso.isIso_app_of_isIso _ K
   have h := isIso_derived_app_Qh_of_degreewise F F' G G' τ e K
     (fun n => by
       rcases eq_or_ne n 0 with rfl | hn

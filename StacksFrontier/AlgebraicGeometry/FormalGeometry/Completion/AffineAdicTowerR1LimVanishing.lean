@@ -273,7 +273,8 @@ public theorem isDerivedLimitWithProjections_map_rightDerivedFunctor
   have hfst : RF.map (Pi.lift π) ≫ piComparison RF (fun n : ℕ ↦ T.obj ⟨n⟩) =
       Pi.lift fun n : ℕ ↦ RF.map (π n) := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, piComparison_comp_π, ← RF.map_comp, Pi.lift_π, Pi.lift_π]
+    rw [Category.assoc, piComparison_comp_π, ← RF.map_comp]
+    simp
   exact ⟨h, δ', hfst ▸ hT'⟩
 
 end RightDerived

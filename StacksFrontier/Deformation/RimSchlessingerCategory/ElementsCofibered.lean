@@ -43,37 +43,38 @@ universe u v u₁
 groupoids. -/
 theorem isCofiberedInGroupoids_elementsProjection {𝒞 : Type u} [Category.{v} 𝒞]
     (G : 𝒞 ⥤ Type u₁) : IsCofiberedInGroupoids (CategoryOfElements.π G) := by
-  show Functor.IsFiberedInGroupoids (CategoryOfElements.π G).op
+  show Functor.IsFiberedInGroupoids (Functor.Elements.π G).op
   constructor
   · intro V U f x hx
     rcases V with ⟨V⟩
     rcases U with ⟨U⟩
     rcases x with ⟨x⟩
-    change Opposite.op ((CategoryOfElements.π G).obj x) = Opposite.op U at hx
+    change Opposite.op ((Functor.Elements.π G).obj x) = Opposite.op U at hx
     cases hx
-    let y := G.elementsMk V (G.map f.unop x.2)
-    let g : x ⟶ y := CategoryOfElements.homMk x y f.unop rfl
+    let y := G.elementsMk V (G.map f.unop x.val)
+    let g : x ⟶ y := Functor.Elements.homMk (x := x) (y := y) f.unop rfl
     refine ⟨Opposite.op y, g.op, ?_⟩
-    rw [← show (CategoryOfElements.π G).op.map g.op = f from
-      Quiver.Hom.opEquiv.injective (by simp [g, CategoryOfElements.π])]
+    rw [← show (Functor.Elements.π G).op.map g.op = f from
+      Quiver.Hom.opEquiv.injective (by simp [g])]
     exact inferInstance
   · intro x y z φ ψ f hf
     rcases x with ⟨x⟩
     rcases y with ⟨y⟩
     rcases z with ⟨z⟩
-    have hbase : φ.unop.val ≫ f.unop = ψ.unop.val := by
+    have hbase : φ.unop.hom ≫ f.unop = ψ.unop.hom := by
       simpa using congrArg Quiver.Hom.unop hf
-    let g : y ⟶ z := CategoryOfElements.homMk y z f.unop (by
-      rw [← CategoryOfElements.map_snd φ.unop, ← Functor.map_comp_apply,
-        hbase, CategoryOfElements.map_snd ψ.unop])
+    let g : y ⟶ z := Functor.Elements.homMk (x := y) (y := z) f.unop (by
+      have h := ψ.unop.map_val
+      rw [← hbase] at h
+      simpa using h)
     refine ⟨g.op, ⟨?_, ?_⟩, ?_⟩
-    · exact Quiver.Hom.opEquiv.injective (by simp [g, CategoryOfElements.π])
+    · exact Quiver.Hom.opEquiv.injective (by simp [g])
     · apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact hbase
     · intro χ hχ
       apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact congrArg Quiver.Hom.unop hχ.1
 
 /-- An arrow of the category of elements lying over a base arrow carries the value of its
@@ -84,9 +85,18 @@ theorem elementsFiberValue_map {𝒞 : Type u} [Category.{v} 𝒞]
     (y : Functor.Fiber (CategoryOfElements.π G) B) (m : x.1 ⟶ y.1)
     (hm : (CategoryOfElements.π G).IsHomLift f m) :
     G.map f (elementsFiberValue G A x) = elementsFiberValue G B y := by
-  dsimp [elementsFiberValue]
-  rw [IsHomLift.fac (CategoryOfElements.π G) f m]
-  simp
+  rcases x with ⟨@⟨X, x⟩, hx⟩
+  rcases y with ⟨@⟨Y, y⟩, hy⟩
+  change X = A at hx
+  change Y = B at hy
+  subst hx hy
+  have hf : f = m.hom := by
+    have h := IsHomLift.fac (CategoryOfElements.π G) f m
+    change f = eqToHom (rfl : X = X) ≫ m.hom ≫ eqToHom (rfl : Y = Y) at h
+    simpa using h
+  subst hf
+  change G.map m.hom (G.map (eqToHom (rfl : X = X)) x) = G.map (eqToHom (rfl : Y = Y)) y
+  simpa using m.map_val
 
 end
 

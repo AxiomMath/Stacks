@@ -110,7 +110,8 @@ theorem hom_ext_of_pullback_cover {X : Scheme.{u}} {M N : X.Modules} {ι : Type*
       (Scheme.Modules.pullback (W a).ι).map ψ) : φ = ψ := by
   refine hom_ext_of_restrict_cover W hW (fun a => ?_)
   have e := Scheme.Modules.restrictFunctorIsoPullback (W a).ι
-  rw [← cancel_mono (e.hom.app N), e.hom.naturality φ, e.hom.naturality ψ, h a]
+  rw [← Iso.cancel_iso_hom_right _ _ (e.app N), Iso.app_hom, e.hom.naturality φ,
+    e.hom.naturality ψ, h a]
 
 /-! ### Tag 01ZR (3) over a quasi-compact open of a stage -/
 

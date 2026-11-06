@@ -172,10 +172,10 @@ theorem exists_single_fppf_lift_of_isLocallySurjective
   obtain ⟨_, h, _, ⟨i⟩, rfl⟩ := hg
   calc Q.map (h ≫ j i).op (π.app (op V) s)
       = Q.map h.op (π.app _ (X.map (j i).op s)) := by
-        rw [op_comp, FunctorToTypes.map_comp_apply, NatTrans.naturality_apply]
+        rw [op_comp, Functor.map_comp_apply, NatTrans.naturality_apply]
     _ = Q.map h.op (Q.map (fi i).op ξ) := by rw [hs i, ha i]
     _ = Q.map (h ≫ j i).op (Q.map f.op ξ) := by
-        rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+        rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
           ← op_comp, Category.assoc, hfac]
 
 /-! ### Condition (3) from a chart which is flat after one fppf base change -/

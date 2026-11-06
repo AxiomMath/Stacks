@@ -195,7 +195,10 @@ theorem mono_pullback_map_of_isoComp {Pm Hy Y : Scheme.{u}} (φ : Pm ≅ Hy) (i 
         (Scheme.Modules.pullbackComp φ.hom i).hom.app B :=
     (NatIso.naturality_1 (Scheme.Modules.pullbackComp φ.hom i) a).symm
   rw [heq]
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _
+    (IsIso.mono_of_iso ((Scheme.Modules.pullbackComp φ.hom i).app A).inv) _
+    (@mono_comp _ _ _ _ _ _ this _
+      (IsIso.mono_of_iso ((Scheme.Modules.pullbackComp φ.hom i).app B).hom))
 
 /-- **A short exact sequence whose restriction has monic first map restricts to a short exact
 sequence.** Pullback of modules is a left adjoint, so it carries the presentation of the third

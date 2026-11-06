@@ -124,8 +124,7 @@ public theorem ker_le_span_image_of_flat [Module.Flat R S]
     LinearMap.ker ψ ≤ Submodule.span S (ρ '' (LinearMap.ker φ : Set M)) := by
   have hsq : ∀ x : S ⊗[R] M, hσ.equiv (LinearMap.lTensor S φ x) = ψ (hρ.equiv x) := by
     intro x
-    refine TensorProduct.induction_on x ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn x ?_ ?_
     · intro s m
       rw [LinearMap.lTensor_tmul, hσ.equiv_tmul, hρ.equiv_tmul, map_smul, hcomm m]
     · intro a b ha hb
@@ -137,8 +136,7 @@ public theorem ker_le_span_image_of_flat [Module.Flat R S]
       hρ.equiv (LinearMap.lTensor S (Submodule.subtype (LinearMap.ker φ)) z) ∈
         Submodule.span S (ρ '' (LinearMap.ker φ : Set M)) := by
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro s w
       rw [LinearMap.lTensor_tmul, hρ.equiv_tmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨w.1, w.2, rfl⟩)

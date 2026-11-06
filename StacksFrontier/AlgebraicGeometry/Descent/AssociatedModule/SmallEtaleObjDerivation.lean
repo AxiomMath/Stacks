@@ -119,7 +119,7 @@ public noncomputable abbrev objZariskiModule
 variable {F : SheafOfModules.{u} (structureSheaf B X hX)}
   {R : (SmallEtale B X hX)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (commRingStructureSheaf B X hX).obj}
-  (D : PresheafOfModules.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation'
     (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
   (V : SmallEtale B X hX)
 
@@ -133,7 +133,7 @@ The vanishing condition recorded here is only the Leibniz rule, over the constan
 rings `ℤ`; the vanishing over `(h ≫ f)⁻¹𝒪_Y` is added separately, exactly as it is for
 `AlgebraicGeometry.SmallEtale.zariskiRestrictionData`. -/
 public noncomputable def objZariskiRestrictionData :
-    (objZariskiModule B hX F V).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (objZariskiModule B hX F V).val
       (SheafOfModules.constIntMap (objScheme B X hX V).presheaf) where
   d {W} := (D.d (X := op (((objToSmallEtaleOver B X hX V).obj W.unop).left))).comp
     ((commRingStructureMap B (objScheme B X hX V)
@@ -419,11 +419,11 @@ public theorem objTransport_universalRelativeDerivation
     ((objDesc B hX D V f hD).val.app (op (objHom B X hX V ⁻¹ᵁ W)))
     (Scheme.Hom.isRelativeDifferentialsMap_etaleRelativeDifferentialsIso
       (objHom B X hX V) f (objHom B X hX V ≫ f) rfl W a)) ?_
-  refine Eq.trans (Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans (Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
       (SheafOfModules.universalDerivation
         (inverseImageStructureMap (objHom B X hX V ≫ f)))
       (objDesc B hX D V f hD).val (((objHom B X hX V).app W).hom a)).symm
-    (PresheafOfModules.Derivation.congr_d
+    (PresheafOfModulesOfCommRing.Derivation.congr_d
       (postcomp_universalDerivation_objDesc B hX D V f hD)
       (((objHom B X hX V).app W).hom a))) ?_
   refine Eq.trans (objZariskiRestrictionData_d B hX D V
@@ -442,7 +442,7 @@ uniqueness in the universal property of `Ω_{X/Y}`.  The transport is injective 
 adjunction bijection followed by precomposition with the isomorphism of Stacks 04BX — so the
 factorizations through `Ω_{T/Y}` agree, and those recover the localizations. -/
 public theorem objZariskiRestriction_congr
-    (D₁ D₂ : PresheafOfModules.Derivation'
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
     (hD₁ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₁.d (pullbackSection B hX f W b) = 0)
     (hD₂ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₂.d (pullbackSection B hX f W b) = 0)
@@ -451,17 +451,17 @@ public theorem objZariskiRestriction_congr
   have htr : objTransport B hX D₁ V f hD₁ = objTransport B hX D₂ V f hD₂ := by
     refine (SheafOfModules.universalDerivation_isUniversal
       (inverseImageStructureMap f)).hom_ext ?_
-    refine PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun a => ?_)
-    refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+    refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun a => ?_)
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
       (f.universalRelativeDerivation) (objTransport B hX D₁ V f hD₁).val a) ?_
-    refine Eq.trans ?_ (PresheafOfModules.Derivation.postcomp_d_apply
+    refine Eq.trans ?_ (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
       (f.universalRelativeDerivation) (objTransport B hX D₂ V f hD₂).val a).symm
     refine Eq.trans
       (objTransport_universalRelativeDerivation B hX D₁ V f hD₁ W.unop a) ?_
     refine Eq.trans ?_
       (objTransport_universalRelativeDerivation B hX D₂ V f hD₂ W.unop a).symm
     exact congrArg (F.val.map (objOpenHom B hX V W.unop).op)
-      (PresheafOfModules.Derivation.congr_d hz a)
+      (PresheafOfModulesOfCommRing.Derivation.congr_d hz a)
   have hcomp : (objDifferentialsIso B hX V f).hom ≫ objDesc B hX D₁ V f hD₁ =
       (objDifferentialsIso B hX V f).hom ≫ objDesc B hX D₂ V f hD₂ :=
     ((Scheme.Modules.pullbackPushforwardAdjunction (objHom B X hX V)).homEquiv
@@ -475,7 +475,7 @@ public theorem objZariskiRestriction_congr
 value over every object of the form `A ↪ T ⟶ X`.**  This is
 `AlgebraicGeometry.SmallEtale.objZariskiRestriction_congr` read on sections. -/
 public theorem d_congr_objOpen
-    (D₁ D₂ : PresheafOfModules.Derivation'
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
     (hD₁ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₁.d (pullbackSection B hX f W b) = 0)
     (hD₂ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₂.d (pullbackSection B hX f W b) = 0)
@@ -487,7 +487,7 @@ public theorem d_congr_objOpen
       D₂.d (X := op (((objToSmallEtaleOver B X hX V).obj A).left))
         (((commRingStructureMap B (objScheme B X hX V)
           (contains_objScheme B X hX V)).hom.app (op A)).hom x) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (objZariskiRestriction_congr B hX V f D₁ D₂ hD₁ hD₂ hz) x
 
 /-- **The object `⊤ ↪ T ⟶ X` is terminal in the slice of the small étale site of `X` at `V`.**
@@ -547,7 +547,7 @@ which is the weakest hypothesis available: a derivation over any base presheaf o
 particular one over `ℤ` with the same values, and `hD` is unchanged by the passage, so this is
 the general statement rather than a special case of it. -/
 public theorem associatedDerivation_postcomp_differentialsComparison
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val (siteConstIntMap B hX _))
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) :
     (associatedDerivation B hX f).postcomp
@@ -595,8 +595,8 @@ public theorem associatedDerivation_postcomp_differentialsComparison
         (congrArg ((associatedModuleAdjunction B X hX).homEquiv
           (Scheme.Hom.relativeDifferentials f) F) (Category.id_comp _)))
   refine eq_of_zariskiRestrictionData_eq B hX _ D ?_
-  exact PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun a =>
-    PresheafOfModules.Derivation.congr_d hzar a)
+  exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun a =>
+    PresheafOfModulesOfCommRing.Derivation.congr_d hzar a)
 
 /-- **`(Ω_{X/Y})^a` with `d^a` corepresents the derivations of `𝒪_{X_étale}` which annihilate the
 functions pulled back from `Y`.**  This is the universal property the invertibility clause of
@@ -605,7 +605,7 @@ Stacks 04CS asserts: existence is
 uniqueness is
 `AlgebraicGeometry.SmallEtale.postcomp_associatedDerivation_injective`. -/
 public theorem existsUnique_postcomp_associatedDerivation
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val (siteConstIntMap B hX _))
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) :
     ∃! g : associatedRelativeDifferentials B hX f ⟶ F,

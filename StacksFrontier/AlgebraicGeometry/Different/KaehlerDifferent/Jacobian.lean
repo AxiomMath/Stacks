@@ -169,7 +169,7 @@ theorem fittingIdeal_kaehlerDifferential_quotient_mvPolynomial
     let B := MvPolynomial (Fin n) A ⧸ I
     fittingIdeal (M := Ω[B⁄A]) 0 =
       Ideal.span {Ideal.Quotient.mk I
-        (Matrix.of (fun i j : Fin n => MvPolynomial.pderiv j (f i))).det} := by
+                    (Matrix.of (fun i j : Fin n => MvPolynomial.pderiv j (f i))).det} := by
   classical
   intro I B
   let P := MvPolynomial (Fin n) A

@@ -235,7 +235,7 @@ instance isIso_Qh_map_resolutionHom :
 
 /-- The resolution is by injectives, so the unit of `RΓ` is invertible on it. -/
 instance isIso_unit_resolutionPlus :
-    IsIso ((SmallSite.bigBaseModuleGlobalSections S).rightDerivedFunctorPlusUnit.app
+    IsIso ((SmallSite.bigBaseModuleGlobalSections S).rightDerivedFunctorPlusUnith.app
       (resolutionPlus S R)) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun q => by
     haveI : Injective ((resolutionPlus S R).obj.as.X q) := R.injective q
@@ -245,7 +245,7 @@ instance isIso_unit_resolutionPlus :
 invertible on it. -/
 instance isIso_unit_levelPullback_resolutionPlus (n : ℕ) :
     IsIso ((SmallSite.bigBaseModuleGlobalSections
-      (S.levelSituation (hN.isLevel n))).rightDerivedFunctorPlusUnit.app
+      (S.levelSituation (hN.isLevel n))).rightDerivedFunctorPlusUnith.app
         ((S.levelPullback (hN.isLevel n)).mapHomotopyCategoryPlus.obj (resolutionPlus S R))) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun q => by
     haveI : Injective (((S.levelPullback (hN.isLevel n)).mapHomotopyCategoryPlus.obj
@@ -285,7 +285,7 @@ theorem levelDerivedProj_comp_levelResolutionIso (n : ℕ) :
 by injectives: it is isomorphic to the restriction to `CRIS(X/S_{e(n)})`. -/
 instance isIso_unit_levelStepPullback_resolutionPlus (n : ℕ) :
     IsIso ((SmallSite.bigBaseModuleGlobalSections
-      (S.levelSituation (hN.isLevel n))).rightDerivedFunctorPlusUnit.app
+      (S.levelSituation (hN.isLevel n))).rightDerivedFunctorPlusUnith.app
         ((S.levelStepPullback (hN.isLevel n) (hN.isLevel (n + 1))
           (hN.le_succ n)).mapHomotopyCategoryPlus.obj
           ((S.levelPullback (hN.isLevel (n + 1))).mapHomotopyCategoryPlus.obj
@@ -415,7 +415,7 @@ def isLimitLevelSectionsComplexCone : IsLimit (S.levelSectionsComplexCone hN R) 
   HomologicalComplex.isLimitOfEval _ _ fun q =>
     (IsLimit.postcomposeHomEquiv (asIso (S.levelSectionsComplexTowerEvalHom hN R q)) _)
       (IsLimit.ofIsoLimit (S.isLimitLevelSectionsCone hN (R.cocomplex.X q))
-        (Cones.ext (Iso.refl _) (fun n =>
+        (Cone.ext (Iso.refl _) (fun n =>
           ((Category.id_comp _).trans (Category.comp_id _)).symm)))
 
 /-- **The transitions of the tower of complexes are epimorphisms**: degreewise they are the

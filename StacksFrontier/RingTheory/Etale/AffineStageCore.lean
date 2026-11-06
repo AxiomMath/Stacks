@@ -792,7 +792,6 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
           (fun _ _ => Commute.all _ _)) = ε := by
         funext x
         induction x with
-        | zero => simp
         | add x y hx hy => rw [map_add, map_add, hx, hy]
         | tmul a x =>
           rw [Algebra.TensorProduct.lift_tmul, hθ', ← hε, Algebra.ofId_apply,

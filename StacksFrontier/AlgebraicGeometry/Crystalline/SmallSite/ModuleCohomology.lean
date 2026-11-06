@@ -310,19 +310,26 @@ an `A`-action on the *abelian-valued* `Crystalline.GlobalCrystallineSituation.Sm
 of the underlying abelian sheaf `(toAbelianSheaf S).obj M`.  So the two theories act by the same
 scalars even where they are not identified; see the module docstring. -/
 def baseSmulRingHom (M : ModuleSheaf S) : Γ(S.S.scheme, ⊤) →+* End M where
-  toFun a := baseSmul S a M
+  toFun a := End.of (baseSmul S a M)
   map_one' := by
+    ext1
+    change baseSmul S 1 M = 𝟙 M
     rw [baseSmul, map_one]
     exact Stacks.Cohomology.SiteModules.globalSmul_one (structureSheaf S) M
   map_mul' a b := by
+    ext1
     change baseSmul S (a * b) M = baseSmul S b M ≫ baseSmul S a M
     rw [baseSmul, baseSmul, baseSmul, mul_comm, map_mul]
     exact Stacks.Cohomology.SiteModules.globalSmul_mul (structureSheaf S)
       (baseRingHom S b) (baseRingHom S a) M
   map_zero' := by
+    ext1
+    change baseSmul S 0 M = 0
     rw [baseSmul, map_zero]
     exact Stacks.Cohomology.SiteModules.globalSmul_zero (structureSheaf S) M
   map_add' a b := by
+    ext1
+    change baseSmul S (a + b) M = baseSmul S a M + baseSmul S b M
     rw [baseSmul, baseSmul, baseSmul, map_add]
     exact Stacks.Cohomology.SiteModules.globalSmul_add (structureSheaf S)
       (baseRingHom S a) (baseRingHom S b) M

@@ -77,7 +77,7 @@ theorem isZero_obj_of_mem_of_forall_isZero (G : Sheaf J (ModuleCat.{w} Λ)) {U :
     (h : ∀ ⦃V : C⦄ (f : V ⟶ U), S f → IsZero (G.obj.obj (Opposite.op V))) :
     IsZero (G.obj.obj (Opposite.op U)) := by
   rw [IsZero.iff_id_eq_zero]
-  refine ((G.cond (G.obj.obj (Opposite.op U))) S hS).isSeparatedFor.ext fun V f hf => ?_
+  refine ((G.property (G.obj.obj (Opposite.op U))) S hS).isSeparatedFor.ext fun V f hf => ?_
   exact (h f hf).eq_of_tgt _ _
 
 omit [UnivLE.{max u v, w}] [HasDerivedCategory.{t} (Sheaf J (ModuleCat.{w} Λ))] in

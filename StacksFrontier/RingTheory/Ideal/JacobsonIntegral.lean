@@ -24,4 +24,4 @@ public lemma map_maximalIdeal_le_jacobson (R : Type*) [CommRing R] [IsLocalRing 
   rw [Ideal.map_le_iff_le_comap]
   exact
     le_of_eq
-      (IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal J)).symm
+      (IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) J)).symm

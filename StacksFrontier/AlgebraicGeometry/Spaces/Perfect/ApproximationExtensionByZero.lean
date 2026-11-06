@@ -246,7 +246,7 @@ theorem approximationHolds_of_approximationHolds_edsEtale
       sh.epi_homologyFunctor_map_mapDerivedCategory_map α m hαepi
     have h₂ := hcounit m le_rfl
     rw [Functor.map_comp]
-    infer_instance
+    exact epi_comp' h₁ (IsIso.epi_of_iso _)
 
 end Square
 

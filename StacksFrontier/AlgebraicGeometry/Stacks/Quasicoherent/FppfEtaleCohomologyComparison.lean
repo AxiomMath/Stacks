@@ -291,6 +291,9 @@ variable (𝒳 : AlgebraicStacks.{u, w} B S hS)
 
 attribute [local instance] enoughInjectives_fppfModules
 
+-- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 075R (1)**, `Rε_*ℱ = ε_*ℱ`, on an algebraic stack at module universe `u`, for a
 sheaf of modules on the fppf site cartesian along flat morphisms of affines: `R^iε_*ℱ = 0` for
 `i > 0`.

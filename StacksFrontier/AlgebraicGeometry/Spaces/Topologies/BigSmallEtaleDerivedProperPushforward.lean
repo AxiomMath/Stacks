@@ -87,6 +87,21 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S)
 attribute [local instance] HasDerivedCategory.standard bigToSmallAbelianInverseImage_additive
   smallEtaleAbelianInverseImage_additive
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
+Kan extensions defining the big direct image times out; supply them directly. -/
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfSize_presheaf_BigSmallEtaleDerivedProperPushforward :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance hasLimitsOfShape_presheaf_BigSmallEtaleDerivedProperPushforward (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfShape_structuredArrow_BigSmallEtaleDerivedProperPushforward
+    {X Y : T.Spaces} (f : Y ⟶ X) (V : (Over X)ᵒᵖ) :
+    HasLimitsOfShape (StructuredArrow V (Over.map f).op) Ab.{u + 1} := inferInstance
+
 /-! ### Detecting isomorphisms on the spaces-étale sites -/
 
 /-- A morphism of abelian sheaves on the big étale site of `X` is an isomorphism as soon as its

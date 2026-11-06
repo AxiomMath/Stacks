@@ -131,7 +131,7 @@ public def frobeniusBaseChangeHomotopyMap :
     (Functor.associator _ _ _).hom ≫
     Functor.whiskerLeft _
       (etaleModuleDirectImage.{u, r} Λ
-        (geometricFrobeniusBaseChange Y kbar p q hcard)).rightDerivedFunctorPlusUnit ≫
+        (geometricFrobeniusBaseChange Y kbar p q hcard)).rightDerivedFunctorPlusUnith ≫
     (Functor.associator _ _ _).inv
 
 /-- **The canonical morphism `K|_{Y_k̄} ⟶ Rπ̄_*(K|_{Y_k̄})`**, natural in `K ∈ D⁺(Y_étale)`,

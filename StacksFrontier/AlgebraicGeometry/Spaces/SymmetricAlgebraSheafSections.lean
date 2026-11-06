@@ -657,7 +657,8 @@ theorem symSections_bijective (hF : F.IsQuasicoherentOnSite) (U : SmallEtale B S
       ((symmetricAlgebraSheaf B S hS W F).right.obj ⋙ CategoryTheory.forget CommRingCat.{u}) :=
     (isSheaf_iff_isSheaf_of_type _ _).1
       ((sheafCompose (SmallEtale.topology B S hS W.1)
-        (CategoryTheory.forget CommRingCat.{u})).obj (symmetricAlgebraSheaf B S hS W F).right).cond
+        (CategoryTheory.forget CommRingCat.{u})).obj
+          (symmetricAlgebraSheaf B S hS W F).right).property
   have hb := bijective_app_of_isLocallyBijective B S hS W.1 W.2 τ
     (isSheaf_affineTotal B S hS W F hF) hQ ⟨U, hU⟩
   exact hb.comp (sigma B S hS W F (op U)).symm.bijective

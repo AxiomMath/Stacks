@@ -146,6 +146,8 @@ theorem isSchemeTheoreticallyDense_range_toSchemeTheoreticImage
       (Subfunctor.range (toSchemeTheoreticImage B S hS f)) = ⊤ := by
     show schemeTheoreticImageSubfunctor B S hS
       (Subfunctor.range (toSchemeTheoreticImage B S hS f)).ι = ⊤
+    haveI : Epi (asIso (Subfunctor.toRange (toSchemeTheoreticImage B S hS f))).inv :=
+      IsIso.epi_of_iso _
     rw [← inv_toRange_comp_of_mono, schemeTheoreticImageSubfunctor_comp_of_epi]
     exact schemeTheoreticImageSubfunctor_toSchemeTheoreticImage_eq_top B S hS f hY
   intro V hV φ hφ

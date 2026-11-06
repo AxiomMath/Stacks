@@ -338,7 +338,7 @@ theorem isLocallySurjective_sheafCompose_uliftFunctor
   ⟨fun {U} s => (SmallEtale.topology B S hS).superset_covering
     (fun V g hg => by
       obtain ⟨t, ht⟩ := hg
-      exact ⟨ULift.up t, ULift.ext _ _ ht⟩)
+      exact ⟨ULift.up t, ULift.ext ht⟩)
     (Presheaf.imageSieve_mem (SmallEtale.topology B S hS) φ.hom s.down)⟩
 
 include B hS hp hpS in

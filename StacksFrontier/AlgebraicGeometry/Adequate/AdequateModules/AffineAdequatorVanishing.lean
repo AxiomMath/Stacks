@@ -272,11 +272,13 @@ public theorem subsingleton_ext_siteModuleFunctors_of_moduleExtension
     (AdequateFunctor.presheafOfModulesUliftIso.{u, u} _ Y).symm ≪≫ e
   let c : cokernel (E.map f) ≅ E.obj (cokernel f) := (PreservesCokernel.iso E f).symm
   have hc : cokernel.π (E.map f) ≫ c.hom = E.map (cokernel.π f) := by simp [c]
+  haveI hcm : Mono c.hom := IsIso.mono_of_iso _
+  haveI hck : HasKernel (cokernel.π (E.map f)) := HasKernels.has_limit _
   have hker : AdequateFunctor.IsAdequate ι (kernel (E.map f)) :=
     ⟨M, N, f, ⟨AdequateFunctor.presheafOfModulesUliftIso.{u, u} _ _⟩⟩
   have him : AdequateFunctor.IsAdequate ι (kernel (cokernel.π (E.map f))) :=
     ⟨N, cokernel f, cokernel.π f, ⟨AdequateFunctor.presheafOfModulesUliftIso.{u, u} _ _ ≪≫
-      (kernelCompMono (cokernel.π (E.map f)) c.hom).symm ≪≫ kernelIsoOfEq hc⟩⟩
+      (@kernelCompMono _ _ _ _ _ _ (cokernel.π (E.map f)) c.hom hck hcm).symm ≪≫ kernelIsoOfEq hc⟩⟩
   exact Stacks.CohomologyVanishing.subsingleton_ext_of_iso_target eY.symm (q + 1)
     (subsingleton_ext_succ_kernel X (E.map f) (hcore M) (hcore N)
       (fun k => Stacks.CohomologyVanishing.subsingleton_ext_of_iso_target c.symm (k + 1)

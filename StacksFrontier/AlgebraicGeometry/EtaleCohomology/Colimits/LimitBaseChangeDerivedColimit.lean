@@ -318,7 +318,7 @@ theorem isIso_smallEtaleComplexPullbackComparison (a : ℤ) {X Y : Scheme.{u}} (
     (G : CochainComplex (Sheaf (smallEtaleTopology X) Ab.{u + 1}) ℤ) [G.IsStrictlyGE a]
     (φ : ((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj F ⟶ G)
     [IsIso φ] : IsIso (smallEtaleComplexPullbackComparison a f F G φ) := by
-  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have h1 : IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map φ) :=
     Functor.map_isIso _ _

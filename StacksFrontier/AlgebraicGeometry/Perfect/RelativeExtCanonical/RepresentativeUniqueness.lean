@@ -90,14 +90,14 @@ theorem exists_hom_comp_truncGEπ (L : DerivedCategory X.Modules)
           (Stacks.DerivedLimit.truncGETower X.Modules L).map (homOfLE (Nat.le_succ n)).op) =
         0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π, ← Category.assoc,
-      Pi.lift_π, hx n, sub_self, zero_comp]
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc,
+      Pi.lift_comp_π, hx n, sub_self, zero_comp]
   obtain ⟨φ, hφ⟩ := Triangle.coyoneda_exact₂ _ hδ (Pi.lift x) hw
   refine ⟨φ, fun n ↦ ?_⟩
   have h := congrArg (fun g ↦ g ≫ Pi.π (fun n : ℕ ↦ towerObj L n) n) hφ
-  have h1 : Pi.lift x ≫ Pi.π (fun n : ℕ ↦ towerObj L n) n = x n := Pi.lift_π _ _
+  have h1 : Pi.lift x ≫ Pi.π (fun n : ℕ ↦ towerObj L n) n = x n := Pi.lift_comp_π _ _
   have h2 : (Pi.lift fun n ↦ truncMap L n) ≫ Pi.π (fun n : ℕ ↦ towerObj L n) n =
-      truncMap L n := Pi.lift_π _ _
+      truncMap L n := Pi.lift_comp_π _ _
   dsimp only [Triangle.mk_mor₁] at h
   rw [h1, Category.assoc, h2] at h
   exact h.symm

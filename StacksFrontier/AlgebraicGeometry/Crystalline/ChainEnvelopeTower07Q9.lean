@@ -414,7 +414,8 @@ theorem chainStepQuotient07Q9_aux :
       (Ideal.Quotient.mk _ (completedPrimeStepRoot07Q9 hp B hB (chainLift07Q9 B φ c)))
       (Polynomial.X ^ p - Polynomial.C c) = 0 := by
   rw [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_C, RingHom.comp_apply,
-    ← chainLift07Q9_spec B φ c, DividedPowerRing.quotientRingHom_mk, ← map_pow, ← map_sub,
+    ← chainLift07Q9_spec B φ c, DividedPowerRing.quotientRingHom_mk,
+    ← map_pow (Ideal.Quotient.mk _), ← RingHom.map_sub,
     Ideal.Quotient.eq_zero_iff_mem, completedPrimeStepι07Q9_apply]
   have h : zElt B p (chainLift07Q9 B φ c) ^ p -
       algebraMap (B : Type u) (primeRing B p (chainLift07Q9 B φ c)) (chainLift07Q9 B φ c) =

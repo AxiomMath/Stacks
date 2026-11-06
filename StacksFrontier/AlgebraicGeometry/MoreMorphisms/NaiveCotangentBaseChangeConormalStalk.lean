@@ -116,7 +116,7 @@ theorem homologyπ_homologyNegOneIsoKernel_hom_ι (M : CochainComplex C ℤ) (h 
     HomologicalComplex.π_homologyIsoSc'_hom_assoc, Iso.symm_hom,
     ShortComplex.homologyπ_comp_asIsoHomologyπ_inv_assoc, ShortComplex.cyclesIsoKernel_hom,
     kernel.lift_ι]
-  exact (congrArg (fun t => _ ≫ t) (homologyπ_asIsoHomologyπ_symm_trans_ι _ _)).trans
+  exact (congrArg (fun t => _ ≫ t) (kernel.lift_ι (HomologicalComplex.sc' M (-2) (-1) 0).g _ _)).trans
     (HomologicalComplex.cyclesIsoSc'_hom_iCycles M (-2) (-1) 0 (by simp) (by simp))
 
 /-- The inclusion of the kernel of a morphism conjugated by two isomorphisms, read through

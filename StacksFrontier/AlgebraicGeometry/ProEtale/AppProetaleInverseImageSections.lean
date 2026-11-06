@@ -80,7 +80,7 @@ theorem exists_finite_jointlySurjective_of_mem {W : AppProetale S}
 private theorem map_op_map_op_eq {C : Type*} [Category C] {F : Cᵒᵖ ⥤ Type t} {X Y Z : C}
     {f : X ⟶ Y} {g : Y ⟶ Z} {h : X ⟶ Z} (hfg : f ≫ g = h) (z : F.obj (op Z)) :
     F.map f.op (F.map g.op z) = F.map h.op z := by
-  simp only [← FunctorToTypes.map_comp_apply, ← op_comp, hfg]
+  simp only [← Functor.map_comp_apply, ← op_comp, hfg]
 
 variable (t) in
 /-- **Sections at a w-contractible object are not changed by a locally bijective map into a
@@ -107,7 +107,7 @@ theorem bijective_app_of_isWContractible {P Q : (AppProetale S)ᵒᵖ ⥤ Type t
       funext k
       simp only [map_op_map_op_eq (sigmaι_sigmaDesc T f k)]
       exact hfE k
-    simpa only [map_op_map_op_eq hσ, op_id, FunctorToTypes.map_id_apply] using
+    simpa only [map_op_map_op_eq hσ, op_id, Functor.map_id_apply] using
       congrArg (P.map σ.op) heq
   · intro s
     obtain ⟨n, T, f, hfI, hsurj⟩ := exists_finite_jointlySurjective_of_mem hW
@@ -124,7 +124,7 @@ theorem bijective_app_of_isWContractible {P Q : (AppProetale S)ᵒᵖ ⥤ Type t
         map_op_map_op_eq (sigmaι_sigmaDesc T f k)]
     exact ⟨P.map σ.op r, by
       rw [φ.naturality_apply σ.op r, heq, map_op_map_op_eq hσ, op_id,
-        FunctorToTypes.map_id_apply]⟩
+        Functor.map_id_apply]⟩
 
 /-- **Objects with w-contractible ring of global sections cover `S_app`.** Every object `A` of
 `S_app` is covered by a single object `V` whose ring of global sections is w-contractible: the
@@ -205,7 +205,7 @@ theorem isLimit_of_isLimit_mapCone_sheafSections {A : Type*} [Category* A]
       isLimitOfPreserves (sheafToPresheaf J A ⋙ (evaluation Cᵒᵖ A).obj (op U)) L
     let m := ((sheafSections J A).obj (op U)).mapConeMorphism (L.liftConeMorphism c)
     have := IsLimit.hom_isIso (hc U hU).some hL m
-    exact Functor.map_isIso (Cones.forget _) m
+    exact Functor.map_isIso (Cone.forget _) m
   have hbij (U : C) (hU : B U) :
       Function.Bijective (ConcreteCategory.hom (φ.hom.app (op U))) := by
     have := hφ U hU

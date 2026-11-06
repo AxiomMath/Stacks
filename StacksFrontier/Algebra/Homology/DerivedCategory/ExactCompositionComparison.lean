@@ -108,20 +108,20 @@ bounded below complex `N`, the derived-functor unit of `RG` at `F(N)` followed b
 derived-functor unit of `RF` at `N` and then by the comparison is the degreewise comparison
 `e` followed by the derived-functor unit of `RH`. -/
 theorem rightDerivedFunctorPlusCompIsoOfExact_fac (N : HomotopyCategory.Plus A) :
-    G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj N) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app N) ≫
+    G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj N) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app N) ≫
           (rightDerivedFunctorPlusCompIsoOfExact F G H e).hom.app
             (DerivedCategory.Plus.Qh.obj N) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).hom.app N) ≫
-        H.rightDerivedFunctorPlusUnit.app N := by
+        H.rightDerivedFunctorPlusUnith.app N := by
   have hhom : (rightDerivedFunctorPlusCompIsoOfRightAcyclic F G
       (fun I _ => G.rightAcyclic_of_exact (F.obj I))).hom =
       rightDerivedFunctorPlusComp F G := rfl
-  have h1 : G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj N) ≫
-      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app N) =
+  have h1 : G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj N) ≫
+      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app N) =
       DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).hom.app N) ≫
-        (F ⋙ G).rightDerivedFunctorPlusUnit.app N ≫
+        (F ⋙ G).rightDerivedFunctorPlusUnith.app N ≫
           (rightDerivedFunctorPlusCompIsoOfRightAcyclic F G
             (fun I _ => G.rightAcyclic_of_exact (F.obj I))).hom.app
               (DerivedCategory.Plus.Qh.obj N) := by
@@ -129,8 +129,8 @@ theorem rightDerivedFunctorPlusCompIsoOfExact_fac (N : HomotopyCategory.Plus A) 
       ← DerivedCategory.Plus.Qh.map_comp, Iso.hom_inv_id_app,
       CategoryTheory.Functor.map_id, Category.id_comp]
   have h2 := rightDerivedNatTrans_app (F ⋙ G).rightDerivedFunctorPlus
-    H.rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnit
-    H.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A)
+    H.rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnith
+    H.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)
     (isoWhiskerRight (mapHomotopyCategoryPlusNatIso e) DerivedCategory.Plus.Qh).hom N
   have h3 : (mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).hom.app N ≫
       (mapHomotopyCategoryPlusNatIso e).hom.app N =
@@ -150,43 +150,43 @@ derived-functor units of `RF`, `RG` and `RH` are invertible, the inverse of the 
 followed by the inverses of the units of `RF` and `RG` is the inverse of the unit of `RH`
 followed by the inverse of the degreewise comparison `e`. -/
 theorem rightDerivedFunctorPlusCompIsoOfExact_inv_app
-    [IsIso F.rightDerivedFunctorPlusUnit] [IsIso G.rightDerivedFunctorPlusUnit]
-    [IsIso H.rightDerivedFunctorPlusUnit] (N : HomotopyCategory.Plus A) :
+    [IsIso F.rightDerivedFunctorPlusUnith] [IsIso G.rightDerivedFunctorPlusUnith]
+    [IsIso H.rightDerivedFunctorPlusUnith] (N : HomotopyCategory.Plus A) :
     (rightDerivedFunctorPlusCompIsoOfExact F G H e).inv.app
           (DerivedCategory.Plus.Qh.obj N) ≫
         G.rightDerivedFunctorPlus.map
-            ((asIso F.rightDerivedFunctorPlusUnit).inv.app N) ≫
-          (asIso G.rightDerivedFunctorPlusUnit).inv.app
+            ((asIso F.rightDerivedFunctorPlusUnith).inv.app N) ≫
+          (asIso G.rightDerivedFunctorPlusUnith).inv.app
             (F.mapHomotopyCategoryPlus.obj N) =
-      (asIso H.rightDerivedFunctorPlusUnit).inv.app N ≫
+      (asIso H.rightDerivedFunctorPlusUnith).inv.app N ≫
         DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).inv.app N) := by
-  have h : (asIso G.rightDerivedFunctorPlusUnit).hom.app
+  have h : (asIso G.rightDerivedFunctorPlusUnith).hom.app
         (F.mapHomotopyCategoryPlus.obj N) ≫
-      G.rightDerivedFunctorPlus.map ((asIso F.rightDerivedFunctorPlusUnit).hom.app N) ≫
+      G.rightDerivedFunctorPlus.map ((asIso F.rightDerivedFunctorPlusUnith).hom.app N) ≫
         (rightDerivedFunctorPlusCompIsoOfExact F G H e).hom.app
           (DerivedCategory.Plus.Qh.obj N) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).hom.app N) ≫
-        (asIso H.rightDerivedFunctorPlusUnit).hom.app N :=
+        (asIso H.rightDerivedFunctorPlusUnith).hom.app N :=
     rightDerivedFunctorPlusCompIsoOfExact_fac F G H e N
-  have : IsIso ((asIso G.rightDerivedFunctorPlusUnit).hom.app
+  have : IsIso ((asIso G.rightDerivedFunctorPlusUnith).hom.app
       (F.mapHomotopyCategoryPlus.obj N)) :=
-    (Iso.app (asIso G.rightDerivedFunctorPlusUnit) _).isIso_hom
+    (Iso.app (asIso G.rightDerivedFunctorPlusUnith) _).isIso_hom
   have : IsIso (G.rightDerivedFunctorPlus.map
-      ((asIso F.rightDerivedFunctorPlusUnit).hom.app N)) :=
+      ((asIso F.rightDerivedFunctorPlusUnith).hom.app N)) :=
     (G.rightDerivedFunctorPlus.mapIso
-      (Iso.app (asIso F.rightDerivedFunctorPlusUnit) N)).isIso_hom
+      (Iso.app (asIso F.rightDerivedFunctorPlusUnith) N)).isIso_hom
   have : IsIso ((rightDerivedFunctorPlusCompIsoOfExact F G H e).hom.app
       (DerivedCategory.Plus.Qh.obj N)) :=
     (Iso.app (rightDerivedFunctorPlusCompIsoOfExact F G H e) _).isIso_hom
-  rw [← cancel_epi ((asIso G.rightDerivedFunctorPlusUnit).hom.app
+  rw [← cancel_epi ((asIso G.rightDerivedFunctorPlusUnith).hom.app
     (F.mapHomotopyCategoryPlus.obj N) ≫
-      G.rightDerivedFunctorPlus.map ((asIso F.rightDerivedFunctorPlusUnit).hom.app N) ≫
+      G.rightDerivedFunctorPlus.map ((asIso F.rightDerivedFunctorPlusUnith).hom.app N) ≫
         (rightDerivedFunctorPlusCompIsoOfExact F G H e).hom.app
           (DerivedCategory.Plus.Qh.obj N))]
   conv_rhs => rw [h]
   simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
   rw [← Category.assoc (G.rightDerivedFunctorPlus.map
-      ((asIso F.rightDerivedFunctorPlusUnit).hom.app N)),
+      ((asIso F.rightDerivedFunctorPlusUnith).hom.app N)),
     ← CategoryTheory.Functor.map_comp, Iso.hom_inv_id_app,
     CategoryTheory.Functor.map_id, Category.id_comp, Iso.hom_inv_id_app,
     ← DerivedCategory.Plus.Qh.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]

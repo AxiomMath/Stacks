@@ -308,7 +308,7 @@ theorem isPullback_thickeningChartBaseChange_prod :
   have hw : ((thickeningChartBaseChange B S hS hG).map
       (SmallEtale.prodFst B S hS X.1 V V)).hom.left ≫ g = ((thickeningChartBaseChange B S hS hG).map
       (SmallEtale.prodSnd B S hS X.1 V V)).hom.left ≫ g :=
-    yoneda.map_injective (by simpa using h1.w)
+    yoneda.map_injective (by simpa only [Functor.map_comp] using h1.w)
   exact (IsPullback.of_map yoneda hw (by simpa using h1)).map _
 
 end Charts

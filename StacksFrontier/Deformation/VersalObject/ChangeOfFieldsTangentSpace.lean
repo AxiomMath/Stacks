@@ -621,38 +621,41 @@ private def changePullbackToElements
     {C : Type u} [Category.{v} C] {D : Type z} [Category.{w} D]
     (F : C ⥤ Type y) (G : D ⥤ C) :
     CategoricalPullback (CategoryOfElements.π F) G ⥤ (G ⋙ F).Elements where
-  obj x := ⟨x.snd, F.map x.iso.hom x.fst.2⟩
-  map {x x'} f := ⟨f.snd, by
+  obj x := (G ⋙ F).elementsMk x.snd (F.map x.iso.hom x.fst.2)
+  map {x x'} f := Functor.Elements.homMk f.snd (by
     change F.map (G.map f.snd) (F.map x.iso.hom x.fst.2) =
       F.map x'.iso.hom x'.fst.2
-    rw [← Functor.map_comp_apply, ← f.w, Functor.map_comp_apply]
-    change F.map x'.iso.hom (F.map f.fst.val x.fst.2) = _
-    rw [f.fst.property]
-  ⟩
-  map_id x := by apply CategoryOfElements.ext; rfl
-  map_comp f g := by apply CategoryOfElements.ext; rfl
+    calc F.map (G.map f.snd) (F.map x.iso.hom x.fst.2)
+        = F.map (x.iso.hom ≫ G.map f.snd) x.fst.2 := by rw [F.map_comp]; rfl
+      _ = F.map ((CategoryOfElements.π F).map f.fst ≫ x'.iso.hom) x.fst.2 :=
+          congrArg (fun φ => F.map φ x.fst.2) f.w.symm
+      _ = F.map x'.iso.hom x'.fst.2 := by
+          rw [F.map_comp]
+          exact congrArg (F.map x'.iso.hom) f.fst.map_val)
+  map_id x := by apply Functor.Elements.hom_ext; rfl
+  map_comp f g := by apply Functor.Elements.hom_ext; rfl
 
 private def elementsToChangePullback
     {C : Type u} [Category.{v} C] {D : Type z} [Category.{w} D]
     (F : C ⥤ Type y) (G : D ⥤ C) :
     (G ⋙ F).Elements ⥤ CategoricalPullback (CategoryOfElements.π F) G where
-  obj x := ⟨⟨G.obj x.1, x.2⟩, x.1, Iso.refl _⟩
+  obj x := ⟨F.elementsMk (G.obj x.1) x.2, x.1, Iso.refl _⟩
   map {x x'} f :=
-    { fst := CategoryOfElements.homMk _ _ (G.map f.val) (by simpa using f.property)
-      snd := f.val
+    { fst := Functor.Elements.homMk (G.map f.hom) (by simpa using f.map_val)
+      snd := f.hom
       w := by
-        change G.map f.val ≫ 𝟙 _ = 𝟙 _ ≫ G.map f.val
+        change G.map f.hom ≫ 𝟙 _ = 𝟙 _ ≫ G.map f.hom
         simp }
   map_id x := by
     apply CategoricalPullback.hom_ext
-    · apply CategoryOfElements.ext
+    · apply Functor.Elements.hom_ext
       change G.map (𝟙 _) = 𝟙 _
       simp
     · rfl
   map_comp f g := by
     apply CategoricalPullback.hom_ext
-    · apply CategoryOfElements.ext
-      change G.map (f.val ≫ g.val) = G.map f.val ≫ G.map g.val
+    · apply Functor.Elements.hom_ext
+      change G.map (f.hom ≫ g.hom) = G.map f.hom ≫ G.map g.hom
       simp
     · rfl
 
@@ -664,28 +667,28 @@ private def changePullbackElementsEquivalence
   inverse := elementsToChangePullback F G
   unitIso := NatIso.ofComponents (fun x =>
     CategoricalPullback.mkIso
-      (CategoryOfElements.isoMk _ _ x.iso (by rfl)) (Iso.refl _)
+      (Functor.Elements.isoMk x.iso (by rfl)) (Iso.refl _)
       (by
         change x.iso.hom ≫ 𝟙 _ = x.iso.hom ≫ G.map (𝟙 _)
         simp)) (by
     intro x y f
     apply CategoricalPullback.hom_ext
-    · apply CategoryOfElements.ext
-      change f.fst.val ≫ y.iso.hom = x.iso.hom ≫ G.map f.snd
+    · apply Functor.Elements.hom_ext
+      change f.fst.hom ≫ y.iso.hom = x.iso.hom ≫ G.map f.snd
       exact f.w
     · change f.snd ≫ 𝟙 _ = 𝟙 _ ≫ f.snd
       simp)
   counitIso := NatIso.ofComponents (fun x =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _)
+    Functor.Elements.isoMk (Iso.refl _)
       (by
         change F.map (G.map (𝟙 x.1)) (F.map (𝟙 (G.obj x.1)) x.2) = x.2
         simp)) (by
     intro x y f
-    apply CategoryOfElements.ext
-    change f.val ≫ 𝟙 _ = 𝟙 _ ≫ f.val
+    apply Functor.Elements.hom_ext
+    change f.hom ≫ 𝟙 _ = 𝟙 _ ≫ f.hom
     simp)
   functor_unitIso_comp x := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     change 𝟙 x.snd ≫ 𝟙 _ = 𝟙 _
     simp
 
@@ -770,37 +773,37 @@ private def elementsEquivalenceOfPointwiseEquiv
       e B (F.map f x) = G.map f (e A x)) :
     F.Elements ≌ G.Elements where
   functor := {
-    obj := fun x => ⟨x.1, e x.1 x.2⟩
-    map := fun {x x'} f => ⟨f.val, by
+    obj := fun x => G.elementsMk x.1 (e x.1 x.2)
+    map := fun {x x'} f => Functor.Elements.homMk f.hom (by
       calc
-        G.map f.val (e x.1 x.2) = e x'.1 (F.map f.val x.2) := (hnat f.val x.2).symm
-        _ = e x'.1 x'.2 := congrArg (e x'.1) f.property⟩
-    map_id := by intros; apply CategoryOfElements.ext; rfl
-    map_comp := by intros; apply CategoryOfElements.ext; rfl }
+        G.map f.hom (e x.1 x.2) = e x'.1 (F.map f.hom x.2) := (hnat f.hom x.2).symm
+        _ = e x'.1 x'.2 := congrArg (e x'.1) f.map_val)
+    map_id := by intros; apply Functor.Elements.hom_ext; rfl
+    map_comp := by intros; apply Functor.Elements.hom_ext; rfl }
   inverse := {
-    obj := fun x => ⟨x.1, (e x.1).symm x.2⟩
-    map := fun {x x'} f => ⟨f.val, by
+    obj := fun x => F.elementsMk x.1 ((e x.1).symm x.2)
+    map := fun {x x'} f => Functor.Elements.homMk f.hom (by
       apply (e x'.1).injective
       calc
-        e x'.1 (F.map f.val ((e x.1).symm x.2)) =
-            G.map f.val (e x.1 ((e x.1).symm x.2)) := hnat f.val _
-        _ = G.map f.val x.2 := by simp
-        _ = x'.2 := f.property
-        _ = e x'.1 ((e x'.1).symm x'.2) := by simp⟩
-    map_id := by intros; apply CategoryOfElements.ext; rfl
-    map_comp := by intros; apply CategoryOfElements.ext; rfl }
+        e x'.1 (F.map f.hom ((e x.1).symm x.2)) =
+            G.map f.hom (e x.1 ((e x.1).symm x.2)) := hnat f.hom _
+        _ = G.map f.hom x.2 := by simp
+        _ = x'.2 := f.map_val
+        _ = e x'.1 ((e x'.1).symm x'.2) := by simp)
+    map_id := by intros; apply Functor.Elements.hom_ext; rfl
+    map_comp := by intros; apply Functor.Elements.hom_ext; rfl }
   unitIso := NatIso.ofComponents (fun x =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by simp)) (by
+    Functor.Elements.isoMk (Iso.refl _) (by simp)) (by
     intro x x' f
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl)
   counitIso := NatIso.ofComponents (fun x =>
-    CategoryOfElements.isoMk _ _ (Iso.refl _) (by simp)) (by
+    Functor.Elements.isoMk (Iso.refl _) (by simp)) (by
     intro x x' f
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl)
   functor_unitIso_comp x := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
 
 private theorem schlessingerS2_of_pointwiseEquiv
@@ -1261,8 +1264,7 @@ private def tangentTensorMap
       (LinearMap.id : (T : Type y) →ₗ[S.k] (T : Type y))).map_add x y
   map_smul' := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul v t => simp [TensorProduct.smul_tmul']
     | add x y hx hy => simp [hx, hy] }
 
@@ -1276,7 +1278,7 @@ private def tangentTensorFunctor
     change tangentTensorMap S T (𝟙 V) = LinearMap.id
     apply LinearMap.ext
     intro x
-    exact TensorProduct.induction_on x (by simp [tangentTensorMap])
+    exact TensorProduct.inductionOn x
       (fun a t => by simp [tangentTensorMap])
       (fun x y _ _ => by simp [tangentTensorMap])
   map_comp f g := by
@@ -1285,7 +1287,7 @@ private def tangentTensorFunctor
       (tangentTensorMap S T g).comp (tangentTensorMap S T f)
     apply LinearMap.ext
     intro x
-    exact TensorProduct.induction_on x (by simp [tangentTensorMap])
+    exact TensorProduct.inductionOn x
       (fun a t => by simp [tangentTensorMap])
       (fun x y hx hy => by
         rw [LinearMap.map_add, LinearMap.map_add, hx, hy])
@@ -1300,7 +1302,7 @@ private instance tangentTensorFunctor_additive
       tangentTensorMap S T f + tangentTensorMap S T g
     apply LinearMap.ext
     intro x
-    exact TensorProduct.induction_on x (by simp [tangentTensorMap])
+    exact TensorProduct.inductionOn x
       (fun a t => by
         change (f.hom.hom a + g.hom.hom a) ⊗ₜ[S.k] t = _
         rw [TensorProduct.add_tmul]
@@ -1317,7 +1319,7 @@ private instance tangentTensorFunctor_linear
   ext x
   simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
   change tangentTensorMap S T (a • (𝟙 X)) x = a • x
-  exact TensorProduct.induction_on x (by exact (smul_zero a).symm)
+  exact TensorProduct.inductionOn x
     (fun v t => by
       change (a • v) ⊗ₜ[S.k] t = a • (v ⊗ₜ[S.k] t)
       simp [TensorProduct.smul_tmul'])
@@ -1367,8 +1369,7 @@ private def tangentTensorUnitEquiv
     map_smul' := by
       intro a x
       change E (a • x) = a • E x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b t =>
           simp only [E, TensorProduct.congr_tmul]
           rfl
@@ -1518,8 +1519,7 @@ private theorem tangentTensorToChangedAt_naturality
       (TensorProduct.map (f.hom.hom.restrictScalars S.k) (LinearMap.id : T →ₗ[S.k] T) x) =
       TensorProduct.map (LinearMap.id : T →ₗ[S.k] T) fk.hom.hom
         ((TensorProduct.comm S.k T Vk).symm x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a t => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   change associatedTangentChangeOfFieldsAt S 𝓕 hp W

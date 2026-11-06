@@ -181,8 +181,9 @@ theorem bijective_rationalFunctionMap_of_isIso (p : X ⟶ Y) [IsIso p] :
       (pointsMap_genericPoint_of_isIso B S hS hX hY hintX hintY p)) := by
   have hmono : Mono (residueFieldMorphism B S hS X hintX.2.1 (genericPoint B S hS hX hintX) ≫
       p) := by
-    have := (residueFieldRepresentative B S hS X hintX.2.1 (genericPoint B S hS hX hintX)).2.2
-    infer_instance
+    have : Mono (residueFieldMorphism B S hS X hintX.2.1 (genericPoint B S hS hX hintX)) :=
+      (residueFieldRepresentative B S hS X hintX.2.1 (genericPoint B S hS hX hintX)).2.2
+    exact @mono_comp _ _ _ _ _ _ this p (IsIso.mono_of_iso p)
   have hiso := (isIso_residueFieldHom_iff_mono B S hS X Y hY hintX.2.1 hintY.2.1 p
     (genericPoint B S hS hX hintX)).2 hmono
   have hb : Function.Bijective (residueFieldHom B S hS X Y hY hintX.2.1 hintY.2.1 p

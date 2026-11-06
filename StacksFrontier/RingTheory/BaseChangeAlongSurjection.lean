@@ -42,7 +42,7 @@ variable {A S M N : Type*} [CommRing A] [CommRing S] [Algebra A S] [AddCommGroup
 theorem surjective_of_surjective_algebraMap {f : M →ₗ[A] N} (hf : IsBaseChange S f)
     (hs : Function.Surjective (algebraMap A S)) : Function.Surjective f := by
   intro z
-  refine hf.inductionOn z (fun n => ∃ y : M, f y = n) ⟨0, map_zero f⟩ (fun m => ⟨m, rfl⟩)
+  refine hf.inductionOn (motive := fun n => ∃ y : M, f y = n) z (fun m => ⟨m, rfl⟩)
     (fun s n hn => ?_) fun n₁ n₂ h₁ h₂ => ?_
   · obtain ⟨y, rfl⟩ := hn
     obtain ⟨a, rfl⟩ := hs s

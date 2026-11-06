@@ -8,7 +8,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.CechDerivedComparison.C
 # The connecting morphism of the extended sequence of resolutions, and its image under `RF`
 
 *(b)* The compatibility of the connecting morphism with `RF`.  The unit
-`CategoryTheory.Functor.rightDerivedFunctorPlusUnit` is a natural transformation
+`CategoryTheory.Functor.rightDerivedFunctorPlusUnith` is a natural transformation
 `F.mapHomotopyCategoryPlus ⋙ Plus.Qh ⟶ Plus.Qh ⋙ RF` which is invertible at a bounded below
 complex of injectives and commutes with the shift
 (`Stacks.Cohomology.CategoryTheory.Functor.natTransCommShiftRightDerivedFunctorPlusUnit`), so
@@ -326,11 +326,11 @@ namespace Stacks.Cohomology.HigherDirectImagePresheaf
 variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
   [HasDerivedCategory A] [HasDerivedCategory B] [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
   [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ]
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ]
   (R : ShortComplex (CochainComplex A ℕ))
 
 omit [EnoughInjectives A] [HasDerivedCategory B] [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ] in
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] in
 /-- `DerivedCategory.Plus.Qh` inverts `descKPlus`, which is a quasi-isomorphism. -/
 theorem isIso_plusQh_map_descKPlus (hR : (extendShortComplex R).ShortExact) :
     IsIso (DerivedCategory.Plus.Qh.map (descKPlus R)) :=
@@ -340,7 +340,7 @@ theorem isIso_plusQh_map_descKPlus (hR : (extendShortComplex R).ShortExact) :
       (CochainComplex.mappingCone.quasiIso_descShortComplex hR))
 
 omit [EnoughInjectives A] [HasDerivedCategory B] [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ] in
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] in
 /-- **The connecting morphism of the extended sequence of resolutions in `D⁺(𝒜)`**: the
 mapping-cone one, read through the quasi-isomorphism `descKPlus`. -/
 noncomputable def resolutionPlusδ (hR : (extendShortComplex R).ShortExact) :
@@ -353,7 +353,7 @@ noncomputable def resolutionPlusδ (hR : (extendShortComplex R).ShortExact) :
     Functor.mapδ DerivedCategory.Plus.Qh (conePlusδ R)
 
 omit [EnoughInjectives A] [HasDerivedCategory B] [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ] in
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] in
 /-- The defining property of `resolutionPlusδ`. -/
 theorem plusQh_map_descKPlus_comp_resolutionPlusδ (hR : (extendShortComplex R).ShortExact) :
     DerivedCategory.Plus.Qh.map (descKPlus R) ≫ resolutionPlusδ R hR =
@@ -366,13 +366,13 @@ theorem plusQh_map_descKPlus_comp_resolutionPlusδ (hR : (extendShortComplex R).
 theorem descKPlus_comp_unit_comp_mapδ (hR : (extendShortComplex R).ShortExact) :
     DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
           (F.mapHomotopyCategoryPlus.map (descKPlus R))) ≫
-        DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+        DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (extendCochainPlus R.X₃))) ≫
         Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι)
           (resolutionPlusδ R hR) =
       Functor.mapδ ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
           DerivedCategory.Plus.ι) (conePlusδ R) ≫
-        (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+        (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (extendCochainPlus R.X₁))))⟦(1 : ℤ)⟧' := by
   have hΦ₂ : Functor.mapδ ((DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus) ⋙
         DerivedCategory.Plus.ι) (conePlusδ R) =
@@ -388,9 +388,9 @@ theorem descKPlus_comp_unit_comp_mapδ (hR : (extendShortComplex R).ShortExact) 
       (fun g => Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) g)
       (plusQh_map_descKPlus_comp_resolutionPlusδ R hR).symm) ?_
     exact Functor.comp_mapδ _ _ _
-  have hnat := F.rightDerivedFunctorPlusUnit.naturality (descKPlus R)
+  have hnat := F.rightDerivedFunctorPlusUnith.naturality (descKPlus R)
   have hcs := Functor.mapδ_commShift
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι) (conePlusδ R)
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι) (conePlusδ R)
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (eq_whisker
     (CategoryTheory.Functor.map_comp DerivedCategory.Plus.ι _ _).symm _) ?_

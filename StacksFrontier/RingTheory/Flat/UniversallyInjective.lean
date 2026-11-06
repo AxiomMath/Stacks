@@ -443,7 +443,6 @@ theorem lTensor_rTensor_algebraMap_injective
     apply TensorProduct.ext'
     intro s t
     induction t with
-    | zero => simp
     | add x y hx hy =>
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq,
         TensorProduct.tmul_add, map_add] at hx hy ⊢
@@ -652,12 +651,10 @@ private theorem injective_rTensor_localizedMapR_iff (f : M →ₗ[S] M') (q : Id
   have nat : (localizedMapR (R := R) f q).rTensor Q ∘ eM = eM' ∘
       (localizedMapRp (R := R) f q).rTensor (Localization.AtPrime (q.under R) ⊗[R] Q) := by
     refine funext fun t ↦ ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t with
     | add a b ha hb => simp only [Function.comp_apply, map_add] at ha hb ⊢; rw [ha, hb]
     | tmul m w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w with
       | add a b ha hb =>
         simp only [Function.comp_apply, TensorProduct.tmul_add, map_add] at ha hb ⊢; rw [ha, hb]
       | tmul a n =>
@@ -684,8 +681,7 @@ private theorem injective_rTensor_localizedMapRp_of_tensor {N N' : Type*}
       = LinearEquiv.lTensor (LocalizedModule q.primeCompl N') eQ ∘
         (localizedMapRp (R := R) f q).rTensor (Localization.AtPrime (q.under R) ⊗[R] Q) := by
     refine funext fun t ↦ ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t with
     | add a b ha hb => simp only [Function.comp_apply, map_add] at ha hb ⊢; rw [ha, hb]
     | tmul m w => simp
   rw [← Function.Injective.of_comp_iff' _ (LinearEquiv.lTensor _ eQ).bijective, natQ]

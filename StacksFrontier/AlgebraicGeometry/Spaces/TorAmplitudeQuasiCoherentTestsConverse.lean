@@ -204,8 +204,8 @@ theorem hasTorAmplitude_over_of_isZero_sliceTensor (hW : IsAffine (chartScheme W
             (chartOverObject B S hS X W).left.property).O).obj (Φ.functor.obj a)).obj
           (Φ.functor.obj b) := fun a b =>
     TensorPower.whiskerTensorSheafIso (J' := chartSchemeTopology B S hS X W)
-      ((smallEtaleRingedSite B S hS X.1 X.2).over W).O.val
-      (Tensor.ringSheaf ((smallEtaleRingedSite B S hS X.1 X.2).over W).O).cond
+      ((smallEtaleRingedSite B S hS X.1 X.2).over W).O.obj
+      (Tensor.ringSheaf ((smallEtaleRingedSite B S hS X.1 X.2).over W).O).property
       (chartSchemeIdentification B S hS X W).functor a b
   have hε₁ : ∀ {a a' : RingedSite.Modules ((smallEtaleRingedSite B S hS X.1 X.2).over W)}
       (f : a ⟶ a') (b : RingedSite.Modules ((smallEtaleRingedSite B S hS X.1 X.2).over W)),

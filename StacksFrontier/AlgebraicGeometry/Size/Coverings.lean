@@ -87,7 +87,7 @@ most `κ`. -/
 private lemma prod_fin_le {n : ℕ} {κ : Cardinal} (hκ : ℵ₀ ≤ κ) (f : Fin n → Cardinal)
     (hf : ∀ i, f i ≤ κ) : ∏ i : Fin n, f i ≤ κ :=
   calc ∏ i : Fin n, f i
-      ≤ ∏ _i : Fin n, κ := Finset.prod_le_prod (fun _ _ => bot_le) fun i _ => hf i
+      ≤ ∏ _i : Fin n, κ := Finset.prod_le_prod₀ (fun _ _ => bot_le) fun i _ => hf i
     _ = κ ^ n := by simp
     _ ≤ κ := power_nat_le hκ
 

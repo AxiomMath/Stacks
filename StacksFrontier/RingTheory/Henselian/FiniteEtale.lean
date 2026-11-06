@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.RingTheory.Etale.Finite
+import Mathlib.RingTheory.Ideal.IdempotentFG
+import Mathlib.RingTheory.TensorProduct.Pi
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.Topology.Sheaves.Presheaf
 

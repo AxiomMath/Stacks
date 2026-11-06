@@ -77,6 +77,8 @@ open Stacks.Sheaves.ToposPullback Stacks.Sheaves.RingedToposModules
 universe u
 
 attribute [local instance] AlgebraicGeometry.Space.isContinuous_smallBaseChange
+attribute [local instance]
+  AlgebraicGeometry.Space.preservesFiniteProducts_smallBaseChange_sheafPushforwardContinuous
 
 namespace Stacks.Sheaves.ToposPullback
 
@@ -176,6 +178,7 @@ private theorem modulePushforwardChartIso_hom_app_eq (f : X ⟶ Y)
         (eqToHom (smallBaseChangeModulePushforward_eq B S hS f hf)).app M :=
   rfl
 
+set_option maxHeartbeats 800000 in
 /-- The identification of functors which collapses the three restrictions of scalars is the
 identity on underlying sheaves of sets: the scalars being forgotten, the two functors agree on
 the nose, so the `CategoryTheory.eqToHom` it induces is an identity. -/

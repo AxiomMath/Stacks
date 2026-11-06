@@ -135,7 +135,7 @@ theorem isIndZariski_of_retraction (R : Type u) (S : Type v)
     · intro s g hg
       apply commAlgCat_hom_ext_of_surjective
       rintro ⟨x⟩
-      exact ⟨algebraMap R S x, ULift.ext _ _ (r.commutes x)⟩
+      exact ⟨algebraMap R S x, ULift.ext (r.commutes x)⟩
   refine ⟨J, inferInstance, inferInstance, ⟨d, c.ι, hc⟩, ?_⟩
   intro i
   let : Algebra.IsLocalIso R (p.diag.obj i) := hp i

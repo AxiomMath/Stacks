@@ -49,9 +49,8 @@ variable (Λ : Type r) [Ring Λ] (G : Type u') [Group G] [TopologicalSpace G]
 def finiteTypeContinuousModuleTrivial :
     ObjectProperty.FullSubcategory (ModuleCat.isFG.{w} Λ) ⥤
       FiniteTypeContinuousModule.{r, u', w} Λ G where
-  obj M := ⟨⟨⟨Action.trivial G M.obj, by
-      rw [Action.isContinuous_def]
-      exact continuous_snd⟩, ⟨rfl⟩⟩, M.property⟩
+  obj M := ⟨⟨⟨Action.trivial G M.obj, (Action.isContinuous_def _).2 continuous_snd⟩, ⟨rfl⟩⟩,
+    M.property⟩
   map f := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := f.hom
       comm := fun _ ↦ rfl }))
@@ -97,8 +96,8 @@ theorem mem_finiteTypeContinuousModuleInvariantsSubmodule_of_rho_eq_one
 
 /-- A module isomorphic to one with the trivial action has the trivial action. -/
 theorem rho_apply_eq_of_iso {P Q : FiniteTypeContinuousModule.{r, u', w} Λ G} (c : P ≅ Q)
-    (hQ : ∀ g (v : Q.obj.obj.obj.V), ConcreteCategory.hom (Q.obj.obj.obj.ρ g) v = v) (g : G)
-    (v : P.obj.obj.obj.V) : ConcreteCategory.hom (P.obj.obj.obj.ρ g) v = v := by
+    (hQ : ∀ g (v : Q.obj.obj.obj.V), ConcreteCategory.hom (Q.obj.obj.obj.ρ g).asHom v = v) (g : G)
+    (v : P.obj.obj.obj.V) : ConcreteCategory.hom (P.obj.obj.obj.ρ g).asHom v = v := by
   let F := finiteTypeContinuousModuleToAction Λ G
   have hinj : Function.Injective (F.map c.hom).hom :=
     (ConcreteCategory.bijective_of_isIso ((Action.forget (ModuleCat.{w} Λ) G).mapIso

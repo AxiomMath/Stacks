@@ -144,6 +144,12 @@ private theorem isFlat_of_isColimit_discrete_ofSize {C : Type u} [Category.{v} C
       (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
     HasFiniteBiproducts.of_hasFiniteProducts
   have : Fintype ι := Fintype.ofFinite ι
+  have : HasFiniteCoproducts
+      (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    CategoryTheory.Limits.hasFiniteCoproducts_of_hasFiniteBiproducts _
+  have : HasColimitsOfShape (Discrete ι)
+      (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    CategoryTheory.Limits.hasColimitsOfShape_discrete _ ι
   exact isFlat_of_iso_ofSize O (hc.coconePointUniqueUpToIso (colimit.isColimit F)).symm
     (isFlat_colimit_ofSize O F hF)
 
@@ -169,6 +175,16 @@ theorem containsZero_isFlat_ofSize (O : Sheaf J CommRingCat.{w}) :
     ObjectProperty.ContainsZero
       ((fun F ↦ AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := O) F) :
         ObjectProperty (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))) := by
+  let : Abelian (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    AlgebraicGeometry.SheafOfModules.instAbelianSheafOfModules _
+  let : HasFiniteBiproducts
+      (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    HasFiniteBiproducts.of_hasFiniteProducts
+  have : HasFiniteCoproducts
+      (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    CategoryTheory.Limits.hasFiniteCoproducts_of_hasFiniteBiproducts _
+  have : HasInitial (_root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    CategoryTheory.Limits.hasColimitsOfShape_discrete _ PEmpty
   exact ⟨_, initialIsInitial.isZero,
     isFlat_of_isColimit_discrete_ofSize O (c := asEmptyCocone (⊥_ _)) (fun i ↦ i.as.elim)
       initialIsInitial⟩

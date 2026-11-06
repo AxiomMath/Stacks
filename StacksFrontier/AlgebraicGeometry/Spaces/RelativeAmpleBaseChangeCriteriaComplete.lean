@@ -182,6 +182,22 @@ private theorem exists_isPullback_id_of_isPullback {C : Type*} [Category C]
 
 namespace Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasProducts_presheaf_RelativeAmpleBaseChangeCriteriaComplete
+    {J : Type} : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasPullbacks_presheaf_RelativeAmpleBaseChangeCriteriaComplete :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_RelativeAmpleBaseChangeCriteriaComplete
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The clause of Stacks 0D36 at one base change, read on the base-changed space -/
 
 /-- **The clause of Stacks 0D36 at a base change is relative ampleness of the base change.**

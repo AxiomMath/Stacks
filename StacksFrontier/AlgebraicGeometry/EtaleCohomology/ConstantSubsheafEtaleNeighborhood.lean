@@ -86,6 +86,16 @@ namespace AlgebraicGeometry
 
 open Stacks.ConstantSheaf
 
+/-- `Stacks.ConstantSheaf.hasSheafify_over_moduleCat` with its universes pinned to the small
+étale site and the coefficient universe `u + 1`; instance search leaves the constraint
+`max (u + 1) u ?x =?= u + 1` stuck. -/
+theorem SmallEtale.hasSheafify_over_moduleCat_succ (B : BigEtaleSite.{u}) (Y : B.Scheme)
+    (Λ : Type (u + 1)) [CommRing Λ] (U : SmallEtale B Y.obj Y.property) :
+    HasSheafify ((SmallEtale.topology B Y.obj Y.property).over U) (ModuleCat.{u + 1} Λ) :=
+  hasSheafify_over_moduleCat.{u + 1, u, u + 1, u + 1} _ Λ U
+
+attribute [local instance high] SmallEtale.hasSheafify_over_moduleCat_succ
+
 variable (B : BigEtaleSite.{u}) (Y : B.Scheme) (Λ : Type (u + 1)) [CommRing Λ]
 
 variable (M : ModuleCat.{u + 1} Λ)

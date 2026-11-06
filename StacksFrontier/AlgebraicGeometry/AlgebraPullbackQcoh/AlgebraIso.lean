@@ -141,7 +141,7 @@ structure sheaf acts on a section `a` of `E` by multiplication by the image of `
 structure morphism of `E`, on the nose. -/
 lemma smul_underlyingModule (E : AlgebraSheaf X) (U : (Opens X)ᵒᵖ)
     (r : X.ringCatSheaf.obj.obj U) (a : (AlgebraSheaf.ringSheaf E).obj.obj U) :
-    AddCommGrpCat.Hom.hom (((AlgebraSheaf.underlyingModule E).val.obj U).smul r) a =
+    AddCommGrpCat.Hom.hom (((AlgebraSheaf.underlyingModule E).val.obj U).smul r).asHom a =
       ((AlgebraSheaf.structureMap E).hom.app U) r * a := rfl
 
 variable {A B : AlgebraSheaf X} (φ : A ⟶ B)

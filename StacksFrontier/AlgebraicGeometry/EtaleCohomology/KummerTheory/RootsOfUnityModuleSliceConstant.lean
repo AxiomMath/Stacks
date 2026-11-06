@@ -195,7 +195,7 @@ instance isLocallyInjective_sliceRootPresheafHom :
   equalizerSieve_mem {W} a b h := by
     rcases isEmpty_or_nonempty W.unop.left.left with hW | hW
     · exact mem_over_smallEtaleTopology_of_isEmpty V W.unop hW _
-    · rw [ULift.ext _ _ (sliceRootSection_injective V κ hζ W.unop h),
+    · rw [ULift.ext (sliceRootSection_injective V κ hζ W.unop h),
         Presheaf.equalizerSieve_self_eq_top]
       exact GrothendieckTopology.top_mem _ _
 

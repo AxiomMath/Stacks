@@ -89,6 +89,7 @@ omit [IsTopologicalGroup Γ] [TotallyDisconnectedSpace Γ] in
 /-- The kernel of a continuous homomorphism from a compact group to `Ẑ` is compact. -/
 public theorem compactSpace_ker (deg : Γ →* Multiplicative ProfiniteIntegers)
     (hdeg : Continuous deg) : CompactSpace deg.ker := by
+  have : T1Space (Multiplicative ProfiniteIntegers) := inferInstanceAs (T1Space ProfiniteIntegers)
   have hclosed : IsClosed (deg.ker : Set Γ) := by
     have : (deg.ker : Set Γ) = deg ⁻¹' {1} := by ext; simp [MonoidHom.mem_ker]
     rw [this]

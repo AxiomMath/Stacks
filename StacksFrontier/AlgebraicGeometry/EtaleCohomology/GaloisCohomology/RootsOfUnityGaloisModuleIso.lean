@@ -122,7 +122,7 @@ theorem rootsOfUnityStalkToRootsOfUnity_abelianEtaleStalkGerm
     (t : ((rootsOfUnitySheafRestriction B K hK n).obj.obj (op U) : _)) :
     ConcreteCategory.hom (rootsOfUnityStalkToRootsOfUnity B K hK sbar n)
         (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-          (rootsOfUnitySheafRestriction B K hK n) ⟨U, p⟩ t) =
+          (rootsOfUnitySheafRestriction B K hK n) (Functor.elementsMk _ U p) t) =
       ConcreteCategory.hom (rootsOfUnitySectionEval B K hK sbar n U p) t :=
   ConcreteCategory.congr_hom
     (toPresheafFiber_comp_rootsOfUnityStalkToRootsOfUnity B K hK sbar n U p) t
@@ -151,17 +151,17 @@ theorem rootsOfUnityStalkToRootsOfUnity_rho_abelianEtaleStalkGerm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (rootsOfUnitySheafRestriction B K hK n)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ)
+              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
                 (rootsOfUnitySheafRestriction B K hK n)).symm
               (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-                (rootsOfUnitySheafRestriction B K hK n) ⟨U, p⟩ t)))) =
+                (rootsOfUnitySheafRestriction B K hK n) (Functor.elementsMk _ U p) t)))) =
       ConcreteCategory.hom (sepClosureRootsOfUnitySmul K sbar n σ)
         (ConcreteCategory.hom (rootsOfUnityStalkToRootsOfUnity B K hK sbar n)
           (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-            (rootsOfUnitySheafRestriction B K hK n) ⟨U, p⟩ t)) := by
+            (rootsOfUnitySheafRestriction B K hK n) (Functor.elementsMk _ U p) t)) := by
   rw [etaleGaloisModuleAddEquivStalk_rho_abelianEtaleStalkGerm.{u, u + 1} B K hK sbar
-      (rootsOfUnitySheafRestriction B K hK n) σ ⟨U, p⟩ t,
+      (rootsOfUnitySheafRestriction B K hK n) σ (Functor.elementsMk _ U p) t,
     rootsOfUnityStalkToRootsOfUnity_abelianEtaleStalkGerm,
     rootsOfUnityStalkToRootsOfUnity_abelianEtaleStalkGerm,
     rootsOfUnitySectionEval_galoisFiberAction]
@@ -178,7 +178,7 @@ theorem rootsOfUnityStalkToRootsOfUnity_rho_symm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (rootsOfUnitySheafRestriction B K hK n)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ)
+              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
               (rootsOfUnitySheafRestriction B K hK n)).symm y))) =
       ConcreteCategory.hom (sepClosureRootsOfUnitySmul K sbar n σ)
@@ -197,7 +197,7 @@ theorem rootsOfUnityStalkToRootsOfUnity_etaleGaloisModule_rho
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (rootsOfUnitySheafRestriction B K hK n)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-            (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ) x)) =
+            (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ).asHom x)) =
       ConcreteCategory.hom (sepClosureRootsOfUnitySmul K sbar n σ)
         (ConcreteCategory.hom (rootsOfUnityStalkToRootsOfUnity B K hK sbar n)
           (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
@@ -208,7 +208,7 @@ theorem rootsOfUnityStalkToRootsOfUnity_etaleGaloisModule_rho
           (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
             (rootsOfUnitySheafRestriction B K hK n)
             (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ) z)))
+              (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ).asHom z)))
       ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
         (rootsOfUnitySheafRestriction B K hK n)).symm_apply_apply x)).symm.trans
     (rootsOfUnityStalkToRootsOfUnity_rho_symm B K hK sbar n σ
@@ -219,8 +219,8 @@ theorem rootsOfUnityStalkToRootsOfUnity_etaleGaloisModule_rho
 hypothesis `CategoryTheory.Action.mkIso` asks for. -/
 theorem rootsOfUnityGaloisModuleIsoRootsOfUnity_comm
     (σ : GeometricPoint.absoluteGaloisGroup sbar) :
-    (etaleGaloisModule.{u, u + 1} B K hK sbar
-          (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ ≫
+    ((etaleGaloisModule.{u, u + 1} B K hK sbar
+          (rootsOfUnitySheafRestriction B K hK n)).obj.obj.ρ σ).asHom ≫
         (rootsOfUnityGaloisModuleIsoRootsOfUnity B K hK sbar n).hom =
       (rootsOfUnityGaloisModuleIsoRootsOfUnity B K hK sbar n).hom ≫
         sepClosureRootsOfUnitySmul K sbar n σ :=

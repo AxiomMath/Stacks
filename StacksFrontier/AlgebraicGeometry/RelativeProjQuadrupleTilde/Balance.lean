@@ -92,7 +92,7 @@ theorem tmul_restrict (A B : SheafOfModules.{u} (structureRingSheaf Z))
         (R := Stacks.RingedSpace.structureRingSheaf (Z))
         (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
           (PresheafOfModules.tensorObj (O := (Z).presheaf) (A).val (B).val)).app V' w)
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul e a b))
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul e a b))
 
 /-- **The comparison of Tag 01CD on the pullbacks of a pure tensor of sections over an open**,
 read on the sections over the whole of the source. -/

@@ -628,7 +628,7 @@ private theorem exists_baseChange_weightedModule
       rw [p.as_sum, Finset.sum_smul]
       apply Submodule.sum_mem
       intro k hk
-      show (MvPolynomial.monomial k (MvPolynomial.coeff k p) : P') •
+      show (MvPolynomial.monomial k (p.coeff k) : P') •
         (1 ⊗ₜ[R] m : N) ∈ _
       rw [hsmul]
       apply Submodule.tmul_mem_baseChange_of_mem

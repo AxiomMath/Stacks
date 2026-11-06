@@ -152,7 +152,7 @@ private theorem eval_aeval_X {i : Fin r} (p : Polynomial ℚ) (v : Fin r → ℚ
 
 /-- A multivariate polynomial evaluates to the sum of the evaluations of its monomials. -/
 private theorem eval_eq_sum_support_monomial (q : MvPolynomial (Fin r) ℚ) (v : Fin r → ℚ) :
-    eval v q = ∑ a ∈ q.support, eval v (monomial a (coeff a q)) := by
+    eval v q = ∑ a ∈ q.support, eval v (monomial a (q.coeff a)) := by
   conv_lhs => rw [q.as_sum]
   rw [map_sum]
 
@@ -199,13 +199,13 @@ public theorem exists_antidifference_update (i : Fin r) (d : ℕ) (q : MvPolynom
     fun k : ℕ => Polynomial.exists_antidifference k (Polynomial.X ^ k) (by simp)
   refine ⟨∑ a ∈ q.support,
       Polynomial.aeval (X i : MvPolynomial (Fin r) ℚ) (A (a i)) *
-        monomial (a.erase i) (coeff a q), ?_, ?_, ?_⟩
+        monomial (a.erase i) (q.coeff a), ?_, ?_, ?_⟩
   · refine (totalDegree_finsetSum _ _).trans ?_
     simp only [Finset.sup_le_iff]
     intro a ha
     refine (totalDegree_mul _ _).trans ?_
     have h1 := (totalDegree_aeval_X_le (i := i) (A (a i))).trans (hAdeg (a i))
-    have h2 : (monomial (a.erase i) (coeff a q) : MvPolynomial (Fin r) ℚ).totalDegree
+    have h2 : (monomial (a.erase i) (q.coeff a) : MvPolynomial (Fin r) ℚ).totalDegree
         ≤ (a.erase i).sum (fun _ e => e) := totalDegree_monomial_le _ _
     have h3 : (a.sum fun _ e => e) ≤ d := (le_totalDegree ha).trans hq
     have h4 := sum_erase_add_apply i a
@@ -218,7 +218,7 @@ public theorem exists_antidifference_update (i : Fin r) (d : ℕ) (q : MvPolynom
     rw [map_sum, map_sum, ← Finset.sum_sub_distrib, eval_eq_sum_support_monomial q v]
     refine Finset.sum_congr rfl fun a ha => ?_
     rw [map_mul, map_mul, eval_aeval_X, eval_aeval_X, Function.update_self,
-      eval_update_monomial i _ _ (by simp) v _, monomial_eq_X_pow_mul_erase i a (coeff a q),
+      eval_update_monomial i _ _ (by simp) v _, monomial_eq_X_pow_mul_erase i a (q.coeff a),
       map_mul, map_pow, eval_X, ← sub_mul, hAdiff]
     simp
 
@@ -228,11 +228,11 @@ public theorem exists_eval_update_zero (i₀ : Fin r) (p : MvPolynomial (Fin r) 
     ∃ p' : MvPolynomial (Fin r) ℚ, p'.totalDegree ≤ p.totalDegree ∧
       ∀ v : Fin r → ℚ, eval v p' = eval (Function.update v i₀ 0) p := by
   classical
-  refine ⟨∑ a ∈ p.support.filter (fun a => a i₀ = 0), monomial a (coeff a p), ?_, ?_⟩
+  refine ⟨∑ a ∈ p.support.filter (fun a => a i₀ = 0), monomial a (p.coeff a), ?_, ?_⟩
   · refine (totalDegree_finsetSum _ _).trans ?_
     simp only [Finset.sup_le_iff, Finset.mem_filter]
     intro a ha
-    exact (totalDegree_monomial_le a (coeff a p)).trans (le_totalDegree ha.1)
+    exact (totalDegree_monomial_le a (p.coeff a)).trans (le_totalDegree ha.1)
   · intro v
     rw [map_sum, eval_eq_sum_support_monomial p, Finset.sum_filter]
     refine Finset.sum_congr rfl fun a _ => ?_

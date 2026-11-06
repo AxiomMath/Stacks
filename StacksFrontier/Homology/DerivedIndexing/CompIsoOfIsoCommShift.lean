@@ -44,12 +44,12 @@ functors induced by `e.hom`.** -/
 theorem rightDerivedFunctorPlusIsoOfCompIso_hom_eq (e : F ⋙ G ≅ H) :
     (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso F G H e).hom =
       rightDerivedFunctorPlusNatTrans e.hom := by
-  show Functor.rightDerivedNatTrans _ _ (F ⋙ G).rightDerivedFunctorPlusUnit
-      H.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C)
+  show Functor.rightDerivedNatTrans _ _ (F ⋙ G).rightDerivedFunctorPlusUnith
+      H.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C)
       (Functor.whiskerRight (Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso F G H e).hom
         DerivedCategory.Plus.Qh) =
-    Functor.rightDerivedNatTrans _ _ (F ⋙ G).rightDerivedFunctorPlusUnit
-      H.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C)
+    Functor.rightDerivedNatTrans _ _ (F ⋙ G).rightDerivedFunctorPlusUnith
+      H.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C)
       (Functor.whiskerRight (Functor.mapHomotopyCategoryPlusNatTrans e.hom) DerivedCategory.Plus.Qh)
   congr 2
   exact NatTrans.ext (funext fun K ↦ Category.id_comp _)

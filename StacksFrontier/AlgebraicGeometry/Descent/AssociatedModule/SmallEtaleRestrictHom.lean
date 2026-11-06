@@ -62,6 +62,7 @@ theorem bijective_restrictModule_map (G G' : SheafOfModules.{u} (structureSheaf 
     Function.Bijective ((restrictModule B S hS).map : (G ⟶ G') → _) := by
   have hiso : IsIso ((associatedModuleAdjunction B S hS).counit.app G) :=
     isIso_counit B S hS G hG (isQuasicoherent_restrictModule B S hS G hG)
+  have hepi : Epi ((associatedModuleAdjunction B S hS).counit.app G) := IsIso.epi_of_iso _
   have hpre : Function.Bijective
       (fun ψ : G ⟶ G' => (associatedModuleAdjunction B S hS).counit.app G ≫ ψ) := by
     refine ⟨fun ψ ψ' h => (cancel_epi _).1 h, fun t => ⟨inv

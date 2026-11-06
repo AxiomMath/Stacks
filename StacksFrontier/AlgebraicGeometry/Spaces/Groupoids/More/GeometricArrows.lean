@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.Algebra.Field.ULift
+public import Mathlib.Algebra.MvPolynomial.Cardinal
+public import Mathlib.RingTheory.Algebraic.Cardinality
 public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.FieldTheory.IsAlgClosed.Classification

@@ -143,7 +143,6 @@ theorem moduleFinite_of_tmul_span {R₀ R : Type u} [CommRing R₀] [CommRing R]
       Submodule.span R (((s.image fun x : H => ψ (x ⊗ₜ[R₀] m₁)) : Finset N) : Set N) := by
     intro t
     induction t with
-    | zero => simp
     | tmul x m =>
         obtain ⟨c, hc⟩ := hone m
         rw [hc, hact]

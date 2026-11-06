@@ -164,7 +164,7 @@ theorem coeff_integral_succ (p : A[X]) (n : ℕ) :
 /-- A polynomial over a `ℚ`-algebra with vanishing derivative is its own constant term. -/
 theorem eq_C_coeff_zero_of_derivative_eq_zero {p : A[X]} (hp : derivative p = 0) :
     p = C (p.coeff 0) :=
-  have : IsAddTorsionFree A := .of_module_rat A
+  have : HasUniqueDiv A := .of_module_rat A
   eq_C_of_derivative_eq_zero hp
 
 /-- `∫ p` is the only polynomial with vanishing constant term whose derivative is `p`. -/

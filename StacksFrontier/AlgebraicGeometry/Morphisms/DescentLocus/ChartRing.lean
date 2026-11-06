@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 public import Mathlib.AlgebraicGeometry.Morphisms.Immersion
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
+public import Mathlib.RingTheory.Localization.Away.AdjoinRoot
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FinitePresentationPoint
 
 /-!

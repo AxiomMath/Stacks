@@ -45,6 +45,17 @@ universe u
 
 namespace Stacks.SheafOfModules
 
+/-- Weak sheafification of abelian presheaves on a small site, from the project's global
+instance, made a local instance of high priority so that the lemmas below do not pick up the
+section variable `[HasSheafify J AddCommGrpCat.{u}]`. -/
+private abbrev hasWeakSheafifyAddCommGrpCat {C : Type u} [SmallCategory C]
+    (J : GrothendieckTopology C) : HasWeakSheafify J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat
+
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}}
   [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [Limits.HasBinaryProducts C] [∀ Y : C, HasSheafify (J.over Y) AddCommGrpCat.{u}]

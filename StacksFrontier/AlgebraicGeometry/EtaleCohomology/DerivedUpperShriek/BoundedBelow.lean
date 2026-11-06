@@ -78,7 +78,7 @@ theorem computesRightDerived_singleFunctor_obj_of_injective (I : A) [Injective I
   have hres (K : HomotopyCategory.Plus A) :
       ∃ (Y : HomotopyCategory.Plus A) (f : K ⟶ Y)
         (_ : HomotopyCategory.Plus.quasiIso A f),
-        IsIso (F.rightDerivedFunctorPlusUnit.app Y) := by
+        IsIso (F.rightDerivedFunctorPlusUnith.app Y) := by
     obtain ⟨a, ha⟩ := (HomotopyCategory.plus_quotient_obj_iff K.obj.as).1 K.property
     let P : ObjectProperty A := fun X ↦ Injective X
     have : P.ContainsZero := ⟨0, isZero_zero A, inferInstance⟩
@@ -97,7 +97,7 @@ theorem computesRightDerived_singleFunctor_obj_of_injective (I : A) [Injective I
   exact (Functor.computesRightDerived_iff_isIso_app
     (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh)
     DerivedCategory.Plus.Qh F.rightDerivedFunctorPlus
-    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlusUnit
+    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlusUnith
     ((HomotopyCategory.Plus.singleFunctor A 0).obj I) hres).2 inferInstance
 
 /-- **Finite cohomological dimension bounds the amplitude of an unbounded right derived
@@ -112,7 +112,7 @@ theorem isLE_obj_of_isZero_rightDerived [PreservesFiniteLimits F] (n : ℕ)
     [RF.IsRightDerivedFunctor α (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
     (E : DerivedCategory A) (b : ℤ) (hE : E.IsLE b) : (RF.obj E).IsLE (b + n - 1) :=
   (((Functor.hasRightDerivedFunctor_of_isZero_rightDerived F F.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith
     (fun X ↦ (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
       (HomotopyCategory.Plus.quasiIso A) ((HomotopyCategory.Plus.singleFunctor A 0).obj X))
     (fun _ ↦ Iff.rfl)

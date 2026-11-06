@@ -293,7 +293,7 @@ noncomputable def tensorProductLeftUnitor
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
     change IsIso
       (PresheafOfModules.sheafificationAdjunction
@@ -313,7 +313,7 @@ noncomputable def tensorProductRightUnitor
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit := by
     change IsIso
       (PresheafOfModules.sheafificationAdjunction
@@ -322,6 +322,7 @@ noncomputable def tensorProductRightUnitor
   exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (ρ_ M.val) ≪≫
     (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app M
 
+set_option maxHeartbeats 1000000 in
 /-- The associativity constraint of the sheaf tensor product. The sheafification units compare
 each nested sheaf tensor product with the sheafification of the corresponding triple presheaf
 tensor product; Tag 05NA makes those comparisons isomorphisms, and between them sits the
@@ -341,7 +342,7 @@ noncomputable def tensorProductAssociator
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   letI : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
       (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val) ▷ P.val)) :=
     Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO
@@ -375,11 +376,11 @@ noncomputable def tensorProductBraiding
   letI : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   letI : SymmetricCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         :=
-    PresheafOfModules.symmetricCategory (R := O)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := O)
   exact (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (β_ M.val N.val)
 
 end Stacks.SheafOfModules.Invertible

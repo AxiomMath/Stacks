@@ -77,6 +77,7 @@ def abelianSheafFiberHomologyDerivedPushforwardIso
     (isIso_spacesEtaleDerivedBaseChange_app_of_isProper T f hf _ _ _
       (IsPullback.of_hasPullback f (geometricPointHom x)) E m hE hT) n
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Let `f : Y ⟶ X` be a proper morphism of algebraic spaces over a
 scheme `S` and `x̄ : Spec Ω ⟶ X` a geometric point, with geometric fibre `Y_x̄ = Y ×_X Spec Ω`
 and projection `g' : Y_x̄ ⟶ Y`. For a torsion abelian sheaf `F` on `Y_étale`,

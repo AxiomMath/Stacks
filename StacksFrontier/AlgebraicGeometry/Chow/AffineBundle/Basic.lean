@@ -146,7 +146,7 @@ theorem relativeDimension_affineSpaceOver (T : Scheme.{u}) (r : ℕ) :
             (AffineSpace.SpecIso n (CommRingCat.of K)))).isHomeomorph
       _ = ringKrullDim (MvPolynomial n K) :=
         PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _
-      _ = ringKrullDim K + Nat.card n := MvPolynomial.ringKrullDim_of_isNoetherianRing
+      _ = ringKrullDim K + Nat.card n := MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite
       _ = (r : WithBot ℕ∞) := by simp [n]
   exact (IsHomeomorph.topologicalKrullDim_eq _ h.isHomeomorph).symm.trans hd
 

@@ -101,12 +101,12 @@ public theorem isThin_fiber_of_infinitesimalAutomorphisms_eq_bot (hD : IsDeforma
       have hχid : χ = 𝟙 x₀.1 := congrArg Subtype.val
         ((isThin_specialFiber hD.predeformation x₀ x₀).elim (⟨χ, hχlift⟩ : x₀ ⟶ x₀) (𝟙 x₀))
       rw [← hχfac, hχid, Category.comp_id]
-    let α : Aut x := asIso a
+    let α : Aut x := .of (asIso a)
     have hmem : α ∈ relativeInfinitesimalAutomorphisms hp r f hf :=
       (mem_relativeInfinitesimalAutomorphisms_iff hp r f hf α).mpr hcomm
     rw [hbot] at hmem
     have h1 : α = 1 := (Subgroup.mem_bot).mp hmem
-    exact congrArg Iso.hom h1
+    exact congrArg (fun β : Aut x ↦ β.asIso.hom) h1
   refine fun x y ↦ ⟨fun φ ψ ↦ ?_⟩
   have : IsIso ψ := (fiber_isGroupoid p hp A).all_isIso ψ
   calc φ = (φ ≫ inv ψ) ≫ ψ := by simp

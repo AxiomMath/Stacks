@@ -53,7 +53,7 @@ variable {X : Scheme.{u}} [ConnectedSpace X] (A : FiniteEtaleOver X) (P : Subgro
 
 /-- The action of a subgroup `P` of `Aut(A)` on `A`, as a diagram indexed by `P`. -/
 def galoisSubgroupDiagram : SingleObj P ⥤ FiniteEtaleOver X :=
-  SingleObj.functor ((Aut.toEnd A).comp P.subtype)
+  SingleObj.functor ((Aut.toEnd (X := A)).comp P.subtype)
 
 variable [Finite P]
 
@@ -69,7 +69,7 @@ def galoisSubgroupQuotientπ : A ⟶ galoisSubgroupQuotient A P :=
 /-- The projection `A ⟶ A/P` is invariant under `P`. -/
 @[reassoc (attr := simp)]
 theorem hom_comp_galoisSubgroupQuotientπ (p : P) :
-    (p : Aut A).hom ≫ galoisSubgroupQuotientπ A P = galoisSubgroupQuotientπ A P :=
+    (p : Aut A).asIso.hom ≫ galoisSubgroupQuotientπ A P = galoisSubgroupQuotientπ A P :=
   colimit.w (galoisSubgroupDiagram A P) (p : SingleObj.star P ⟶ SingleObj.star P)
 
 section Fiber
@@ -125,7 +125,7 @@ theorem exists_smul_eq_of_map_galoisSubgroupQuotientπ_eq
     {a b : (finiteEtaleFiberFintypeFunctor X x).obj A}
     (h : (finiteEtaleFiberFintypeFunctor X x).map (galoisSubgroupQuotientπ A P) a =
       (finiteEtaleFiberFintypeFunctor X x).map (galoisSubgroupQuotientπ A P) b) :
-    ∃ p : P, (finiteEtaleFiberFintypeFunctor X x).map (p : Aut A).hom a = b := by
+    ∃ p : P, (finiteEtaleFiberFintypeFunctor X x).map (p : Aut A).asIso.hom a = b := by
   have h' := congrArg (galoisSubgroupQuotientToOrbits A P x) h
   rw [galoisSubgroupQuotientToOrbits_map, galoisSubgroupQuotientToOrbits_map] at h'
   exact Quotient.exact h'.symm
@@ -139,7 +139,7 @@ def galoisSubgroupOrbitsToQuotient :
     (fun a b hab ↦ by
       obtain ⟨p, rfl⟩ := hab
       change (finiteEtaleFiberFintypeFunctor X x).map (galoisSubgroupQuotientπ A P)
-          ((finiteEtaleFiberFintypeFunctor X x).map (p : Aut A).hom b) = _
+          ((finiteEtaleFiberFintypeFunctor X x).map (p : Aut A).asIso.hom b) = _
       rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, hom_comp_galoisSubgroupQuotientπ]))
 
 /-- The map from the orbit set to the fibre of `A/P` sends the orbit of a fibre point of `A` to
@@ -213,7 +213,7 @@ theorem natCard_galoisSubgroupQuotient_fiber (x : GeometricPoint X) :
     (Nat.card_congr (Equiv.ofBijective _ (evaluation_aut_bijective_of_isGalois Φ A a₀))).symm
   have hfree : ∀ (p : P) (a : Φ.obj A), p • a = a → p = 1 := fun p a hp ↦
     Subtype.ext <| evaluation_aut_injective_of_isConnected Φ A a <| by
-      show Φ.map (p : Aut A).hom a = Φ.map (𝟙 A) a
+      show Φ.map (p : Aut A).asIso.hom a = Φ.map (𝟙 A) a
       rwa [Φ.map_id]
   have hcount := natCard_eq_natCard_orbitRel_mul_of_free hfree
   rw [hAut, ← P.card_mul_index, mul_comm (Nat.card P)] at hcount
@@ -271,7 +271,7 @@ every point.** -/
 theorem exists_mem_agreeLocus_galoisSubgroupQuotientπ {W : Scheme.{u}} (a b : W ⟶ A.left)
     (hab : a ≫ (galoisSubgroupQuotientπ A P).left = b ≫ (galoisSubgroupQuotientπ A P).left)
     (w : W) :
-    ∃ (p : P) (hw : (a ≫ (p : Aut A).hom.left) ≫ (galoisSubgroupQuotientπ A P).left =
+    ∃ (p : P) (hw : (a ≫ (p : Aut A).asIso.hom.left) ≫ (galoisSubgroupQuotientπ A P).left =
         b ≫ (galoisSubgroupQuotientπ A P).left),
       w ∈ Scheme.Hom.agreeLocus (galoisSubgroupQuotientπ A P).left _ _ hw := by
   have hw₀ : (galoisSubgroupQuotientπ A P).left ≫ (galoisSubgroupQuotient A P).hom = A.hom :=
@@ -289,14 +289,14 @@ theorem exists_mem_agreeLocus_galoisSubgroupQuotientπ {W : Scheme.{u}} (a b : W
       ((W.algClosedPoint w).hom ≫ b) ≫ (galoisSubgroupQuotientπ A P).left
     rw [Category.assoc, Category.assoc, hab]
   obtain ⟨p, hp⟩ := exists_smul_eq_of_map_galoisSubgroupQuotientπ_eq A P x' hπ
-  have hp' : (W.algClosedPoint w).hom ≫ a ≫ (p : Aut A).hom.left =
+  have hp' : (W.algClosedPoint w).hom ≫ a ≫ (p : Aut A).asIso.hom.left =
       (W.algClosedPoint w).hom ≫ b := by
     rw [← finiteEtaleFiberFintypeFunctor_map_fiberPointOfComp]
     exact congrArg Subtype.val hp
-  have hw : (a ≫ (p : Aut A).hom.left) ≫ (galoisSubgroupQuotientπ A P).left =
+  have hw : (a ≫ (p : Aut A).asIso.hom.left) ≫ (galoisSubgroupQuotientπ A P).left =
       b ≫ (galoisSubgroupQuotientπ A P).left := by
     rw [Category.assoc]
-    show a ≫ ((p : Aut A).hom ≫ galoisSubgroupQuotientπ A P).left = _
+    show a ≫ ((p : Aut A).asIso.hom ≫ galoisSubgroupQuotientπ A P).left = _
     rw [hom_comp_galoisSubgroupQuotientπ]
     exact hab
   refine ⟨p, hw, ?_⟩
@@ -307,7 +307,7 @@ theorem exists_mem_agreeLocus_galoisSubgroupQuotientπ {W : Scheme.{u}} (a b : W
 geometrically unibranch. -/
 def galoisSubgroupQuotientCovering : EtaleGaloisCovering (galoisSubgroupQuotient A P).left P where
   cover := Scheme.Etale.mk (galoisSubgroupQuotientπ A P).left
-  act p := (p : Aut A).hom.left
+  act p := (p : Aut A).asIso.hom.left
   act_comp_hom p :=
     congrArg (fun f ↦ f.left) (hom_comp_galoisSubgroupQuotientπ A P p)
   act_one := rfl

@@ -150,8 +150,8 @@ theorem finiteType_glued [Algebra.FiniteType R S] :
   have hmap : A.map D.prS = ⊤ := by
     rw [AlgHom.map_adjoin, ← hs]
     congr 1
-    ext y
-    simp [hlift]
+    rw [Finset.coe_image, Set.image_image]
+    simp only [hlift, Set.image_id']
   have hA (x : D.TT) : ∃ a ∈ A, D.prS a = D.prS x :=
     Subalgebra.mem_map.mp (hmap ▸ Algebra.mem_top : D.prS x ∈ A.map D.prS)
   have hsub {x y : D.TT} (h : D.prS y = D.prS x) : x - y ∈ N.map (algebraMap R D.TT) := by

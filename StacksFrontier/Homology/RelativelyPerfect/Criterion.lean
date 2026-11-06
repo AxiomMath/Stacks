@@ -344,7 +344,7 @@ private lemma globalDimension_polynomial_fibre_le
   have : IsRegularRing C := IsRegularRing.of_ringEquiv e.symm
   have hdim : ringKrullDim C = (Nat.card ι : WithBot ℕ∞) := by
     rw [ringKrullDim_eq_of_ringEquiv e, MvPolynomial.ringKrullDim_of_isNoetherianRing]
-    simp
+    simp [ENat.card_eq_coe_natCard]
   have heq : ringGlobalDimension C = (Nat.card ι : WithBot ℕ∞) := by
     apply ((isRegularRing_tfae (R := C) (Nat.card ι)).out 2 1).mp
     exact ⟨inferInstance, hdim⟩

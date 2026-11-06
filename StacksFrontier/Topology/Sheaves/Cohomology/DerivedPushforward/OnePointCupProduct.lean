@@ -254,7 +254,7 @@ private theorem factorsh_inv_app
       (((sectionsOverOpen (onePointRingedSpace R) ⊤).mapHomotopyCategoryFactors
         (ComplexShape.up ℤ)).inv.app N) = 𝟙 _ := DerivedCategory.Qh.map_id _
   rw [hid] at hh
-  exact inv_comp_of_hom_eq
+  simpa only [Iso.app_inv, Category.assoc, Functor.comp_obj] using inv_comp_of_hom_eq
     ((sectionsOverOpen (onePointRingedSpace R) ⊤).mapDerivedCategoryFactorsh.app
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj N)) _ _ _ _
     (Iso.inv_hom_id_app (DerivedCategory.quotientCompQhIso _)

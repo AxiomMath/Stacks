@@ -371,7 +371,7 @@ theorem gluedCurveDualNumbersTranslation_comp_snd {c : DualNumber k}
 def gluedCurveDualNumbersTranslationAut {c : DualNumber k} (h2 : (2 : DualNumber k) = 0)
     (hc : c * c = 0) :
     Aut (Over.mk (pullback.snd (gluedCurveToBase k pts hpts) (dualNumbersToBase k))) :=
-  Over.isoMk
+  Aut.of <| Over.isoMk
     { hom := gluedCurveDualNumbersTranslation k pts hpts h2 hc
       inv := gluedCurveDualNumbersTranslation k pts hpts h2 (c := -c) (by rw [neg_mul_neg, hc])
       hom_inv_id := gluedCurveDualNumbersTranslation_comp_neg k pts hpts h2 hc
@@ -401,7 +401,7 @@ def gluedCurveDualNumbersAut :
 
 /-- The automorphism is the translation `t ↦ t + ε` on both copies of `ℙ¹_{k[ε]}`. -/
 theorem gluedCurveDualNumbersComponent_comp_aut (b : Bool) :
-    gluedCurveDualNumbersComponent k pts hpts b ≫ (gluedCurveDualNumbersAut k pts hpts).hom.left =
+    gluedCurveDualNumbersComponent k pts hpts b ≫ (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
       projectiveLineTranslation DualNumber.eps DualNumber.eps_mul_eps ≫
         gluedCurveDualNumbersComponent k pts hpts b :=
   gluedCurveDualNumbersComponent_comp_translation k pts hpts (two_eq_zero_dualNumber k)
@@ -414,7 +414,7 @@ substitution `t ↦ t + ε`** of the equalizer diagram
 @[stacks 0DSU "the automorphism of X_A is the substitution t ↦ t + ε on the two affine lines"]
 theorem projectiveLineXChart_comp_gluedCurveDualNumbersAut (b : Bool) :
     projectiveLineXChart (DualNumber k) ≫ gluedCurveDualNumbersComponent k pts hpts b ≫
-        (gluedCurveDualNumbersAut k pts hpts).hom.left =
+        (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (translate (DualNumber.eps : DualNumber k)).toRingHom) ≫
         projectiveLineXChart (DualNumber k) ≫ gluedCurveDualNumbersComponent k pts hpts b := by
   rw [gluedCurveDualNumbersComponent_comp_aut, projectiveLineTranslation,
@@ -439,7 +439,7 @@ theorem gluingSubringSnd_comp_epsTranslate (pts : Fin 3 → DualNumber k) :
 @[stacks 0DSU "the automorphism of X over A is nontrivial"]
 theorem gluedCurveDualNumbersAut_ne_one : gluedCurveDualNumbersAut k pts hpts ≠ 1 := by
   intro h
-  have h1 : (gluedCurveDualNumbersAut k pts hpts).hom.left = 𝟙 _ := by
+  have h1 : (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left = 𝟙 _ := by
     rw [h]
     rfl
   have e := gluedCurveDualNumbersComponent_comp_aut k pts hpts false

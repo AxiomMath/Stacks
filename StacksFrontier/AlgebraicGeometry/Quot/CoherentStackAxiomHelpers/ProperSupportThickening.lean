@@ -116,7 +116,7 @@ theorem hasProperSupport_of_isPullback_of_isThickening
   have he : e.inv ≫ j = (Subfunctor.range j).ι := by
     calc e.inv ≫ j = e.inv ≫ (Subfunctor.toRange j ≫ (Subfunctor.range j).ι) :=
           congrArg (fun k => e.inv ≫ k) (Subfunctor.toRange_ι j).symm
-      _ = _ := by simp [e]
+      _ = _ := e.inv_hom_id_assoc _
   have hR'alg : IsAlgebraicSpace B S hS R'.toFunctor :=
     isAlgebraicSpace_reducedClosedSubspace B S hS X'.1 X'.2 T₁ hcl'
   have hZalg : IsAlgebraicSpace B S hS (Subfunctor.range j).toFunctor :=

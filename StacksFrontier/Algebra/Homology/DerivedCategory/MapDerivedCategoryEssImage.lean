@@ -547,13 +547,13 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
         Pi.π (fun n : ℕ ↦ F.mapDerivedCategory.obj (G.obj ⟨n⟩)) (n + 1) ≫
           F.mapDerivedCategory.map (G.map (homOfLE (Nat.le_succ n)).op)) = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π_assoc, zero_comp]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc, zero_comp]
     rw [hℓ, sub_self]
   obtain ⟨c, hc⟩ := Triangle.coyoneda_exact₂ _ hT' (Pi.lift ℓ) hf
   have hkey (N : ℕ) : c ≫ F.mapDerivedCategory.map (p ≫ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) N) =
       ℓ N := by
     have h := congrArg (· ≫ Pi.π (fun n : ℕ ↦ F.mapDerivedCategory.obj (G.obj ⟨n⟩)) N) hc
-    simp only [Pi.lift_π, Triangle.mk_mor₁, Category.assoc, piComparison_comp_π] at h
+    simp only [Pi.lift_comp_π, Triangle.mk_mor₁, Category.assoc, piComparison_comp_π] at h
     rw [h, Functor.map_comp]
   have : IsIso c := by
     rw [DerivedCategory.isIso_iff]

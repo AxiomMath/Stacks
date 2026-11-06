@@ -45,6 +45,14 @@ namespace AlgebraicGeometry.FinitePartChart
 attribute [local instance] Stacks.Morphisms.isFinite_isZariskiLocalAtTarget
   Stacks.Morphisms.isFinite_respectsIso
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FiniteOpenUnion
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The comparison morphism of finite parts attached to a cartesian square of algebraic spaces
 exhibits the square of finite parts as cartesian, which is Stacks 04QF in existential form. -/
 theorem exists_isPullback_finitePart
@@ -152,6 +160,7 @@ private theorem finiteOpenSubspace_eq_of_isBaseChange
     · rw [Category.assoc, ← hjR, ← Category.assoc, ← Category.assoc,
         show e.hom ≫ jR = jQ from sqQ.isoIsPullback_hom_snd _ _ sqR]
       exact hjQ
+  have : Epi e.hom := @IsIso.epi_of_iso _ _ _ _ e.hom (Iso.isIso_hom e)
   have hQR : Q = R := by
     rw [← Subfunctor.range_ι Q, ← hι, Subfunctor.range_comp,
       Subfunctor.range_eq_top, Subfunctor.image_top, Subfunctor.range_ι]
@@ -257,7 +266,8 @@ private theorem exists_finiteOpenSubspace_of_scheme_open
   let j' : yoneda.obj W ⟶ pullback (yoneda.map a) (yoneda.map f) := yoneda.map j ≫ e.hom
   have : IsOpenImmersion (q.map j) := hj
   have : Mono j := q.mono_of_mono_map inferInstance
-  have hjmono : Mono j' := by dsimp [j']; infer_instance
+  have : Mono e.hom := @IsIso.mono_of_iso _ _ _ _ e.hom (Iso.isIso_hom e)
+  have hjmono : Mono j' := mono_comp _ _
   have hj' : Space.IsOpenImmersion B S hS j' :=
     MorphismProperty.RespectsIso.postcomp _ e.hom (yoneda.map j)
       (presheaf_yoneda_map B S hS _ j hj)
@@ -649,7 +659,7 @@ theorem exists_sections_of_site_coproduct
       rfl
     · have hq : IsEmpty (q.obj T) :=
         isEmpty_of_commSq_sigmaι_of_ne (g := A) (a := q.map g) (b := q.map h) ⟨hcomm⟩
-          (fun hh ↦ hij (ULift.ext _ _ hh))
+          (fun hh ↦ hij (ULift.ext hh))
       have := subsingleton_sections_of_empty_scheme B S hS F hF T hq
       exact Subsingleton.elim _ _
   obtain ⟨t, ht, _⟩ := ((Presieve.isSheafFor_arrows_iff F ι').mp hs)

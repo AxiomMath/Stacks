@@ -122,7 +122,8 @@ theorem isSmoothVariety_affineSpace :
 theorem topologicalKrullDim_affineSpace : topologicalKrullDim (𝔸⁴) = 4 := by
   show topologicalKrullDim (PrimeSpectrum P) = 4
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
-    MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, Nat.card_fin]
+    MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field,
+    Nat.card_fin]
   rfl
 
 /-- The local ring of `𝔸⁴` at the origin. -/

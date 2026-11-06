@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Zero
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Cech.InjectiveSheafVanishing
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Torsors.CechClassSurjectivity
 public import StacksFrontier.CategoryTheory.Sites.FunctorialInjectiveEmbeddings

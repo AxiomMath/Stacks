@@ -86,6 +86,16 @@ open CategoryTheory CategoryTheory.Limits AlgebraicGeometry Opposite
 
 universe u
 
+/-- The spaces-étale site has global sections of abelian sheaves, through its final object
+(instance search through limits of shape `(SpacesEtale B S hS X)ᵒᵖ` times out). -/
+local instance (priority := high)
+    AlgebraicGeometry.Space.hasGlobalSectionsFunctor_spacesEtale_ProperHypercoveringDerivedDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} (X : AlgebraicSpaces B S hS) :
+    HasGlobalSectionsFunctor (AlgebraicGeometry.Space.SpacesEtale.topology B S hS X)
+      AddCommGrpCat.{u + 1} :=
+  ⟨_, ⟨constantSheafAdj _ _
+    (terminalIsTerminal (C := AlgebraicGeometry.Space.SpacesEtale B S hS X))⟩⟩
+
 namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

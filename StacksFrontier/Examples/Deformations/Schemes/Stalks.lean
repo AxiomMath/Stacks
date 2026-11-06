@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.AlgebraicGeometry.Morphisms.Flat
 public import Mathlib.AlgebraicGeometry.Stalk
+public import Mathlib.RingTheory.Flat.Localization
 public import Mathlib.RingTheory.Flat.Stability
 
 /-!

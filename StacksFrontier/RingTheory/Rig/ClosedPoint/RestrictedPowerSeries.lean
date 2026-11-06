@@ -269,7 +269,7 @@ private theorem polynomial_quotient_surjective
       exact Ideal.mem_map_of_mem _ hmem
     refine ⟨p, ?_⟩
     show Ideal.Quotient.mk Q b - Ideal.Quotient.mk Q (f p) ∈ I • (⊤ : Submodule A N)
-    rw [← map_sub, Ideal.smul_top_eq_map]
+    rw [← (Ideal.Quotient.mk Q).map_sub, Ideal.smul_top_eq_map]
     exact hquot
   let ψ : P →ₐ[A] N :=
     { toRingHom := (Ideal.Quotient.mk Q).comp f

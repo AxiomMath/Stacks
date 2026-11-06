@@ -179,11 +179,11 @@ public theorem fShriekStalkIso_germ_fShriekFunctorIsoProperSupport_inv (s : Geom
   have key : ((finiteSupportPushforwardIso.{u, max (u + 1) v} B f).val.hom.app F).app (op W) ≫
       ((fShriekFunctorIsoProperSupport.{u, v} B f).inv.app F).hom.app (op W) ≫
       colimit.ι (etaleStalkDiagram B Y.obj Y.property s ((fShriekFunctor.{u, v} B f).obj F).obj)
-        (op ⟨W, w⟩) ≫ (fShriekStalkIso.{u, v} B f s F).hom ≫ ev =
+        (op (Functor.elementsMk _ W w)) ≫ (fShriekStalkIso.{u, v} B f s F).hom ≫ ev =
     ((finiteSupportPushforwardIso.{u, max (u + 1) v} B f).val.hom.app F).app (op W) ≫
       (fShriekSubsheaf B f F).val.arrow.hom.app (op W) ≫
       colimit.ι (etaleStalkDiagram B X.obj X.property (x.toGeometricPoint B f s) F.obj)
-        (op ⟨baseChange B f W, fiberPointElement B f s W w x⟩) := by
+        (op (Functor.elementsMk _ (baseChange B f W) (fiberPointElement B f s W w x))) := by
     refine finiteSupportPushforwardGenerator_hom_ext B f F W fun E => ?_
     refine ConcreteCategory.hom_ext _ _ fun a => ?_
     simp only [ConcreteCategory.comp_apply]
@@ -498,7 +498,7 @@ public theorem etaleSection_ext
           etaleGerm B S hS (geometricPointOfEtalePoint B S hS U x) G.obj U
             (geometricPointOfEtalePointLift B S hS U x) b :=
         map_sub (ConcreteCategory.hom (colimit.ι (etaleStalkDiagram B S hS
-          (geometricPointOfEtalePoint B S hS U x) G.obj) (op ⟨U, _⟩))) a b
+          (geometricPointOfEtalePoint B S hS U x) G.obj) (op (Functor.elementsMk _ U _)))) a b
       rw [hs, ha, sub_self]
     obtain ⟨W', j, q', hq', hz⟩ := (etaleGerm_eq_zero_iff B S hS _ G.obj U _ (a - b)).1 h0
     refine ⟨W', j, ?_, q'.1.base default, ?_⟩

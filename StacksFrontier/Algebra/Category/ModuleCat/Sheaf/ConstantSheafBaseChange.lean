@@ -209,12 +209,12 @@ theorem unitSectionsAddEquiv_constantModuleSheafMap (U : C)
       ((forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}).obj (ModuleCat.of Λ Λ))
   let T' := (SheafOfModules.toSheaf ((constantSheaf J RingCat.{w}).obj (RingCat.of Λ'))).obj
     (SheafOfModules.unit ((constantSheaf J RingCat.{w}).obj (RingCat.of Λ')))
-  let n₁ : sheafify J P ⟶ T'.val :=
+  let n₁ : sheafify J P ⟶ T'.obj :=
     ((SheafOfModules.toSheaf ((constantSheaf J RingCat.{w}).obj (RingCat.of Λ))).map
         (unitIsoConstantModuleSheaf J (R := Λ)).inv).hom ≫
       Functor.whiskerRight ((constantSheaf J RingCat.{w}).map (RingCat.ofHom π)).hom
         (forget₂ RingCat.{w} AddCommGrpCat.{w})
-  let n₂ : sheafify J P ⟶ T'.val :=
+  let n₂ : sheafify J P ⟶ T'.obj :=
     ((SheafOfModules.toSheaf ((constantSheaf J RingCat.{w}).obj (RingCat.of Λ))).map
         (constantModuleSheafMap J (ringHomToRestrictScalars π))).hom ≫
       ((SheafOfModules.toSheaf ((constantSheaf J RingCat.{w}).obj (RingCat.of Λ'))).map

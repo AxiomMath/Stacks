@@ -91,7 +91,7 @@ theorem sum_count_normalizedFactors_mul_natDegree (q : k[X]) (hq : q ≠ 0) (s :
     simp [mul_comm]
   rw [← key, Finset.sum_subset hs]
   intro p _ hp
-  simp [Multiset.count_eq_zero_of_notMem (by simpa using hp)]
+  simp [Multiset.count_eq_zero_of_notMem (fun h => hp (Multiset.mem_toFinset.mpr h))]
 
 /-! ### Orders of a rational function on the projective line -/
 

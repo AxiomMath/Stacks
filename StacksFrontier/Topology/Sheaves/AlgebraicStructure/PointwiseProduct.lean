@@ -111,7 +111,7 @@ noncomputable def pointwiseProductPresheaf_comp_iso
   erw [piComparison_comp_π_apply F (fun x : ↥(unop V) => A x.1) y]
   erw [← F.map_comp_apply]
   congr 2
-  simp only [pointwiseProductPresheaf, Limits.Pi.lift_π]
+  simp only [pointwiseProductPresheaf, Limits.Pi.lift_comp_π]
   rfl
 
 /-- **Stacks 007R.** Let `C` have all small limits and let `F : C ⥤ Type v` preserve all small

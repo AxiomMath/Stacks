@@ -145,12 +145,12 @@ instance ringSheafSectionModuleOfCommRing (siteObject : Cᵒᵖ)
 /-- The canonical ring index carries the existing objectwise monoidal structure. -/
 noncomputable instance ringSheafPresheafMonoidalCategory :
     MonoidalCategory (PresheafOfModules.{w} (ringSheaf R).obj) :=
-  PresheafOfModules.monoidalCategory (R := R.obj)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := R.obj)
 
 /-- The canonical presheaf tensor is symmetric because its section rings are commutative. -/
 noncomputable instance ringSheafPresheafSymmetricCategory :
     SymmetricCategory (PresheafOfModules.{w} (ringSheaf R).obj) :=
-  PresheafOfModules.symmetricCategory (R := R.obj)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)
 
 /-- Tensoring a canonical module presheaf on the left preserves colimits. -/
 noncomputable instance ringSheafPresheafTensorLeftPreservesColimits

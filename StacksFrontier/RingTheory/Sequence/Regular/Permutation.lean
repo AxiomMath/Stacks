@@ -117,7 +117,7 @@ private noncomputable def jIdeal {n : ℕ} (f : Fin n → R) (s : Finset (Fin n)
 open MvPolynomial in
 private lemma coeff_gen_mul {n : ℕ} (j : Fin n) (fj : R) (q : MvPolynomial (Fin n) R)
     (α : Fin n →₀ ℕ) :
-    coeff α (C fj * X j * q) = if α j ≠ 0 then fj * coeff (α - Finsupp.single j 1) q else 0 := by
+    (C fj * X j * q).coeff α = if α j ≠ 0 then fj * q.coeff (α - Finsupp.single j 1) else 0 := by
   rw [show C fj * X j * q = (C fj * q) * X j by ring, coeff_mul_X']
   simp [Finsupp.mem_support_iff, coeff_C_mul]
 
@@ -132,7 +132,7 @@ open MvPolynomial in
 lies in the corresponding `kIdeal`. -/
 private lemma jIdeal_coeff_mem {n : ℕ} (f : Fin n → R) (s : Finset (Fin n))
     (p : MvPolynomial (Fin n) R) (hp : p ∈ jIdeal f s) :
-    ∀ α, coeff α p ∈ kIdeal f s α := by
+    ∀ α, p.coeff α ∈ kIdeal f s α := by
   induction hp using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨j, hj, rfl⟩ := hx
@@ -146,7 +146,7 @@ private lemma jIdeal_coeff_mem {n : ℕ} (f : Fin n → R) (s : Finset (Fin n))
   | zero => intro α; simp
   | add x y hx hy ihx ihy =>
       intro α
-      rw [coeff_add]
+      rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply]
       exact Ideal.add_mem _ (ihx α) (ihy α)
   | smul a x hx ih =>
       intro α
@@ -191,7 +191,7 @@ open MvPolynomial in
 /-- The monomial-graded characterization of membership in `jIdeal`. -/
 private lemma mem_jIdeal_iff {n : ℕ} (f : Fin n → R) (s : Finset (Fin n))
     (p : MvPolynomial (Fin n) R) :
-    p ∈ jIdeal f s ↔ ∀ α, coeff α p ∈ kIdeal f s α := by
+    p ∈ jIdeal f s ↔ ∀ α, p.coeff α ∈ kIdeal f s α := by
   refine ⟨jIdeal_coeff_mem f s p, fun hco => ?_⟩
   nth_rewrite 1 [as_sum p]
   exact Ideal.sum_mem _ fun α _ => monomial_mem_jIdeal f s α _ (hco α)

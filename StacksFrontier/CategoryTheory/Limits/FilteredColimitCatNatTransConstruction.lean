@@ -138,7 +138,6 @@ lemma Functor.natTransOfArrow_app (H : C ⥤ Arrow D) {F G : C ⥤ D}
   rw [Functor.natTransOfArrow]
   simp only [NatTrans.comp_app, eqToHom_app, Functor.whiskerLeft_app, Arrow.leftToRight_app,
     Category.assoc]
-  rfl
 
 /-- **`CategoryTheory.Functor.natTransOfArrow` restricted along a functor `P` is the
 transformation whose arrow functor `H` restricts to.** The stagewise datum is stated at the

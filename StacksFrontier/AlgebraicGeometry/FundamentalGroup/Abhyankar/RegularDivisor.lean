@@ -267,8 +267,9 @@ lemma isRegularLocalRing_localization_fromSpec [IsLocallyNoetherian X]
   let z := IdealSheafData.subschemePoint D x hxD
   let σ : (X.presheaf.stalk x ⧸ Ideal.span {germ.hom φ}) ≃+* D.subscheme.presheaf.stalk z :=
     (Ideal.quotEquivOfEq hstalk.symm).trans (IdealSheafData.subschemeStalkQuotEquiv D z)
-  have hmap : Ideal.span {germ.hom φ} = (Ideal.span {algebraMap Γ(X, V.1)
-      (Localization.AtPrime y.asIdeal) φ}).map e.toRingEquiv := by
+  have hmap : Ideal.span {germ.hom φ} =
+      (Ideal.span
+        {algebraMap Γ(X, V.1) (Localization.AtPrime y.asIdeal) φ}).map e.toRingEquiv := by
     rw [Ideal.map_span, Set.image_singleton]
     congr 2
     exact (e.commutes φ).symm

@@ -241,11 +241,11 @@ private lemma polynomialRemainder_monomial_mem_pow_mul
   have hb : b ∈ I ^ n := by
     by_cases hts : t = s
     · subst t
-      have hab : a = b := by simpa using congrArg (MvPolynomial.coeff s) hEq
+      have hab : a = b := by simpa using congrArg (fun q : MvPolynomial _ _ ↦ q.coeff s) hEq
       simpa [hab] using ha
     · have hb0 : b = 0 := by
         simpa [MvPolynomial.coeff_monomial, Ne.symm hts] using
-          (congrArg (MvPolynomial.coeff t) hEq).symm
+          (congrArg (fun q : MvPolynomial _ _ ↦ q.coeff t) hEq).symm
       exact hb0 ▸ (I ^ n).zero_mem
   have hJa : Ja b ≤ Jn := by
     show Ideal.map (algebraMap A C) (Ideal.span {b}) ≤
@@ -261,7 +261,7 @@ private lemma polynomialRemainder_mem_pow_mul
     (hδ : ∀ i, ψ' (polynomialAlgHom I σ (MvPolynomial.X i)) =
       ψ (polynomialAlgHom I σ (MvPolynomial.X i)) + δ i)
     (n : ℕ) (p : MvPolynomial σ A)
-    (hp : ∀ m, MvPolynomial.coeff m p ∈ I ^ n) :
+    (hp : ∀ m, p.coeff m ∈ I ^ n) :
     polynomialRemainder I ψ ψ' δ p ∈
       (I.map (algebraMap A C)) ^ n *
         Ideal.span (Set.range (fun ij : σ × σ ↦ δ ij.1 * δ ij.2)) := by
@@ -269,9 +269,9 @@ private lemma polynomialRemainder_mem_pow_mul
   rw [MvPolynomial.as_sum p]
   have hsum : ∀ t : Finset (σ →₀ ℕ),
       polynomialRemainder I ψ ψ' δ
-        (∑ s ∈ t, MvPolynomial.monomial s (MvPolynomial.coeff s p)) =
+        (∑ s ∈ t, MvPolynomial.monomial s (p.coeff s)) =
       ∑ s ∈ t, polynomialRemainder I ψ ψ' δ
-        (MvPolynomial.monomial s (MvPolynomial.coeff s p)) := by
+        (MvPolynomial.monomial s (p.coeff s)) := by
     intro t
     induction t using Finset.induction_on with
     | empty => simp [polynomialRemainder]
@@ -440,10 +440,10 @@ public theorem eval_add_variables_eq_linear_add_error
       MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) (p (n + 1) - p n) = 0 := by
     rw [map_sub, hred n (n + 1) (Nat.le_succ n), hp n, sub_self]
   have hcoeffDiff (n : ℕ) (m : σ →₀ ℕ) :
-      MvPolynomial.coeff m (p (n + 1) - p n) ∈ I ^ n := by
-    have hzero := congrArg (MvPolynomial.coeff m) (hmapDiff n)
+      (p (n + 1) - p n).coeff m ∈ I ^ n := by
+    have hzero := congrArg (fun q : MvPolynomial _ _ ↦ q.coeff m) (hmapDiff n)
     have hq : Ideal.Quotient.mk (I ^ n)
-        (MvPolynomial.coeff m (p (n + 1) - p n)) = 0 := by
+        ((p (n + 1) - p n).coeff m) = 0 := by
       simpa [MvPolynomial.coeff_map] using hzero
     exact (Ideal.Quotient.eq_zero_iff_mem).mp hq
   have hRdiff (n : ℕ) :

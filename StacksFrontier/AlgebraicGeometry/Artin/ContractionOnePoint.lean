@@ -180,7 +180,7 @@ theorem ext_completionSheaf_univ {Z : Set (Space.points B S hS (yoneda.obj V))}
   let G := (Space.completionSubfunctor B S hS (yoneda.obj V) Z).toFunctor
   let e₀ : G.obj (op V) := ⟨ULift.up (𝟙 V), hmem⟩
   let ι := (BigFppfOver.topology B S hS).toSheafify G
-  refine Sheaf.hom_ext (GrothendieckTopology.sheafify_hom_ext _ _ _ P.cond ?_)
+  refine Sheaf.hom_ext (GrothendieckTopology.sheafify_hom_ext _ _ _ P.property ?_)
   show ι ≫ α.hom = ι ≫ β.hom
   ext T ⟨⟨g⟩, hg⟩
   have e : (⟨⟨g⟩, hg⟩ : G.obj T) = G.map g.op e₀ := by
@@ -197,11 +197,11 @@ schemes, where `W` has a single section. -/
 theorem subsingleton_completionSheaf_empty {Z : Set (Space.points B S hS (yoneda.obj V))}
     (hZ : Z = ∅) (P : FormalSpace.FppfSheaf B S hS) :
     Subsingleton (Space.completionSheaf B S hS (yoneda.obj V) Z ⟶ P) := by
-  refine ⟨fun α β => Sheaf.hom_ext (GrothendieckTopology.sheafify_hom_ext _ _ _ P.cond ?_)⟩
+  refine ⟨fun α β => Sheaf.hom_ext (GrothendieckTopology.sheafify_hom_ext _ _ _ P.property ?_)⟩
   ext T x
   have hT := Space.isEmpty_toScheme_of_hasImageIn_empty (X := yoneda.obj V) (U := T.unop)
     (f := x.1.down) (hZ ▸ x.2)
-  exact (BigFppfOver.subsingleton_obj_of_isEmpty P.cond hT).elim _ _
+  exact (BigFppfOver.subsingleton_obj_of_isEmpty P.property hT).elim _ _
 
 /-- There is only one morphism from `V ∖ |V|` to `U'`: its sections live over empty schemes, where
 the algebraic space `X'` has a single section. -/

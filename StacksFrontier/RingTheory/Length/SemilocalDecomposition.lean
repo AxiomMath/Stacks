@@ -236,7 +236,7 @@ variable {A : Type u} [CommRing A] [IsLocalRing A] {B : Type v} [CommRing B]
 theorem comap_asIdeal_eq_maximalIdeal (q : MaximalSpectrum B) :
     q.asIdeal.comap (algebraMap A B) = maximalIdeal A :=
   have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
-  eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal)
+  eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q.asIdeal)
 
 include A in
 /-- A finite algebra over a local ring has finitely many maximal ideals: each of them lies over

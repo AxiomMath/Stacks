@@ -122,7 +122,9 @@ private lemma isRegular_of_ringKrullDim_le {k : Type*} [Field k] {ι : Type*} [F
       (Localization.AtPrime p)
   have hd : ringKrullDim (MvPolynomial ι k) = ((Nat.card ι : ℕ) : WithBot ℕ∞) := by
     rw [MvPolynomial.ringKrullDim_of_isNoetherianRing,
-      ringKrullDim_eq_zero_of_isField (Semifield.toIsField k), zero_add]
+      ringKrullDim_eq_zero_of_isField (Semifield.toIsField k), zero_add,
+      ENat.card_eq_coe_natCard]
+    rfl
   have hlen : (List.ofFn f).length = c := List.length_ofFn
   have hne : Ideal.ofList (List.ofFn f) ≠ ⊤ := by
     rw [Ideal.ofList_ofFn]
@@ -161,10 +163,10 @@ private lemma exists_fg_subalgebra_map_eq {R : Type*} [CommRing R] {ι : Type*} 
   classical
   let _ := Fintype.ofFinite n
   set T : Finset R :=
-    Finset.univ.biUnion fun i : n => (g i).support.image fun d => MvPolynomial.coeff d (g i) with
+    Finset.univ.biUnion fun i : n => (g i).support.image fun d => (g i).coeff d with
     hTdef
   set R₀ : Subalgebra ℤ R := Algebra.adjoin ℤ (T : Set R) with hR₀
-  have hmem : ∀ (i : n) (d : ι →₀ ℕ), d ∈ (g i).support → MvPolynomial.coeff d (g i) ∈ R₀ := by
+  have hmem : ∀ (i : n) (d : ι →₀ ℕ), d ∈ (g i).support → (g i).coeff d ∈ R₀ := by
     intro i d hd
     refine Algebra.subset_adjoin ?_
     simp only [Finset.mem_coe, hTdef, Finset.mem_biUnion, Finset.mem_univ, true_and]
@@ -174,7 +176,7 @@ private lemma exists_fg_subalgebra_map_eq {R : Type*} [CommRing R] {ι : Type*} 
     refine
       ⟨∑ d ∈ (g i).support,
           MvPolynomial.monomial d
-            (if h : d ∈ (g i).support then (⟨MvPolynomial.coeff d (g i), hmem i d h⟩ : R₀) else 0),
+            (if h : d ∈ (g i).support then (⟨(g i).coeff d, hmem i d h⟩ : R₀) else 0),
         ?_⟩
     rw [map_sum]
     conv_rhs => rw [(g i).as_sum]
@@ -670,7 +672,7 @@ private lemma flat_localization_quotient [Finite ι] (f : Fin c → MvPolynomial
   have := hflat₀ i
   rw [ofList_take_map_eq_map] at this
   set t₀ := g₀ (Sum.inl (Sum.inl 0))
-  set r₀ : Fin l → R₀ := fun j ↦ MvPolynomial.coeff 0 (g₀ (Sum.inl (Sum.inr j)))
+  set r₀ : Fin l → R₀ := fun j ↦ (g₀ (Sum.inl (Sum.inr j))).coeff 0
   have ht₀ : MvPolynomial.map (algebraMap R₀ R) t₀ = t := hg _
   have hr₀ : ∀ j, algebraMap R₀ R (r₀ j) = r j := fun j ↦ by
     rw [← MvPolynomial.coeff_map, hg, Sum.elim_inl, Sum.elim_inr, MvPolynomial.coeff_zero_C]

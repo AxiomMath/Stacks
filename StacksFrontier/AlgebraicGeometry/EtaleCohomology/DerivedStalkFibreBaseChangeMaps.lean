@@ -472,7 +472,8 @@ def strictHenselizationSectionsToFibreSectionsViaBaseChange :
           (smallEtaleDerivedGlobalSectionsPushforwardIsoAb (geometricFibreToPoint f s)).hom) ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight
-      (Functor.mapDerivedCategoryCompIso (geometricFibrePullbackAbCompIso B hS f s)).hom
+      ((Functor.mapDerivedCategoryCompIso _ _).hom ≫
+        NatTrans.mapDerivedCategory (geometricFibrePullbackAbCompIso B hS f s).hom)
       (smallEtaleDerivedGlobalSections (geometricFibre f s))
 
 /-- The second map of Stacks 0GIX as this library constructs it directly, by derived restriction
@@ -486,7 +487,8 @@ theorem strictHenselizationSectionsToFibreSections_eq_baseChange :
       (smallEtaleDerivedPullbackAb (strictHenselizationBaseChangeToSource B hS f s)) t ≫
         (Functor.associator _ _ _).inv ≫
         Functor.whiskerRight
-          (Functor.mapDerivedCategoryCompIso (geometricFibrePullbackAbCompIso B hS f s)).hom
+          ((Functor.mapDerivedCategoryCompIso _ _).hom ≫
+            NatTrans.mapDerivedCategory (geometricFibrePullbackAbCompIso B hS f s).hom)
           (smallEtaleDerivedGlobalSections (geometricFibre f s)))
     (smallEtaleDerivedGlobalSectionsRestriction_eq_baseChange
       (geometricFibreToStrictHenselizationBaseChange B hS f s)
@@ -619,7 +621,6 @@ theorem stalkStrictHenselizationDegreewise_app
   rw [← DerivedCategory.Qh.map_comp, ← DerivedCategory.Qh.map_comp,
     Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_comp_three,
     pushforwardStalkToStrictHenselizationSectionsAb_eq_baseChange]
-  rfl
 
 /-- The first map, precomposed with the unit, agrees with global sections of the base change map
 of the right square at the image of every complex. -/

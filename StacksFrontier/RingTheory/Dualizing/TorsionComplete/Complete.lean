@@ -91,7 +91,7 @@ theorem subsingleton_hom_of_isIso_smul_of_isDerivedCompleteAt
   have hs : s ≫ d = 0 := by
     apply Pi.hom_ext
     intro n
-    simp only [d, s, Category.assoc, oneSubSmulShift_π, Pi.lift_π, Preadditive.comp_sub,
+    simp only [d, s, Category.assoc, oneSubSmulShift_π, Pi.lift_comp_π, Preadditive.comp_sub,
       Linear.comp_smul, zero_comp]
     rw [← Category.id_comp (q (n + 1)), ← Linear.smul_comp]
     show q n - a ≫ q (n + 1) = 0
@@ -133,7 +133,7 @@ instance derivedCompleteProperty_containsZero :
   ⟨⟨0, isZero_zero _, fun a _ =>
     isDerivedCompleteAt_of_isNilpotent ⟨1, by
       rw [pow_one]
-      exact (isZero_zero (DerivedCategory (ModuleCat.{v} A))).eq_of_src _ _⟩⟩⟩
+      ext⟩⟩⟩
 
 variable {A I}
 

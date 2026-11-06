@@ -72,7 +72,8 @@ theorem isDerivedCompleteModule_of_pow_smul_eq_bot {M : Type u} [AddCommGroup M]
   rw [← isDerivedCompleteAt_iff_isIso]
   apply isDerivedCompleteAt_of_isNilpotent
   refine ⟨n, ?_⟩
-  rw [smul_id_pow]
+  ext1
+  rw [smul_id_pow, End.zero_asHom]
   apply ModuleCat.hom_ext
   ext m
   change f ^ n • m = 0

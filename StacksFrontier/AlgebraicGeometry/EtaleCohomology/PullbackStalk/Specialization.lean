@@ -320,7 +320,7 @@ public theorem specializationMapOnStalks_smallEtalePullback (B : BigEtaleSite.{u
   have := preservesPullbacks_bigEtaleSiteInclusion B
   ext z
   let I := (smallEtalePullbackStalkIso B g s').app F
-  obtain ⟨⟨⟨V, v⟩⟩, t, ht⟩ := Types.jointly_surjective' (I.hom z)
+  obtain ⟨⟨@⟨V, v⟩⟩, t, ht⟩ := Types.jointly_surjective' (I.hom z)
   let hp := (IsPullback.of_hasPullback V.obj.hom g).map B.inclusion
   let u : (geometricPointFiber B S'.1 S'.property s').obj ((smallEtaleBaseChange B g).obj V) :=
     ⟨hp.lift v.1 s'.hom v.2, hp.lift_snd _ _ _⟩
@@ -331,17 +331,17 @@ public theorem specializationMapOnStalks_smallEtalePullback (B : BigEtaleSite.{u
     (SmallEtale.topology B S.1 S.property)
     (SmallEtale.topology B S'.1 S'.property)).obj F).obj
   have hu : u.1 ≫ B.inclusion.map (pullback.fst V.obj.hom g) = v.1 := hp.lift_fst _ _ _
-  have hU : U.2.1 ≫ (SmallEtale.toScheme B S'.1 S'.property).map (𝟙 U.1) ≫
-      B.inclusion.map (pullback.fst W.1.obj.hom g) = W.2.1 := by
+  have hU : U.val.1 ≫ (SmallEtale.toScheme B S'.1 S'.property).map (𝟙 U.obj) ≫
+      B.inclusion.map (pullback.fst W.obj.obj.hom g) = W.val.1 := by
     simpa only [CategoryTheory.Functor.map_id, Category.id_comp] using hu
   have hsource := smallEtalePullbackStalkIso_germ B g s' F U W (𝟙 _) hU t
   let z' := colimit.ι ((CategoryOfElements.π (geometricPointFiber B S'.1 S'.property s')).op ⋙ P)
-    (op U) (pullbackSectionAlong B g F W.1 U.1 (𝟙 _) t)
+    (op U) (pullbackSectionAlong B g F W.obj U.obj (𝟙 _) t)
   obtain rfl : z = z' := I.toEquiv.injective (ht.symm.trans hsource.symm)
   let Uσ := (CategoryOfElements.map (specializationFiberHom σ)).obj U
   let Wσ := (CategoryOfElements.map (specializationFiberHom (σ.map g h hbase))).obj W
-  have hσ : Uσ.2.1 ≫ (SmallEtale.toScheme B S'.1 S'.property).map (𝟙 Uσ.1) ≫
-      B.inclusion.map (pullback.fst Wσ.1.obj.hom g) = Wσ.2.1 := by
+  have hσ : Uσ.val.1 ≫ (SmallEtale.toScheme B S'.1 S'.property).map (𝟙 Uσ.obj) ≫
+      B.inclusion.map (pullback.fst Wσ.obj.obj.hom g) = Wσ.val.1 := by
     show ((specializationFiberHom σ).app ((smallEtaleBaseChange B g).obj V) u).1 ≫
       (SmallEtale.toScheme B S'.1 S'.property).map
         (𝟙 ((smallEtaleBaseChange B g).obj V)) ≫
@@ -352,7 +352,7 @@ public theorem specializationMapOnStalks_smallEtalePullback (B : BigEtaleSite.{u
       (specializationMapOnStalks σ P z') =
     specializationMapOnStalks (σ.map g h hbase) F.obj (I.hom z')
   rw [specializationMapOnStalks_ι σ P U
-    (pullbackSectionAlong B g F W.1 U.1 (𝟙 _) t),
+    (pullbackSectionAlong B g F W.obj U.obj (𝟙 _) t),
     show I.hom z' = colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
       (s'.map (B.inclusion.map g)))).op ⋙ F.obj) (op W) t from hsource,
     specializationMapOnStalks_ι (σ.map g h hbase) F.obj W t]

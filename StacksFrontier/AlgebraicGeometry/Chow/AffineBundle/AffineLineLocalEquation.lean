@@ -301,8 +301,8 @@ theorem exists_opens_germ_span_eq_maximalIdeal (Y : Scheme.{u}) [IsIntegral Y]
       (hw : w ∈ ((𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ V))
       (t : Γ(𝔸(ULift.{u} (Fin 1); Y), (𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ V)),
       t ≠ 0 ∧
-      Ideal.span {(𝔸(ULift.{u} (Fin 1); Y)).presheaf.germ
-          ((𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ V) w hw |>.hom t} =
+      Ideal.span {((𝔸(ULift.{u} (Fin 1); Y)).presheaf.germ
+          ((𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ V) w hw |>.hom t)} =
         IsLocalRing.maximalIdeal ((𝔸(ULift.{u} (Fin 1); Y)).presheaf.stalk w) ∧
       ∀ (z : ↥𝔸(ULift.{u} (Fin 1); Y)) (hz : z ∈ (𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ V),
         ¬ IsUnit ((𝔸(ULift.{u} (Fin 1); Y)).presheaf.germ

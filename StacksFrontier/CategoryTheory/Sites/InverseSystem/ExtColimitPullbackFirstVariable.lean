@@ -394,7 +394,7 @@ theorem FirstVariable.Hom.nonempty_isColimit_of_inverse (h : FirstVariable.Hom �
         ext x
         exact (mk₀_comp_mk₀_comp n _ _ _ t₂ x).trans (Ext.mk₀_id_comp x) }
   refine ⟨IsColimit.ofIsoColimit ((IsColimit.precomposeHomEquiv α _).symm H)
-    (Cocones.ext β (fun A => ?_))⟩
+    (Cocone.ext β (fun A => ?_))⟩
   ext x
   exact key A.unop x
 

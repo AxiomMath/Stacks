@@ -92,12 +92,12 @@ public theorem isDerivedLimitWithProjections_of_isLimit_fan
     hπ.conePointUniqueUpToIso_hom_comp (limit.isLimit _) ⟨n⟩
   have hlift : Pi.lift ρ = p ≫ eP.hom := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Pi.lift_π, Category.assoc, heP, hρ]
+    rw [Pi.lift_comp_π, Category.assoc, heP, hρ]
   have hcomm : d ≫ eP.hom = eP.hom ≫ Pi.lift fun n : ℕ ↦
       Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, heP, hd n, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+    rw [Category.assoc, heP, hd n, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
       heP, ← Category.assoc, heP]
   refine ⟨eP.inv ≫ δ, isomorphic_distinguished _ hT _ ?_⟩
   refine Triangle.isoMk _ _ (Iso.refl X) eP.symm eP.symm ?_ ?_ ?_
@@ -155,7 +155,7 @@ public theorem isDerivedLimitWithProjections_Q_limit_of_epi
       intro n
       change (G.map d ≫ piComparison G X) ≫ Pi.π _ n = (piComparison G X ≫ d') ≫ Pi.π _ n
       rw [Category.assoc, piComparison_comp_π, ← G.map_comp]
-      simp only [d, d', Pi.lift_π, G.map_sub, G.map_comp, Category.assoc,
+      simp only [d, d', Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
         Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π]
     have : Epi (G.map d ≫ e.hom) := by
       rw [he]
@@ -177,12 +177,12 @@ public theorem isDerivedLimitWithProjections_Q_limit_of_epi
     change DerivedCategory.Q.map ((Pi.lift fun n : ℕ ↦
       Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n - Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) (n + 1) ≫
         F.map (homOfLE (Nat.le_succ n)).op) ≫ Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n) = _
-    rw [Pi.lift_π, DerivedCategory.Q.map_sub, DerivedCategory.Q.map_comp]
+    rw [Pi.lift_comp_π, DerivedCategory.Q.map_sub, DerivedCategory.Q.map_comp]
     rfl
   · rw [← DerivedCategory.Q.map_comp]
     change DerivedCategory.Q.map ((Pi.lift fun n : ℕ ↦ limit.π F ⟨n⟩) ≫
       Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n) = _
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
 
 /-! ### The limit of a short exact sequence of towers of complexes -/
 
@@ -458,7 +458,7 @@ public theorem isIso_limitLift_homology_Q_limit_of_epi
         (limit.cone F)) := by
     refine limit.hom_ext fun j ↦ ?_
     obtain ⟨n⟩ := j
-    rw [hq n, limit.lift_π, ← Functor.map_comp, Pi.lift_π]
+    rw [hq n, limit.lift_π, ← Functor.map_comp, Pi.lift_comp_π]
     rfl
   subst hqeq
   have hP : IsZero (∏ᶜ fun n : ℕ ↦ ((F ⋙ DerivedCategory.Q) ⋙

@@ -86,7 +86,7 @@ noncomputable abbrev underlyingRingSheaf {X : TopCat.{u}}
 abbrev SheafDerivation {X : TopCat.{u}}
     {O₁ O₂ : TopCat.Sheaf CommRingCat.{max u v} X} (φ : O₁ ⟶ O₂)
     (M : _root_.SheafOfModules.{max u v w} (underlyingRingSheaf O₂)) :=
-  M.val.Derivation' φ.hom
+  PresheafOfModulesOfCommRing.Derivation' M.val φ.hom
 
 /-- A relative derivation into a sheaf of modules is universal if every relative
 derivation factors through it by a unique morphism of sheaves of modules. -/
@@ -155,7 +155,7 @@ noncomputable abbrev sectionwiseDifferentialsSheaf {X : TopCat.{u}}
       _, _, _, _, max u v} _
   exact (PresheafOfModules.sheafification.{max u v}
     (𝟙 (underlyingRingSheaf O₂).obj)).obj
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 /-- The sectionwise differential followed by the unit of sheafification. -/
 noncomputable def sectionwiseDerivation {X : TopCat.{u}}
@@ -168,10 +168,10 @@ noncomputable def sectionwiseDerivation {X : TopCat.{u}}
       AddCommGrpCat.{max u v} :=
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{
       _, _, _, _, max u v} _
-  exact (DifferentialsConstruction.derivation' φ.hom).postcomp
+  exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).postcomp
     ((PresheafOfModules.sheafificationAdjunction (J := Opens.grothendieckTopology X)
       (𝟙 (underlyingRingSheaf O₂).obj)).unit.app
-        (DifferentialsConstruction.relativeDifferentials' φ.hom))
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom))
 
 /-- Sheafifying the universal sectionwise derivation represents derivations
 with values in sheaves. -/
@@ -186,16 +186,16 @@ theorem sectionwiseDerivation_isUniversal {X : TopCat.{u}}
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{
       _, _, _, _, max u v} _
   let R := underlyingRingSheaf O₂
-  let P := PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom
+  let P := PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom
   let S : _root_.SheafOfModules.{max u v} R := sectionwiseDifferentialsSheaf φ
-  let dP := PresheafOfModules.DifferentialsConstruction.derivation' φ.hom
+  let dP := PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom
   let η : P ⟶ (_root_.SheafOfModules.forget R).obj S :=
     (PresheafOfModules.sheafificationAdjunction (J := Opens.grothendieckTopology X)
       (𝟙 R.obj)).unit.app P
   let dS : SheafDerivation φ S := dP.postcomp η
   change IsUniversal dS
   intro F D
-  let e := PresheafOfModules.DifferentialsConstruction.isUniversal' φ.hom
+  let e := PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ.hom
   let g : P ⟶ (_root_.SheafOfModules.forget R).obj F := e.desc D
   let f : S ⟶ F :=
     (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).symm g
@@ -209,8 +209,8 @@ theorem sectionwiseDerivation_isUniversal {X : TopCat.{u}}
   refine ⟨f, hf, fun f' hf' ↦
     (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj)).injective (e.postcomp_injective _ _ ?_)⟩
   ext U x
-  exact (PresheafOfModules.Derivation.congr_d hf' x).trans
-    (PresheafOfModules.Derivation.congr_d hf x).symm
+  exact (PresheafOfModulesOfCommRing.Derivation.congr_d hf' x).trans
+    (PresheafOfModulesOfCommRing.Derivation.congr_d hf x).symm
 
 /-- The representing module is canonically the sheafification of sectionwise
 Kähler differentials, with its specified universal derivation. -/
@@ -230,13 +230,13 @@ noncomputable def moduleOfDifferentialsIsoSectionwise {X : TopCat.{u}}
   · refine (universalDerivation_isUniversal φ _ (universalDerivation φ)).unique ?_ rfl
     ext U x
     exact congrArg (fun y ↦ (g.val.app U).hom y)
-      (PresheafOfModules.Derivation.congr_d hf x) |>.trans
-        (PresheafOfModules.Derivation.congr_d hg x)
+      (PresheafOfModulesOfCommRing.Derivation.congr_d hf x) |>.trans
+        (PresheafOfModulesOfCommRing.Derivation.congr_d hg x)
   · refine (hS _ dS).unique ?_ rfl
     ext U x
     exact congrArg (fun y ↦ (f.val.app U).hom y)
-      (PresheafOfModules.Derivation.congr_d hg x) |>.trans
-        (PresheafOfModules.Derivation.congr_d hf x)
+      (PresheafOfModulesOfCommRing.Derivation.congr_d hg x) |>.trans
+        (PresheafOfModulesOfCommRing.Derivation.congr_d hf x)
 
 /-- The comparison carries the universal derivation to the image of the
 sectionwise derivation under the unit of sheafification. -/

@@ -116,7 +116,7 @@ theorem toPresheafFiber_pointStalkCotangentTerm (n : ℤ) (U : C) (x : Φ.fiber.
     Φ.toPresheafFiber U x ((sectionwiseCotangentPresheafComplex J f).X n) ≫
         pointStalkCotangentTerm J Φ f n =
       (CommAlgCat.cotangentComplexAbMap (pointGermSquare J Φ f U x)).f n :=
-  colimit.ι_desc (pointStalkCotangentCocone J Φ f n) (op ⟨U, x⟩)
+  colimit.ι_desc (pointStalkCotangentCocone J Φ f n) (op (Φ.fiber.elementsMk U x))
 
 /-- **The stalk of `U ↦ L^n_{B(U)/A(U)}` at `Φ` is `L^n_{B_Φ/A_Φ}`.** -/
 instance isIso_pointStalkCotangentTerm (n : ℤ) : IsIso (pointStalkCotangentTerm J Φ f n) :=
@@ -298,10 +298,10 @@ theorem pointCotangentGerm_restrict {W U : C} (g : W ⟶ U) (z : Φ.fiber.obj W)
 theorem exists_common_neighbourhood {U U' : C} (x : Φ.fiber.obj U) (x' : Φ.fiber.obj U') :
     ∃ (W : C) (z : Φ.fiber.obj W) (g : W ⟶ U) (g' : W ⟶ U'),
       Φ.fiber.map g z = x ∧ Φ.fiber.map g' z = x' := by
-  let e₁ : (Φ.fiber.Elements)ᵒᵖ := op ⟨U, x⟩
-  let e₂ : (Φ.fiber.Elements)ᵒᵖ := op ⟨U', x'⟩
-  exact ⟨_, _, (IsFiltered.leftToMax e₁ e₂).unop.1, (IsFiltered.rightToMax e₁ e₂).unop.1,
-    (IsFiltered.leftToMax e₁ e₂).unop.2, (IsFiltered.rightToMax e₁ e₂).unop.2⟩
+  let e₁ : (Φ.fiber.Elements)ᵒᵖ := op (Φ.fiber.elementsMk U x)
+  let e₂ : (Φ.fiber.Elements)ᵒᵖ := op (Φ.fiber.elementsMk U' x')
+  exact ⟨_, _, (IsFiltered.leftToMax e₁ e₂).unop.hom, (IsFiltered.rightToMax e₁ e₂).unop.hom,
+    (IsFiltered.leftToMax e₁ e₂).unop.map_val, (IsFiltered.rightToMax e₁ e₂).unop.map_val⟩
 
 /-- The linearity of the identification, on the germs at one neighbourhood. -/
 theorem pointStalkCotangentAddIso_smul_germ (W : C) (z : Φ.fiber.obj W) (β : B.obj.obj (op W))

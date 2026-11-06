@@ -178,6 +178,17 @@ theorem le_etaleSubmoduleRestrict_etaleSubmodulePushforward_of_mono (j : Y ⟶ X
 
 section Square
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_EtaleSubmodulePushforward :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_EtaleSubmodulePushforward
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {W : AlgebraicSpaces B S hS} {Ve : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   {Uo : Subfunctor W.1} {fV : Ve ⟶ W.1}
 
@@ -333,8 +344,10 @@ theorem map_mem_of_isElementaryDistinguishedSquare
       rw [hc]
       exact isEtale_comp B S hS ((isEtale_iff_presheaf_of_yoneda B S hS _).2 T''.property)
         hsq.isEtale
-    have hc' : yoneda.map (𝟙 _) ≫ c ≫ Uo.ι = T''.1.hom ≫ fV := by simpa using hc
-    have hc'' : yoneda.map (𝟙 _) ≫ T''.1.hom ≫ fV = c ≫ Uo.ι := by simpa using hc.symm
+    have hc' : yoneda.map (𝟙 _) ≫ c ≫ Uo.ι = T''.1.hom ≫ fV := by
+      rw [CategoryTheory.Functor.map_id, Category.id_comp]; exact hc
+    have hc'' : yoneda.map (𝟙 _) ≫ T''.1.hom ≫ fV = c ≫ Uo.ι := by
+      rw [CategoryTheory.Functor.map_id, Category.id_comp]; exact hc.symm
     obtain ⟨E, e₁, e₂, he₁₂⟩ : ∃ (E : (smallEtaleRingedSite B S hS (edsOpen B S hS hsq).1
         (edsOpen B S hS hsq).2).C) (e₁ : jV.obj T'' ⟶ jU.obj E) (e₂ : jU.obj E ⟶ jV.obj T''),
         e₁ ≫ e₂ = 𝟙 _ :=

@@ -178,8 +178,8 @@ theorem exists_section_extension_of_isSmooth {F : (BigFppfOver B Y hY)ᵒᵖ ⥤
     Over.OverMorphism.ext <| ObjectProperty.hom_ext _ (hpb.lift_snd ..)
   have hcb : c ≫ i = b :=
     Over.OverMorphism.ext <| ObjectProperty.hom_ext _ (hpb.lift_fst ..)
-  rw [← hca, ← hcb, op_comp, op_comp, FunctorToTypes.map_comp_apply,
-    FunctorToTypes.map_comp_apply, hzF]
+  rw [← hca, ← hcb, op_comp, op_comp, Functor.map_comp_apply,
+    Functor.map_comp_apply, hzF]
 
 end SectionExtension
 
@@ -189,7 +189,7 @@ namespace Deformation.Artin.BaseChange
 
 universe u v w
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.TwoYoneda.liftBased
@@ -282,8 +282,8 @@ lemma map_sectionOf (e : BaseChangeEquivalence B S hS 𝒳 U V x hx y F)
     F.map g.a.op (sectionOf e Q') = sectionOf e Q := by
   have h := map_fiber_of_hom F (e.hom.functor.map g)
   rw [hom_map_base] at h
-  simp only [sectionOf, ← FunctorToTypes.map_comp_apply, ← op_comp]
-  rw [← h, ← FunctorToTypes.map_comp_apply, ← op_comp]
+  simp only [sectionOf, ← Functor.map_comp_apply, ← op_comp]
+  rw [← h, ← Functor.map_comp_apply, ← op_comp]
   simp
 
 /-- The base morphism of the image of an arrow of the category attached to `F`. -/
@@ -313,7 +313,7 @@ lemma exists_hom_of_map_eq_sectionOf (e : BaseChangeEquivalence B S hS 𝒳 U V 
   let t := e.hom.functor.obj Q
   have ht : t.base = Q.x := base_hom_obj e Q
   have h' : F.map (eqToHom ht ≫ f).op z = t.fiber.as := by
-    rw [op_comp, FunctorToTypes.map_comp_apply, h, sectionOf, ← FunctorToTypes.map_comp_apply,
+    rw [op_comp, Functor.map_comp_apply, h, sectionOf, ← Functor.map_comp_apply,
       ← op_comp]
     simp only [eqToHom_trans, eqToHom_refl, op_id]
     rw [F.map_id]
@@ -647,6 +647,13 @@ lemma cancel_of_mono {a b c : 𝒳.val.obj} (φ : a ⟶ b)
     rw [← cancel_mono (𝒳.val.p.map φ), ← Functor.map_comp, ← Functor.map_comp, h]
   exact (𝒳.isFiberedInGroupoids.unique_lift φ (ψ₂ ≫ φ) (𝒳.val.p.map ψ₂)
     (Functor.map_comp _ _ _).symm).unique ⟨hp, h⟩ ⟨rfl, rfl⟩
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Terminal presheaves on a big fppf site over a scheme (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasTerminal_presheaf_baseChangeRetraction
+    (B' : AlgebraicGeometry.BigFppfSite.{u}) (T : Scheme.{u}) (hT : B'.Contains T) :
+    HasTerminal ((AlgebraicGeometry.BigFppfOver B' T hT)ᵒᵖ ⥤ Type u) := inferInstance
 
 /-- **A local retraction at a versal point.** Let `𝒳` be a category fibred in groupoids over the
 big fppf site of a locally Noetherian scheme `S`, with diagonal representable by algebraic

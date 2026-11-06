@@ -438,7 +438,6 @@ theorem exists_iso_compactSupport_coefficientChange
             _).map x) := by
     rw [← Functor.map_comp, ← Functor.map_comp, h3, Functor.map_comp, Functor.map_comp,
       mapHomologicalComplex_map_mapCochainComplexPlus_map_hom]
-    rfl
   have e₂ := congrArg DerivedCategory.Q.map hν'
   rw [Functor.map_comp, Functor.map_comp] at e₂
   have e₃ : DerivedCategory.Q.map (((sheafCompose (Spec (.of kbar)).smallEtaleTopology Ψ ⋙

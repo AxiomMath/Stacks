@@ -51,7 +51,7 @@ public theorem character_eq_of_hom_addMonoidHom {T₁ : TorsorCover X K₁} {T�
   rw [toAdd_ofAdd]
   refine T₂.character_eq_of_smul x _ σ ((finiteEtaleFiberFunctor x).map h p₀) ?_
   have hσ : σ • (finiteEtaleFiberFunctor x).map h p₀ = (finiteEtaleFiberFunctor x).map h (σ • p₀) :=
-    (ConcreteCategory.congr_hom (σ.hom.naturality h) p₀)
+    (ConcreteCategory.congr_hom (σ.asIso.hom.naturality h) p₀)
   rw [hσ, T₁.smul_eq_character x p₀ σ p₀, ← Functor.map_comp_apply, hh, Functor.map_comp_apply]
 
 end AlgebraicGeometry.TorsorCover

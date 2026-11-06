@@ -148,10 +148,10 @@ def representedGlobalSectionsLinearMapAlong
           ((BigFppfOver.toScheme B S hS).obj U) U.left.property).obj M)) where
   toFun s := ULift.up (M.val.presheaf.map (representedTopToIdChartAlong B S hS U).op
     (s.eval (op (idChart B S hS U))))
-  map_add' s t := ULift.ext _ _
+  map_add' s t := ULift.ext
     (map_add (M.val.presheaf.map (representedTopToIdChartAlong B S hS U).op).hom
       (s.eval (op (idChart B S hS U))) (t.eval (op (idChart B S hS U))))
-  map_smul' a _ := ULift.ext _ _
+  map_smul' a _ := ULift.ext
     ((PresheafOfModules.map_smul _ _ _ _).trans
       (congrArg (· • _) (hψρ a)))
 
@@ -170,7 +170,7 @@ theorem bijective_representedGlobalSectionsLinearMapAlong
   have hev := Stacks.Cohomology.SiteModules.bijective_globalSectionsEval
     (representedStructureRingSheaf B S hS U) (isTerminal_idChart B S hS U)
     ((representedSmallEtaleModuleEquivalence B S hS U).functor.obj M)
-  refine ⟨fun s t h => hev.1 (ULift.ext _ _ ?_), fun y => ?_⟩
+  refine ⟨fun s t h => hev.1 (ULift.ext ?_), fun y => ?_⟩
   · have h' : M.val.presheaf.map (representedIdChartToTopAlong B S hS U).op
           (M.val.presheaf.map (representedTopToIdChartAlong B S hS U).op
             (s.eval (op (idChart B S hS U)))) =
@@ -183,7 +183,7 @@ theorem bijective_representedGlobalSectionsLinearMapAlong
       (h'.trans (map_representedIdChartToTopAlong_map_representedTopToIdChartAlong M _))
   · obtain ⟨s, hs⟩ := hev.2 (ULift.up
       (M.val.presheaf.map (representedIdChartToTopAlong B S hS U).op (ULift.down y)))
-    refine ⟨s, ULift.ext _ _ ?_⟩
+    refine ⟨s, ULift.ext ?_⟩
     have hs' : s.eval (op (idChart B S hS U)) =
         M.val.presheaf.map (representedIdChartToTopAlong B S hS U).op (ULift.down y) :=
       congrArg ULift.down hs
@@ -213,7 +213,7 @@ def representedGlobalSectionsIsoAlong
       (bijective_representedGlobalSectionsLinearMapAlong B S hS U A ψ ρ hψρ M)).toModuleIso)
     (fun {_ _} φ => by
       ext s
-      exact ULift.ext _ _ (PresheafOfModules.naturality_apply φ.val
+      exact ULift.ext (PresheafOfModules.naturality_apply φ.val
         (representedTopToIdChartAlong B S hS U).op (s.eval (op (idChart B S hS U)))).symm)
 
 /-- **The cohomology of the module associated with a quasi-coherent module, on the small étale

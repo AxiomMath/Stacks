@@ -219,7 +219,7 @@ public theorem isBounded_and_converges_totalFiltration₁
     (E : CohomologicalSpectralSequence C 0)
     (hE : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (_ : n = p + q), (E.page r hr).X (p, q) ≅
       cokernel (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n))) :
-    (∀ n : ℤ, {p : ℤ | ¬ IsZero ((E.page 0).X (p, n - p))}.Finite) ∧
+    (∀ n : ℤ, {p : ℤ | ¬ IsZero ((E.page 0 le_rfl).X (p, n - p))}.Finite) ∧
     (∀ n : ℤ, ∃ a b : ℤ, a ≤ b ∧ FH n a = ⊤ ∧ FH n b = ⊥) ∧
     (∀ p q : ℤ, ∃ b : ℤ, ∀ (r : ℤ) (hr : 0 ≤ r), b ≤ r →
       (E.page r hr).d (p, q) (p + r, q - r + 1) = 0) ∧
@@ -261,7 +261,7 @@ public theorem isBounded_and_converges_totalFiltration₂
     (E : CohomologicalSpectralSequence C 0)
     (hE : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (_ : n = p + q), (E.page r hr).X (p, q) ≅
       cokernel (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n))) :
-    (∀ n : ℤ, {p : ℤ | ¬ IsZero ((E.page 0).X (p, n - p))}.Finite) ∧
+    (∀ n : ℤ, {p : ℤ | ¬ IsZero ((E.page 0 le_rfl).X (p, n - p))}.Finite) ∧
     (∀ n : ℤ, ∃ a b : ℤ, a ≤ b ∧ FH n a = ⊤ ∧ FH n b = ⊥) ∧
     (∀ p q : ℤ, ∃ b : ℤ, ∀ (r : ℤ) (hr : 0 ≤ r), b ≤ r →
       (E.page r hr).d (p, q) (p + r, q - r + 1) = 0) ∧

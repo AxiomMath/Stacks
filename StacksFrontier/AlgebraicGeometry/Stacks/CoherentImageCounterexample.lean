@@ -292,12 +292,12 @@ theorem specInt_sideConditions :
       (ZMod.intCast_zmod_eq_zero_iff_dvd _ 2).1 (congrArg ULift.down h0)
     refine ⟨(specIntRingEquiv B).symm ⟨k⟩, (specIntRingEquiv B).injective ?_⟩
     rw [map_mul, RingEquiv.apply_symm_apply, map_ofNat]
-    exact ULift.ext _ _ (by simpa using hk)
+    exact ULift.ext (by simpa using hk)
   · intro c hc
     apply (specIntRingEquiv B).injective
     have := congrArg (fun z => (specIntRingEquiv B z).down) hc
     simp only [map_mul, map_ofNat, map_zero] at this
-    exact ULift.ext _ _ (by simpa using this)
+    exact ULift.ext (by simpa using this)
 
 /-- The scheme underlying the terminal object `specIntTop` is affine. -/
 theorem isAffine_specIntTop : IsAffine (((specIntStack.{u, u} B).val.val.p ⋙

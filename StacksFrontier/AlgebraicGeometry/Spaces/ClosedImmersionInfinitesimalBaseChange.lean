@@ -49,6 +49,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ClosedImmersionInfinitesimalBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ClosedImmersionInfinitesimalBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The base change of `f` along `i`, base changed along `hi.rep.snd g`, is the base change of `f`
 along `yoneda.map (hi.rep.snd g) ≫ g`. -/
 private theorem isPullback_baseChange_comp
@@ -174,6 +185,8 @@ theorem isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective
     intro W ρ c hρ hsq
     obtain ⟨τ, rfl⟩ := yoneda.map_surjective c
     have _ := preservesLimitsOfShape_walkingCospan_toScheme B S hS
+    have _ : PreservesLimit (cospan (hrep.snd g) (hi.rep.snd g)) (BigFppfOver.toScheme B S hS) :=
+      PreservesLimitsOfShape.preservesLimit
     have hschm := (IsPullback.of_map_of_faithful yoneda hsq).map
       (BigFppfOver.toScheme B S hS)
     have hg'ci : _root_.AlgebraicGeometry.IsClosedImmersion

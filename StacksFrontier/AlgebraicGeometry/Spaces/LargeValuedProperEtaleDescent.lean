@@ -62,6 +62,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_LargeValuedProperEtaleDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 0422 for a family of morphisms of the site, in the value universe `Type (u + 1)`.**
 Let `p : F ⟶ U` be a morphism of presheaves on the big fppf site of `S` with values in
 `Type (u + 1)` whose source is an algebraic space over `S` and whose target is the

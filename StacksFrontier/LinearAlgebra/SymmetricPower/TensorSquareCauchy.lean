@@ -82,7 +82,7 @@ commutative. -/
 theorem isMulCommutative_adjoin_sqOp (B : E →ₗ[S] E →ₗ[S] M) (hB : ∀ e e', B e e' = B e' e) :
     IsMulCommutative (Algebra.adjoin S (Set.range (sqOp B))) :=
   Algebra.isMulCommutative_adjoin S (by
-    rintro _ ⟨e, rfl⟩ _ ⟨e', rfl⟩
+    rintro _ ⟨e, rfl⟩ _ ⟨e', rfl⟩ -
     exact LinearMap.ext fun v => by rw [sqOp_mul_apply, sqOp_mul_apply, hB])
 
 /-- The operators `L_e`, with values in the subalgebra they generate. -/

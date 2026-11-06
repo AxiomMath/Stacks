@@ -70,6 +70,17 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_integralGeometricFibres :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_integralGeometricFibres
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_integralGeometricFibres B S hS).has_limit _
+
 /-- A morphism `f : X ⟶ Y` of algebraic spaces over `S` *has integral geometric fibres* when
 for every geometric point `ȳ : Spec(k) ⟶ Y`, with `k` algebraically closed, the fibre
 `X ×_Y Spec(k)` is an integral algebraic space. -/

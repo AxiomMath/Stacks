@@ -157,7 +157,7 @@ private lemma globalSectionsMap_natural {U V : X.Cᵒᵖ} (f : U ⟶ V) :
 
 private noncomputable def globalScalarEndo (r : (limit X.O.obj : CommRingCat.{u})) :
     CatCenter (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) where
-  app M := ⟨{
+  asHom.app M := ⟨{
     app U := by
       letI : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) :=
         inferInstanceAs (CommRing (X.O.obj.obj U))
@@ -177,7 +177,7 @@ private noncomputable def globalScalarEndo (r : (limit X.O.obj : CommRingCat.{u}
         simpa only [RingHom.comp_apply] using hs.symm
       rw [hs']
       rfl }⟩
-  naturality {M N} f := by
+  asHom.naturality {M N} f := by
     change f ≫ _ = _ ≫ f
     apply SheafOfModules.hom_ext
     apply PresheafOfModules.hom_ext

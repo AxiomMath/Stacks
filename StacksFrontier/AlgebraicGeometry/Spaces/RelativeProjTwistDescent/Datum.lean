@@ -107,9 +107,9 @@ private theorem pullbackComp_inv_app_assoc {X Y Z Z' : Scheme.{u}} (f : X ⟶ Y)
       (Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback h).obj M) ≫
         (Scheme.Modules.pullbackComp (f ≫ g) h).hom.app M ≫ eqToHom (by rw [Category.assoc]) ≫
           (Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M := by
-    refine (cancel_epi ((Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M ≫
-      (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g h).inv.app M))).1 ?_
-    simp only [Category.assoc]
+    refine (Iso.cancel_iso_hom_left (((Scheme.Modules.pullbackComp f (g ≫ h)).app M).symm ≪≫
+      (Scheme.Modules.pullback f).mapIso ((Scheme.Modules.pullbackComp g h).app M).symm) _ _).1 ?_
+    simp only [Iso.trans_hom, Iso.symm_hom, Iso.app_inv, Functor.mapIso_hom, Category.assoc]
     rw [← Functor.map_comp, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id, reassoc_of% hT]
     simp
   rw [key]
@@ -126,8 +126,8 @@ private theorem pullbackComp_comp_right_inv_app_assoc {X Y Z Z' : Scheme.{u}}
   have hT := NatTrans.congr_app (Scheme.Modules.pseudofunctor_associativity f g h) M
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.whiskerLeft_app, Category.id_comp, eqToHom_app] at hT
-  refine (cancel_mono ((Scheme.Modules.pullbackComp (f ≫ g) h).hom.app M)).1 ?_
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+  refine (Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp (f ≫ g) h).app M)).1 ?_
+  simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   exact hT
 
 /-- The associativity of the contractions, third form. -/
@@ -139,9 +139,9 @@ private theorem pullbackComp_comp_left_inv_app_assoc {X Y Z Z' : Scheme.{u}}
       eqToHom (by rw [Category.assoc]) ≫ (Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M ≫
         (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g h).inv.app M) := by
   have h' := pullbackComp_comp_right_inv_app_assoc f g h M
-  refine (cancel_mono ((Scheme.Modules.pullbackComp f g).hom.app
+  refine (Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp f g).app
     ((Scheme.Modules.pullback h).obj M))).1 ?_
-  simp only [Category.assoc, Iso.inv_hom_id_app]
+  simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app]
   rw [h']
   simp
 
@@ -170,7 +170,7 @@ private theorem pullbackComp_inv_map_pullbackComp_hom_comp {W V R U : Scheme.{u}
       (Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback s).obj M) ≫
       (Scheme.Modules.pullbackComp (f ≫ g) s).hom.app M ≫
         eqToHom (by rw [Category.assoc]) := by
-    rw [← cancel_epi ((Scheme.Modules.pullbackComp f g).inv.app _)]
+    rw [← Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackComp f g).app _), Iso.app_inv]
     simp [reassoc_of% pullbackComp_inv_app_assoc f g s M]
   have hnat := (Scheme.Modules.pullbackComp f g).hom.naturality τ
   simp only [Functor.comp_map] at hnat

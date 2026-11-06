@@ -98,6 +98,7 @@ restriction `restrictGlobalSection U O a`. -/
 public theorem restrictGlobalSectionHom_apply (a : GlobalSectionRing O) :
     restrictGlobalSectionHom U O a = restrictGlobalSection U O a := rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- Restriction of global sections to `U` commutes with powers: `(a ^ k)|_U = (a|_U) ^ k`. -/
 @[simp]
 public theorem restrictGlobalSection_pow (a : GlobalSectionRing O) (k : ℕ) :

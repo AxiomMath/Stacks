@@ -89,7 +89,7 @@ theorem levelMap_abelianSheaf_eq_zero_iff_crysRestrict (n e : ℕ)
       (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj (e + 1)))) :
     levelMap (wholeSpaceSystem S hp) (abelianSheaf F).obj n e x = 0 ↔
       crysRestrict F (levelDrop hp n e) x.down = 0 :=
-  ⟨fun h ↦ congrArg ULift.down h, fun h ↦ ULift.ext _ _ h⟩
+  ⟨fun h ↦ congrArg ULift.down h, fun h ↦ ULift.ext h⟩
 
 /-- **A section of the underlying abelian sheaf is `m` times a section exactly when its component
 is**, the `ℕ`-action of `...SmallSite.abelianSheaf` being that of the sheaf of modules applied
@@ -99,7 +99,7 @@ theorem exists_nsmul_abelianSheaf_iff (n e m : ℕ)
       (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj (e + 1)))) :
     (∃ y, x = m • y) ↔ ∃ y, x.down = m • y :=
   ⟨fun ⟨y, hy⟩ ↦ ⟨y.down, congrArg ULift.down hy⟩,
-    fun ⟨y, hy⟩ ↦ ⟨ULift.up y, ULift.ext _ _ hy⟩⟩
+    fun ⟨y, hy⟩ ↦ ⟨ULift.up y, ULift.ext hy⟩⟩
 
 /-- **The kernel clause of the crystal property of [Stacks, Proposition 60.21.3, Tag 07LG], for a
 locally quasi-coherent crystal on `Cris(X/S)`.**

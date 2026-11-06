@@ -259,8 +259,9 @@ irreducible component of the reduction of `X`. -/
 theorem mem_genericPoints_reducedComponentToReduction (Z : irreducibleComponents X) :
     X.reducedComponentToReduction Z (genericPoint (X.reducedComponent Z)) ∈
       genericPoints X.nilradical.subscheme := by
-  have h : closure {X.nilradical.subschemeι (X.reducedComponentToReduction Z
-      (genericPoint (X.reducedComponent Z)))} ∈ irreducibleComponents X := by
+  have h : closure
+      {X.nilradical.subschemeι (X.reducedComponentToReduction Z
+        (genericPoint (X.reducedComponent Z)))} ∈ irreducibleComponents X := by
     rw [X.isGenericPoint_reducedComponentToReduction Z]
     exact Z.2
   exact X.mem_genericPoints_subschemeι_nilradical_iff.1 h
@@ -329,8 +330,8 @@ theorem isBirational_reducedComponentsToReduction :
     exact genericPoints.isGenericPoint ⟨X.nilradical.subschemeι η, hpη⟩
   · intro s hs
     obtain ⟨Z, rfl⟩ := X.exists_eq_sigmaι_genericPoint hs
-    have hmem : closure {X.reducedComponentToReduction Z
-        (genericPoint (X.reducedComponent Z))} ∈
+    have hmem : closure
+        {X.reducedComponentToReduction Z (genericPoint (X.reducedComponent Z))} ∈
           irreducibleComponents X.nilradical.subscheme :=
       X.mem_genericPoints_reducedComponentToReduction Z
     have hfield : IsField (X.nilradical.subscheme.presheaf.stalk

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Submodule
 public import StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.Finiteness
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PushforwardEssentialImageDirect.Exactness
@@ -334,7 +335,6 @@ theorem smul_map_eq_zero_of_isAffineOpen (I : (SheafOfModules.unit.{u} X.ringCat
   have := congrArg (F.presheaf.map (homOfLE (X.basicOpen_le f)).op) (hs r hrmem)
   rw [Scheme.Modules.map_smul, map_zero] at this
   convert this using 2
-  rfl
 
 /-! ### Part (2): the sections over an affine open -/
 

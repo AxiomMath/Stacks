@@ -144,7 +144,7 @@ theorem isLocallySurjective_sigmaDesc_of_openCover
     rw [Category.assoc, hσπ, ← Functor.map_comp, ← Functor.map_comp, hk]
   refine ⟨(Sigma.ι (fun i => yoneda.obj (W i)) i).app (op (d i))
     (yonedaEquiv ((hpb i).lift (yoneda.map (j i) ≫ σ) (yoneda.map k) hw)), ?_⟩
-  rw [← FunctorToTypes.comp, Sigma.ι_desc, ← yonedaEquiv_comp, (hpb i).lift_fst,
+  rw [← NatTrans.comp_app_apply, Sigma.ι_desc, ← yonedaEquiv_comp, (hpb i).lift_fst,
     ← yonedaEquiv_naturality, hσs]
 
 /-- If `q` presents `yoneda.obj W` as the base change of `π : F ⟶ yoneda.obj T` along

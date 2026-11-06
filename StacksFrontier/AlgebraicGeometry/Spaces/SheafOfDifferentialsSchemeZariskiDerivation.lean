@@ -489,7 +489,8 @@ vanishing condition over `f_small^{-1}𝒪_{V_étale}`, which
 This generalizes `AlgebraicGeometry.Space.inverseEtaleDerivation`, which is the case of the
 universal derivation, to an arbitrary derivation of an arbitrary module. -/
 public noncomputable def etaleDerivationOfSpace
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
     _root_.AlgebraicGeometry.SmallEtale.EtaleDerivation (associatedBigEtaleSite B) α.left
       ((representedModuleRestriction B S hS U).obj G) where
   d := (transportDerivationInverse B S hS U
@@ -514,7 +515,8 @@ scheme underlying `U`, the derivation takes the value it took over the correspon
 the small étale site of `yoneda.obj U`. -/
 @[simp]
 public theorem etaleDerivationOfSpace_d
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
     (T : _root_.AlgebraicGeometry.SmallEtale (associatedBigEtaleSite B)
       ((BigFppfOver.toScheme B S hS).obj U) U.left.property)
     (x : (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf (associatedBigEtaleSite B)
@@ -530,7 +532,8 @@ categories of modules, which restricts along the unit of the identification of t
 public noncomputable def spaceDerivationOfEtale
     (E : _root_.AlgebraicGeometry.SmallEtale.EtaleDerivation (associatedBigEtaleSite B) α.left
       ((representedModuleRestriction B S hS U).obj G)) :
-    G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom :=
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom :=
   (Derivation'.ofChartPullback B S hS (schemeSpaceMap α)
     (transportDerivation B S hS U
       (_root_.AlgebraicGeometry.SmallEtale.etaleStructureMap (associatedBigEtaleSite B)
@@ -538,7 +541,7 @@ public noncomputable def spaceDerivationOfEtale
     (transportDerivation_d_chartPullback_eq_zero B S hS α E
       (fun W t => _root_.AlgebraicGeometry.SmallEtale.d_structureSharp_eq_zero
         (associatedBigEtaleSite B) α.left E
-        (fun _ s => PresheafOfModules.Derivation'.d_app E s) W t))).postcomp
+        (fun _ s => PresheafOfModulesOfCommRing.Derivation'.d_app E s) W t))).postcomp
     ((representedModuleEquivalence.{u, u} B S hS U).counit.app G).val
 
 /-- Reading a `yoneda.obj V`-derivation on the scheme's site and back recovers it: the two
@@ -546,9 +549,10 @@ readings change no value, and the unit of the identification of the sites restri
 the doubly shifted index back to the value at the index itself,
 `AlgebraicGeometry.Space.derivation_d_map_unit`. -/
 public theorem spaceDerivationOfEtale_etaleDerivationOfSpace
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
     spaceDerivationOfEtale B S hS α G (etaleDerivationOfSpace B S hS α G D) = D :=
-  PresheafOfModules.Derivation.ext (funext fun W ↦ AddMonoidHom.ext fun x ↦
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun W ↦ AddMonoidHom.ext fun x ↦
     derivation_d_map_unit B S hS U (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom D
       W x)
 
@@ -559,7 +563,7 @@ public theorem etaleDerivationOfSpace_spaceDerivationOfEtale
     (E : _root_.AlgebraicGeometry.SmallEtale.EtaleDerivation (associatedBigEtaleSite B) α.left
       ((representedModuleRestriction B S hS U).obj G)) :
     etaleDerivationOfSpace B S hS α G (spaceDerivationOfEtale B S hS α G E) = E := by
-  refine PresheafOfModules.Derivation.ext (funext fun T ↦ AddMonoidHom.ext fun x ↦ ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun T ↦ AddMonoidHom.ext fun x ↦ ?_)
   exact presheaf_map_unit_inverse_apply B S hS G T.unop (E.d (X := T) x)
 
 /-- **A `yoneda.obj V`-derivation of `𝒪_{yoneda.obj U}` is a `V_étale`-derivation of
@@ -572,7 +576,8 @@ values and holds by `rfl`.  That description is what a consumer needs; an identi
 out of `Equiv.ofBijective`s cannot supply it, because the inverse of such an `Equiv` is
 `Function.surjInv` and nothing reduces through it. -/
 public def schemeEtaleDerivationEquiv :
-    G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
       _root_.AlgebraicGeometry.SmallEtale.EtaleDerivation (associatedBigEtaleSite B) α.left
         ((representedModuleRestriction B S hS U).obj G) where
   toFun := etaleDerivationOfSpace B S hS α G
@@ -582,7 +587,8 @@ public def schemeEtaleDerivationEquiv :
 
 /-- `AlgebraicGeometry.Space.schemeEtaleDerivationEquiv` only re-indexes: it changes no value. -/
 public theorem schemeEtaleDerivationEquiv_apply
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom) :
     schemeEtaleDerivationEquiv B S hS α G D = etaleDerivationOfSpace B S hS α G D :=
   rfl
 
@@ -595,7 +601,8 @@ This is `AlgebraicGeometry.Space.schemeEtaleDerivationEquiv` followed by
 `AlgebraicGeometry.SmallEtale.etaleZariskiRestrictionEquiv`, the invertibility clause of
 Stacks 04CS on the scheme side. -/
 public def schemeZariskiDerivationEquiv :
-    G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
       SheafOfModules.SheafDerivation
         (inverseImageStructureMap
           (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B) α.left))
@@ -618,7 +625,8 @@ evaluates at the étale object an open names.  Both halves hold by `rfl`, and so
 composite, because `AlgebraicGeometry.SmallEtale.etaleZariskiRestrictionEquiv` is an
 `Equiv.ofBijective` of a derivation built by transport rather than by a universal property. -/
 public theorem schemeZariskiDerivationEquiv_d
-    (D : G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom)
     {W : (((BigFppfOver.toScheme B S hS).obj U).Opens)ᵒᵖ}
     (a : Γ((BigFppfOver.toScheme B S hS).obj U, W.unop)) :
     (schemeZariskiDerivationEquiv B S hS α G D).d a =
@@ -637,7 +645,8 @@ This is the form the Zariski adjunction `k^* ⊣ k_*` applies to, and it is
 `AlgebraicGeometry.Space.schemeZariskiDerivationEquiv` followed by the universal property of
 `Ω_{U/V}`, Stacks 08RM. -/
 public def schemeZariskiHomEquiv :
-    G.val.Derivation' (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom ≃
       (Scheme.Hom.relativeDifferentials
           (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B) α.left) ⟶
         (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)

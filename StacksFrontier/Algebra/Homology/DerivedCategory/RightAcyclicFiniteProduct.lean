@@ -47,7 +47,7 @@ presentation onto `W` and the two instances are never needed for `∏ᶜ F`.
 
 `sum_pi_π_comp_single_eq_id` uses a single `eqToHom (congrArg X h)` for the diagonal entry of the
 splitting, which is unavoidable in a family indexed by a type with no definitional case analysis;
-it is one `eqToHom`, discharged immediately by `Pi.lift_π`, and not a chain.
+it is one `eqToHom`, discharged immediately by `Pi.lift_comp_π`, and not a chain.
 
 ## References
 
@@ -81,7 +81,7 @@ theorem sum_pi_π_comp_single_eq_id {ι : Type*} [Fintype ι] [DecidableEq ι]
   rw [Finset.sum_eq_single_of_mem j (Finset.mem_univ j)]
   · simp
   · intro i _ hij
-    rw [Category.assoc, Pi.lift_π, dif_neg hij, comp_zero]
+    rw [Category.assoc, Pi.lift_comp_π, dif_neg hij, comp_zero]
 
 end CategoryTheory.Limits
 

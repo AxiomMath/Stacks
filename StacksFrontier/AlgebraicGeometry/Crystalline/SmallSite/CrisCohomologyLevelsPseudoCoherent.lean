@@ -170,8 +170,8 @@ theorem ι_map_app_eq_derivedRestrictScalarsComp_hom_app
       (congrArg (_ ≫ ·) (Category.assoc _ _ _))))).trans ?_
     refine (congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) hn.symm).trans
       ((reassoc_of% hB) _))).trans ((reassoc_of% hFf) _))).trans ?_
-    exact (congrArg (_ ≫ ·) (Category.assoc _ _ _)).trans ((Iso.inv_hom_id_app_assoc
-      (DerivedCategory.quotientCompQhIso (ModuleCat.{max u v} R)) _ _).trans hD)
+    rw [Iso.app_inv, Iso.inv_hom_id_app_assoc]
+    exact hD
   exact (Iso.cancel_iso_inv_left (Ff.mapDerivedCategory.mapIso
       (Fg.mapDerivedCategoryFactorsh.app _)) _ _).1
     ((Iso.cancel_iso_inv_left (Ff.mapDerivedCategoryFactorsh.app _) _ _).1 (e1'.trans e2.symm))
@@ -594,7 +594,7 @@ theorem levels_isPseudoCoherent_and_isIso
   refine ⟨h4.1, fun n ↦ ?_⟩
   have h' : IsIso (derivedBaseChangeComparison.{u, u + 1, u}
       (baseChangeRingHom (S.levelProj (h₀.mul n))) (levelC S h₀ N n)) := by
-    exact (Pi.lift_π (levelC S h₀ N) n) ▸ h4.2 n
+    exact (Pi.lift_comp_π (levelC S h₀ N) n) ▸ h4.2 n
   exact (isIso_derivedBaseChangeComparison_iff (S.levelProj (h₀.mul n)) (levelC S h₀ N n)).mp h'
 
 /-- The transpose of the comparison at a level only depends on the exponent. -/

@@ -195,7 +195,7 @@ theorem nonempty_iso_derivedGlobalSectionsOverUnbounded_of_plus
   obtain ⟨b, _⟩ := (CochainComplex.plus_iff
     (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) K).1 hK
   obtain ⟨R, hRGE, hKI, hunb, hQ⟩ := exists_injectiveResolution_isIso_derivedUnit X A ρ K b
-  have hplusUnit : IsIso ((moduleGlobalSectionsOver X A ρ).rightDerivedFunctorPlusUnit.app
+  have hplusUnit : IsIso ((moduleGlobalSectionsOver X A ρ).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient
         (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).obj
         ⟨R.cocomplex, R.boundedBelow⟩)) := inferInstance

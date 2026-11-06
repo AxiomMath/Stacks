@@ -309,7 +309,7 @@ theorem sup_sq_eq_maximalIdeal_iff_span_linPart {S : Set (MvPowerSeries (Fin 2) 
 /-- The linear part of `∂g/∂x_0` is the first partial derivative `(2a, b)` of the quadratic part
 `(a, b, c)` of `g`. -/
 theorem linPart_pderiv_zero (g : MvPowerSeries (Fin 2) k) :
-    linPart (pderiv k 0 g) = (2 * (quadPart g).1, (quadPart g).2.1) := by
+    linPart (pderiv (R := k) 0 g) = (2 * (quadPart g).1, (quadPart g).2.1) := by
   refine Prod.ext ?_ ?_ <;> simp only [linPart_apply, quadPart_apply]
   · rw [MvPowerSeries.coeff_pderiv (R := k) (i := 0) g (Finsupp.single 0 1),
       ← Finsupp.single_add, Finsupp.single_eq_same]
@@ -322,7 +322,7 @@ theorem linPart_pderiv_zero (g : MvPowerSeries (Fin 2) k) :
 /-- The linear part of `∂g/∂x_1` is the second partial derivative `(b, 2c)` of the quadratic part
 `(a, b, c)` of `g`. -/
 theorem linPart_pderiv_one (g : MvPowerSeries (Fin 2) k) :
-    linPart (pderiv k 1 g) = ((quadPart g).2.1, 2 * (quadPart g).2.2) := by
+    linPart (pderiv (R := k) 1 g) = ((quadPart g).2.1, 2 * (quadPart g).2.2) := by
   refine Prod.ext ?_ ?_ <;> simp only [linPart_apply, quadPart_apply]
   · rw [MvPowerSeries.coeff_pderiv (R := k) (i := 1) g (Finsupp.single 0 1)]
     simp
@@ -337,7 +337,7 @@ theorem span_linPart_image_pderiv_eq_span_derivSet {m : ℕ}
     (h : Fin m → MvPowerSeries (Fin 2) k) :
     Submodule.span k
         (linPart '' {x : MvPowerSeries (Fin 2) k | ∃ (i : Fin 2) (j : Fin m),
-          x = pderiv k i (h j)}) =
+          x = pderiv (R := k) i (h j)}) =
       Submodule.span k (derivSet (Submodule.span k (Set.range (quadPart ∘ h)))) := by
   set V := Submodule.span k (Set.range (quadPart ∘ h)) with hV
   have hmemV : ∀ j, quadPart (h j) ∈ V := fun j =>
@@ -363,13 +363,13 @@ theorem span_linPart_image_pderiv_eq_span_derivSet {m : ℕ}
       rw [← hc]
       simp only [Function.comp_apply, Prod.snd_sum, Prod.smul_snd, smul_eq_mul]
     have hgen : ∀ (i : Fin 2) (j : Fin m),
-        linPart (pderiv k i (h j)) ∈ Submodule.span k
+        linPart (pderiv (R := k) i (h j)) ∈ Submodule.span k
           (linPart '' {x : MvPowerSeries (Fin 2) k | ∃ (i : Fin 2) (j : Fin m),
-            x = pderiv k i (h j)}) :=
-      fun i j => Submodule.subset_span ⟨pderiv k i (h j), ⟨i, j, rfl⟩, rfl⟩
+            x = pderiv (R := k) i (h j)}) :=
+      fun i j => Submodule.subset_span ⟨pderiv (R := k) i (h j), ⟨i, j, rfl⟩, rfl⟩
     rcases hv with rfl | rfl
     · have hsum : (2 * q.1, q.2.1) =
-          ∑ j, c j • linPart (pderiv k 0 (h j)) := by
+          ∑ j, c j • linPart (pderiv (R := k) 0 (h j)) := by
         refine Prod.ext ?_ ?_ <;>
           simp only [linPart_pderiv_zero, Prod.smul_fst, Prod.smul_snd, smul_eq_mul,
             Prod.fst_sum, Prod.snd_sum]
@@ -379,7 +379,7 @@ theorem span_linPart_image_pderiv_eq_span_derivSet {m : ℕ}
       rw [hsum]
       exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (hgen 0 j)
     · have hsum : (q.2.1, 2 * q.2.2) =
-          ∑ j, c j • linPart (pderiv k 1 (h j)) := by
+          ∑ j, c j • linPart (pderiv (R := k) 1 (h j)) := by
         refine Prod.ext ?_ ?_ <;>
           simp only [linPart_pderiv_one, Prod.smul_fst, Prod.smul_snd, smul_eq_mul,
             Prod.fst_sum, Prod.snd_sum]
@@ -400,11 +400,11 @@ theorem span_pderiv_sup_eq_maximalIdeal_iff_exists_nondegenerate {m : ℕ}
     (h : Fin m → MvPowerSeries (Fin 2) k)
     (hh : ∀ j, h j ∈ (maximalIdeal (MvPowerSeries (Fin 2) k)) ^ 2) :
     Ideal.span {x : MvPowerSeries (Fin 2) k | ∃ (i : Fin 2) (j : Fin m),
-          x = pderiv k i (h j)} ⊔ Ideal.span (Set.range h) =
+          x = pderiv (R := k) i (h j)} ⊔ Ideal.span (Set.range h) =
         maximalIdeal (MvPowerSeries (Fin 2) k) ↔
       ∃ g ∈ Ideal.span (Set.range h), quadDisc (quadPart g) ≠ 0 := by
   set D : Set (MvPowerSeries (Fin 2) k) :=
-    {x | ∃ (i : Fin 2) (j : Fin m), x = pderiv k i (h j)} with hD
+    {x | ∃ (i : Fin 2) (j : Fin m), x = pderiv (R := k) i (h j)} with hD
   set J : Ideal (MvPowerSeries (Fin 2) k) := Ideal.span (Set.range h) with hJ
   have hhm : ∀ j, h j ∈ maximalIdeal (MvPowerSeries (Fin 2) k) :=
     fun j => Ideal.pow_le_self (n := 2) (by norm_num) (hh j)
@@ -843,9 +843,9 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation {
         maximalIdeal (MvPowerSeries (Fin 2) k ⧸ Ideal.span (Set.range h)) ↔
       HasNodalQuadraticRelation (MvPowerSeries (Fin 2) k ⧸ Ideal.span (Set.range h)) := by
   have hJsq := span_range_le_sq hh
-  have hminor : minorIdeal (fun (i : Fin 2) (j : Fin m) => pderiv k i (h j)) 1 =
+  have hminor : minorIdeal (fun (i : Fin 2) (j : Fin m) => pderiv (R := k) i (h j)) 1 =
       Ideal.span {x : MvPowerSeries (Fin 2) k | ∃ (i : Fin 2) (j : Fin m),
-        x = pderiv k i (h j)} := minorIdeal_one _
+        x = pderiv (R := k) i (h j)} := minorIdeal_one _
   rw [jacobianMinorIdealModulo_eq_maximalIdeal_iff _
       (hJsq.trans (Ideal.pow_le_self (n := 2) (by norm_num))) h 1,
     hminor, span_pderiv_sup_eq_maximalIdeal_iff_exists_nondegenerate h hh,

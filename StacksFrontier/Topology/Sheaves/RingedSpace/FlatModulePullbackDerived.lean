@@ -110,10 +110,10 @@ sent to an isomorphism in the derived category, and `DerivedCategory.Plus.ι` re
 isomorphisms. -/
 @[sga "4 XVIII 3.1.4.8" "special case"]
 theorem isIso_rightDerivedFunctorPlusUnit_of_exact :
-    IsIso F.rightDerivedFunctorPlusUnit := by
+    IsIso F.rightDerivedFunctorPlusUnith := by
   apply Functor.isIso_of_isRightDerivedFunctor_of_inverts
     (W := HomotopyCategory.Plus.quasiIso A)
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
   intro K L φ hφ
   have : IsIso (DerivedCategory.Qh.map φ.hom) :=
     Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso A (.up ℤ)) _ hφ
@@ -129,8 +129,8 @@ theorem isIso_rightDerivedFunctorPlusUnit_of_exact :
 bounded-below complex. -/
 @[sga "4 XVIII 3.1.4.8" "special case"]
 theorem isIso_rightDerivedFunctorPlusUnit_app_of_exact (K : HomotopyCategory.Plus A) :
-    IsIso (F.rightDerivedFunctorPlusUnit.app K) :=
-  (NatTrans.isIso_iff_isIso_app F.rightDerivedFunctorPlusUnit).mp
+    IsIso (F.rightDerivedFunctorPlusUnith.app K) :=
+  (NatTrans.isIso_iff_isIso_app F.rightDerivedFunctorPlusUnith).mp
     (isIso_rightDerivedFunctorPlusUnit_of_exact F) K
 
 end CategoryTheory.Functor
@@ -246,7 +246,7 @@ functor computes its own right derived functor
 theorem isIso_rightDerivedFunctorPlusUnit_modulePullback_of_flat
     (hf : ∀ x : X.carrier, (f.hom.stalkMap x).hom.Flat)
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing Y))) :
-    IsIso ((modulePullback f).rightDerivedFunctorPlusUnit.app K) :=
+    IsIso ((modulePullback f).rightDerivedFunctorPlusUnith.app K) :=
   have := preservesFiniteLimits_modulePullback_of_flat f hf
   have := preservesFiniteColimits_modulePullback f
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_exact (modulePullback f) K
@@ -258,10 +258,10 @@ noncomputable def derivedModulePullbackIso
     (hf : ∀ x : X.carrier, (f.hom.stalkMap x).hom.Flat) :
     (modulePullback f).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       DerivedCategory.Plus.Qh ⋙ (modulePullback f).rightDerivedFunctorPlus :=
-  letI : IsIso ((modulePullback f).rightDerivedFunctorPlusUnit) :=
+  letI : IsIso ((modulePullback f).rightDerivedFunctorPlusUnith) :=
     (NatTrans.isIso_iff_isIso_app _).mpr
       (isIso_rightDerivedFunctorPlusUnit_modulePullback_of_flat f hf)
-  asIso ((modulePullback f).rightDerivedFunctorPlusUnit)
+  asIso ((modulePullback f).rightDerivedFunctorPlusUnith)
 
 end RingedSpaceModuleAdjunction
 

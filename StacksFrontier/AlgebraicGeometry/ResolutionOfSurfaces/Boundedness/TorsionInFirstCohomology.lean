@@ -68,13 +68,14 @@ namespace Stacks.Cohomology
 variable {C : Type*} [Category C] [Limits.HasZeroMorphisms C] {ι : Type*} {c : ComplexShape ι}
 
 /-- An endomorphism of the identity functor acts on a homological complex degree by degree. -/
-def endComplex (τ : End (𝟭 C)) (K : HomologicalComplex C c) : End K where
-  f n := τ.app (K.X n)
-  comm' i j _ := (τ.naturality (K.d i j)).symm
+def endComplex (τ : End (𝟭 C)) (K : HomologicalComplex C c) : End K :=
+  .of
+    { f n := τ.asHom.app (K.X n)
+      comm' i j _ := (τ.asHom.naturality (K.d i j)).symm }
 
 /-- The component in degree `n` of `endComplex τ K` is `τ` at `K.X n`. -/
 @[simp] lemma endComplex_f (τ : End (𝟭 C)) (K : HomologicalComplex C c) (n : ι) :
-    HomologicalComplex.Hom.f (endComplex τ K) n = τ.app (K.X n) := rfl
+    HomologicalComplex.Hom.f (endComplex τ K).asHom n = τ.asHom.app (K.X n) := rfl
 
 end Stacks.Cohomology
 
@@ -99,13 +100,13 @@ abbrev smulEnd : End (𝟭 (SheafOfModules.{u} X.ringCatSheaf)) :=
 /-- Multiplication by `b` on an injective resolution of `M` lifts multiplication by `b` on `M`
 along the augmentation `P.ι`. -/
 lemma ι_comp_endComplex {M : SheafOfModules.{u} X.ringCatSheaf} (P : InjectiveResolution M) :
-    P.ι ≫ Stacks.Cohomology.endComplex (smulEnd X b) P.cocomplex
-      = (CochainComplex.single₀ _).map ((smulEnd X b).app M) ≫ P.ι := by
+    P.ι ≫ (Stacks.Cohomology.endComplex (smulEnd X b) P.cocomplex).asHom
+      = (CochainComplex.single₀ _).map ((smulEnd X b).asHom.app M) ≫ P.ι := by
   apply (CochainComplex.fromSingle₀Equiv _ _).injective
   apply Subtype.ext
   simp only [CochainComplex.fromSingle₀Equiv_apply_coe, HomologicalComplex.comp_f,
     Stacks.Cohomology.endComplex_f, CochainComplex.single₀_map_f_zero]
-  exact (smulEnd X b).naturality (P.ι.f 0)
+  exact (smulEnd X b).asHom.naturality (P.ι.f 0)
 
 /-- Global sections of a sheaf of modules on `X`. -/
 abbrev sectionsFunctor : SheafOfModules.{u} X.ringCatSheaf ⥤ ModuleCat.{u} (sectionsRing X) :=
@@ -116,7 +117,7 @@ instance : (sectionsFunctor X).Additive := {}
 
 /-- Global sections send multiplication by `b` on `N` to multiplication by `b` on `Γ(X, N)`. -/
 lemma sectionsFunctor_map_smulEnd (N : SheafOfModules.{u} X.ringCatSheaf) :
-    (sectionsFunctor X).map ((smulEnd X b).app N) = b • 𝟙 ((sectionsFunctor X).obj N) := by
+    (sectionsFunctor X).map ((smulEnd X b).asHom.app N) = b • 𝟙 ((sectionsFunctor X).obj N) := by
   ext x
   change X.ringCatSheaf.obj.map (isTerminalTop.from (⊤ : X.Opens)).op b • x = _
   rw [show isTerminalTop.from (⊤ : X.Opens) = 𝟙 _ by subsingleton]
@@ -128,7 +129,7 @@ of modules gives multiplication by `b` on the resulting complex of modules. -/
 lemma mapHomologicalComplex_map_endComplex
     (K : CochainComplex (SheafOfModules.{u} X.ringCatSheaf) ℕ) :
     ((sectionsFunctor X).mapHomologicalComplex (ComplexShape.up ℕ)).map
-        (Stacks.Cohomology.endComplex (smulEnd X b) K)
+        (Stacks.Cohomology.endComplex (smulEnd X b) K).asHom
       = b • 𝟙 (((sectionsFunctor X).mapHomologicalComplex (ComplexShape.up ℕ)).obj K) :=
   HomologicalComplex.hom_ext _ _ fun _ => sectionsFunctor_map_smulEnd X b _
 
@@ -136,11 +137,11 @@ lemma mapHomologicalComplex_map_endComplex
 multiplication by that function.** -/
 lemma rightDerived_sectionsFunctor_map_smulEnd (n : ℕ)
     (M : SheafOfModules.{u} X.ringCatSheaf) :
-    ((sectionsFunctor X).rightDerived n).map ((smulEnd X b).app M)
+    ((sectionsFunctor X).rightDerived n).map ((smulEnd X b).asHom.app M)
       = b • 𝟙 ((((sectionsFunctor X).rightDerived n)).obj M) := by
   let P : InjectiveResolution M := injectiveResolution M
-  rw [Functor.rightDerived_map_eq (sectionsFunctor X) n ((smulEnd X b).app M)
-      (P := P) (Q := P) (Stacks.Cohomology.endComplex (smulEnd X b) P.cocomplex)
+  rw [Functor.rightDerived_map_eq (sectionsFunctor X) n ((smulEnd X b).asHom.app M)
+      (P := P) (Q := P) (Stacks.Cohomology.endComplex (smulEnd X b) P.cocomplex).asHom
       (ι_comp_endComplex X b P)]
   dsimp only [Functor.comp_map]
   rw [mapHomologicalComplex_map_endComplex, Functor.map_smul, CategoryTheory.Functor.map_id,
@@ -154,7 +155,7 @@ the scalar action on morphisms. -/
 lemma rightDerived_sectionsFunctor_map_smulEnd_apply (n : ℕ)
     (M : SheafOfModules.{u} X.ringCatSheaf)
     (x : ((sectionsFunctor X).rightDerived n).obj M) :
-    (((sectionsFunctor X).rightDerived n).map ((smulEnd X b).app M)).hom x = b • x := by
+    (((sectionsFunctor X).rightDerived n).map ((smulEnd X b).asHom.app M)).hom x = b • x := by
   rw [rightDerived_sectionsFunctor_map_smulEnd]
   rfl
 
@@ -186,7 +187,7 @@ def baseSection (a : A) : Scheme.sectionsRing X :=
 /-- Multiplication by an element of the base ring, as an endomorphism of a sheaf of modules on
 `X`. -/
 def baseSmulModules (a : A) (M : SheafOfModules.{u} X.ringCatSheaf) : M ⟶ M :=
-  (Scheme.smulEnd X (baseSection X f a)).app M
+  (Scheme.smulEnd X (baseSection X f a)).asHom.app M
 
 /-- An element of `H¹(X, 𝒪_X)` is `a`-torsion iff `R¹Γ` of multiplication by `a` kills it. -/
 lemma mem_torsionBy_firstCohomologyAsBaseModule_iff (a : A)

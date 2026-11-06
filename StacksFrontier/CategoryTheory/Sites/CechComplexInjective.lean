@@ -95,7 +95,7 @@ noncomputable def uliftCechComplexIso
         intro i
         dsimp only [Functor.comp_map, Functor.comp_obj, FormalCoproduct.evalOp]
         simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π,
-          Pi.lift_π, piComparison_comp_π_assoc, ← L.map_comp])
+          Pi.lift_comp_π, piComparison_comp_π_assoc, ← L.map_comp])
   let e : T ⋙ L ≅ T' := Functor.isoWhiskerLeft
     (Stacks.CechSite.cechSimplicialObject E).rightOp e₀
   let e' : (L.mapHomologicalComplex _).obj (Stacks.CechSite.cechComplex E I) ≅

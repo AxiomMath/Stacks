@@ -66,10 +66,10 @@ public def sigmaFamilyHomEquiv (adj : ∀ i, L i ⊣ R i) (X : C) (Y : D) :
     ((adj i).homEquiv X Y).symm (g ≫ Pi.π (fun j => (R j).obj Y) i)
   left_inv f := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc, Pi.lift_π, Equiv.symm_apply_apply]
+    rw [Sigma.ι_desc, Pi.lift_comp_π, Equiv.symm_apply_apply]
   right_inv g := by
     refine Pi.hom_ext _ _ fun i => ?_
-    rw [Pi.lift_π, Sigma.ι_desc, Equiv.apply_symm_apply]
+    rw [Pi.lift_comp_π, Sigma.ι_desc, Equiv.apply_symm_apply]
 
 variable (adj : ∀ i, L i ⊣ R i)
 
@@ -91,8 +91,8 @@ public theorem sigmaFamilyHomEquiv_naturality_right {X : C} {Y Y' : D}
     sigmaFamilyHomEquiv L R adj X Y' (f ≫ g) =
       sigmaFamilyHomEquiv L R adj X Y f ≫ Limits.Pi.map fun i => (R i).map g := by
   refine Pi.hom_ext _ _ fun i => ?_
-  rw [sigmaFamilyHomEquiv_apply, Pi.lift_π, Category.assoc, Pi.map_π,
-    sigmaFamilyHomEquiv_apply, Pi.lift_π_assoc,
+  rw [sigmaFamilyHomEquiv_apply, Pi.lift_comp_π, Category.assoc, Pi.map_π,
+    sigmaFamilyHomEquiv_apply, Pi.lift_comp_π_assoc,
     ← Category.assoc (Sigma.ι (fun j => (L j).obj X) i) f g]
   exact (adj i).homEquiv_naturality_right _ _
 

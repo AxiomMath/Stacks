@@ -130,7 +130,6 @@ public theorem TensorProduct.surjective_mk_one {P' : Type u₃} {P : Type u₄}
     Function.Surjective (TensorProduct.mk P' P N 1) := by
   intro x
   induction x with
-  | zero => exact ⟨0, map_zero _⟩
   | add x y hx hy =>
     obtain ⟨a, rfl⟩ := hx
     obtain ⟨b, rfl⟩ := hy
@@ -210,11 +209,9 @@ public theorem Module.Flat.tensorProduct_of_flat_base {A' : Type u₁} {P' : Typ
       e₂ ((LinearMap.lTensor (Q' ⊗[P'] N) f) x) = (LinearMap.lTensor Q' g) (e₁ x) := by
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
     | tmul z t =>
       induction z with
-      | zero => simp
       | add z w hz hw => rw [TensorProduct.add_tmul, map_add, map_add, map_add, map_add, hz, hw]
       | tmul q n => rfl
   exact fun x y hxy => e₁.injective (hQginj (by rw [← hmaps, ← hmaps, hxy]))

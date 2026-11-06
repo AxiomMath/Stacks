@@ -145,7 +145,7 @@ theorem derivedTensorFlipObjLifting_commShift
   -- The instances of Mathlib for `ObjectProperty.lift` are not found by instance search here:
   -- unifying their membership hypothesis would unfold `ObjectProperty.inverseImage`.
   let : (ObjectProperty.complexSubcategoryQuotient (kFlatObjects.{c, u, u} X.O)).CommShift ℤ :=
-    ObjectProperty.instCommShiftFullSubcategoryLift _ _ _
+    ObjectProperty.commShiftLift _ _ _
   have : NatTrans.CommShift (ObjectProperty.liftCompιIso (kFlatObjects.{c, u, u} X.O)
       ((kFlatComplexes X).ι ⋙ HomotopyCategory.quotient _ (ComplexShape.up ℤ))
       (fun K ↦ K.2)).hom ℤ :=

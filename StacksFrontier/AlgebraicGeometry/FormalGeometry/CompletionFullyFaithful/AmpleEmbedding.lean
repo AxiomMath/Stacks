@@ -209,7 +209,8 @@ public theorem exists_dual_embedding [IsLocallyNoetherian X] (L : X.Modules)
     Stacks.FundamentalGroup.ExtendedEtale.isReflexive_of_isFiniteLocallyFree E
       ((Scheme.Modules.isFiniteLocallyFree_iff E).mpr hE)
   refine ⟨p, q, ιp, ιq, hιp, hιq, hpN, hqN, bp, hbp, bq, hbq, q₀, hq₀,
-    dualMap (q₁ ≫ kernel.ι q₀), by rw [Category.assoc, w2, comp_zero], hrefl, inferInstance, ?_, ?_⟩
+    dualMap (q₁ ≫ kernel.ι q₀), by rw [Category.assoc, w2, comp_zero], hrefl,
+    @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ hrefl) _ hmono, ?_, ?_⟩
   · exact exact_mk_epi_comp (toDoubleDual E) hex2
   · intro W g
     have : Mono ((Scheme.Modules.pullback g).map (dualMap q₀)) :=

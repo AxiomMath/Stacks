@@ -294,7 +294,8 @@ public theorem nonempty_place : Nonempty (Place K) := by
   have hQ0 : Q ≠ ⊥ := by
     rintro rfl
     have h0 : Ideal.span {a} = ⊥ := by
-      rw [← hQ, ← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).1 hinj]
+      rw [← hQ]
+      exact Ideal.comap_bot_of_injective _ hinj
     rw [Ideal.span_singleton_eq_bot] at h0
     exact haprime.ne_zero h0
   exact ⟨Place.ofHeightOneSpectrum (K := K) ⟨Q, hQmax.isPrime, hQ0⟩⟩

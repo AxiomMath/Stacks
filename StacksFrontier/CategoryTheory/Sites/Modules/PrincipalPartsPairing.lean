@@ -354,7 +354,7 @@ theorem principalPartsInclusionHom_d (X : Cᵒᵖ) (b : O₂.obj.obj X) :
     ((principalPartsInclusionHom.{v, u, w, m} φ F).val.app X).hom
         ((universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).d b)
       = (principalPartsSymbolDerivation.{v, u, w, m} φ F).d b :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (postcomp_principalPartsInclusionHom.{v, u, w, m} φ F) b
 
 /-- The presheaf-level pairing on a pure tensor. -/

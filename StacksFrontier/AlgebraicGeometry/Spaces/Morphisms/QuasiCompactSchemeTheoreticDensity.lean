@@ -59,6 +59,13 @@ private theorem range_comp_eq_range_of_epi {C : Type*} [Category C] {F G H : C �
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_quasiCompactSchemeTheoreticDensity
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section QuasiCompactDensity
 
 variable {W X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -71,6 +78,7 @@ theorem schemeTheoreticImageSubfunctor_comp_of_epi (e : W ⟶ X) [Epi e] (f : X 
   unfold schemeTheoreticImageSubfunctor
   rw [range_comp_eq_range_of_epi e f]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The scheme-theoretic closure of the preimage of a subfunctor `U` along `φ` is the
 scheme-theoretic image of the second projection of the pullback of `U.ι` along `φ`. -/
 private theorem schemeTheoreticClosure_preimage_eq_image_pullback_snd
@@ -78,7 +86,10 @@ private theorem schemeTheoreticClosure_preimage_eq_image_pullback_snd
     schemeTheoreticClosure B S hS (U.preimage φ) =
       schemeTheoreticImageSubfunctor B S hS (pullback.snd U.ι φ) := by
   rw [schemeTheoreticClosure, ← (Subfunctor.isPullback_preimage φ U).isoIsPullback_hom_snd _ _
-    (IsPullback.of_hasPullback U.ι φ), schemeTheoreticImageSubfunctor_comp_of_epi]
+    (IsPullback.of_hasPullback U.ι φ)]
+  exact @schemeTheoreticImageSubfunctor_comp_of_epi B S hS _ _ _ _
+    (IsIso.epi_of_iso ((Subfunctor.isPullback_preimage φ U).isoIsPullback _ _
+      (IsPullback.of_hasPullback U.ι φ)).hom) _
 
 /-- **The scheme-theoretic closure of a quasi-compact open subspace commutes with étale
 localization.** Let `U ⊆ X` be an open subspace of an algebraic space over `S` whose inclusion

@@ -106,6 +106,12 @@ instance derivedCategoryB_isQuasicoherentOnSite_isClosedUnderIsomorphisms :
 
 variable [IsGrothendieckAbelian.{m} (Modules.{u, m} B S hS F hF)]
 
+/-- Coproducts of `𝒪_F`-modules, from the Grothendieck hypothesis; supplied directly because
+instance search for them times out. -/
+local instance hasColimitsOfShape_discrete_modules (I : Type m) :
+    HasColimitsOfShape (Discrete I) (Modules.{u, m} B S hS F hF) :=
+  (IsGrothendieckAbelian.hasColimits (C := Modules.{u, m} B S hS F hF)).has_colimits_of_shape _
+
 /-- **Stacks 08F3, closure under direct sums.**  Having quasi-coherent cohomology in every
 degree is closed under `I`-indexed direct sums in `D(𝒪_F)`, as soon as an `I`-indexed direct
 sum of quasi-coherent `𝒪_F`-modules is quasi-coherent. -/

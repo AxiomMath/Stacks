@@ -121,7 +121,7 @@ is the outer one and the two pushforwards collapse by
 objectwise, so it commutes with a pushforward.  Both steps are definitional, and stating them
 for bare data is what keeps the check they perform small enough to instantiate. -/
 theorem pushforward_ulift_pushforward_id
-    (ρ : RC ⟶ (F ⋙ G).op ⋙ R.val) (N : _root_.SheafOfModules.{m} R) :
+    (ρ : RC ⟶ (F ⋙ G).op ⋙ R.obj) (N : _root_.SheafOfModules.{m} R) :
     (PresheafOfModules.pushforward (F := F) ρ).obj
         (_root_.SheafOfModules.uliftForPresentation.{u₂, v₂, w, m, t}
           ((_root_.SheafOfModules.pushforward.{m}

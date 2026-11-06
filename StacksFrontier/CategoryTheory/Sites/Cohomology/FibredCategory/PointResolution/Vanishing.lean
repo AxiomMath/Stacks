@@ -165,8 +165,8 @@ def pointHomFibreEquiv {V : s.base.C} {x : s.C} (h : V ⟶ s.p.obj x) (n : Simpl
   left_inv g := by
     have := isHomLift_of_pointHomSSetProj s hA (n := n) g.1.down
       (congrArg ULift.down g.2 : eqToHom _ ≫ s.p.map g.1.down = h)
-    exact Subtype.ext (ULift.ext _ _ (Functor.IsCartesian.fac s.p h (pullbackFiberπ s h) g.1.down))
-  right_inv g := ULift.ext _ _ (Functor.Fiber.hom_ext (Functor.IsCartesian.map_uniq s.p h
+    exact Subtype.ext (ULift.ext (Functor.IsCartesian.fac s.p h (pullbackFiberπ s h) g.1.down))
+  right_inv g := ULift.ext (Functor.Fiber.hom_ext (Functor.IsCartesian.map_uniq s.p h
     (pullbackFiberπ s h) _ (Functor.Fiber.fiberInclusion.map g.down) rfl).symm)
 
 /-- The fibre of `Hom(A_{•,V}, x) ⟶ Hom(V, p(x))` over `h` is `Mor_{C_V}(A_{•,V}, h^*x)`. -/

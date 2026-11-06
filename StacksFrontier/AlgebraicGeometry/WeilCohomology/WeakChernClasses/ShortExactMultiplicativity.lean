@@ -189,9 +189,9 @@ theorem chernSeries_eq_of_iso (X : C) (E E' : (S.obj X).Modules) (m m' : ℕ)
           (0 : (S.obj X).Modules) 0 :=
         AlgebraicGeometry.isFiniteLocallyFreeOfRank_zero_of_isZero (isZero_zero _)
       have hT : (ShortComplex.mk e.hom (0 : E' ⟶ (0 : (S.obj X).Modules)) (by simp)).ShortExact :=
-        { exact := (ShortComplex.exact_iff_epi _ rfl).2 inferInstance
-          mono_f := inferInstance
-          epi_g := inferInstance }
+        { exact := (ShortComplex.exact_iff_epi _ rfl).2 (IsIso.epi_of_iso e.hom)
+          mono_f := IsIso.mono_of_iso e.hom
+          epi_g := epi_of_target_iso_zero _ (Iso.refl _) }
       rw [𝔗.chernSeries_mul_of_shortExact_succ r X _ hT (r + 1) 0 hE hE'' hzero,
         𝔗.chernSeries_rank_zero X _ hzero, mul_one]
 

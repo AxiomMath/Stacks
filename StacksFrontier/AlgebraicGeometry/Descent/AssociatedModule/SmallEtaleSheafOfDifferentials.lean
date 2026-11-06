@@ -42,7 +42,7 @@ objects live one universe above the sections of its structure sheaf. The general
 `AlgebraicGeometry.SheafOfModules.derivationsFunctor_isCorepresentable` of Stacks 04BL, whose
 coefficient modules are constrained to that universe. The construction here is the same formula
 — sheafify the presheaf of sectionwise Kähler differentials — assembled from the
-universe-polymorphic `PresheafOfModules.DifferentialsConstruction.relativeDifferentials'` and
+universe-polymorphic `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'` and
 `PresheafOfModules.sheafification`, so it lands at `u`, as does
 `AlgebraicGeometry.Space.sheafOfDifferentials` on the small étale site of an algebraic space.
 
@@ -77,18 +77,18 @@ variable {C : Type u₁} [Category.{v₁} C]
 
 /-- Morphisms out of the presheaf of sectionwise Kähler differentials of `φ' : S ⟶ R` are the
 relative derivations of a presheaf of `R`-modules: the universal property of
-`PresheafOfModules.DifferentialsConstruction.derivation'`, packaged as a bijection. -/
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'`, packaged as a bijection. -/
 private noncomputable def presheafDifferentialsEquiv
     {S R : Cᵒᵖ ⥤ CommRingCat.{w}} (φ' : S ⟶ R)
     (M : PresheafOfModules.{w} (R ⋙ forget₂ CommRingCat RingCat)) :
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
-      M.Derivation' φ' where
-  toFun g := (PresheafOfModules.DifferentialsConstruction.derivation' φ').postcomp g
-  invFun := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').desc
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ' ⟶ M) ≃
+      PresheafOfModulesOfCommRing.Derivation' M φ' where
+  toFun g := (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ').postcomp g
+  invFun := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').desc
   left_inv _ :=
-    (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
-      ((PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac _)
-  right_inv := (PresheafOfModules.DifferentialsConstruction.isUniversal' φ').fac
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').postcomp_injective _ _
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac _)
+  right_inv := (PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal' φ').fac
 
 end Presheaf
 
@@ -112,7 +112,7 @@ public noncomputable def etaleStructureMap :
 /-- A `Y_étale`-derivation of `𝒪_{X_étale}` with values in a sheaf of `𝒪_{X_étale}`-modules: a
 derivation over `f_small^♯`, in the sense of Stacks 04BN. -/
 public abbrev EtaleDerivation (F : SheafOfModules.{u} (structureSheaf B X.obj X.property)) :=
-  PresheafOfModules.Derivation'
+  PresheafOfModulesOfCommRing.Derivation'
     (R := (commRingStructureSheaf B X.obj X.property).obj) F.val (etaleStructureMap B f).hom
 
 /-- **`Ω_{X_étale/Y_étale}`**, the module of differentials of
@@ -122,22 +122,22 @@ public noncomputable def sheafOfDifferentials :
     SheafOfModules.{u} (structureSheaf B X.obj X.property) :=
   (PresheafOfModules.sheafification
       (𝟙 (structureSheaf B X.obj X.property).obj)).obj
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
       (etaleStructureMap B f).hom)
 
 /-- **The universal `Y_étale`-derivation `d_{X_étale/Y_étale} : 𝒪_{X_étale} ⟶
 Ω_{X_étale/Y_étale}`**: the sectionwise Kähler differential followed by the unit of
 sheafification. -/
 public noncomputable def universalDerivation :
-    PresheafOfModules.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X.obj X.property).obj)
       (sheafOfDifferentials B f).val (etaleStructureMap B f).hom :=
-  (PresheafOfModules.DifferentialsConstruction.derivation'
+  (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'
       (etaleStructureMap B f).hom).postcomp
     ((PresheafOfModules.sheafificationAdjunction
         (J := topology B X.obj X.property)
         (𝟙 (structureSheaf B X.obj X.property).obj)).unit.app
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (etaleStructureMap B f).hom))
 
 /-- **Stacks 04BN for `f_small^♯`.**  `Ω_{X_étale/Y_étale}` with its universal derivation
@@ -146,14 +146,14 @@ corepresents the functor of `Y_étale`-derivations: every such derivation with v
 `𝒪_{X_étale}`-modules. -/
 public theorem universalDerivation_isUniversal
     (F : SheafOfModules.{u} (structureSheaf B X.obj X.property))
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X.obj X.property).obj) F.val
       (etaleStructureMap B f).hom) :
     ∃! g : sheafOfDifferentials B f ⟶ F,
       (universalDerivation B f).postcomp g.val = D := by
   set e := (PresheafOfModules.sheafificationHomEquiv
       (𝟙 (structureSheaf B X.obj X.property).obj) (P :=
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (etaleStructureMap B f).hom) (F := F)).trans
     (presheafDifferentialsEquiv (etaleStructureMap B f).hom _)
   have key (g : sheafOfDifferentials B f ⟶ F) :

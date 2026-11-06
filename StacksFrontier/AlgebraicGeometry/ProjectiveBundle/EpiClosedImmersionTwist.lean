@@ -95,6 +95,8 @@ theorem projectiveBundleMapOfEpi_comp_bundlePresentationIso_inv :
 /-- The composite of the identification `(𝟙 X)^*F ≅ F` with an epimorphism `u` is an
 epimorphism. -/
 instance epi_pullbackId_hom_app_comp : Epi ((Scheme.Modules.pullbackId X).hom.app F ≫ u) :=
+  haveI : Epi ((Scheme.Modules.pullbackId X).hom.app F) :=
+    inferInstanceAs (Epi ((Scheme.Modules.pullbackId X).app F).hom)
   epi_comp _ _
 
 /-- The chart description of the morphism on the substrate: on the chart over an affine open it

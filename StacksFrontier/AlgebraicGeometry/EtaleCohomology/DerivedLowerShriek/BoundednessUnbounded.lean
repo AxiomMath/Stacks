@@ -76,7 +76,7 @@ theorem computesRightDerived_singleFunctor_of_injective (I : C) [Injective I] :
   have : (HomotopyCategory.Plus.quasiIso C).HasLeftCalculusOfFractions := by
     rw [HomotopyCategory.Plus.quasiIso_eq_subcategoryAcyclic_trW]; infer_instance
   rw [Functor.computesRightDerived_iff_isIso_app _ DerivedCategory.Plus.Qh
-    F.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlusUnit _
+    F.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlusUnith _
     (fun K => ?_)]
   · infer_instance
   · let r : (HomotopyCategory.Plus.localizerMorphism C).RightResolution K := Classical.arbitrary _
@@ -100,7 +100,7 @@ theorem bounds_derivedLowerShriekUnbounded (m : ℕ) (hm : 0 < m) (hΛ : (m : Λ
   let RF := etaleModuleDerivedDirectImageUnbounded.{u, 0} Λ j.toBase
   let α := homotopyCategoryUnit F RF (etaleModuleDerivedDirectImageUnboundedUnit.{u, 0} Λ j.toBase)
   have h07K7 := Functor.hasRightDerivedFunctor_of_isZero_rightDerived F
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
     (fun Z => (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).ComputesRightDerived
       (HomotopyCategory.Plus.quasiIso _) ((HomotopyCategory.Plus.singleFunctor _ 0).obj Z))
     (fun _ => Iff.rfl)
@@ -235,7 +235,9 @@ theorem exists_bounded_derivedLowerShriek [CompactSpace Y] :
           (∀ a : ℤ, E.IsGE a → ((derivedLowerShriekUnbounded.{u, 0} f j Λ).obj E).IsGE a) ∧
           ∀ b : ℤ, E.IsLE b →
             ((derivedLowerShriekUnbounded.{u, 0} f j Λ).obj E).IsLE (b + N)) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have : IsProper j.toBase := j.property.2
+  have : LocallyOfFiniteType j.toBase := this.toLocallyOfFiniteType
+  obtain ⟨d, hd⟩ := AlgebraicGeometry.exists_topologicalKrullDim_fiber_le j.toBase
   refine ⟨2 * d, fun E hE =>
     ⟨fun a i hi => isIso_homology_derivedLowerShriek_map_truncLEι Λ f j E a i hi,
     fun b i hbi =>

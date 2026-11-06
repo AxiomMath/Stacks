@@ -219,9 +219,8 @@ theorem exists_iso_modulePushforward_supportedSectionsSubmodule (h : X ⟶ Y)
   have hmonoι := mono_modulePushforward_map B S hS h (supportedSectionsSubmodule B S hS X.1 X.2
     (pointsMap B S hS X.1 h.hom ⁻¹' T) G).ι inferInstance
   have hmono : Mono ((modulePushforward B S hS h).map (supportedSectionsSubmodule B S hS X.1 X.2
-      (pointsMap B S hS X.1 h.hom ⁻¹' T) G).ι ≫ α.hom) := by
-    have := hmonoι
-    infer_instance
+      (pointsMap B S hS X.1 h.hom ⁻¹' T) G).ι ≫ α.hom) :=
+    mono_comp' hmonoι (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom α))
   obtain ⟨e, he⟩ := exists_iso_of_range_eq B S hS _ hmono
     (supportedSectionsSubmodule B S hS Y.1 Y.2 T N).ι inferInstance
     (range_modulePushforward_supportedSectionsSubmodule_comp B S hS h T hT G N α)

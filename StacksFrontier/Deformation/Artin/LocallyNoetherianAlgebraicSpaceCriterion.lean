@@ -566,8 +566,8 @@ abbrev bigElementsToOver (F' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type w) : F'.Eleme
 Noetherian site and of a functor `F'` on the big fppf site restricting to it along `e`. -/
 def elementsComparison : F.Elementsᵒᵖ ⥤ F'.Elementsᵒᵖ :=
   (show F.Elements ⥤ F'.Elements from
-    { obj := fun x => ⟨op ((LocallyNoetherianOver.toBigFppfOver B S hS).obj x.1.unop),
-        e.inv.app x.1 x.2⟩
+    { obj := fun x => F'.elementsMk (op ((LocallyNoetherianOver.toBigFppfOver B S hS).obj x.1.unop))
+        (e.inv.app x.1 x.2)
       map := fun {x y} f => ⟨(LocallyNoetherianOver.toBigFppfOver B S hS).op.map f.1, by
         change ((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map f.1 (e.inv.app x.1 x.2) =
           e.inv.app y.1 y.2
@@ -584,7 +584,7 @@ theorem elementsComparison_comp_bigElementsToOver :
 instance : (elementsComparison e).Faithful :=
   ⟨fun {x y} f g h => by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply (LocallyNoetherianOver.toBigFppfOver B S hS).map_injective
     exact congrArg (fun k => k.unop.1.unop) h⟩
@@ -592,8 +592,8 @@ instance : (elementsComparison e).Faithful :=
 /-- The comparison `elementsComparison e` is full. -/
 instance : (elementsComparison e).Full :=
   ⟨fun {x y} g => by
-    obtain ⟨⟨⟨X₀⟩, x₀⟩⟩ := x
-    obtain ⟨⟨⟨Y₀⟩, y₀⟩⟩ := y
+    obtain ⟨@⟨⟨X₀⟩, x₀⟩⟩ := x
+    obtain ⟨@⟨⟨Y₀⟩, y₀⟩⟩ := y
     have hinj : ∀ Z, Function.Injective (e.inv.app Z) := fun Z =>
       ((isIso_iff_bijective (e.inv.app Z)).1 inferInstance).1
     obtain ⟨g₀, hg₀⟩ := (LocallyNoetherianOver.toBigFppfOver B S hS).map_surjective g.unop.1.unop
@@ -605,7 +605,7 @@ instance : (elementsComparison e).Full :=
       exact g.unop.2)
     refine ⟨Quiver.Hom.op ⟨g₀.op, hg⟩, ?_⟩
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     change ((LocallyNoetherianOver.toBigFppfOver B S hS).map g₀).op = g.unop.1
     rw [hg₀]
     rfl⟩
@@ -614,9 +614,10 @@ instance : (elementsComparison e).Full :=
 theorem elementsComparison_surjective (y' : F'.Elementsᵒᵖ)
     (hy' : IsLocallyNoetherian ((bigElementsToOver F').obj y').left) :
     ∃ y : F.Elementsᵒᵖ, (elementsComparison e).obj y = y' := by
-  obtain ⟨⟨⟨T⟩, s⟩⟩ := y'
-  refine ⟨op ⟨op ⟨T, hy'⟩, e.hom.app (op ⟨T, hy'⟩) s⟩, ?_⟩
-  show op (⟨op T, e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s)⟩ : F'.Elements) = op ⟨op T, s⟩
+  obtain ⟨@⟨⟨T⟩, s⟩⟩ := y'
+  refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (e.hom.app (op ⟨T, hy'⟩) s)), ?_⟩
+  show op (F'.elementsMk (op T) (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))) =
+    op (F'.elementsMk (op T) s)
   rw [Iso.hom_inv_id_app_apply]
 
 include e in
@@ -751,7 +752,7 @@ theorem elementsToFibredCategory_comp :
 instance : (elementsToFibredCategory e).Faithful :=
   ⟨fun {x y} f g h => by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply (LocallyNoetherianOver.toBigFppfOver B S hS).map_injective
     exact congrArg Pseudofunctor.CoGrothendieck.Hom.base h⟩
@@ -759,8 +760,8 @@ instance : (elementsToFibredCategory e).Faithful :=
 /-- The functor `elementsToFibredCategory e` is full. -/
 instance : (elementsToFibredCategory e).Full :=
   ⟨fun {x y} φ => by
-    obtain ⟨⟨⟨X₀⟩, x₀⟩⟩ := x
-    obtain ⟨⟨⟨Y₀⟩, y₀⟩⟩ := y
+    obtain ⟨@⟨⟨X₀⟩, x₀⟩⟩ := x
+    obtain ⟨@⟨⟨Y₀⟩, y₀⟩⟩ := y
     have hinj : ∀ Z, Function.Injective (e.inv.app Z) := fun Z =>
       ((isIso_iff_bijective (e.inv.app Z)).1 inferInstance).1
     obtain ⟨g₀, hg₀⟩ := (LocallyNoetherianOver.toBigFppfOver B S hS).map_surjective φ.base
@@ -779,7 +780,7 @@ theorem elementsToFibredCategory_surjective (y' : (Stack.fibredCategory B S hS G
       (((Stack.fibredCategory B S hS G).val.p ⋙ Over.post B.inclusion).obj y').left) :
     ∃ y : F.Elementsᵒᵖ, (elementsToFibredCategory e).obj y = y' := by
   obtain ⟨T, ⟨s⟩⟩ := y'
-  refine ⟨op ⟨op ⟨T, hy'⟩, e.hom.app (op ⟨T, hy'⟩) s⟩, ?_⟩
+  refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (e.hom.app (op ⟨T, hy'⟩) s)), ?_⟩
   show (⟨T, Discrete.mk (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))⟩ :
     (Stack.fibredCategory B S hS G).val.obj) = ⟨T, ⟨s⟩⟩
   rw [Iso.hom_inv_id_app_apply]
@@ -825,7 +826,7 @@ theorem isEffective_fibredCategory_of_hasEffectiveFormalObjects
       Discrete.eqToHom (by
         show (ξ.level n).fiber.as =
           G.map (eqToHom (ξ.level_eq n) ≫ restrictionToBase B S hS ξ.base hA ξ.contains n).op x
-        rw [hs n, op_comp, FunctorToTypes.map_comp_apply, hx n])⟩
+        rw [hs n, op_comp, Functor.map_comp_apply, hx n])⟩
   refine FormalObject.isEffective_of_realization (Stack.fibredCategory B S hS G).property
     (hx := (rfl : p.obj X = baseOver B S hS ξ.base hA))
     (R :=
@@ -883,7 +884,7 @@ theorem elementsToFibredCategoryULift_comp :
 instance : (elementsToFibredCategoryULift e).Faithful :=
   ⟨fun {x y} f g h => by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply (LocallyNoetherianOver.toBigFppfOver B S hS).map_injective
     exact congrArg Pseudofunctor.CoGrothendieck.Hom.base h⟩
@@ -891,8 +892,8 @@ instance : (elementsToFibredCategoryULift e).Faithful :=
 /-- The functor `elementsToFibredCategoryULift e` is full. -/
 instance : (elementsToFibredCategoryULift e).Full :=
   ⟨fun {x y} φ => by
-    obtain ⟨⟨⟨X₀⟩, x₀⟩⟩ := x
-    obtain ⟨⟨⟨Y₀⟩, y₀⟩⟩ := y
+    obtain ⟨@⟨⟨X₀⟩, x₀⟩⟩ := x
+    obtain ⟨@⟨⟨Y₀⟩, y₀⟩⟩ := y
     have hinj : ∀ Z, Function.Injective (e.inv.app Z) := fun Z =>
       ((isIso_iff_bijective (e.inv.app Z)).1 inferInstance).1
     obtain ⟨g₀, hg₀⟩ := (LocallyNoetherianOver.toBigFppfOver B S hS).map_surjective φ.base
@@ -913,7 +914,7 @@ theorem elementsToFibredCategoryULift_surjective (y' : (Stack.fibredCategory B S
     ∃ y : F.Elementsᵒᵖ, (elementsToFibredCategoryULift e).obj y = y' := by
   obtain ⟨T, ⟨s⟩⟩ := y'
   let T₀ : LocallyNoetherianOver B S hS := ⟨T, hy'⟩
-  refine ⟨op ⟨op T₀, e.hom.app (op T₀) (ULift.up s)⟩, ?_⟩
+  refine ⟨op (F.elementsMk (op T₀) (e.hom.app (op T₀) (ULift.up s))), ?_⟩
   have h : (e.inv.app (op T₀) (e.hom.app (op T₀) (ULift.up s))).down = s :=
     congrArg ULift.down ((e.app (op T₀)).toEquiv.symm_apply_apply _)
   show (⟨T, Discrete.mk (e.inv.app (op T₀) (e.hom.app (op T₀) (ULift.up s))).down⟩ :

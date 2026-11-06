@@ -93,7 +93,8 @@ private theorem Ideal.isMaximal_map_quotientMk_of_liesOver_maximalIdeal {R S : T
     (p.map (Ideal.Quotient.mk J)).IsMaximal := by
   have : (p.map (Ideal.Quotient.mk J)).IsPrime :=
     Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (by rwa [Ideal.mk_ker])
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) _ ?_
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) _ ?_
+  change (Ideal.comap (algebraMap R (S ⧸ J)) _).IsMaximal
   have hc : (p.map (Ideal.Quotient.mk J)).comap (algebraMap R (S ⧸ J)) = maximalIdeal R := by
     rw [IsScalarTower.algebraMap_eq R S (S ⧸ J), ← Ideal.comap_comap]
     change Ideal.comap (algebraMap R S)

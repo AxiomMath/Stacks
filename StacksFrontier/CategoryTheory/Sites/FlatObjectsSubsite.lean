@@ -8,6 +8,7 @@ public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
 public import Mathlib.Algebra.Category.Ring.Basic
 public import Mathlib.RingTheory.RingHom.Flat
 public import Mathlib.CategoryTheory.Limits.Constructions.Over.Basic
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 public import Mathlib.CategoryTheory.Limits.Constructions.FiniteProductsOfBinaryProducts
 
 /-!
@@ -173,10 +174,10 @@ theorem isSheafFor_of_mem_coverage {G : Cᵒᵖ ⥤ Type*} (hG : Presieve.IsShea
   calc G.map gi.op (x i) = G.map (l ≫ pullback.fst (φ i).hom (φ j).hom).op (x i) := by
         rw [pullback.lift_fst]
     _ = G.map l.op (G.map (pullback.fst (φ i).hom (φ j).hom).op (x i)) := by
-        rw [op_comp, FunctorToTypes.map_comp_apply]
+        rw [op_comp, Functor.map_comp_apply]
     _ = G.map l.op (G.map (pullback.snd (φ i).hom (φ j).hom).op (x j)) := congrArg _ h
     _ = G.map (l ≫ pullback.snd (φ i).hom (φ j).hom).op (x j) := by
-        rw [op_comp, FunctorToTypes.map_comp_apply]
+        rw [op_comp, Functor.map_comp_apply]
     _ = G.map gj.op (x j) := by rw [pullback.lift_snd]
 
 /-- **The inclusion of the objects flat over `T₀` is continuous.** -/

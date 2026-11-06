@@ -83,6 +83,9 @@ theorem topologicalKrullDim_closedSpace_le :
     topologicalKrullDim (j.closedSpace (𝟙 X)) ≤ topologicalKrullDim X := by
   let t := (j.closedImmersion (𝟙 X)).toImage
   let q := j.closedSpaceι (𝟙 X) ≫ j.toBase
+  have : IsNoetherianRing (CommRingCat.of k) := inferInstanceAs (IsNoetherianRing k)
+  have hqp : IsProper q := isProper_closedSpaceι_comp_toBase j
+  have : LocallyOfFiniteType q := hqp.toLocallyOfFiniteType
   have : IsLocallyNoetherian (j.closedSpace (𝟙 X)) :=
     LocallyOfFiniteType.isLocallyNoetherian q
   have : CompactSpace (j.closedSpace (𝟙 X)) := QuasiCompact.compactSpace_of_compactSpace q

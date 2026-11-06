@@ -123,6 +123,9 @@ homology-preserving functor between abelian categories preserves finite colimits
 theorem preservesFiniteColimits_pushforwardModules
     [PreservesEpimorphisms f.toToposHom.pushforward] :
     PreservesFiniteColimits (pushforwardModules f) := by
+  have : ∀ J : Type w, HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O).obj) :=
+    fun J ↦ PresheafOfModules.hasColimitsOfShape _ _
   have : (pushforwardModules f).Additive := pushforwardModules_additive f
   have : PreservesFiniteLimits (pushforwardModules f) :=
     pushforwardModules_preservesFiniteLimits f

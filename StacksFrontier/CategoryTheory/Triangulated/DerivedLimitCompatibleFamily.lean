@@ -51,12 +51,12 @@ theorem IsDerivedLimit.eq_zero_of_isZero {F : ℕᵒᵖ ⥤ D} [HasProduct fun n
   have h0 : Pi.lift p ≫ (Pi.lift fun n : ℕ => Pi.π (fun n : ℕ => F.obj ⟨n⟩) n -
       Pi.π (fun n : ℕ => F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op) = 0 := by
     refine Pi.hom_ext _ _ fun m => ?_
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π_assoc, hp, sub_self,
-      zero_comp]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc, hp,
+      sub_self, zero_comp]
   obtain ⟨g, hg⟩ := Triangle.coyoneda_exact₂ _ hT (Pi.lift p) h0
   have hzero : Pi.lift p = 0 := by
     rw [hg, hz.eq_of_tgt g 0, zero_comp]
-  simpa only [Pi.lift_π, zero_comp] using hzero =≫ Pi.π (fun n : ℕ => F.obj ⟨n⟩) n
+  simpa only [Pi.lift_comp_π, zero_comp] using hzero =≫ Pi.π (fun n : ℕ => F.obj ⟨n⟩) n
 
 omit [HasZeroObject D] [HasShift D ℤ] [Preadditive D] [∀ (n : ℤ), (shiftFunctor D n).Additive]
   [Pretriangulated D] in

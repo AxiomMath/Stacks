@@ -310,7 +310,7 @@ def galoisRestriction (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type w) :
       {y : F.obj (op (galoisCoverObj B S hS hA s)) //
         ∀ σ : G, F.map (galoisCoverAut ρ B S hS hA s σ).op y = y} :=
   fun x ↦ ⟨F.map (galoisCoverMap B S hS hR hA s).op x, fun σ ↦ by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, galoisCoverAut_comp_galoisCoverMap]⟩
+    rw [← Functor.map_comp_apply, ← op_comp, galoisCoverAut_comp_galoisCoverMap]⟩
 
 /-- The underlying section of `AlgebraicGeometry.galoisRestriction` of `x` is the pullback of `x`
 along `Spec A → Spec R`. -/
@@ -357,8 +357,8 @@ theorem map_galoisCover_eq_of_forall_fixed [Finite G]
     simpa [galoisGraph, pullback.lift_fst] using (hfac =≫ pullback.fst _ _).symm
   have h₂ : f ≫ p₂ = g ≫ galoisCoverAut ρ B S hS hA s σ := by
     simpa [galoisGraph, pullback.lift_snd] using (hfac =≫ pullback.snd _ _).symm
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
-    h₁, h₂, op_comp, FunctorToTypes.map_comp_apply, hy σ]
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
+    h₁, h₂, op_comp, Functor.map_comp_apply, hy σ]
 
 /-- **Galois descent of sections of an fppf sheaf.**  Let `A` be a faithfully flat, finitely
 presented `R`-algebra with an action of a finite group `G` by `R`-algebra automorphisms for which
@@ -373,7 +373,7 @@ theorem bijective_galoisRestriction [Module.FaithfullyFlat R A] [Algebra.FiniteP
   refine ⟨fun x₁ x₂ hx ↦ ?_, fun y ↦ ?_⟩
   · obtain ⟨t, -, ht⟩ := existsUnique_map_galoisCoverMap B S hS hR hA s hF
       (F.map (galoisCoverMap B S hS hR hA s).op x₁) fun p₁ p₂ hp ↦ by
-        rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+        rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
           ← op_comp, hp]
     exact (ht x₁ rfl).trans (ht x₂ (congrArg Subtype.val hx).symm).symm
   · obtain ⟨t, ht, -⟩ := existsUnique_map_galoisCoverMap B S hS hR hA s hF y.1

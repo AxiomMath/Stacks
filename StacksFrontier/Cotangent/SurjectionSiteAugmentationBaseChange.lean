@@ -155,9 +155,9 @@ lemma X_sub_C_ne_zero [Nontrivial B] (i : σ) :
   classical
   intro h
   have h3 : (Finsupp.single i 1 : σ →₀ ℕ) ≠ 0 := by simp [Finsupp.single_eq_zero]
-  have h1 : coeff (Finsupp.single i 1) (X i - C (g i) : MvPolynomial σ B) = 1 := by
+  have h1 : (X i - C (g i) : MvPolynomial σ B).coeff (Finsupp.single i 1) = 1 := by
     rw [coeff_sub, coeff_X_same, coeff_C, if_neg (fun hh => h3 hh.symm), sub_zero]
-  rw [h, coeff_zero] at h1
+  rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h1
   exact zero_ne_one h1
 
 /-- **The augmentation ideal is nonzero.** This is the obstruction in its sharpest form: at the

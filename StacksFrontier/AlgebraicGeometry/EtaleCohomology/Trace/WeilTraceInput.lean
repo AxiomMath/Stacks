@@ -48,7 +48,9 @@ instance picardTorsionModule (X : Scheme.{u}) (ℓ n : ℕ) [NeZero ℓ] :
   haveI : NeZero (ℓ ^ n) := ⟨pow_ne_zero n (NeZero.ne ℓ)⟩
   AddCommGroup.zmodModule fun x => by
     ext1
-    simp [← natCast_zsmul]
+    simp only [Submodule.coe_smul_of_tower, ZeroMemClass.coe_zero]
+    rw [← natCast_zsmul, Nat.cast_pow]
+    exact (Submodule.mem_torsionBy_iff _ _).1 x.2
 
 /-- The trace over `ℤ/ℓⁿ` of the restriction of an additive endomorphism `σ` of `Pic(X)` to the
 `ℓⁿ`-torsion `Pic(X)[ℓⁿ]`. When `Pic(X)[ℓⁿ]` is free of finite rank over `ℤ/ℓⁿ` (for a smooth

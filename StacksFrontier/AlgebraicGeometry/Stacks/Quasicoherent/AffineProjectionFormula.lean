@@ -128,7 +128,7 @@ variable (M : Stack.fppfModules B S hS 𝒳) {y : 𝒳.val.val.obj}
 
 /-- The objectwise tensor product `M(y) ⊗_{𝒪(y)} (g_*𝒪_𝒰)(y)`, for the canonical direct image. -/
 abbrev projectionSections (y : 𝒳.val.val.obj) :=
-  (PresheafOfModules.Monoidal.tensorObj
+  (PresheafOfModulesOfCommRing.Monoidal.tensorObj
     (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
     M.val ((ranDirectImage g).obj (SheafOfModules.unit _)).val).obj (op y)
 
@@ -324,12 +324,12 @@ theorem ranπ_projectionMapApp
 theorem projectionLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
     (j : StructuredArrow (op y') (CatFiberedInGroupoids.homFunctor g.hom).op)
     (z : projectionSections g M y) :
-    projectionLeg M j ((PresheafOfModules.Monoidal.tensorObj
+    projectionLeg M j ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       M.val ((ranDirectImage g).obj (SheafOfModules.unit _)).val).map k z) =
         projectionLeg M ((StructuredArrow.map k).obj j) z := by
   refine DFunLike.congr_fun (addMonoidHom_ext_tmul (f := (projectionLeg M j).comp
-    ((PresheafOfModules.Monoidal.tensorObj
+    ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       M.val ((ranDirectImage g).obj (SheafOfModules.unit _)).val).map k).hom.toAddMonoidHom)
     (g := projectionLeg M ((StructuredArrow.map k).obj j)) fun m s => ?_) z
@@ -346,6 +346,7 @@ theorem projectionLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
   exact (projectionLeg_tmul M j _ _).trans ((congrArg₂ (· • ·) h1 h2).trans
     (projectionLeg_tmul M _ m s).symm)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The projection legs are semilinear along restriction of functions along the leg. -/
 theorem projectionLeg_smul
     (j : StructuredArrow (op y) (CatFiberedInGroupoids.homFunctor g.hom).op)
@@ -354,7 +355,9 @@ theorem projectionLeg_smul
     projectionLeg M j (r • z) = ((FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p
         𝒳.val.isFiberedInGroupoids .fppf).obj.map j.hom).hom r • projectionLeg M j z := by
   refine DFunLike.congr_fun (addMonoidHom_ext_tmul
-    (f := (projectionLeg M j).comp (DistribSMul.toAddMonoidHom _ r))
+    (f := (projectionLeg M j).comp (DistribSMul.toAddMonoidHom _
+      (show ((FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+        .fppf).obj.obj (op y) : Type _) from r)))
     (g := (DistribSMul.toAddMonoidHom _ (((FibredSite.ringStructureSheafCore B S hS
       𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj.map j.hom).hom r)).comp
         (projectionLeg M j)) fun m s => ?_) z
@@ -404,7 +407,7 @@ variable (M : Stack.fppfModules B S hS 𝒳)
 /-- **The projection map `M ⊗ g_*𝒪_𝒰 ⟶ g_*g^*M` of presheaves of modules**, from the objectwise
 tensor product: on sections over `y`, `m ⊗ s ↦ (s_j · m|_{g x})_j`. -/
 def projectionPresheafMap :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       M.val ((ranDirectImage g).obj (SheafOfModules.unit _)).val ⟶
     ((ranDirectImage g).obj ((fppfModulesPullback B S hS g).obj M)).val :=
@@ -471,7 +474,7 @@ theorem ranπ_pullback_projectionMapApp {y : 𝒳.val.val.obj}
 
 /-- The projection map of presheaves of modules is natural in `M`. -/
 theorem projectionPresheafMap_naturality {M M' : Stack.fppfModules B S hS 𝒳} (φ : M ⟶ M') :
-    PresheafOfModules.Monoidal.tensorHom
+    PresheafOfModulesOfCommRing.Monoidal.tensorHom
         (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
         φ.val (𝟙 ((ranDirectImage g).obj (SheafOfModules.unit _)).val) ≫
       projectionPresheafMap g M' =

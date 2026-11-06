@@ -63,7 +63,7 @@ private theorem jacobson_map_le_of_isIntegral
   intro M hM
   have : M.IsMaximal := hM.2
   have hcomap : (M.comap (algebraMap A B)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) M
   have ha' : a ∈ M.comap (algebraMap A B) :=
     (Ideal.mem_sInf.mp (hI ha)) ⟨bot_le, hcomap⟩
   exact ha'
